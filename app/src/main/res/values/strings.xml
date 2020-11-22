@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Note Mini</string>
+    <!-- menu for bottom app bar -->
+    <string name="switch_view">Switch view</string>
+    <!-- menu for nav drawer view -->
+    <string name="nav_item1">Note</string>
+    <string name="nav_item2">Favorites</string>
+    <string name="nav_item3">Trash</string>
+    <string name="nav_item4">Settings</string>
+    <!-- activity_main -->
+    <string name="empty_list">Empty</string>
+</resources>

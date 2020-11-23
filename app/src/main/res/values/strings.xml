@@ -9,4 +9,6 @@
     <string name="nav_item4">Settings</string>
     <!-- activity_main -->
     <string name="empty_list">Empty</string>
+    <!-- activity_note -->
+    <string name="text">Text</string>
 </resources>

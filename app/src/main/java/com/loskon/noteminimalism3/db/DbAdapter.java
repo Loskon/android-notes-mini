@@ -109,6 +109,11 @@ public class DbAdapter {
                 NoteTable.Cols.COLUMN_DATE_DEL  + "+" + range +")", null);
     }
 
+    public void deleteAll () {
+        mDatabase.delete(NoteTable.NAME_TABLE, NoteTable.Cols.COLUMN_DEL_ITEMS +
+                " = " + 1, null);
+    }
+
     private static ContentValues getContentValues (Note note) {
         ContentValues values = new ContentValues();
         if (note.getId() != 0) values.put(NoteTable.Cols.ID, note.getId());

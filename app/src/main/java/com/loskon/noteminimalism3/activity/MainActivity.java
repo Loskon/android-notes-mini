@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.daimajia.swipe.util.Attributes;
@@ -30,6 +31,7 @@ import com.loskon.noteminimalism3.others.BottomSheetDialog;
 import com.loskon.noteminimalism3.others.Callback;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.others.RefreshView;
 import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
 import com.loskon.noteminimalism3.db.DbAdapter;
 
@@ -95,7 +97,8 @@ public class MainActivity extends AppCompatActivity implements Callback,
         switchView();
         dbAdapter.open();
         List<Note> notes = dbAdapter.getNotes(whereClauseForMode);
-        swipeAdapter = new SwipeRecyclerViewAdapter(this, notes, selectedNoteMode, isSelectMode);
+        swipeAdapter = new SwipeRecyclerViewAdapter(this, notes,
+                selectedNoteMode, isSelectMode);
         swipeAdapter.setMode(Attributes.Mode.Single);
         swipeAdapter.setCallbackListenerSwipeAdapter(this);
         customHandlers();
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
     private void differentHandlers () {
         bottomAppBarHandler();
         fabHandler();
-        (new RefreshHandlerAndRedrawing(this,swipeAdapter, mRefreshLayout,bottomAppBar)).refreshMethod();
+        refreshHandlerAndRedrawing();
     }
 
     private void bottomAppBarHandler() {
@@ -173,10 +176,32 @@ public class MainActivity extends AppCompatActivity implements Callback,
             if (isSelectMode) {
                 onClickDeleteOrClose(true);
             } else {
-                Intent intent = new Intent(this, NoteActivity.class);
-                intent.putExtra("selectedNoteMode", selectedNoteMode);
-                startActivity(intent);
+                if (selectedNoteMode == 2) {
+                    // Удаление всех элементов из мусорки
+                    dbAdapter.open();
+                    dbAdapter.deleteAll();
+                    dbAdapter.close();
+                    initAdapter();
+                } else {
+                    Intent intent = NoteActivity.newIntent(this, selectedNoteMode);
+                    startActivity(intent);
+                }
             }
+        });
+    }
+
+    private void refreshHandlerAndRedrawing () {
+        // Высота
+        mRefreshLayout.setRefreshTargetOffset(80);
+        // С какой высоты заканчивается "анимация"
+        mRefreshLayout.setAnimateToRefreshDuration(0);
+        // Метод для настройки парамтров отображения
+        mRefreshLayout.setRefreshView((new RefreshView(this)),
+                (new RecyclerRefreshLayout.LayoutParams(200, 300)));
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mRefreshLayout.setRefreshing(false);
+            swipeAdapter.closeAllItems();
+            bottomAppBar.performShow();
         });
     }
 
@@ -238,25 +263,33 @@ public class MainActivity extends AppCompatActivity implements Callback,
     @Override
     public void onResume() {
         super.onResume();
+        swipeAdapter.notifyDataSetChanged();
         updateDateMethod();
         restoreRecyclerViewState();
+
     }
+    private boolean delOrCreate;
 
     private void updateDateMethod() {
         // Защита от установки адаптера при сворачивании
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
             isUpdateDate = intent.getExtras().getBoolean("updateDate");
+            delOrCreate = intent.getExtras().getBoolean("delOrCreate");
         }
+        // Сохраняет состояние = false, вызвает установку адаптера = true
+        // (необходимо для появления новой заметки в списке)
         if (isUpdateDate) {
             initAdapter ();
             intent.putExtra("updateDate", false);
+            // Возвращает в начальную позицию, если создана новая заметка
+            if (delOrCreate) recyclerView.getLayoutManager().scrollToPosition(0);
         }
     }
 
     private void restoreRecyclerViewState () {
         // restore RecyclerView state
-        if (mBundleRecyclerViewState != null && !isUpdateDate) {
+        if (mBundleRecyclerViewState != null) {
             Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
         }

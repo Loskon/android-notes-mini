@@ -11,12 +11,12 @@ import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
  * Данное расширение позволяет следить за состоянем пустого списка
  */
 
-public class RecyclerViewEmptySupport extends RecyclerView.AdapterDataObserver {
+public class CustomRecyclerViewEmpty extends RecyclerView.AdapterDataObserver {
 
     private final TextView mTextView;
     private final SwipeRecyclerViewAdapter swipeAdapter;
 
-    public RecyclerViewEmptySupport(TextView textView, SwipeRecyclerViewAdapter swipeAdapter) {
+    public CustomRecyclerViewEmpty(TextView textView, SwipeRecyclerViewAdapter swipeAdapter) {
         mTextView = textView;
         this.swipeAdapter = swipeAdapter;
     }
@@ -37,7 +37,7 @@ public class RecyclerViewEmptySupport extends RecyclerView.AdapterDataObserver {
         checkEmpty();
     }
 
-    void checkEmpty() {
+    public void checkEmpty() {
         if (swipeAdapter.getItemCount() == 0) {
             mTextView.setVisibility(View.VISIBLE);
         } else {

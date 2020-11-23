@@ -11,11 +11,11 @@ import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
  *
  */
 
-public class OnScrollListenerSupport extends RecyclerView.OnScrollListener {
+public class CustomOnScrollListener extends RecyclerView.OnScrollListener {
 
     private final SwipeRecyclerViewAdapter swipeAdapter;
 
-    public OnScrollListenerSupport(SwipeRecyclerViewAdapter swipeAdapter) {
+    public CustomOnScrollListener(SwipeRecyclerViewAdapter swipeAdapter) {
         this.swipeAdapter = swipeAdapter;
     }
 

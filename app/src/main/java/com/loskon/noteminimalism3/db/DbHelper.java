@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable;
  */
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "notes23456789.db"; // название бд
+    private static final String DATABASE_NAME = "notes23456789011.db"; // название бд
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -23,7 +23,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 NoteTable.Cols.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NoteTable.Cols.UUID + " INTEGER, " +
                 NoteTable.Cols.COLUMN_TITLE + " TEXT, " +
-                NoteTable.Cols.COLUMN_DATE + " TEXT, " +
+                NoteTable.Cols.COLUMN_DATE + " INTEGER, " +
+                NoteTable.Cols.COLUMN_DATE_DEL + " INTEGER, " +
                 NoteTable.Cols.COLUMN_FAVORITES + " INTEGER, " +
                 NoteTable.Cols.COLUMN_DEL_ITEMS + " INTEGER" +
                 ")"

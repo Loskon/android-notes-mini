@@ -1,6 +1,9 @@
 package com.loskon.noteminimalism3.others;
 
+/**
+ * Основной класс заметок
+ */
+
 public interface Callback {
-    // this can be any type of method
-    void onAddClick(boolean deleteYesOrNot);
+    void onCallbackClick(boolean deleteYesOrNot);
 }

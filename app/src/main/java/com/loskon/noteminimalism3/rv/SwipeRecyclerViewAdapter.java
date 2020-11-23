@@ -7,7 +7,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +19,7 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.activity.NoteActivity;
 import com.loskon.noteminimalism3.db.DbAdapter;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,26 +33,27 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private final DbAdapter adapter;
-    private boolean selectionMode = false;
-    private int color,border, radius;
+    private boolean isSelectionMode;
+    private int color, border, radius;
     private final int dpRadius;
     private final int dpStroke;
-    private int mNoteValMode;
+    private final int mNoteValMode;
     private int starVisible;
-    private Callback listener; // listener field
-    private final ArrayList <Note> toRemove= new ArrayList<>();
+    private Callback callbackListenerSwipeAdapter; // listener field
+    private final ArrayList <Note> toRemoveList = new ArrayList<>();
 
     // setting the listener
-    public void setListener(Callback listener)    {
-        this.listener = listener;
+    public void setCallbackListenerSwipeAdapter(Callback callbackListenerSwipeAdapter)    {
+        this.callbackListenerSwipeAdapter = callbackListenerSwipeAdapter;
     }
 
-    public SwipeRecyclerViewAdapter(Context context, List<Note> notes,int noteValMode) {
+    public SwipeRecyclerViewAdapter(Context context, List<Note> notes,int noteValMode, boolean isSelectionMode) {
         mContext = context;
         mNoteList = notes;
         mNoteValMode = noteValMode;
+        this.isSelectionMode = isSelectionMode;
         mLayoutInflater = LayoutInflater.from(context);
-        ((MainActivity) mContext).setListener(this);
+        ((MainActivity) mContext).setCallbackListenerMain(this);
         adapter = new DbAdapter(mContext);
         dpRadius = (int) mContext.getResources().getDimension(R.dimen.corner_radius);
         dpStroke = (int) mContext.getResources().getDimension(R.dimen.border_stroke);
@@ -75,7 +76,8 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         //try () catch ()
 
         holder.title.setText(note.getTitle());
-        holder.date.setText(String.valueOf(note.getDate()));
+        holder.date.setText(DateFormat.getDateTimeInstance(
+                DateFormat.SHORT, DateFormat.SHORT).format(note.getDate()));
 
         holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right,
@@ -104,7 +106,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         }
 
         // Сброс всех выделенных переменных
-        if (!selectionMode) {
+        if (!isSelectionMode) {
             note.setSelectItemForDel(false);
             varForGradientDrawable(0, 0, Color.TRANSPARENT);
         }
@@ -112,10 +114,10 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         gradientDrawable.setCornerRadius(radius);
         gradientDrawable.setStroke(border, color);
         holder.constraint.setBackground(gradientDrawable);
-        holder.swipeLayout.setRightSwipeEnabled(!selectionMode);
+        holder.swipeLayout.setRightSwipeEnabled(!isSelectionMode);
 
         holder.swipeLayout.getSurfaceView().setOnClickListener(view -> {
-            if (!selectionMode) {
+            if (!isSelectionMode) {
                 mItemManger.closeAllItems();
                 Intent intent = new Intent(mContext, NoteActivity.class);
                 intent.putExtra("id", note.getId());
@@ -126,10 +128,10 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         });
 
         holder.swipeLayout.getSurfaceView().setOnLongClickListener(view -> {
-            if (!selectionMode) {
-                selectionMode = true;
+            if (!isSelectionMode) {
+                isSelectionMode = true;
                 notifyDataSetChanged();
-                if(listener!=null) listener.onAddClick(true);
+                if(callbackListenerSwipeAdapter !=null) callbackListenerSwipeAdapter.onCallbackClick(true);
             }
                 jff(note,position);
             return true;
@@ -148,7 +150,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
                     notifyItemRangeChanged(position, mNoteList.size());
                     mItemManger.closeAllItems();
                 }, 400);
-                adapter.updateSelectItemForDel(note, false);
+                adapter.updateSelectItemForDel(note, false, note.getDate());
             } else {
                 if (note.getFavoritesItem()){
                     adapter.updateFavorites(note,false);
@@ -181,7 +183,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
             if (mNoteValMode == 2) {
                 adapter.deleteNote(note.getId());
             } else {
-                adapter.updateSelectItemForDel(note, true);
+                adapter.updateSelectItemForDel(note, true, note.getDate());
                 adapter.updateFavorites(note,false);
             }
             adapter.close();
@@ -195,13 +197,13 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
 
         adapter.open();
         if (note.getSelectItemForDel()) {
-            if(mNoteValMode !=2) adapter.updateSelectItemForDel(note, false);
-            toRemove.remove(note);
+            if(mNoteValMode !=2) adapter.updateSelectItemForDel(note, false, note.getDate());
+            toRemoveList.remove(note);
             note.setSelectItemForDel(false);
         }
         else {
-            if(mNoteValMode !=2) adapter.updateSelectItemForDel(note,true);
-            toRemove.add(note);
+            if(mNoteValMode !=2) adapter.updateSelectItemForDel(note,true, note.getDate());
+            toRemoveList.add(note);
             note.setSelectItemForDel(true);
 
         }
@@ -232,8 +234,8 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
     }
 
     @Override
-    public void onAddClick(boolean deleteOrClose) {
-        selectionMode = false;
+    public void onCallbackClick(boolean deleteOrClose) {
+        isSelectionMode = false;
         adapter.open();
         if (deleteOrClose) {
             for (Note note:mNoteList) {
@@ -243,14 +245,14 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
                     adapter.updateFavorites(note, false);
                 }
             }
-            mNoteList.removeAll(toRemove);
+            mNoteList.removeAll(toRemoveList);
         } else {
             for (Note note:mNoteList) {
-                if (mNoteValMode !=2) adapter.updateSelectItemForDel(note, false);
+                if (mNoteValMode !=2) adapter.updateSelectItemForDel(note, false, note.getDate());
             }
         }
         adapter.close();
-        toRemove.clear();
+        toRemoveList.clear();
         notifyDataSetChanged();
     }
 }

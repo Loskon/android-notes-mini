@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +12,7 @@ import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.DbAdapter;
 
-import java.text.DateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -26,18 +23,19 @@ public class NoteActivity extends AppCompatActivity {
     private long noteId = 0;
     private boolean favoriteItemBoolean = false;
     private boolean selectItemForDelBoolean = false;
+    //private boolean isUpdateDate = true;
+    private int selectedNoteMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
-
-        initViewNote();
+        initViewAndAdapter();
         toGetData();
         favoriteStatus();
     }
 
-    private void initViewNote () {
+    private void initViewAndAdapter() {
         nameBox =  findViewById(R.id.name);
         saveButton =  findViewById(R.id.saveButton);
         button =  findViewById(R.id.button);
@@ -48,6 +46,7 @@ public class NoteActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             noteId = extras.getLong("id");
+            selectedNoteMode = extras.getInt("selectedNoteMode");
         }
         // если 0, то добавление
         if (noteId > 0) {
@@ -68,9 +67,8 @@ public class NoteActivity extends AppCompatActivity {
 
     public void save(View view){
         String title = nameBox.getText().toString();
-        String date = DateFormat.getDateTimeInstance(
-                DateFormat.SHORT, DateFormat.SHORT).format(new Date());
-        Note note = new Note(noteId, title, date, favoriteItemBoolean, selectItemForDelBoolean);
+        Note note = new Note(noteId, title, new Date(),  new Date(),
+                favoriteItemBoolean, selectItemForDelBoolean);
 
         dbAdapter.open();
         if (noteId > 0) {
@@ -97,6 +95,7 @@ public class NoteActivity extends AppCompatActivity {
     private void goMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("updateDate", true);
         startActivity(intent);
     }
 }

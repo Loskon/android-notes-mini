@@ -12,11 +12,11 @@ import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
  *
  */
 
-public class OnItemTouchListenerSupport implements RecyclerView.OnItemTouchListener {
+public class CustomOnItemTouchListener implements RecyclerView.OnItemTouchListener {
 
     private final SwipeRecyclerViewAdapter swipeAdapter;
 
-    public OnItemTouchListenerSupport(SwipeRecyclerViewAdapter swipeAdapter) {
+    public CustomOnItemTouchListener(SwipeRecyclerViewAdapter swipeAdapter) {
         this.swipeAdapter = swipeAdapter;
     }
 

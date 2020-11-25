@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- The size cstInCard in card -->
     <dimen name="corner_radius">5dp</dimen>
     <dimen name="border_stroke">2dp</dimen>
+    <!-- The height bottomAppBar -->
+    <dimen name="height_for_bottom_app_bar">48dp</dimen>
 </resources>

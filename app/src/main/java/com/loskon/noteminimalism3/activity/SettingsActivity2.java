@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.loskon.noteminimalism3.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

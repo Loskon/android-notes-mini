@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,10 +25,13 @@ public class NoteActivity extends AppCompatActivity {
     private long noteId = 0;
     private boolean favoriteItemBoolean = false;
     private boolean selectItemForDelBoolean = false;
-    private boolean delOrCreate = true;
+    private boolean createOrDel = true;
+    private boolean isUpdateDateTame = false;
     private int selectedNoteMode;
     private FloatingActionButton fabNote;
     private Note note;
+    private final Date newDate = new Date();
+    private Date receivedDate, setDate;
 
     public static Intent newIntent(Context context, int selectedNoteMode) {
         Intent intent = new Intent(context, NoteActivity.class);
@@ -74,6 +76,7 @@ public class NoteActivity extends AppCompatActivity {
         dbAdapter.open();
         note = dbAdapter.getNote(noteId);
         editTitleText.setText(note.getTitle());
+        receivedDate = note.getDate();
         favoriteItemBoolean = note.getFavoritesItem();
         selectItemForDelBoolean = note.getSelectItemForDel();
         dbAdapter.close();
@@ -107,33 +110,33 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
-    public void saveClick(View view){
+    public void addNoteClick(View view){
         if (selectedNoteMode == 2) {
             dbAdapter.open();
             dbAdapter.updateSelectItemForDel(note, false, note.getDate());
             dbAdapter.close();
-            delOrCreate = false;
+            createOrDel = false;
         }
         goMainActivity();
     }
 
-    public void deleteClick(View view) {
+    public void deleteNoteClick(View view) {
         dbAdapter.open();
-        // Удаляет не созданную заметку, либо заметку из мусорки
         if (selectedNoteMode == 2 || noteId == 0) {
+            // Удаляет навсегда не сохраненную заметку, либо заметку из мусорки
             dbAdapter.deleteNote(noteId);
         } else {
             note.setSelectItemForDel(true);
             note.setFavoritesItem(false);
-            dbAdapter.updateSelectItemForDel(note, true, note.getDate());
+            dbAdapter.updateSelectItemForDel(note, true, newDate);
             dbAdapter.updateFavorites(note,false);
         }
         dbAdapter.close();
-        delOrCreate = false;
+        createOrDel = false;
         goMainActivity();
     }
 
-    public void favoritesClick (View view) {
+    public void favoritesNoteClick(View view) {
         favoriteItemBoolean = !favoriteItemBoolean;
         favoriteStatus();
     }
@@ -141,29 +144,46 @@ public class NoteActivity extends AppCompatActivity {
     private void goMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("delOrCreate", delOrCreate);
+        intent.putExtra("createOrDel", createOrDel);
         intent.putExtra("updateDate", true);
         startActivity(intent);
-    }
-
-    private void save () {
-        String title = editTitleText.getText().toString();
-        Note note = new Note(noteId, title, new Date(),  new Date(),
-                favoriteItemBoolean, selectItemForDelBoolean);
-        dbAdapter.open();
-        if (noteId > 0) {
-            dbAdapter.updateNote(note);
-        } else {
-            dbAdapter.addNote(note);
-        }
-        dbAdapter.close();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         // Защита от случайного сохранения
-        if (selectedNoteMode !=2 && delOrCreate) save();
+        if (selectedNoteMode !=2 && createOrDel) saveNote();
+    }
+
+    private void saveNote() {
+        String title = editTitleText.getText().toString();
+        dbAdapter.open();
+        if (title.trim().length() == 0) {
+            // Удаление навсегда пустой заметки
+            dbAdapter.deleteNote(noteId);
+        } else {
+            updateDateTime();
+            note = new Note(noteId, title, setDate, newDate,
+                    favoriteItemBoolean, selectItemForDelBoolean);
+            if (noteId > 0) {
+                dbAdapter.updateNote(note);
+            } else {
+                dbAdapter.addNote(note);
+            }
+        }
+        dbAdapter.close();
+        //if (!title.equals(note.getTitle()))
+    }
+
+    private void updateDateTime () {
+        if (isUpdateDateTame || noteId == 0) {
+            // Обновляет дату
+            setDate = newDate;
+        } else {
+            // Оставляет старой
+            setDate = receivedDate;
+        }
     }
 
     @Override

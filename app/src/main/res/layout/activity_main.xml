@@ -11,10 +11,10 @@
         app:layout_anchorGravity="center" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
+        android:id="@+id/btmAppBarMain"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/height_for_bottom_app_bar"
         android:layout_gravity="bottom"
         app:fabAlignmentMode="end"
         app:fabAnimationMode="scale"
@@ -32,7 +32,7 @@
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
         app:backgroundTint="@android:color/holo_blue_dark"
-        app:layout_anchor="@id/bottomAppBar" />
+        app:layout_anchor="@id/btmAppBarMain" />
 
     <TextView
         android:id="@+id/textEmpty"

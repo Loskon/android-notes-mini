@@ -21,6 +21,7 @@ import com.loskon.noteminimalism3.db.DbAdapter;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,6 +42,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
     private int starVisible;
     private Callback callbackListenerSwipeAdapter; // listener field
     private final ArrayList <Note> toRemoveList = new ArrayList<>();
+    private Date date = new Date();
 
     // setting the listener
     public void setCallbackListenerSwipeAdapter(Callback callbackListenerSwipeAdapter)    {
@@ -151,7 +153,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
                     notifyItemRangeChanged(position, mNoteList.size());
                     mItemManger.closeAllItems();
                 }, 400);
-                dbAdapter.updateSelectItemForDel(note, false, note.getDate());
+                dbAdapter.updateSelectItemForDel(note, false, date);
             } else {
                 if (note.getFavoritesItem()){
                     dbAdapter.updateFavorites(note,false);
@@ -184,7 +186,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
             if (selectedNoteMode == 2) {
                 dbAdapter.deleteNote(note.getId());
             } else {
-                dbAdapter.updateSelectItemForDel(note, true, note.getDate());
+                dbAdapter.updateSelectItemForDel(note, true, date);
                 dbAdapter.updateFavorites(note,false);
             }
             dbAdapter.close();
@@ -198,12 +200,12 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
 
         dbAdapter.open();
         if (note.getSelectItemForDel()) {
-            if(selectedNoteMode !=2) dbAdapter.updateSelectItemForDel(note, false, note.getDate());
+            if(selectedNoteMode !=2) dbAdapter.updateSelectItemForDel(note, false, date);
             toRemoveList.remove(note);
             note.setSelectItemForDel(false);
         }
         else {
-            if(selectedNoteMode !=2) dbAdapter.updateSelectItemForDel(note,true, note.getDate());
+            if(selectedNoteMode !=2) dbAdapter.updateSelectItemForDel(note,true, date);
             toRemoveList.add(note);
             note.setSelectItemForDel(true);
 

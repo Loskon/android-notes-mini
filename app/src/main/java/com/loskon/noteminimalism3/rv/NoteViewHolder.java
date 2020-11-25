@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.rv;
 
-import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +38,7 @@ public class NoteViewHolder extends   RecyclerView.ViewHolder {
         title =  itemView.findViewById(R.id.title_item_note);
         date =  itemView.findViewById(R.id.date_item_note);
 
-        constraint =  itemView.findViewById(R.id.constarint);
+        constraint =  itemView.findViewById(R.id.cstInCard);
         cardView =  itemView.findViewById(R.id.card_view);
         swipeLayout =  itemView.findViewById(R.id.swipe_layout);
         imgFavorites =  itemView.findViewById(R.id.img_note_favorites);

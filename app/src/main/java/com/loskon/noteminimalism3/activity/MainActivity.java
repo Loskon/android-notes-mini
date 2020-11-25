@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.daimajia.swipe.util.Attributes;
@@ -26,7 +25,6 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loskon.noteminimalism3.activity.mainHelper.CustomOnScrollListener;
 import com.loskon.noteminimalism3.activity.mainHelper.CustomRecyclerViewEmpty;
-import com.loskon.noteminimalism3.activity.mainHelper.RefreshHandlerAndRedrawing;
 import com.loskon.noteminimalism3.others.BottomSheetDialog;
 import com.loskon.noteminimalism3.others.Callback;
 import com.loskon.noteminimalism3.model.Note;
@@ -45,23 +43,29 @@ public class MainActivity extends AppCompatActivity implements Callback,
         BottomSheetDialog.ItemClickListenerBottomNavView {
 
     private SwipeRecyclerViewAdapter swipeAdapter;
-    private RecyclerRefreshLayout mRefreshLayout;
+    private RecyclerRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private BottomAppBar bottomAppBar;
     private FloatingActionButton fabMain;
     private TextView textEmpty;
     private Menu appBarMenu;
-    private SharedPreferences mSharedPref;
-    private boolean isSwitchView, isSelectMode, isUpdateDate;
+    private SharedPreferences sharedPref;
+    private boolean isSwitchView, isSelectMode, isUpdateDate, createOrDel;
     private int selectedNoteMode;
     private String whereClauseForMode;
     private final Handler handler = new Handler();
-    private Callback callbackListenerMain;
     private DbAdapter dbAdapter;
 
     // Переменные для сохранения состояния RecyclerView
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
+
+    // Обратный вызов
+    private Callback callbackListenerMain;
+
+    public void setCallbackListenerMain(Callback callbackListenerMain) {
+        this.callbackListenerMain = callbackListenerMain;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements Callback,
     public void initViewAndOthersComponents() {
         textEmpty = findViewById(R.id.textEmpty);
         recyclerView =  findViewById(R.id.recyclerView);
-        bottomAppBar =  findViewById(R.id.bottomAppBar);
+        bottomAppBar =  findViewById(R.id.btmAppBarMain);
         fabMain =  findViewById(R.id.fabMain);
-        mRefreshLayout = findViewById(R.id.refresh_layout);
+        refreshLayout = findViewById(R.id.refresh_layout);
         appBarMenu = bottomAppBar.getMenu();
         dbAdapter = new DbAdapter(this);
     }
@@ -141,8 +145,8 @@ public class MainActivity extends AppCompatActivity implements Callback,
     }
 
     private void saveTypeView() {
-        mSharedPref = getSharedPreferences("saveTypeView", MODE_PRIVATE);
-        SharedPreferences.Editor edit = mSharedPref.edit();
+        sharedPref = getSharedPreferences("saveTypeView", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPref.edit();
         edit.putBoolean("isSwitchView", isSwitchView);
         edit.apply();
     }
@@ -192,14 +196,14 @@ public class MainActivity extends AppCompatActivity implements Callback,
 
     private void refreshHandlerAndRedrawing () {
         // Высота
-        mRefreshLayout.setRefreshTargetOffset(80);
+        refreshLayout.setRefreshTargetOffset(80);
         // С какой высоты заканчивается "анимация"
-        mRefreshLayout.setAnimateToRefreshDuration(0);
+        refreshLayout.setAnimateToRefreshDuration(0);
         // Метод для настройки парамтров отображения
-        mRefreshLayout.setRefreshView((new RefreshView(this)),
+        refreshLayout.setRefreshView((new RefreshView(this)),
                 (new RecyclerRefreshLayout.LayoutParams(200, 300)));
-        mRefreshLayout.setOnRefreshListener(() -> {
-            mRefreshLayout.setRefreshing(false);
+        refreshLayout.setOnRefreshListener(() -> {
+            refreshLayout.setRefreshing(false);
             swipeAdapter.closeAllItems();
             bottomAppBar.performShow();
         });
@@ -220,8 +224,8 @@ public class MainActivity extends AppCompatActivity implements Callback,
     }
 
     private void loadNoteMode() {
-        mSharedPref = this.getSharedPreferences("saveTypeView", MODE_PRIVATE);
-        isSwitchView = mSharedPref.getBoolean("isSwitchView", true);
+        sharedPref = this.getSharedPreferences("saveTypeView", MODE_PRIVATE);
+        isSwitchView = sharedPref.getBoolean("isSwitchView", true);
     }
 
     private void customHandlers () {
@@ -268,14 +272,13 @@ public class MainActivity extends AppCompatActivity implements Callback,
         restoreRecyclerViewState();
 
     }
-    private boolean delOrCreate;
 
     private void updateDateMethod() {
         // Защита от установки адаптера при сворачивании
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
             isUpdateDate = intent.getExtras().getBoolean("updateDate");
-            delOrCreate = intent.getExtras().getBoolean("delOrCreate");
+            createOrDel = intent.getExtras().getBoolean("createOrDel");
         }
         // Сохраняет состояние = false, вызвает установку адаптера = true
         // (необходимо для появления новой заметки в списке)
@@ -283,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
             initAdapter ();
             intent.putExtra("updateDate", false);
             // Возвращает в начальную позицию, если создана новая заметка
-            if (delOrCreate) recyclerView.getLayoutManager().scrollToPosition(0);
+            if (createOrDel) recyclerView.getLayoutManager().scrollToPosition(0);
         }
     }
 
@@ -356,10 +359,5 @@ public class MainActivity extends AppCompatActivity implements Callback,
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    public void setCallbackListenerMain(Callback callbackListenerMain) {
-        // setting the listener
-        this.callbackListenerMain = callbackListenerMain;
     }
 }

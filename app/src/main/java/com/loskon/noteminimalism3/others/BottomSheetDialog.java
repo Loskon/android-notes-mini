@@ -13,7 +13,8 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.activity.SettingsActivity;
+import com.loskon.noteminimalism3.SettingsActivity;
+import com.loskon.noteminimalism3.activity.SettingsActivity2;
 
 import java.util.Objects;
 
@@ -48,7 +49,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             if (menuId == R.id.nav1) selectedNoteMode = 0;
             else if (menuId == R.id.nav2) selectedNoteMode = 1;
             else if (menuId == R.id.nav3) selectedNoteMode = 2;
-            else if (menuId == R.id.nav4) Objects.requireNonNull(getContext()).startActivity((new Intent(getContext(), SettingsActivity.class)));
+            else if (menuId == R.id.nav4) requireContext().startActivity((new Intent(getContext(), SettingsActivity.class)));
             if (menuId != R.id.nav4) itemClickListener.onItemClickBottomNavView(selectedNoteMode);
             dismiss();
             return true;

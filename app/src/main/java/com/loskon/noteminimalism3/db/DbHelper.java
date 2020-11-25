@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable;
  */
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "notes23456789011.db"; // название бд
+    private static final String DATABASE_NAME = "notes2345678901112.db"; // название бд
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3;
+package com.loskon.noteminimalism3.preference;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,7 @@ import androidx.preference.DialogPreference;
 import androidx.preference.PreferenceDialogFragmentCompat;
 
 import com.flask.colorpicker.ColorPickerView;
+import com.loskon.noteminimalism3.R;
 
 // Для диалога!
 
@@ -23,7 +24,6 @@ public class CustomDialogFragmentCompat extends PreferenceDialogFragmentCompat {
         return fragment;
     }
 
-
     // обновите представление значениями по вашему выбору
     @Override
     protected void onBindDialogView(View view) {
@@ -32,7 +32,8 @@ public class CustomDialogFragmentCompat extends PreferenceDialogFragmentCompat {
         colorPickerView = view.findViewById(R.id.color_picker_view);
 
         if (colorPickerView == null) {
-            throw new IllegalStateException("Dialog view must contain a ColorPickerView with id 'color_picker_view'");
+            throw new IllegalStateException("Dialog view must contain a ColorPickerView " +
+                    "with id 'color_picker_view'");
         }
 
         String color = null;

@@ -2,12 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cstSetting"
+    android:id="@+id/cstColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SettingsActivity">
 
+    <top.defaults.colorpicker.ColorPickerView
+        android:id="@+id/colorPicker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:enableAlpha="false"
+        app:enableBrightness="true"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/btmAppBarSettings"
+            android:id="@+id/btmAppBarColor"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_for_bottom_app_bar"

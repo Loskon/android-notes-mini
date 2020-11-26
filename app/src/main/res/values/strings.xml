@@ -1,24 +1,35 @@
 <resources>
     <string name="app_name">Note Mini</string>
+
     <!-- menu for bottom app bar -->
     <string name="switch_view">Switch view</string>
+
     <!-- menu for nav drawer view -->
     <string name="nav_item1">Note</string>
     <string name="nav_item2">Favorites</string>
     <string name="nav_item3">Trash</string>
     <string name="nav_item4">Settings</string>
+
     <!-- activity_main -->
     <string name="empty_list">Empty</string>
+
     <!-- activity_note -->
-    <string name="text">Text</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="text_for_edit_text">Text</string>
+
+    <!-- dialog_font_size -->
+    <string name="font_size_title">Font size</string>
+    <string name="font_size_change">Hello, Word!</string>
+
+    <!-- dialog_color_picker -->
+    <string name="color_theme_title">Color theme</string>
+    <string name="reset_color">Reset</string>
 
     <!-- Preference Titles -->
     <string name="appearance_header">Appearance</string>
     <string name="sync_header">Sync</string>
 
     <!-- Appearance Preferences -->
-    <string name="color_theme_title">Color theme</string>
+    <string name="dark_mode_title">Dark mode</string>
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
 
@@ -27,9 +38,10 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested
+    </string>
 
-    <!-- Preference Custom Dialog -->
+    <!--OK and Cancel -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 </resources>

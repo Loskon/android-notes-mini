@@ -13,10 +13,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.SettingsActivity;
-import com.loskon.noteminimalism3.activity.SettingsActivity2;
-
-import java.util.Objects;
+import com.loskon.noteminimalism3.activity.SettingsActivity;
 
 /**
  *

@@ -30,6 +30,7 @@ import com.loskon.noteminimalism3.others.Callback;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.others.RefreshView;
+import com.loskon.noteminimalism3.preference.CustomPreferencesFragment;
 import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
 import com.loskon.noteminimalism3.db.DbAdapter;
 
@@ -270,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         swipeAdapter.notifyDataSetChanged();
         updateDateMethod();
         restoreRecyclerViewState();
-
+        (new CustomPreferencesFragment()).savePositionSettings(getApplicationContext(), 0, 0);
     }
 
     private void updateDateMethod() {

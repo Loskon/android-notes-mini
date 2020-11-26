@@ -13,5 +13,17 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:overScrollMode">never</item>
     </style>
+
+        <!-- MaterialAlertDialog -->
+    <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="colorSurface">@android:color/white</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">
+        <item name="cornerSize">6dp</item>
+    </style>
+
 </resources>

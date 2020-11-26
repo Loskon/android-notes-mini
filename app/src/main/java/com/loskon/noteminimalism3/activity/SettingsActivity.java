@@ -1,12 +1,15 @@
-package com.loskon.noteminimalism3;
+package com.loskon.noteminimalism3.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.activity.MainActivity;
+import com.loskon.noteminimalism3.preference.CustomPreferencesFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -25,5 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
         btmAppBarSettings = findViewById(R.id.btmAppBarSettings);
         btmAppBarSettings.setNavigationOnClickListener(v -> this.startActivity((
                 new Intent(this, MainActivity.class))));
+
     }
 }

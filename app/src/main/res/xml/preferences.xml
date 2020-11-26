@@ -6,6 +6,7 @@
         app:title="@string/appearance_header">
 
         <EditTextPreference
+            android:enabled="true"
             app:iconSpaceReserved="false"
             app:key="signature"
             app:title="@string/signature_title"
@@ -15,25 +16,58 @@
             app:defaultValue="reply"
             app:entries="@array/reply_entries"
             app:entryValues="@array/reply_values"
+            app:iconSpaceReserved="false"
             app:key="reply"
             app:title="@string/reply_title"
             app:useSimpleSummaryProvider="true" />
 
-        <com.loskon.noteminimalism3.CustomPreference
+        <com.loskon.noteminimalism3.preference.CustomPreference
             android:defaultValue="-16711872"
-            android:key="some_time"
-            android:title="@string/color_theme_title" />
+            android:key="color_picker"
+            android:title="@string/color_theme_title"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="dark_theme"
+            app:title="@string/dark_mode_title" />
+
+        <Preference
+            android:title="@string/font_size_title"
+            app:iconSpaceReserved="false"
+            app:key="font_size_key" />
+
+        <Preference
+            android:title="@string/color_theme_title"
+            app:iconSpaceReserved="false"
+            app:key="color_picker_key" />
+
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/sync_header">
+
+        <Preference
+            android:title="Some Title"
+            android:key="color_fffs"
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.loskon.noteminimalism3"
+                android:targetClass="com.loskon.noteminimalism3.activity.ColorActivity"
+                />
+        </Preference>
 
         <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             app:key="sync"
             app:title="@string/sync_title" />
 
         <SwitchPreferenceCompat
             app:dependency="sync"
+            app:iconSpaceReserved="false"
             app:key="attachment"
             app:summaryOff="@string/attachment_summary_off"
             app:summaryOn="@string/attachment_summary_on"

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    android:backgroundTint="@android:color/transparent">
+    android:backgroundTint="@android:color/transparent"
+    tools:context=".activity.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                 android:autofillHints=""
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:hint="@string/text"
+                android:hint="@string/text_for_edit_text"
                 android:inputType="textMultiLine|textCapSentences"
                 android:textColorHint="@android:color/darker_gray" />
         </LinearLayout>

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3;
+package com.loskon.noteminimalism3.preference.prefdialog;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -19,6 +19,7 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.loskon.noteminimalism3.R;
 
 import static com.loskon.noteminimalism3.R.style.MaterialAlertDialog_Rounded;
 
@@ -33,14 +34,11 @@ public class CustomAlertDialogColor {
                 .setView(R.layout.dialog_color_picker)
                 .show();
 
-
         ColorPickerView colorPickerView = alertDialog.findViewById(R.id.color_picker_view_dialog);
         Button btnOk = alertDialog.findViewById(R.id.btn_ok_color);
         Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_color);
         Button btnReset = alertDialog.findViewById(R.id.btn_reset_color);
         ImageView imageView = alertDialog.findViewById(R.id.imageViewColorPicker);
-
-
 
         sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(context);
         color = sharedPreferences.getInt("color", -16711872);
@@ -50,18 +48,13 @@ public class CustomAlertDialogColor {
 
         assert colorPickerView != null;
         colorPickerView.setColor(color, false);
-        colorPickerView.addOnColorChangedListener(new OnColorChangedListener() {
-            @Override
-            public void onColorChanged(int selectedColor) {
-                color = selectedColor;
-                imageView.setColorFilter(color);
-            }
+        colorPickerView.addOnColorChangedListener(selectedColor -> {
+            color = selectedColor;
+            imageView.setColorFilter(color);
         });
-        colorPickerView.addOnColorSelectedListener(new OnColorSelectedListener() {
-            @Override
-            public void onColorSelected(int selectedColor) {
 
-            }
+        colorPickerView.addOnColorSelectedListener(selectedColor -> {
+
         });
 
 

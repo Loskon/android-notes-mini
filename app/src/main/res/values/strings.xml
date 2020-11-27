@@ -24,6 +24,9 @@
     <string name="color_theme_title">Color theme</string>
     <string name="reset_color">Reset</string>
 
+    <!-- activity_color -->
+    <string name="take_color">Take</string>
+
     <!-- Preference Titles -->
     <string name="appearance_header">Appearance</string>
     <string name="sync_header">Sync</string>

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3;
+package com.loskon.noteminimalism3.preference.prefdialog;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.loskon.noteminimalism3.R;
 
 import static com.loskon.noteminimalism3.R.style.MaterialAlertDialog_Rounded;
 

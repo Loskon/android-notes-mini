@@ -6,19 +6,17 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loskon.noteminimalism3.CustomAlertDialogColor;
-import com.loskon.noteminimalism3.CustomAlertDialogSize;
+import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogColor;
+import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogSize;
 import com.loskon.noteminimalism3.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -99,25 +97,6 @@ public class CustomPreferencesFragment extends PreferenceFragmentCompat {
         });
         loadPositionSettings();
         myLayoutManager.scrollToPositionWithOffset(index, top);
-    }
-
-    @Override
-    public void onDisplayPreferenceDialog(Preference preference)
-    {
-        DialogFragment dialogFragment = null;
-        if (preference instanceof CustomPreference) {
-            // Вызываем диалог для ColorPickerView
-            dialogFragment = CustomDialogFragmentCompat.newInstance(preference.getKey());
-        }
-
-        if (dialogFragment != null) {
-            dialogFragment.setTargetFragment(this, 0);
-            dialogFragment.show(getParentFragmentManager(), "androidx.preference." +
-                    "PreferenceFragment.DIALOG");
-        } else {
-            // следующий вызов приводит к отображению диалога
-            super.onDisplayPreferenceDialog(preference);
-        }
     }
 
     private void scrollToItem() {

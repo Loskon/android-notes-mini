@@ -21,12 +21,6 @@
             app:title="@string/reply_title"
             app:useSimpleSummaryProvider="true" />
 
-        <com.loskon.noteminimalism3.preference.CustomPreference
-            android:defaultValue="-16711872"
-            android:key="color_picker"
-            android:title="@string/color_theme_title"
-            app:iconSpaceReserved="false" />
-
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="dark_theme"

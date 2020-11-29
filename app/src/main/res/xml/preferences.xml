@@ -3,56 +3,27 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/appearance_header">
+        app:title="@string/appearance_settings_header">
 
-        <EditTextPreference
-            android:enabled="true"
-            app:iconSpaceReserved="false"
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:iconSpaceReserved="false"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
-
+        <Preference
+            android:key="color_fffs"
+            android:title="Go Go Go"
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.loskon.noteminimalism3.SettingsAppearanceActivity"
+                android:targetPackage="com.loskon.noteminimalism3" />
+        </Preference>
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="dark_theme"
             app:title="@string/dark_mode_title" />
-
-        <Preference
-            android:title="@string/font_size_title"
-            app:iconSpaceReserved="false"
-            app:key="font_size_key" />
-
-        <Preference
-            android:title="@string/color_theme_title"
-            app:iconSpaceReserved="false"
-            app:key="color_picker_key" />
-
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/sync_header">
-
-        <Preference
-            android:title="Some Title"
-            android:key="color_fffs"
-            app:iconSpaceReserved="false">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetPackage="com.loskon.noteminimalism3"
-                android:targetClass="com.loskon.noteminimalism3.activity.ColorActivity"
-                />
-        </Preference>
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
@@ -66,6 +37,10 @@
             app:summaryOff="@string/attachment_summary_off"
             app:summaryOn="@string/attachment_summary_on"
             app:title="@string/attachment_title" />
+        <Preference
+            android:title="@string/color_theme_title"
+            app:iconSpaceReserved="false"
+            app:key="color_picker_key" />
 
     </PreferenceCategory>
 

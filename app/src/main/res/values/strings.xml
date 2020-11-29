@@ -27,8 +27,20 @@
     <!-- activity_color -->
     <string name="take_color">Take</string>
 
+    <!-- preference_appearance -->
     <!-- Preference Titles -->
-    <string name="appearance_header">Appearance</string>
+    <string name="note_appearance">Note appearance</string>
+    <string name="corner_of_cards">Corners of cards</string>
+    <string name="select_color">Select color</string>
+    <string name="number_of_lines">Number of lines</string>
+    <string name="one_size_cards">One size cards</string>
+    <string name="reset_all">Reset all</string>
+
+    <string name="date_cards">01/21/96 12:00 AM</string>
+
+    <!-- preference -->
+    <!-- Preference Titles -->
+    <string name="appearance_settings_header">Appearance settings</string>
     <string name="sync_header">Sync</string>
 
     <!-- Appearance Preferences -->
@@ -47,4 +59,8 @@
     <!--OK and Cancel -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_settings23">SettingsActivity23</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
 </resources>

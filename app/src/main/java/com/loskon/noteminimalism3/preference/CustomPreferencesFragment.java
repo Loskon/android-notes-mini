@@ -28,41 +28,41 @@ public class CustomPreferencesFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        Preference myPref =  findPreference("signature");
-        assert myPref != null;
-        myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Toast toast = Toast.makeText(getContext(),
-                        "Клик", Toast.LENGTH_SHORT);
-                toast.show();
-                return true;
-            }
-        });
+        //Preference myPref =  findPreference("signature");
+        //assert myPref != null;
+        //myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+          //  public boolean onPreferenceClick(Preference preference) {
+               // Toast toast = Toast.makeText(getContext(),
+                       // "Клик", Toast.LENGTH_SHORT);
+                //toast.show();
+               // return true;
+           // }
+       //});
 
-        Preference myPref2 =  findPreference("font_size_key");
-        assert myPref2 != null;
-        myPref2.setOnPreferenceClickListener(preference -> {
-            CustomAlertDialogSize.alertDialogShowSize(getContext());
-            return true;
-        });
+        //Preference myPref2 =  findPreference("font_size_key");
+        //assert myPref2 != null;
+       // myPref2.setOnPreferenceClickListener(preference -> {
+          //  CustomAlertDialogSize.alertDialogShowSize(getContext());
+           // return true;
+      //  });
 
-        myPref2.setOnPreferenceChangeListener((preference, newValue) -> {
-            Toast toast = Toast.makeText(getContext(),
-                    "Вы ввели в дилоге: "+ newValue.toString(), Toast.LENGTH_SHORT);
-            toast.show();
-            return true;
-        });
+       // myPref2.setOnPreferenceChangeListener((preference, newValue) -> {
+          //  Toast toast = Toast.makeText(getContext(),
+             //       "Вы ввели в дилоге: "+ newValue.toString(), Toast.LENGTH_SHORT);
+          //  toast.show();
+         //   return true;
+    //    });
 
 
-        myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Toast toast = Toast.makeText(getContext(),
-                            "Вы ввели: "+ newValue.toString(), Toast.LENGTH_SHORT);
-                    toast.show();
-                return true;
-            }
-        });
+        //myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+          //  @Override
+           //public boolean onPreferenceChange(Preference preference, Object newValue) {
+                   // Toast toast = Toast.makeText(getContext(),
+                      //      "Вы ввели: "+ newValue.toString(), Toast.LENGTH_SHORT);
+                   // toast.show();
+              //  return true;
+         //   }
+    //    });
 
 
 

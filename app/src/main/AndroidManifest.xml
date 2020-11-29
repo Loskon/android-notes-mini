@@ -9,11 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity android:name=".activity.ColorActivity"/>
-        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".SettingsAppearanceActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ColorActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.NoteActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait">

@@ -26,19 +26,4 @@
         <item name="cornerSize">6dp</item>
     </style>
 
-    <!-- MaterialAlertDialog -->
-    <style name="styleTextInputEditText" parent="Base.Widget.MaterialComponents.TextInputEditText">
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">0dp</item>
-        <item name="android:paddingTop">0dp</item>
-        <item name="android:paddingBottom">0dp</item>
-    </style>
-
-    <style name="styleTextInputTextInputLayout" parent="Base.Widget.MaterialComponents.TextInputLayout">
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">0dp</item>
-        <item name="android:paddingTop">0dp</item>
-        <item name="android:paddingBottom">0dp</item>
-    </style>
-
 </resources>

@@ -18,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
+        setContentView(R.layout.activity_settings);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -26,8 +26,18 @@ public class SettingsActivity extends AppCompatActivity {
                     .commit();
         }
         btmAppBarSettings = findViewById(R.id.btmAppBarSettings);
-        btmAppBarSettings.setNavigationOnClickListener(v -> this.startActivity((
-                new Intent(this, MainActivity.class))));
+        btmAppBarSettings.setNavigationOnClickListener(v -> goMainActivity());
 
+    }
+
+    private void goMainActivity() {
+        this.startActivity((
+                new Intent(this, MainActivity.class)));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        goMainActivity();
     }
 }

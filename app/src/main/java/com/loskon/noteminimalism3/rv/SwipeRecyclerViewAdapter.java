@@ -49,7 +49,8 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         this.callbackListenerSwipeAdapter = callbackListenerSwipeAdapter;
     }
 
-    public SwipeRecyclerViewAdapter(Context context, List<Note> notes,int selectedNoteMode, boolean isSelectionMode) {
+    public SwipeRecyclerViewAdapter(Context context, List<Note> notes,
+                                    int selectedNoteMode, boolean isSelectionMode) {
         mContext = context;
         mNoteList = notes;
         this.selectedNoteMode = selectedNoteMode;

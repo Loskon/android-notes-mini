@@ -1,0 +1,53 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/note_appearance"
+        app:iconSpaceReserved="false">
+        <com.loskon.noteminimalism3.preference.item.PrefItemCard
+            app:key="1" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/font_size_title" >
+        <com.loskon.noteminimalism3.preference.item.PrefItemFontSize
+            app:key="2" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/corner_of_cards" >
+        <com.loskon.noteminimalism3.preference.item.PrefItemCornerOfCards
+            app:key="3" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/color_theme_title" >
+        <Preference
+            android:title="@string/select_color"
+            app:iconSpaceReserved="false"
+            app:key="4" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/number_of_lines">
+        <com.loskon.noteminimalism3.preference.item.PrefItemNumberOfLines
+            app:key="5" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Preference category">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="6"
+            android:title="@string/one_size_cards" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Preference category">
+        <Preference
+            android:title="@string/reset_all"
+            app:iconSpaceReserved="false"
+            app:key="7" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

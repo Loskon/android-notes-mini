@@ -1,28 +1,28 @@
 package com.loskon.noteminimalism3.preference.item;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.util.AttributeSet;
-import android.util.Xml;
+import android.util.TypedValue;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
+import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.activity.MainActivity;
 
-import org.xmlpull.v1.XmlPullParser;
+import static android.content.Context.MODE_PRIVATE;
 
 public class PrefItemCard extends Preference {
 
-    private TextView textView;
-    private Context mContext;
-    private AttributeSet attributes;
-    private int defStyleAttr2;
-    private PrefItemFontSize prefItemFontSize;
+    private TextView txtMainFontSize, txtDateFontSize;
+    private CardView cardViewSettings;
+    private SharedPreferences sharedPref;
+    private int fontSize, cornerCard, dateFontSize;
+    private Slider sliderMainFontSize, sliderDateFontSize, sliderCardCorner;
+
 
     public PrefItemCard(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -31,37 +31,71 @@ public class PrefItemCard extends Preference {
     public PrefItemCard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setLayoutResource(R.layout.pref_item_card);
-        mContext = context;
-        attributes = attrs;
-        defStyleAttr2 = defStyleAttr;
-         Resources resources = getContext().getResources();
-         @SuppressLint("ResourceType") XmlPullParser parser = resources.getXml(R.layout.pref_font_size);
-        AttributeSet attributes34 = Xml.asAttributeSet(parser);
-        prefItemFontSize = new PrefItemFontSize(mContext);
-        //setWidgetLayoutResource(R.layout.preference_theme);
     }
 
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-        holder.itemView.setClickable(false); // disable parent click
-        textView = (TextView) holder.findViewById(R.id.title_item_note2);
+        holder.itemView.setClickable(false); // Отключаем родительский клик
+        initView(holder);
+        loadAppearanceSettings();
+        initInstallationSets();
+        sliderHandlers();
+    }
 
-       // Resources resources = getContext().getResources();
-       // @SuppressLint("ResourceType") XmlPullParser parser = resources.getXml(R.layout.pref_font_size);
-        //AttributeSet attributes = Xml.asAttributeSet(parser);
+    private void initView(PreferenceViewHolder holder) {
+        txtMainFontSize = (TextView) holder.findViewById(R.id.txt_main_card_in_settings);
+        txtDateFontSize = (TextView) holder.findViewById(R.id.txt_date_card_in_settings);
+        cardViewSettings = (CardView) holder.findViewById(R.id.card_view_settings);
+        sliderMainFontSize = (Slider) holder.findViewById(R.id.slider_main_font_size);
+        sliderDateFontSize = (Slider) holder.findViewById(R.id.slider_date_font_size);
+        sliderCardCorner = (Slider) holder.findViewById(R.id.slider_corner_card);
+    }
 
-        //prefItemFontSize.registerCallBack(this);
-        //prefItemFontSize.setExternalListener(() -> Toast.makeText(getContext(),
-                    // "You clicked the preference without changing its value222", Toast.LENGTH_LONG).show());
-        //PrefItemFontSize toggle = new PrefItemFontSize(mContext);
-        //toggle.setExternalListener(() -> Toast.makeText(getContext(),
-         //       "You clicked the preference without changing its value2", Toast.LENGTH_LONG).show());
-       // toggle.registerCallBack(this);
+    private void loadAppearanceSettings() {
+        sharedPref = getContext().getSharedPreferences("saveFontSize", MODE_PRIVATE);
+        fontSize = sharedPref.getInt("fontSize", 18);
+        cornerCard = sharedPref.getInt("cornerCard", 6);
+        dateFontSize = sharedPref.getInt("dateFontSize", 14);
+    }
 
-        //View button = holder.findViewById(R.id.theme_dark);
-        //button.setClickable(true); // enable custom view click
+    private void initInstallationSets() {
+        sliderMainFontSize.setValue(fontSize);
+        txtMainFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
-        // the rest of the click binding
+        sliderDateFontSize.setValue(dateFontSize);
+        txtDateFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, dateFontSize);
+
+        sliderCardCorner.setValue(cornerCard);
+        cardViewSettings.setRadius(cornerCard);
+    }
+
+    private void sliderHandlers() {
+        sliderMainFontSize.addOnChangeListener((slider, value, fromUser) -> {
+            fontSize = (int) value;
+            txtMainFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+            saveAppearanceSettings();
+        });
+
+        sliderDateFontSize.addOnChangeListener((slider, value, fromUser) -> {
+            dateFontSize = (int) value;  // Установка минимального значения 12
+            txtDateFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, dateFontSize);
+            saveAppearanceSettings();
+        });
+
+        sliderCardCorner.addOnChangeListener((slider, value, fromUser) -> {
+            cornerCard = (int) value;
+            cardViewSettings.setRadius(cornerCard);
+            saveAppearanceSettings();
+        });
+    }
+
+    private void saveAppearanceSettings() {
+        sharedPref = getContext().getSharedPreferences("saveFontSize", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPref.edit();
+        edit.putInt("fontSize", fontSize);
+        edit.putInt("cornerCard", cornerCard);
+        edit.putInt("dateFontSize", dateFontSize);
+        edit.apply();
     }
 }

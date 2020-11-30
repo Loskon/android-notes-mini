@@ -10,7 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SeekBarPreference;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.activity.SettingsActivity;
@@ -35,14 +37,33 @@ public class SettingsAppearanceActivity extends AppCompatActivity {
         btmAppBarSettings2.setNavigationOnClickListener(v -> goMainActivity());
     }
 
+    private void goMainActivity() {
+        this.startActivity((
+                new Intent(this, SettingsActivity.class)));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        goMainActivity();
+    }
+
     public static class SettingsFragment extends PreferenceFragmentCompat {
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences_appearance, rootKey);
 
             PrefItemFontSize toggle = (PrefItemFontSize) findPreference("2");
-           toggle.setExternalListener(() -> Toast.makeText(getContext(),
-                    "You clicked the preference without changing its value", Toast.LENGTH_LONG).show());
+
+            SeekBarPreference seekBar = (SeekBarPreference) findPreference("8");
+            seekBar.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Toast.makeText(getContext(), "asdf " +newValue, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -54,14 +75,5 @@ public class SettingsAppearanceActivity extends AppCompatActivity {
 
     }
 
-    private void goMainActivity() {
-        this.startActivity((
-                new Intent(this, SettingsActivity.class)));
-    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        goMainActivity();
-    }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
@@ -86,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements Callback,
         refreshLayout = findViewById(R.id.refresh_layout);
         appBarMenu = bottomAppBar.getMenu();
         dbAdapter = new DbAdapter(this);
+
+        // Удаляет мерцание
+        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+        }
     }
 
     private void cleaningFromTrash () {

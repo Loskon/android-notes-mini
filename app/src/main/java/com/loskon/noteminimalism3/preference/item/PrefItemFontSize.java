@@ -73,10 +73,7 @@ public class PrefItemFontSize extends Preference {
                 // Установка минимального значения 14
                 fontSize = progress + 14;
                 saveFontSize();
-
-
                 if (mExternalListener != null) mExternalListener.onPreferenceClick();
-
             }
             public void onStartTrackingTouch(SeekBar seekBar) { }
             public void onStopTrackingTouch(SeekBar seekBar) { }

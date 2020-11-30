@@ -7,17 +7,22 @@
             app:key="1" />
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <SeekBarPreference
+        android:layout_height="wrap_content"
+        android:defaultValue="10"
+        android:dialogMessage="Something duration"
+        android:key="8"
+        android:max="30"
+        android:summary="How long something will last"
+        android:text=" minutes"
+        android:title="Property Label"
         app:iconSpaceReserved="false"
-        app:title="@string/font_size_title" >
-        <com.loskon.noteminimalism3.preference.item.PrefItemFontSize
-            app:key="2" />
-    </PreferenceCategory>
-
+        app:showSeekBarValue="true" />
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/corner_of_cards" >
-        <com.loskon.noteminimalism3.preference.item.PrefItemCornerOfCards
+        <com.loskon.noteminimalism3.preference.item.PrefItemSelectColor
+            android:title="@string/select_color"
             app:key="3" />
     </PreferenceCategory>
 
@@ -37,13 +42,16 @@
             app:key="5" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Preference category">
+    <PreferenceCategory android:title="Preference category"
+        app:iconSpaceReserved="false">
         <SwitchPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="6"
             android:title="@string/one_size_cards" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Preference category">
+    <PreferenceCategory android:title="Preference category"
+        app:iconSpaceReserved="false">
         <Preference
             android:title="@string/reset_all"
             app:iconSpaceReserved="false"

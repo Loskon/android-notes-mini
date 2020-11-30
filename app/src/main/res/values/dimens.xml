@@ -5,4 +5,6 @@
     <dimen name="border_stroke">2dp</dimen>
     <!-- The height bottomAppBar -->
     <dimen name="height_for_bottom_app_bar">48dp</dimen>
+    <!-- thumb_slider -->
+    <dimen name="thumb_radius">6dp</dimen>
 </resources>

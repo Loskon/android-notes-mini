@@ -36,8 +36,8 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
     private final DbAdapter dbAdapter;
     private boolean isSelectionMode;
     private int color, border, radius;
-    private final int dpRadius;
-    private final int dpStroke;
+    private final int radius_dp;
+    private final int stoke_dp;
     private final int selectedNoteMode;
     private int starVisible;
     private Callback callbackListenerSwipeAdapter; // listener field
@@ -58,8 +58,8 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         mLayoutInflater = LayoutInflater.from(context);
         ((MainActivity) mContext).setCallbackListenerMain(this);
         dbAdapter = new DbAdapter(mContext);
-        dpRadius = (int) mContext.getResources().getDimension(R.dimen.corner_radius);
-        dpStroke = (int) mContext.getResources().getDimension(R.dimen.border_stroke);
+        radius_dp = (int) mContext.getResources().getDimension(R.dimen.corner_radius);
+        stoke_dp = (int) mContext.getResources().getDimension(R.dimen.border_stroke);
     }
 
     @NonNull
@@ -103,7 +103,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         }
 
         if (note.getSelectItemForDel()) {
-            varForGradientDrawable(dpRadius, dpStroke,Color.GRAY);
+            varForGradientDrawable(radius_dp, stoke_dp,Color.GRAY);
         } else {
             varForGradientDrawable(0, 0,Color.TRANSPARENT);
         }
@@ -153,7 +153,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, mNoteList.size());
                     mItemManger.closeAllItems();
-                }, 400);
+                }, 100);
                 dbAdapter.updateSelectItemForDel(note, false, date);
             } else {
                 if (note.getFavoritesItem()){
@@ -178,7 +178,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, mNoteList.size());
                 mItemManger.closeAllItems();
-            }, 400);
+            }, 100);
 
             note.setSelectItemForDel(true);
             note.setFavoritesItem(false);

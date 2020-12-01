@@ -33,10 +33,11 @@
     <string name="corner_of_cards">Corners of cards</string>
     <string name="select_color">Select color</string>
     <string name="number_of_lines">Number of lines</string>
-    <string name="one_size_cards">One size cards</string>
-    <string name="reset_all">Reset all</string>
+    <string name="one_size_cards">One size for multi-cards mode</string>
+    <string name="reset_settings_card_appearance">Reset</string>
     <string name="date_cards">01/21/96 12:00 AM</string>
-    <string name="date_font_size">Date font size</string>
+    <string name="date_font_size">Font size of the date text</string>
+    <string name="main_font_size">Font size of the main text</string>
 
 
     <!-- preference -->

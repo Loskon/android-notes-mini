@@ -7,6 +7,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -33,6 +34,11 @@ public class CustomAlertDialogColor {
                 MaterialAlertDialog_Rounded)
                 .setView(R.layout.dialog_color_picker)
                 .show();
+
+        Window window = alertDialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+
 
         ColorPickerView colorPickerView = alertDialog.findViewById(R.id.color_picker_view_dialog);
         Button btnOk = alertDialog.findViewById(R.id.btn_ok_color);

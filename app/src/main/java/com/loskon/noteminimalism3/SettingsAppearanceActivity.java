@@ -1,9 +1,12 @@
 package com.loskon.noteminimalism3;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,8 +23,6 @@ import com.loskon.noteminimalism3.preference.item.PrefItemFontSize;
 
 public class SettingsAppearanceActivity extends AppCompatActivity {
 
-    private BottomAppBar btmAppBarSettings2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +34,8 @@ public class SettingsAppearanceActivity extends AppCompatActivity {
                     .commit();
         }
 
-        btmAppBarSettings2 = findViewById(R.id.btmAppBarSettings2);
-        btmAppBarSettings2.setNavigationOnClickListener(v -> goMainActivity());
+        BottomAppBar btmAppBarSettingsAppearance = findViewById(R.id.btmAppBarSettings2);
+        btmAppBarSettingsAppearance.setNavigationOnClickListener(v -> goMainActivity());
     }
 
     private void goMainActivity() {
@@ -54,13 +55,14 @@ public class SettingsAppearanceActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences_appearance, rootKey);
 
-            PrefItemFontSize toggle = (PrefItemFontSize) findPreference("2");
+            //PrefItemFontSize toggle = (PrefItemFontSize) findPreference("2");
 
-            SeekBarPreference seekBar = (SeekBarPreference) findPreference("8");
-            seekBar.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            Preference myPref = findPreference("6");
+            assert myPref != null;
+            myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Toast.makeText(getContext(), "asdf " +newValue, Toast.LENGTH_SHORT).show();
+                public boolean onPreferenceChange(Preference preference, Object isOneSizeOn) {
+                    saveOneSize((Boolean) isOneSizeOn);
                     return true;
                 }
             });
@@ -71,6 +73,14 @@ public class SettingsAppearanceActivity extends AppCompatActivity {
             super.onViewCreated(view, savedInstanceState);
             setDivider(new ColorDrawable(Color.TRANSPARENT));
             setDividerHeight(0);
+        }
+
+        private void saveOneSize(boolean isOneSizeOn) {
+            SharedPreferences sharedPref = getActivity().
+                    getSharedPreferences("saveOneSize", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("isOneSizeOn", isOneSizeOn);
+            editor.apply();
         }
 
     }

@@ -23,7 +23,7 @@
     </style>
 
     <style name="ShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">
-        <item name="cornerSize">6dp</item>
+        <item name="cornerSize">4dp</item>
     </style>
 
 </resources>

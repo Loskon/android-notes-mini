@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.preference.item;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -15,8 +16,14 @@ import androidx.preference.PreferenceViewHolder;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogColor;
+import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogColorPicker;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class PrefItemSelectColor extends Preference {
+
+    private int color;
 
     public PrefItemSelectColor(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -31,10 +38,24 @@ public class PrefItemSelectColor extends Preference {
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-        holder.itemView.setClickable(true); // disable parent click
+        holder.itemView.setClickable(true); // Отключаем родительский клик
         TextView titleTextView = (TextView) holder.findViewById(android.R.id.title);
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        holder.itemView.setMinimumHeight(162);
+        int heightItem_dp = (int) getContext().getResources().getDimension(R.dimen.height_item);
+        holder.itemView.setMinimumHeight(heightItem_dp); // Устанавливаем высоту кастомного элемента
+
+        holder.itemView.setOnClickListener(view -> {
+            CustomAlertDialogColorPicker.alertDialogShowColorPicker(getContext());
+        });
+
+        SharedPreferences sharedPref =  getContext().getSharedPreferences("saveColorPicker", MODE_PRIVATE);
+        color = sharedPref.getInt("color", -16739862);
+
         ImageView imageViewColorForSettings = (ImageView) holder.findViewById(R.id.imageViewColorForSettings);
+
+        imageViewColorForSettings.setColorFilter(color);
+
+        (new CustomAlertDialogColorPicker()).registerCallBack(imageViewColorForSettings::setColorFilter);
     }
+
 }

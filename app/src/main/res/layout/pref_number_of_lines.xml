@@ -5,13 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <SeekBar
-        android:id="@+id/seekBar6"
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider_number_of_lines"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:stepSize="1"
+        android:valueFrom="1"
+        android:valueTo="10"
+        app:haloRadius="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:thumbRadius="@dimen/thumb_radius"
+        app:tickVisible="false" />
 </androidx.constraintlayout.widget.ConstraintLayout>

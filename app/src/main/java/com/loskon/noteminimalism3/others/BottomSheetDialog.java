@@ -41,14 +41,18 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int menuId = menuItem.getItemId();
+
             if (menuId == R.id.nav1) selectedNoteMode = 0;
             else if (menuId == R.id.nav2) selectedNoteMode = 1;
             else if (menuId == R.id.nav3) selectedNoteMode = 2;
             else if (menuId == R.id.nav4) requireContext().startActivity((new Intent(getContext(), SettingsActivity.class)));
             if (menuId != R.id.nav4) itemClickListener.onItemClickBottomNavView(selectedNoteMode);
+
             dismiss();
+
             return true;
         });
     }
@@ -56,6 +60,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
         if (context instanceof ItemClickListenerBottomNavView) {
             itemClickListener = (ItemClickListenerBottomNavView) context;
         } else {
@@ -67,6 +72,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
         itemClickListener = null;
     }
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.larswerkman.holocolorpicker.ColorPicker
+        android:id="@+id/holo_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_reset_color_picker"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="50dp"
+        android:layout_height="44dp"
+        android:layout_margin="8dp"
+        app:icon="@drawable/baseline_refresh_black_24"
+        app:iconGravity="textStart"
+        app:iconPadding="-4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/holo_picker"
+        app:layout_constraintEnd_toEndOf="@+id/holo_picker"
+        app:rippleColor="?attr/colorControlHighlight"
+        app:strokeColor="@android:color/transparent" />
+
+    <Button
+        android:id="@+id/btn_holo_cancel"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_holo_ok"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/holo_picker"
+        app:rippleColor="?attr/colorControlHighlight" />
+
+    <Button
+        android:id="@+id/btn_holo_ok"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@android:string/ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_holo_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/holo_picker" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

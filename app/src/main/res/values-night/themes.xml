@@ -16,6 +16,7 @@
         <item name="android:overScrollMode">never</item>
     </style>
 
+    <!-- MaterialAlertDialog -->
     <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
         <item name="colorSurface">@android:color/black</item>

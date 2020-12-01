@@ -42,7 +42,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
     private int starVisible;
     private Callback callbackListenerSwipeAdapter; // listener field
     private final ArrayList <Note> toRemoveList = new ArrayList<>();
-    private Date date = new Date();
+    private final Date date = new Date();
 
     // setting the listener
     public void setCallbackListenerSwipeAdapter(Callback callbackListenerSwipeAdapter)    {
@@ -56,6 +56,7 @@ public class SwipeRecyclerViewAdapter extends RecyclerSwipeAdapter<NoteViewHolde
         this.selectedNoteMode = selectedNoteMode;
         this.isSelectionMode = isSelectionMode;
         mLayoutInflater = LayoutInflater.from(context);
+
         ((MainActivity) mContext).setCallbackListenerMain(this);
         dbAdapter = new DbAdapter(mContext);
         radius_dp = (int) mContext.getResources().getDimension(R.dimen.corner_radius);

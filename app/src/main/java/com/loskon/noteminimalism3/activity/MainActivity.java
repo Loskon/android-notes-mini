@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
     private TextView textEmpty;
     private Menu appBarMenu;
     private SharedPreferences sharedPref;
-    private boolean isSwitchView, isSelectMode, isUpdateDate, createOrDel;
+    private boolean isSwitchView, isSelectMode, isUpdateDate, createOrDel, isOneSizeOn;
     private int selectedNoteMode;
     private String whereClauseForMode;
     private final Handler handler = new Handler();
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initViewAndOthersComponents();
         cleaningFromTrash();
         initAdapter ();
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         appBarMenu = bottomAppBar.getMenu();
         dbAdapter = new DbAdapter(this);
 
+
         // Удаляет мерцание
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         if (animator instanceof SimpleItemAnimator) {
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         }
     }
 
-    private void cleaningFromTrash () {
+    private void cleaningFromTrash() {
         // Удаление по таймеру
         dbAdapter.open();
         dbAdapter.deleteByTimer(2);
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         dbAdapter.close();
     }
 
-    private void differentHandlers () {
+    private void differentHandlers() {
         bottomAppBarHandler();
         fabHandler();
         refreshHandlerAndRedrawing();
@@ -141,12 +144,15 @@ public class MainActivity extends AppCompatActivity implements Callback,
 
         // Кнопка навигации bottomAppBar
         bottomAppBar.setNavigationOnClickListener(v -> {
-            if (isSelectMode) onClickDeleteOrClose(false);
-            else bottomNavViewShow();
+            if (isSelectMode) {
+                onClickDeleteOrClose(false);
+            } else {
+                bottomNavViewShow();
+            }
         });
     }
 
-    public void toggleItemViewType () {
+    public void toggleItemViewType() {
         // Переключение и сохранение вида линейный/сетка
         isSwitchView = !isSwitchView;
         saveTypeView();
@@ -159,31 +165,48 @@ public class MainActivity extends AppCompatActivity implements Callback,
         edit.apply();
     }
 
-    private void switchView () {
+    private void switchView() {
         // Изменение вида списка при переключении
         if (isSwitchView) {
             appBarMenu.findItem(R.id.action_switch_view).
                     setIcon(ResourcesCompat.getDrawable(getResources(),
                             R.drawable.baseline_dashboard_black_24, null));
+
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         } else {
+
+            loadOneSize();
+
             appBarMenu.findItem(R.id.action_switch_view).
                     setIcon(ResourcesCompat.getDrawable(getResources(),
                             R.drawable.baseline_view_agenda_black_24, null));
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
-                    StaggeredGridLayoutManager.VERTICAL));
+
+            if (isOneSizeOn) {
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            } else {
+                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
+                        StaggeredGridLayoutManager.VERTICAL));
+            }
+
         }
     }
 
-    private void bottomNavViewShow () {
+    private void loadOneSize () {
+        sharedPref =
+                getSharedPreferences("saveOneSize", MODE_PRIVATE);
+        isOneSizeOn = sharedPref.getBoolean("isOneSizeOn",false);
+    }
+
+    private void bottomNavViewShow() {
+        // Вызыввавет нижнее меню
         BottomSheetDialog bottomSheet =
                 BottomSheetDialog.newInstance();
         bottomSheet.show(getSupportFragmentManager(),
                 BottomSheetDialog.TAG);
     }
 
-    private void fabHandler () {
-        // Обработчик круглой кнопки
+    private void fabHandler() {
+        // Обработчик клика по fab
         fabMain.setOnClickListener(v -> {
             if (isSelectMode) {
                 onClickDeleteOrClose(true);
@@ -223,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         else if (selectedNoteMode == 2) whereClauseForMode = "del_items = 1";
     }
 
-    private void changeIconFab () {
+    private void changeIconFab() {
         if (selectedNoteMode == 2) {
             fabMain.setImageResource(R.drawable.baseline_delete_forever_black_24);
         } else {
@@ -236,16 +259,12 @@ public class MainActivity extends AppCompatActivity implements Callback,
         isSwitchView = sharedPref.getBoolean("isSwitchView", true);
     }
 
-    private void customHandlers () {
-        // Проверка на пустой список
-        swipeAdapter.registerAdapterDataObserver(new
-                CustomRecyclerViewEmpty(textEmpty, swipeAdapter));
-        // Дополнительная проверка на пустой список (срабатывает при сменах активити)
-        (new CustomRecyclerViewEmpty(textEmpty, swipeAdapter)).checkEmpty();
-        // Закрытие боковых меню при скролле
-        recyclerView.addOnScrollListener(new CustomOnScrollListener(swipeAdapter));
-        // Закрытие бокового меню при клике на пустую область
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+    private void customHandlers() {
+        swipeAdapter.registerAdapterDataObserver(new CustomRecyclerViewEmpty(textEmpty, // Проверка на пустой список
+                swipeAdapter));
+        (new CustomRecyclerViewEmpty(textEmpty, swipeAdapter)).checkEmpty(); // Дополнительная проверка на пустой список (срабатывает при сменах активити)
+        recyclerView.addOnScrollListener(new CustomOnScrollListener(swipeAdapter)); // Закрытие боковых меню при скролле
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() { // Закрытие бокового меню при клике на пустую область
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
                 if (motionEvent.getAction() != MotionEvent.ACTION_UP) {
@@ -267,18 +286,20 @@ public class MainActivity extends AppCompatActivity implements Callback,
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         swipeAdapter.notifyDataSetChanged();
         updateDateMethod();
         restoreRecyclerViewState();
-        (new CustomPreferencesFragment()).savePositionSettings(getApplicationContext(), 0, 0);
+        // Сбрасывает сохрание позиции настроек
+        (new CustomPreferencesFragment()).
+                savePositionSettings(getApplicationContext(), 0, 0);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent); // Необходим для получения значаения переменных из NoteActivity
     }
 
     private void updateDateMethod() {
@@ -293,13 +314,14 @@ public class MainActivity extends AppCompatActivity implements Callback,
         if (isUpdateDate) {
             initAdapter ();
             intent.putExtra("updateDate", false);
-            // Возвращает в начальную позицию, если создана новая заметка
-            if (createOrDel) recyclerView.getLayoutManager().scrollToPosition(0);
+            if (createOrDel) {
+                recyclerView.getLayoutManager().scrollToPosition(0); // Возвращает списко вверх, если создана новая заметка
+            }
         }
     }
 
-    private void restoreRecyclerViewState () {
-        // restore RecyclerView state
+    private void restoreRecyclerViewState() {
+        // Восстанавливаем состояние RecyclerView
         if (mBundleRecyclerViewState != null) {
             Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
@@ -312,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements Callback,
         saveRecyclerViewState();
     }
 
-    private void saveRecyclerViewState () {
-        // save RecyclerView state
+    private void saveRecyclerViewState() {
+        // сохраняем состояние RecyclerView
         mBundleRecyclerViewState = new Bundle();
         Parcelable listState = recyclerView.getLayoutManager().onSaveInstanceState();
         mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
@@ -333,16 +355,25 @@ public class MainActivity extends AppCompatActivity implements Callback,
     }
 
     private void deleteMode(boolean startOrEnd) {
+        // Переход в режим удаления и восстановлние из него
         isSelectMode = startOrEnd;
+
         if (startOrEnd) {
-            if (selectedNoteMode != 2) fabMain.setImageResource(R.drawable.baseline_delete_black_24);
+            if (selectedNoteMode != 2) {
+                fabMain.setImageResource(R.drawable.baseline_delete_black_24);
+            }
             bottomAppBar.setNavigationIcon(R.drawable.baseline_navigate_before_black_24);
-        }
-        else {
-            if (selectedNoteMode != 2) fabMain.setImageResource(R.drawable.baseline_add_black_24);
+        } else {
+            if (selectedNoteMode != 2) {
+                fabMain.setImageResource(R.drawable.baseline_add_black_24);
+            }
             bottomAppBar.setNavigationIcon(R.drawable.baseline_menu_black_24);
         }
-        for (int i = 0; i < appBarMenu.size(); i++) appBarMenu.getItem(i).setVisible(!startOrEnd);
+
+        for (int i = 0; i < appBarMenu.size(); i++) {
+            appBarMenu.getItem(i).setVisible(!startOrEnd);
+        }
+
         bottomAppBar.setHideOnScroll(!startOrEnd);
     }
 
@@ -358,8 +389,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         // Обработка нажатия кнопки назад
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (isSelectMode) {
-                // Выход из режима выбора элементов
-                onClickDeleteOrClose(false);
+                onClickDeleteOrClose(false); // Выход из режима удаления
                 return false;
             } else {
                 finish();

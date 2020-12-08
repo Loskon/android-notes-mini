@@ -10,16 +10,27 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/black</item>
+
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/roboto_light</item>
         <item name="android:overScrollMode">never</item>
+
+        <item name="titleTextColor">@color/white</item>
+        <item name="dateTextColor">@android:color/darker_gray</item>
+        <item name="bottomAppBarColor">#272727</item>
+        <item name="iconFabColor">@color/dark_light</item>
+        <item name="cardViewColor">#272727</item>
+        <item name="bottomSheetColor">#272727</item>
+
+        <item name="android:windowBackground">@color/dark_light</item>
+        <item name="android:colorBackground">@color/dark_light</item>
     </style>
 
     <!-- MaterialAlertDialog -->
     <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
-        <item name="colorSurface">@android:color/black</item>
+        <item name="colorSurface">@color/dark_light</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">

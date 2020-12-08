@@ -35,11 +35,13 @@
                 android:ems="10"
                 android:hint="@string/text_for_edit_text"
                 android:inputType="textMultiLine|textCapSentences"
+                android:textColor="?attr/titleTextColor"
                 android:textColorHint="@android:color/darker_gray" />
         </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:tint="?attr/iconFabColor"
         android:id="@+id/fabNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

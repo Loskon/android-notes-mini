@@ -3,21 +3,17 @@ package com.loskon.noteminimalism3.preference.item;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogColor;
+import com.loskon.noteminimalism3.activity.mainHelper.SharedPrefHelper;
 import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogColorPicker;
+import com.loskon.noteminimalism3.preference.prefdialog.DialogFontSize;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -45,14 +41,14 @@ public class PrefItemSelectColor extends Preference {
         holder.itemView.setMinimumHeight(heightItem_dp); // Устанавливаем высоту кастомного элемента
 
         holder.itemView.setOnClickListener(view -> {
-            CustomAlertDialogColorPicker.alertDialogShowColorPicker(getContext());
+           CustomAlertDialogColorPicker.alertDialogShowColorPicker(getContext());
+           // DialogFontSize.alertDialogShowColorPicker2(getContext());
         });
 
-        SharedPreferences sharedPref =  getContext().getSharedPreferences("saveColorPicker", MODE_PRIVATE);
-        color = sharedPref.getInt("color", -16739862);
+        color = SharedPrefHelper.loadInt(getContext(),
+                "color",-16739862);
 
         ImageView imageViewColorForSettings = (ImageView) holder.findViewById(R.id.imageViewColorForSettings);
-
         imageViewColorForSettings.setColorFilter(color);
 
         (new CustomAlertDialogColorPicker()).registerCallBack(imageViewColorForSettings::setColorFilter);

@@ -1,14 +1,11 @@
 package com.loskon.noteminimalism3.activity.mainHelper;
 
 import android.content.Context;
-import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.others.RefreshView;
-import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
+import com.loskon.noteminimalism3.rv.CustomRecyclerViewAdapter;
 
 //
 //
@@ -22,11 +19,11 @@ import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
 public class RefreshHandlerAndRedrawing {
 
     private final Context context;
-    private final SwipeRecyclerViewAdapter swipeAdapter;
+    private final CustomRecyclerViewAdapter swipeAdapter;
     private final RecyclerRefreshLayout mRefreshLayout;
     private final BottomAppBar bottomAppBar;
 
-    public RefreshHandlerAndRedrawing(Context context, SwipeRecyclerViewAdapter swipeAdapter, RecyclerRefreshLayout mRefreshLayout, BottomAppBar bottomAppBar) {
+    public RefreshHandlerAndRedrawing(Context context, CustomRecyclerViewAdapter swipeAdapter, RecyclerRefreshLayout mRefreshLayout, BottomAppBar bottomAppBar) {
         this.context = context;
         this.swipeAdapter = swipeAdapter;
         this.mRefreshLayout = mRefreshLayout;
@@ -43,7 +40,6 @@ public class RefreshHandlerAndRedrawing {
                 (new RecyclerRefreshLayout.LayoutParams(200, 300)));
         mRefreshLayout.setOnRefreshListener(() -> {
             mRefreshLayout.setRefreshing(false);
-            swipeAdapter.closeAllItems();
             bottomAppBar.performShow();
         });
     }

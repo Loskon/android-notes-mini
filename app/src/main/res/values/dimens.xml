@@ -15,4 +15,8 @@
 
     <!-- default corner for card in pref_item_card -->
     <dimen name="default_corner">6dp</dimen>
+
+    <dimen name="height_refresh_layout">30dp</dimen>
+
+    <dimen name="my_corner_radius">30dp</dimen>
 </resources>

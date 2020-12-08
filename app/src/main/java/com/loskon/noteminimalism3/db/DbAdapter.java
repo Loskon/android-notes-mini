@@ -25,20 +25,22 @@ public class DbAdapter {
     private final DbHelper mDbHelper;
     private SQLiteDatabase mDatabase;
 
-    public DbAdapter(Context context){
+    public DbAdapter(Context context) {
         mDbHelper = new DbHelper(context.getApplicationContext());
     }
 
-    public void open(){
+    public void open() {
         mDatabase = mDbHelper.getWritableDatabase();
     }
 
-    public void close(){
+    public void close() {
         mDbHelper.close();
     }
 
     public List<Note> getNotes(String whereClause) {
+        // Получить все заметки
         ArrayList<Note> notes = new ArrayList<>();
+
         try (NoteCursorWrapper cursor = queryCrimes(whereClause, null)) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -51,6 +53,7 @@ public class DbAdapter {
     }
 
     public Note getNote(long id) {
+        // Получить заметку по id
         try (NoteCursorWrapper cursor = queryCrimes(
                 NoteTable.Cols.ID + "=?",
                 new String[]{String.valueOf(id)}
@@ -64,57 +67,64 @@ public class DbAdapter {
         }
     }
 
-    public void addNote(Note note) {
+    public void addNewNote(Note note) {
+        // Добавить новую заметку
         ContentValues values = getContentValues(note);
         mDatabase.insert(NoteTable.NAME_TABLE, null, values);
     }
 
     public void deleteNote(long id) {
-        mDatabase.delete(
-                NoteTable.NAME_TABLE,
+        // Удалить заметку
+        mDatabase.delete(NoteTable.NAME_TABLE,
                 NoteTable.Cols.ID + "=?",
-                new String[] {String.valueOf(id)}
+                new String[]{String.valueOf(id)}
         );
     }
 
     public void updateNote(Note note) {
+        // Обновить заметку
         ContentValues values = getContentValues(note);
         mDatabase.update(NoteTable.NAME_TABLE, values,
                 NoteTable.Cols.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
-    public void updateFavorites(Note note, boolean favBoolean) {
+    public void updateFavorites(Note note, boolean isFavItem) {
+        // Добавить/удалить избранное
         ContentValues values = getContentValues(note);
-        values.put(NoteTable.Cols.COLUMN_FAVORITES, favBoolean);
+        values.put(NoteTable.Cols.COLUMN_FAVORITES, isFavItem);
         mDatabase.update(NoteTable.NAME_TABLE, values,
                 NoteTable.Cols.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
-    public void updateSelectItemForDel(Note note, boolean selectBoolean, Date dateDelete) {
+    public void updateSelectItemForDel(Note note, boolean isDeleteItem, Date dateDelete) {
+        // Добавить/удалить корзина
         ContentValues values = getContentValues(note);
-        values.put(NoteTable.Cols.COLUMN_DEL_ITEMS, selectBoolean);
+        values.put(NoteTable.Cols.COLUMN_DEL_ITEMS, isDeleteItem);
         values.put(NoteTable.Cols.COLUMN_DATE_DEL, dateDelete.getTime());
         mDatabase.update(NoteTable.NAME_TABLE, values,
                 NoteTable.Cols.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
-    public void deleteByTimer (int rangeInDays) {
-        // Перевод дня в Unix-time для корректного сложения и сравнения
-        long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS);
-        mDatabase.delete(NoteTable.NAME_TABLE, NoteTable.Cols.COLUMN_DEL_ITEMS +
-                " = " + 1 + " and " + (new Date()).getTime() + " > (" +
-                NoteTable.Cols.COLUMN_DATE_DEL  + "+" + range +")", null);
+    public void deleteByTime(int rangeInDays) {
+        // Удаление заметку с помощью сравнения сегодняшней даты
+        // и даты добавления заметки в корзину
+        long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS); // Перевод дня в Unix-time для корректного сложения и сравнения
+        mDatabase.delete(NoteTable.NAME_TABLE,
+                NoteTable.Cols.COLUMN_DEL_ITEMS + " = " + 1
+                 + " and " + (new Date()).getTime() + " > (" +
+                NoteTable.Cols.COLUMN_DATE_DEL + "+" + range + ")", null);
     }
 
-    public void deleteAll () {
-        mDatabase.delete(NoteTable.NAME_TABLE, NoteTable.Cols.COLUMN_DEL_ITEMS +
-                " = " + 1, null);
+    public void deleteAll() {
+        // Удалить все заметки из корзины
+        mDatabase.delete(NoteTable.NAME_TABLE,
+                NoteTable.Cols.COLUMN_DEL_ITEMS + " = " + 1, null);
     }
 
-    private static ContentValues getContentValues (Note note) {
+    private static ContentValues getContentValues(Note note) {
         ContentValues values = new ContentValues();
         if (note.getId() != 0) values.put(NoteTable.Cols.ID, note.getId());
         values.put(NoteTable.Cols.COLUMN_TITLE, note.getTitle());

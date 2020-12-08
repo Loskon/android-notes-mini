@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.others;
+package com.loskon.noteminimalism3.rv;
 
 /**
  * Основной класс заметок

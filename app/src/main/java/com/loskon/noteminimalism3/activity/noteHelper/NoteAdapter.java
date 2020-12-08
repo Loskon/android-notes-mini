@@ -1,13 +1,7 @@
 package com.loskon.noteminimalism3.activity.noteHelper;
 
-import android.view.View;
-import android.widget.EditText;
-
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
 
 public class NoteAdapter {
 

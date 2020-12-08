@@ -17,6 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_for_bottom_app_bar"
         android:layout_gravity="bottom"
+        android:backgroundTint="?attr/bottomAppBarColor"
+        app:backgroundTint="?attr/bottomAppBarColor"
+        app:elevation="4dp"
         app:fabAlignmentMode="end"
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
@@ -32,7 +35,7 @@
         android:layout_height="wrap_content"
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
-        app:backgroundTint="@android:color/holo_blue_dark"
+        app:tint="?attr/iconFabColor"
         app:layout_anchor="@id/btmAppBarMain" />
 
     <TextView
@@ -42,6 +45,6 @@
         android:layout_gravity="center"
         android:layout_marginBottom="?attr/actionBarSize"
         android:text="@string/empty_list"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="?attr/dateTextColor" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
+import com.loskon.noteminimalism3.rv.CustomRecyclerViewAdapter;
 
 /**
  * Данное расширение позволяет следить за состоянем пустого списка
@@ -14,9 +14,9 @@ import com.loskon.noteminimalism3.rv.SwipeRecyclerViewAdapter;
 public class CustomRecyclerViewEmpty extends RecyclerView.AdapterDataObserver {
 
     private final TextView mTextView;
-    private final SwipeRecyclerViewAdapter swipeAdapter;
+    private final CustomRecyclerViewAdapter swipeAdapter;
 
-    public CustomRecyclerViewEmpty(TextView textView, SwipeRecyclerViewAdapter swipeAdapter) {
+    public CustomRecyclerViewEmpty(TextView textView, CustomRecyclerViewAdapter swipeAdapter) {
         mTextView = textView;
         this.swipeAdapter = swipeAdapter;
     }

@@ -21,6 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_for_bottom_app_bar"
             android:layout_gravity="bottom"
+            android:backgroundTint="?attr/bottomAppBarColor"
+            app:backgroundTint="?attr/bottomAppBarColor"
+            app:elevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:navigationIcon="@drawable/baseline_navigate_before_black_24" />
 
@@ -32,6 +35,7 @@
         android:layout_height="0dp"
         android:animateLayoutChanges="true"
         android:overScrollMode="never"
+        android:paddingTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

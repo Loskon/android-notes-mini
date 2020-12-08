@@ -11,9 +11,10 @@
             app:iconSpaceReserved="false">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetClass="com.loskon.noteminimalism3.SettingsAppearanceActivity"
+                android:targetClass="com.loskon.noteminimalism3.activity.SettingsAppearanceActivity"
                 android:targetPackage="com.loskon.noteminimalism3" />
         </Preference>
+
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="dark_theme"

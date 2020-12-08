@@ -16,6 +16,7 @@ import com.dinuscxj.refresh.IRefreshStatus;
  * Класс реализации интерфейса IRefreshStatus по умолчанию, который позволяет кастомизировать
  * элемент "Pull to Refresh" из бибилиотеки 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
  */
+
 public class RefreshView extends View implements IRefreshStatus {
     private static final int MAX_ARC_DEGREE = 330;
     private static final int ANIMATION_DURATION = 888;

@@ -5,31 +5,37 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogColor;
-import com.loskon.noteminimalism3.preference.prefdialog.CustomAlertDialogSize;
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.activity.mainHelper.SharedPrefHelper;
 
 import static android.content.Context.MODE_PRIVATE;
 
 // Класс для отрисовки
 
 public class CustomPreferencesFragment extends PreferenceFragmentCompat {
+
+
+    private RecyclerView recyclerView;
+    private LinearLayoutManager myLayoutManager;
+    private int index, top;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        //Preference myPref =  findPreference("signature");
-        //assert myPref != null;
+        Preference myPref =  findPreference("dark_theme");
+        assert myPref != null;
         //myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
           //  public boolean onPreferenceClick(Preference preference) {
                // Toast toast = Toast.makeText(getContext(),
@@ -54,31 +60,27 @@ public class CustomPreferencesFragment extends PreferenceFragmentCompat {
     //    });
 
 
-        //myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-          //  @Override
-           //public boolean onPreferenceChange(Preference preference, Object newValue) {
-                   // Toast toast = Toast.makeText(getContext(),
-                      //      "Вы ввели: "+ newValue.toString(), Toast.LENGTH_SHORT);
-                   // toast.show();
-              //  return true;
-         //   }
-    //    });
+        myPref.setOnPreferenceChangeListener((preference, newValue) -> {
+            (new Handler()).postDelayed(() -> {
+            if ((Boolean) newValue) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+            }, 260);
+           return true;
+        });
 
 
 
         Preference myPref3 =  findPreference("color_picker_key");
         assert myPref3 != null;
+        //myPref3.setEnabled(false);
         myPref3.setOnPreferenceClickListener(preference -> {
-            CustomAlertDialogColor.alertDialogShowColor(getContext());
+
             return true;
         });
     }
-
-    RecyclerView recyclerView;
-    int scrollPosition;
-    LinearLayoutManager myLayoutManager;
-    int index;
-    int top;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -92,10 +94,15 @@ public class CustomPreferencesFragment extends PreferenceFragmentCompat {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 scrollToItem();
-                savePositionSettings(getContext(),index, top);
+                SharedPrefHelper.saveInt(requireContext(), "index", index);
+                SharedPrefHelper.saveInt(requireContext(), "top", top);
+                //savePositionSettings(requireContext(),index, top);
             }
         });
-        loadPositionSettings();
+
+        index = SharedPrefHelper.loadInt(requireContext(), "index", 0);
+        top = SharedPrefHelper.loadInt(requireContext(), "top", 0);
+        //loadPositionSettings();
         myLayoutManager.scrollToPositionWithOffset(index, top);
     }
 
@@ -114,7 +121,7 @@ public class CustomPreferencesFragment extends PreferenceFragmentCompat {
     }
 
     private void loadPositionSettings() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("savePositionSettings", MODE_PRIVATE);
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("savePositionSettings", MODE_PRIVATE);
         index = sharedPref.getInt("index", 0);
         top = sharedPref.getInt("top", 0);
     }

@@ -5,7 +5,7 @@
     android:id="@+id/cstSetting2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsAppearanceActivity">
+    tools:context=".activity.SettingsAppearanceActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout2"
@@ -21,6 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_for_bottom_app_bar"
             android:layout_gravity="bottom"
+            android:backgroundTint="?attr/bottomAppBarColor"
+            app:backgroundTint="?attr/bottomAppBarColor"
+            app:elevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:navigationIcon="@drawable/baseline_navigate_before_black_24" />
 
@@ -30,6 +33,7 @@
         android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

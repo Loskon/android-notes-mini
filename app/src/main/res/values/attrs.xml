@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bottomAppBarColor" format="color"/>
+    <attr name="iconFabColor" format="color"/>
+    <attr name="cardViewColor" format="color"/>
+    <attr name="titleTextColor" format="color"/>
+    <attr name="dateTextColor" format="color"/>
+    <attr name="bottomSheetColor" format="color"/>
+</resources>

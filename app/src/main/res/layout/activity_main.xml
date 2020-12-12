@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainActivity">
 
     <include
@@ -24,8 +25,6 @@
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
         app:fabCradleRoundedCornerRadius="4dp"
-        app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways"
         app:menu="@menu/menu_for_bottom_app_bar"
         app:navigationIcon="@drawable/baseline_menu_black_24" />
 
@@ -35,8 +34,8 @@
         android:layout_height="wrap_content"
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
-        app:tint="?attr/iconFabColor"
-        app:layout_anchor="@id/btmAppBarMain" />
+        app:layout_anchor="@id/btmAppBarMain"
+        app:tint="?attr/iconFabColor" />
 
     <TextView
         android:id="@+id/textEmpty"

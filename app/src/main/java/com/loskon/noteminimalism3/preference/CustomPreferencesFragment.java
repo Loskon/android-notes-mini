@@ -1,10 +1,9 @@
 package com.loskon.noteminimalism3.preference;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 
@@ -18,21 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.activity.mainHelper.SharedPrefHelper;
+import com.loskon.noteminimalism3.db.backup.LocalBackup;
 
-import static android.content.Context.MODE_PRIVATE;
+import java.io.File;
 
 // Класс для отрисовки
 
 public class CustomPreferencesFragment extends PreferenceFragmentCompat {
 
 
-    private RecyclerView recyclerView;
-    private LinearLayoutManager myLayoutManager;
+    private LinearLayoutManager layoutManager;
     private int index, top;
+    private LocalBackup localBackup;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
+        localBackup = new LocalBackup(requireActivity());
 
         Preference myPref =  findPreference("dark_theme");
         assert myPref != null;
@@ -73,6 +74,25 @@ public class CustomPreferencesFragment extends PreferenceFragmentCompat {
 
 
 
+        Preference myPref4 =  findPreference("backup");
+        assert myPref4 != null;
+        myPref4.setOnPreferenceClickListener(preference -> {
+            String outFileName = Environment.getExternalStorageDirectory() + File.separator + getResources().getString(R.string.app_name) + File.separator;
+            //localBackup.performBackup(outFileName);
+            localBackup.performBackup(outFileName);
+            return true;
+        });
+
+        Preference myPref5 =  findPreference("restore");
+        assert myPref5 != null;
+        myPref5.setOnPreferenceClickListener(preference -> {
+            //localBackup.performRestore();
+            localBackup.performRestore();
+            return true;
+        });
+
+
+
         Preference myPref3 =  findPreference("color_picker_key");
         assert myPref3 != null;
         //myPref3.setEnabled(false);
@@ -85,44 +105,41 @@ public class CustomPreferencesFragment extends PreferenceFragmentCompat {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Убираем разделитель
         setDivider(new ColorDrawable(Color.TRANSPARENT));
         setDividerHeight(0);
-        recyclerView = getListView();
-        myLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+        recyclerViewHandler();
+
+        setScrollPosition();
+    }
+
+    private void recyclerViewHandler() {
+        RecyclerView recyclerView = getListView();
+        layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                scrollToItem();
-                SharedPrefHelper.saveInt(requireContext(), "index", index);
-                SharedPrefHelper.saveInt(requireContext(), "top", top);
-                //savePositionSettings(requireContext(),index, top);
+                getScrollPosition();
             }
         });
+    }
 
+    private void setScrollPosition() {
         index = SharedPrefHelper.loadInt(requireContext(), "index", 0);
         top = SharedPrefHelper.loadInt(requireContext(), "top", 0);
-        //loadPositionSettings();
-        myLayoutManager.scrollToPositionWithOffset(index, top);
+
+        layoutManager.scrollToPositionWithOffset(index, top);
     }
 
-    private void scrollToItem() {
-        index = myLayoutManager.findFirstVisibleItemPosition();
-        View v = myLayoutManager.getChildAt(0);
-        top = (v == null) ? 0 : (v.getTop() - myLayoutManager.getPaddingTop());
-    }
+    private void getScrollPosition() {
+        index = layoutManager.findFirstVisibleItemPosition();
+        View v = layoutManager.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - layoutManager.getPaddingTop());
 
-    public void savePositionSettings (Context context, int index, int top) {
-        SharedPreferences sharedPref = context.getSharedPreferences("savePositionSettings", MODE_PRIVATE);
-        SharedPreferences.Editor edit = sharedPref.edit();
-        edit.putInt("index", index);
-        edit.putInt("top", top);
-        edit.apply();
-    }
-
-    private void loadPositionSettings() {
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("savePositionSettings", MODE_PRIVATE);
-        index = sharedPref.getInt("index", 0);
-        top = sharedPref.getInt("top", 0);
+        SharedPrefHelper.saveInt(requireContext(), "index", index);
+        SharedPrefHelper.saveInt(requireContext(), "top", top);
     }
 }

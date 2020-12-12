@@ -12,7 +12,7 @@ public class Refresh {
     private static RecyclerRefreshLayout refreshLayout;
 
     public static void setRefreshLayout(Activity activity, BottomAppBar bottomAppBar) {
-        refreshLayout = activity.findViewById(R.id.refresh_layout);
+        refreshLayout = activity.findViewById(R.id.refreshLayout);
         // Высота
         refreshLayout.setRefreshTargetOffset((int)
                 activity.getResources().getDimension(R.dimen.height_refresh_layout));

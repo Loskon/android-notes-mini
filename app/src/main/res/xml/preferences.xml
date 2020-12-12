@@ -22,6 +22,19 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Preference category"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:title="backup"
+            app:iconSpaceReserved="false"
+            app:key="backup" />
+        <Preference
+            android:title="restore"
+            app:iconSpaceReserved="false"
+            app:key="restore" />
+
+    </PreferenceCategory>
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/sync_header">

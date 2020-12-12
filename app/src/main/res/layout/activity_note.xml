@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cstLayoutNote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -9,10 +10,15 @@
     tools:context=".activity.NoteActivity">
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:clickable="false"
+        android:fillViewport="true"
         android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@+id/fabNote"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,10 +26,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/linearNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
             <EditText
@@ -32,16 +37,16 @@
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:background="@android:color/transparent"
+                android:clickable="false"
                 android:ems="10"
                 android:hint="@string/text_for_edit_text"
-                android:inputType="textMultiLine|textCapSentences"
+                android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
                 android:textColor="?attr/titleTextColor"
                 android:textColorHint="@android:color/darker_gray" />
         </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        app:tint="?attr/iconFabColor"
         android:id="@+id/fabNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,12 +57,12 @@
         android:onClick="addNoteClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_navigate_next_black_24" />
+        app:srcCompat="@drawable/baseline_navigate_next_black_24"
+        app:tint="?attr/iconFabColor" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/favorite_button"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        app:rippleColor="?attr/colorControlHighlight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -69,6 +74,7 @@
         app:layout_constraintEnd_toStartOf="@+id/delete_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
@@ -79,7 +85,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="deleteNoteClick"
-        app:rippleColor="?attr/colorControlHighlight"
         app:icon="@drawable/baseline_delete_outline_black_24"
         app:iconGravity="textStart"
         app:iconPadding="-4dp"
@@ -87,6 +92,7 @@
         app:layout_constraintEnd_toStartOf="@+id/more_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/favorite_button"
+        app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
@@ -95,13 +101,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        app:rippleColor="?attr/colorControlHighlight"
+        android:onClick="otherClick"
         app:icon="@drawable/baseline_more_horiz_black_24"
         app:iconGravity="textStart"
         app:iconPadding="-4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fabNote"
         app:layout_constraintStart_toEndOf="@+id/delete_button"
+        app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

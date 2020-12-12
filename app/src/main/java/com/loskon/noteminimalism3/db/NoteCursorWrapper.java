@@ -23,12 +23,12 @@ public class NoteCursorWrapper extends CursorWrapper {
     // Получает курсор, обернутый этим экземпляром для извлечения данных столбцов
     public Note getNotes() {
 
-        long  id = getLong(getColumnIndex(NoteTable.Cols.ID));
-        String text = getString(getColumnIndex(NoteTable.Cols.COLUMN_TITLE));
-        long date = getLong(getColumnIndex(NoteTable.Cols.COLUMN_DATE));
-        long dateDelete = getLong(getColumnIndex(NoteTable.Cols.COLUMN_DATE_DEL));
-        String fav = getString(getColumnIndex(NoteTable.Cols.COLUMN_FAVORITES));
-        String select = getString(getColumnIndex(NoteTable.Cols.COLUMN_DEL_ITEMS));
+        long  id = getLong(getColumnIndex(NoteTable.Columns.ID));
+        String text = getString(getColumnIndex(NoteTable.Columns.COLUMN_TITLE));
+        long date = getLong(getColumnIndex(NoteTable.Columns.COLUMN_DATE));
+        long dateDelete = getLong(getColumnIndex(NoteTable.Columns.COLUMN_DATE_DEL));
+        String fav = getString(getColumnIndex(NoteTable.Columns.COLUMN_FAVORITES));
+        String select = getString(getColumnIndex(NoteTable.Columns.COLUMN_DEL_ITEMS));
 
 
         // ATTENTION!!!! SQLite does not have a separate Boolean storage class.

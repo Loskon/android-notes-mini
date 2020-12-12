@@ -5,12 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import com.loskon.noteminimalism3.model.Note;
@@ -55,7 +52,7 @@ public class DbAdapter {
     public Note getNote(long id) {
         // Получить заметку по id
         try (NoteCursorWrapper cursor = queryCrimes(
-                NoteTable.Cols.ID + "=?",
+                NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(id)}
         )) {
             if (cursor.getCount() == 0) {
@@ -76,7 +73,7 @@ public class DbAdapter {
     public void deleteNote(long id) {
         // Удалить заметку
         mDatabase.delete(NoteTable.NAME_TABLE,
-                NoteTable.Cols.ID + "=?",
+                NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(id)}
         );
     }
@@ -85,26 +82,26 @@ public class DbAdapter {
         // Обновить заметку
         ContentValues values = getContentValues(note);
         mDatabase.update(NoteTable.NAME_TABLE, values,
-                NoteTable.Cols.ID + "=?",
+                NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
     public void updateFavorites(Note note, boolean isFavItem) {
         // Добавить/удалить избранное
         ContentValues values = getContentValues(note);
-        values.put(NoteTable.Cols.COLUMN_FAVORITES, isFavItem);
+        values.put(NoteTable.Columns.COLUMN_FAVORITES, isFavItem);
         mDatabase.update(NoteTable.NAME_TABLE, values,
-                NoteTable.Cols.ID + "=?",
+                NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
     public void updateSelectItemForDel(Note note, boolean isDeleteItem, Date dateDelete) {
         // Добавить/удалить корзина
         ContentValues values = getContentValues(note);
-        values.put(NoteTable.Cols.COLUMN_DEL_ITEMS, isDeleteItem);
-        values.put(NoteTable.Cols.COLUMN_DATE_DEL, dateDelete.getTime());
+        values.put(NoteTable.Columns.COLUMN_DEL_ITEMS, isDeleteItem);
+        values.put(NoteTable.Columns.COLUMN_DATE_DEL, dateDelete.getTime());
         mDatabase.update(NoteTable.NAME_TABLE, values,
-                NoteTable.Cols.ID + "=?",
+                NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
@@ -113,25 +110,25 @@ public class DbAdapter {
         // и даты добавления заметки в корзину
         long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS); // Перевод дня в Unix-time для корректного сложения и сравнения
         mDatabase.delete(NoteTable.NAME_TABLE,
-                NoteTable.Cols.COLUMN_DEL_ITEMS + " = " + 1
+                NoteTable.Columns.COLUMN_DEL_ITEMS + " = " + 1
                  + " and " + (new Date()).getTime() + " > (" +
-                NoteTable.Cols.COLUMN_DATE_DEL + "+" + range + ")", null);
+                NoteTable.Columns.COLUMN_DATE_DEL + "+" + range + ")", null);
     }
 
     public void deleteAll() {
         // Удалить все заметки из корзины
         mDatabase.delete(NoteTable.NAME_TABLE,
-                NoteTable.Cols.COLUMN_DEL_ITEMS + " = " + 1, null);
+                NoteTable.Columns.COLUMN_DEL_ITEMS + " = " + 1, null);
     }
 
     private static ContentValues getContentValues(Note note) {
         ContentValues values = new ContentValues();
-        if (note.getId() != 0) values.put(NoteTable.Cols.ID, note.getId());
-        values.put(NoteTable.Cols.COLUMN_TITLE, note.getTitle());
-        values.put(NoteTable.Cols.COLUMN_DATE, note.getDate().getTime());
-        values.put(NoteTable.Cols.COLUMN_DATE_DEL, note.getDateDelete().getTime());
-        values.put(NoteTable.Cols.COLUMN_FAVORITES, note.getFavoritesItem());
-        values.put(NoteTable.Cols.COLUMN_DEL_ITEMS, note.getSelectItemForDel());
+        if (note.getId() != 0) values.put(NoteTable.Columns.ID, note.getId());
+        values.put(NoteTable.Columns.COLUMN_TITLE, note.getTitle());
+        values.put(NoteTable.Columns.COLUMN_DATE, note.getDate().getTime());
+        values.put(NoteTable.Columns.COLUMN_DATE_DEL, note.getDateDelete().getTime());
+        values.put(NoteTable.Columns.COLUMN_FAVORITES, note.getFavoritesItem());
+        values.put(NoteTable.Columns.COLUMN_DEL_ITEMS, note.getSelectItemForDel());
         return values;
     }
 

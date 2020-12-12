@@ -1,14 +1,15 @@
 package com.loskon.noteminimalism3.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.KeyEvent;
@@ -19,24 +20,22 @@ import android.widget.Toast;
 import com.dinuscxj.refresh.RecyclerRefreshLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.loskon.noteminimalism3.activity.mainHelper.ColorHelper;
 import com.loskon.noteminimalism3.activity.mainHelper.CustomRecyclerViewEmpty;
 import com.loskon.noteminimalism3.activity.mainHelper.MainHelper;
 import com.loskon.noteminimalism3.activity.mainHelper.BottomSheetDialog;
-import com.loskon.noteminimalism3.activity.mainHelper.Refresh;
 import com.loskon.noteminimalism3.activity.mainHelper.SharedPrefHelper;
 import com.loskon.noteminimalism3.rv.Callback;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.others.RefreshView;
-import com.loskon.noteminimalism3.preference.CustomPreferencesFragment;
 import com.loskon.noteminimalism3.rv.CustomRecyclerViewAdapter;
 import com.loskon.noteminimalism3.db.DbAdapter;
-import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
-import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Основной класс заметок
@@ -45,11 +44,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements Callback,
         BottomSheetDialog.ItemClickListenerBottomNavView {
 
+    public static final int REQUEST_CODE_PERMISSIONS = 2;
+
     private CustomRecyclerViewAdapter rvAdapter;
     private DbAdapter dbAdapter;
 
     private RecyclerRefreshLayout refreshLayout;
-    private SwipeableRecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private BottomAppBar bottomAppBar;
     private FloatingActionButton fabMain;
     private TextView textEmpty;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements Callback,
     private boolean isSelectionModeOn;
     private boolean isUpdateDate;
     private boolean isListUp;
-    private boolean isOneSizeOn;
     private int selNotesCategory;
     private String whereClauseForMode;
 
@@ -80,18 +80,18 @@ public class MainActivity extends AppCompatActivity implements Callback,
         SharedPrefHelper.saveInt(this,
                 "selNotesCategory", 0);
 
-        initView();
+        initialiseWidgets();
         cleaningFromTrash();
-        initAdapter();
+        setupRecyclerView();
         differentHandlers();
     }
 
-    private void initView() {
+    private void initialiseWidgets() {
         textEmpty = findViewById(R.id.textEmpty);
         recyclerView =  findViewById(R.id.recyclerView);
         bottomAppBar =  findViewById(R.id.btmAppBarMain);
         fabMain =  findViewById(R.id.fabMain);
-        refreshLayout = findViewById(R.id.refresh_layout);
+        refreshLayout = findViewById(R.id.refreshLayout);
         appBarMenu = bottomAppBar.getMenu();
         dbAdapter = new DbAdapter(this);
         MainHelper.removeFlicker(recyclerView);
@@ -103,28 +103,36 @@ public class MainActivity extends AppCompatActivity implements Callback,
         dbAdapter.close();
     }
 
-    private void initAdapter() {
+    private void setupRecyclerView() {
         notesCategory();
         dbAdapter.open();
         List<Note> notes = dbAdapter.getNotes(whereClauseForMode);
         rvAdapter = new CustomRecyclerViewAdapter(this, notes,
                 selNotesCategory, isSelectionModeOn);
         rvAdapter.setCallbackListenerSwipeAdapter(this);
-        customHandlers();
-        recyclerView.setAdapter(rvAdapter);
-        dbAdapter.close();
 
-        recyclerView.setListener(new SwipeLeftRightCallback.Listener() {
+        rvAdapter.registerCallBack3(new CustomRecyclerViewAdapter.CallbackColor3() {
             @Override
-            public void onSwipedLeft(int position) {
-                rvAdapter.swipeDeleteItem(position);
-            }
-
-            @Override
-            public void onSwipedRight(int position) {
-                rvAdapter.swipeDeleteItem(position);
+            public void callingBackColor3(Note note, int position) {
+                Snackbar.make(
+                        findViewById(R.id.coordLayout),
+                        "Заметка добавлена в корзину",
+                        Snackbar.LENGTH_SHORT)
+                        .setAnchorView(fabMain)
+                        .setAction("Отмена", view -> {
+                            rvAdapter.resetItem(note, position);
+                        })
+                        .show();
             }
         });
+
+        customHandlers();
+        recyclerView.setAdapter(rvAdapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        dbAdapter.close();
     }
 
     private void differentHandlers() {
@@ -175,14 +183,12 @@ public class MainActivity extends AppCompatActivity implements Callback,
 
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         } else {
-
-
-            isOneSizeOn = SharedPrefHelper.loadBoolean(this,
-                    "isOneSizeOn",false);
-
             appBarMenu.findItem(R.id.action_switch_view).
                     setIcon(ResourcesCompat.getDrawable(getResources(),
                             R.drawable.baseline_view_agenda_black_24, null));
+
+            boolean isOneSizeOn = SharedPrefHelper.loadBoolean(this,
+                    "isOneSizeOn", false);
 
             if (isOneSizeOn) {
                 recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -205,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
                     dbAdapter.open();
                     dbAdapter.deleteAll();
                     dbAdapter.close();
-                    initAdapter();
+                    //initAdapter();
                 } else {
                     Intent intent = MainHelper.newIntent(this, selNotesCategory);
                     startActivity(intent);
@@ -221,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         refreshLayout.setAnimateToRefreshDuration(0);
         // Метод для настройки парамтров отображения
         refreshLayout.setRefreshView((new RefreshView(this)),
-                (new RecyclerRefreshLayout.LayoutParams(200, 300)));
+                (new RecyclerRefreshLayout.LayoutParams(0, 0)));
         refreshLayout.setOnRefreshListener(() -> {
             refreshLayout.setRefreshing(false);
             bottomAppBar.performShow();
@@ -230,9 +236,9 @@ public class MainActivity extends AppCompatActivity implements Callback,
 
     private void notesCategory() {
         selNotesCategory = SharedPrefHelper.loadInt(this,"selNotesCategory", 0);
-        if (selNotesCategory == 0) whereClauseForMode = "del_items = 0";
-        else if (selNotesCategory == 1) whereClauseForMode = "favorites = 1";
-        else if (selNotesCategory == 2) whereClauseForMode = "del_items = 1";
+        if (selNotesCategory == 0) whereClauseForMode = "del_items = 0"; // Note
+        else if (selNotesCategory == 1) whereClauseForMode = "favorites = 1"; // Favorites
+        else if (selNotesCategory == 2) whereClauseForMode = "del_items = 1"; // Trash
         changeIconFab();
     }
 
@@ -244,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements Callback,
         }
     }
 
-
     private void customHandlers() {
         rvAdapter.registerAdapterDataObserver(new CustomRecyclerViewEmpty(textEmpty, // Проверка на пустой список
                 rvAdapter));
@@ -255,12 +260,12 @@ public class MainActivity extends AppCompatActivity implements Callback,
     public void onResume() {
         super.onResume();
 
-        //rvAdapter.notifyDataSetChanged();
+       // rvAdapter.notifyDataSetChanged();
         switchType();
         updateDateMethod();
         restoreRecyclerViewState();
 
-        // Сбрасывает сохрание позиции настроек
+        // Устанавливаем список настроек в начальную позицию
         SharedPrefHelper.saveInt(this, "index", 0);
         SharedPrefHelper.saveInt(this, "top", 0);
     }
@@ -282,10 +287,10 @@ public class MainActivity extends AppCompatActivity implements Callback,
         // Вызвает установку адаптера
         // (необходимо для появления новой заметки в списке)
         if (isUpdateDate) {
-            initAdapter ();
+            setupRecyclerView();
             intent.putExtra("updateDate", false);
             if (isListUp) {
-                recyclerView.getLayoutManager().scrollToPosition(0); // Возвращает списко вверх, если создана новая заметка
+                Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(0); // Возвращает списко вверх, если создана новая заметка
             }
         }
     }
@@ -294,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
         // Восстанавливаем состояние RecyclerView
         if (mBundleRecyclerViewState != null) {
             Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
-            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+            Objects.requireNonNull(recyclerView.getLayoutManager()).onRestoreInstanceState(listState);
         }
     }
 
@@ -311,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements Callback,
     private void saveRecyclerViewState() {
         // сохраняем состояние RecyclerView
         mBundleRecyclerViewState = new Bundle();
-        Parcelable listState = recyclerView.getLayoutManager().onSaveInstanceState();
+        Parcelable listState = Objects.requireNonNull(recyclerView.getLayoutManager()).onSaveInstanceState();
         mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
     }
 
@@ -354,7 +359,8 @@ public class MainActivity extends AppCompatActivity implements Callback,
     public void onItemClickBottomNavView(int selNotesCategory) {
         // Callback FROM BottomSheetDialog
         //this.selNotesCategory = selNotesCategory;
-        initAdapter();
+        //rvAdapter.notifyDataSetChanged();
+        setupRecyclerView();
     }
 
     @Override
@@ -371,4 +377,21 @@ public class MainActivity extends AppCompatActivity implements Callback,
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+            new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
+
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                    //Remove swiped item from list and notify the RecyclerView
+                    int position = viewHolder.getAbsoluteAdapterPosition();
+                    rvAdapter.deleteItem(position);
+                }
+            };
 }

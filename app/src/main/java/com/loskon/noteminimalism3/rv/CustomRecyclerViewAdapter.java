@@ -7,7 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
@@ -28,7 +28,8 @@ import java.util.Stack;
  *
  */
 
-public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> {
+public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
+      {
 
     private final DbAdapter dbAdapter;
 
@@ -49,6 +50,19 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
     private final int NUM_CACHED_VIEWS = 6;
 
     private Callback callbackListenerSwipeAdapter; // Поле слушателя для обратного вызова
+
+    private static CallbackColor3 callbackColor3;
+
+    public void registerCallBack3(CallbackColor3 callbackColor3){
+        this.callbackColor3 = callbackColor3;
+    }
+
+
+
+    public interface CallbackColor3{
+        void callingBackColor3(Note note, int position);
+    }
+
 
     // setting the listener
     public void setCallbackListenerSwipeAdapter(Callback callbackListenerSwipeAdapter)    {
@@ -78,7 +92,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
         AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(parent.getContext());
         for (int i = 0; i < NUM_CACHED_VIEWS; i++) {
             asyncLayoutInflater.inflate(R.layout.card_for_swipe_item_note6,
-                    parent, inflateListener);
+                     parent, inflateListener);
         }
 
         recyclerViewItem.setOnClickListener(v -> handleRecyclerItemClick( (RecyclerView) parent, v));
@@ -203,6 +217,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
             }
             methodItemSelection(note, position);
         }
+        Toast.makeText(context, "J: "+ getItemCount(), Toast.LENGTH_SHORT).show();
     }
 
     public void deleteSelectedItems(boolean isDelete) {
@@ -219,6 +234,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
                 }
             }
             notes.removeAll(toRemoveList);
+
         } else {
             // Отмена удаления
             for (Note note : toRemoveList) {
@@ -231,21 +247,38 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
         notifyDataSetChanged();
     }
 
-    public void swipeDeleteItem(int position) {
-
-        Note note = notes.get(position);
-        note.setSelectItemForDel(true);
+    public void resetItem (Note note, int position) {
 
         dbAdapter.open();
-        dbAdapter.updateSelectItemForDel(note,true, new Date());
+        dbAdapter.updateSelectItemForDel(note, false, note.getDate());
         dbAdapter.close();
 
-        notes.remove(position);
-        notifyItemRemoved(position);
+        notes.add(position, note);
+        notifyItemInserted(position);
+        //notifyDataSetChanged();
     }
 
-    public void addItem(Note note, int index) {
-        notes.add(note);
-        notifyItemInserted(index);
+    public void deleteItem(int position) {
+        if (notes.size() == 0) {
+            Toast.makeText(context, "0"+ getItemCount(), Toast.LENGTH_SHORT).show();
+        } else {
+
+            Note note = notes.get(position);
+
+            dbAdapter.open();
+            if (selNotesCategory == 2) {
+                dbAdapter.deleteNote(note.getId());
+            } else {
+                note.setSelectItemForDel(true);
+                dbAdapter.updateSelectItemForDel(note,true, new Date());
+                callbackColor3.callingBackColor3(note, position);
+            }
+            dbAdapter.close();
+
+            notes.remove(position);
+            notifyItemRemoved(position);
+
+
+        }
     }
 }

@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.loskon.noteminimalism3.activity.mainHelper.ColorHelper;
-import com.loskon.noteminimalism3.activity.mainHelper.MainHelper;
 import com.loskon.noteminimalism3.activity.noteHelper.NoteHelperTwo;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
@@ -28,6 +30,7 @@ public class NoteActivity extends AppCompatActivity {
     private EditText editTitleText;
     private MaterialButton favorite_button, delete_button, more_button;
     private FloatingActionButton fabNote;
+    private LinearLayout linearNote;
 
     private long noteId = 0;
     private int selNotesCategory;
@@ -47,17 +50,44 @@ public class NoteActivity extends AppCompatActivity {
         // Меняем цвет статус бара
         ColorHelper.setColorStatBarAndNavView(this);
 
-        initViewAndAdapter();
+        initialiseWidgets();
         toGetAndProcessingData();
-        favoriteStatusStar();
+        favoriteStatus();
+        handlerClickAtSpace();
     }
 
-    private void initViewAndAdapter() {
+    private void handlerClickAtSpace() {
+        // Устанавливем фокус на editText при нажатии в любом месте
+        linearNote.setOnClickListener(v -> {
+            if (selNotesCategory != 2) {
+                setFocusLayout(false);
+                // Ставим фокус на editText
+                editTitleText.requestFocus();
+                // Вызов клавиатуры
+                NoteHelperTwo.showSoftKeyboard(this, editTitleText);
+                // Ставим фокус в конце строки
+                editTitleText.setSelection(editTitleText.getText().toString().trim().length());
+            } else {
+                Snackbar.make(
+                        findViewById(R.id.cstLayoutNote),
+                        "Заметка находится в корзине",
+                        Snackbar.LENGTH_SHORT)
+                        .setAnchorView(fabNote)
+                        .setAction("Восстановить", view -> {
+                            restoreNote();
+                        })
+                        .show();
+            }
+        });
+    }
+
+    private void initialiseWidgets() {
         editTitleText = findViewById(R.id.title_text);
         favorite_button = findViewById(R.id.favorite_button);
         delete_button = findViewById(R.id.delete_button);
         more_button = findViewById(R.id.more_button);
         fabNote = findViewById(R.id.fabNote);
+        linearNote = findViewById(R.id.linearNote);
         dbAdapter = new DbAdapter(this);
     }
 
@@ -77,22 +107,37 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void existingNote() {
-        // Получение текста, значений избранного и удаленного
+        // Получение
         dbAdapter.open();
+
         note = dbAdapter.getNote(noteId);
+
         editTitleText.setText(note.getTitle());
         receivedDate = note.getDate();
         isFavItem = note.getFavoritesItem();
         isDeleteItem = note.getSelectItemForDel();
+
         dbAdapter.close();
 
-        // Специальная перерисовка для корзины
-        if (selNotesCategory == 2) redrawingForBasket();
+        if (selNotesCategory == 2) redrawingForTrash();
+
+        setFocusLayout(true); // Ставим фокус на linearLayout
+        editTitleText.clearFocus(); // Убираем фокус с editText
+        linearNote.requestFocus(); // Делаем запрос на фокусированное состояние linearLayout
     }
 
-    private void redrawingForBasket() {
+    private void setFocusLayout (boolean isFocusOn) {
+        linearNote.setFocusable(isFocusOn);
+        linearNote.setFocusableInTouchMode(isFocusOn);
+    }
+
+    private void redrawingForTrash() {
+        // Изменение вида заметки для мусорки
+        editTitleText.setEnabled(false); // Запрещаем что либо нажимать
+
         favorite_button.setVisibility(View.INVISIBLE);
         more_button.setVisibility(View.INVISIBLE);
+
         fabNote.setImageResource(R.drawable.baseline_restore_from_trash_black_24);
         delete_button.setIcon(ResourcesCompat.getDrawable(getResources(),
                 R.drawable.baseline_delete_forever_black_24, null));
@@ -106,7 +151,7 @@ public class NoteActivity extends AppCompatActivity {
         isListUp = true;
     }
 
-    private void favoriteStatusStar() {
+    private void favoriteStatus() {
         if (isFavItem) {
             favorite_button.setIcon(ResourcesCompat.getDrawable(getResources(),
                     R.drawable.baseline_star_black_24, null));
@@ -116,8 +161,13 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
-    public void addNoteClick(View view){
+    public void addNoteClick(View view) {
+            restoreNote();
+    }
+
+    private void restoreNote() {
         if (selNotesCategory == 2) {
+            // Восстановление заметки
             dbAdapter.open();
             dbAdapter.updateSelectItemForDel(note, false, note.getDate());
             dbAdapter.close();
@@ -131,23 +181,30 @@ public class NoteActivity extends AppCompatActivity {
             // Удаляет навсегда не сохраненную заметку, либо заметку из мусорки
             dbAdapter.deleteNote(noteId);
         } else {
+            // Отправляет заметку в корзину
             note.setSelectItemForDel(true);
             note.setFavoritesItem(false);
             dbAdapter.updateSelectItemForDel(note, true, nowDate);
             dbAdapter.updateFavorites(note,false);
         }
         dbAdapter.close();
+
         isListUp = false;
         isSaveNoteOn = false;
+
         goMainActivity();
     }
 
     public void favoritesNoteClick(View view) {
         isFavItem = !isFavItem;
-        favoriteStatusStar();
+        favoriteStatus();
     }
 
-    private void goMainActivity(){
+    public void otherClick(View view) {
+           Toast.makeText(this, "Клик", Toast.LENGTH_SHORT).show();
+    }
+
+    private void goMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("createOrDel", isListUp);
@@ -164,7 +221,7 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // Защита от случайного сохранения
+        // Защита от сохранения при удалении
         if (selNotesCategory !=2 && isSaveNoteOn) saveNote();
     }
 
@@ -172,7 +229,6 @@ public class NoteActivity extends AppCompatActivity {
         String title = editTitleText.getText().toString();
 
         dbAdapter.open();
-
         if (title.trim().length() == 0) {
             dbAdapter.deleteNote(noteId); // Удаление навсегда пустой заметки
         } else {
@@ -186,10 +242,12 @@ public class NoteActivity extends AppCompatActivity {
                 dbAdapter.updateNote(note);
             } else {
                 dbAdapter.addNewNote(note);
+                //callbackNote.callingBackNote(note);
             }
-        }
 
+        }
         dbAdapter.close();
+
         //if (!title.equals(note.getTitle()))
     }
 
@@ -204,6 +262,7 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
         goMainActivity();
     }
 

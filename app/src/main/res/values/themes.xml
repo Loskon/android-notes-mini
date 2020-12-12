@@ -55,17 +55,6 @@
         <item name="cornerSize">10%</item>
     </style>
 
-
-    <style name="MyRandomTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/red</item>
-        <item name="android:navigationBarColor">@color/red</item>
-        <item name="colorSecondary">@color/red</item>
-        <item name="colorSecondaryVariant">@color/red</item>
-        <item name="colorOnSecondary">@color/red</item>
-    </style>
-
     <!--Диалог с прозрачным фоном-->
     <style name="customDialog" parent="android:Theme.Dialog">
         <item name="android:windowTranslucentStatus">true</item>

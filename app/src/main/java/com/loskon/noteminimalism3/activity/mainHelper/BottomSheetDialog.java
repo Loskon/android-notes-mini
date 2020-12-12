@@ -69,7 +69,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         navigationView.getMenu().getItem(selNotesCategory).setChecked(true);
 
         //setNavMenuItemThemeColors(Color.RED);
-        ColorHelper.setNavMenuItemThemeColors(navigationView,Color.RED);
+        ColorHelper.setNavMenuItemThemeColors(navigationView, Color.RED);
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int menuId = menuItem.getItemId();

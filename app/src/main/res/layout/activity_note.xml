@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:backgroundTint="@android:color/transparent"
-    tools:context=".activity.NoteActivity">
+    tools:context=".ui.activity.NoteActivity">
 
     <ScrollView
         android:id="@+id/scroll"

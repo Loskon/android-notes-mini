@@ -19,4 +19,6 @@
     <dimen name="height_refresh_layout">30dp</dimen>
 
     <dimen name="my_corner_radius">30dp</dimen>
+
+    <dimen name="box_size">180dp</dimen>
 </resources>

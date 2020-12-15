@@ -15,6 +15,20 @@
 
     <!-- activity_note -->
     <string name="text_for_edit_text">Text</string>
+    <string name="insert_current_date">Insert the current date</string>
+    <string name="enter_name">Enter a name</string>
+
+    <!-- activity_backup -->
+    <string name="action_backup">Backup</string>
+    <string name="action_backup_drive">Backup to Drive</string>
+    <string name="action_import">Import</string>
+    <string name="action_import_drive">Import from Drive</string>
+
+    <!-- dialog_backup -->
+    <string name="backup_name">Backup name</string>
+
+    <!-- dialog_import -->
+    <string name="select_file">Select file:</string>
 
     <!-- dialog_font_size -->
     <string name="font_size_title">Font size</string>
@@ -39,7 +53,6 @@
     <string name="date_font_size">Font size of the date text</string>
     <string name="main_font_size">Font size of the main text</string>
 
-
     <!-- preference -->
     <!-- Preference Titles -->
     <string name="appearance_settings_header">Appearance settings</string>
@@ -48,6 +61,8 @@
     <!-- Appearance Preferences -->
     <string name="customize_appearance">Customize appearance</string>
     <string name="dark_mode_title">Dark mode</string>
+    <string name="backup_and_restore">Backup and Restore</string>
+    <string name="folder_for_backup">Folder for backup</string>
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
 

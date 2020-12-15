@@ -23,7 +23,7 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 
-import static com.loskon.noteminimalism3.activity.MainActivity.REQUEST_CODE_PERMISSIONS;
+import static com.loskon.noteminimalism3.ui.activity.MainActivity.REQUEST_CODE_PERMISSIONS;
 
 public class Permissions {
 

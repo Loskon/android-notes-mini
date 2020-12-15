@@ -4,13 +4,13 @@
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/note_appearance">
-        <com.loskon.noteminimalism3.preference.item.PrefItemCard app:key="1" />
+        <com.loskon.noteminimalism3.ui.preference.item.PrefItemCard app:key="1" />
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/select_color">
-        <com.loskon.noteminimalism3.preference.item.PrefItemSelectColor
+        <com.loskon.noteminimalism3.ui.preference.item.PrefItemSelectColor
             android:title="@string/select_color"
             app:key="3" />
     </PreferenceCategory>
@@ -18,7 +18,7 @@
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/number_of_lines">
-        <com.loskon.noteminimalism3.preference.item.PrefItemNumberOfLines app:key="5" />
+        <com.loskon.noteminimalism3.ui.preference.item.PrefItemNumberOfLines app:key="5" />
     </PreferenceCategory>
 
     <PreferenceCategory

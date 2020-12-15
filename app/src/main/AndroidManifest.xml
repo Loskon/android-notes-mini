@@ -12,15 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity android:name=".activity.SettingsAppearanceActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SettingsActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.BackupActivity"></activity>
         <activity
-            android:name=".activity.NoteActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".ui.activity.SettingsAppearanceActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.NoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

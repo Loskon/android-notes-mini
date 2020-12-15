@@ -14,7 +14,7 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.activity.NoteActivity;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
 

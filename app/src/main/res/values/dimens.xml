@@ -8,7 +8,7 @@
     <dimen name="height_for_bottom_app_bar">48dp</dimen>
 
     <!-- height_item_preference -->
-    <dimen name="height_item">56dp</dimen>
+    <dimen name="height_item">52dp</dimen>
 
     <!-- thumb slider in pref_item_card -->
     <dimen name="thumb_radius">6dp</dimen>

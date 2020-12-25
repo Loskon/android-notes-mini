@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.mainHelper;
+package com.loskon.noteminimalism3.ui.Helper;
 
 import android.view.View;
 import android.widget.TextView;

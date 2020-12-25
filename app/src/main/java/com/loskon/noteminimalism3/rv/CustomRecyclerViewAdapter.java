@@ -1,7 +1,8 @@
-package com.loskon.noteminimalism3.rv;
+ package com.loskon.noteminimalism3.rv;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -14,11 +15,15 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.Helper.ColorHelper;
+import com.loskon.noteminimalism3.ui.Helper.DateHelper;
+import com.loskon.noteminimalism3.ui.Helper.MainHelper;
+import com.loskon.noteminimalism3.ui.Helper.SharedPrefHelper;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
+import com.loskon.noteminimalism3.ui.activity.SettingsAppearanceActivity;
+import com.loskon.noteminimalism3.ui.preference.item.PrefItemNumOfLines;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,56 +34,61 @@ import java.util.Stack;
  */
 
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
-      {
+        implements PrefItemNumOfLines.callbackNumOfLines, SettingsAppearanceActivity.CallbackColor34 {
 
     private final DbAdapter dbAdapter;
 
     private final List<Note> notes;
-    private final ArrayList <Note> toRemoveList = new ArrayList<>();
+    private final ArrayList <Note> toRemoveNotesList = new ArrayList<>();
     protected Stack<View> cachedViews = new Stack<>();
     private final Context context;
 
-    private boolean isSelectionModeOn;
-    private int color, border, radius;
+    private boolean isSelectionModeOn, isOneSizeOn, isTypeNotesSingleOn;
 
-    private final int radius_dp;
-    private final int stoke_dp;
+    private int color, border, radius;
+    private int radius_dp;
+    private int stoke_dp;
     private final int selNotesCategory; // Выбранный режим заметок
-    private final Date date = new Date(); // Устанавливаем дату
+    private int numberOfLines;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int NUM_CACHED_VIEWS = 6;
 
-    private Callback callbackListenerSwipeAdapter; // Поле слушателя для обратного вызова
-
-    private static CallbackColor3 callbackColor3;
-
-    public void registerCallBack3(CallbackColor3 callbackColor3){
-        this.callbackColor3 = callbackColor3;
-    }
-
-
-
-    public interface CallbackColor3{
-        void callingBackColor3(Note note, int position);
-    }
-
+    private Callback callbackDelMode; // Поле слушателя для обратного вызова
 
     // setting the listener
-    public void setCallbackListenerSwipeAdapter(Callback callbackListenerSwipeAdapter)    {
-        this.callbackListenerSwipeAdapter = callbackListenerSwipeAdapter;
+    public void setCallbackDelMode(Callback callbackDelMode)    {
+        this.callbackDelMode = callbackDelMode;
     }
 
-    public CustomRecyclerViewAdapter(Context context, List<Note> notes,
-                                     int selNotesCategory, boolean isSelectionModeOn) {
+    public CustomRecyclerViewAdapter(Context context, List<Note> notes, DbAdapter dbAdapter,
+                                     int selNotesCategory, boolean isSelectionModeOn,
+                                     boolean isTypeNotesSingleOn) {
         this.context = context;
         this.notes = notes;
+        this.dbAdapter = dbAdapter;
         this.selNotesCategory = selNotesCategory;
         this.isSelectionModeOn = isSelectionModeOn;
+        this.isTypeNotesSingleOn = isTypeNotesSingleOn;
 
-        dbAdapter = new DbAdapter(this.context);
+        initSettings();
+    }
+
+    private void initSettings() {
         radius_dp = (int) this.context.getResources().getDimension(R.dimen.corner_radius);
         stoke_dp = (int) this.context.getResources().getDimension(R.dimen.border_stroke);
+
+        (new PrefItemNumOfLines(context)).registerCallbackNumOfLines(this);
+        numberOfLines = SharedPrefHelper.loadInt(context,
+                SharedPrefHelper.KEY_NUM_OF_LINES, 3);
+
+        (new SettingsAppearanceActivity()).registerCallBack34(this);
+        isOneSizeOn = SharedPrefHelper.loadBoolean(context,
+                SharedPrefHelper.KEY_ONE_SIZE, false);
+    }
+
+    public void setTypeOfNotes(boolean isTypeNotesSingleOn) {
+        this.isTypeNotesSingleOn = isTypeNotesSingleOn;
     }
 
     @NonNull
@@ -114,41 +124,54 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
     private final AsyncLayoutInflater.OnInflateFinishedListener inflateListener =
             (view, resId, parent) -> cachedViews.push(view);
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
 
         final Note note = notes.get(position);
         GradientDrawable gradientDrawable = new GradientDrawable();
 
-        //try () catch ()
+        if (note != null) {
 
-        holder.title.setText(note.getTitle());
-        holder.date.setText(DateFormat.getDateTimeInstance(
-                DateFormat.SHORT, DateFormat.SHORT).format(note.getDate()));
+            holder.title.setText(note.getTitle().trim());
+            holder.date.setText(DateHelper.getNowDate(note.getDate()));
 
-        if (note.getFavoritesItem() && selNotesCategory != 2) {
-           holder.view.setVisibility(View.VISIBLE);
+            holder.title.setMaxLines(numberOfLines);
+
+            if (!isTypeNotesSingleOn || !isOneSizeOn) {
+                if (isOneSizeOn) {
+                    holder.title.setMinLines(numberOfLines);
+                }
+            } else {
+                holder.title.setMinLines(1);
+            }
+
+            holder.view.setBackgroundTintList(ColorStateList
+                    .valueOf(ColorHelper.getColorCustom(context)));
+
+
+            if (note.getFavoritesItem() && selNotesCategory != 2) {
+                holder.view.setVisibility(View.VISIBLE);
+            } else {
+                holder.view.setVisibility(View.INVISIBLE);
+            }
+
+            if (note.getSelectItemForDel()) {
+                varForGradientDrawable(radius_dp, stoke_dp, Color.GRAY);
+            } else {
+                varForGradientDrawable(0, 0, Color.TRANSPARENT);
+            }
+
+            // Сброс всех выделенных переменных
+            if (!isSelectionModeOn) {
+                note.isSelectItemForDel(false);
+                varForGradientDrawable(0, 0, Color.TRANSPARENT);
+            }
+
+            gradientDrawable.setCornerRadius(radius);
+            gradientDrawable.setStroke(border, color);
+            holder.constraint.setBackground(gradientDrawable);
         }
-        else {
-           holder.view.setVisibility(View.INVISIBLE);
-        }
-        //holder.imgStarFavorites.setVisibility(starVisible);
-
-        if (note.getSelectItemForDel()) {
-            varForGradientDrawable(radius_dp, stoke_dp,Color.GRAY);
-        } else {
-            varForGradientDrawable(0, 0,Color.TRANSPARENT);
-        }
-
-        // Сброс всех выделенных переменных
-        if (!isSelectionModeOn) {
-            note.setSelectItemForDel(false);
-            varForGradientDrawable(0, 0, Color.TRANSPARENT);
-        }
-
-        gradientDrawable.setCornerRadius(radius);
-        gradientDrawable.setStroke(border, color);
-        holder.constraint.setBackground(gradientDrawable);
     }
 
     @Override
@@ -161,25 +184,31 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
         dbAdapter.open();
         if (note.getSelectItemForDel()) {
 
+            numberItem--;
+
             // Очистка заметки от удаления
             if (selNotesCategory != 2) {
-                dbAdapter.updateSelectItemForDel(note, false, date);
+                dbAdapter.updateSelectItemForDel(note, false, new Date());
             }
 
-            toRemoveList.remove(note);
-            note.setSelectItemForDel(false);
+            toRemoveNotesList.remove(note);
+            note.isSelectItemForDel(false);
         } else {
+
+            numberItem++;
 
             // Добавление заметки для удаления
             if (selNotesCategory != 2) {
-                dbAdapter.updateSelectItemForDel(note, true, date);
+                dbAdapter.updateSelectItemForDel(note, true, new Date());
             }
 
-            toRemoveList.add(note);
-            note.setSelectItemForDel(true);
+            toRemoveNotesList.add(note);
+            note.isSelectItemForDel(true);
 
         }
         dbAdapter.close();
+
+        selectAll2();
         notifyItemChanged(position);
     }
 
@@ -189,18 +218,25 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
         this.color = color;
     }
 
+    @Override
+    public void callingBackNumOfLines(int numOfLines) {
+        this.numberOfLines = numOfLines;
+    }
+
+    @Override
+    public void callingBackColor34(boolean isOneSizeOn) {
+        this.isOneSizeOn = isOneSizeOn;
+    }
+
     private void handleRecyclerItemClick(RecyclerView recyclerView, View itemView) {
         int position = recyclerView.getChildLayoutPosition(itemView);
         Note note  = notes.get(position);
 
         if (note != null) {
-            if (!isSelectionModeOn) {
-                Intent intent = new Intent(context, NoteActivity.class);
-                intent.putExtra("selectedNoteMode", selNotesCategory);
-                intent.putExtra("id", note.getId());
-                context.startActivity(intent);
-            } else {
+            if (isSelectionModeOn) {
                 methodItemSelection(note, position);
+            } else {
+                MainHelper.intentOpenNote(context, selNotesCategory, note.getId());
             }
         }
     }
@@ -208,77 +244,119 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHold
     private void handleRecyclerItemLongClick(RecyclerView recyclerView, View itemView) {
         int position = recyclerView.getChildLayoutPosition(itemView);
         Note note = notes.get(position);
+
         if (note != null) {
             if (!isSelectionModeOn) {
                 isSelectionModeOn = true;
-                notifyDataSetChanged();
-                if (callbackListenerSwipeAdapter != null)
-                    callbackListenerSwipeAdapter.onCallbackClick(true);
+                numberItem = 0;
+                //notifyDataSetChanged();
+                if (callbackDelMode != null) {
+                    callbackDelMode.onCallbackClick(true);
+                }
             }
             methodItemSelection(note, position);
         }
-        Toast.makeText(context, "J: "+ getItemCount(), Toast.LENGTH_SHORT).show();
     }
 
     public void deleteSelectedItems(boolean isDelete) {
         isSelectionModeOn = false;
 
+        try {
+
         dbAdapter.open();
         if (isDelete) {
             // Удаление
-            for (Note note : toRemoveList) {
+            for (Note note : toRemoveNotesList) {
                 if (selNotesCategory == 2) {
                     dbAdapter.deleteNote(note.getId());
                 } else {
                     dbAdapter.updateFavorites(note, false);
                 }
             }
-            notes.removeAll(toRemoveList);
+            notes.removeAll(toRemoveNotesList);
 
         } else {
             // Отмена удаления
-            for (Note note : toRemoveList) {
+            for (Note note : toRemoveNotesList) {
                 if (selNotesCategory != 2)
                     dbAdapter.updateSelectItemForDel(note, false, note.getDate());
             }
         }
         dbAdapter.close();
-        toRemoveList.clear();
+
+        toRemoveNotesList.clear();
         notifyDataSetChanged();
+
+        } catch (Exception e) {
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     public void resetItem (Note note, int position) {
+        try {
+            dbAdapter.open();
+            dbAdapter.updateSelectItemForDel(note, false, note.getDate());
+            dbAdapter.close();
 
-        dbAdapter.open();
-        dbAdapter.updateSelectItemForDel(note, false, note.getDate());
-        dbAdapter.close();
+            notes.add(position, note);
+            notifyItemInserted(position);
+            //notifyDataSetChanged();
 
-        notes.add(position, note);
-        notifyItemInserted(position);
-        //notifyDataSetChanged();
+        } catch (Exception e) {
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
-    public void deleteItem(int position) {
-        if (notes.size() == 0) {
-            Toast.makeText(context, "0"+ getItemCount(), Toast.LENGTH_SHORT).show();
-        } else {
-
-            Note note = notes.get(position);
-
+    public void deleteItem(Note note, int position) {
+        try {
             dbAdapter.open();
             if (selNotesCategory == 2) {
                 dbAdapter.deleteNote(note.getId());
             } else {
-                note.setSelectItemForDel(true);
-                dbAdapter.updateSelectItemForDel(note,true, new Date());
-                callbackColor3.callingBackColor3(note, position);
+                note.isSelectItemForDel(true);
+                dbAdapter.updateSelectItemForDel(note, true, new Date());
+                dbAdapter.updateFavorites(note, false);
             }
             dbAdapter.close();
 
             notes.remove(position);
             notifyItemRemoved(position);
 
-
+        } catch (Exception e) {
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
+    }
+
+    public ArrayList <Note> getNotes() {
+        return (ArrayList<Note>) notes;
+    }
+
+    private int numberItem;
+
+    public void selectAll() {
+
+        if (numberItem == notes.size()) {
+            for (Note note : notes) {
+                numberItem = 0;
+                note.isSelectItemForDel(false);
+                toRemoveNotesList.remove(note);
+            }
+        } else {
+            for (Note note : notes) {
+                numberItem = notes.size();
+                note.isSelectItemForDel(true);
+                toRemoveNotesList.add(note);
+            }
+        }
+
+        selectAll2();
+        notifyDataSetChanged();
+    }
+
+    private void selectAll2() {
+        callbackDelMode.onCallbackClick2(numberItem == notes.size());
     }
 }

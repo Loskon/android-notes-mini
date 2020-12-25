@@ -12,4 +12,10 @@
     <color name="light_gray">#40000000</color>
     <color name="dark_light">#121212</color>
     <color name="light">#40000000</color>
+
+    <color name="snackbar">#FF333333</color>
+
+    <color name="color_default_light_blue">#0091ea</color>
+    <color name="color_highlight">#a9a9a9 </color>
+    <color name="color_divider">#33A9A9A9</color>
 </resources>

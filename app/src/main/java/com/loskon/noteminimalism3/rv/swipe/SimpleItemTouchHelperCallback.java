@@ -4,15 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.rv.CustomRecyclerViewAdapter;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
-    private final CustomRecyclerViewAdapter mAdapter;
+    private final CustomRecyclerViewAdapter rvAdapter;
 
     public SimpleItemTouchHelperCallback(CustomRecyclerViewAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        mAdapter = adapter;
+        rvAdapter = adapter;
     }
 
     @Override
@@ -23,6 +22,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAbsoluteAdapterPosition();
-        mAdapter.deleteItem(position);
+        //rvAdapter.deleteItem(position);
     }
 }

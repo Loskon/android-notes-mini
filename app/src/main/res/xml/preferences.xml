@@ -11,9 +11,10 @@
             app:iconSpaceReserved="false">
         </Preference>
 
-        <SwitchPreferenceCompat
+        <com.loskon.noteminimalism3.ui.preference.Switch
+            app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
-            app:key="dark_theme"
+            app:key="@string/dark_mode_title"
             app:title="@string/dark_mode_title" />
 
     </PreferenceCategory>
@@ -31,6 +32,7 @@
             app:key="@string/folder_for_backup" />
 
     </PreferenceCategory>
+
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/sync_header">

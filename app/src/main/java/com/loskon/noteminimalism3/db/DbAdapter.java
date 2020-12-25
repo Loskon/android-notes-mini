@@ -95,10 +95,10 @@ public class DbAdapter {
                 new String[]{String.valueOf(note.getId())});
     }
 
-    public void updateSelectItemForDel(Note note, boolean isDeleteItem, Date dateDelete) {
+    public void updateSelectItemForDel(Note note, boolean isDelItem, Date dateDelete) {
         // Добавить/удалить корзина
         ContentValues values = getContentValues(note);
-        values.put(NoteTable.Columns.COLUMN_DEL_ITEMS, isDeleteItem);
+        values.put(NoteTable.Columns.COLUMN_DEL_ITEMS, isDelItem);
         values.put(NoteTable.Columns.COLUMN_DATE_DEL, dateDelete.getTime());
         mDatabase.update(NoteTable.NAME_TABLE, values,
                 NoteTable.Columns.ID + "=?",
@@ -106,9 +106,11 @@ public class DbAdapter {
     }
 
     public void deleteByTime(int rangeInDays) {
-        // Удаление заметку с помощью сравнения сегодняшней даты
+        // Удаление заметки с помощью сравнения сегодняшней даты
         // и даты добавления заметки в корзину
-        long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS); // Перевод дня в Unix-time для корректного сложения и сравнения
+
+        // Перевод дня в Unix-time для корректного сложения и сравнения
+        long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS);
         mDatabase.delete(NoteTable.NAME_TABLE,
                 NoteTable.Columns.COLUMN_DEL_ITEMS + " = " + 1
                  + " and " + (new Date()).getTime() + " > (" +

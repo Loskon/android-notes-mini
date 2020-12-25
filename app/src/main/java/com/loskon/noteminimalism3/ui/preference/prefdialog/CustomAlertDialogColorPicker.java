@@ -11,7 +11,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.mainHelper.SharedPrefHelper;
+import com.loskon.noteminimalism3.ui.Helper.ColorHelper;
+import com.loskon.noteminimalism3.ui.Helper.SharedPrefHelper;
 
 import static com.loskon.noteminimalism3.R.style.MaterialAlertDialog_Rounded;
 
@@ -47,8 +48,7 @@ public class CustomAlertDialogColorPicker {
         Button btnCancel = alertDialog.findViewById(R.id.btn_holo_cancel);
         MaterialButton matBtnResetColor = alertDialog.findViewById(R.id.btn_reset_color_picker);
 
-        color = SharedPrefHelper.loadInt(context,
-                "color",-16739862);
+        color = ColorHelper.getColorCustom(context);
 
         assert colorPickerView != null;
         colorPickerView.setShowOldCenterColor(false); // выключить показ старого цвета

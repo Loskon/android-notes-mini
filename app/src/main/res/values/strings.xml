@@ -3,6 +3,7 @@
 
     <!-- menu for bottom app bar -->
     <string name="switch_view">Switch view</string>
+    <string name="select_item">Select item</string>
 
     <!-- menu for nav drawer view -->
     <string name="nav_item1">Note</string>
@@ -12,6 +13,8 @@
 
     <!-- activity_main -->
     <string name="empty_list">Empty</string>
+    <string name="add_trash">Note added to trash</string>
+
 
     <!-- activity_note -->
     <string name="text_for_edit_text">Text</string>
@@ -23,9 +26,12 @@
     <string name="action_backup_drive">Backup to Drive</string>
     <string name="action_import">Import</string>
     <string name="action_import_drive">Import from Drive</string>
+    <string name="no_permissions">No permissions</string>
 
     <!-- dialog_backup -->
-    <string name="backup_name">Backup name</string>
+    <string name="backup_name">Backup name in english</string>
+    <string name="forbidden_text">ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        abcdefghijklmnopqrstuvwxyz0123456789()#№/_:.- </string>
 
     <!-- dialog_import -->
     <string name="select_file">Select file:</string>

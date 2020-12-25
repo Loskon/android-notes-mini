@@ -16,7 +16,7 @@ import androidx.preference.PreferenceViewHolder;
 
 import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.mainHelper.SharedPrefHelper;
+import com.loskon.noteminimalism3.ui.Helper.ColorHelper;
 import com.loskon.noteminimalism3.ui.preference.prefdialog.CustomAlertDialogColorPicker;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -81,8 +81,7 @@ public class PrefItemCard extends Preference {
         srDateFontSize.setValue(dateFontSize);
         txtDateFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, dateFontSize);
 
-        color = SharedPrefHelper.loadInt(getContext(),
-                "color",-16739862);
+        color = ColorHelper.getColorCustom(getContext());
 
         view.setBackgroundTintList(ColorStateList.valueOf(color));
 

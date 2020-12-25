@@ -10,7 +10,6 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.daimajia.swipe.SwipeLayout;
 import com.loskon.noteminimalism3.R;
 
 /**
@@ -23,11 +22,8 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     CardView cardView;
     TextView title;
     TextView date;
-    //ImageView imgStarFavorites;
     View view;
 
-    // Мы также создали конструктор, который принимает на вход View-компонент строкИ
-    // и ищет все дочерние компоненты
     public NoteViewHolder(@NonNull View itemView) {
         super(itemView);
 
@@ -37,7 +33,5 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         constraint = itemView.findViewById(R.id.linInCard);
         cardView = itemView.findViewById(R.id.card_view);
         view = itemView.findViewById(R.id.view);
-        //imgStarFavorites =  itemView.findViewById(R.id.img__note_star_favorites);
     }
-
 }

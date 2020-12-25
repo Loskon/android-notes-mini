@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.noteHelper;
+package com.loskon.noteminimalism3.ui.Helper;
 
 import android.app.Activity;
 import android.content.Context;

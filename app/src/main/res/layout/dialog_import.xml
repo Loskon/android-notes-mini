@@ -14,7 +14,7 @@
         android:text="@string/select_file"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/img_btn_clear_list"
+        app:layout_constraintEnd_toStartOf="@+id/img_btn_remove_all"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txt_title_restore"
+        android:id="@+id/txt_empty_restore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/empty_list"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
     <ImageButton
-        android:id="@+id/img_btn_clear_list"
+        android:id="@+id/img_btn_remove_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

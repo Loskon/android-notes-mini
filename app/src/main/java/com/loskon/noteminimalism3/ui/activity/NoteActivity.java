@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -14,8 +15,9 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.loskon.noteminimalism3.ui.mainHelper.ColorHelper;
-import com.loskon.noteminimalism3.ui.noteHelper.NoteHelperTwo;
+import com.loskon.noteminimalism3.ui.Helper.ColorHelper;
+import com.loskon.noteminimalism3.ui.Helper.EditTextTint;
+import com.loskon.noteminimalism3.ui.Helper.NoteHelperTwo;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.DbAdapter;
@@ -48,7 +50,7 @@ public class NoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note);
 
         // Меняем цвет статус бара
-        ColorHelper.setColorStatBarAndNavView(this);
+        ColorHelper.setColorStatBarAndTaskDesc(this);
 
         initialiseWidgets();
         toGetAndProcessingData();
@@ -89,6 +91,12 @@ public class NoteActivity extends AppCompatActivity {
         fabNote = findViewById(R.id.fabNote);
         linearNote = findViewById(R.id.linearNote);
         dbAdapter = new DbAdapter(this);
+
+        ColorHelper.setColorFab(this, fabNote);
+        ColorHelper.setColorMaterialBtn(this, favorite_button);
+        ColorHelper.setColorMaterialBtn(this, delete_button);
+        ColorHelper.setColorMaterialBtn(this, more_button);
+        //EditTextTint.setCursorDrawableColor(editTitleText, Color.RED);
     }
 
     private void toGetAndProcessingData () {
@@ -182,7 +190,7 @@ public class NoteActivity extends AppCompatActivity {
             dbAdapter.deleteNote(noteId);
         } else {
             // Отправляет заметку в корзину
-            note.setSelectItemForDel(true);
+            note.isSelectItemForDel(true);
             note.setFavoritesItem(false);
             dbAdapter.updateSelectItemForDel(note, true, nowDate);
             dbAdapter.updateFavorites(note,false);
@@ -215,8 +223,6 @@ public class NoteActivity extends AppCompatActivity {
         }, 50);
 
     }
-
-
 
     @Override
     protected void onPause() {

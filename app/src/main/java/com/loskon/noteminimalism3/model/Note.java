@@ -44,7 +44,7 @@ public class Note {
     public boolean getSelectItemForDel() {
         return selectItemForDel;
     }
-    public void setSelectItemForDel(boolean selectItemForDel) {
+    public void isSelectItemForDel(boolean selectItemForDel) {
         this.selectItemForDel = selectItemForDel;
     }
 }

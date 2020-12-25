@@ -1,34 +1,34 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
+    <com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/note_appearance">
         <com.loskon.noteminimalism3.ui.preference.item.PrefItemCard app:key="1" />
-    </PreferenceCategory>
+    </com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory>
 
-    <PreferenceCategory
+    <com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/select_color">
         <com.loskon.noteminimalism3.ui.preference.item.PrefItemSelectColor
             android:title="@string/select_color"
             app:key="3" />
-    </PreferenceCategory>
+    </com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory>
 
-    <PreferenceCategory
+    <com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/number_of_lines">
-        <com.loskon.noteminimalism3.ui.preference.item.PrefItemNumberOfLines app:key="5" />
-    </PreferenceCategory>
+        <com.loskon.noteminimalism3.ui.preference.item.PrefItemNumOfLines app:key="5" />
+    </com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory>
 
-    <PreferenceCategory
+    <com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory
         android:title="Preference category"
         app:iconSpaceReserved="false">
-        <SwitchPreference
+        <com.loskon.noteminimalism3.ui.preference.Switch
             android:defaultValue="false"
-            android:key="6"
+            android:key="@string/one_size_cards"
             android:title="@string/one_size_cards"
             app:iconSpaceReserved="false" />
-    </PreferenceCategory>
+    </com.loskon.noteminimalism3.ui.preference.MyPreferenceCategory>
 
 </PreferenceScreen>

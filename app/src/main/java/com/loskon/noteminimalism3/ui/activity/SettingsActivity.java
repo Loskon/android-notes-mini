@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.mainHelper.ColorHelper;
+import com.loskon.noteminimalism3.ui.Helper.ColorHelper;
 import com.loskon.noteminimalism3.ui.preference.CustomPreferencesFragment;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Меняем цвет статус бара
-        ColorHelper.setColorStatBarAndNavView(this);
+        ColorHelper.setColorStatBarAndTaskDesc(this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -28,9 +28,11 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.fragment_settings, new CustomPreferencesFragment())
                     .commit();
         }
+
         btmAppBarSettings = findViewById(R.id.btmAppBarSettings);
         btmAppBarSettings.setNavigationOnClickListener(v -> goMainActivity());
 
+        ColorHelper.setNavigationIconColor(this, btmAppBarSettings);
     }
 
     private void goMainActivity() {

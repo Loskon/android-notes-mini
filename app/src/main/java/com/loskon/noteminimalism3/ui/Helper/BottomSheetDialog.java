@@ -1,8 +1,7 @@
-package com.loskon.noteminimalism3.ui.mainHelper;
+package com.loskon.noteminimalism3.ui.Helper;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +31,6 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         return new BottomSheetDialog();
     }
 
-
-
     @Override
     public int getTheme() {
         return R.style.BottomSheetDialogTheme;
@@ -54,14 +51,12 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         selNotesCategory = SharedPrefHelper.loadInt(requireContext(),
-                "selNotesCategory", 0);
+                SharedPrefHelper.KEY_SEL_CATEGORY, 0);
 
         navigationView.getMenu().getItem(selNotesCategory).setChecked(true);
 
-        //setNavMenuItemThemeColors(Color.RED);
-        ColorHelper.setNavMenuItemThemeColors(navigationView, Color.RED);
+        ColorHelper.setNavMenuItemThemeColors(navigationView, ColorHelper.getColorCustom(getContext()));
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int menuId = menuItem.getItemId();
@@ -76,11 +71,12 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                 selNotesCategory = 2;
             }
             else if (menuId == R.id.nav4) {
-                Intent intent=new Intent(requireContext(),SettingsActivity.class);
+                Intent intent=new Intent(requireContext(), SettingsActivity.class);
                 requireContext().startActivity(intent);
             }
 
-            SharedPrefHelper.saveInt(requireContext(),"selNotesCategory", selNotesCategory);
+            SharedPrefHelper.saveInt(requireContext(),
+                    SharedPrefHelper.KEY_SEL_CATEGORY, selNotesCategory);
 
             if (menuId != R.id.nav4) itemClickListener.onItemClickBottomNavView(selNotesCategory);
 

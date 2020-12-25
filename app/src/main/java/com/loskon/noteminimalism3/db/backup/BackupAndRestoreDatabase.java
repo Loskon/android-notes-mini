@@ -19,8 +19,7 @@ public class BackupAndRestoreDatabase {
         final String inFileName = context.getDatabasePath(DATABASE_NAME).toString();
 
         try {
-
-            // создать каталог для резервного копирования
+            // создать файл
             File dbFile = new File(inFileName);
             FileInputStream fis = new FileInputStream(dbFile);
 

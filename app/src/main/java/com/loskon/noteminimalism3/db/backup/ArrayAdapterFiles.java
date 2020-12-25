@@ -12,24 +12,32 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.ui.Helper.SharedPrefHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class CustomArrayAdapter extends BaseAdapter {
+/**
+ *
+ */
+
+public class ArrayAdapterFiles extends BaseAdapter {
 
     private final Context context;
     private final ArrayList<String> listFiles;
+    private final File folder;
 
     private static CallbackArrAdapterEmpty cbArrAdapterEmptyListener;
 
     public void regArrAdapterEmpty(CallbackArrAdapterEmpty cbArrAdapterEmptyListener){
-        CustomArrayAdapter.cbArrAdapterEmptyListener = cbArrAdapterEmptyListener;
+        ArrayAdapterFiles.cbArrAdapterEmptyListener = cbArrAdapterEmptyListener;
     }
 
-    public CustomArrayAdapter(Context context, ArrayList<String> listFiles) {
+    public ArrayAdapterFiles(Context context, ArrayList<String> listFiles, File folder) {
         this.context = context;
         this.listFiles = listFiles;
+        this.folder = folder;
     }
 
     @Override
@@ -62,10 +70,8 @@ public class CustomArrayAdapter extends BaseAdapter {
         TextView txtTitleFiles = view.findViewById(R.id.txt_title_files);
         ImageButton deleteFile = view.findViewById(R.id.img_btn_delete_file);
 
-        txtTitleFiles.setText(listFiles.get(position).replace(".db", ""));
-
-        File folder = new File(Environment.getExternalStorageDirectory() +
-                File.separator + context.getResources().getString(R.string.app_name));
+        txtTitleFiles.setText(listFiles
+                .get(position).replace(".db", ""));
 
         if (folder.exists()) {
 
@@ -73,7 +79,8 @@ public class CustomArrayAdapter extends BaseAdapter {
 
             deleteFile.setOnClickListener(v -> {
                 // Delete file
-                SQLiteDatabase.deleteDatabase(new File(files[position].getPath()));
+                SQLiteDatabase.deleteDatabase(new File(Objects
+                        .requireNonNull(files)[position].getPath()));
                 listFiles.remove(position);
                 notifyDataSetChanged();
 
@@ -86,6 +93,17 @@ public class CustomArrayAdapter extends BaseAdapter {
 
     public void deleteAll(File[] files) {
         // Delete all SQLite file
+
+        //        File dir = new File(path +
+        //                File.separator + context.getResources().getString(R.string.app_name));
+        //        if (dir.isDirectory())
+        //        {
+        //            String[] children = dir.list();
+        //            for (String child : children) {
+        //                new File(dir, child).deleteOnExit();
+        //            }
+        //        }
+
         for (int i = 0; i < listFiles.size(); i++) {
             SQLiteDatabase.deleteDatabase(new File(files[i].getPath()));
         }

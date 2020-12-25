@@ -27,6 +27,10 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="android:colorBackground">@color/white</item>
 
+        <!-- set cursor color -->
+        <item name="colorControlActivated">@android:color/darker_gray</item>
+        <!-- set highlight color -->
+        <item name="android:textColorHighlight">#80A9A9A9</item>
     </style>
 
     <style name="ShapeAppearance.YourApp.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
@@ -77,6 +81,13 @@
     <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@android:color/darker_gray</item>
+        <item name="colorControlHighlight">@android:color/darker_gray</item>
+        <item name="colorOnSurface">@android:color/darker_gray</item>
     </style>
 
 </resources>

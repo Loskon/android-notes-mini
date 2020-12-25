@@ -1,11 +1,22 @@
-package com.loskon.noteminimalism3.ui.mainHelper;
+package com.loskon.noteminimalism3.ui.Helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
+/**
+ *
+ */
+
 public class SharedPrefHelper {
+
+    public static final String KEY_ONE_SIZE = "isOneSizeOn";
+    public static final String KEY_NUM_OF_LINES = "numOfLines";
+    public static final String KEY_TYPE_NOTES = "isTypeNotesSingleOn";
+    public static final String KEY_COLOR = "color";
+    public static final String KEY_SEL_CATEGORY = "selNotesCategory";
+
 
     public static void saveString(Context context, String key, String value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

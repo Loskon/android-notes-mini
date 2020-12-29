@@ -106,8 +106,7 @@ public class DbAdapter {
     }
 
     public void deleteByTime(int rangeInDays) {
-        // Удаление заметки с помощью сравнения сегодняшней даты
-        // и даты добавления заметки в корзину
+        // Удаление заметки с помощью сравнения дат
 
         // Перевод дня в Unix-time для корректного сложения и сравнения
         long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS);

@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Noteminimalism3">
         <activity android:name=".ui.activity.BackupActivity"></activity>
         <activity
-            android:name=".ui.activity.SettingsAppearanceActivity"
+            android:name=".ui.activity.SettingsAppActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.SettingsActivity"
+            android:name=".ui.activity.settings.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.NoteActivity"

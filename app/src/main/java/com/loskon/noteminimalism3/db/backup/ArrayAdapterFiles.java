@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.db.backup;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.Helper.SharedPrefHelper;
 
 import java.io.File;
 import java.util.ArrayList;

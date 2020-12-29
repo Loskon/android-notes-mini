@@ -5,7 +5,7 @@
     android:id="@+id/cstSetting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.SettingsActivity">
+    tools:context=".ui.activity.settings.SettingsActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"

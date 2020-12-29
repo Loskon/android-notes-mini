@@ -23,28 +23,36 @@ public class Note {
         this.favoritesItem = favoritesItem;
         this.selectItemForDel = selectItemForDel;
     }
+
     public long getId() {
         return id;
     }
+
     public String getTitle() {
         return title;
     }
+
     public Date getDate() {
         return date;
     }
+
     public Date getDateDelete() {
         return dateDelete;
     }
+
     public boolean getFavoritesItem() {
         return favoritesItem;
     }
+
     public void setFavoritesItem(boolean favoritesItem) {
         this.favoritesItem = favoritesItem;
     }
+
     public boolean getSelectItemForDel() {
         return selectItemForDel;
     }
-    public void isSelectItemForDel(boolean selectItemForDel) {
+
+    public void setSelectItemForDel(boolean selectItemForDel) {
         this.selectItemForDel = selectItemForDel;
     }
 }

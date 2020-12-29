@@ -54,7 +54,7 @@
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:onClick="onClick"
+            android:onClick="onClick2"
             android:text="@string/action_backup_drive" />
 
         <Button
@@ -64,7 +64,7 @@
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:onClick="onClick"
+            android:onClick="onClick2"
             android:text="@string/action_import_drive" />
     </LinearLayout>
 

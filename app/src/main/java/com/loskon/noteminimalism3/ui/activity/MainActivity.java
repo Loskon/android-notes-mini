@@ -30,17 +30,19 @@ import com.dinuscxj.refresh.RecyclerRefreshLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.loskon.noteminimalism3.ui.Helper.ColorHelper;
-import com.loskon.noteminimalism3.ui.Helper.CustomRecyclerViewEmpty;
-import com.loskon.noteminimalism3.ui.Helper.MainHelper;
-import com.loskon.noteminimalism3.ui.Helper.BottomSheetDialog;
-import com.loskon.noteminimalism3.ui.Helper.SharedPrefHelper;
+import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.helper.CheckEmptyRecyclerView;
+import com.loskon.noteminimalism3.helper.MainHelper;
+import com.loskon.noteminimalism3.helper.MyIntent;
+import com.loskon.noteminimalism3.ui.dialogs.MyBottomSheetMain;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
 import com.loskon.noteminimalism3.rv.Callback;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.others.RefreshView;
-import com.loskon.noteminimalism3.rv.CustomRecyclerViewAdapter;
+import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
 import com.loskon.noteminimalism3.db.DbAdapter;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPrefKeys;
 
 
 import java.util.List;
@@ -51,9 +53,9 @@ import java.util.Objects;
  */
 
 public class  MainActivity extends AppCompatActivity implements Callback,
-        BottomSheetDialog.ItemClickListenerBottomNavView {
+        MyBottomSheetMain.ItemClickListenerBottomNavView {
 
-    private CustomRecyclerViewAdapter rvAdapter;
+    private MyRecyclerViewAdapter rvAdapter;
     private DbAdapter dbAdapter;
 
     private RecyclerRefreshLayout refreshLayout;
@@ -68,7 +70,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
     private boolean isTypeNotesSingleOn;
     private boolean isDeleteModeOn;
     private boolean isUpdateDate;
-    private boolean isListUp;
+    private boolean isListGoUp;
     private int selNotesCategory;
     private String whereClauseForMode;
 
@@ -82,12 +84,12 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         setContentView(R.layout.activity_main);
 
         // Меняем цвет статус бара
-        ColorHelper.setColorStatBarAndTaskDesc(this);
+        MyColor.setColorStatBarAndTaskDesc(this);
         // Обнуляем состояние списка
         mBundleRecyclerViewState = null;
         // Устанавливаем категорию "Note" при запуске
-        SharedPrefHelper.saveInt(this,
-                SharedPrefHelper.KEY_SEL_CATEGORY, 0);
+        MySharedPreference.saveInt(this,
+                MySharedPrefKeys.KEY_SEL_CATEGORY, 0);
 
         initialiseWidgets();
         cleaningFromTrash();
@@ -126,7 +128,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         List<Note> notes = dbAdapter.getNotes(whereClauseForMode);
         dbAdapter.close();
 
-        rvAdapter = new CustomRecyclerViewAdapter(this, notes, dbAdapter,
+        rvAdapter = new MyRecyclerViewAdapter(this, notes, dbAdapter,
                 selNotesCategory, isDeleteModeOn, isTypeNotesSingleOn);
         rvAdapter.setCallbackDelMode(this);
         customHandlers();
@@ -170,14 +172,14 @@ public class  MainActivity extends AppCompatActivity implements Callback,
     public void toggleTypeOfNotes() {
         // Переключение и сохранение вида линейный/сетка
         isTypeNotesSingleOn = !isTypeNotesSingleOn;
-        SharedPrefHelper.saveBoolean(this,SharedPrefHelper.KEY_TYPE_NOTES, isTypeNotesSingleOn);
+        MySharedPreference.saveBoolean(this, MySharedPrefKeys.KEY_TYPE_NOTES, isTypeNotesSingleOn);
     }
 
     private void switchType() {
         // Изменение вида списка и иконки меню при переключении
 
-        isTypeNotesSingleOn = SharedPrefHelper.loadBoolean(this,
-                SharedPrefHelper.KEY_TYPE_NOTES, true);
+        isTypeNotesSingleOn = MySharedPreference.loadBoolean(this,
+                MySharedPrefKeys.KEY_TYPE_NOTES, true);
 
         if (isTypeNotesSingleOn) {
             appBarMenu.findItem(R.id.action_switch_view).
@@ -190,8 +192,8 @@ public class  MainActivity extends AppCompatActivity implements Callback,
                     setIcon(ResourcesCompat.getDrawable(getResources(),
                             R.drawable.baseline_view_agenda_black_24, null));
 
-            boolean isOneSizeOn = SharedPrefHelper.loadBoolean(this,
-                    SharedPrefHelper.KEY_ONE_SIZE, false);
+            boolean isOneSizeOn = MySharedPreference.loadBoolean(this,
+                    MySharedPrefKeys.KEY_ONE_SIZE, false);
 
             if (isOneSizeOn) {
                 recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -204,7 +206,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
 
         rvAdapter.setTypeOfNotes(isTypeNotesSingleOn);
 
-        ColorHelper.setColorMenuIcon(this, appBarMenu);
+        MyColor.setColorMenuIcon(this, appBarMenu);
     }
 
     private void fabHandler() {
@@ -220,7 +222,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
                     dbAdapter.close();
                     //initAdapter();
                 } else {
-                    Intent intent = MainHelper.intentCreateNewNote(this, selNotesCategory);
+                    Intent intent = MyIntent.intentAddNewNote(this, selNotesCategory);
                     startActivity(intent);
                 }
             }
@@ -242,7 +244,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
     }
 
     private void notesCategory() {
-        selNotesCategory = SharedPrefHelper.loadInt(this,"selNotesCategory", 0);
+        selNotesCategory = MySharedPreference.loadInt(this,"selNotesCategory", 0);
         if (selNotesCategory == 0) whereClauseForMode = "del_items = 0"; // Note
         else if (selNotesCategory == 1) whereClauseForMode = "favorites = 1"; // Favorites
         else if (selNotesCategory == 2) whereClauseForMode = "del_items = 1"; // Trash
@@ -258,17 +260,17 @@ public class  MainActivity extends AppCompatActivity implements Callback,
     }
 
     private void customHandlers() {
-        rvAdapter.registerAdapterDataObserver(new CustomRecyclerViewEmpty(textEmpty, // Проверка на пустой список
+        rvAdapter.registerAdapterDataObserver(new CheckEmptyRecyclerView(textEmpty, // Проверка на пустой список
                 rvAdapter));
-        (new CustomRecyclerViewEmpty(textEmpty, rvAdapter)).checkEmpty(); // Дополнительная проверка на пустой список (срабатывает при сменах активити)
+        (new CheckEmptyRecyclerView(textEmpty, rvAdapter)).checkEmpty(); // Дополнительная проверка на пустой список (срабатывает при сменах активити)
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        ColorHelper.setColorFab(this, fabMain);
-        ColorHelper.setNavigationIconColor(this, bottomAppBar);
+        MyColor.setColorFab(this, fabMain);
+        MyColor.setNavigationIconColor(this, bottomAppBar);
 
 
         //Toast.makeText(this, ""+bottomAppBar.getMenu().findItem(R.id.action_switch_view).getIcon(), Toast.LENGTH_SHORT).show();
@@ -279,8 +281,8 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         restoreRecyclerViewState();
 
         // Устанавливаем список настроек в начальную позицию
-        SharedPrefHelper.saveInt(this, "index", 0);
-        SharedPrefHelper.saveInt(this, "top", 0);
+        MySharedPreference.saveInt(this, "index", 0);
+        MySharedPreference.saveInt(this, "top", 0);
     }
 
 
@@ -295,14 +297,14 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
             isUpdateDate = intent.getExtras().getBoolean("updateDate");
-            isListUp = intent.getExtras().getBoolean("createOrDel");
+            isListGoUp = intent.getExtras().getBoolean("createOrDel");
         }
         // Вызвает установку адаптера
         // (необходимо для появления новой заметки в списке)
         if (isUpdateDate) {
             setupRecyclerView();
             intent.putExtra("updateDate", false);
-            if (isListUp) {
+            if (isListGoUp) {
                 Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(0); // Возвращает списко вверх, если создана новая заметка
             }
         }
@@ -352,7 +354,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
                     R.id.action_select_item, R.drawable.baseline_done_all_black_24);
         }
 
-        ColorHelper.setColorMenuIcon(this, appBarMenu);
+        MyColor.setColorMenuIcon(this, appBarMenu);
     }
 
     private void onClickDelete(boolean isDelete) {
@@ -384,7 +386,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
 
         setVisibleSelectItem(isDeleteModeOn);
 
-        ColorHelper.setNavigationIconColor(this, bottomAppBar);
+        MyColor.setNavigationIconColor(this, bottomAppBar);
     }
 
     @Override

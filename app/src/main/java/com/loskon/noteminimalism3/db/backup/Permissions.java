@@ -5,11 +5,9 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 
-import static com.loskon.noteminimalism3.ui.Helper.MainHelper.REQUEST_CODE_PERMISSIONS;
+import static com.loskon.noteminimalism3.helper.MainHelper.REQUEST_CODE_PERMISSIONS;
 
 public class Permissions {
-
-    public static boolean permissionGranted = false;
 
     // Переменные прав доступа к хранилищу
     public static final String[] PERMISSIONS_STORAGE = {
@@ -18,7 +16,7 @@ public class Permissions {
     };
 
     // проверьте разрешения.
-    public static void verifyStoragePermissions(Activity activity) {
+    public static boolean verifyStoragePermissions(Activity activity) {
         // Проверьте, есть ли у нас разрешение на чтение или запись
         int writePermission = ActivityCompat.checkSelfPermission(
                 activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -34,8 +32,9 @@ public class Permissions {
                     PERMISSIONS_STORAGE,
                     REQUEST_CODE_PERMISSIONS
             );
+            return false;
         } else {
-            permissionGranted = true;
+            return true;
         }
     }
 }

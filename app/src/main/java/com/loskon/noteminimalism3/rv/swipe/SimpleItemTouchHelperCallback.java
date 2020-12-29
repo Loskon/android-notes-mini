@@ -4,12 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loskon.noteminimalism3.rv.CustomRecyclerViewAdapter;
+import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
-    private final CustomRecyclerViewAdapter rvAdapter;
+    private final MyRecyclerViewAdapter rvAdapter;
 
-    public SimpleItemTouchHelperCallback(CustomRecyclerViewAdapter adapter) {
+    public SimpleItemTouchHelperCallback(MyRecyclerViewAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         rvAdapter = adapter;
     }

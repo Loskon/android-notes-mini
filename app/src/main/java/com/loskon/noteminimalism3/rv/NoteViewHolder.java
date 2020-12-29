@@ -1,13 +1,11 @@
 package com.loskon.noteminimalism3.rv;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
@@ -18,7 +16,7 @@ import com.loskon.noteminimalism3.R;
 
 public class NoteViewHolder extends RecyclerView.ViewHolder {
 
-    LinearLayout constraint;
+    LinearLayout linearLayoutCard;
     CardView cardView;
     TextView title;
     TextView date;
@@ -30,7 +28,7 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         title = itemView.findViewById(R.id.title_item_note);
         date = itemView.findViewById(R.id.date_item_note);
 
-        constraint = itemView.findViewById(R.id.linInCard);
+        linearLayoutCard = itemView.findViewById(R.id.linLayCard);
         cardView = itemView.findViewById(R.id.card_view);
         view = itemView.findViewById(R.id.view);
     }

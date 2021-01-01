@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.preference.item;
+package com.loskon.noteminimalism3.ui.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,8 +8,10 @@ import androidx.preference.PreferenceViewHolder;
 
 import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPrefKeys;
+import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
 public class PrefNumOfLines extends Preference {
 
@@ -30,7 +32,12 @@ public class PrefNumOfLines extends Preference {
 
     public PrefNumOfLines(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setLayoutResource(R.layout.pref_number_of_lines);
+        setLayoutResource(R.layout.pref_item_num_of_lines);
+    }
+
+    @Override
+    public String getKey() {
+        return super.getKey();
     }
 
     @Override
@@ -41,14 +48,19 @@ public class PrefNumOfLines extends Preference {
 
         Slider sliderNumOfLines = (Slider) holder.findViewById(R.id.slider_number_of_lines);
 
+        MyColor.setColorSlider(getContext(), sliderNumOfLines);
+
+        (new MyDialogColor()).registerCallBackColorSettingsApp(color ->
+                MyColor.setColorSlider(getContext(), sliderNumOfLines));
+
         int numOfLines = MySharedPreference.loadInt(getContext(),
-                MySharedPrefKeys.KEY_NUM_OF_LINES, 3);
+                MyPrefKey.KEY_NUM_OF_LINES, 3);
 
         sliderNumOfLines.setValue(numOfLines);
 
         sliderNumOfLines.addOnChangeListener((slider1, value, fromUser) -> {
             MySharedPreference.saveInt(getContext(),
-                    MySharedPrefKeys.KEY_NUM_OF_LINES, (int) value);
+                    MyPrefKey.KEY_NUM_OF_LINES, (int) value);
             callbackNumOfLines.callingBackNumOfLines((int) value);
         });
     }

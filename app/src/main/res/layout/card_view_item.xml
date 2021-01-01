@@ -21,8 +21,8 @@
             android:layout_width="16dp"
             android:layout_height="10dp"
             android:layout_gravity="end"
-            android:background="@drawable/round_outline"
-            android:backgroundTint="@android:color/holo_orange_dark" />
+            android:background="@drawable/view_round_corner"
+            android:backgroundTint="@color/color_default_light_blue" />
 
         <TextView
             android:id="@+id/title_item_note"

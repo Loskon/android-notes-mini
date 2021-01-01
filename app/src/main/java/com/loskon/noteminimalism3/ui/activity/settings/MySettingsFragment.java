@@ -3,36 +3,29 @@ package com.loskon.noteminimalism3.ui.activity.settings;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.BuildToast;
+import com.loskon.noteminimalism3.helper.MySnackbar;
 import com.loskon.noteminimalism3.helper.MyIntent;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPrefKeys;
-import com.loskon.noteminimalism3.ui.activity.BackupActivity;
-import com.loskon.noteminimalism3.ui.activity.SettingsAppActivity;
+import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
-import com.loskon.noteminimalism3.db.backup.FindPathHelper;
+import com.loskon.noteminimalism3.db.backup.MyPath;
 
 import java.util.Objects;
 
@@ -46,12 +39,18 @@ import static com.loskon.noteminimalism3.db.backup.Permissions.PERMISSIONS_STORA
 public class MySettingsFragment extends PreferenceFragmentCompat {
 
     private static final int READ_REQUEST_CODE = 297;
-    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private int index, top, prefId;
 
+    private SwitchPreference myPref6;
+    private Preference myPref5;
 
-    SwitchPreference myPref6;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        savePositionRecyclerView(index, top);
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
@@ -82,7 +81,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
 
 
 
-        myPref6 = findPreference(MySharedPrefKeys.KEY_AUTO_BACKUP);
+        myPref6 = findPreference(MyPrefKey.KEY_AUTO_BACKUP);
         assert myPref6 != null;
         myPref6.setOnPreferenceChangeListener((preference, newValue) -> {
             prefId = 0;
@@ -113,12 +112,15 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
 
-        Preference myPref5 =  findPreference(getString(R.string.folder_for_backup));
+        myPref5 =  findPreference(getString(R.string.folder_for_backup));
         assert myPref5 != null;
+        myPref5.setSummary(MyPath.loadPathString(requireContext()));
         myPref5.setOnPreferenceClickListener(preference -> {
             prefId = 1;
             if (checkStoragePermissionsFragment()) {
-                MyIntent.goFindFolder(requireActivity());
+                Intent intent = MyIntent.goFindFolder();
+                startActivityForResult(Intent.createChooser(intent,
+                        "Choose directory"), READ_REQUEST_CODE);
             }
             return true;
         });
@@ -137,8 +139,9 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 MySharedPreference.saveString(requireActivity(),
-                        MySharedPrefKeys.KEY_SEL_DIRECTORY, FindPathHelper
+                        MyPrefKey.KEY_SEL_DIRECTORY, MyPath
                                 .findFullPath(resultData.getData().getPath()));
+                myPref5.setSummary(MyPath.loadPathString(requireContext()));
             }
         }
     }
@@ -149,13 +152,17 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (prefId == 1) {
-                    MyIntent.goFindFolder(requireActivity());
+                    Intent intent = MyIntent.goFindFolder();
+                    startActivityForResult(Intent.createChooser(intent,
+                            "Choose directory"), READ_REQUEST_CODE);
                 }
             } else {
                 if (prefId == 0) {
                     myPref6.setChecked(false);
                 }
-                BuildToast.showToast(requireContext(), getString(R.string.no_permissions));
+                MySnackbar.makeSnackbar(requireActivity(), requireActivity().
+                        findViewById(R.id.cstSetting), getString(R.string.no_permissions),
+                        requireActivity().findViewById(R.id.btmAppBarSettings), false);
             }
         }
     }
@@ -170,7 +177,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         int granted = PackageManager.PERMISSION_GRANTED;
 
         if (writePermission != granted || readPermission != granted) {
-            requestPermissions( //Method of Fragment
+            requestPermissions(
                     PERMISSIONS_STORAGE,
                     REQUEST_CODE_PERMISSIONS
             );
@@ -181,11 +188,19 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        // Для изменения цвета
+        if (getListView() != null) {
+            Objects.requireNonNull(getListView().getAdapter()).notifyDataSetChanged();
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Убираем разделитель
-        setDivider(new ColorDrawable(getResources().getColor(R.color.color_divider)));
+        setDivider(new ColorDrawable(getResources().getColor(R.color.color_divider_light)));
         setDividerHeight(30);
 
         recyclerViewHandler();
@@ -193,7 +208,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void recyclerViewHandler() {
-        recyclerView = getListView();
+        RecyclerView recyclerView = getListView();
         layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -205,8 +220,11 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void setScrollPosition() {
-        index = MySharedPreference.loadInt(requireContext(), "index", 0);
-        top = MySharedPreference.loadInt(requireContext(), "top", 0);
+
+        index = MySharedPreference.loadInt(requireContext(),
+                MyPrefKey.KEY_POSITON_TOP, 0);
+        top = MySharedPreference.loadInt(requireContext(),
+                MyPrefKey.KEY_POSITON_INDEX, 0);
 
         layoutManager.scrollToPositionWithOffset(index, top);
     }
@@ -215,8 +233,18 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         index = layoutManager.findFirstVisibleItemPosition();
         View v = layoutManager.getChildAt(0);
         top = (v == null) ? 0 : (v.getTop() - layoutManager.getPaddingTop());
+    }
 
-        MySharedPreference.saveInt(requireContext(), "index", index);
-        MySharedPreference.saveInt(requireContext(), "top", top);
+    private void savePositionRecyclerView(int index, int top) {
+        MySharedPreference.saveInt(requireContext(),
+                MyPrefKey.KEY_POSITON_INDEX, index);
+        MySharedPreference.saveInt(requireContext(),
+                MyPrefKey.KEY_POSITON_TOP, top);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        savePositionRecyclerView(0, 0);
     }
 }

@@ -13,14 +13,19 @@ import android.os.Build;
 import android.view.Menu;
 import android.view.View;
 
+import androidx.core.graphics.ColorUtils;
+import androidx.transition.Fade;
+import androidx.transition.Transition;
+
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.slider.Slider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPrefKeys;
+import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 
 import java.util.Objects;
 
@@ -35,6 +40,16 @@ public class MyColor {
         switchMaterial.getTrackDrawable().setColorFilter(getColorCustom(context), PorterDuff.Mode.SRC_ATOP);
     }
 
+    public static void setColorSlider(Context context, Slider slider) {
+        int color = getColorCustom(context);
+        slider.setThumbTintList(ColorStateList.valueOf(color));
+        slider.setTrackActiveTintList(ColorStateList.valueOf(color));
+        slider.setTickTintList(ColorStateList.valueOf(color));
+
+        slider.setHaloTintList(ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 70)));
+        slider.setTrackInactiveTintList(ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 70)));
+    }
+
     public static void setColorStatBarAndTaskDesc(Activity activity) {
         int color = Color.WHITE;
 
@@ -46,6 +61,8 @@ public class MyColor {
 
         activity.setTaskDescription(new ActivityManager
                 .TaskDescription(null, null, color));
+
+        //activity.getWindow().setEnterTransition(null);
     }
 
     public static void setColorMenuIcon(Context context, Menu menu) {
@@ -74,7 +91,7 @@ public class MyColor {
 
     public static int getColorCustom(Context context) {
         return MySharedPreference.loadInt(context,
-                MySharedPrefKeys.KEY_COLOR, context.getResources()
+                MyPrefKey.KEY_COLOR, context.getResources()
                         .getColor(R.color.color_default_light_blue));
     }
 

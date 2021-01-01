@@ -12,9 +12,12 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.loskon.noteminimalism3.helper.BackupHelper;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.MyIntent;
 import com.loskon.noteminimalism3.helper.MyKeyboard;
+import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.DbAdapter;
@@ -38,8 +41,8 @@ public class NoteActivity extends AppCompatActivity {
     private boolean isListGoUp = false;
     private boolean isUpdateDateTame = false;
     private boolean isSaveNoteOn = true;
-    private final Date nowDate = new Date();
-    private Date receivedDate, setDate;
+    private boolean isAutoBackupOn;
+    private Date receivedDate, setDateChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +72,11 @@ public class NoteActivity extends AppCompatActivity {
             } else {
                 Snackbar.make(
                         findViewById(R.id.cstLayoutNote),
-                        "Заметка находится в корзине",
+                        getString(R.string.snackbar_note_text_note_in_trash),
                         Snackbar.LENGTH_SHORT)
                         .setAnchorView(fabNote)
-                        .setAction("Восстановить", view -> {
-                            restoreNote();
-                        })
+                        .setAction(getString(R.string.snackbar_note_btn_action), view -> restoreNote())
+                        .setActionTextColor(MyColor.getColorCustom(this))
                         .show();
             }
         });
@@ -154,6 +156,8 @@ public class NoteActivity extends AppCompatActivity {
         }
         more_button.setVisibility(View.GONE);
         isListGoUp = true;
+        isAutoBackupOn = MySharedPreference.loadBoolean(this,
+                MyPrefKey.KEY_AUTO_BACKUP, false);
     }
 
     private void favoriteStatus() {
@@ -190,7 +194,7 @@ public class NoteActivity extends AppCompatActivity {
             // Отправляет заметку в корзину
             note.setSelectItemForDel(true);
             note.setFavoritesItem(false);
-            dbAdapter.updateSelectItemForDel(note, true, nowDate);
+            dbAdapter.updateSelectItemForDel(note, true, new Date());
             dbAdapter.updateFavorites(note,false);
         }
         dbAdapter.close();
@@ -211,6 +215,9 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void goMainActivity() {
+        if (editTitleText.getText().toString().trim().length() == 0) {
+            isListGoUp = false;
+        }
         MyIntent.goMainActivityFromNote(this, isListGoUp);
     }
 
@@ -231,16 +238,16 @@ public class NoteActivity extends AppCompatActivity {
 
             updateDateTime();
 
-            note = new Note(noteId, title, setDate, nowDate,
+            note = new Note(noteId, title, setDateChange, new Date(),
                     isFavItem, isDeleteItem);
 
             if (noteId > 0) {
                 dbAdapter.updateNote(note);
             } else {
-                dbAdapter.addNewNote(note);
-                //callbackNote.callingBackNote(note);
+                if (dbAdapter.addNewNote(note) % 5 == 0 && isAutoBackupOn) {
+                    BackupHelper.autoBackup(this);
+                }
             }
-
         }
         dbAdapter.close();
 
@@ -249,9 +256,9 @@ public class NoteActivity extends AppCompatActivity {
 
     private void updateDateTime () {
         if (isUpdateDateTame || noteId == 0) {
-            setDate = nowDate;  // Обновляет дату
+            setDateChange = new Date();  // Обновляет дату
         } else {
-            setDate = receivedDate; // Оставляет старой
+            setDateChange = receivedDate; // Оставляет старой
         }
     }
 

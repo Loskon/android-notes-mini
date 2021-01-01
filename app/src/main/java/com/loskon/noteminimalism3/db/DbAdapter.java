@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -19,19 +20,19 @@ import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable;
 
 public class DbAdapter {
 
-    private final DbHelper mDbHelper;
-    private SQLiteDatabase mDatabase;
+    private final DbHelper dbHelper;
+    private SQLiteDatabase sqlDatabase;
 
     public DbAdapter(Context context) {
-        mDbHelper = new DbHelper(context.getApplicationContext());
+        dbHelper = new DbHelper(context.getApplicationContext());
     }
 
     public void open() {
-        mDatabase = mDbHelper.getWritableDatabase();
+        sqlDatabase = dbHelper.getWritableDatabase();
     }
 
     public void close() {
-        mDbHelper.close();
+        dbHelper.close();
     }
 
     public List<Note> getNotes(String whereClause) {
@@ -64,15 +65,19 @@ public class DbAdapter {
         }
     }
 
-    public void addNewNote(Note note) {
+    public int getNumberOfRows() {
+        return (int) DatabaseUtils.queryNumEntries(sqlDatabase, NoteTable.NAME_TABLE);
+    }
+
+    public int addNewNote(Note note) {
         // Добавить новую заметку
         ContentValues values = getContentValues(note);
-        mDatabase.insert(NoteTable.NAME_TABLE, null, values);
+        return (int) sqlDatabase.insert(NoteTable.NAME_TABLE, null, values);
     }
 
     public void deleteNote(long id) {
         // Удалить заметку
-        mDatabase.delete(NoteTable.NAME_TABLE,
+        sqlDatabase.delete(NoteTable.NAME_TABLE,
                 NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(id)}
         );
@@ -81,7 +86,7 @@ public class DbAdapter {
     public void updateNote(Note note) {
         // Обновить заметку
         ContentValues values = getContentValues(note);
-        mDatabase.update(NoteTable.NAME_TABLE, values,
+        sqlDatabase.update(NoteTable.NAME_TABLE, values,
                 NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
@@ -90,7 +95,7 @@ public class DbAdapter {
         // Добавить/удалить избранное
         ContentValues values = getContentValues(note);
         values.put(NoteTable.Columns.COLUMN_FAVORITES, isFavItem);
-        mDatabase.update(NoteTable.NAME_TABLE, values,
+        sqlDatabase.update(NoteTable.NAME_TABLE, values,
                 NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
@@ -100,7 +105,7 @@ public class DbAdapter {
         ContentValues values = getContentValues(note);
         values.put(NoteTable.Columns.COLUMN_DEL_ITEMS, isDelItem);
         values.put(NoteTable.Columns.COLUMN_DATE_DEL, dateDelete.getTime());
-        mDatabase.update(NoteTable.NAME_TABLE, values,
+        sqlDatabase.update(NoteTable.NAME_TABLE, values,
                 NoteTable.Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
@@ -110,7 +115,7 @@ public class DbAdapter {
 
         // Перевод дня в Unix-time для корректного сложения и сравнения
         long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS);
-        mDatabase.delete(NoteTable.NAME_TABLE,
+        sqlDatabase.delete(NoteTable.NAME_TABLE,
                 NoteTable.Columns.COLUMN_DEL_ITEMS + " = " + 1
                  + " and " + (new Date()).getTime() + " > (" +
                 NoteTable.Columns.COLUMN_DATE_DEL + "+" + range + ")", null);
@@ -118,7 +123,7 @@ public class DbAdapter {
 
     public void deleteAll() {
         // Удалить все заметки из корзины
-        mDatabase.delete(NoteTable.NAME_TABLE,
+        sqlDatabase.delete(NoteTable.NAME_TABLE,
                 NoteTable.Columns.COLUMN_DEL_ITEMS + " = " + 1, null);
     }
 
@@ -134,7 +139,7 @@ public class DbAdapter {
     }
 
     private NoteCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(
+        Cursor cursor = sqlDatabase.query(
                 NoteTable.NAME_TABLE,
                 null,
                 whereClause,

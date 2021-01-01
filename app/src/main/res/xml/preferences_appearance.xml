@@ -4,13 +4,26 @@
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
         app:title="@string/note_appearance">
-        <com.loskon.noteminimalism3.ui.preference.item.PrefCardView app:key="1" />
+        <com.loskon.noteminimalism3.ui.preference.PrefCardView
+            app:allowDividerAbove="false"
+            app:key="1" />
+    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+
+    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+        android:title="@string/reset_settings_card_appearance"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:title="@string/reset"
+            app:iconSpaceReserved="false"
+            app:key="@string/reset" />
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
-        app:title="@string/select_color">
-        <com.loskon.noteminimalism3.ui.preference.item.PrefSelectColor
+        app:title="@string/theme_color">
+        <com.loskon.noteminimalism3.ui.preference.MySelectColor
+            app:allowDividerAbove="false"
             android:title="@string/select_color"
             app:key="3" />
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
@@ -18,14 +31,16 @@
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
         app:title="@string/number_of_lines">
-        <com.loskon.noteminimalism3.ui.preference.item.PrefNumOfLines app:key="5" />
+        <com.loskon.noteminimalism3.ui.preference.PrefNumOfLines
+            app:allowDividerAbove="false"
+            app:key="@string/pref_key_num_of_lines" />
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
-        android:title="Preference category"
+        android:title="@string/other"
         app:iconSpaceReserved="false">
         <com.loskon.noteminimalism3.ui.preference.MySwitchPref
-            android:defaultValue="false"
+            app:allowDividerAbove="false"
             android:key="@string/pref_key_one_size"
             android:title="@string/one_size_cards"
             app:iconSpaceReserved="false" />

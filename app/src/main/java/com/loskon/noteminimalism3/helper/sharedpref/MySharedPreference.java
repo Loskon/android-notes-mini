@@ -11,6 +11,7 @@ import androidx.preference.PreferenceManager;
 
 public class MySharedPreference {
 
+    // String
     public static void saveString(Context context, String key, String value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
@@ -23,6 +24,7 @@ public class MySharedPreference {
         return preferences.getString(key, defValue);
     }
 
+    // int
     public static void saveInt(Context context, String key, int value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
@@ -35,6 +37,7 @@ public class MySharedPreference {
         return preferences.getInt(key, defValue);
     }
 
+    // boolean
     public static void saveBoolean(Context context, String key, boolean value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
@@ -46,5 +49,4 @@ public class MySharedPreference {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getBoolean(key, defValue);
     }
-
 }

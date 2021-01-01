@@ -1,10 +1,8 @@
 package com.loskon.noteminimalism3.db.backup;
 
 import android.app.Activity;
-import android.widget.Toast;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.RestoreHelper;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogBackup;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogRestore;
 
@@ -17,6 +15,7 @@ import java.io.File;
 public class LocalBackupAndRestore {
 
     private final Activity activity;
+    private String typeMessage;
 
     public LocalBackupAndRestore(Activity activity) {
         this.activity = activity;
@@ -44,7 +43,8 @@ public class LocalBackupAndRestore {
 
             (new MyDialogBackup(activity)).callDialogBackup(outFileName, folder);
         } else {
-            Toast.makeText(activity, "Retry", Toast.LENGTH_SHORT).show();
+            typeMessage = SnackbarBackup.MSG_TEXT_ERROR;
+            showSnacbar();
         }
 
     }
@@ -57,13 +57,17 @@ public class LocalBackupAndRestore {
         if (folder.exists()) {
             (new MyDialogRestore(activity)).callDialogRestore(folder);
         } else {
-            Toast.makeText(activity, "Backup folder not present.\n" +
-                    "Do a backup before a restore!", Toast.LENGTH_SHORT).show();
+            typeMessage = SnackbarBackup.MSG_TEXT_NO_FOLDER;
+           showSnacbar();
         }
     }
 
     private File getFolder(String path) {
         return new File(path +
                 File.separator + activity.getResources().getString(R.string.app_name));
+    }
+
+    private void showSnacbar() {
+        SnackbarBackup.showSnackbar(activity, false, typeMessage);
     }
 }

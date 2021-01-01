@@ -10,14 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:itemIconTint="?attr/titleTextColor"
-        app:itemTextColor="?attr/titleTextColor"
         android:background="?attr/bottomSheetColor"
         android:theme="@style/Theme.MaterialComponents.Light"
+        app:itemIconTint="?attr/titleTextColor"
         app:itemShapeFillColor="@android:color/transparent"
+        app:itemTextColor="?attr/titleTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/bottom_for_nav_drawer_menu" />
+        app:menu="@menu/menu_for_nav_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

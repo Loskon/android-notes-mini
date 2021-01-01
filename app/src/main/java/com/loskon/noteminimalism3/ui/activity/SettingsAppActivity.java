@@ -1,7 +1,5 @@
 package com.loskon.noteminimalism3.ui.activity;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -16,23 +14,29 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.MyIntent;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPrefKeys;
-import com.loskon.noteminimalism3.ui.activity.settings.SettingsActivity;
+import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
-public class SettingsAppActivity extends AppCompatActivity {
+import java.util.Objects;
 
-    private BottomAppBar btmAppBarSettingsAppearance;
-    private static CallbackColor34 callbackColor34;
+public class SettingsAppActivity extends AppCompatActivity implements MyDialogColor.CallbackColorNavIcon {
 
-    public void registerCallBack34(CallbackColor34 callbackColor34){
-        SettingsAppActivity.callbackColor34 = callbackColor34;
+    private BottomAppBar btmAppBarSettingsApp;
+    private static CallbackOneSize callbackOneSize;
+    private static CallbackReset callbackReset;
+
+    public void registerCallBackOneSize(CallbackOneSize callbackOneSize){
+        SettingsAppActivity.callbackOneSize = callbackOneSize;
+    }
+
+    public void registerCallBackReset(CallbackReset callbackReset){
+        SettingsAppActivity.callbackReset = callbackReset;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings_appearance);
+        setContentView(R.layout.activity_settings_app);
 
         // Меняем цвет статус бара
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -44,15 +48,11 @@ public class SettingsAppActivity extends AppCompatActivity {
                     .commit();
         }
 
-        btmAppBarSettingsAppearance = findViewById(R.id.btmAppBarSettings2);
-        btmAppBarSettingsAppearance.setNavigationOnClickListener(
+        btmAppBarSettingsApp = findViewById(R.id.btmAppBarSettingsApp);
+        btmAppBarSettingsApp.setNavigationOnClickListener(
                 v -> MyIntent.goSettingsActivity(this));
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MyColor.setNavigationIconColor(this, btmAppBarSettingsAppearance);
+        (new MyDialogColor()).registerCallBackColorNavIcon(this);
     }
 
     @Override
@@ -61,8 +61,9 @@ public class SettingsAppActivity extends AppCompatActivity {
         MyIntent.goSettingsActivity(this);
     }
 
-    public interface CallbackColor34{
-        void callingBackColor34(boolean isOneSizeOn);
+    @Override
+    public void callingBackColorNavIcon(int color) {
+        MyColor.setNavigationIconColor(this, btmAppBarSettingsApp);
     }
 
     public static class SettingsAppFragment extends PreferenceFragmentCompat {
@@ -71,25 +72,47 @@ public class SettingsAppActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences_appearance, rootKey);
 
-            Preference myPref = findPreference(MySharedPrefKeys.KEY_ONE_SIZE);
+            Preference myPref = findPreference(MyPrefKey.KEY_ONE_SIZE);
             assert myPref != null;
             myPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                //MySharedPreference.saveBoolean(requireContext(),
-                       // MySharedPrefKeys.KEY_ONE_SIZE, (Boolean) newValue);
-                callbackColor34.callingBackColor34((Boolean) newValue);
+                if (callbackOneSize != null) {
+                    callbackOneSize.callingBackOneSize((Boolean) newValue);
+                }
                 return true;
             });
+
+            Preference myPref2 = findPreference(getString(R.string.reset));
+            assert myPref2 != null;
+            myPref2.setOnPreferenceClickListener(preference -> {
+                if (callbackReset != null) {
+                    callbackReset.callingBackReset();
+                }
+                return false;
+            });
+
         }
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            setDivider(new ColorDrawable(Color.TRANSPARENT));
-            setDividerHeight(0);
+
+            (new MyDialogColor()).registerCallBackColorNotifyData(color -> {
+                if (getListView() != null) {
+                    Objects.requireNonNull(getListView().getAdapter()).notifyDataSetChanged();
+                }
+            });
+
+            setDivider(new ColorDrawable(getResources().getColor(R.color.color_divider_light)));
+            setDividerHeight(30);
             //view.setBackgroundColor(Color.BLUE);
         }
-
     }
 
+    public interface CallbackOneSize {
+        void callingBackOneSize(boolean isOneSizeOn);
+    }
 
+    public interface CallbackReset {
+        void callingBackReset();
+    }
 }

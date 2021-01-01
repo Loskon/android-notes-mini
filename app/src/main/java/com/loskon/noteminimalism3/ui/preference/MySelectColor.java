@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.preference.item;
+package com.loskon.noteminimalism3.ui.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -14,15 +14,15 @@ import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.GetSizeItem;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
-public class PrefSelectColor extends Preference {
+public class MySelectColor extends Preference {
 
-    public PrefSelectColor(Context context, AttributeSet attrs) {
+    public MySelectColor(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PrefSelectColor(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MySelectColor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setWidgetLayoutResource(R.layout.pref_select_color);
+        setWidgetLayoutResource(R.layout.custom_image_for_pref);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PrefSelectColor extends Preference {
         ImageView imageViewColorForSettings = (ImageView) holder.findViewById(R.id.imageViewColorForSettings);
         imageViewColorForSettings.setColorFilter(MyColor.getColorCustom(getContext()));
 
-        (new MyDialogColor()).registerCallBack(imageViewColorForSettings::setColorFilter);
+        (new MyDialogColor()).registerCallBackColorSettingsApp(imageViewColorForSettings::setColorFilter);
     }
 
 }

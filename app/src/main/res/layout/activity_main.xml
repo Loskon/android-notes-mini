@@ -8,7 +8,7 @@
     tools:context=".ui.activity.MainActivity">
 
     <include
-        layout="@layout/content_main_recycler_view"
+        layout="@layout/content_recycler_view"
         app:layout_anchor="@+id/textEmpty"
         app:layout_anchorGravity="center" />
 
@@ -25,7 +25,7 @@
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
         app:fabCradleRoundedCornerRadius="4dp"
-        app:menu="@menu/menu_for_bottom_app_bar"
+        app:menu="@menu/menu_for_app_bar"
         app:navigationIcon="@drawable/baseline_menu_black_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,5 +45,27 @@
         android:layout_marginBottom="?attr/actionBarSize"
         android:text="@string/empty_list"
         android:textColor="?attr/dateTextColor" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="54dp"
+        app:cardCornerRadius="6dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="6"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </androidx.cardview.widget.CardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

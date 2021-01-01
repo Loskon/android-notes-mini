@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:text="@string/select_file"
+        android:text="@string/dialog_restore_title"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/img_btn_remove_all"

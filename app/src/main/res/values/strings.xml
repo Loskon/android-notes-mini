@@ -1,105 +1,124 @@
 <resources>
+    <!-- tittle my app -->
     <string name="app_name">Note Mini</string>
 
+
     <!-- menu for bottom app bar -->
-    <string name="switch_view">Switch view</string>
-    <string name="select_item">Select item</string>
+    <string name="menu_item1_switch">Switch view</string>
+    <string name="menu_item2_switch">Search go</string>
+    <string name="menu_item3_select">Select item</string>
+
 
     <!-- menu for nav drawer view -->
-    <string name="nav_item1">Note</string>
-    <string name="nav_item2">Favorites</string>
-    <string name="nav_item3">Trash</string>
-    <string name="nav_item4">Settings</string>
+    <string name="nav_item1_note">Note</string>
+    <string name="nav_item2_fav">Favorites</string>
+    <string name="nav_item3_trash">Trash</string>
+    <string name="nav_item4_settings">Settings</string>
 
-    <!-- activity_main -->
-    <string name="empty_list">Empty</string>
-    <string name="add_trash">Note added to trash</string>
+    <!-- Snackbars -->
+    <!-- Main -->
+    <string name="snackbar_main_text_add_trash">Note added to trash</string>
 
+    <!-- Note -->
+    <string name="snackbar_note_text_note_in_trash">The note is in the trash</string>
+    <string name="snackbar_note_btn_action">Restore</string>
+
+    <!-- Backup -->
+    <string name="snackbar_backup_text_error">Error. Retry!</string>
+    <string name="snackbar_backup_text_no_folder">Backup folder not present.
+        Do a backup before a restore!</string>
+    <string name="snackbar_backup_text_completed">Backup Completed!</string>
+    <string name="snackbar_backup_text_no_completed">Unable to backup database. Retry!</string>
+    <string name="snackbar_backup_text_restore_completed">Restore Completed!</string>
+    <string name="snackbar_backup_text_restore_no_completed">Unable to import database. Retry!</string>
 
     <!-- activity_note -->
-    <string name="text_for_edit_text">Text</string>
-    <string name="insert_current_date">Insert the current date</string>
-    <string name="enter_name">Enter a name</string>
+    <string name="note_hint_text">Text</string>
 
     <!-- activity_backup -->
-    <string name="action_backup">Backup</string>
-    <string name="action_backup_drive">Backup to Drive</string>
-    <string name="action_import">Import</string>
-    <string name="action_import_drive">Import from Drive</string>
-    <string name="no_permissions">No permissions</string>
+    <string name="btn_backup">Backup</string>
+    <string name="btn_backup_drive">Backup to Drive</string>
+    <string name="btn_backup_restore">Restore</string>
+    <string name="btn_backup_restore_drive">Restore from Drive</string>
+
 
     <!-- dialog_backup -->
-    <string name="backup_name">Backup name in english</string>
-    <string name="forbidden_text">ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    <string name="dialog_backup_hint">Backup name in english</string>
+    <string name="dialog_backup_error_message">Enter a name</string>
+    <string name="dialog_backup_forbidden_text">ABCDEFGHIJKLMNOPQRSTUVWXYZ
         abcdefghijklmnopqrstuvwxyz0123456789()#№/_:.- </string>
 
-    <!-- dialog_import -->
-    <string name="select_file">Select file:</string>
+
+    <!-- dialog_restore -->
+    <string name="dialog_restore_title">Select file:</string>
+
 
     <!-- dialog_font_size -->
     <string name="font_size_title">Font size</string>
-    <string name="font_size_change">Hello, Word!</string>
+
 
     <!-- dialog_color_picker -->
     <string name="color_theme_title">Color theme</string>
     <string name="reset_color">Reset</string>
 
+
     <!-- activity_color -->
     <string name="take_color">Take</string>
 
+
     <!-- preference_appearance -->
-    <!-- Preference Titles -->
+    <!-- Preference Key -->
+    <string name="pref_key_num_of_lines">isOneSizeOn</string>
+
+    <!-- Preference Category Titles -->
     <string name="note_appearance">Note appearance</string>
-    <string name="corner_of_cards">Corners of cards</string>
-    <string name="select_color">Select color</string>
+    <string name="font_size">The font size of the text</string>
+    <string name="reset_settings_card_appearance">Reset the font size</string>
+    <string name="theme_color">Theme color</string>
     <string name="number_of_lines">Number of lines</string>
+    <string name="other">Other</string>
+
+    <!-- Preference Titles -->
+    <string name="reset">Reset</string>
+    <string name="select_color">Select color</string>
     <string name="one_size_cards">One size for multi-cards mode</string>
-    <string name="reset_settings_card_appearance">Reset</string>
-    <string name="date_cards">01/21/96 12:00 AM</string>
-    <string name="date_font_size">Font size of the date text</string>
-    <string name="main_font_size">Font size of the main text</string>
+
 
     <!-- preference -->
     <!-- Preference Key -->
     <string name="pref_key_one_size">isOneSizeOn</string>
     <string name="pref_key_auto_backup">isAutoBackupOn</string>
 
-    <!-- Preference Titles -->
+    <!-- Preference Category Titles -->
     <string name="appearance_settings_header">Appearance settings</string>
     <string name="backup_of_notes">Backup of notes</string>
     <string name="sync_header">Sync</string>
 
-    <!-- Appearance Preferences -->
+    <!-- Preference Titles -->
     <string name="customize_appearance">Customize appearance</string>
     <string name="dark_mode_title">Dark mode</string>
-
-    <!-- Backup of notes -->
     <string name="backup_and_restore">Backup and Restore</string>
     <string name="folder_for_backup">Folder for backup</string>
     <string name="auto_backup">Auto backup</string>
-    <string name="auto_backup_summary">Creates a backup, when you create 5 new notes</string>
-
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-
-    <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
+
+    <!-- Preference summary -->
+    <string name="auto_backup_summary">Creates a backup of every 5 added notes</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested
     </string>
 
-    <!--OK and Cancel -->
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <!--On and Off -->
+
+    <!-- other -->
+    <string name="empty_list">Empty</string>
+    <string name="no_permissions">No permissions</string>
+    <string name="font_size_change">Hello, Word!</string>
+    <string name="date_cards">01/21/96 12:00 AM</string>
     <string name="on">On</string>
     <string name="off">Off</string>
 
     <string name="title_activity_settings23">SettingsActivity23</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
 </resources>

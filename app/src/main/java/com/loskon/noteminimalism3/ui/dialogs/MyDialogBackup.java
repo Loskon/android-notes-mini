@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,9 +17,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.backup.BackupAndRestoreDatabase;
 import com.loskon.noteminimalism3.helper.BackupLimiter;
+import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.ReplaceText;
 import com.loskon.noteminimalism3.helper.GetDate;
-import com.loskon.noteminimalism3.helper.RestoreHelper;
 
 import java.io.File;
 import java.util.Date;
@@ -28,22 +29,22 @@ import static com.loskon.noteminimalism3.R.style.MaterialAlertDialog_Rounded;
 
 public class MyDialogBackup {
 
-    private final Context context;
+    private final Activity activity;
     private AlertDialog alertDialog;
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
     private String outFileName;
     private File folder;
 
-    public MyDialogBackup(Context context) {
-        this.context = context;
+    public MyDialogBackup(Activity activity) {
+        this.activity = activity;
     }
 
     public void callDialogBackup(String outFileName, File folder) {
         this.outFileName = outFileName;
         this.folder = folder;
 
-        alertDialog =  new MaterialAlertDialogBuilder(context,
+        alertDialog =  new MaterialAlertDialogBuilder(activity,
                 MaterialAlertDialog_Rounded)
                 .setView(R.layout.dialog_backup)
                 .create();
@@ -53,7 +54,6 @@ public class MyDialogBackup {
         int height = ViewGroup.LayoutParams.WRAP_CONTENT;
         alertDialog.getWindow().setLayout(width, height);
         alertDialog.getWindow().setGravity(Gravity.CENTER);
-        alertDialog.setCancelable(false);
 
         alertDialog.show();
 
@@ -66,6 +66,10 @@ public class MyDialogBackup {
         // assert
         assert btnOk != null;
         assert btnCancel != null;
+
+        int color = MyColor.getColorCustom(activity);
+        btnOk.setBackgroundColor(color);
+        btnCancel.setTextColor(color);
 
         showKeyboard();
         setDateInEditText();
@@ -101,7 +105,7 @@ public class MyDialogBackup {
         // Показать клавиатуру
         textInputEditText.postDelayed(() -> {
             InputMethodManager keyboard = (InputMethodManager)
-                    context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.showSoftInput(textInputEditText, 0);
         },50);
     }
@@ -117,7 +121,7 @@ public class MyDialogBackup {
 
         if (textLength == 0) {
             // Вывести сообщение об ошибке, если editText пуст
-            textInputLayout.setError(context.getString(R.string.enter_name));
+            textInputLayout.setError(activity.getString(R.string.dialog_backup_error_message));
             textInputLayout.setErrorEnabled(true);
         } else {
 
@@ -125,8 +129,9 @@ public class MyDialogBackup {
 
             titleText = ReplaceText.replaceForSaveTittle(titleText);
 
-            String outText = outFileName + titleText + ".db";
-            BackupAndRestoreDatabase.backupDatabase(context, outText);
+            String outText = outFileName + titleText  + ".db";
+
+            BackupAndRestoreDatabase.backupDatabase(activity, outText);
 
             BackupLimiter.purgeLogFiles(folder); // Удаление лишних файлов
 

@@ -2,9 +2,9 @@ package com.loskon.noteminimalism3.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,26 +34,31 @@ import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.CheckEmptyRecyclerView;
 import com.loskon.noteminimalism3.helper.MainHelper;
 import com.loskon.noteminimalism3.helper.MyIntent;
-import com.loskon.noteminimalism3.ui.dialogs.MyBottomSheetMain;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogBottomSheet;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
-import com.loskon.noteminimalism3.rv.Callback;
+import com.loskon.noteminimalism3.rv.CallbackDelMode;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.others.RefreshView;
 import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
 import com.loskon.noteminimalism3.db.DbAdapter;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPrefKeys;
+import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.ui.preference.PrefCardView;
+import com.loskon.noteminimalism3.ui.preference.PrefNumOfLines;
 
 
 import java.util.List;
 import java.util.Objects;
 
+import jp.wasabeef.recyclerview.animators.ScaleInBottomAnimator;
+
 /**
  * Основной класс заметок
  */
 
-public class  MainActivity extends AppCompatActivity implements Callback,
-        MyBottomSheetMain.ItemClickListenerBottomNavView {
+public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
+        MyDialogBottomSheet.ItemClickListenerBottomNavView, PrefNumOfLines.callbackNumOfLines,
+        SettingsAppActivity.CallbackOneSize, PrefCardView.CallbackFontSize {
 
     private MyRecyclerViewAdapter rvAdapter;
     private DbAdapter dbAdapter;
@@ -63,6 +68,8 @@ public class  MainActivity extends AppCompatActivity implements Callback,
     private BottomAppBar bottomAppBar;
     private FloatingActionButton fabMain;
     private TextView textEmpty;
+    private TextView textNumSelItem;
+    private CardView cardView;
     private Menu appBarMenu;
     private Snackbar snackbarMain;
     private CountDownTimer countDownTimer;
@@ -70,8 +77,8 @@ public class  MainActivity extends AppCompatActivity implements Callback,
     private boolean isTypeNotesSingleOn;
     private boolean isDeleteModeOn;
     private boolean isUpdateDate;
-    private boolean isListGoUp;
-    private int selNotesCategory;
+    private boolean isListGoUp, isOneSizeOn;
+    private int selNotesCategory, numOfLines, fontSize, dateFontSize;
     private String whereClauseForMode;
 
     // Переменные для сохранения состояния RecyclerView
@@ -89,26 +96,48 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         mBundleRecyclerViewState = null;
         // Устанавливаем категорию "Note" при запуске
         MySharedPreference.saveInt(this,
-                MySharedPrefKeys.KEY_SEL_CATEGORY, 0);
+                MyPrefKey.KEY_SEL_CATEGORY, 0);
 
         initialiseWidgets();
+        initialiseSettings();
         cleaningFromTrash();
-        setupRecyclerView();
+        setupRecyclerViewAdapter();
         enableSwipeToDelete();
         differentHandlers();
     }
 
     private void initialiseWidgets() {
         textEmpty = findViewById(R.id.textEmpty);
+        cardView = findViewById(R.id.card_view_main);
         recyclerView =  findViewById(R.id.recyclerView);
         bottomAppBar =  findViewById(R.id.btmAppBarMain);
         fabMain =  findViewById(R.id.fabMain);
         refreshLayout = findViewById(R.id.refreshLayout);
+        textNumSelItem = findViewById(R.id.textView);
+
         appBarMenu = bottomAppBar.getMenu();
         dbAdapter = new DbAdapter(this);
-        MainHelper.removeFlicker(recyclerView);
+    }
 
+    private void initialiseSettings() {
+        MainHelper.removeFlicker(recyclerView);
+        cardView.setVisibility(View.GONE);
+        recyclerView.setItemAnimator(new ScaleInBottomAnimator());
         setVisibleSelectItem(false);
+
+        (new PrefNumOfLines(this)).registerCallbackNumOfLines(this);
+        numOfLines = MySharedPreference.loadInt(this,
+                MyPrefKey.KEY_NUM_OF_LINES, 3);
+
+        (new SettingsAppActivity()).registerCallBackOneSize(this);
+        isOneSizeOn = MySharedPreference.loadBoolean(this,
+                MyPrefKey.KEY_ONE_SIZE, false);
+
+        (new PrefCardView(this)).registerCallBackFontSize(this);
+        fontSize = MySharedPreference
+                .loadInt(this, MyPrefKey.KEY_TITLE_FONT_SIZE, 18);
+        dateFontSize = MySharedPreference
+                .loadInt(this, MyPrefKey.KEY_DATE_FONT_SIZE, 14);
     }
 
     private void setVisibleSelectItem(boolean isVisibleSelect) {
@@ -121,17 +150,20 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         dbAdapter.close();
     }
 
-    private void setupRecyclerView() {
+    private void setupRecyclerViewAdapter() {
         notesCategory();
 
         dbAdapter.open();
         List<Note> notes = dbAdapter.getNotes(whereClauseForMode);
         dbAdapter.close();
 
-        rvAdapter = new MyRecyclerViewAdapter(this, notes, dbAdapter,
-                selNotesCategory, isDeleteModeOn, isTypeNotesSingleOn);
+        rvAdapter = new MyRecyclerViewAdapter(
+                this, notes, dbAdapter, selNotesCategory,
+                isDeleteModeOn, isTypeNotesSingleOn, numOfLines, isOneSizeOn,
+                fontSize, dateFontSize);
+
         rvAdapter.setCallbackDelMode(this);
-        customHandlers();
+        checkEmptyRecyclerView();
         recyclerView.setAdapter(rvAdapter);
     }
 
@@ -172,14 +204,14 @@ public class  MainActivity extends AppCompatActivity implements Callback,
     public void toggleTypeOfNotes() {
         // Переключение и сохранение вида линейный/сетка
         isTypeNotesSingleOn = !isTypeNotesSingleOn;
-        MySharedPreference.saveBoolean(this, MySharedPrefKeys.KEY_TYPE_NOTES, isTypeNotesSingleOn);
+        MySharedPreference.saveBoolean(this, MyPrefKey.KEY_TYPE_NOTES, isTypeNotesSingleOn);
     }
 
     private void switchType() {
         // Изменение вида списка и иконки меню при переключении
 
         isTypeNotesSingleOn = MySharedPreference.loadBoolean(this,
-                MySharedPrefKeys.KEY_TYPE_NOTES, true);
+                MyPrefKey.KEY_TYPE_NOTES, true);
 
         if (isTypeNotesSingleOn) {
             appBarMenu.findItem(R.id.action_switch_view).
@@ -192,16 +224,8 @@ public class  MainActivity extends AppCompatActivity implements Callback,
                     setIcon(ResourcesCompat.getDrawable(getResources(),
                             R.drawable.baseline_view_agenda_black_24, null));
 
-            boolean isOneSizeOn = MySharedPreference.loadBoolean(this,
-                    MySharedPrefKeys.KEY_ONE_SIZE, false);
-
-            if (isOneSizeOn) {
-                recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-            } else {
-                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
-                        StaggeredGridLayoutManager.VERTICAL));
-            }
-
+            recyclerView.setLayoutManager(new
+                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
 
         rvAdapter.setTypeOfNotes(isTypeNotesSingleOn);
@@ -259,7 +283,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         }
     }
 
-    private void customHandlers() {
+    private void checkEmptyRecyclerView() {
         rvAdapter.registerAdapterDataObserver(new CheckEmptyRecyclerView(textEmpty, // Проверка на пустой список
                 rvAdapter));
         (new CheckEmptyRecyclerView(textEmpty, rvAdapter)).checkEmpty(); // Дополнительная проверка на пустой список (срабатывает при сменах активити)
@@ -272,17 +296,10 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         MyColor.setColorFab(this, fabMain);
         MyColor.setNavigationIconColor(this, bottomAppBar);
 
-
-        //Toast.makeText(this, ""+bottomAppBar.getMenu().findItem(R.id.action_switch_view).getIcon(), Toast.LENGTH_SHORT).show();
-
        // rvAdapter.notifyDataSetChanged();
         switchType();
         updateDateMethod();
         restoreRecyclerViewState();
-
-        // Устанавливаем список настроек в начальную позицию
-        MySharedPreference.saveInt(this, "index", 0);
-        MySharedPreference.saveInt(this, "top", 0);
     }
 
 
@@ -302,7 +319,8 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         // Вызвает установку адаптера
         // (необходимо для появления новой заметки в списке)
         if (isUpdateDate) {
-            setupRecyclerView();
+            setupRecyclerViewAdapter();
+            isUpdateDate = false;
             intent.putExtra("updateDate", false);
             if (isListGoUp) {
                 Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(0); // Возвращает списко вверх, если создана новая заметка
@@ -357,6 +375,11 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         MyColor.setColorMenuIcon(this, appBarMenu);
     }
 
+    @Override
+    public void onCallbackClick3(int numSelItem) {
+        textNumSelItem.setText(String.valueOf(numSelItem));
+    }
+
     private void onClickDelete(boolean isDelete) {
         // IN SwipeRecyclerViewAdapter
         rvAdapter.deleteSelectedItems(isDelete);
@@ -369,11 +392,14 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         //bottomAppBar.setHideOnScroll(!isDeleteModeOn);
 
         if (isDeleteModeOn) {
+            cardView.setVisibility(View.VISIBLE);
+            cardView.setCardBackgroundColor(MyColor.getColorCustom(this));
             if (selNotesCategory != 2) {
                 fabMain.setImageResource(R.drawable.baseline_delete_black_24);
             }
             bottomAppBar.setNavigationIcon(R.drawable.baseline_navigate_before_black_24);
         } else {
+            cardView.setVisibility(View.GONE);
             if (selNotesCategory != 2) {
                 fabMain.setImageResource(R.drawable.baseline_add_black_24);
             }
@@ -383,6 +409,8 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         for (int i = 0; i < 2; i++) {
             appBarMenu.getItem(i).setVisible(!isDeleteModeOn);
         }
+
+
 
         setVisibleSelectItem(isDeleteModeOn);
 
@@ -394,7 +422,7 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         // Callback FROM BottomSheetDialog
         //this.selNotesCategory = selNotesCategory;
         //rvAdapter.notifyDataSetChanged();
-        setupRecyclerView();
+        setupRecyclerViewAdapter();
     }
 
     @Override
@@ -480,13 +508,15 @@ public class  MainActivity extends AppCompatActivity implements Callback,
         ProgressBar progressBar =  snackView.findViewById(R.id.snackbar_progress_bar);
         TextView textProgress =  snackView.findViewById(R.id.snackbar_text_progress);
 
-        textSnackbar.setText(getString(R.string.add_trash));
+        textSnackbar.setText(getString(R.string.snackbar_main_text_add_trash));
         progressBar.setProgress(0);
         progressBar.setMax(10000);
 
+        btnSnackbar.setTextColor(MyColor.getColorCustom(this));
         btnSnackbar.setOnClickListener(v -> {
             rvAdapter.resetItem(note, position);
-            snackbarMain.dismiss();
+            recyclerView.scrollToPosition(position);
+            closeSnackBar();
         });
 
         ObjectAnimator animation = ObjectAnimator.ofInt(progressBar,
@@ -518,4 +548,30 @@ public class  MainActivity extends AppCompatActivity implements Callback,
             countDownTimer.cancel();
         }
     }
+
+    @Override
+    public void callingBackNumOfLines(int numOfLines) {
+        this.numOfLines = numOfLines;
+        setChangedView();
+    }
+
+    @Override
+    public void callingBackOneSize(boolean isOneSizeOn) {
+        this.isOneSizeOn = isOneSizeOn;
+        setChangedView();
+    }
+
+    @Override
+    public void callingBackFontSize(int fontSize, int dateFontSize) {
+        this.fontSize = fontSize;
+        this.dateFontSize = dateFontSize;
+        setChangedView();
+    }
+
+    private void setChangedView() {
+        isUpdateDate = true;
+        updateDateMethod();
+    }
+
+
 }

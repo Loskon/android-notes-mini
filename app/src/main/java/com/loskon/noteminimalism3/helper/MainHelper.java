@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.helper;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.Menu;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -9,17 +8,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
-import com.loskon.noteminimalism3.ui.dialogs.MyBottomSheetMain;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogBottomSheet;
 
 public class MainHelper {
 
     public static final int REQUEST_CODE_PERMISSIONS = 298;
 
     public static void bottomNavViewShow(FragmentManager fragmentManager) {
-        if (fragmentManager.findFragmentByTag(MyBottomSheetMain.TAG) == null) {
-            MyBottomSheetMain bottomSheet = MyBottomSheetMain.newInstance();
-            bottomSheet.show(fragmentManager, MyBottomSheetMain.TAG);
+        if (fragmentManager.findFragmentByTag(MyDialogBottomSheet.TAG) == null) {
+            MyDialogBottomSheet bottomSheet = MyDialogBottomSheet.newInstance();
+            bottomSheet.show(fragmentManager, MyDialogBottomSheet.TAG);
         }
     }
 

@@ -1,22 +1,22 @@
 package com.loskon.noteminimalism3.db.backup;
 
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
+import android.app.Activity;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
 
 import static com.loskon.noteminimalism3.db.DbHelper.DATABASE_NAME;
 
 public class BackupAndRestoreDatabase {
 
-    public static void backupDatabase(Context context, String outFileName) {
+    private  static String typeMessage;
+    private  static boolean isSuccess;
+
+    public static void backupDatabase(Activity activity, String outFileName) {
         // Путь к базе данных
-        final String inFileName = context.getDatabasePath(DATABASE_NAME).toString();
+        final String inFileName = activity.getDatabasePath(DATABASE_NAME).toString();
 
         try {
             // создать файл
@@ -38,17 +38,22 @@ public class BackupAndRestoreDatabase {
             output.close();
             fis.close();
 
-            Toast.makeText(context, "Backup Completed", Toast.LENGTH_SHORT).show();
+            typeMessage = SnackbarBackup.MSG_BACKUP_COMPLETED;
+            isSuccess = true;
 
         } catch (Exception e) {
-            Toast.makeText(context, "Unable to backup database. Retry", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+
+            typeMessage = SnackbarBackup.MSG_BACKUP_NO_COMPLETED;
+            isSuccess = true;
         }
+
+        SnackbarBackup.showSnackbar(activity, isSuccess, typeMessage);
     }
 
-    public static void restoreDatabase(Context context, String inFileName) {
+    public static void restoreDatabase(Activity activity, String inFileName) {
 
-        final String outFileName = context.getDatabasePath(DATABASE_NAME).toString();
+        String outFileName = activity.getDatabasePath(DATABASE_NAME).toString();
 
         try {
 
@@ -70,11 +75,16 @@ public class BackupAndRestoreDatabase {
             output.close();
             fis.close();
 
-            Toast.makeText(context, "Import Completed", Toast.LENGTH_SHORT).show();
+            typeMessage = SnackbarBackup.MSG_RESTORE_COMPLETED;
+            isSuccess = true;
 
         } catch (Exception e) {
-            Toast.makeText(context, "Unable to import database. Retry", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+
+            typeMessage = SnackbarBackup.MSG_RESTORE_NO_COMPLETED;
+            isSuccess = false;
         }
+
+        SnackbarBackup.showSnackbar(activity, isSuccess, typeMessage);
     }
 }

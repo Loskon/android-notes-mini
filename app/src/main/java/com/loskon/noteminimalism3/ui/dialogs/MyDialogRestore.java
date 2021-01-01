@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.backup.ArrayAdapterFiles;
 import com.loskon.noteminimalism3.db.backup.BackupAndRestoreDatabase;
+import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.RestoreHelper;
 
 import java.io.File;
@@ -28,19 +30,19 @@ import static com.loskon.noteminimalism3.R.style.MaterialAlertDialog_Rounded;
 
 public class MyDialogRestore {
 
-    private final Context context;
+    private final Activity activity;
     private TextView txtEmptyRestore;
     private ImageButton btnRemoveAll;
     private ArrayList<String> listFiles;
 
-    public MyDialogRestore(Context context) {
-        this.context = context;
+    public MyDialogRestore(Activity activity) {
+        this.activity = activity;
     }
 
     public void callDialogRestore(File folder) {
-        AlertDialog alertDialog = new MaterialAlertDialogBuilder(context,
+        AlertDialog alertDialog = new MaterialAlertDialogBuilder(activity,
                 MaterialAlertDialog_Rounded)
-                .setView(R.layout.dialog_import)
+                .setView(R.layout.dialog_restore)
                 .create();
 
         // View settings
@@ -65,6 +67,9 @@ public class MyDialogRestore {
         assert btnCancel != null;
         assert files != null;
 
+        int color = MyColor.getColorCustom(activity);
+        btnCancel.setTextColor(color);
+
         //RestoreHelper.purgeLogFiles(files);
 
         listFiles = new ArrayList<>();
@@ -79,16 +84,12 @@ public class MyDialogRestore {
         checkEmptyListFiles();
 
         // Устанавливам адаптер
-        arrayAdapterFiles = new ArrayAdapterFiles(context, listFiles, folder);
+        arrayAdapterFiles = new ArrayAdapterFiles(activity, listFiles, folder);
         listViewFiles.setAdapter(arrayAdapterFiles);
 
         // Click listView
         listViewFiles.setOnItemClickListener((adapterView, view, position, l) -> {
-            try {
-                BackupAndRestoreDatabase.restoreDatabase(context, files[position].getPath());
-            } catch (Exception e) {
-                Toast.makeText(context, "Unable to restore. Retry", Toast.LENGTH_SHORT).show();
-            }
+            BackupAndRestoreDatabase.restoreDatabase(activity, files[position].getPath());
             alertDialog.dismiss();
         });
 

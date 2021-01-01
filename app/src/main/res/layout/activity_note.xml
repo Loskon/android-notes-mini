@@ -39,7 +39,7 @@
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:ems="10"
-                android:hint="@string/text_for_edit_text"
+                android:hint="@string/note_hint_text"
                 android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
                 android:textColor="?attr/titleTextColor"
                 android:textColorHint="@android:color/darker_gray" />

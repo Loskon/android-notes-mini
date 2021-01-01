@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/btmAppBarSettings2"
+            android:id="@+id/btmAppBarSettingsApp"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_for_bottom_app_bar"

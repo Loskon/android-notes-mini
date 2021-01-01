@@ -56,12 +56,11 @@ public class MyIntent {
     }
 
 
-    public static void goFindFolder(Activity activity) {
+    public static Intent goFindFolder() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        activity.startActivityForResult(Intent.createChooser(intent,
-                "Choose directory"), READ_REQUEST_CODE);
+        return intent;
     }
 
     public static void goMainActivity(Context context) {

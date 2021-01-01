@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,8 @@ import com.loskon.noteminimalism3.helper.GetSizeItem;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.GetDate;
 import com.loskon.noteminimalism3.helper.MyIntent;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPrefKeys;
-import com.loskon.noteminimalism3.ui.activity.SettingsAppActivity;
-import com.loskon.noteminimalism3.ui.preference.item.PrefNumOfLines;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +34,7 @@ import java.util.Stack;
  */
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
-        implements PrefNumOfLines.callbackNumOfLines, SettingsAppActivity.CallbackColor34 {
+           {
 
     private final DbAdapter dbAdapter;
 
@@ -46,34 +43,44 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
     protected Stack<View> cachedViews = new Stack<>();
     private final Context context;
 
-    private boolean isSelectionModeOn, isOneSizeOn, isTypeNotesSingleOn;
+    private boolean isSelectionModeOn;
+    private final boolean isOneSizeOn;
+    private boolean isTypeNotesSingleOn;
 
     private int color, border, radius;
     private int radius_dp;
     private int stoke_dp;
     private final int selNotesCategory; // Выбранный режим заметок
-    private int numOfLines;
+    private final int numOfLines;
     private int numSelItem;
+    private final int fontSize;
+    private final int dateFontSize;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int NUM_CACHED_VIEWS = 6;
 
-    private Callback callbackDelMode; // Поле слушателя для обратного вызова
+    private CallbackDelMode callbackDelMode; // Поле слушателя для обратного вызова
 
     // setting the listener
-    public void setCallbackDelMode(Callback callbackDelMode)    {
+    public void setCallbackDelMode(CallbackDelMode callbackDelMode)    {
         this.callbackDelMode = callbackDelMode;
     }
 
     public MyRecyclerViewAdapter(Context context, List<Note> notes, DbAdapter dbAdapter,
                                  int selNotesCategory, boolean isSelectionModeOn,
-                                 boolean isTypeNotesSingleOn) {
+                                 boolean isTypeNotesSingleOn, int numOfLines, boolean isOneSizeOn,
+                                 int fontSize, int dateFontSize) {
         this.context = context;
         this.notes = notes;
         this.dbAdapter = dbAdapter;
         this.selNotesCategory = selNotesCategory;
         this.isSelectionModeOn = isSelectionModeOn;
         this.isTypeNotesSingleOn = isTypeNotesSingleOn;
+        this.numOfLines = numOfLines;
+        this.isOneSizeOn = isOneSizeOn;
+        this.fontSize = fontSize;
+        this.dateFontSize = dateFontSize;
+        Toast.makeText(context, "" + dateFontSize, Toast.LENGTH_SHORT).show();
 
         initSettings();
     }
@@ -81,14 +88,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
     private void initSettings() {
         radius_dp = GetSizeItem.getRadiusLinLay(context);
         stoke_dp = GetSizeItem.getStrokeLinLay(context);
-
-        (new PrefNumOfLines(context)).registerCallbackNumOfLines(this);
-        numOfLines = MySharedPreference.loadInt(context,
-                MySharedPrefKeys.KEY_NUM_OF_LINES, 3);
-
-        (new SettingsAppActivity()).registerCallBack34(this);
-        isOneSizeOn = MySharedPreference.loadBoolean(context,
-                MySharedPrefKeys.KEY_ONE_SIZE, false);
     }
 
     public void setTypeOfNotes(boolean isTypeNotesSingleOn) {
@@ -100,12 +99,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
     public NoteViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View recyclerViewItem = layoutInflater.inflate(R.layout.card_for_swipe_item_note6,
+        View recyclerViewItem = layoutInflater.inflate(R.layout.card_view_item,
                 parent, false);
 
         AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(parent.getContext());
         for (int i = 0; i < NUM_CACHED_VIEWS; i++) {
-            asyncLayoutInflater.inflate(R.layout.card_for_swipe_item_note6,
+            asyncLayoutInflater.inflate(R.layout.card_view_item,
                      parent, inflateListener);
         }
 
@@ -140,6 +139,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             holder.title.setText(note.getTitle().trim());
             holder.date.setText(GetDate.getNowDate(note.getDate()));
 
+            holder.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+            holder.date.setTextSize(TypedValue.COMPLEX_UNIT_SP, dateFontSize);
+
             holder.title.setMaxLines(numOfLines);
 
             if (!isTypeNotesSingleOn || !isOneSizeOn) {
@@ -160,7 +162,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             }
 
             if (note.getSelectItemForDel()) {
-                varForGradientDrawable(radius_dp, stoke_dp, Color.GRAY);
+                varForGradientDrawable(radius_dp, stoke_dp, MyColor.getColorCustom(context));
             } else {
                 varForGradientDrawable(0, 0, Color.TRANSPARENT);
             }
@@ -201,16 +203,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
         this.radius = radius;
         this.border = border;
         this.color = color;
-    }
-
-    @Override
-    public void callingBackNumOfLines(int numOfLines) {
-        this.numOfLines = numOfLines;
-    }
-
-    @Override
-    public void callingBackColor34(boolean isOneSizeOn) {
-        this.isOneSizeOn = isOneSizeOn;
     }
 
     private void handleItemClick(RecyclerView recyclerView, View itemView) {
@@ -262,6 +254,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             }
             dbAdapter.close();
             notes.removeAll(toRemoveNotesList);
+        }
+
+        for (Note note : toRemoveNotesList) {
+            note.setSelectItemForDel(false);
         }
 
         toRemoveNotesList.clear();
@@ -346,6 +342,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
     private void checkSelectAll() {
         if (callbackDelMode != null) {
             callbackDelMode.onCallbackClick2(numSelItem == getItemCount());
+            callbackDelMode.onCallbackClick3(numSelItem);
         }
     }
 }

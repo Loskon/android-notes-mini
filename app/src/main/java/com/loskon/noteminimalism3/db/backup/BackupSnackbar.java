@@ -8,7 +8,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MySnackbar;
 
-public class SnackbarBackup {
+public class BackupSnackbar {
 
     public static final String MSG_BACKUP_COMPLETED = "backup_completed";
     public static final String MSG_RESTORE_COMPLETED = "restore_completed";
@@ -26,8 +26,8 @@ public class SnackbarBackup {
         String string = null;
 
         ConstraintLayout constraintLayout =
-                (ConstraintLayout) activity.findViewById(R.id.cstLayBackup);
-        BottomAppBar bar = (BottomAppBar) activity.findViewById(R.id.btmAppBarBackup);
+                activity.findViewById(R.id.cstLayBackup);
+        BottomAppBar bar = activity.findViewById(R.id.btmAppBarBackup);
 
         if (isSuccess) {
             if (typeMessage.equals(MSG_BACKUP_COMPLETED)) {

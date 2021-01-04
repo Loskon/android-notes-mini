@@ -1,11 +1,12 @@
-package com.loskon.noteminimalism3.helper;
+package com.loskon.noteminimalism3.db.backup;
 
 import android.database.sqlite.SQLiteDatabase;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.Comparator;
 
-public class RestoreHelper {
+public class BackupSort {
 
     // Сортировка по дате файла
     public static class SortFileDate implements Comparator<File> {
@@ -15,8 +16,8 @@ public class RestoreHelper {
         }
     }
 
-    // Получени списка файлов
+    // Получение списка файлов с расширением .db
     public static File[] getListFile(File folder) {
-        return folder.listFiles();
+        return folder.listFiles((dir, name) -> name.endsWith(".db"));
     }
 }

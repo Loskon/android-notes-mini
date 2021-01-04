@@ -1,20 +1,15 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
 import android.content.Context;
-import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
-
-import static com.loskon.noteminimalism3.R.style.MaterialAlertDialog_Rounded;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 
 public class MyDialogColor {
 
@@ -36,14 +31,7 @@ public class MyDialogColor {
     }
 
     public static void alertDialogShowColorPicker(Context context){
-        AlertDialog alertDialog =  new MaterialAlertDialogBuilder(context,
-                MaterialAlertDialog_Rounded)
-                .setView(R.layout.dialog_color_picker)
-                .create();
-        int width = ViewGroup.LayoutParams.WRAP_CONTENT;
-        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        alertDialog.getWindow().setLayout(width,height);
-        alertDialog.getWindow().setGravity(Gravity.CENTER);
+        AlertDialog alertDialog = MyDialogBuilder.buildDialog(context, R.layout.dialog_color_picker);
         alertDialog.show();
 
         // Initiation View
@@ -74,7 +62,7 @@ public class MyDialogColor {
 
         // OK
         btnOk.setOnClickListener(v -> {
-            MySharedPreference.saveInt(context,"color",color);
+            MySharedPref.setInt(context,"color",color);
             if (callbackColorNavIcon != null &&
                     callbackColorColorSettingsApp != null && callbackColorNotifyData != null) {
                 callbackColorNavIcon.callingBackColorNavIcon(color);

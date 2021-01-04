@@ -1,6 +1,7 @@
 <resources>
     <!-- tittle my app -->
     <string name="app_name">Note Mini</string>
+    <string name="app_name_backup">Note Mini Backup</string>
 
 
     <!-- menu for bottom app bar -->
@@ -15,21 +16,26 @@
     <string name="nav_item3_trash">Trash</string>
     <string name="nav_item4_settings">Settings</string>
 
+    <!-- Toast -->
+    <!-- Main -->
+    <string name="toast_main_text_auto_backup_completed">Auto backup completed!</string>
+    <string name="toast_main_text_auto_backup_no_completed">Auto backup error!</string>
+
     <!-- Snackbars -->
     <!-- Main -->
-    <string name="snackbar_main_text_add_trash">Note added to trash</string>
+    <string name="snackbar_main_text_add_trash">Note added to trash!</string>
 
     <!-- Note -->
-    <string name="snackbar_note_text_note_in_trash">The note is in the trash</string>
+    <string name="snackbar_note_text_note_in_trash">The note is in the trash!</string>
     <string name="snackbar_note_btn_action">Restore</string>
 
     <!-- Backup -->
     <string name="snackbar_backup_text_error">Error. Retry!</string>
     <string name="snackbar_backup_text_no_folder">Backup folder not present.
         Do a backup before a restore!</string>
-    <string name="snackbar_backup_text_completed">Backup Completed!</string>
+    <string name="snackbar_backup_text_completed">Backup completed!</string>
     <string name="snackbar_backup_text_no_completed">Unable to backup database. Retry!</string>
-    <string name="snackbar_backup_text_restore_completed">Restore Completed!</string>
+    <string name="snackbar_backup_text_restore_completed">Restore completed!</string>
     <string name="snackbar_backup_text_restore_no_completed">Unable to import database. Retry!</string>
 
     <!-- activity_note -->
@@ -88,6 +94,7 @@
     <!-- Preference Key -->
     <string name="pref_key_one_size">isOneSizeOn</string>
     <string name="pref_key_auto_backup">isAutoBackupOn</string>
+    <string name="pref_key_num_of_backup">numOfBackup</string>
 
     <!-- Preference Category Titles -->
     <string name="appearance_settings_header">Appearance settings</string>
@@ -100,11 +107,13 @@
     <string name="backup_and_restore">Backup and Restore</string>
     <string name="folder_for_backup">Folder for backup</string>
     <string name="auto_backup">Auto backup</string>
+    <string name="num_of_backup">Number of backups</string>
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
 
     <!-- Preference summary -->
     <string name="auto_backup_summary">Creates a backup of every 5 added notes</string>
+    <string name="num_backup_summary">Maximum number of backups</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested

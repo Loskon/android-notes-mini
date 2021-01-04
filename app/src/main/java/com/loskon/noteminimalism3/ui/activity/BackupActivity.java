@@ -11,14 +11,12 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.db.backup.MyPath;
-import com.loskon.noteminimalism3.db.backup.Permissions;
-import com.loskon.noteminimalism3.db.backup.SnackbarBackup;
+import com.loskon.noteminimalism3.db.backup.BackupPath;
+import com.loskon.noteminimalism3.db.backup.BackupPermissions;
+import com.loskon.noteminimalism3.db.backup.BackupSnackbar;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.db.backup.LocalBackupAndRestore;
+import com.loskon.noteminimalism3.db.backup.BackupLocal;
 import com.loskon.noteminimalism3.helper.MyIntent;
-import com.loskon.noteminimalism3.helper.MySnackbar;
-import com.loskon.noteminimalism3.helper.MyToast;
 
 import static com.loskon.noteminimalism3.helper.MainHelper.REQUEST_CODE_PERMISSIONS;
 
@@ -26,7 +24,7 @@ public class BackupActivity extends AppCompatActivity {
 
     private BottomAppBar btmAppBarSettings;
     private Button btnBackupSd, btnResetSd, btnBackupDrive, btnResetDrive;
-    private LocalBackupAndRestore localBackupAndRestore;
+    private BackupLocal backupLocal;
     private int btnId;
 
     @Override
@@ -46,7 +44,7 @@ public class BackupActivity extends AppCompatActivity {
         btnBackupDrive = findViewById(R.id.btn_backup_drive);
         btnResetDrive = findViewById(R.id.btn_backup_restore_drive);
 
-        localBackupAndRestore = new LocalBackupAndRestore(this);
+        backupLocal = new BackupLocal(this);
     }
 
     private void setColorItems() {
@@ -67,18 +65,16 @@ public class BackupActivity extends AppCompatActivity {
     public void onClickBtnSd(View view) {
         btnId = view.getId();
 
-        if (Permissions.verifyStoragePermissions(this)) {
+        if (BackupPermissions.verifyStoragePermissions(this)) {
             btnSd();
         }
     }
 
     private void btnSd() {
-        String path = MyPath.loadPath(this);
-
         if (btnId == R.id.btn_backup_sd) {
-            localBackupAndRestore.performBackup(path);
+            backupLocal.performBackup();
         } else if (btnId == R.id.btn_backup_restore_sd) {
-            localBackupAndRestore.performRestore(path);
+            backupLocal.performRestore();
         }
     }
 
@@ -99,8 +95,8 @@ public class BackupActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 btnSd();
             } else {
-                SnackbarBackup.showSnackbar(this,
-                        false, SnackbarBackup.MSG_TEXT_NO_PERMISSION);
+                BackupSnackbar.showSnackbar(this,
+                        false, BackupSnackbar.MSG_TEXT_NO_PERMISSION);
             }
         }
     }

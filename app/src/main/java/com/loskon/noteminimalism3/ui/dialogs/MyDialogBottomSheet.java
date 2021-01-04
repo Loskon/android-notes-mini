@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.ui.activity.settings.SettingsActivity;
 
@@ -54,7 +54,7 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        selNotesCategory = MySharedPreference.loadInt(requireContext(),
+        selNotesCategory = MySharedPref.getInt(requireContext(),
                 MyPrefKey.KEY_SEL_CATEGORY, 0);
 
         navigationView.getMenu().getItem(selNotesCategory).setChecked(true);
@@ -78,7 +78,7 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
                 requireContext().startActivity(intent);
             }
 
-            MySharedPreference.saveInt(requireContext(),
+            MySharedPref.setInt(requireContext(),
                     MyPrefKey.KEY_SEL_CATEGORY, selNotesCategory);
 
             if (menuId != R.id.nav4_settings) itemClickListener.onItemClickBottomNavView(selNotesCategory);

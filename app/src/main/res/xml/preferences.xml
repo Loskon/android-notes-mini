@@ -39,6 +39,11 @@
             app:summary="@string/auto_backup_summary"
             app:title="@string/auto_backup" />
 
+        <Preference
+            android:title="@string/num_of_backup"
+            app:iconSpaceReserved="false"
+            app:key="@string/pref_key_num_of_backup" />
+
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory

@@ -37,12 +37,12 @@
         android:stepSize="1"
         android:valueFrom="14"
         android:valueTo="40"
-        app:haloRadius="14dp"
+        app:haloRadius="@dimen/slider_halo_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:thumbRadius="@dimen/thumb_radius"
+        app:thumbRadius="@dimen/slider_thumb_radius"
         app:tickVisible="false" />
 
     <!-- Continuous slider -->

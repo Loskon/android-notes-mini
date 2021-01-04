@@ -80,7 +80,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
         this.isOneSizeOn = isOneSizeOn;
         this.fontSize = fontSize;
         this.dateFontSize = dateFontSize;
-        Toast.makeText(context, "" + dateFontSize, Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(context, "hi" + fontSize, Toast.LENGTH_SHORT).show();
 
         initSettings();
     }

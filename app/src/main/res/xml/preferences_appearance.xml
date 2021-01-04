@@ -32,17 +32,16 @@
         app:iconSpaceReserved="false"
         app:title="@string/number_of_lines">
         <com.loskon.noteminimalism3.ui.preference.PrefNumOfLines
-            app:allowDividerAbove="false"
-            app:key="@string/pref_key_num_of_lines" />
+            app:allowDividerAbove="false" />
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         android:title="@string/other"
         app:iconSpaceReserved="false">
         <com.loskon.noteminimalism3.ui.preference.MySwitchPref
-            app:allowDividerAbove="false"
             android:key="@string/pref_key_one_size"
             android:title="@string/one_size_cards"
+            app:allowDividerAbove="false"
             app:iconSpaceReserved="false" />
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 

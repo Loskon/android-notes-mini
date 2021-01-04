@@ -1,32 +1,25 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
 import android.app.Activity;
-import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.backup.ArrayAdapterFiles;
-import com.loskon.noteminimalism3.db.backup.BackupAndRestoreDatabase;
+import com.loskon.noteminimalism3.db.backup.BackupDb;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.RestoreHelper;
+import com.loskon.noteminimalism3.db.backup.BackupSort;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static com.loskon.noteminimalism3.R.style.MaterialAlertDialog_Rounded;
 
 public class MyDialogRestore {
 
@@ -35,22 +28,18 @@ public class MyDialogRestore {
     private ImageButton btnRemoveAll;
     private ArrayList<String> listFiles;
 
+    private static CallbackRestoreNotes cbRestoreNotes;
+
+    public void regCallbackRestoreNotes(CallbackRestoreNotes cbRestoreNotes) {
+        MyDialogRestore.cbRestoreNotes = cbRestoreNotes;
+    }
+
     public MyDialogRestore(Activity activity) {
         this.activity = activity;
     }
 
     public void callDialogRestore(File folder) {
-        AlertDialog alertDialog = new MaterialAlertDialogBuilder(activity,
-                MaterialAlertDialog_Rounded)
-                .setView(R.layout.dialog_restore)
-                .create();
-
-        // View settings
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        alertDialog.getWindow().setLayout(width, height);
-        alertDialog.getWindow().setGravity(Gravity.CENTER);
-
+        AlertDialog alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_restore);
         alertDialog.show();
 
         // initView
@@ -60,7 +49,7 @@ public class MyDialogRestore {
         Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_restore);
 
         ArrayAdapterFiles arrayAdapterFiles;
-        File[] files = RestoreHelper.getListFile(folder);
+        File[] files = BackupSort.getListFile(folder);
 
         // assert
         assert listViewFiles != null;
@@ -74,8 +63,8 @@ public class MyDialogRestore {
 
         listFiles = new ArrayList<>();
 
-        List<File> fileList = new ArrayList<>(Arrays.asList(RestoreHelper.getListFile(folder)));
-        Collections.sort(fileList, new RestoreHelper.SortFileDate());
+        List<File> fileList = new ArrayList<>(Arrays.asList(BackupSort.getListFile(folder)));
+        Collections.sort(fileList, new BackupSort.SortFileDate());
 
         for (File file : fileList) {
             listFiles.add(file.getName());
@@ -89,14 +78,16 @@ public class MyDialogRestore {
 
         // Click listView
         listViewFiles.setOnItemClickListener((adapterView, view, position, l) -> {
-            BackupAndRestoreDatabase.restoreDatabase(activity, files[position].getPath());
+            BackupDb.restoreDatabase(activity, files[position].getPath());
+            if (cbRestoreNotes != null) {
+                cbRestoreNotes.callingRestoreNotes();
+            }
             alertDialog.dismiss();
         });
 
         // Click deleteAll
         btnRemoveAll.setOnClickListener(view -> {
-            arrayAdapterFiles.notifyDataSetChanged();
-            arrayAdapterFiles.deleteAll(files);
+            arrayAdapterFiles.deleteAll();
         });
 
         // Click cancel
@@ -118,5 +109,9 @@ public class MyDialogRestore {
     private void thisListEmpty() {
         txtEmptyRestore.setVisibility(View.VISIBLE);
         btnRemoveAll.setVisibility(View.INVISIBLE);
+    }
+
+    public interface CallbackRestoreNotes {
+        void callingRestoreNotes();
     }
 }

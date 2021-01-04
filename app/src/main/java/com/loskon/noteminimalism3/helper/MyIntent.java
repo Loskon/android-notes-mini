@@ -1,23 +1,14 @@
 package com.loskon.noteminimalism3.helper;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Handler;
-
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 
 import com.loskon.noteminimalism3.ui.activity.BackupActivity;
 import com.loskon.noteminimalism3.ui.activity.MainActivity;
 import com.loskon.noteminimalism3.ui.activity.NoteActivity;
 import com.loskon.noteminimalism3.ui.activity.SettingsAppActivity;
 import com.loskon.noteminimalism3.ui.activity.settings.SettingsActivity;
-
-import static com.loskon.noteminimalism3.db.backup.Permissions.PERMISSIONS_STORAGE;
-import static com.loskon.noteminimalism3.helper.MainHelper.REQUEST_CODE_PERMISSIONS;
 
 public class MyIntent {
 
@@ -69,11 +60,9 @@ public class MyIntent {
         context.startActivity(intent);
     }
 
-    public static void goMainActivityFromNote(Context context, boolean isListGoUp) {
+    public static void goMainActivityFromNote(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("createOrDel", isListGoUp);
-        intent.putExtra("updateDate", true);
         context.startActivity(intent);
     }
 

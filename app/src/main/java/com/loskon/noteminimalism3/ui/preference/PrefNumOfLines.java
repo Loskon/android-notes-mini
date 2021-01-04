@@ -9,7 +9,8 @@ import androidx.preference.PreferenceViewHolder;
 import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
+import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
@@ -53,13 +54,12 @@ public class PrefNumOfLines extends Preference {
         (new MyDialogColor()).registerCallBackColorSettingsApp(color ->
                 MyColor.setColorSlider(getContext(), sliderNumOfLines));
 
-        int numOfLines = MySharedPreference.loadInt(getContext(),
-                MyPrefKey.KEY_NUM_OF_LINES, 3);
+        int numOfLines = GetSharedPref.getNumOfLines(getContext());
 
         sliderNumOfLines.setValue(numOfLines);
 
         sliderNumOfLines.addOnChangeListener((slider1, value, fromUser) -> {
-            MySharedPreference.saveInt(getContext(),
+            MySharedPref.setInt(getContext(),
                     MyPrefKey.KEY_NUM_OF_LINES, (int) value);
             callbackNumOfLines.callingBackNumOfLines((int) value);
         });

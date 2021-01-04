@@ -6,13 +6,21 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.slider.Slider
-        android:id="@+id/sd"
+        android:id="@+id/slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:stepSize="1"
+        android:valueFrom="1"
+        android:valueTo="30"
+        app:haloRadius="@dimen/slider_halo_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:thumbRadius="@dimen/slider_thumb_radius"
+        app:tickVisible="false">
 
     </com.google.android.material.slider.Slider>
 
@@ -26,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button46"
-        app:layout_constraintTop_toBottomOf="@id/sd" />
+        app:layout_constraintTop_toBottomOf="@id/slider" />
 
     <Button
         android:id="@+id/button46"
@@ -39,5 +47,19 @@
         app:layout_constraintEnd_toStartOf="@+id/button36"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sd" />
+        app:layout_constraintTop_toBottomOf="@id/slider" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

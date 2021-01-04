@@ -3,12 +3,14 @@ package com.loskon.noteminimalism3.ui.activity;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
@@ -72,7 +74,7 @@ public class SettingsAppActivity extends AppCompatActivity implements MyDialogCo
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences_appearance, rootKey);
 
-            Preference myPref = findPreference(MyPrefKey.KEY_ONE_SIZE);
+            SwitchPreference myPref = findPreference(getString(R.string.pref_key_one_size));
             assert myPref != null;
             myPref.setOnPreferenceChangeListener((preference, newValue) -> {
                 if (callbackOneSize != null) {

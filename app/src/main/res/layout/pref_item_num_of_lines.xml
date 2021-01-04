@@ -14,12 +14,12 @@
         android:stepSize="1"
         android:valueFrom="1"
         android:valueTo="10"
-        app:haloRadius="14dp"
+        app:haloRadius="@dimen/slider_halo_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:thumbRadius="@dimen/thumb_radius"
+        app:thumbRadius="@dimen/slider_thumb_radius"
         app:tickVisible="false" />
 </androidx.constraintlayout.widget.ConstraintLayout>

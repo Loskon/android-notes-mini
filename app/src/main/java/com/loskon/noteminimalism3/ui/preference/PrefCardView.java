@@ -13,8 +13,9 @@ import androidx.preference.PreferenceViewHolder;
 import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.ui.activity.SettingsAppActivity;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
@@ -70,8 +71,7 @@ public class PrefCardView extends Preference implements SettingsAppActivity.Call
     }
 
     private void loadAppearanceSettings() {
-        fontSize = MySharedPreference
-                .loadInt(getContext(), MyPrefKey.KEY_TITLE_FONT_SIZE, 18);
+        fontSize = GetSharedPref.getFontSize(getContext());
     }
 
     private void initInstallationSets() {
@@ -109,10 +109,10 @@ public class PrefCardView extends Preference implements SettingsAppActivity.Call
     }
 
     private void saveAppearanceSettings(int fontSize, int dateFontSize) {
-        MySharedPreference
-                .saveInt(getContext(), MyPrefKey.KEY_TITLE_FONT_SIZE, fontSize);
-        MySharedPreference
-                .saveInt(getContext(), MyPrefKey.KEY_DATE_FONT_SIZE, dateFontSize);
+        MySharedPref
+                .setInt(getContext(), MyPrefKey.KEY_TITLE_FONT_SIZE, fontSize);
+        MySharedPref
+                .setInt(getContext(), MyPrefKey.KEY_DATE_FONT_SIZE, dateFontSize);
     }
 
     @Override

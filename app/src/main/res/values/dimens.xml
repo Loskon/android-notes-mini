@@ -11,7 +11,8 @@
     <dimen name="height_item">52dp</dimen>
 
     <!-- thumb slider in pref_item_card -->
-    <dimen name="thumb_radius">6dp</dimen>
+    <dimen name="slider_thumb_radius">6dp</dimen>
+    <dimen name="slider_halo_radius">14dp</dimen>
 
     <!-- default corner for card in pref_item_card -->
     <dimen name="default_corner">6dp</dimen>

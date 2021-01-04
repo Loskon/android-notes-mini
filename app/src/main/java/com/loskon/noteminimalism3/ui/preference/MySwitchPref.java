@@ -11,7 +11,7 @@ import androidx.preference.SwitchPreference;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.GetSizeItem;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -49,8 +49,8 @@ public class MySwitchPref extends SwitchPreference {
             segmentedGroup.getChildAt(i).setClickable(false);
         }
 
-        boolean toggleButton = MySharedPreference
-                .loadBoolean(getContext(), getKey(), false);
+        boolean toggleButton = MySharedPref
+                .getBoolean(getContext(), getKey(), false);
 
         if (toggleButton) {
             segmentedGroup.check(R.id.btn_on);

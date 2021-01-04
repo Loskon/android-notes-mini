@@ -7,7 +7,7 @@ import androidx.core.app.ActivityCompat;
 
 import static com.loskon.noteminimalism3.helper.MainHelper.REQUEST_CODE_PERMISSIONS;
 
-public class Permissions {
+public class BackupPermissions {
 
     // Переменные прав доступа к хранилищу
     public static final String[] PERMISSIONS_STORAGE = {

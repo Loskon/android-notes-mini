@@ -14,8 +14,6 @@ import android.view.Menu;
 import android.view.View;
 
 import androidx.core.graphics.ColorUtils;
-import androidx.transition.Fade;
-import androidx.transition.Transition;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.button.MaterialButton;
@@ -24,7 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 
 import java.util.Objects;
@@ -90,7 +88,7 @@ public class MyColor {
     }
 
     public static int getColorCustom(Context context) {
-        return MySharedPreference.loadInt(context,
+        return MySharedPref.getInt(context,
                 MyPrefKey.KEY_COLOR, context.getResources()
                         .getColor(R.color.color_default_light_blue));
     }

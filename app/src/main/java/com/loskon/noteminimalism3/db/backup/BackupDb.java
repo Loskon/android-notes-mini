@@ -9,7 +9,7 @@ import java.io.OutputStream;
 
 import static com.loskon.noteminimalism3.db.DbHelper.DATABASE_NAME;
 
-public class BackupAndRestoreDatabase {
+public class BackupDb {
 
     private  static String typeMessage;
     private  static boolean isSuccess;
@@ -38,17 +38,17 @@ public class BackupAndRestoreDatabase {
             output.close();
             fis.close();
 
-            typeMessage = SnackbarBackup.MSG_BACKUP_COMPLETED;
+            typeMessage = BackupSnackbar.MSG_BACKUP_COMPLETED;
             isSuccess = true;
 
         } catch (Exception e) {
             e.printStackTrace();
 
-            typeMessage = SnackbarBackup.MSG_BACKUP_NO_COMPLETED;
+            typeMessage = BackupSnackbar.MSG_BACKUP_NO_COMPLETED;
             isSuccess = true;
         }
 
-        SnackbarBackup.showSnackbar(activity, isSuccess, typeMessage);
+        BackupSnackbar.showSnackbar(activity, isSuccess, typeMessage);
     }
 
     public static void restoreDatabase(Activity activity, String inFileName) {
@@ -75,16 +75,16 @@ public class BackupAndRestoreDatabase {
             output.close();
             fis.close();
 
-            typeMessage = SnackbarBackup.MSG_RESTORE_COMPLETED;
+            typeMessage = BackupSnackbar.MSG_RESTORE_COMPLETED;
             isSuccess = true;
 
         } catch (Exception e) {
             e.printStackTrace();
 
-            typeMessage = SnackbarBackup.MSG_RESTORE_NO_COMPLETED;
+            typeMessage = BackupSnackbar.MSG_RESTORE_NO_COMPLETED;
             isSuccess = false;
         }
 
-        SnackbarBackup.showSnackbar(activity, isSuccess, typeMessage);
+        BackupSnackbar.showSnackbar(activity, isSuccess, typeMessage);
     }
 }

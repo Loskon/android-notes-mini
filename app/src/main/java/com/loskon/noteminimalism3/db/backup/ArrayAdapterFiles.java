@@ -28,7 +28,8 @@ public class ArrayAdapterFiles extends BaseAdapter {
 
     private static CallbackArrAdapterEmpty cbArrAdapterEmptyListener;
 
-    public void regArrAdapterEmpty(CallbackArrAdapterEmpty cbArrAdapterEmptyListener){
+
+    public void regArrAdapterEmpty(CallbackArrAdapterEmpty cbArrAdapterEmptyListener) {
         ArrayAdapterFiles.cbArrAdapterEmptyListener = cbArrAdapterEmptyListener;
     }
 
@@ -54,14 +55,14 @@ public class ArrayAdapterFiles extends BaseAdapter {
     }
 
     @SuppressLint("InflateParams")
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-             view = inflater.inflate(R.layout.row_for_import, null,true);
+            view = inflater.inflate(R.layout.row_for_import, null, true);
         }
 
         // initView
@@ -71,39 +72,28 @@ public class ArrayAdapterFiles extends BaseAdapter {
         txtTitleFiles.setText(listFiles
                 .get(position).replace(".db", ""));
 
-        if (folder.exists()) {
 
-            File[] files = folder.listFiles();
+        File[] files = folder.listFiles();
 
-            deleteFile.setOnClickListener(v -> {
-                // Delete file
-                SQLiteDatabase.deleteDatabase(new File(Objects
-                        .requireNonNull(files)[position].getPath()));
-                listFiles.remove(position);
-                notifyDataSetChanged();
+        deleteFile.setOnClickListener(v -> {
 
-                callingBack();
-            });
-        }
+            SQLiteDatabase.deleteDatabase(new File(Objects
+                    .requireNonNull(files)[position].getPath()));
+
+            listFiles.remove(position);
+            notifyDataSetChanged();
+
+            callingBack();
+        });
 
         return view;
     }
 
-    public void deleteAll(File[] files) {
-        // Delete all SQLite file
+    public void deleteAll() {
+        File[] files = BackupSort.getListFile(folder);
 
-        //        File dir = new File(path +
-        //                File.separator + context.getResources().getString(R.string.app_name));
-        //        if (dir.isDirectory())
-        //        {
-        //            String[] children = dir.list();
-        //            for (String child : children) {
-        //                new File(dir, child).deleteOnExit();
-        //            }
-        //        }
-
-        for (int i = 0; i < listFiles.size(); i++) {
-            SQLiteDatabase.deleteDatabase(new File(files[i].getPath()));
+        for (File file : files) {
+            SQLiteDatabase.deleteDatabase(new File(file.getPath()));
         }
 
         listFiles.clear();
@@ -121,4 +111,5 @@ public class ArrayAdapterFiles extends BaseAdapter {
     public interface CallbackArrAdapterEmpty {
         void callingBackArrAdapterEmpty();
     }
+
 }

@@ -8,12 +8,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -21,16 +21,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MySnackbar;
+import com.loskon.noteminimalism3.db.backup.BackupPath;
 import com.loskon.noteminimalism3.helper.MyIntent;
+import com.loskon.noteminimalism3.helper.MySnackbar;
+import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
-import com.loskon.noteminimalism3.db.backup.MyPath;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogNumOfBackup;
 
 import java.util.Objects;
 
+import static com.loskon.noteminimalism3.db.backup.BackupPermissions.PERMISSIONS_STORAGE;
 import static com.loskon.noteminimalism3.helper.MainHelper.REQUEST_CODE_PERMISSIONS;
-import static com.loskon.noteminimalism3.db.backup.Permissions.PERMISSIONS_STORAGE;
 
 /**
  *
@@ -39,6 +41,8 @@ import static com.loskon.noteminimalism3.db.backup.Permissions.PERMISSIONS_STORA
 public class MySettingsFragment extends PreferenceFragmentCompat {
 
     private static final int READ_REQUEST_CODE = 297;
+    private Activity activity;
+    private Fragment fragment;
     private LinearLayoutManager layoutManager;
     private int index, top, prefId;
 
@@ -48,12 +52,13 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        savePositionRecyclerView(index, top);
+        savePositionRecyclerView(0, 0);
     }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
+        activity = requireActivity();
 
         Preference myPref =  findPreference(getString(R.string.dark_mode_title));
         assert myPref != null;
@@ -85,7 +90,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         assert myPref6 != null;
         myPref6.setOnPreferenceChangeListener((preference, newValue) -> {
             prefId = 0;
-            checkStoragePermissionsFragment();
+            check(activity, fragment);
             return true;
         });
 
@@ -105,6 +110,26 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
 
+
+        String string = getString(R.string.num_backup_summary);
+
+        String findKey = getString(R.string.pref_key_num_of_backup);
+        Preference myPref8 =  findPreference(findKey);
+        assert myPref8 != null;
+        (new MyDialogNumOfBackup(activity)).registerCallBackColorNavIcon(numOfBackup -> {
+            myPref8.setSummary(string + " \u2014 " +numOfBackup);
+        });
+
+        int numOfBackup = GetSharedPref.getNumOfBackup(activity);
+
+        myPref8.setSummary(string +" \u2014 " +numOfBackup);
+
+        myPref8.setOnPreferenceClickListener(preference -> {
+           (new MyDialogNumOfBackup(activity)).callDialogNumOfBackup(findKey, numOfBackup);
+            return true;
+        });
+
+
         Preference myPref4 =  findPreference(getString(R.string.backup_and_restore));
         assert myPref4 != null;
         myPref4.setOnPreferenceClickListener(preference -> {
@@ -114,7 +139,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
 
         myPref5 =  findPreference(getString(R.string.folder_for_backup));
         assert myPref5 != null;
-        myPref5.setSummary(MyPath.loadPathString(requireContext()));
+        myPref5.setSummary(BackupPath.getPathForSummary(requireContext()));
         myPref5.setOnPreferenceClickListener(preference -> {
             prefId = 1;
             if (checkStoragePermissionsFragment()) {
@@ -133,15 +158,16 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         });
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
-                MySharedPreference.saveString(requireActivity(),
-                        MyPrefKey.KEY_SEL_DIRECTORY, MyPath
+                MySharedPref.setString(activity,
+                        MyPrefKey.KEY_SEL_DIRECTORY, BackupPath
                                 .findFullPath(resultData.getData().getPath()));
-                myPref5.setSummary(MyPath.loadPathString(requireContext()));
+                myPref5.setSummary(BackupPath.getPathForSummary(requireContext()));
             }
         }
     }
@@ -160,9 +186,9 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
                 if (prefId == 0) {
                     myPref6.setChecked(false);
                 }
-                MySnackbar.makeSnackbar(requireActivity(), requireActivity().
+                MySnackbar.makeSnackbar(activity, activity.
                         findViewById(R.id.cstSetting), getString(R.string.no_permissions),
-                        requireActivity().findViewById(R.id.btmAppBarSettings), false);
+                        activity.findViewById(R.id.btmAppBarSettings), false);
             }
         }
     }
@@ -170,14 +196,33 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
     private boolean checkStoragePermissionsFragment() {
 
         int writePermission = ActivityCompat.checkSelfPermission(
-                requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int readPermission = ActivityCompat.checkSelfPermission(
-                requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                activity, Manifest.permission.READ_EXTERNAL_STORAGE);
 
         int granted = PackageManager.PERMISSION_GRANTED;
 
         if (writePermission != granted || readPermission != granted) {
             requestPermissions(
+                    PERMISSIONS_STORAGE,
+                    REQUEST_CODE_PERMISSIONS
+            );
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private static boolean check(Activity activity, Fragment fragment) {
+        int writePermission = ActivityCompat.checkSelfPermission(
+                activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ActivityCompat.checkSelfPermission(
+                activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        int granted = PackageManager.PERMISSION_GRANTED;
+
+        if (writePermission != granted || readPermission != granted) {
+            fragment.requestPermissions(
                     PERMISSIONS_STORAGE,
                     REQUEST_CODE_PERMISSIONS
             );
@@ -215,36 +260,33 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 getScrollPosition();
+                savePositionRecyclerView(index, top);
             }
         });
     }
 
     private void setScrollPosition() {
-
-        index = MySharedPreference.loadInt(requireContext(),
-                MyPrefKey.KEY_POSITON_TOP, 0);
-        top = MySharedPreference.loadInt(requireContext(),
-                MyPrefKey.KEY_POSITON_INDEX, 0);
+        index = GetSharedPref.getIndex(requireContext());
+        top = GetSharedPref.getTop(requireContext());
 
         layoutManager.scrollToPositionWithOffset(index, top);
     }
 
     private void getScrollPosition() {
         index = layoutManager.findFirstVisibleItemPosition();
-        View v = layoutManager.getChildAt(0);
-        top = (v == null) ? 0 : (v.getTop() - layoutManager.getPaddingTop());
+        View view = layoutManager.getChildAt(0);
+
+        if (view == null) {
+            top = 0;
+        } else {
+            top = (view.getTop() - layoutManager.getPaddingTop());
+        }
     }
 
     private void savePositionRecyclerView(int index, int top) {
-        MySharedPreference.saveInt(requireContext(),
-                MyPrefKey.KEY_POSITON_INDEX, index);
-        MySharedPreference.saveInt(requireContext(),
-                MyPrefKey.KEY_POSITON_TOP, top);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        savePositionRecyclerView(0, 0);
+        MySharedPref.setInt(requireContext(),
+                MyPrefKey.KEY_POSITION_INDEX, index);
+        MySharedPref.setInt(requireContext(),
+                MyPrefKey.KEY_POSITION_TOP, top);
     }
 }

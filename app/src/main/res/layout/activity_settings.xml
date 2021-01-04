@@ -36,6 +36,7 @@
         android:animateLayoutChanges="true"
         android:overScrollMode="never"
         android:paddingTop="8dp"
+        app:elevation="4dp"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -12,16 +12,19 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.loskon.noteminimalism3.helper.BackupHelper;
+import com.loskon.noteminimalism3.db.backup.BackupPath;
+import com.loskon.noteminimalism3.db.backup.BackupAuto;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.MyIntent;
 import com.loskon.noteminimalism3.helper.MyKeyboard;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPreference;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.DbAdapter;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Date;
 
 public class NoteActivity extends AppCompatActivity {
@@ -43,6 +46,12 @@ public class NoteActivity extends AppCompatActivity {
     private boolean isSaveNoteOn = true;
     private boolean isAutoBackupOn;
     private Date receivedDate, setDateChange;
+
+    private static CallbackNote callbackNote;
+
+    public void registerCallBackNote(CallbackNote callbackNote) {
+        NoteActivity.callbackNote = callbackNote;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +165,7 @@ public class NoteActivity extends AppCompatActivity {
         }
         more_button.setVisibility(View.GONE);
         isListGoUp = true;
-        isAutoBackupOn = MySharedPreference.loadBoolean(this,
+        isAutoBackupOn = MySharedPref.getBoolean(this,
                 MyPrefKey.KEY_AUTO_BACKUP, false);
     }
 
@@ -211,14 +220,48 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     public void otherClick(View view) {
-           Toast.makeText(this, "Клик", Toast.LENGTH_SHORT).show();
+        String string = editTitleText.getText().toString();
+
+        if (!string.isEmpty()) {
+
+            boolean isFolderNoteCreated = BackupPath.createNoteFolder(this);
+
+            if (isFolderNoteCreated) {
+                File file = new File(BackupPath.getFolder(this),  "Text Files");
+
+                boolean isFolderTextCreated = true;
+
+                if (!file.exists()) {
+                    isFolderTextCreated = file.mkdir();
+                }
+
+                if (isFolderTextCreated) {
+                    try {
+                        string = string.substring(0, Math.min(10, string.length())).trim();
+                        File fileName = new File(file, string);
+                        FileWriter writer = new FileWriter(fileName);
+                        writer.append(editTitleText.getText().toString());
+                        writer.flush();
+                        writer.close();
+                        Toast.makeText(this, "Saved your text", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private void goMainActivity() {
         if (editTitleText.getText().toString().trim().length() == 0) {
             isListGoUp = false;
         }
-        MyIntent.goMainActivityFromNote(this, isListGoUp);
+
+        if (callbackNote != null) {
+            callbackNote.callingBackNote(isListGoUp);
+        }
+
+        MyIntent.goMainActivityFromNote(this);
     }
 
     @Override
@@ -245,7 +288,7 @@ public class NoteActivity extends AppCompatActivity {
                 dbAdapter.updateNote(note);
             } else {
                 if (dbAdapter.addNewNote(note) % 5 == 0 && isAutoBackupOn) {
-                    BackupHelper.autoBackup(this);
+                    (new BackupAuto(this)).callAutoBackup();
                 }
             }
         }
@@ -267,6 +310,10 @@ public class NoteActivity extends AppCompatActivity {
         super.onBackPressed();
 
         goMainActivity();
+    }
+
+    public interface CallbackNote {
+        void callingBackNote(boolean isListGoUp);
     }
 
 }

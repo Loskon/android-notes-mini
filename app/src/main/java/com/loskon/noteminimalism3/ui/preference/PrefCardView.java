@@ -16,14 +16,14 @@ import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.ui.activity.SettingsAppActivity;
+import com.loskon.noteminimalism3.ui.activity.settingsapp.MySettingsAppFragment;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
 /**
  *
  */
 
-public class PrefCardView extends Preference implements SettingsAppActivity.CallbackReset {
+public class PrefCardView extends Preference implements MySettingsAppFragment.CallbackReset {
 
     private View view;
     private TextView txtFontSize, txtDateFontSize, titleMainText;
@@ -67,7 +67,7 @@ public class PrefCardView extends Preference implements SettingsAppActivity.Call
         txtDateFontSize = (TextView) holder.findViewById(R.id.date_item_note);
         titleMainText = (TextView) holder.findViewById(R.id.textView3);
         sliderFontSize = (Slider) holder.findViewById(R.id.slider_font_size);
-        (new SettingsAppActivity()).registerCallBackReset(this);
+        (new MySettingsAppFragment()).registerCallBackReset(this);
     }
 
     private void loadAppearanceSettings() {
@@ -117,8 +117,10 @@ public class PrefCardView extends Preference implements SettingsAppActivity.Call
 
     @Override
     public void callingBackReset() {
-        saveAppearanceSettings(18, 14);
-        loadAppearanceSettings();
+        fontSize = 18;
+        dateFontSize = PrefHelper.getDateFontSize(fontSize);
+        saveAppearanceSettings(fontSize, dateFontSize);
+        //loadAppearanceSettings();
         initInstallationSets();
         goCallbackInMain();
     }

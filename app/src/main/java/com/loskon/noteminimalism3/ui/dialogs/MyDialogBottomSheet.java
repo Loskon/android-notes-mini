@@ -15,8 +15,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.ui.activity.settings.SettingsActivity;
 
 /**
@@ -43,7 +44,7 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bottomsheet, container, false);
+        View view = inflater.inflate(R.layout.dialog_bottomsheet, container, false);
         navigationView =  view.findViewById(R.id.navigation_view);
         //navigationView.setBackgroundColor(Color.BLUE);
         navigationView.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.bottom_sheet_round_corner, null));
@@ -54,12 +55,11 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        selNotesCategory = MySharedPref.getInt(requireContext(),
-                MyPrefKey.KEY_SEL_CATEGORY, 0);
+        selNotesCategory = GetSharedPref.getNotesCategory(requireContext());
 
         navigationView.getMenu().getItem(selNotesCategory).setChecked(true);
 
-        MyColor.setNavMenuItemThemeColors(navigationView, MyColor.getColorCustom(getContext()));
+        MyColor.setNavMenuItemThemeColors(requireActivity(), navigationView);
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int menuId = menuItem.getItemId();
@@ -78,10 +78,11 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
                 requireContext().startActivity(intent);
             }
 
-            MySharedPref.setInt(requireContext(),
-                    MyPrefKey.KEY_SEL_CATEGORY, selNotesCategory);
+            MySharedPref.setInt(requireContext(), MyPrefKey.KEY_NOTES_CATEGORY, selNotesCategory);
 
-            if (menuId != R.id.nav4_settings) itemClickListener.onItemClickBottomNavView(selNotesCategory);
+            if (menuId != R.id.nav4_settings) {
+                itemClickListener.onItemClickBottomNavView(selNotesCategory);
+            }
 
             dismiss();
             return true;
@@ -103,7 +104,6 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-
         itemClickListener = null;
     }
 

@@ -2,21 +2,20 @@ package com.loskon.noteminimalism3.ui.preference;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.widget.TextView;
 
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreference;
 
+import com.addisonelliott.segmentedbutton.SegmentedButtonGroup;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.GetSizeItem;
+import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-
-import info.hoang8f.android.segmented.SegmentedGroup;
 
 
 public class MySwitchPref extends SwitchPreference {
+
+    private Context context;
 
     public MySwitchPref(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -24,7 +23,8 @@ public class MySwitchPref extends SwitchPreference {
 
     public MySwitchPref(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setWidgetLayoutResource(R.layout.custom_switch);
+        this.context = context;
+        setWidgetLayoutResource(R.layout.custom_switch2);
     }
 
     @Override
@@ -38,24 +38,27 @@ public class MySwitchPref extends SwitchPreference {
         holder.itemView.setClickable(true);
         //holder.itemView.setFocusable(true);
 
-        TextView titleTextView = (TextView) holder.findViewById(android.R.id.title);
-        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        holder.itemView.setMinimumHeight(GetSizeItem.getHeightItem(getContext()));
+        PrefHelper.setItemsSize(context, holder);
 
-        SegmentedGroup segmentedGroup = (SegmentedGroup) holder.findViewById(R.id.segmented_group);
-        segmentedGroup.setTintColor(MyColor.getColorCustom(getContext()));
+       // SegmentedGroup segmentedGroup = (SegmentedGroup) holder.findViewById(R.id.segmented_group);
+        //segmentedGroup.setTintColor(MyColor.getColorCustom(getContext()));
 
-        for (int i = 0; i < segmentedGroup.getChildCount(); i++) {
-            segmentedGroup.getChildAt(i).setClickable(false);
-        }
+        SegmentedButtonGroup segmentedButtonGroup =
+                (SegmentedButtonGroup) holder.findViewById(R.id.buttonGroup_lordOfTheRings);
 
-        boolean toggleButton = MySharedPref
-                .getBoolean(getContext(), getKey(), false);
+        int color = MyColor.getColorCustom(context);
+        int borderGroup = GetSizeItem.getBorder(context);
+
+        segmentedButtonGroup.setSelectedBackgroundColor(color);
+        segmentedButtonGroup.setBorder(borderGroup, color, 0, 0);
+        segmentedButtonGroup.setClickable(false);
+
+        boolean toggleButton = MySharedPref.getBoolean(context, getKey(), false);
 
         if (toggleButton) {
-            segmentedGroup.check(R.id.btn_on);
+            segmentedButtonGroup.setPosition(1, false);
         } else {
-            segmentedGroup.check(R.id.btn_off);
+            segmentedButtonGroup.setPosition(0, false);
         }
     }
 }

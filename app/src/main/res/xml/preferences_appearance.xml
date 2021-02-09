@@ -23,9 +23,9 @@
         app:iconSpaceReserved="false"
         app:title="@string/theme_color">
         <com.loskon.noteminimalism3.ui.preference.MySelectColor
-            app:allowDividerAbove="false"
             android:title="@string/select_color"
-            app:key="3" />
+            app:allowDividerAbove="false"
+            app:key="@string/select_color" />
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory

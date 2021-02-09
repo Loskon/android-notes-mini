@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.ui.dialogs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
@@ -12,12 +13,11 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.db.backup.BackupSetName;
+import com.loskon.noteminimalism3.backup.BackupSetName;
+import com.loskon.noteminimalism3.helper.GetDate;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.ReplaceText;
-import com.loskon.noteminimalism3.helper.GetDate;
 
-import java.io.File;
 import java.util.Date;
 import java.util.Objects;
 
@@ -52,6 +52,9 @@ public class MyDialogBackup {
         int color = MyColor.getColorCustom(activity);
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
+
+        textInputLayout.setBoxStrokeColor(color);
+        textInputLayout.setHintTextColor(ColorStateList.valueOf(color));
 
         showKeyboard();
         setDateInEditText();

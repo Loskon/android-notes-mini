@@ -6,11 +6,11 @@ package com.loskon.noteminimalism3.db;
 
 public class NoteDbSchema {
     public static final class NoteTable {
-        //Tables Name
+        // Tables Name
         public static final String NAME_TABLE = "notes";
 
         public static final class Columns {
-            //Notes Table - column name
+            // Notes Table - column name
             public static final String ID = "_id";
             public static final String UUID = "uuid";
             public static final String COLUMN_TITLE = "title";

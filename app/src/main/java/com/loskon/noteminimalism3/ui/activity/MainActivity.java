@@ -1,60 +1,47 @@
 package com.loskon.noteminimalism3.ui.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Parcelable;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dinuscxj.refresh.RecyclerRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.helper.CheckEmptyRecyclerView;
 import com.loskon.noteminimalism3.helper.MainHelper;
+import com.loskon.noteminimalism3.helper.MainHelperTwo;
+import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.MyIntent;
+import com.loskon.noteminimalism3.helper.Refresh;
 import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogBottomSheet;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.rv.CallbackDelMode;
-import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.others.RefreshView;
-import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
-import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.helper.snackbars.MainSnackbar;
+import com.loskon.noteminimalism3.model.Note;
+import com.loskon.noteminimalism3.rv.CallbackDelMode;
+import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
+import com.loskon.noteminimalism3.ui.activity.settingsapp.MySettingsAppFragment;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogBottomSheet;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogRestore;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogTrash;
 import com.loskon.noteminimalism3.ui.preference.PrefCardView;
 import com.loskon.noteminimalism3.ui.preference.PrefNumOfLines;
 
-
 import java.util.List;
 import java.util.Objects;
-
-import jp.wasabeef.recyclerview.animators.ScaleInBottomAnimator;
 
 /**
  * Основной класс заметок
@@ -62,106 +49,114 @@ import jp.wasabeef.recyclerview.animators.ScaleInBottomAnimator;
 
 public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
         MyDialogBottomSheet.ItemClickListenerBottomNavView, PrefNumOfLines.callbackNumOfLines,
-        SettingsAppActivity.CallbackOneSize, PrefCardView.CallbackFontSize, NoteActivity.CallbackNote,
-        MyDialogRestore.CallbackRestoreNotes {
+        MySettingsAppFragment.CallbackOneSize, PrefCardView.CallbackFontSize, NoteActivity.CallbackNote,
+        MyDialogRestore.CallbackRestoreNotes, MyDialogColor.CallbackColorMain {
 
     private MyRecyclerViewAdapter rvAdapter;
     private DbAdapter dbAdapter;
+    private MainHelperTwo mhAdapter;
 
-    private RecyclerRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private BottomAppBar bottomAppBar;
     private FloatingActionButton fabMain;
-    private TextView textEmpty;
     private TextView textNumSelItem;
     private CardView cardView;
     private Menu appBarMenu;
     private Snackbar snackbarMain;
-    private CountDownTimer countDownTimer;
+    private SearchView searchView;
 
     private boolean isTypeNotesSingleOn;
-    private boolean isDeleteModeOn;
+    private boolean isDeleteMode = false;
     private boolean isUpdateDate;
-    private boolean isListGoUp, isOneSizeOn;
-    private int selNotesCategory, numOfLines, fontSize, dateFontSize;
+    private boolean isListGoUp, isOneSizeOn, isSearchOn;
+    private int selNotesCategory, numOfLines;
+    private int fontSize, dateFontSize, color;
     private String whereClauseForMode;
 
     // Переменные для сохранения состояния RecyclerView
-    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private final static String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyColor.setDarkTheme(GetSharedPref.isDarkModeOn(this));
         setContentView(R.layout.activity_main);
 
-        // Меняем цвет статус бара
         MyColor.setColorStatBarAndTaskDesc(this);
-        // Обнуляем состояние списка
-        mBundleRecyclerViewState = null;
-        // Устанавливаем категорию "Note" при запуске
-        MySharedPref.setInt(this,
-                MyPrefKey.KEY_SEL_CATEGORY, 0);
+
+        if (savedInstanceState == null) {
+            // Обнуляем состояние списка
+            mBundleRecyclerViewState = null;
+            // Устанавливаем категорию "Note" при запуске
+            MySharedPref.setInt(this, MyPrefKey.KEY_NOTES_CATEGORY, 0);
+        }
 
         initialiseWidgets();
         initialiseSettings();
+        setCallbackForMain();
+        loadSharedPref();
         cleaningFromTrash();
         setupRecyclerViewAdapter();
         switchType();
         enableSwipeToDelete();
         differentHandlers();
+        setColorItem();
+    }
 
-        //int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        //switch (currentNightMode) {
-            //case Configuration.UI_MODE_NIGHT_NO:
-                //Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
-                //break;
-            //case Configuration.UI_MODE_NIGHT_YES:
-                //Toast.makeText(this, "yes", Toast.LENGTH_SHORT).show();
-               // break;
-        //}
+    private void setColorItem() {
+        MyColor.setColorFab(this, fabMain);
+        MyColor.setNavIconColor(this, bottomAppBar);
+        MyColor.setColorMenuIcon(this, appBarMenu);
+        cardView.setCardBackgroundColor(color);
     }
 
     private void initialiseWidgets() {
-        textEmpty = findViewById(R.id.textEmpty);
         cardView = findViewById(R.id.card_view_main);
         recyclerView =  findViewById(R.id.recyclerView);
         bottomAppBar =  findViewById(R.id.btmAppBarMain);
         fabMain =  findViewById(R.id.fabMain);
-        refreshLayout = findViewById(R.id.refreshLayout);
         textNumSelItem = findViewById(R.id.textView);
+        searchView = findViewById(R.id.searchView);
 
         appBarMenu = bottomAppBar.getMenu();
+
         dbAdapter = new DbAdapter(this);
+        mhAdapter = new MainHelperTwo(this, appBarMenu, bottomAppBar, fabMain);
     }
 
     private void initialiseSettings() {
         MainHelper.removeFlicker(recyclerView);
-        cardView.setVisibility(View.GONE);
-        setVisibleSelectMenuItem(false);
-        recyclerView.setItemAnimator(new ScaleInBottomAnimator());
 
-        setCallbackForMain();
-        loadSharedPref();
+        mhAdapter.setVisSelMenuItem(false);
+
+        searchView.onActionViewExpanded();
+        searchView.setVisibility(View.GONE);
+
+        cardView.setVisibility(View.GONE);
+
+        //recyclerView.setItemAnimator(new ScaleInBottomAnimator());
     }
 
     private void setCallbackForMain() {
         (new NoteActivity()).registerCallBackNote(this);
         (new PrefNumOfLines(this)).registerCallbackNumOfLines(this);
-        (new SettingsAppActivity()).registerCallBackOneSize(this);
+        (new MySettingsAppFragment()).registerCallBackOneSize(this);
         (new PrefCardView(this)).registerCallBackFontSize(this);
         (new MyDialogRestore(this)).regCallbackRestoreNotes(this);
+        (new MyDialogColor()).registerCallBackColorMain(this);
+        (new MyDialogTrash(this, dbAdapter)).registerCallBackTrash(() -> {
+            isUpdateDate = true;
+            updateDateMethod();
+        });
     }
 
     private void loadSharedPref() {
         numOfLines = GetSharedPref.getNumOfLines(this);
-        isOneSizeOn = GetSharedPref.getOneSize(this);
+        isOneSizeOn = GetSharedPref.isOneSize(this);
         fontSize = GetSharedPref.getFontSize(this);
         dateFontSize = GetSharedPref.getDateFontSize(this);
-    }
-
-    private void setVisibleSelectMenuItem(boolean isVisibleSelect) {
-        appBarMenu.findItem(R.id.action_select_item).setVisible(isVisibleSelect);
+        color = MyColor.getColorCustom(this);
     }
 
     private void cleaningFromTrash() {
@@ -178,11 +173,12 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
         dbAdapter.close();
 
         rvAdapter = new MyRecyclerViewAdapter(
-                this, notes, dbAdapter, selNotesCategory,
-                isDeleteModeOn, isTypeNotesSingleOn, numOfLines, isOneSizeOn,
-                fontSize, dateFontSize);
+                this, notes, dbAdapter, selNotesCategory, isDeleteMode,
+                isTypeNotesSingleOn, numOfLines, isOneSizeOn, fontSize, dateFontSize, color);
 
+        mhAdapter.setHandlerSearchView(searchView, rvAdapter);
         rvAdapter.setCallbackDelMode(this);
+
         checkEmptyRecyclerView();
         recyclerView.setAdapter(rvAdapter);
     }
@@ -190,20 +186,22 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
     private void differentHandlers() {
         bottomAppBarHandler();
         fabHandler();
-        refreshHandlerAndRedrawing();
+        (new Refresh(this)).build();
     }
 
     private void bottomAppBarHandler() {
-        // Элементы меню bottomAppBar
+        // Меню bottomAppBar
         bottomAppBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_switch_view) {
                 closeSnackBar();
                 toggleTypeOfNotes();
                 switchType();
                 return  true;
-            }
-            if (item.getItemId() == R.id.action_select_item) {
-                rvAdapter.selectAll();
+            } else if (item.getItemId() == R.id.action_select_item) {
+                rvAdapter.selectItems();
+                return  true;
+            } else if (item.getItemId() == R.id.action_search) {
+                goSearch();
                 return  true;
             }
             return false;
@@ -211,111 +209,79 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
 
         // Кнопка навигации bottomAppBar
         bottomAppBar.setNavigationOnClickListener(v -> {
-            if (isDeleteModeOn) {
+            if (isDeleteMode) {
                 onClickDelete(false);
             } else {
-                closeSnackBar();
-                MainHelper.bottomNavViewShow(getSupportFragmentManager());
+                showBottomSheet();
             }
         });
     }
 
+    private void showBottomSheet() {
+        closeSnackBar();
+        MainHelper.bottomNavViewShow(getSupportFragmentManager());
+    }
 
     public void toggleTypeOfNotes() {
         // Переключение и сохранение вида линейный/сетка
-        isTypeNotesSingleOn = !isTypeNotesSingleOn;
-        MySharedPref.setBoolean(this, MyPrefKey.KEY_TYPE_NOTES, isTypeNotesSingleOn);
+        //isTypeNotesSingleOn = !isTypeNotesSingleOn;
+        MySharedPref.setBoolean(this, MyPrefKey.KEY_TYPE_NOTES, !isTypeNotesSingleOn);
     }
 
     private void switchType() {
         // Изменение вида списка и иконки меню при переключении
-
-        isTypeNotesSingleOn = MySharedPref.getBoolean(this,
-                MyPrefKey.KEY_TYPE_NOTES, true);
-
-        if (isTypeNotesSingleOn) {
-            appBarMenu.findItem(R.id.action_switch_view).
-                    setIcon(ResourcesCompat.getDrawable(getResources(),
-                            R.drawable.baseline_dashboard_black_24, null));
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        } else {
-            appBarMenu.findItem(R.id.action_switch_view).
-                    setIcon(ResourcesCompat.getDrawable(getResources(),
-                            R.drawable.baseline_view_agenda_black_24, null));
-
-            recyclerView.setLayoutManager(new
-                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        }
-
+        isTypeNotesSingleOn = GetSharedPref.isTypeSingle(this);
+        mhAdapter.setTypeNotes(recyclerView, isTypeNotesSingleOn);
         rvAdapter.setTypeOfNotes(isTypeNotesSingleOn);
-
-        MyColor.setColorMenuIcon(this, appBarMenu);
     }
 
     private void fabHandler() {
         // Обработчик клика по fab
         fabMain.setOnClickListener(v -> {
-            if (isDeleteModeOn) {
+            if (isDeleteMode) {
                 onClickDelete(true);
             } else {
-                if (selNotesCategory == 2) {
-                    // Удаление всех элементов из мусорки
-                    dbAdapter.open();
-                    dbAdapter.deleteAll();
-                    dbAdapter.close();
-                    //initAdapter();
-                } else {
-                    Intent intent = MyIntent.intentAddNewNote(this, selNotesCategory);
-                    startActivity(intent);
-                }
+                clickFab();
             }
         });
     }
 
-    private void refreshHandlerAndRedrawing () {
-        refreshLayout.setRefreshTargetOffset((int)
-                getResources().getDimension(R.dimen.height_refresh_layout));
-        // С какой высоты заканчивается "анимация"
-        refreshLayout.setAnimateToRefreshDuration(0);
-        // Метод для настройки парамтров отображения
-        refreshLayout.setRefreshView((new RefreshView(this)),
-                (new RecyclerRefreshLayout.LayoutParams(0, 0)));
-        refreshLayout.setOnRefreshListener(() -> {
-            refreshLayout.setRefreshing(false);
-            bottomAppBar.performShow();
-        });
+    private void goSearch() {
+        isSearchOn = !isSearchOn;
+        mhAdapter.isSearchMode(searchView, isSearchOn);
+        mhAdapter.changeIconFabSearch(isSearchOn, selNotesCategory);
     }
 
-    private void notesCategory() {
-        selNotesCategory = MySharedPref.getInt(this,"selNotesCategory", 0);
-        if (selNotesCategory == 0) whereClauseForMode = "del_items = 0"; // Note
-        else if (selNotesCategory == 1) whereClauseForMode = "favorites = 1"; // Favorites
-        else if (selNotesCategory == 2) whereClauseForMode = "del_items = 1"; // Trash
-        changeIconFab();
-    }
-
-    private void changeIconFab() {
-        if (selNotesCategory == 2) {
-            fabMain.setImageResource(R.drawable.baseline_delete_forever_black_24);
+    private void clickFab() {
+        if (isSearchOn) {
+            goSearch();
         } else {
-            fabMain.setImageResource(R.drawable.baseline_add_black_24);
+            if (selNotesCategory == 2) {
+                (new MyDialogTrash(this, dbAdapter)).call(rvAdapter.getItemCount());
+            } else {
+                MyIntent.intentAddNewNote(this, selNotesCategory);
+            }
         }
     }
 
+
+    private void notesCategory() {
+        selNotesCategory = GetSharedPref.getNotesCategory(this);
+        if (selNotesCategory == 0) whereClauseForMode = "del_items = 0"; // Note
+        else if (selNotesCategory == 1) whereClauseForMode = "favorites = 1"; // Favorites
+        else if (selNotesCategory == 2) whereClauseForMode = "del_items = 1"; // Trash
+        mhAdapter.changeIconFab(selNotesCategory);
+    }
+
     private void checkEmptyRecyclerView() {
-        rvAdapter.registerAdapterDataObserver(new CheckEmptyRecyclerView(textEmpty, // Проверка на пустой список
+        rvAdapter.registerAdapterDataObserver(new CheckEmptyRecyclerView(this, // Проверка на пустой список
                 rvAdapter));
-        (new CheckEmptyRecyclerView(textEmpty, rvAdapter)).checkEmpty(); // Дополнительная проверка на пустой список (срабатывает при сменах активити)
+        (new CheckEmptyRecyclerView(this, rvAdapter)).checkEmpty(); // Дополнительная проверка на пустой список (срабатывает при сменах активити)
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        MyColor.setColorFab(this, fabMain);
-        MyColor.setNavigationIconColor(this, bottomAppBar);
-        MyColor.setColorMenuIcon(this, appBarMenu);
 
         updateDateMethod();
         restoreRecyclerViewState();
@@ -324,8 +290,8 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
     private void updateDateMethod() {
         // Вызвает установку адаптера для измения содержания списка
         if (isUpdateDate) {
-            setupRecyclerViewAdapter();
             isUpdateDate = false;
+            setupRecyclerViewAdapter();
             if (isListGoUp) {
                 // Возвращает список вверх, если создана новая заметка
                 Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(0);
@@ -344,10 +310,7 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
     @Override
     public void onPause() {
         super.onPause();
-        // Очистк стека
-        //if (getSupportFragmentManager().getBackStackEntryCount() > 0){
-          //  getSupportFragmentManager().popBackStack();
-        //}
+
         closeSnackBar();
         saveRecyclerViewState();
     }
@@ -369,16 +332,7 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
     @Override
     public void onCallbackClick2(boolean isSelectOneOn) {
         // Callback2 FROM SwipeRecyclerViewAdapter
-        int menuId =  R.id.action_select_item;
-        if (isSelectOneOn) {
-            MainHelper.setMenuIcon(this, appBarMenu,
-                    menuId, R.drawable.baseline_done_black_24);
-        } else {
-            MainHelper.setMenuIcon(this, appBarMenu,
-                    menuId, R.drawable.baseline_done_all_black_24);
-        }
-
-        MyColor.setColorMenuIcon(this, appBarMenu);
+        mhAdapter.setSelectIcon(isSelectOneOn);
     }
 
     @Override
@@ -394,30 +348,9 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
 
     private void deleteMode(boolean isDeleteModeOn) {
         // Переход в режим удаления и восстановлние из него
-        this.isDeleteModeOn = isDeleteModeOn;
+        this.isDeleteMode = isDeleteModeOn;
 
-        if (isDeleteModeOn) {
-            cardView.setVisibility(View.VISIBLE);
-            cardView.setCardBackgroundColor(MyColor.getColorCustom(this));
-            if (selNotesCategory != 2) {
-                fabMain.setImageResource(R.drawable.baseline_delete_black_24);
-            }
-            bottomAppBar.setNavigationIcon(R.drawable.baseline_navigate_before_black_24);
-        } else {
-            cardView.setVisibility(View.GONE);
-            if (selNotesCategory != 2) {
-                fabMain.setImageResource(R.drawable.baseline_add_black_24);
-            }
-            bottomAppBar.setNavigationIcon(R.drawable.baseline_menu_black_24);
-        }
-
-        for (int i = 0; i < 2; i++) {
-            appBarMenu.getItem(i).setVisible(!isDeleteModeOn);
-        }
-
-        setVisibleSelectMenuItem(isDeleteModeOn);
-
-        MyColor.setNavigationIconColor(this, bottomAppBar);
+        mhAdapter.deleteMode(isDeleteModeOn, selNotesCategory, isSearchOn, cardView);
     }
 
     @Override
@@ -430,8 +363,11 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Обработка нажатия кнопки назад
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (isDeleteModeOn) {
+            if (isDeleteMode) {
                 onClickDelete(false); // Выход из режима удаления
+                return false;
+            } else if (isSearchOn) {
+                goSearch();
                 return false;
             } else {
                 finish();
@@ -448,7 +384,7 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
                     @Override
                     public int getSwipeDirs(@NonNull RecyclerView recyclerView,
                                             @NonNull RecyclerView.ViewHolder viewHolder) {
-                        if (isDeleteModeOn) return 0; // Отключение свайпа в режиме удаления
+                        if (isDeleteMode) return 0; // Отключение свайпа в режиме удаления
                         return super.getSwipeDirs(recyclerView, viewHolder);
                     }
 
@@ -474,102 +410,61 @@ public class  MainActivity extends AppCompatActivity implements CallbackDelMode,
         itemTouchhelper.attachToRecyclerView(recyclerView);
     }
 
-    @SuppressLint("InflateParams")
+    private MainSnackbar mainSnackbar;
+
     private void showSnackBar(Note note, int position) {
-        if (countDownTimer != null) {
-            countDownTimer.cancel(); // Сброс таймера
-        }
-
-        CoordinatorLayout coordinatorLayout = findViewById(R.id.coord_layout_main);
-
-        snackbarMain = Snackbar.make(coordinatorLayout, "", Snackbar.LENGTH_INDEFINITE);
-        Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbarMain.getView();
-
-        snackbarMain.setAnchorView(fabMain);
-
-        LayoutInflater objLayoutInflater = (LayoutInflater)
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View snackView = objLayoutInflater.inflate(R.layout.custom_snackbar, null);
-
-        Button btnSnackbar =  snackView.findViewById(R.id.snackbar_btn);
-        TextView textSnackbar =  snackView.findViewById(R.id.snackbar_text_title);
-        ProgressBar progressBar =  snackView.findViewById(R.id.snackbar_progress_bar);
-        TextView textProgress =  snackView.findViewById(R.id.snackbar_text_progress);
-
-        textSnackbar.setText(getString(R.string.snackbar_main_text_add_trash));
-        progressBar.setProgress(0);
-        progressBar.setMax(10000);
-
-        btnSnackbar.setTextColor(MyColor.getColorCustom(this));
-        btnSnackbar.setOnClickListener(v -> {
-            rvAdapter.resetItem(note, position);
-            recyclerView.scrollToPosition(position);
-            closeSnackBar();
-        });
-
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar,
-                "progress", 10000);
-        animation.setDuration(3900); // 4 second
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
-
-        countDownTimer = new CountDownTimer(4 * 1000, 100) {
-            @Override
-            public void onTick(long leftTimeInMilliseconds) {
-                long seconds = leftTimeInMilliseconds / 1000;
-                textProgress.setText(String.valueOf(seconds));
-            }
-
-            @Override
-            public void onFinish() {
-                snackbarMain.dismiss();
-            }
-        }.start();
-
-        layout.addView(snackView, 0);
+        mainSnackbar = (new MainSnackbar(
+                this, rvAdapter, fabMain));
+        snackbarMain = mainSnackbar.showSnackbar(note, position);
         snackbarMain.show();
     }
 
     private void closeSnackBar() {
-        if (snackbarMain != null && countDownTimer != null) {
-            snackbarMain.dismiss();
-            countDownTimer.cancel();
+        if (snackbarMain != null) {
+            mainSnackbar.closeSnackbar();
         }
     }
 
     @Override
     public void callingBackNumOfLines(int numOfLines) {
         this.numOfLines = numOfLines;
-        setChangedView();
+        setChangedView(false);
     }
 
     @Override
     public void callingBackOneSize(boolean isOneSizeOn) {
         this.isOneSizeOn = isOneSizeOn;
-        setChangedView();
+        setChangedView(true);
     }
 
     @Override
     public void callingBackFontSize(int fontSize, int dateFontSize) {
         this.fontSize = fontSize;
         this.dateFontSize = dateFontSize;
-        setChangedView();
+        setChangedView(false);
     }
 
     @Override
     public void callingBackNote(boolean isListGoUp) {
-        isUpdateDate = true;
-        this.isListGoUp = isListGoUp;
+        setChangedView(isListGoUp);
     }
 
     @Override
     public void callingRestoreNotes() {
-        setChangedView();
+        setChangedView(false);
     }
 
-    private void setChangedView() {
-        isUpdateDate = true;
-        isListGoUp = true;
-        updateDateMethod();
+    @Override
+    public void callingBackColorMain(int color) {
+        this.color = color;
+        setColorItem();
+        setChangedView(false);
     }
+
+    private void setChangedView(boolean isListGoUp) {
+        isUpdateDate = true;
+        this.isListGoUp = isListGoUp;
+    }
+
+
 }

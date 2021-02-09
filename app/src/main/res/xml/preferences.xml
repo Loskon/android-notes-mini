@@ -6,10 +6,9 @@
         app:title="@string/appearance_settings_header">
 
         <Preference
-            android:key="appearance"
-            android:title="@string/customize_appearance"
-            app:iconSpaceReserved="false">
-        </Preference>
+            android:key="@string/custom_app_title"
+            android:title="@string/custom_app_title"
+            app:iconSpaceReserved="false" />
 
         <com.loskon.noteminimalism3.ui.preference.MySwitchPref
             app:allowDividerAbove="false"
@@ -35,9 +34,16 @@
         <com.loskon.noteminimalism3.ui.preference.MySwitchPref
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
-            app:key="@string/pref_key_auto_backup"
+            app:key="@string/auto_backup"
             app:summary="@string/auto_backup_summary"
             app:title="@string/auto_backup" />
+
+        <com.loskon.noteminimalism3.ui.preference.MySwitchPref
+            app:allowDividerAbove="false"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/notification_auto_backup"
+            app:title="@string/notification_auto_backup" />
 
         <Preference
             android:title="@string/num_of_backup"
@@ -48,24 +54,12 @@
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
-        app:title="@string/sync_header">
+        app:title="@string/notes_header">
 
-        <SwitchPreferenceCompat
-            app:iconSpaceReserved="false"
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:iconSpaceReserved="false"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
         <Preference
-            android:title="@string/color_theme_title"
-            app:iconSpaceReserved="false"
-            app:key="color_picker_key" />
+            android:key="@string/hyperlinks_title"
+            android:title="@string/hyperlinks_title"
+            app:iconSpaceReserved="false" />
 
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 

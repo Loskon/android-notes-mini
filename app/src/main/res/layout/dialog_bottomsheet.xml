@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?attr/bottomSheetColor"
+        android:backgroundTint="?attr/bottomSheetColor"
         android:theme="@style/Theme.MaterialComponents.Light"
         app:itemIconTint="?attr/titleTextColor"
         app:itemShapeFillColor="@android:color/transparent"

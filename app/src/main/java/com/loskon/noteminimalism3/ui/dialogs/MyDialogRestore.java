@@ -10,10 +10,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.db.backup.ArrayAdapterFiles;
-import com.loskon.noteminimalism3.db.backup.BackupDb;
+import com.loskon.noteminimalism3.backup.ArrayAdapterFiles;
+import com.loskon.noteminimalism3.backup.BackupDb;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.db.backup.BackupSort;
+import com.loskon.noteminimalism3.backup.BackupSort;
 
 import java.io.File;
 import java.util.ArrayList;

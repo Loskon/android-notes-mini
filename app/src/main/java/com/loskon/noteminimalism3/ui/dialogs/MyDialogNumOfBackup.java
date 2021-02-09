@@ -8,9 +8,10 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.db.backup.BackupPath;
-import com.loskon.noteminimalism3.db.backup.BackupLimiter;
+import com.loskon.noteminimalism3.backup.BackupLimiter;
+import com.loskon.noteminimalism3.backup.BackupPath;
 import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 
@@ -30,7 +31,7 @@ public class MyDialogNumOfBackup {
         this.activity = activity;
     }
 
-    public void callDialogNumOfBackup(String key, int numOfBackup) {
+    public void callDialog(String key, int numOfBackup) {
         AlertDialog alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_slider);
         alertDialog.show();
 
@@ -40,6 +41,8 @@ public class MyDialogNumOfBackup {
         Slider slider = alertDialog.findViewById(R.id.slider);
         Button btnOk = alertDialog.findViewById(R.id.button36);
         Button btnCancel = alertDialog.findViewById(R.id.button46);
+
+        numOfBackup = GetSharedPref.getNumOfBackup(activity);
 
         // assert
         assert slider != null;
@@ -52,6 +55,7 @@ public class MyDialogNumOfBackup {
             titleDialog = activity.getString(R.string.num_of_backup);
         }
 
+        assert textTitle != null;
         textTitle.setText(titleDialog);
 
         int color = MyColor.getColorCustom(activity);

@@ -1,51 +1,71 @@
 package com.loskon.noteminimalism3.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.loskon.noteminimalism3.db.backup.BackupPath;
-import com.loskon.noteminimalism3.db.backup.BackupAuto;
+import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.backup.BackupAuto;
+import com.loskon.noteminimalism3.backup.BackupPermissions;
+import com.loskon.noteminimalism3.db.DbAdapter;
+import com.loskon.noteminimalism3.helper.CustomMovementMethod;
+import com.loskon.noteminimalism3.helper.FindLinks;
+import com.loskon.noteminimalism3.helper.GetLinkify;
+import com.loskon.noteminimalism3.helper.GetTextFile;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.MyIntent;
 import com.loskon.noteminimalism3.helper.MyKeyboard;
-import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.helper.NoteHelper;
+import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.helper.snackbars.NoteSnackbar;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.db.DbAdapter;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogLinks;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Date;
+
+import static com.loskon.noteminimalism3.backup.BackupPermissions.REQUEST_CODE_PERMISSIONS;
 
 public class NoteActivity extends AppCompatActivity {
 
     private DbAdapter dbAdapter;
+    private NoteSnackbar noteSbAdapter;
     private Note note;
+
+    private BottomSheetBehavior<View> mBottomSheetBehavior;
 
     private EditText editTitleText;
     private MaterialButton favorite_button, delete_button, more_button;
     private FloatingActionButton fabNote;
     private LinearLayout linearNote;
+    private ConstraintLayout cstLayNote;
 
     private long noteId = 0;
     private int selNotesCategory;
+    private Date receivedDate;
+
     private boolean isFavItem = false;
     private boolean isDeleteItem = false;
     private boolean isListGoUp = false;
     private boolean isUpdateDateTame = false;
     private boolean isSaveNoteOn = true;
-    private boolean isAutoBackupOn;
-    private Date receivedDate, setDateChange;
+    private boolean isAutoBackupOn = false;
+    private boolean isAutoBackupMessage = false;
+    private boolean isEditModeOn = false;
 
     private static CallbackNote callbackNote;
 
@@ -63,48 +83,177 @@ public class NoteActivity extends AppCompatActivity {
 
         initialiseWidgets();
         toGetAndProcessingData();
-        favoriteStatus();
+        NoteHelper.favoriteStatus(this, isFavItem, favorite_button);
         handlerClickAtSpace();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void handlerClickAtSpace() {
         // Устанавливем фокус на editText при нажатии в любом месте
-        linearNote.setOnClickListener(v -> {
-            if (selNotesCategory != 2) {
-                setFocusLayout(false);
+
+        linearNote.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                clickOutEditText();
+            }
+            return false;
+        });
+    }
+
+    private void clickOutEditText() {
+
+        if (selNotesCategory != 2) {
+            int ddd = 0;
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                ddd = 300;
+            }
+
+            (new Handler()).postDelayed(() -> {
+                editMode();
+
                 // Ставим фокус на editText
                 editTitleText.requestFocus();
-                // Вызов клавиатуры
-                MyKeyboard.showSoftKeyboard(this, editTitleText);
+
+                showSoft(true);
+
                 // Ставим фокус в конце строки
-                editTitleText.setSelection(editTitleText.getText().toString().trim().length());
+                editTitleText.setSelection(editTitleText.getText().toString().length());
+            }, ddd);
+
+
+        } else {
+            noteSbAdapter.showSnackbarReset();
+        }
+    }
+
+    private void editMode() {
+        int color;
+        boolean isDarkMode = MyColor.isDarkMode(this);
+
+        if (!isEditModeOn) {
+            isEditModeOn = true;
+
+            if (isDarkMode) {
+                color = Color.WHITE;
             } else {
-                Snackbar.make(
-                        findViewById(R.id.cstLayoutNote),
-                        getString(R.string.snackbar_note_text_note_in_trash),
-                        Snackbar.LENGTH_SHORT)
-                        .setAnchorView(fabNote)
-                        .setAction(getString(R.string.snackbar_note_btn_action), view -> restoreNote())
-                        .setActionTextColor(MyColor.getColorCustom(this))
-                        .show();
+                color = Color.BLACK;
             }
-        });
+
+            editTitleText.setLinkTextColor(color);
+        }
+    }
+
+    private void showSoft(boolean isShowSoft) {
+        if (isShowSoft) {
+            MyKeyboard.showSoftKeyboard(NoteActivity.this, editTitleText);
+        } else {
+            MyKeyboard.hideSoftKeyboard(NoteActivity.this, editTitleText);
+        }
+        editTitleText.setCursorVisible(isShowSoft);
+        setFocusLayout(!isShowSoft);
+    }
+
+    private void clickLink(){
+            showSoft(false);
+            editTitleText.clearFocus(); // Убираем фокус с editText
+            linearNote.requestFocus(); // Делаем запрос на фокусированное состояние linearLayout
     }
 
     private void initialiseWidgets() {
         editTitleText = findViewById(R.id.title_text);
+        cstLayNote = findViewById(R.id.cstLayNote);
         favorite_button = findViewById(R.id.favorite_button);
         delete_button = findViewById(R.id.delete_button);
         more_button = findViewById(R.id.more_button);
         fabNote = findViewById(R.id.fabNote);
         linearNote = findViewById(R.id.linearNote);
         dbAdapter = new DbAdapter(this);
+        noteSbAdapter = new NoteSnackbar (this, cstLayNote, fabNote);
+
+        View bottomSheet = findViewById(R.id.layout_bottomSheetBehavior);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        // настройка возможности скрыть элемент при свайпе вниз
+        mBottomSheetBehavior.setHideable(false);
+        mBottomSheetBehavior.setPeekHeight(0);
+
+        // настройка колбэков при изменениях
+        mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                fabNote.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+            }
+        });
+
+
+        TextView dialog_btn_open2 = bottomSheet.findViewById(R.id.tv);
+        TextView dialog_btn_open = bottomSheet.findViewById(R.id.tv_close);
+        dialog_btn_open2.setOnClickListener(view -> {
+            String string = editTitleText.getText().toString();
+
+            if (BackupPermissions
+                    .verifyStoragePermissions(NoteActivity.this, null, true)) {
+                createTextFile(string);
+            }
+
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        dialog_btn_open.setOnClickListener(view -> {
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED){
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+
+
+        noteSbAdapter.registerCallBackNote(this::restoreNote);
 
         MyColor.setColorFab(this, fabNote);
         MyColor.setColorMaterialBtn(this, favorite_button);
         MyColor.setColorMaterialBtn(this, delete_button);
         MyColor.setColorMaterialBtn(this, more_button);
-        //EditTextTint.setCursorDrawableColor(editTitleText, Color.RED);
+
+        if (selNotesCategory != 2) {
+
+            int links = GetLinkify.Web(this) | GetLinkify
+                    .Mail(this) | GetLinkify.Phone(this);
+
+            editTitleText.setAutoLinkMask(links);
+            editTitleText.setLinkTextColor(MyColor.getColorCustom(this));
+
+            editTitleText.setMovementMethod(new CustomMovementMethod() {
+                @Override
+                public void onLinkClick(String url) {
+                    if (!isEditModeOn) {
+                        clickLink();
+                        handlerLinkClick(url);
+                    }
+                }
+
+                @Override
+                public void onEmptyClick() {
+                    clickOutEditText();
+                }
+            });
+
+            editTitleText.setOnLongClickListener(view -> {
+                editMode();
+                showSoft(true);
+                editTitleText.requestFocus(); // Ставим фокус на editText
+                return false;
+            });
+        }
+    }
+
+
+    private void handlerLinkClick(String url) {
+        (new MyDialogLinks(this, url)).callDialog();
     }
 
     private void toGetAndProcessingData () {
@@ -125,15 +274,15 @@ public class NoteActivity extends AppCompatActivity {
     private void existingNote() {
         // Получение
         dbAdapter.open();
-
         note = dbAdapter.getNote(noteId);
+        dbAdapter.close();
 
-        editTitleText.setText(note.getTitle());
+        FindLinks findLinks = new FindLinks(this);
+
+        editTitleText.setText(findLinks.replaceLinks(note.getTitle()));
         receivedDate = note.getDate();
         isFavItem = note.getFavoritesItem();
         isDeleteItem = note.getSelectItemForDel();
-
-        dbAdapter.close();
 
         if (selNotesCategory == 2) redrawingForTrash();
 
@@ -165,33 +314,24 @@ public class NoteActivity extends AppCompatActivity {
         }
         more_button.setVisibility(View.GONE);
         isListGoUp = true;
-        isAutoBackupOn = MySharedPref.getBoolean(this,
-                MyPrefKey.KEY_AUTO_BACKUP, false);
-    }
-
-    private void favoriteStatus() {
-        if (isFavItem) {
-            favorite_button.setIcon(ResourcesCompat.getDrawable(getResources(),
-                    R.drawable.baseline_star_black_24, null));
-        } else {
-            favorite_button.setIcon(ResourcesCompat.getDrawable(getResources(),
-                    R.drawable.baseline_star_border_black_24, null));
-        }
+        isAutoBackupOn = GetSharedPref.isAutoBackup(this);
     }
 
     public void addNoteClick(View view) {
             restoreNote();
     }
 
-    private void restoreNote() {
+    public void restoreNote() {
         if (selNotesCategory == 2) {
+            isUpdateDateTame = true;
             // Восстановление заметки
             dbAdapter.open();
-            dbAdapter.updateSelectItemForDel(note, false, note.getDate());
+            dbAdapter.updateSelectItemForDel(note, false, updateDateTime(), new Date());
+            //dbAdapter.updateNoteDate(note, updateDateTime());
             dbAdapter.close();
         }
 
-        goMainActivity();
+        goMainActivity(true);
     }
 
     public void deleteNoteClick(View view) {
@@ -203,7 +343,7 @@ public class NoteActivity extends AppCompatActivity {
             // Отправляет заметку в корзину
             note.setSelectItemForDel(true);
             note.setFavoritesItem(false);
-            dbAdapter.updateSelectItemForDel(note, true, new Date());
+            dbAdapter.updateSelectItemForDel(note, false, updateDateTime(), new Date());
             dbAdapter.updateFavorites(note,false);
         }
         dbAdapter.close();
@@ -211,48 +351,54 @@ public class NoteActivity extends AppCompatActivity {
         isListGoUp = false;
         isSaveNoteOn = false;
 
-        goMainActivity();
+        goMainActivity(true);
     }
 
     public void favoritesNoteClick(View view) {
         isFavItem = !isFavItem;
-        favoriteStatus();
+        NoteHelper.favoriteStatus(this, isFavItem, favorite_button);
     }
 
     public void otherClick(View view) {
-        String string = editTitleText.getText().toString();
+       // String string = editTitleText.getText().toString();
 
-        if (!string.isEmpty()) {
+        //if (BackupPermissions
+            //    .verifyStoragePermissions(this, null, true)) {
+            //createTextFile(string);
+       // }
+        MyKeyboard.hideSoftKeyboard(NoteActivity.this, editTitleText);
 
-            boolean isFolderNoteCreated = BackupPath.createNoteFolder(this);
+        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            (new Handler()).postDelayed(() -> {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }, 300);
+        }
+    }
 
-            if (isFolderNoteCreated) {
-                File file = new File(BackupPath.getFolder(this),  "Text Files");
+    private void createTextFile(String string) {
+        if (!string.trim().isEmpty()) {
+            (new GetTextFile(this)).createTextFile(string);
+        } else {
+            noteSbAdapter.showSnackbarErrors(true);
+        }
+    }
 
-                boolean isFolderTextCreated = true;
-
-                if (!file.exists()) {
-                    isFolderTextCreated = file.mkdir();
-                }
-
-                if (isFolderTextCreated) {
-                    try {
-                        string = string.substring(0, Math.min(10, string.length())).trim();
-                        File fileName = new File(file, string);
-                        FileWriter writer = new FileWriter(fileName);
-                        writer.append(editTitleText.getText().toString());
-                        writer.flush();
-                        writer.close();
-                        Toast.makeText(this, "Saved your text", Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                String string = editTitleText.getText().toString();
+                createTextFile(string);
+            } else {
+                noteSbAdapter.showSnackbarErrors(false);
             }
         }
     }
 
-    private void goMainActivity() {
+    private void goMainActivity(boolean isButtonClick) {
+        isAutoBackupMessage = true;
+
         if (editTitleText.getText().toString().trim().length() == 0) {
             isListGoUp = false;
         }
@@ -261,7 +407,8 @@ public class NoteActivity extends AppCompatActivity {
             callbackNote.callingBackNote(isListGoUp);
         }
 
-        MyIntent.goMainActivityFromNote(this);
+        MyKeyboard.hideSoftKeyboard(this, editTitleText);
+        MyIntent.goMainActivityFromNote(this, isButtonClick);
     }
 
     @Override
@@ -275,21 +422,22 @@ public class NoteActivity extends AppCompatActivity {
         String title = editTitleText.getText().toString();
 
         dbAdapter.open();
-        if (title.trim().length() == 0) {
+        if (title.isEmpty()) {
             dbAdapter.deleteNote(noteId); // Удаление навсегда пустой заметки
         } else {
 
-            updateDateTime();
-
-            note = new Note(noteId, title, setDateChange, new Date(),
+            note = new Note(noteId, title, updateDateTime(), new Date(),
                     isFavItem, isDeleteItem);
 
             if (noteId > 0) {
                 dbAdapter.updateNote(note);
             } else {
-                if (dbAdapter.addNewNote(note) % 5 == 0 && isAutoBackupOn) {
-                    (new BackupAuto(this)).callAutoBackup();
-                }
+                noteId = dbAdapter.addNewNote(note);
+                isUpdateDateTame = true;
+            }
+
+            if (noteId % 5 == 0 && isAutoBackupOn) {
+                (new BackupAuto(this)).callAutoBackup(isAutoBackupMessage);
             }
         }
         dbAdapter.close();
@@ -297,11 +445,11 @@ public class NoteActivity extends AppCompatActivity {
         //if (!title.equals(note.getTitle()))
     }
 
-    private void updateDateTime () {
+    private Date updateDateTime () {
         if (isUpdateDateTame || noteId == 0) {
-            setDateChange = new Date();  // Обновляет дату
+            return new Date();  // Обновляет дату
         } else {
-            setDateChange = receivedDate; // Оставляет старой
+            return receivedDate; // Оставляет старой
         }
     }
 
@@ -309,7 +457,7 @@ public class NoteActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        goMainActivity();
+        goMainActivity(false);
     }
 
     public interface CallbackNote {

@@ -1,14 +1,17 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
-import android.content.Context;
+import android.app.Activity;
+import android.graphics.Color;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
 import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.SVBar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 
 public class MyDialogColor {
@@ -17,6 +20,7 @@ public class MyDialogColor {
     private static CallbackColorNavIcon callbackColorNavIcon;
     private static CallbackColorColorSettingsApp callbackColorColorSettingsApp;
     private static CallbackColorNotifyData callbackColorNotifyData;
+    private static CallbackColorMain callbackColorMain;
 
     public void registerCallBackColorNavIcon(CallbackColorNavIcon callbackColorNavIcon) {
         MyDialogColor.callbackColorNavIcon = callbackColorNavIcon;
@@ -30,12 +34,17 @@ public class MyDialogColor {
         MyDialogColor.callbackColorNotifyData = callbackColorNotifyData;
     }
 
-    public static void alertDialogShowColorPicker(Context context){
-        AlertDialog alertDialog = MyDialogBuilder.buildDialog(context, R.layout.dialog_color_picker);
+    public void registerCallBackColorMain(CallbackColorMain callbackColorMain) {
+        MyDialogColor.callbackColorMain = callbackColorMain;
+    }
+
+    public static void alertDialogShowColorPicker(Activity activity){
+        AlertDialog alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_color_picker);
         alertDialog.show();
 
         // Initiation View
         ColorPicker colorPickerView = alertDialog.findViewById(R.id.holo_picker);
+        SVBar svBar =  alertDialog.findViewById(R.id.svbar);
         Button btnOk = alertDialog.findViewById(R.id.btn_holo_ok);
         Button btnCancel = alertDialog.findViewById(R.id.btn_holo_cancel);
         MaterialButton matBtnResetColor = alertDialog.findViewById(R.id.btn_reset_color_picker);
@@ -45,12 +54,16 @@ public class MyDialogColor {
         assert btnOk != null;
         assert btnCancel != null;
         assert matBtnResetColor != null;
+        assert svBar != null;
 
-        color = MyColor.getColorCustom(context);
+        color = MyColor.getColorCustom(activity);
+        boolean isDarkModeOn = MyColor.isDarkMode(activity);
+        colorPickerView.addSVBar(svBar);
+
 
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
-        MyColor.setColorMaterialBtn(context, matBtnResetColor);
+        MyColor.setColorMaterialBtn(activity, matBtnResetColor);
 
         colorPickerView.setShowOldCenterColor(false); // выключить показ старого цвета
 
@@ -62,13 +75,21 @@ public class MyDialogColor {
 
         // OK
         btnOk.setOnClickListener(v -> {
-            MySharedPref.setInt(context,"color",color);
-            if (callbackColorNavIcon != null &&
-                    callbackColorColorSettingsApp != null && callbackColorNotifyData != null) {
+
+            if ((isDarkModeOn && color == -16777216) || (!isDarkModeOn && color == -1)) {
+                color = Color.GRAY;
+            }
+
+            MySharedPref.setInt(activity, MyPrefKey.KEY_COLOR, color);
+
+            if (callbackColorNavIcon != null && callbackColorColorSettingsApp != null
+                    && callbackColorNotifyData != null && callbackColorMain != null) {
                 callbackColorNavIcon.callingBackColorNavIcon(color);
                 callbackColorColorSettingsApp.callingBackColorSettingsApp(color);
-                callbackColorNotifyData.callingBackColorNotifyData(color);
+                callbackColorNotifyData.callingBackColorNotifyData();
+                callbackColorMain.callingBackColorMain(color);
             }
+
             alertDialog.dismiss();
         });
 
@@ -79,7 +100,7 @@ public class MyDialogColor {
 
         // Reset
         matBtnResetColor.setOnClickListener(view -> {
-            colorPickerView.setColor(context
+            colorPickerView.setColor(activity
                     .getResources().getColor(R.color.color_default_light_blue));
         });
     }
@@ -93,7 +114,11 @@ public class MyDialogColor {
     }
 
     public interface CallbackColorNotifyData {
-        void callingBackColorNotifyData(int color);
+        void callingBackColorNotifyData();
+    }
+
+    public interface CallbackColorMain {
+        void callingBackColorMain(int color);
     }
 
 }

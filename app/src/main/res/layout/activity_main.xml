@@ -25,7 +25,7 @@
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
         app:fabCradleRoundedCornerRadius="4dp"
-        app:menu="@menu/menu_for_app_bar"
+        app:menu="@menu/menu_for_bar"
         app:navigationIcon="@drawable/baseline_menu_black_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -64,7 +64,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="6"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="16sp" />
     </androidx.cardview.widget.CardView>
 

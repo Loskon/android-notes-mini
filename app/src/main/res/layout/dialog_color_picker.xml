@@ -14,6 +14,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.larswerkman.holocolorpicker.SVBar
+        android:id="@+id/svbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_holo_ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/holo_picker" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_reset_color_picker"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
@@ -28,7 +38,7 @@
         app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/transparent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_holo_cancel"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
@@ -39,7 +49,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_holo_ok"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/holo_picker"
+        app:layout_constraintTop_toBottomOf="@id/svbar"
         app:rippleColor="?attr/colorControlHighlight" />
 
     <Button
@@ -48,10 +58,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@android:string/ok"
+        android:textColor="?attr/textColorOkDialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_holo_cancel"
-        app:layout_constraintTop_toBottomOf="@+id/holo_picker" />
+        app:layout_constraintStart_toEndOf="@+id/btn_holo_cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.db.backup;
+package com.loskon.noteminimalism3.backup;
 
 import android.app.Activity;
 
@@ -6,7 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MySnackbar;
+import com.loskon.noteminimalism3.helper.snackbars.MySnackbar;
 
 public class BackupSnackbar {
 

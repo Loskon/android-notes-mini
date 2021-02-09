@@ -6,13 +6,14 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable;
+import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable.Columns;
+import com.loskon.noteminimalism3.model.Note;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable;
 
 /**
  * Данный класс позволяте взамодействовать с БД
@@ -53,7 +54,7 @@ public class DbAdapter {
     public Note getNote(long id) {
         // Получить заметку по id
         try (NoteCursorWrapper cursor = queryCrimes(
-                NoteTable.Columns.ID + "=?",
+                Columns.ID + "=?",
                 new String[]{String.valueOf(id)}
         )) {
             if (cursor.getCount() == 0) {
@@ -78,7 +79,7 @@ public class DbAdapter {
     public void deleteNote(long id) {
         // Удалить заметку
         sqlDatabase.delete(NoteTable.NAME_TABLE,
-                NoteTable.Columns.ID + "=?",
+                Columns.ID + "=?",
                 new String[]{String.valueOf(id)}
         );
     }
@@ -87,7 +88,7 @@ public class DbAdapter {
         // Обновить заметку
         ContentValues values = getContentValues(note);
         sqlDatabase.update(NoteTable.NAME_TABLE, values,
-                NoteTable.Columns.ID + "=?",
+                Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
@@ -96,17 +97,19 @@ public class DbAdapter {
         ContentValues values = getContentValues(note);
         values.put(NoteTable.Columns.COLUMN_FAVORITES, isFavItem);
         sqlDatabase.update(NoteTable.NAME_TABLE, values,
-                NoteTable.Columns.ID + "=?",
+                Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
-    public void updateSelectItemForDel(Note note, boolean isDelItem, Date dateDelete) {
+    public void updateSelectItemForDel(Note note, boolean isDelItem,
+                                       Date date, Date dateDelete) {
         // Добавить/удалить корзина
         ContentValues values = getContentValues(note);
-        values.put(NoteTable.Columns.COLUMN_DEL_ITEMS, isDelItem);
-        values.put(NoteTable.Columns.COLUMN_DATE_DEL, dateDelete.getTime());
+        values.put(Columns.COLUMN_DEL_ITEMS, isDelItem);
+        values.put(Columns.COLUMN_DATE, date.getTime());
+        values.put(Columns.COLUMN_DATE_DEL, dateDelete.getTime());
         sqlDatabase.update(NoteTable.NAME_TABLE, values,
-                NoteTable.Columns.ID + "=?",
+                Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
     }
 
@@ -116,25 +119,25 @@ public class DbAdapter {
         // Перевод дня в Unix-time для корректного сложения и сравнения
         long range = TimeUnit.MILLISECONDS.convert(rangeInDays, TimeUnit.DAYS);
         sqlDatabase.delete(NoteTable.NAME_TABLE,
-                NoteTable.Columns.COLUMN_DEL_ITEMS + " = " + 1
+                Columns.COLUMN_DEL_ITEMS + " = " + 1
                  + " and " + (new Date()).getTime() + " > (" +
-                NoteTable.Columns.COLUMN_DATE_DEL + "+" + range + ")", null);
+                Columns.COLUMN_DATE_DEL + "+" + range + ")", null);
     }
 
     public void deleteAll() {
         // Удалить все заметки из корзины
         sqlDatabase.delete(NoteTable.NAME_TABLE,
-                NoteTable.Columns.COLUMN_DEL_ITEMS + " = " + 1, null);
+                Columns.COLUMN_DEL_ITEMS + " = " + 1, null);
     }
 
     private static ContentValues getContentValues(Note note) {
         ContentValues values = new ContentValues();
         if (note.getId() != 0) values.put(NoteTable.Columns.ID, note.getId());
-        values.put(NoteTable.Columns.COLUMN_TITLE, note.getTitle());
-        values.put(NoteTable.Columns.COLUMN_DATE, note.getDate().getTime());
-        values.put(NoteTable.Columns.COLUMN_DATE_DEL, note.getDateDelete().getTime());
-        values.put(NoteTable.Columns.COLUMN_FAVORITES, note.getFavoritesItem());
-        values.put(NoteTable.Columns.COLUMN_DEL_ITEMS, note.getSelectItemForDel());
+        values.put(Columns.COLUMN_TITLE, note.getTitle());
+        values.put(Columns.COLUMN_DATE, note.getDate().getTime());
+        values.put(Columns.COLUMN_DATE_DEL, note.getDateDelete().getTime());
+        values.put(Columns.COLUMN_FAVORITES, note.getFavoritesItem());
+        values.put(Columns.COLUMN_DEL_ITEMS, note.getSelectItemForDel());
         return values;
     }
 
@@ -146,7 +149,7 @@ public class DbAdapter {
                 whereArgs,
                 null,
                 null,
-                "_id DESC" // Обратная сортировка по _id
+                Columns.COLUMN_DATE + " DESC" // Обратная сортировка по _id
         );
         return new NoteCursorWrapper(cursor);
     }

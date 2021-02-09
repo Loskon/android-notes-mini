@@ -1,9 +1,6 @@
-package com.loskon.noteminimalism3.db.backup;
-
-import android.database.sqlite.SQLiteDatabase;
+package com.loskon.noteminimalism3.backup;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.Comparator;
 
 public class BackupSort {

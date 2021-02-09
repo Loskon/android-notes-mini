@@ -1,5 +1,15 @@
 package com.loskon.noteminimalism3.ui.preference;
 
+import android.app.Activity;
+import android.content.Context;
+import android.util.TypedValue;
+import android.widget.TextView;
+
+import androidx.preference.PreferenceViewHolder;
+
+import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.helper.GetSizeItem;
+
 public class PrefHelper {
 
     public static int getDateFontSize(int fontSize) {
@@ -12,5 +22,17 @@ public class PrefHelper {
         else if (fontSize <= 42) return 24;
 
         return 0;
+    }
+
+    public static String getNum(Activity activity, int numOfBackup) {
+        String string = activity.getString(R.string.num_backup_summary);
+        string = string +" \u2014 " + numOfBackup;
+        return string;
+    }
+
+    public static void setItemsSize(Context context, PreferenceViewHolder holder) {
+        TextView titleTextView = (TextView) holder.findViewById(android.R.id.title);
+        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        holder.itemView.setMinimumHeight(GetSizeItem.getHeightItem(context));
     }
 }

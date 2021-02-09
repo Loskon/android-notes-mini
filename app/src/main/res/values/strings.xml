@@ -4,11 +4,26 @@
     <string name="app_name_backup">Note Mini Backup</string>
 
 
+    <!-- Activity -->
+    <!-- activity_note -->
+    <string name="note_hint_text">Text</string>
+    <string name="to_close">To close</string>
+
+    <!-- activity_backup -->
+    <string name="btn_backup">Backup</string>
+    <string name="btn_backup_drive">Backup to Drive</string>
+    <string name="btn_backup_restore">Restore</string>
+    <string name="btn_backup_restore_drive">Restore from Drive</string>
+
+    <!-- activity_color -->
+    <string name="take_color">Take</string>
+
+
+    <!-- Menu -->
     <!-- menu for bottom app bar -->
     <string name="menu_item1_switch">Switch view</string>
     <string name="menu_item2_switch">Search go</string>
     <string name="menu_item3_select">Select item</string>
-
 
     <!-- menu for nav drawer view -->
     <string name="nav_item1_note">Note</string>
@@ -16,10 +31,12 @@
     <string name="nav_item3_trash">Trash</string>
     <string name="nav_item4_settings">Settings</string>
 
+
     <!-- Toast -->
     <!-- Main -->
     <string name="toast_main_text_auto_backup_completed">Auto backup completed!</string>
     <string name="toast_main_text_auto_backup_no_completed">Auto backup error!</string>
+
 
     <!-- Snackbars -->
     <!-- Main -->
@@ -27,7 +44,9 @@
 
     <!-- Note -->
     <string name="snackbar_note_text_note_in_trash">The note is in the trash!</string>
+    <string name="snackbar_note_text_note_is_empty">Error! The note is empty!</string>
     <string name="snackbar_note_btn_action">Restore</string>
+    <string name="snackbar_note_save_txt">Save txt file</string>
 
     <!-- Backup -->
     <string name="snackbar_backup_text_error">Error. Retry!</string>
@@ -38,43 +57,39 @@
     <string name="snackbar_backup_text_restore_completed">Restore completed!</string>
     <string name="snackbar_backup_text_restore_no_completed">Unable to import database. Retry!</string>
 
-    <!-- activity_note -->
-    <string name="note_hint_text">Text</string>
 
-    <!-- activity_backup -->
-    <string name="btn_backup">Backup</string>
-    <string name="btn_backup_drive">Backup to Drive</string>
-    <string name="btn_backup_restore">Restore</string>
-    <string name="btn_backup_restore_drive">Restore from Drive</string>
-
-
+    <!-- Dialog -->
     <!-- dialog_backup -->
     <string name="dialog_backup_hint">Backup name in english</string>
     <string name="dialog_backup_error_message">Enter a name</string>
     <string name="dialog_backup_forbidden_text">ABCDEFGHIJKLMNOPQRSTUVWXYZ
         abcdefghijklmnopqrstuvwxyz0123456789()#№/_:.- </string>
 
-
     <!-- dialog_restore -->
     <string name="dialog_restore_title">Select file:</string>
 
-
     <!-- dialog_font_size -->
     <string name="font_size_title">Font size</string>
-
 
     <!-- dialog_color_picker -->
     <string name="color_theme_title">Color theme</string>
     <string name="reset_color">Reset</string>
 
+    <!-- dialog_pref_links -->
+    <string name="hyperlinks">Definition of hyperlinks</string>
+    <string name="web_url">Web URL</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
 
-    <!-- activity_color -->
-    <string name="take_color">Take</string>
+    <!-- dialog_trash -->
+    <string name="empty_trash">Empty trash?</string>
+    <string name="but_empty_trash">But it was empty…</string>
 
 
+    <!-- Preference -->
     <!-- preference_appearance -->
     <!-- Preference Key -->
-    <string name="pref_key_num_of_lines">isOneSizeOn</string>
+    <string name="pref_key_num_of_lines">numOfLines</string>
 
     <!-- Preference Category Titles -->
     <string name="note_appearance">Note appearance</string>
@@ -100,16 +115,19 @@
     <string name="appearance_settings_header">Appearance settings</string>
     <string name="backup_of_notes">Backup of notes</string>
     <string name="sync_header">Sync</string>
+    <string name="notes_header">Notes</string>
 
     <!-- Preference Titles -->
-    <string name="customize_appearance">Customize appearance</string>
+    <string name="custom_app_title">Customize appearance</string>
     <string name="dark_mode_title">Dark mode</string>
     <string name="backup_and_restore">Backup and Restore</string>
     <string name="folder_for_backup">Folder for backup</string>
     <string name="auto_backup">Auto backup</string>
+    <string name="notification_auto_backup">    Notification of auto backup success</string>
     <string name="num_of_backup">Number of backups</string>
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
+    <string name="hyperlinks_title">Definition of hyperlinks</string>
 
     <!-- Preference summary -->
     <string name="auto_backup_summary">Creates a backup of every 5 added notes</string>
@@ -121,6 +139,11 @@
 
 
     <!-- other -->
+    <string name="search">Search</string>
+    <string name="open">Open</string>
+    <string name="call">Call</string>
+    <string name="send">Send</string>
+    <string name="bad_idea">It is a bad idea :)</string>
     <string name="empty_list">Empty</string>
     <string name="no_permissions">No permissions</string>
     <string name="font_size_change">Hello, Word!</string>

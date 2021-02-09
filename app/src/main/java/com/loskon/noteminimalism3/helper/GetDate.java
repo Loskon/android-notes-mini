@@ -12,20 +12,23 @@ public class GetDate {
         String stringDate = DateFormat
                 .getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date);
 
-        day = Integer.parseInt(stringDate.substring(0, 2)
-                .replace("/", "").replace(".", ""));
+        day = getNumOfString(stringDate, 0, 2);
 
-        if (day < 10) {
+        if (day < 2) {
             stringDate = "0" + stringDate;
         }
 
-        month = Integer.parseInt(stringDate.substring(3, 5)
-                .replace("/", "").replace(".", ""));
+        month = getNumOfString(stringDate, 3, 5);
 
-        if (month < 10) {
+        if (month < 2) {
             stringDate = stringDate.substring(0, 3) + "0" + stringDate.substring(3);
         }
 
         return stringDate;
+    }
+
+    private static int getNumOfString(String stringDate , int indexStart, int indexEnd) {
+        return Integer.parseInt(String.valueOf(stringDate.substring(indexStart, indexEnd)
+                .replace("/", "").replace(".", "").length()));
     }
 }

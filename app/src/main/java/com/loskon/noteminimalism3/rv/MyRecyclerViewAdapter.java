@@ -10,6 +10,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,11 +19,10 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.GetSizeItem;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.GetDate;
-import com.loskon.noteminimalism3.helper.MyIntent;
 import com.loskon.noteminimalism3.db.DbAdapter;
+import com.loskon.noteminimalism3.helper.GetDate;
+import com.loskon.noteminimalism3.helper.GetSizeItem;
+import com.loskon.noteminimalism3.helper.MyIntent;
 import com.loskon.noteminimalism3.model.Note;
 
 import java.util.ArrayList;
@@ -33,21 +34,23 @@ import java.util.Stack;
  *
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> implements Filterable
            {
 
     private final DbAdapter dbAdapter;
 
-    private final List<Note> notes;
-    private final ArrayList <Note> toRemoveNotesList = new ArrayList<>();
+    private List<Note> notes;
+    private ArrayList<Note> toSearchList;
+    private final ArrayList <Note> toRemList = new ArrayList<>();
     protected Stack<View> cachedViews = new Stack<>();
     private final Context context;
 
     private boolean isSelectionModeOn;
     private final boolean isOneSizeOn;
     private boolean isTypeNotesSingleOn;
+    private boolean isSearchOn;
 
-    private int color, border, radius;
+    private int colorStroke, border, radius;
     private int radius_dp;
     private int stoke_dp;
     private final int selNotesCategory; // Выбранный режим заметок
@@ -55,6 +58,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
     private int numSelItem;
     private final int fontSize;
     private final int dateFontSize;
+    private final int color;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int NUM_CACHED_VIEWS = 6;
@@ -69,7 +73,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
     public MyRecyclerViewAdapter(Context context, List<Note> notes, DbAdapter dbAdapter,
                                  int selNotesCategory, boolean isSelectionModeOn,
                                  boolean isTypeNotesSingleOn, int numOfLines, boolean isOneSizeOn,
-                                 int fontSize, int dateFontSize) {
+                                 int fontSize, int dateFontSize, int color) {
         this.context = context;
         this.notes = notes;
         this.dbAdapter = dbAdapter;
@@ -80,10 +84,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
         this.isOneSizeOn = isOneSizeOn;
         this.fontSize = fontSize;
         this.dateFontSize = dateFontSize;
-
-        //Toast.makeText(context, "hi" + fontSize, Toast.LENGTH_SHORT).show();
-
-        initSettings();
+        this.color = color;
+        toSearchList = (ArrayList<Note>) notes;
     }
 
     private void initSettings() {
@@ -114,6 +116,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             handleItemLongClick( (RecyclerView) parent, v);
             return  true;
         });
+
+        initSettings();
 
         //View recyclerViewItem;
        // if (cachedViews.isEmpty()) {
@@ -153,8 +157,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
                 holder.title.setMinLines(1);
             }
 
-            holder.view.setBackgroundTintList(ColorStateList
-                    .valueOf(MyColor.getColorCustom(context)));
+            holder.view.setBackgroundTintList(ColorStateList.valueOf(color));
 
             if (note.getFavoritesItem()) {
                 holder.view.setVisibility(View.VISIBLE);
@@ -163,7 +166,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             }
 
             if (note.getSelectItemForDel()) {
-                varForGradientDrawable(radius_dp, stoke_dp, MyColor.getColorCustom(context));
+                varForGradientDrawable(radius_dp, stoke_dp, color);
             } else {
                 varForGradientDrawable(0, 0, Color.TRANSPARENT);
             }
@@ -175,7 +178,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             }
 
             gradientDrawable.setCornerRadius(radius);
-            gradientDrawable.setStroke(border, color);
+            gradientDrawable.setStroke(border, colorStroke);
             holder.linearLayoutCard.setBackground(gradientDrawable);
 
         }
@@ -200,10 +203,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
         notifyItemChanged(position);
     }
 
-    private void varForGradientDrawable(int radius, int border, int color) {
+    private void varForGradientDrawable(int radius, int border, int colorStroke) {
         this.radius = radius;
         this.border = border;
-        this.color = color;
+        this.colorStroke = colorStroke;
     }
 
     private void handleItemClick(RecyclerView recyclerView, View itemView) {
@@ -216,6 +219,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             } else {
                 Intent intent = MyIntent.intentOpenNote(context, selNotesCategory, note.getId());
                 context.startActivity(intent);
+
             }
         }
     }
@@ -244,24 +248,25 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
         if (isDelete) {
             // Удаление
             dbAdapter.open();
-            for (Note note : toRemoveNotesList) {
+            for (Note note : toRemList) {
                 if (selNotesCategory == 2) {
                     dbAdapter.deleteNote(note.getId());
                 } else {
                     note.setFavoritesItem(false);
                     dbAdapter.updateFavorites(note, false);
-                    dbAdapter.updateSelectItemForDel(note, true, new Date());
+                    dbAdapter.updateSelectItemForDel(note, true, note.getDate(), new Date());
                 }
             }
             dbAdapter.close();
-            notes.removeAll(toRemoveNotesList);
+            notes.removeAll(toRemList);
+            if (isSearchOn) toSearchList.removeAll(toRemList);
         }
 
-        for (Note note : toRemoveNotesList) {
+        for (Note note : toRemList) {
             note.setSelectItemForDel(false);
         }
 
-        toRemoveNotesList.clear();
+        toRemList.clear();
         notifyDataSetChanged();
 
         } catch (Exception e) {
@@ -273,12 +278,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
     public void resetItem (Note note, int position) {
         try {
             dbAdapter.open();
-            dbAdapter.updateSelectItemForDel(note, false, note.getDate());
+            dbAdapter.updateSelectItemForDel(note, false, note.getDate(), new Date());
             dbAdapter.close();
 
             notes.add(position, note);
-            notifyItemInserted(position);
-            //notifyDataSetChanged();
+            if (isSearchOn) toSearchList.add(position, note);
+            //notifyItemInserted(position);
+            notifyDataSetChanged();
 
         } catch (Exception e) {
             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -293,12 +299,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
                 dbAdapter.deleteNote(note.getId());
             } else {
                 note.setSelectItemForDel(true);
-                dbAdapter.updateSelectItemForDel(note, true, new Date());
+                dbAdapter.updateSelectItemForDel(note, true, note.getDate(), new Date());
                 dbAdapter.updateFavorites(note, false);
             }
             dbAdapter.close();
 
             notes.remove(position);
+            if (isSearchOn) toSearchList.remove(position);
             notifyItemRemoved(position);
 
         } catch (Exception e) {
@@ -311,8 +318,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
         return (ArrayList<Note>) notes;
     }
 
-    public void selectAll() {
-        toRemoveNotesList.clear(); // Очистка от уже добавленных элементов
+    public void selectItems() {
+        toRemList.clear(); // Очистка от уже добавленных элементов
 
         if (numSelItem == getItemCount()) {
             numSelItem = 0;
@@ -332,12 +339,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
 
     private void addItemInRemoveList(Note note) {
         note.setSelectItemForDel(true);
-        toRemoveNotesList.add(note);
+        toRemList.add(note);
     }
 
     private void removeItemFromRemoveList(Note note) {
         note.setSelectItemForDel(false);
-        toRemoveNotesList.remove(note);
+        toRemList.remove(note);
     }
 
     private void checkSelectAll() {
@@ -346,4 +353,41 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder>
             callbackDelMode.onCallbackClick3(numSelItem);
         }
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String charString = charSequence.toString();
+
+                if (charString.isEmpty()) {
+                    isSearchOn = false;
+                    notes = toSearchList;
+                } else {
+                    isSearchOn = true;
+                    ArrayList<Note> filteredList = new ArrayList<>();
+
+                    for (Note note : toSearchList) {
+                        if (note.getTitle().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(note);
+                        }
+                    }
+
+                    notes = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = notes;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                notes = (ArrayList<Note>) filterResults.values;
+                notifyDataSetChanged();
+                }
+        };}
 }

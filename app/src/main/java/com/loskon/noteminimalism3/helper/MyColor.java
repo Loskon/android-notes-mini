@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.view.Menu;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.ColorUtils;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -22,8 +24,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
 
 import java.util.Objects;
 
@@ -32,6 +34,89 @@ import java.util.Objects;
  */
 
 public class MyColor {
+
+    public static void setDarkTheme(boolean isDarkModeOn) {
+        if (isDarkModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    public static boolean isDarkMode(Activity activity) {
+        int currentNightMode = activity
+                .getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        return currentNightMode != Configuration.UI_MODE_NIGHT_NO;
+    }
+
+    public static int getColorDivider(Activity activity) {
+        int color;
+
+        if (isDarkMode(activity)) {
+            color = R.color.color_divider_dark;
+        } else {
+            color = R.color.color_divider_light;
+        }
+
+        return activity.getResources().getColor(color);
+    }
+
+    public static int getColorBackgroundSnackbar(Activity activity) {
+        int color;
+
+        if (isDarkMode(activity)) {
+            color = R.color.snackbar_background_dark;
+        } else {
+            color = R.color.snackbar_background_light;
+        }
+
+        return activity.getResources().getColor(color);
+    }
+
+    public static void setColorToast(Activity activity, View view, boolean isSuccess) {
+        int color;
+
+        if (isDarkMode(activity)) {
+            if (isSuccess) {
+                color = R.color.snackbar_completed_dark;
+            } else {
+                color = R.color.snackbar_no_completed_dark;
+            }
+        } else {
+            if (isSuccess) {
+                color = R.color.snackbar_completed_light;
+            } else {
+                color = R.color.snackbar_no_completed_light;
+            }
+        }
+
+        view.getBackground()
+                .setColorFilter(activity.getResources()
+                        .getColor(color), PorterDuff.Mode.SRC_IN);
+    }
+
+    public static void setColorSnackbar(Activity activity, View snackbarView, boolean isSuccess) {
+        int color;
+
+        if (isDarkMode(activity)) {
+            if (isSuccess) {
+                color = R.color.snackbar_completed_dark;
+            } else {
+                color = R.color.snackbar_no_completed_dark;
+            }
+        } else {
+            if (isSuccess) {
+                color = R.color.snackbar_completed_light;
+            } else {
+                color = R.color.snackbar_no_completed_light;
+            }
+        }
+
+        snackbarView.setBackgroundTintList(ColorStateList
+                .valueOf(activity.getResources().getColor(color)));
+    }
 
     public static void setColorSwitch(Context context, SwitchMaterial switchMaterial) {
         switchMaterial.getThumbDrawable().setColorFilter(getColorCustom(context), PorterDuff.Mode.SRC_ATOP);
@@ -49,18 +134,26 @@ public class MyColor {
     }
 
     public static void setColorStatBarAndTaskDesc(Activity activity) {
-        int color = Color.WHITE;
+        int color = 0;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity.getWindow().getDecorView().
-                    setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+            if (isDarkMode(activity)) {
+                color = activity.getColor(R.color.dark_light);
+                activity.getWindow().getDecorView().setSystemUiVisibility(0);
+            } else {
+                color = Color.WHITE;
+                activity.getWindow().getDecorView().
+                        setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+
             activity.getWindow().setStatusBarColor(color);
+
         }
 
         activity.setTaskDescription(new ActivityManager
                 .TaskDescription(null, null, color));
 
-        //activity.getWindow().setEnterTransition(null);
     }
 
     public static void setColorMenuIcon(Context context, Menu menu) {
@@ -93,10 +186,22 @@ public class MyColor {
                         .getColor(R.color.color_default_light_blue));
     }
 
-    public static void setNavMenuItemThemeColors(NavigationView navigationView, int color){
+    public static void setNavMenuItemThemeColors(Activity activity,
+                                                 NavigationView navigationView) {
+        int color = MyColor.getColorCustom(activity);
         //Setting default colors for menu item Text and Icon
-        int navDefaultTextColor = Color.parseColor("#000000");
-        int navDefaultIconColor = Color.parseColor("#000000");
+        int navDefaultTextColor;
+        int navDefaultIconColor;
+
+        if (isDarkMode(activity)) {
+            navDefaultTextColor = Color.WHITE;
+            navDefaultIconColor = activity.getResources().getColor(R.color.color_icon_nav_menu_dark);
+        } else {
+            navDefaultTextColor = Color.BLACK;
+            navDefaultIconColor = Color.BLACK;
+        }
+
+
 
         //Defining ColorStateList for menu item Text
         ColorStateList navMenuTextList = new ColorStateList(
@@ -138,7 +243,7 @@ public class MyColor {
         navigationView.setItemIconTintList(navMenuIconList);
     }
 
-    public static void setNavigationIconColor(Context context, BottomAppBar appBar) {
+    public static void setNavIconColor(Context context, BottomAppBar appBar) {
         if (appBar != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 Objects.requireNonNull(appBar.getNavigationIcon())

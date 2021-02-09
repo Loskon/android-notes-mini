@@ -10,10 +10,15 @@ public class MyPrefKey {
     // shared pref keys
     public static final String KEY_TYPE_NOTES = "isTypeNotesSingleOn";
     public static final String KEY_COLOR = "color";
-    public static final String KEY_SEL_CATEGORY = "selNotesCategory";
     public static final String KEY_SEL_DIRECTORY = "selDirectory";
     public static final String KEY_TITLE_FONT_SIZE = "fontSize";
     public static final String KEY_DATE_FONT_SIZE = "dateFontSize";
     public static final String KEY_POSITION_TOP = "topRecyclerview";
     public static final String KEY_POSITION_INDEX = "indexRecyclerView";
+    public static final String KEY_NOTES_CATEGORY = "selNotesCategory";
+
+    public static final String KEY_WEB = "isWeb";
+    public static final String KEY_MAIL = "isMail";
+    public static final String KEY_PHONE = "isPhone";
+
 }

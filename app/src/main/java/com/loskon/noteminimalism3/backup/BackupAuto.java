@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.db.backup;
+package com.loskon.noteminimalism3.backup;
 
 import android.app.Activity;
 
@@ -6,6 +6,7 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.GetDate;
 import com.loskon.noteminimalism3.helper.MyToast;
 import com.loskon.noteminimalism3.helper.ReplaceText;
+import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 
 import java.util.Date;
 
@@ -17,8 +18,8 @@ public class BackupAuto {
         this.activity = activity;
     }
 
-    public void callAutoBackup() {
-
+    public void callAutoBackup(boolean isAutoBackupMessage) {
+        if (BackupPermissions.verifyStoragePermissions(activity, null, false)) {
             boolean isSuccess;
             boolean isFolderCreated = BackupPath.createNoteFolder(activity);
 
@@ -37,8 +38,14 @@ public class BackupAuto {
                     isSuccess = false;
                 }
 
-                showToast(isSuccess);
+                if (GetSharedPref.isNotAutoBackup(activity) && isAutoBackupMessage) {
+                    showToast(isSuccess);
+                }
+
             }
+        } else {
+            showToast(false);
+        }
     }
 
     private void showToast(boolean isSuccess) {
@@ -48,6 +55,6 @@ public class BackupAuto {
         } else {
             message = activity.getString(R.string.toast_main_text_auto_backup_no_completed);
         }
-        MyToast.showToast(activity, message, true);
+        MyToast.showToast(activity, message, isSuccess);
     }
 }

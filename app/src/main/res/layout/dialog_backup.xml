@@ -12,11 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:theme="@style/TextInputLayoutAppearance"
-        app:boxStrokeColor="@android:color/darker_gray"
         app:counterEnabled="true"
         app:counterMaxLength="20"
         app:endIconMode="clear_text"
-        app:hintTextColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@android:string/ok"
+        android:textColor="?attr/textColorOkDialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -55,5 +54,6 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_ok_backup"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayout2" />
+        app:layout_constraintTop_toBottomOf="@id/textInputLayout2"
+        app:rippleColor="?attr/colorControlHighlight" />
 </androidx.constraintlayout.widget.ConstraintLayout>

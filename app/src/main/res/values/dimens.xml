@@ -22,4 +22,6 @@
     <dimen name="my_corner_radius">30dp</dimen>
 
     <dimen name="box_size">180dp</dimen>
+
+    <dimen name="border">2dp</dimen>
 </resources>

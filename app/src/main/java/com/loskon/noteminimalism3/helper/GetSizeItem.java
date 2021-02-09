@@ -1,8 +1,6 @@
 package com.loskon.noteminimalism3.helper;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 
 import com.loskon.noteminimalism3.R;
 
@@ -18,5 +16,9 @@ public class GetSizeItem {
 
     public static int getStrokeLinLay(Context context) {
         return (int) context.getResources().getDimension(R.dimen.border_stroke);
+    }
+
+    public static int getBorder(Context context) {
+        return (int) context.getResources().getDimension(R.dimen.border);
     }
 }

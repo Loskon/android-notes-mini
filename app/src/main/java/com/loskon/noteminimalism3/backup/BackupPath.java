@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.db.backup;
+package com.loskon.noteminimalism3.backup;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,7 +62,7 @@ public class BackupPath {
     }
 
     // Путь для вывода в виде текста
-    public static String getPathForSummary(Context context) {
+    public static String getSummary(Context context) {
         String pathForSummary = loadPath(context);
         pathForSummary = pathForSummary.replace("//", "/");
         pathForSummary = pathForSummary.replace("storage/", "");
@@ -79,6 +79,17 @@ public class BackupPath {
         }
 
         return isFolderCreated;
+    }
+
+    public static boolean createTextFolder(Activity activity, File file) {
+
+        boolean isFolderTextCreated = true;
+
+        if (!file.exists()) {
+            isFolderTextCreated = file.mkdir();
+        }
+
+        return isFolderTextCreated;
     }
 
     public static String getPathToFiles(Activity activity) {

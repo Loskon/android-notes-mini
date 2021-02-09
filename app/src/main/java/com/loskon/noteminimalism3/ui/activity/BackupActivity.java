@@ -1,24 +1,24 @@
 package com.loskon.noteminimalism3.ui.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.db.backup.BackupPath;
-import com.loskon.noteminimalism3.db.backup.BackupPermissions;
-import com.loskon.noteminimalism3.db.backup.BackupSnackbar;
+import com.loskon.noteminimalism3.backup.BackupLocal;
+import com.loskon.noteminimalism3.backup.BackupPermissions;
+import com.loskon.noteminimalism3.backup.BackupSnackbar;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.db.backup.BackupLocal;
 import com.loskon.noteminimalism3.helper.MyIntent;
 
-import static com.loskon.noteminimalism3.helper.MainHelper.REQUEST_CODE_PERMISSIONS;
+import static com.loskon.noteminimalism3.backup.BackupPermissions.REQUEST_CODE_PERMISSIONS;
+
 
 public class BackupActivity extends AppCompatActivity {
 
@@ -49,7 +49,7 @@ public class BackupActivity extends AppCompatActivity {
 
     private void setColorItems() {
         MyColor.setColorStatBarAndTaskDesc(this);
-        MyColor.setNavigationIconColor(this, btmAppBarSettings);
+        MyColor.setNavIconColor(this, btmAppBarSettings);
 
         int color = MyColor.getColorCustom(this);
         btnBackupSd.setBackgroundColor(color);
@@ -65,7 +65,7 @@ public class BackupActivity extends AppCompatActivity {
     public void onClickBtnSd(View view) {
         btnId = view.getId();
 
-        if (BackupPermissions.verifyStoragePermissions(this)) {
+        if (BackupPermissions.verifyStoragePermissions(this, null, true)) {
             btnSd();
         }
     }

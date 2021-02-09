@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/snackbar_background_light"
+    android:background="?attr/backgroundSnackbar"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -12,6 +12,7 @@
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:padding="2dp"
@@ -37,7 +38,7 @@
             android:layout_centerInParent="true"
             android:text="5"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="16sp" />
     </RelativeLayout>
 
@@ -52,14 +53,14 @@
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/snackbar_btn"
         app:layout_constraintStart_toEndOf="@+id/relativeLayout"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="This is a custom Snackbar text" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/snackbar_btn"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
@@ -69,6 +70,7 @@
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="@android:color/transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

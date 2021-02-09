@@ -6,4 +6,10 @@
     <attr name="titleTextColor" format="color"/>
     <attr name="dateTextColor" format="color"/>
     <attr name="bottomSheetColor" format="color"/>
+    <attr name="borderStroke" format="color"/>
+    <attr name="reverseTitleTextColor" format="color"/>
+    <attr name="backgroundSnackbar" format="color"/>
+    <attr name="textColorOkDialog" format="color"/>
+
+    <attr name="bg_search_view" format="reference"/>
 </resources>

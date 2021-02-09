@@ -5,7 +5,7 @@
     android:id="@+id/cstSetting2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.SettingsAppActivity">
+    tools:context=".ui.activity.settingsapp.SettingsAppActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout2"
@@ -30,7 +30,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
-        android:id="@+id/settings"
+        android:id="@+id/fragment_settings_app"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="8dp"

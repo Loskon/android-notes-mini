@@ -1,10 +1,12 @@
 package com.loskon.noteminimalism3.helper;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
 
 /**
@@ -13,12 +15,12 @@ import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
 
 public class CheckEmptyRecyclerView extends RecyclerView.AdapterDataObserver {
 
-    private final TextView textView;
+    private final TextView textEmpty;
     private final MyRecyclerViewAdapter rvAdapter;
 
-    public CheckEmptyRecyclerView(TextView textView, MyRecyclerViewAdapter rvAdapter) {
-        this.textView = textView;
+    public CheckEmptyRecyclerView(Activity activity, MyRecyclerViewAdapter rvAdapter) {
         this.rvAdapter = rvAdapter;
+        textEmpty = activity.findViewById(R.id.textEmpty);
     }
 
     @Override
@@ -39,9 +41,9 @@ public class CheckEmptyRecyclerView extends RecyclerView.AdapterDataObserver {
 
     public void checkEmpty() {
         if (rvAdapter.getItemCount() == 0) {
-            textView.setVisibility(View.VISIBLE);
+            textEmpty.setVisibility(View.VISIBLE);
         } else {
-            textView.setVisibility(View.GONE);
+            textEmpty.setVisibility(View.GONE);
         }
     }
 }

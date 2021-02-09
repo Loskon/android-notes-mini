@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cstLayoutNote"
+    android:id="@+id/cstLayNote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -35,14 +35,15 @@
                 android:id="@+id/title_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="email"
                 android:autofillHints=""
                 android:background="@android:color/transparent"
-                android:clickable="false"
                 android:ems="10"
                 android:hint="@string/note_hint_text"
                 android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
                 android:textColor="?attr/titleTextColor"
-                android:textColorHint="@android:color/darker_gray" />
+                android:textColorHint="@android:color/darker_gray"
+                android:textColorLink="?attr/titleTextColor" />
         </LinearLayout>
     </ScrollView>
 
@@ -57,7 +58,7 @@
         android:onClick="addNoteClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_navigate_next_black_24"
+        app:srcCompat="@drawable/baseline_navigate_next_black_48"
         app:tint="?attr/iconFabColor" />
 
     <com.google.android.material.button.MaterialButton
@@ -74,7 +75,7 @@
         app:layout_constraintEnd_toStartOf="@+id/delete_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="?attr/colorControlHighlight"
+        app:rippleColor="@android:color/transparent"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
@@ -87,12 +88,12 @@
         android:onClick="deleteNoteClick"
         app:icon="@drawable/baseline_delete_outline_black_24"
         app:iconGravity="textStart"
-        app:iconPadding="-4dp"
+        app:iconPadding="-6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/more_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/favorite_button"
-        app:rippleColor="?attr/colorControlHighlight"
+        app:rippleColor="@android:color/transparent"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
@@ -104,11 +105,24 @@
         android:onClick="otherClick"
         app:icon="@drawable/baseline_more_horiz_black_24"
         app:iconGravity="textStart"
-        app:iconPadding="-4dp"
+        app:iconPadding="-6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fabNote"
         app:layout_constraintStart_toEndOf="@+id/delete_button"
-        app:rippleColor="?attr/colorControlHighlight"
+        app:rippleColor="@android:color/transparent"
         app:strokeColor="@android:color/transparent" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/bottom_sheet_dialog" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.activity.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +8,6 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.MyIntent;
-import com.loskon.noteminimalism3.ui.activity.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -37,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyColor.setNavigationIconColor(this, btmAppBarSettings);
+        MyColor.setNavIconColor(this, btmAppBarSettings);
     }
 
     @Override

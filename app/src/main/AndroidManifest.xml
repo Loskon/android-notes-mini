@@ -12,9 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity android:name=".ui.activity.BackupActivity"></activity>
+        <activity android:name=".ui.activity.BackupActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.SettingsAppActivity"
+            android:name=".ui.activity.settingsapp.SettingsAppActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.settings.SettingsActivity"

@@ -95,7 +95,7 @@ public class DbAdapter {
     public void updateFavorites(Note note, boolean isFavItem) {
         // Добавить/удалить избранное
         ContentValues values = getContentValues(note);
-        values.put(NoteTable.Columns.COLUMN_FAVORITES, isFavItem);
+        values.put(Columns.COLUMN_FAVORITES, isFavItem);
         sqlDatabase.update(NoteTable.NAME_TABLE, values,
                 Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});
@@ -108,6 +108,17 @@ public class DbAdapter {
         values.put(Columns.COLUMN_DEL_ITEMS, isDelItem);
         values.put(Columns.COLUMN_DATE, date.getTime());
         values.put(Columns.COLUMN_DATE_DEL, dateDelete.getTime());
+        sqlDatabase.update(NoteTable.NAME_TABLE, values,
+                Columns.ID + "=?",
+                new String[]{String.valueOf(note.getId())});
+    }
+
+    public void updateTitle(Note note, String title) {
+        // Добавить/удалить избранное
+        ContentValues values = getContentValues(note);
+        values.put(Columns.COLUMN_DEL_ITEMS, false);
+        values.put(Columns.COLUMN_TITLE, title);
+        values.put(Columns.COLUMN_DATE, (new Date()).getTime());
         sqlDatabase.update(NoteTable.NAME_TABLE, values,
                 Columns.ID + "=?",
                 new String[]{String.valueOf(note.getId())});

@@ -2,8 +2,6 @@ package com.loskon.noteminimalism3.ui.preference;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.TypedValue;
-import android.widget.TextView;
 
 import androidx.preference.PreferenceViewHolder;
 
@@ -24,15 +22,22 @@ public class PrefHelper {
         return 0;
     }
 
-    public static String getNum(Activity activity, int numOfBackup) {
-        String string = activity.getString(R.string.num_backup_summary);
-        string = string +" \u2014 " + numOfBackup;
+    public static String getPrefSummary(Activity activity, String prefString, int prefValue) {
+        String string = null;
+
+        if (prefString.equals(activity.getString(R.string.num_of_backup))) {
+            string = activity.getString(R.string.num_backup_summary);
+        } else if (prefString.equals(activity.getString(R.string.retention_trash_title))) {
+            string = activity.getString(R.string.number_of_days);
+        }
+
+        string = string +" \u2014 " + prefValue;
         return string;
     }
 
-    public static void setItemsSize(Context context, PreferenceViewHolder holder) {
-        TextView titleTextView = (TextView) holder.findViewById(android.R.id.title);
-        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+    public static void setTitleSetting(Context context,
+                                       PreferenceViewHolder holder, boolean isPadding) {
+
         holder.itemView.setMinimumHeight(GetSizeItem.getHeightItem(context));
     }
 }

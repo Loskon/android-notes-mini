@@ -8,8 +8,8 @@ import java.util.Date;
 
 public class Note {
     private final long id;
-    private final String title;
-    private final Date date;
+    private String title;
+    private Date date;
     private final Date dateDelete;
     private boolean favoritesItem;
     private boolean selectItemForDel;
@@ -32,8 +32,16 @@ public class Note {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Date getDate() {
         return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Date getDateDelete() {

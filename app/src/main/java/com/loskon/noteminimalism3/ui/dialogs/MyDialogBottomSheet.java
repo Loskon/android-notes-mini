@@ -18,7 +18,7 @@ import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.ui.activity.settings.SettingsActivity;
+import com.loskon.noteminimalism3.ui.activity.SettingsActivity;
 
 /**
  *
@@ -66,22 +66,19 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
 
             if (menuId == R.id.nav1_note) {
                 selNotesCategory = 0;
-            }
-            else if (menuId == R.id.nav2_fav) {
+            } else if (menuId == R.id.nav2_fav) {
                 selNotesCategory = 1;
-            }
-            else if (menuId == R.id.nav3_trash) {
+            } else if (menuId == R.id.nav3_trash) {
                 selNotesCategory = 2;
-            }
-            else if (menuId == R.id.nav4_settings) {
-                Intent intent=new Intent(requireContext(), SettingsActivity.class);
+            } else if (menuId == R.id.nav4_settings) {
+                Intent intent = new Intent(requireContext(), SettingsActivity.class);
                 requireContext().startActivity(intent);
             }
 
             MySharedPref.setInt(requireContext(), MyPrefKey.KEY_NOTES_CATEGORY, selNotesCategory);
 
             if (menuId != R.id.nav4_settings) {
-                itemClickListener.onItemClickBottomNavView(selNotesCategory);
+                itemClickListener.onItemClickBottomNavView();
             }
 
             dismiss();
@@ -108,6 +105,6 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
     }
 
     public interface ItemClickListenerBottomNavView {
-        void onItemClickBottomNavView(int selectedNotePage);
+        void onItemClickBottomNavView();
     }
 }

@@ -24,16 +24,22 @@ public class MainHelperTwo {
     private final Menu appBarMenu;
     private final BottomAppBar bottomAppBar;
     private final FloatingActionButton fabMain;
+    private final CardView cardView;
 
-    public MainHelperTwo(Activity activity, Menu appBarMenu, BottomAppBar bottomAppBar, FloatingActionButton fabMain) {
+    public MainHelperTwo(Activity activity, BottomAppBar bottomAppBar, FloatingActionButton fabMain) {
         this.activity = activity;
-        this.appBarMenu = appBarMenu;
         this.bottomAppBar = bottomAppBar;
         this.fabMain = fabMain;
+        appBarMenu = bottomAppBar.getMenu();
+        cardView = activity.findViewById(R.id.card_view_main);
     }
 
-    public void setVisSelMenuItem(boolean isVisibleSelect) {
+    public void setVisSelectMenuItem(boolean isVisibleSelect) {
         appBarMenu.findItem(R.id.action_select_item).setVisible(isVisibleSelect);
+    }
+
+    public void setVisUniMenuItem(boolean isVisibleSelect) {
+        appBarMenu.findItem(R.id.action_unification).setVisible(isVisibleSelect);
     }
 
     public void setSelectIcon(boolean isSelectOneOn) {
@@ -92,7 +98,7 @@ public class MainHelperTwo {
         }
     }
 
-    public void isSearchMode(SearchView searchView, boolean isSearchOn) {
+    public void isSearchMode(SearchView searchView, boolean isSearchOn, int selNotesCategory) {
         if (isSearchOn) {
 
             searchView.setVisibility(View.VISIBLE);
@@ -131,12 +137,9 @@ public class MainHelperTwo {
         appBarMenu.findItem(R.id.action_switch_view).setVisible(isVisibleSelect);
     }
 
-    public void deleteMode(boolean isDeleteModeOn, int selNotesCategory,
-                           boolean isSearchOn, CardView cardView) {
+    public void deleteMode(boolean isDeleteModeOn, int selNotesCategory, boolean isSearchOn) {
 
         if (isDeleteModeOn) {
-
-            cardView.setVisibility(View.VISIBLE);
 
             if (selNotesCategory != 2) {
                 fabMain.setImageResource(R.drawable.baseline_delete_black_24);
@@ -148,8 +151,6 @@ public class MainHelperTwo {
             setNavIconColor();
 
         } else {
-
-            cardView.setVisibility(View.GONE);
 
             if (selNotesCategory != 2) {
                 if (isSearchOn) {
@@ -168,12 +169,15 @@ public class MainHelperTwo {
             }
         }
 
-        setVisSelMenuItem(isDeleteModeOn);
+        setVisSelectMenuItem(isDeleteModeOn);
+        setVisUniMenuItem(isDeleteModeOn);
 
         if (!isSearchOn) {
             setVisSwitchMenuItem(!isDeleteModeOn);
             setVisSearchMenuItem(!isDeleteModeOn);
         }
+
+        setVisCardView(isDeleteModeOn);
     }
 
     public void setHandlerSearchView(SearchView searchView, MyRecyclerViewAdapter rvAdapter) {
@@ -194,5 +198,21 @@ public class MainHelperTwo {
                 return true;
             }
         });
+    }
+
+    public void setColorItem() {
+        int color = MyColor.getColorCustom(activity);
+        MyColor.setColorFab(activity, fabMain);
+        MyColor.setNavIconColor(activity, bottomAppBar);
+        MyColor.setColorMenuIcon(activity, appBarMenu);
+        cardView.setCardBackgroundColor(color);
+    }
+
+    public void setVisCardView(boolean isVisCardView) {
+        if (isVisCardView) {
+            cardView.setVisibility(View.VISIBLE);
+        } else {
+            cardView.setVisibility(View.GONE);
+        }
     }
 }

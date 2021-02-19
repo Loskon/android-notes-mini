@@ -1,24 +1,17 @@
 package com.loskon.noteminimalism3.helper.sharedpref;
 
 public class MyPrefKey {
-    // preferences keys
-    public static final String KEY_ONE_SIZE = "isOneSizeOn"; // R.string.pref_key_one_size
-    public static final String KEY_AUTO_BACKUP = "isAutoBackupOn"; // R.string.pref_key_auto_backup
-    public static final String KEY_NUM_OF_LINES = "numOfLines"; // R.string.pref_key_num_of_lines
-    public static final String KEY_NUM_OF_BACKUP = "numOfBackup";
+    public static final String KEY_TYPE_NOTES = "key_type_notes";
+    public static final String KEY_COLOR = "key_color";
+    public static final String KEY_SEL_DIRECTORY = "key_sel_directory";
+    public static final String KEY_TITLE_FONT_SIZE = "key_font_size";
+    public static final String KEY_DATE_FONT_SIZE = "key_date_font_size";
+    public static final String KEY_TITLE_FONT_SIZE_NOTES = "key_title_font_size";
+    public static final String KEY_POSITION_TOP = "key_position_top";
+    public static final String KEY_POSITION_INDEX = "key_position_index";
+    public static final String KEY_NOTES_CATEGORY = "key_sel_note_category";
 
-    // shared pref keys
-    public static final String KEY_TYPE_NOTES = "isTypeNotesSingleOn";
-    public static final String KEY_COLOR = "color";
-    public static final String KEY_SEL_DIRECTORY = "selDirectory";
-    public static final String KEY_TITLE_FONT_SIZE = "fontSize";
-    public static final String KEY_DATE_FONT_SIZE = "dateFontSize";
-    public static final String KEY_POSITION_TOP = "topRecyclerview";
-    public static final String KEY_POSITION_INDEX = "indexRecyclerView";
-    public static final String KEY_NOTES_CATEGORY = "selNotesCategory";
-
-    public static final String KEY_WEB = "isWeb";
-    public static final String KEY_MAIL = "isMail";
-    public static final String KEY_PHONE = "isPhone";
-
+    public static final String KEY_WEB = "key_web";
+    public static final String KEY_MAIL = "key_mail";
+    public static final String KEY_PHONE = "key_phone";
 }

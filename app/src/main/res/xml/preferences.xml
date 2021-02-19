@@ -13,14 +13,15 @@
         <com.loskon.noteminimalism3.ui.preference.MySwitchPref
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
+            android:layout="@layout/custom_pref_layout"
             app:key="@string/dark_mode_title"
             app:title="@string/dark_mode_title" />
 
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
-        android:title="@string/backup_of_notes"
-        app:iconSpaceReserved="false">
+        app:iconSpaceReserved="false"
+        android:title="@string/backup_of_notes">
 
         <Preference
             android:title="@string/backup_and_restore"
@@ -34,6 +35,7 @@
         <com.loskon.noteminimalism3.ui.preference.MySwitchPref
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
+            android:layout="@layout/custom_pref_layout"
             app:key="@string/auto_backup"
             app:summary="@string/auto_backup_summary"
             app:title="@string/auto_backup" />
@@ -41,14 +43,17 @@
         <com.loskon.noteminimalism3.ui.preference.MySwitchPref
             app:allowDividerAbove="false"
             app:defaultValue="true"
+            android:layout="@layout/custom_pref_layout"
+            app:dependency="@string/auto_backup"
             app:iconSpaceReserved="false"
             app:key="@string/notification_auto_backup"
+            app:summary="@string/notification_auto_backup_summary"
             app:title="@string/notification_auto_backup" />
 
         <Preference
             android:title="@string/num_of_backup"
             app:iconSpaceReserved="false"
-            app:key="@string/pref_key_num_of_backup" />
+            app:key="@string/num_of_backup" />
 
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
@@ -59,6 +64,35 @@
         <Preference
             android:key="@string/hyperlinks_title"
             android:title="@string/hyperlinks_title"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/font_size_notes_title"
+            android:title="@string/font_size_notes_title"
+            app:iconSpaceReserved="false" />
+
+        <com.loskon.noteminimalism3.ui.preference.MySwitchPref
+            app:allowDividerAbove="false"
+            app:iconSpaceReserved="false"
+            android:layout="@layout/custom_pref_layout"
+            app:key="@string/update_date_title"
+            app:summary="@string/update_date_summary"
+            app:title="@string/update_date_title" />
+
+    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+
+    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/other_header">
+
+        <Preference
+            android:key="@string/retention_trash_title"
+            android:title="@string/retention_trash_title"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/communication"
+            android:title="@string/communication"
             app:iconSpaceReserved="false" />
 
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>

@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.helper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -10,13 +9,14 @@ import androidx.fragment.app.Fragment;
 import com.loskon.noteminimalism3.ui.activity.BackupActivity;
 import com.loskon.noteminimalism3.ui.activity.MainActivity;
 import com.loskon.noteminimalism3.ui.activity.NoteActivity;
-import com.loskon.noteminimalism3.ui.activity.settingsapp.SettingsAppActivity;
-import com.loskon.noteminimalism3.ui.activity.settings.SettingsActivity;
+import com.loskon.noteminimalism3.ui.activity.SettingsAppActivity;
+import com.loskon.noteminimalism3.ui.activity.SettingsActivity;
+
+import static com.loskon.noteminimalism3.helper.RequestCode.REQUEST_CODE_READ;
 
 public class MyIntent {
 
     private static final int intentDelay = 50;
-    public static final int READ_REQUEST_CODE = 297;
 
     // Add new note
     public static void intentAddNewNote(Context context, int selectedNoteMode) {
@@ -55,7 +55,7 @@ public class MyIntent {
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         fragment.startActivityForResult(Intent.createChooser(intent,
-                "Choose directory"), READ_REQUEST_CODE);
+                "Choose directory"), REQUEST_CODE_READ);
     }
 
     public static void goMainActivity(Context context) {
@@ -64,7 +64,7 @@ public class MyIntent {
         context.startActivity(intent);
     }
 
-    public static void goMainActivityFromNote(Activity activity, boolean isButtonClick) {
+    public static void goMainActivityFromNote(android.app.Activity activity, boolean isButtonClick) {
         Intent intent = new Intent(activity, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         (new Handler()).postDelayed(() -> activity

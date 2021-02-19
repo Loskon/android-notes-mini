@@ -26,7 +26,9 @@
         <item name="reverseTitleTextColor">@color/black</item>
         <item name="backgroundSnackbar">@color/snackbar_background_dark</item>
         <item name="textColorOkDialog">@color/dark_light</item>
-
+        <item name="shadowImitationColor">@android:color/transparent</item>
+        <item name="buttonIconColor">@color/dark_light</item>
+        <item name="switchBackgroundColor">@color/dark_light</item>
 
         <!-- Window background -->
         <item name="android:windowBackground">@color/dark_light</item>

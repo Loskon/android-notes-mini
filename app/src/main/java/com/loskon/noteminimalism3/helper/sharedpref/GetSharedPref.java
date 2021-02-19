@@ -1,47 +1,20 @@
 package com.loskon.noteminimalism3.helper.sharedpref;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.loskon.noteminimalism3.R;
 
 public class GetSharedPref {
 
-    public static int getNumOfLines(Context context) {
-        return MySharedPref.getInt(context, MyPrefKey.KEY_NUM_OF_LINES, 3);
-    }
-
+    // boolean
     public static boolean isOneSize(Context context) {
-        return MySharedPref.getBoolean(context, MyPrefKey.KEY_ONE_SIZE, false);
+        String key = context.getString(R.string.one_size_cards);
+        return MySharedPref.getBoolean(context, key, false);
     }
 
-    public static int getFontSize(Context context) {
-        return MySharedPref.getInt(context, MyPrefKey.KEY_TITLE_FONT_SIZE, 18);
-    }
-
-    public static int getDateFontSize(Context context) {
-        return MySharedPref.getInt(context, MyPrefKey.KEY_DATE_FONT_SIZE, 14);
-    }
-
-    public static int getIndex(Context context) {
-        return MySharedPref.getInt(context, MyPrefKey.KEY_POSITION_INDEX, 0);
-    }
-
-    public static int getTop(Context context) {
-        return MySharedPref.getInt(context, MyPrefKey.KEY_POSITION_TOP, 0);
-    }
-
-    public static int getNumOfBackup(Context context) {
-        return MySharedPref.getInt(context, MyPrefKey.KEY_NUM_OF_BACKUP, 3);
-    }
-
-    public static boolean isDarkModeOn(Activity activity) {
-        String key = activity.getString(R.string.dark_mode_title);
-        return MySharedPref.getBoolean(activity, key, false);
-    }
-
-    public static int getNotesCategory(Context context) {
-        return MySharedPref.getInt(context,MyPrefKey.KEY_NOTES_CATEGORY, 0);
+    public static boolean isDarkMode(Context context) {
+        String key = context.getString(R.string.dark_mode_title);
+        return MySharedPref.getBoolean(context, key, false);
     }
 
     public static boolean isAutoBackup(Context context) {
@@ -49,9 +22,14 @@ public class GetSharedPref {
         return MySharedPref.getBoolean(context, key, false);
     }
 
-    public static boolean isNotAutoBackup(Context context) {
+    public static boolean isNotificationAutoBackup(Context context) {
         String key = context.getString(R.string.notification_auto_backup);
         return MySharedPref.getBoolean(context, key, true);
+    }
+
+    public static boolean isUpdateDateTameWhenChanges(Context context) {
+        String key = context.getString(R.string.update_date_title);
+        return MySharedPref.getBoolean(context, key, false);
     }
 
     public static boolean isWeb(Context context) {
@@ -70,4 +48,43 @@ public class GetSharedPref {
         return MySharedPref.getBoolean(context, MyPrefKey.KEY_TYPE_NOTES, true);
     }
 
+    // int
+    public static int getNumOfBackup(Context context) {
+        String key = context.getString(R.string.num_of_backup);
+        return MySharedPref.getInt(context, key, 3);
+    }
+
+    public static int getRangeInDays(Context context) {
+        String key = context.getString(R.string.retention_trash_title);
+        return MySharedPref.getInt(context, key, 2);
+    }
+
+    public static int getNumOfLines(Context context) {
+        String key = context.getString(R.string.number_of_lines);
+        return MySharedPref.getInt(context, key, 3);
+    }
+
+    public static int getFontSize(Context context) {
+        return MySharedPref.getInt(context, MyPrefKey.KEY_TITLE_FONT_SIZE, 18);
+    }
+
+    public static int getDateFontSize(Context context) {
+        return MySharedPref.getInt(context, MyPrefKey.KEY_DATE_FONT_SIZE, 14);
+    }
+
+    public static int getFontSizeNote(Context context) {
+        return MySharedPref.getInt(context, MyPrefKey.KEY_TITLE_FONT_SIZE_NOTES, 18);
+    }
+
+    public static int getIndexSettings(Context context) {
+        return MySharedPref.getInt(context, MyPrefKey.KEY_POSITION_INDEX, 0);
+    }
+
+    public static int getTopSettings(Context context) {
+        return MySharedPref.getInt(context, MyPrefKey.KEY_POSITION_TOP, 0);
+    }
+
+    public static int getNotesCategory(Context context) {
+        return MySharedPref.getInt(context,MyPrefKey.KEY_NOTES_CATEGORY, 0);
+    }
 }

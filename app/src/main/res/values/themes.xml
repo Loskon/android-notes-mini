@@ -26,7 +26,9 @@
         <item name="reverseTitleTextColor">@color/white</item>
         <item name="backgroundSnackbar">@color/snackbar_background_light</item>
         <item name="textColorOkDialog">@color/white</item>
-
+        <item name="shadowImitationColor">@android:color/darker_gray</item>
+        <item name="buttonIconColor">@android:color/white</item>
+        <item name="switchBackgroundColor">@android:color/white</item>
 
         <!-- Window background -->
         <item name="android:windowBackground">@color/white</item>
@@ -98,6 +100,23 @@
     <style name="transparent_theme">
         <item name="colorControlHighlight">@android:color/transparent</item>
         <item name="colorControlActivated">@android:color/transparent</item>
+    </style>
+
+
+    <style name="GreenTheme" parent="FirebaseUI">
+        <item name="colorPrimary">@color/design_default_color_error</item>
+        <item name="colorPrimaryDark">@color/design_default_color_error</item>
+        <item name="colorAccent">@color/design_default_color_error</item>
+        <item name="colorButtonNormal">@color/design_default_color_error</item>
+        <item name="colorControlNormal">@android:color/holo_green_dark</item>
+        <item name="colorControlActivated">@android:color/holo_green_dark</item>
+        <item name="colorControlHighlight">@android:color/holo_green_dark</item>
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+        <item name="android:textColorPrimary">@android:color/holo_green_dark</item>
+        <item name="android:textColorSecondary">@android:color/holo_green_dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorHint">@android:color/holo_green_dark</item>
     </style>
 
 </resources>

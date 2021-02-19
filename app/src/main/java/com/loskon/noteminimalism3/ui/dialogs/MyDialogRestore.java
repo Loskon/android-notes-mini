@@ -10,10 +10,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.backup.ArrayAdapterFiles;
-import com.loskon.noteminimalism3.backup.BackupDb;
+import com.loskon.noteminimalism3.backup.second.ArrayAdapterFiles;
+import com.loskon.noteminimalism3.backup.second.BackupDb;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.backup.BackupSort;
+import com.loskon.noteminimalism3.backup.second.BackupSort;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class MyDialogRestore {
     }
 
     public void callDialogRestore(File folder) {
-        AlertDialog alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_restore);
+        AlertDialog alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_restore);
         alertDialog.show();
 
         // initView
@@ -78,7 +78,7 @@ public class MyDialogRestore {
 
         // Click listView
         listViewFiles.setOnItemClickListener((adapterView, view, position, l) -> {
-            BackupDb.restoreDatabase(activity, files[position].getPath());
+            BackupDb.restoreDatabase(activity, fileList.get(position).getPath());
             if (cbRestoreNotes != null) {
                 cbRestoreNotes.callingRestoreNotes();
             }

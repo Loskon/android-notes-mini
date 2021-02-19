@@ -34,14 +34,14 @@ import java.util.Stack;
  *
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> implements Filterable
-           {
+public class MyRecyclerViewAdapter extends
+        RecyclerView.Adapter<NoteViewHolder> implements Filterable {
 
     private final DbAdapter dbAdapter;
 
     private List<Note> notes;
-    private ArrayList<Note> toSearchList;
-    private final ArrayList <Note> toRemList = new ArrayList<>();
+    private final ArrayList<Note> toSearchList;
+    private final ArrayList <Note> toRemoveList = new ArrayList<>();
     protected Stack<View> cachedViews = new Stack<>();
     private final Context context;
 
@@ -102,12 +102,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> 
     public NoteViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View recyclerViewItem = layoutInflater.inflate(R.layout.card_view_item,
+        View recyclerViewItem = layoutInflater.inflate(R.layout.card_view_notes,
                 parent, false);
 
         AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(parent.getContext());
         for (int i = 0; i < NUM_CACHED_VIEWS; i++) {
-            asyncLayoutInflater.inflate(R.layout.card_view_item,
+            asyncLayoutInflater.inflate(R.layout.card_view_notes,
                      parent, inflateListener);
         }
 
@@ -248,7 +248,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> 
         if (isDelete) {
             // Удаление
             dbAdapter.open();
-            for (Note note : toRemList) {
+            for (Note note : toRemoveList) {
                 if (selNotesCategory == 2) {
                     dbAdapter.deleteNote(note.getId());
                 } else {
@@ -258,15 +258,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> 
                 }
             }
             dbAdapter.close();
-            notes.removeAll(toRemList);
-            if (isSearchOn) toSearchList.removeAll(toRemList);
+            notes.removeAll(toRemoveList);
+            if (isSearchOn) toSearchList.removeAll(toRemoveList);
         }
 
-        for (Note note : toRemList) {
+        for (Note note : toRemoveList) {
             note.setSelectItemForDel(false);
         }
 
-        toRemList.clear();
+        toRemoveList.clear();
         notifyDataSetChanged();
 
         } catch (Exception e) {
@@ -319,7 +319,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> 
     }
 
     public void selectItems() {
-        toRemList.clear(); // Очистка от уже добавленных элементов
+        toRemoveList.clear(); // Очистка от уже добавленных элементов
 
         if (numSelItem == getItemCount()) {
             numSelItem = 0;
@@ -337,14 +337,48 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<NoteViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void unificationItems() {
+        StringBuilder sb = new StringBuilder();
+            for (Note note : toRemoveList) {
+
+                if (note != toRemoveList.get(toRemoveList.size() - 1)) {
+                    sb.append(note.getTitle()).append("\n\n");
+                } else {
+                    sb.append(note.getTitle());
+                }
+
+                if (note != toRemoveList.get(0)) {
+                    dbAdapter.open();
+                    dbAdapter.deleteNote(note.getId());
+                    dbAdapter.close();
+                }
+
+            }
+
+        Note note = toRemoveList.get(0);
+        note.setSelectItemForDel(false);
+        note.setTitle(String.valueOf(sb));
+        note.setDate((new Date()));
+
+        dbAdapter.open();
+        dbAdapter.updateTitle(note, String.valueOf(sb));
+        dbAdapter.close();
+
+        toRemoveList.remove(note);
+        notes.removeAll(toRemoveList);
+        toRemoveList.clear();
+        notifyDataSetChanged();
+        callbackDelMode.onCallbackClick4();
+    }
+
     private void addItemInRemoveList(Note note) {
         note.setSelectItemForDel(true);
-        toRemList.add(note);
+        toRemoveList.add(note);
     }
 
     private void removeItemFromRemoveList(Note note) {
         note.setSelectItemForDel(false);
-        toRemList.remove(note);
+        toRemoveList.remove(note);
     }
 
     private void checkSelectAll() {

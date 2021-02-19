@@ -21,4 +21,8 @@ public class GetSizeItem {
     public static int getBorder(Context context) {
         return (int) context.getResources().getDimension(R.dimen.border);
     }
+
+    public static int getPadding(Context context) {
+        return (int) context.getResources().getDimension(R.dimen.padding_text_title);
+    }
 }

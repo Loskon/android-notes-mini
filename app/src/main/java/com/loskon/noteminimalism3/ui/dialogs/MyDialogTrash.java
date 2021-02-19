@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.snackbars.MySnackbar;
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
 
 public class MyDialogTrash {
 
@@ -28,11 +28,14 @@ public class MyDialogTrash {
     }
 
     public void call(int countNotes) {
-        alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_trash);
+        alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_trash);
         alertDialog.show();
 
         Button btnOk = alertDialog.findViewById(R.id.button367);
         Button btnCancel = alertDialog.findViewById(R.id.button467);
+
+        assert btnOk != null;
+        assert btnCancel != null;
 
         String message = activity.getString(R.string.but_empty_trash);
 
@@ -47,7 +50,7 @@ public class MyDialogTrash {
                 dbAdapter.close();
                 callbackTrash.callingBackTrash();
             } else {
-                MySnackbar.makeSnackbar(activity, activity.findViewById(R.id.coord_layout_main),
+                SnackbarBuilder.makeSnackbar(activity, activity.findViewById(R.id.coord_layout_main),
                         message, activity.findViewById(R.id.fabMain), false);
             }
 

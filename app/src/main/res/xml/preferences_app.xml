@@ -1,0 +1,51 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/note_appearance">
+        <com.loskon.noteminimalism3.ui.preference.PrefCardView
+            app:allowDividerAbove="false"
+            app:key="1" />
+    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+
+    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+        android:title="@string/reset_settings_card_appearance"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:title="@string/reset"
+            app:iconSpaceReserved="false"
+            app:key="@string/reset" />
+    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+
+    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/theme_color">
+        <com.loskon.noteminimalism3.ui.preference.MySelectColor
+            android:layout="@layout/custom_pref_layout"
+            android:title="@string/select_color"
+            app:allowDividerAbove="false"
+            app:key="@string/select_color" />
+    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+
+    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/number_of_lines">
+        <com.loskon.noteminimalism3.ui.preference.PrefNumOfLines
+            app:allowDividerAbove="false" />
+    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+
+    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+        android:title="@string/other"
+        app:iconSpaceReserved="false">
+        <com.loskon.noteminimalism3.ui.preference.MySwitchPref
+            android:key="@string/one_size_cards"
+            android:title="@string/one_size_cards"
+            android:layout="@layout/custom_pref_layout"
+            app:allowDividerAbove="false"
+            app:iconSpaceReserved="false"
+            app:summary="@string/one_size_cards_summary" />
+    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+
+</PreferenceScreen>

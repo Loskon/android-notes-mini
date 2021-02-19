@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
+        android:maxLines="2"
         android:text="TextView"
         android:textColor="?attr/titleTextColor"
         android:textSize="16sp"

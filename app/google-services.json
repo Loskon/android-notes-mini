@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "216809560444",
+    "project_id": "notes-mini",
+    "storage_bucket": "notes-mini.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216809560444:android:004b6d1ef582fb4635acf9",
+        "android_client_info": {
+          "package_name": "com.loskon.noteminimalism3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "216809560444-nqq6umas3ou6qji4bg3a2qkhjfec71km.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loskon.noteminimalism3",
+            "certificate_hash": "9171c33e16a213670e5d0d4aae3e0f3a6c18e67b"
+          }
+        },
+        {
+          "client_id": "216809560444-ffcpkeu8kdffnud8lk9mmth4k8jaig98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtvIubc1a4dkhzRhTUkp9PKwewAmD0LW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "216809560444-ffcpkeu8kdffnud8lk9mmth4k8jaig98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

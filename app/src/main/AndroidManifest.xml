@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.loskon.noteminimalism3">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -15,10 +17,10 @@
         <activity android:name=".ui.activity.BackupActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.settingsapp.SettingsAppActivity"
+            android:name=".ui.activity.SettingsAppActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.settings.SettingsActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.NoteActivity"

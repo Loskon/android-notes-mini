@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- color -->
     <attr name="bottomAppBarColor" format="color"/>
     <attr name="iconFabColor" format="color"/>
     <attr name="cardViewColor" format="color"/>
@@ -10,6 +11,10 @@
     <attr name="reverseTitleTextColor" format="color"/>
     <attr name="backgroundSnackbar" format="color"/>
     <attr name="textColorOkDialog" format="color"/>
+    <attr name="shadowImitationColor" format="color"/>
+    <attr name="buttonIconColor" format="color"/>
+    <attr name="switchBackgroundColor" format="color"/>
 
+    <!-- reference -->
     <attr name="bg_search_view" format="reference"/>
 </resources>

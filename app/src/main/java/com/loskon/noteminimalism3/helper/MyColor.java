@@ -22,7 +22,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
@@ -116,11 +115,6 @@ public class MyColor {
 
         snackbarView.setBackgroundTintList(ColorStateList
                 .valueOf(activity.getResources().getColor(color)));
-    }
-
-    public static void setColorSwitch(Context context, SwitchMaterial switchMaterial) {
-        switchMaterial.getThumbDrawable().setColorFilter(getColorCustom(context), PorterDuff.Mode.SRC_ATOP);
-        switchMaterial.getTrackDrawable().setColorFilter(getColorCustom(context), PorterDuff.Mode.SRC_ATOP);
     }
 
     public static void setColorSlider(Context context, Slider slider) {

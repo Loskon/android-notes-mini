@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_switch_view"
+        android:icon="@drawable/baseline_dashboard_black_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_item1_switch" />
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/menu_item2_switch"
+        android:icon="@drawable/baseline_search_black_24"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_select_item"
+        android:title="@string/menu_item3_select"
+        android:icon="@drawable/baseline_done_black_24"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_unification"
+        android:title="@string/menu_item4_select"
+        android:icon="@drawable/baseline_add_box_black_24"
+        app:showAsAction="ifRoom" />
+</menu>

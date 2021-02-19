@@ -24,4 +24,6 @@
     <dimen name="box_size">180dp</dimen>
 
     <dimen name="border">2dp</dimen>
+
+    <dimen name="padding_text_title">8dip</dimen>
 </resources>

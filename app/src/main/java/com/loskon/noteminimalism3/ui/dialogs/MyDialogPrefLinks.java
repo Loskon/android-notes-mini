@@ -25,7 +25,7 @@ public class MyDialogPrefLinks {
     }
 
     public void callDialog() {
-        alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_pref_links);
+        alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_pref_links);
         alertDialog.show();
 
         checkBoxWeb = alertDialog.findViewById(R.id.checkBoxWeb);

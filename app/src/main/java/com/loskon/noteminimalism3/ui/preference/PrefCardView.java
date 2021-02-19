@@ -16,7 +16,7 @@ import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.ui.activity.settingsapp.MySettingsAppFragment;
+import com.loskon.noteminimalism3.ui.fragments.MySettingsAppFragment;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
 /**

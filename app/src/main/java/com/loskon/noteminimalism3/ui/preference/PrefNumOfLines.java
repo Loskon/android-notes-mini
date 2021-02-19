@@ -11,19 +11,18 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
 public class PrefNumOfLines extends Preference {
 
-    private static callbackNumOfLines callbackNumOfLines;
+    private static CallbackNumOfLines callbackNumOfLines;
 
     // for Callback
     public PrefNumOfLines(Context context) {
         super(context);
     }
 
-    public void registerCallbackNumOfLines(callbackNumOfLines callbackNumOfLines){
+    public void registerCallbackNumOfLines(CallbackNumOfLines callbackNumOfLines){
         PrefNumOfLines.callbackNumOfLines = callbackNumOfLines;
     }
 
@@ -46,6 +45,7 @@ public class PrefNumOfLines extends Preference {
         super.onBindViewHolder(holder);
 
         holder.itemView.setClickable(false); // disable parent click
+        String key = getContext().getString(R.string.number_of_lines);
 
         Slider sliderNumOfLines = (Slider) holder.findViewById(R.id.slider_number_of_lines);
 
@@ -59,13 +59,12 @@ public class PrefNumOfLines extends Preference {
         sliderNumOfLines.setValue(numOfLines);
 
         sliderNumOfLines.addOnChangeListener((slider1, value, fromUser) -> {
-            MySharedPref.setInt(getContext(),
-                    MyPrefKey.KEY_NUM_OF_LINES, (int) value);
+            MySharedPref.setInt(getContext(), key, (int) value);
             callbackNumOfLines.callingBackNumOfLines((int) value);
         });
     }
 
-    public interface callbackNumOfLines {
+    public interface CallbackNumOfLines {
         void callingBackNumOfLines(int numOfLines);
     }
 

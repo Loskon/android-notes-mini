@@ -7,70 +7,93 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linLytSd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintBottom_toTopOf="@+id/linLytCloud"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_sd"
             android:layout_width="@dimen/box_size"
             android:layout_height="@dimen/box_size"
+            android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:onClick="onClickBtnSd"
-            android:text="@string/btn_backup" />
+            app:icon="@drawable/round_drive_folder_upload_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/bottomAppBarColor" />
 
-        <Button
-            android:id="@+id/btn_backup_restore_sd"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_restore_sd"
             android:layout_width="@dimen/box_size"
             android:layout_height="@dimen/box_size"
+            android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:onClick="onClickBtnSd"
-            android:text="@string/btn_backup_restore" />
+            app:icon="@drawable/round_download_for_offline_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/bottomAppBarColor" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/linLytCloud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout23"
+        app:layout_constraintBottom_toTopOf="@+id/cstLytBarBackup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linLytSd">
 
-        <Button
-            android:id="@+id/btn_backup_drive"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_backup_cloud"
             android:layout_width="@dimen/box_size"
             android:layout_height="@dimen/box_size"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:onClick="onClickBtnDrive"
-            android:text="@string/btn_backup_drive" />
+            app:icon="@drawable/baseline_cloud_upload_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/bottomAppBarColor" />
 
-        <Button
-            android:id="@+id/btn_backup_restore_drive"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_restore_cloud"
             android:layout_width="@dimen/box_size"
             android:layout_height="@dimen/box_size"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:onClick="onClickBtnDrive"
-            android:text="@string/btn_backup_restore_drive" />
+            app:icon="@drawable/baseline_cloud_download_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/bottomAppBarColor" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/shadow_imiation_backup"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        app:layout_constraintBottom_toTopOf="@+id/cstLytBarBackup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="?attr/shadowImitationColor" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout23"
+        android:id="@+id/cstLytBarBackup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +101,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout23"
+            android:id="@+id/coordLytBackup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,11 +109,12 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/btmAppBarBackup"
+                android:id="@+id/btmAppBackup"
                 style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_for_bottom_app_bar"
                 android:layout_gravity="bottom"
+                app:menu="@menu/menu_for_bar_backup"
                 android:backgroundTint="?attr/bottomAppBarColor"
                 app:backgroundTint="?attr/bottomAppBarColor"
                 app:elevation="4dp"

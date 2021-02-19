@@ -5,7 +5,28 @@
     android:id="@+id/cstSetting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.settings.SettingsActivity">
+    tools:context=".ui.activity.SettingsActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_settings"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:animateLayoutChanges="true"
+        android:overScrollMode="never"
+        android:paddingTop="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/shadow_imiation2"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="?attr/shadowImitationColor" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -29,16 +50,4 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_settings"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:animateLayoutChanges="true"
-        android:overScrollMode="never"
-        android:paddingTop="8dp"
-        app:elevation="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

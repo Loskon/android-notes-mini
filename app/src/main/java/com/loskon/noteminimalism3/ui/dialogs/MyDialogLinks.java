@@ -20,7 +20,9 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 public class MyDialogLinks {
 
     private final Activity activity;
-    private String title, typeURL, titleText;
+    private final String title;
+    private String typeURL;
+    private String titleText;
     private AlertDialog alertDialog;
     private Button btn1;
 
@@ -34,7 +36,7 @@ public class MyDialogLinks {
     }
 
     public void callDialog() {
-        alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_link);
+        alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_open_link);
         alertDialog.show();
 
         TextView textView = alertDialog.findViewById(R.id.textView5);

@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
 public class MySelectColor extends Preference {
 
-    private Context context;
+    private final Context context;
 
     public MySelectColor(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -22,14 +22,14 @@ public class MySelectColor extends Preference {
     public MySelectColor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        setWidgetLayoutResource(R.layout.custom_image_for_pref);
+        setWidgetLayoutResource(R.layout.pref_widget_color);
     }
 
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         holder.itemView.setClickable(true); // родительский клик
-        PrefHelper.setItemsSize(context, holder);
+        PrefHelper.setTitleSetting(context, holder, true);
 
         ImageView imageViewColorForSettings =
                 (ImageView) holder.findViewById(R.id.imageViewColorForSettings);

@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/card_view_item"
+        layout="@layout/card_view_notes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

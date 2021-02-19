@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.backup.BackupSetName;
+import com.loskon.noteminimalism3.backup.second.BackupSetName;
 import com.loskon.noteminimalism3.helper.GetDate;
 import com.loskon.noteminimalism3.helper.MyColor;
 import com.loskon.noteminimalism3.helper.ReplaceText;
@@ -35,7 +35,7 @@ public class MyDialogBackup {
     }
 
     public void callDialogBackup() {
-        alertDialog = MyDialogBuilder.buildDialog(activity, R.layout.dialog_backup);
+        alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_backup);
         alertDialog.show();
 
         // initView

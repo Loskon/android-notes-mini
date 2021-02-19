@@ -24,7 +24,7 @@ public class MySwitchPref extends SwitchPreference {
     public MySwitchPref(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        setWidgetLayoutResource(R.layout.custom_switch2);
+        setWidgetLayoutResource(R.layout.pref_widget_switch);
     }
 
     @Override
@@ -36,12 +36,7 @@ public class MySwitchPref extends SwitchPreference {
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         holder.itemView.setClickable(true);
-        //holder.itemView.setFocusable(true);
-
-        PrefHelper.setItemsSize(context, holder);
-
-       // SegmentedGroup segmentedGroup = (SegmentedGroup) holder.findViewById(R.id.segmented_group);
-        //segmentedGroup.setTintColor(MyColor.getColorCustom(getContext()));
+        PrefHelper.setTitleSetting(context, holder, false);
 
         SegmentedButtonGroup segmentedButtonGroup =
                 (SegmentedButtonGroup) holder.findViewById(R.id.buttonGroup_lordOfTheRings);

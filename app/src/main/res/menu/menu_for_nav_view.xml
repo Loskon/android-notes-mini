@@ -4,24 +4,24 @@
     <group android:checkableBehavior="single"
         android:id="@+id/menu_top">
         <item
-            android:id="@+id/nav1_note"
+            android:id="@+id/nav_item_note"
             android:icon="@drawable/baseline_notes_black_24"
-            android:title="@string/nav_item1_note" />
+            android:title="@string/navigation_note" />
         <item
-            android:id="@+id/nav2_fav"
+            android:id="@+id/nav_item_favorites"
             android:icon="@drawable/baseline_star_black_24"
-            android:title="@string/nav_item2_fav" />
+            android:title="@string/navigation_favorites" />
         <item
-            android:id="@+id/nav3_trash"
+            android:id="@+id/nav_item_trash"
             android:icon="@drawable/baseline_delete_black_24"
-            android:title="@string/nav_item3_trash" />
+            android:title="@string/navigation_trash" />
     </group>
 
     <group android:id="@+id/menu_bottom">
         <item
-            android:id="@+id/nav4_settings"
+            android:id="@+id/nav_item_settings"
             android:icon="@drawable/baseline_settings_black_24"
-            android:title="@string/nav_item4_settings" >
+            android:title="@string/navigation_settings" >
         </item>
     </group>
 </menu>

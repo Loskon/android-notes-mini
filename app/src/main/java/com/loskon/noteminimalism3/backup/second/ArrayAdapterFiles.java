@@ -14,10 +14,10 @@ import com.loskon.noteminimalism3.R;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
- *
+ * Ксастомный адаптер для ListView, чтобы отображать копии базы данных из папки.
+ * А также удалять их
  */
 
 public class ArrayAdapterFiles extends BaseAdapter {
@@ -25,18 +25,21 @@ public class ArrayAdapterFiles extends BaseAdapter {
     private final Context context;
     private final ArrayList<String> listFiles;
     private final File folder;
+    private final File[] files;
 
-    private static CallbackArrAdapterEmpty cbArrAdapterEmptyListener;
+    private static Callback callback;
 
 
-    public void regArrAdapterEmpty(CallbackArrAdapterEmpty cbArrAdapterEmptyListener) {
-        ArrayAdapterFiles.cbArrAdapterEmptyListener = cbArrAdapterEmptyListener;
+    public static void registerCallBack(Callback callback) {
+        ArrayAdapterFiles.callback = callback;
     }
 
-    public ArrayAdapterFiles(Context context, ArrayList<String> listFiles, File folder) {
+    public ArrayAdapterFiles(Context context, ArrayList<String> listFiles,
+                             File folder, File[] files) {
         this.context = context;
         this.listFiles = listFiles;
         this.folder = folder;
+        this.files = files;
     }
 
     @Override
@@ -66,30 +69,27 @@ public class ArrayAdapterFiles extends BaseAdapter {
         }
 
         // initView
-        TextView txtTitleFiles = view.findViewById(R.id.txt_title_files);
-        ImageButton deleteFile = view.findViewById(R.id.img_btn_delete_file);
+        TextView nameFiles = view.findViewById(R.id.txt_title_files);
+        ImageButton delFile = view.findViewById(R.id.img_btn_delete_file);
 
-        txtTitleFiles.setText(listFiles.get(position).replace(".db", ""));
+        nameFiles.setText(listFiles.get(position).replace(".db", ""));
 
-        //File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".db"));
-        File[] files = BackupSort.getListFile(folder);
+        delFile.setOnClickListener(v -> {
 
-        deleteFile.setOnClickListener(v -> {
-
-            SQLiteDatabase.deleteDatabase(new File(Objects
-                    .requireNonNull(files)[position].getPath()));
+            SQLiteDatabase.deleteDatabase(new File(files[position].getPath()));
 
             listFiles.remove(position);
             notifyDataSetChanged();
 
-            callingBack();
+            callBack();
         });
 
         return view;
     }
 
     public void deleteAll() {
-        File[] files = BackupSort.getListFile(folder);
+        // Удалить все фалйы
+        File[] files = BackupHelper.getListFile(folder);
 
         for (File file : files) {
             SQLiteDatabase.deleteDatabase(new File(file.getPath()));
@@ -98,17 +98,17 @@ public class ArrayAdapterFiles extends BaseAdapter {
         listFiles.clear();
         notifyDataSetChanged();
 
-        callingBack();
+        callBack();
     }
 
-    private void callingBack() {
-        if (listFiles.size() == 0 && cbArrAdapterEmptyListener != null) {
-            cbArrAdapterEmptyListener.callingBackArrAdapterEmpty();
+    private void callBack() {
+        // Скрыть кнопку удаления и показать текст о том, что список пуст
+        if (listFiles.size() == 0) {
+            callback.callingBack();
         }
     }
 
-    public interface CallbackArrAdapterEmpty {
-        void callingBackArrAdapterEmpty();
+    public interface Callback {
+        void callingBack();
     }
-
 }

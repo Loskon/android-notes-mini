@@ -3,19 +3,23 @@ package com.loskon.noteminimalism3.backup.second;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 
 import java.io.File;
+
+/**
+ *  Ограничение количества сохраненных в памяти файлов бэкапа
+ */
 
 public class BackupLimiter {
 
     public static void delExtraFiles(Activity activity, File folder) {
 
         int numOfBackup = GetSharedPref.getNumOfBackup(activity);
-        File[] logFiles = BackupSort.getListFile(folder);
+        File[] logFiles = BackupHelper.getListFile(folder);
 
         if (logFiles != null && logFiles.length > numOfBackup) {
-            // удалить самые старые файлы после того, как есть более N файлов
+            // Удалить все старые файлы после того, как есть более N файлов
             do {
 
                 long oldestDate = Long.MAX_VALUE;
@@ -32,7 +36,7 @@ public class BackupLimiter {
                     SQLiteDatabase.deleteDatabase(new File(oldestFile.getPath()));
                 }
 
-                logFiles = BackupSort.getListFile(folder);
+                logFiles = BackupHelper.getListFile(folder);
 
             } while (logFiles.length > numOfBackup);
         }

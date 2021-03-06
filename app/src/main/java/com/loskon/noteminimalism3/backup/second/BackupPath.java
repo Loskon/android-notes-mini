@@ -1,24 +1,23 @@
 package com.loskon.noteminimalism3.backup.second;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 
 import java.io.File;
 
 /**
- *
+ * Получение пути к сохранению бэкапа и текстового файла
  */
 
 public class BackupPath {
 
-    // Дает абсолютный путь от дерева uri
     public static String findFullPath(String path) {
-        String actualResult;
+        // Дает абсолютный путь от дерева uri
+        String actualPAth;
         int index = 0;
 
         path = path.substring(5);
@@ -40,16 +39,16 @@ public class BackupPath {
         }
 
         if (result.substring(9, 16).equalsIgnoreCase("primary")) {
-            actualResult = result.substring(0, 8) + "/emulated/0/" + result.substring(17);
+            actualPAth = result.substring(0, 8) + "/emulated/0/" + result.substring(17);
         } else {
-            actualResult = result.toString();
+            actualPAth = result.toString();
         }
 
-        return actualResult;
+        return actualPAth;
     }
 
-    // Путь к месту хранения/создания папки бэкапа
-    public static String loadPath(Context context) {
+    public static String getPath(Context context) {
+        // Путь к месту хранения/создания папки бэкапа
         String defaultPath = String.valueOf(Environment.getExternalStorageDirectory());
         String path = MySharedPref.getString(context, MyPrefKey.KEY_SEL_DIRECTORY, defaultPath);
         path = path + File.separator + context.getString(R.string.app_name_backup);
@@ -58,41 +57,15 @@ public class BackupPath {
 
     // Получени файлов из папки
     public static File getFolder(Context context) {
-        return new File(BackupPath.loadPath(context));
+        return new File(getPath(context));
     }
 
-    // Путь для вывода в виде текста
+
     public static String getSummary(Context context) {
-        String pathForSummary = loadPath(context);
-        pathForSummary = pathForSummary.replace("//", "/");
-        pathForSummary = pathForSummary.replace("storage/", "");
-        return pathForSummary;
-    }
-
-    public static boolean createNoteFolder(Activity activity) {
-        File folder = getFolder(activity);
-
-        boolean isFolderCreated = true;
-
-        if (!folder.exists()) {
-            isFolderCreated = folder.mkdirs();
-        }
-
-        return isFolderCreated;
-    }
-
-    public static boolean createTextFolder(File file) {
-
-        boolean isFolderTextCreated = true;
-
-        if (!file.exists()) {
-            isFolderTextCreated = file.mkdir();
-        }
-
-        return isFolderTextCreated;
-    }
-
-    public static String getPathToFiles(Activity activity) {
-        return BackupPath.loadPath(activity) + File.separator;
+        // Путь для Summary в виде текста
+        String summary = getPath(context);
+        summary = summary.replace("//", "/");
+        summary = summary.replace("storage/", "");
+        return summary;
     }
 }

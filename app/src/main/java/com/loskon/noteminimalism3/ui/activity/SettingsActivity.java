@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.MyIntent;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.ui.fragments.MySettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -18,8 +18,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        // Меняем цвет статус бара
         MyColor.setColorStatBarAndTaskDesc(this);
 
         if (savedInstanceState == null) {

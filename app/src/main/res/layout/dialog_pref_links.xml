@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
-        android:text="@string/hyperlinks"
+        android:text="@string/dg_pref_links_title"
         android:textColor="?attr/titleTextColor"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/web_url"
+        android:text="@string/dg_pref_links_web_url"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/email"
+        android:text="@string/dg_pref_links_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,14 +45,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/phone_number"
+        android:text="@string/dg_pref_links_phone_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxMail" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/dialog_btn_ok"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

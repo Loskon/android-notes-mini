@@ -25,5 +25,8 @@
 
     <dimen name="border">2dp</dimen>
 
-    <dimen name="padding_text_title">8dip</dimen>
+    <dimen name="padding_text_title">8dp</dimen>
+
+    <dimen name="default_corner_radius">6dp</dimen>
+
 </resources>

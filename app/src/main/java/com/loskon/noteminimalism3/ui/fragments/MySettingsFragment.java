@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -18,31 +17,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
+import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorage;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.second.BackupPath;
-import com.loskon.noteminimalism3.helper.permissions.PermissionsStorage;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.MyIntent;
-import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
-import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogFontSize;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogPrefLinks;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogSlider;
 import com.loskon.noteminimalism3.ui.preference.PrefHelper;
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
 
-import java.util.Objects;
-
-import static com.loskon.noteminimalism3.helper.RequestCode.REQUEST_CODE_PERMISSIONS;
-import static com.loskon.noteminimalism3.helper.RequestCode.REQUEST_CODE_READ;
+import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_PERMISSIONS;
+import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_READ;
 
 /**
- *
+ * Общие настройки
  */
 
 public class MySettingsFragment extends PreferenceFragmentCompat implements
         Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
-
 
     private Activity activity;
     private Fragment fragment;
@@ -55,11 +51,11 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     private Preference numOfBackupPref, intentBackupPref, communicationPref;
     private Preference callDialogHyperlinksPref, retentionPref, fontSizePref;
     @SuppressWarnings("FieldCanBeLocal")
-    private SwitchPreference darkModeSwitchPref, autoBackupSwitchPref, updateDatePref;
+    private SwitchPreference darkModeSwitchPref, autoBackupSwitchPref;
 
     private String darkModeString, autoBackupString, customizeAppString;
     private String numOfBackupStr, intentBackupString, intentFolderString, communicationStr;
-    private String callDialogHyperlinksStr, retentionStr, fontSizeStr, updateDateStr;
+    private String callDialogHyperlinksStr, retentionStr, fontSizeStr;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,9 +122,9 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         setSummaryPreferences();
 
         (new MyDialogSlider(activity))
-                .registerCallBackColorNavIcon(this::setSummaryPreferences);
+                .regCallBackNavIcon(this::setSummaryPreferences);
 
-        if (!PermissionsStorage.verifyStoragePermissions(activity, fragment, false)) {
+        if (!PermissionsStorage.verify(activity, fragment, false)) {
             autoBackupSwitchPref.setChecked(false);
         }
 
@@ -142,15 +138,15 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     private void getPrefKeys() {
         customizeAppString = getString(R.string.custom_app_title);
         darkModeString = getString(R.string.dark_mode_title);
-        autoBackupString = getString(R.string.auto_backup);
-        numOfBackupStr = getString(R.string.num_of_backup);
-        intentBackupString = getString(R.string.backup_and_restore);
-        intentFolderString = getString(R.string.folder_for_backup);
+        autoBackupString = getString(R.string.auto_backup_title);
+        numOfBackupStr = getString(R.string.num_of_backup_title);
+        intentBackupString = getString(R.string.backup_title);
+        intentFolderString = getString(R.string.folder_title);
         callDialogHyperlinksStr = getString(R.string.hyperlinks_title);
         retentionStr = getString(R.string.retention_trash_title);
         fontSizeStr = getString(R.string.font_size_notes_title);
         //updateDateStr = getString(R.string.update_date_title);
-        communicationStr = getString(R.string.communication);
+        communicationStr = getString(R.string.communication_title);
     }
 
     private void setPreferences() {
@@ -212,19 +208,10 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         prefKey = key;
 
         if (key.equals(darkModeString)) {
-            int color = MyColor.getColorCustom(activity);
-
-            boolean isDarkModeOn = MyColor.isDarkMode(activity);
-
-            if ((isDarkModeOn && color == -16777216) || (!isDarkModeOn && color == -1)) {
-                color = Color.GRAY;
-                MySharedPref.setInt(activity, MyPrefKey.KEY_COLOR, color);
-            }
-
             MyColor.setDarkTheme((Boolean) newValue);
             return true;
         } else if (key.equals(autoBackupString)) {
-            PermissionsStorage.verifyStoragePermissions(activity, fragment, true);
+            PermissionsStorage.verify(activity, fragment, true);
             return true;
         }
 
@@ -238,24 +225,24 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         prefKey = key;
 
         if (key.equals(customizeAppString)) {
-            MyIntent.intentSettingsApp(activity);
+            MyIntent.SettingsApp(activity);
             return true;
         } else if (key.equals(intentBackupString)) {
-            MyIntent.intentBackupActivity(activity);
+            MyIntent.BackupActivity(activity);
             return true;
         } else if (key.equals(intentFolderString)) {
             goFindFolder();
             return true;
         } else if (key.equals(numOfBackupStr)) {
             loadSharedPref();
-            (new MyDialogSlider(activity)).callDialog(numOfBackupStr, numOfBackup);
+            (new MyDialogSlider(activity)).call(numOfBackupStr, numOfBackup);
             return true;
         } else if (key.equals(callDialogHyperlinksStr)) {
-            (new MyDialogPrefLinks(activity)).callDialog();
+            (new MyDialogPrefLinks(activity)).call();
             return true;
         } else if (key.equals(retentionStr)) {
             loadSharedPref();
-            (new MyDialogSlider(activity)).callDialog(retentionStr, rangeInDays);
+            (new MyDialogSlider(activity)).call(retentionStr, rangeInDays);
             return true;
         } else if (key.equals(fontSizeStr)) {
             loadSharedPref();
@@ -274,8 +261,8 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     }
 
     private void goFindFolder() {
-        if (PermissionsStorage.verifyStoragePermissions(activity, fragment, true)) {
-            MyIntent.goFindFolder(fragment);
+        if (PermissionsStorage.verify(activity, fragment, true)) {
+            MyIntent.openFindFolder(fragment);
         }
     }
 
@@ -298,7 +285,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 if (prefKey.equals(intentFolderString)) {
-                    MyIntent.goFindFolder(fragment);
+                    MyIntent.openFindFolder(fragment);
                 }
 
             } else {
@@ -323,7 +310,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         super.onResume();
         // Для изменения цвета
         if (getListView() != null) {
-            Objects.requireNonNull(getListView().getAdapter()).notifyDataSetChanged();
+            getListView().getAdapter().notifyDataSetChanged();
         }
     }
 

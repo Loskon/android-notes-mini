@@ -23,8 +23,8 @@
             android:id="@+id/textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="@string/dialog_backup_forbidden_text"
-            android:hint="@string/dialog_backup_hint"
+            android:digits="@string/dg_bp_forbidden_text"
+            android:hint="@string/dg_bp_hint_text"
             android:inputType="textCapSentences|textNoSuggestions"
             android:maxLength="20"
             android:maxLines="1" />
@@ -55,5 +55,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputLayout2"
-        app:rippleColor="?attr/colorControlHighlight" />
+        app:rippleColor="@android:color/transparent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

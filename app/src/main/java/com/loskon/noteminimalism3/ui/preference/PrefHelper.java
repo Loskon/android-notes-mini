@@ -1,16 +1,18 @@
 package com.loskon.noteminimalism3.ui.preference;
 
 import android.app.Activity;
-import android.content.Context;
-
-import androidx.preference.PreferenceViewHolder;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.GetSizeItem;
+
+/**
+ * Помощник для Preference
+ */
 
 public class PrefHelper {
 
     public static int getDateFontSize(int fontSize) {
+        // Изменяет размер тектса даты
+        // в зависимости от размера основного текста
         if (fontSize < 18) return 12;
         else if (fontSize <= 22) return 14;
         else if (fontSize <= 26) return 16;
@@ -23,21 +25,16 @@ public class PrefHelper {
     }
 
     public static String getPrefSummary(Activity activity, String prefString, int prefValue) {
-        String string = null;
+        // Получение текста для сводки
+        String summary = "";
 
-        if (prefString.equals(activity.getString(R.string.num_of_backup))) {
-            string = activity.getString(R.string.num_backup_summary);
+        if (prefString.equals(activity.getString(R.string.num_of_backup_title))) {
+            summary = activity.getString(R.string.num_backup_summary);
         } else if (prefString.equals(activity.getString(R.string.retention_trash_title))) {
-            string = activity.getString(R.string.number_of_days);
+            summary = activity.getString(R.string.number_of_days_summary);
         }
 
-        string = string +" \u2014 " + prefValue;
-        return string;
-    }
-
-    public static void setTitleSetting(Context context,
-                                       PreferenceViewHolder holder, boolean isPadding) {
-
-        holder.itemView.setMinimumHeight(GetSizeItem.getHeightItem(context));
+        summary = summary +" \u2014 " + prefValue;
+        return summary;
     }
 }

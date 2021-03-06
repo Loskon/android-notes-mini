@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -12,70 +11,81 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 
 import java.util.regex.Pattern;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
+/**
+ * Обработка и определение типов гипперсылок
+ */
+
 public class MyDialogLinks {
 
-    private final Activity activity;
-    private final String title;
-    private String typeURL;
-    private String titleText;
+    private final NoteActivity noteActivity;
+
+    private final String titleLinks;
+    private String typeLinks;
+    private String titleTextView;
     private AlertDialog alertDialog;
-    private Button btn1;
+    @SuppressWarnings("FieldCanBeLocal")
+    private Button btnOpen, btnCopy;
+    private TextView textView;
 
     public static final String URL_WEB = "WEB";
     public static final String URL_MAIL = "MAIL";
     public static final String URL_PHONE = "PHONE";
+    public static final String ERROR = "ERROR";
 
-    public MyDialogLinks(Activity activity, String title) {
-        this.activity = activity;
-        this.title = title;
+    public MyDialogLinks(NoteActivity noteActivity, String titleLinks) {
+        this.noteActivity = noteActivity;
+        this.titleLinks = titleLinks;
     }
 
-    public void callDialog() {
-        alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_open_link);
+    public void call() {
+        alertDialog = DialogBuilder.buildDialog(noteActivity, R.layout.dialog_open_link);
         alertDialog.show();
 
-        TextView textView = alertDialog.findViewById(R.id.textView5);
-        btn1 = alertDialog.findViewById(R.id.dialog_btn_open);
-        Button btn2 = alertDialog.findViewById(R.id.dialog_btn_copy);
+        textView = alertDialog.findViewById(R.id.txt_title_links);
+        btnOpen = alertDialog.findViewById(R.id.dialog_btn_open);
+        btnCopy = alertDialog.findViewById(R.id.dialog_btn_copy);
 
-        typeURL = typeURL(title);
+        typeLinks = typeURL(titleLinks);
 
-        setPref();
+        setTitle();
 
-        textView.setText(titleText);
-
-        btn1.setOnClickListener(onClickListener);
-        btn2.setOnClickListener(onClickListener);
+        btnOpen.setOnClickListener(onClickListener);
+        btnCopy.setOnClickListener(onClickListener);
     }
 
-    private void setPref() {
-        switch (typeURL) {
-            case URL_WEB:
-                titleText = title;
-                setTextBtn(R.string.open);
-                break;
+    private void setTitle() {
+        // Уставка имени ссылки
+        switch (typeLinks) {
             case URL_MAIL:
                 replaceText("mailto:");
-                setTextBtn(R.string.send);
+                setTextBtn(R.string.dialog_open_link_send);
                 break;
             case URL_PHONE:
                 replaceText("tel:");
-                setTextBtn(R.string.call);
+                setTextBtn(R.string.dialog_open_link_call);
+                break;
+            default:
+                titleTextView = titleLinks;
+                setTextBtn(R.string.dialog_open_link_open);
                 break;
         }
+
+        textView.setText(titleTextView);
     }
 
     private void setTextBtn(int textBtn) {
-        btn1.setText(activity.getString(textBtn));
+        btnOpen.setText(noteActivity.getString(textBtn));
     }
 
-    private void replaceText(String tar) {
-        titleText = title.replace(tar, "");
+    private void replaceText(String title) {
+        titleTextView = titleLinks.replace(title, "");
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -84,45 +94,57 @@ public class MyDialogLinks {
             int btnId = view.getId();
 
             if (btnId == R.id.dialog_btn_open) {
-
-                switch (typeURL) {
-                    case URL_WEB:
-                        activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(title)));
-                        break;
-                    case URL_MAIL:
-                        activity.startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse(title)));
-                        break;
-                    case URL_PHONE:
-                        activity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(title)));
-                        break;
-                }
-
+                startLinks();
             } else if (btnId == R.id.dialog_btn_copy) {
-                ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("label", titleText);
-                clipboard.setPrimaryClip(clip);
+                copyLinks();
             }
 
             alertDialog.dismiss();
         }
     };
 
-    private String typeURL(String string) {
-        String type = null;
-        String regexWeb1 = ".*https://.*";
+    private void startLinks() {
+        // Открытие ссылок
+        switch (typeLinks) {
+            case URL_WEB:
+                noteActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(titleLinks)));
+                break;
+            case URL_MAIL:
+                noteActivity.startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse(titleLinks)));
+                break;
+            case URL_PHONE:
+                noteActivity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(titleLinks)));
+                break;
+            default:
+                noteActivity.getMySnackbarNoteMessage().show(false,
+                        MySnackbarNoteMessage.MSG_INVALID_LINK);
+                break;
+        }
+    }
+
+    private void copyLinks() {
+        ClipboardManager clipboard = (ClipboardManager) noteActivity.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("copy", titleTextView);
+        clipboard.setPrimaryClip(clip);
+    }
+
+    private String typeURL(String titleLinks) {
+        // Определение типа ссылки
+        String typeLinks = ERROR;
+        String regexWebS = ".*https://.*";
         String regexWeb = ".*http://.*";
         String regexMail = ".*mailto:.*";
         String regexPhone = ".*tel:.*";
 
-        boolean matchesWeb1 = Pattern.matches(regexWeb1, string);
-        boolean matchesWeb = Pattern.matches(regexWeb, string);
-        boolean matchesMail = Pattern.matches(regexMail, string);
-        boolean matchesPhone = Pattern.matches(regexPhone, string);
+        boolean matchesWebS = Pattern.matches(regexWebS, titleLinks);
+        boolean matchesWeb = Pattern.matches(regexWeb, titleLinks);
+        boolean matchesMail = Pattern.matches(regexMail, titleLinks);
+        boolean matchesPhone = Pattern.matches(regexPhone, titleLinks);
 
-        if (matchesWeb | matchesWeb1) type = URL_WEB;
-        if (matchesMail) type = URL_MAIL;
-        if (matchesPhone) type = URL_PHONE;
+        if (matchesWeb | matchesWebS) typeLinks = URL_WEB;
+        if (matchesMail) typeLinks = URL_MAIL;
+        if (matchesPhone) typeLinks = URL_PHONE;
 
-        return type;
+        return typeLinks;
     }
 }

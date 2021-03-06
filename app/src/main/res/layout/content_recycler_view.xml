@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:queryBackground="@android:color/transparent"
-        app:queryHint="@string/search"
+        app:queryHint="@string/hint_search_text"
         app:searchIcon="@null" />
 
     <com.dinuscxj.refresh.RecyclerRefreshLayout

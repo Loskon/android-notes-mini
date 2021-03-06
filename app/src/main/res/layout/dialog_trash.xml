@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
-        android:text="@string/empty_trash"
+        android:text="@string/dg_trash_title"
         android:textColor="?attr/titleTextColor"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button367"
+        android:id="@+id/btn_ok_trash"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -28,18 +28,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button467"
+        app:layout_constraintStart_toEndOf="@+id/btn_cancel_trash"
         app:layout_constraintTop_toBottomOf="@id/textView67" />
 
     <Button
-        android:id="@+id/button467"
+        android:id="@+id/btn_cancel_trash"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button367"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ok_trash"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView67"

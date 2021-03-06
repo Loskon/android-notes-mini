@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txt_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.slider.Slider
-        android:id="@+id/slider"
+        android:id="@+id/slider_range"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -33,14 +33,14 @@
         app:haloRadius="@dimen/slider_halo_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/txt_slider"
         app:thumbRadius="@dimen/slider_thumb_radius"
         app:tickVisible="false">
 
     </com.google.android.material.slider.Slider>
 
     <Button
-        android:id="@+id/button36"
+        android:id="@+id/btn_ok_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -49,21 +49,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button46"
-        app:layout_constraintTop_toBottomOf="@id/slider" />
+        app:layout_constraintStart_toEndOf="@+id/btn_cancel_slider"
+        app:layout_constraintTop_toBottomOf="@id/slider_range" />
 
     <Button
-        android:id="@+id/button46"
+        android:id="@+id/btn_cancel_slider"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button36"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ok_slider"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/slider"
-        app:rippleColor="?attr/colorControlHighlight" />
+        app:layout_constraintTop_toBottomOf="@id/slider_range"
+        app:rippleColor="@android:color/transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,8 @@ import androidx.appcompat.app.AlertDialog;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.backup.second.ArrayAdapterFiles;
 import com.loskon.noteminimalism3.backup.second.BackupDb;
-import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.backup.second.BackupHelper;
 import com.loskon.noteminimalism3.backup.second.BackupSort;
 
 import java.io.File;
@@ -20,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+/**
+ * Восстановление базы данных с помощью сохраненных копий
+ */
 
 public class MyDialogRestore {
 
@@ -30,7 +35,7 @@ public class MyDialogRestore {
 
     private static CallbackRestoreNotes cbRestoreNotes;
 
-    public void regCallbackRestoreNotes(CallbackRestoreNotes cbRestoreNotes) {
+    public static void regCallbackResNotes(CallbackRestoreNotes cbRestoreNotes) {
         MyDialogRestore.cbRestoreNotes = cbRestoreNotes;
     }
 
@@ -49,7 +54,7 @@ public class MyDialogRestore {
         Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_restore);
 
         ArrayAdapterFiles arrayAdapterFiles;
-        File[] files = BackupSort.getListFile(folder);
+        File[] files = BackupHelper.getListFile(folder);
 
         // assert
         assert listViewFiles != null;
@@ -63,7 +68,7 @@ public class MyDialogRestore {
 
         listFiles = new ArrayList<>();
 
-        List<File> fileList = new ArrayList<>(Arrays.asList(BackupSort.getListFile(folder)));
+        List<File> fileList = new ArrayList<>(Arrays.asList(files));
         Collections.sort(fileList, new BackupSort.SortFileDate());
 
         for (File file : fileList) {
@@ -73,28 +78,24 @@ public class MyDialogRestore {
         checkEmptyListFiles();
 
         // Устанавливам адаптер
-        arrayAdapterFiles = new ArrayAdapterFiles(activity, listFiles, folder);
+        arrayAdapterFiles = new ArrayAdapterFiles(activity, listFiles, folder, files);
         listViewFiles.setAdapter(arrayAdapterFiles);
 
         // Click listView
         listViewFiles.setOnItemClickListener((adapterView, view, position, l) -> {
-            BackupDb.restoreDatabase(activity, fileList.get(position).getPath());
+            (new BackupDb(activity)).restoreDatabase(fileList.get(position).getPath());
             if (cbRestoreNotes != null) {
-                cbRestoreNotes.callingRestoreNotes();
+                cbRestoreNotes.callBackRestore();
             }
             alertDialog.dismiss();
         });
 
-        // Click deleteAll
-        btnRemoveAll.setOnClickListener(view -> {
-            arrayAdapterFiles.deleteAll();
-        });
 
-        // Click cancel
+        btnRemoveAll.setOnClickListener(view -> arrayAdapterFiles.deleteAll());
         btnCancel.setOnClickListener(v -> alertDialog.dismiss());
 
         // Callback from CustomArrayAdapter
-        arrayAdapterFiles.regArrAdapterEmpty(this::thisListEmpty);
+        ArrayAdapterFiles.registerCallBack(this::thisListEmpty);
     }
 
     private void checkEmptyListFiles() {
@@ -112,6 +113,6 @@ public class MyDialogRestore {
     }
 
     public interface CallbackRestoreNotes {
-        void callingRestoreNotes();
+        void callBackRestore();
     }
 }

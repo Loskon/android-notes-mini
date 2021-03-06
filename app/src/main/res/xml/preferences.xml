@@ -3,14 +3,14 @@
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
-        app:title="@string/appearance_settings_header">
+        app:title="@string/settings_app_header">
 
         <Preference
             android:key="@string/custom_app_title"
             android:title="@string/custom_app_title"
             app:iconSpaceReserved="false" />
 
-        <com.loskon.noteminimalism3.ui.preference.MySwitchPref
+        <com.loskon.noteminimalism3.ui.preference.MyPrefSwitch
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             android:layout="@layout/custom_pref_layout"
@@ -21,39 +21,39 @@
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
-        android:title="@string/backup_of_notes">
+        android:title="@string/backup_header">
 
         <Preference
-            android:title="@string/backup_and_restore"
+            android:title="@string/backup_title"
             app:iconSpaceReserved="false"
-            app:key="@string/backup_and_restore" />
+            app:key="@string/backup_title" />
         <Preference
-            android:title="@string/folder_for_backup"
+            android:title="@string/folder_title"
             app:iconSpaceReserved="false"
-            app:key="@string/folder_for_backup" />
+            app:key="@string/folder_title" />
 
-        <com.loskon.noteminimalism3.ui.preference.MySwitchPref
+        <com.loskon.noteminimalism3.ui.preference.MyPrefSwitch
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             android:layout="@layout/custom_pref_layout"
-            app:key="@string/auto_backup"
+            app:key="@string/auto_backup_title"
             app:summary="@string/auto_backup_summary"
-            app:title="@string/auto_backup" />
+            app:title="@string/auto_backup_title" />
 
-        <com.loskon.noteminimalism3.ui.preference.MySwitchPref
+        <com.loskon.noteminimalism3.ui.preference.MyPrefSwitch
             app:allowDividerAbove="false"
             app:defaultValue="true"
             android:layout="@layout/custom_pref_layout"
-            app:dependency="@string/auto_backup"
+            app:dependency="@string/auto_backup_title"
             app:iconSpaceReserved="false"
-            app:key="@string/notification_auto_backup"
+            app:key="@string/notification_title"
             app:summary="@string/notification_auto_backup_summary"
-            app:title="@string/notification_auto_backup" />
+            app:title="@string/notification_title" />
 
         <Preference
-            android:title="@string/num_of_backup"
+            android:title="@string/num_of_backup_title"
             app:iconSpaceReserved="false"
-            app:key="@string/num_of_backup" />
+            app:key="@string/num_of_backup_title" />
 
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
@@ -71,7 +71,7 @@
             android:title="@string/font_size_notes_title"
             app:iconSpaceReserved="false" />
 
-        <com.loskon.noteminimalism3.ui.preference.MySwitchPref
+        <com.loskon.noteminimalism3.ui.preference.MyPrefSwitch
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             android:layout="@layout/custom_pref_layout"
@@ -91,8 +91,8 @@
             app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="@string/communication"
-            android:title="@string/communication"
+            android:key="@string/communication_title"
+            android:title="@string/communication_title"
             app:iconSpaceReserved="false" />
 
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>

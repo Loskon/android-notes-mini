@@ -1,13 +1,18 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
 import android.app.Activity;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.ColorUtils;
 
-import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+
+/**
+ * Индикатор прогресса выполнения долгих запросов
+ */
 
 public class MyDialogProgress {
 
@@ -19,12 +24,17 @@ public class MyDialogProgress {
     }
 
     public void call() {
+        //if (alertDialog != null && alertDialog.isShowing()) return;
         alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_progress);
         alertDialog.setCancelable(false);
         alertDialog.show();
 
-        LinearProgressIndicator linearProgressIndicator =
-                alertDialog.findViewById(R.id.LinearProgressIndicator);
+        int width = (int) (activity.getResources().getDisplayMetrics().widthPixels * 0.42);
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        alertDialog.getWindow().setLayout(width, height);
+
+        CircularProgressIndicator linearProgressIndicator =
+                alertDialog.findViewById(R.id.circularProgressIndicator);
 
         int color = MyColor.getColorCustom(activity);
         linearProgressIndicator.setIndicatorColor(color);

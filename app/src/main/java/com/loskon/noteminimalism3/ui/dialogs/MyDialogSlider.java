@@ -10,10 +10,14 @@ import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.backup.second.BackupLimiter;
 import com.loskon.noteminimalism3.backup.second.BackupPath;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 
 import java.io.File;
+
+/**
+ * Выбор диапозонов
+ */
 
 public class MyDialogSlider {
 
@@ -21,7 +25,7 @@ public class MyDialogSlider {
 
     private static CallbackNumOfBackup callbackNumOfBackup;
 
-    public void registerCallBackColorNavIcon(CallbackNumOfBackup callbackNumOfBackup) {
+    public void regCallBackNavIcon(CallbackNumOfBackup callbackNumOfBackup) {
         MyDialogSlider.callbackNumOfBackup = callbackNumOfBackup;
     }
 
@@ -29,24 +33,18 @@ public class MyDialogSlider {
         this.activity = activity;
     }
 
-    public void callDialog(String key, int value) {
+    public void call(String keyTitle, int value) {
         AlertDialog alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_slider);
         alertDialog.show();
 
         File folder = BackupPath.getFolder(activity);
 
-        TextView textTitle = alertDialog.findViewById(R.id.textView4);
-        Slider slider = alertDialog.findViewById(R.id.slider);
-        Button btnOk = alertDialog.findViewById(R.id.button36);
-        Button btnCancel = alertDialog.findViewById(R.id.button46);
+        TextView textTitle = alertDialog.findViewById(R.id.txt_slider);
+        Slider slider = alertDialog.findViewById(R.id.slider_range);
+        Button btnOk = alertDialog.findViewById(R.id.btn_ok_slider);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_slider);
 
-        // assert
-        assert slider != null;
-        assert btnOk != null;
-        assert btnCancel != null;
-        assert textTitle != null;
-
-        textTitle.setText(key);
+        textTitle.setText(keyTitle);
 
         int color = MyColor.getColorCustom(activity);
         MyColor.setColorSlider(activity, slider);
@@ -57,17 +55,17 @@ public class MyDialogSlider {
 
         btnOk.setOnClickListener(view -> {
             int sliderValue = (int) slider.getValue();
-            MySharedPref.setInt(activity, key, sliderValue);
+            MySharedPref.setInt(activity, keyTitle, sliderValue);
             BackupLimiter.delExtraFiles(activity, folder); // Удаление лишних файлов
-            callbackNumOfBackup.callingBackNumOfBackup();
+            callbackNumOfBackup.callBack();
             alertDialog.dismiss();
         });
 
         // Click cancel
-        btnCancel.setOnClickListener(v -> alertDialog.dismiss());
+        btnCancel.setOnClickListener(view -> alertDialog.dismiss());
     }
 
     public interface CallbackNumOfBackup{
-        void callingBackNumOfBackup();
+        void callBack();
     }
 }

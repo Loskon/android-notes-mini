@@ -7,16 +7,22 @@ import android.widget.TextView;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceViewHolder;
 
-import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+
+/**
+ * Кастомный PreferenceCategory для измененця цвета текста
+ */
 
 public class MyPrefCategory extends PreferenceCategory {
 
     public MyPrefCategory(Context context) {
         super(context);
     }
+
     public MyPrefCategory(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     public MyPrefCategory(Context context, AttributeSet attrs,
                           int defStyle) {
         super(context, attrs, defStyle);

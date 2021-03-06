@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:text="@string/font_size_title"
+        android:text="@string/dg_font_size_title"
         android:textColor="?attr/titleTextColor"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewSize"
+        android:id="@+id/txt_size_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.google.android.material.slider.Slider
-        android:id="@+id/slider_font_size2"
+        android:id="@+id/slider_font_size_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -52,7 +52,7 @@
         app:tickVisible="false" />
 
     <Button
-        android:id="@+id/btn_ok_size"
+        android:id="@+id/btn_ok_size_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -61,19 +61,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_ok_size2" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_reset_size_note" />
 
     <Button
-        android:id="@+id/btn_ok_size2"
+        android:id="@+id/btn_reset_size_note"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/reset"
+        android:text="@string/reset_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/slider_font_size2"
-        app:rippleColor="?attr/colorControlHighlight" />
+        app:layout_constraintTop_toBottomOf="@id/slider_font_size_note"
+        app:rippleColor="@android:color/transparent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

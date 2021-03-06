@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
@@ -10,115 +9,113 @@ import com.google.android.material.button.MaterialButton;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SVBar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyToast;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
+
+/**
+ * Выбор цвета с помощью ColorPicker
+ */
 
 public class MyDialogColor {
 
-    private static int color;
-    private static CallbackColorNavIcon callbackColorNavIcon;
-    private static CallbackColorColorSettingsApp callbackColorColorSettingsApp;
-    private static CallbackColorNotifyData callbackColorNotifyData;
+    private final Activity activity;
+
+    private int color;
+
+    private static CallbackNavIcon callbackNavIcon;
+    private static CallbackSettingsApp callbackSettingsApp;
+    private static CallbackNotifyData callbackNotifyData;
     private static CallbackColorMain callbackColorMain;
 
-    public void registerCallBackColorNavIcon(CallbackColorNavIcon callbackColorNavIcon) {
-        MyDialogColor.callbackColorNavIcon = callbackColorNavIcon;
+    public static void regCallBackNavIcon(CallbackNavIcon callbackNavIcon) {
+        MyDialogColor.callbackNavIcon = callbackNavIcon;
     }
 
-    public void registerCallBackColorSettingsApp(CallbackColorColorSettingsApp callbackColorColorSettingsApp) {
-        MyDialogColor.callbackColorColorSettingsApp = callbackColorColorSettingsApp;
+    public static void regCallBackSettingsApp(CallbackSettingsApp callbackSettingsApp) {
+        MyDialogColor.callbackSettingsApp = callbackSettingsApp;
     }
 
-    public void registerCallBackColorNotifyData(CallbackColorNotifyData callbackColorNotifyData) {
-        MyDialogColor.callbackColorNotifyData = callbackColorNotifyData;
+    public static void regCallBackNotifyData(CallbackNotifyData callbackNotifyData) {
+        MyDialogColor.callbackNotifyData = callbackNotifyData;
     }
 
-    public void registerCallBackColorMain(CallbackColorMain callbackColorMain) {
+    public static void regCallbackMain(CallbackColorMain callbackColorMain) {
         MyDialogColor.callbackColorMain = callbackColorMain;
     }
 
-    public static void alertDialogShowColorPicker(Activity activity){
+    public MyDialogColor(Activity activity) {
+        this.activity = activity;
+    }
+
+    public void call() {
         AlertDialog alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_color_picker);
         alertDialog.show();
 
         // Initiation View
         ColorPicker colorPickerView = alertDialog.findViewById(R.id.holo_picker);
-        SVBar svBar =  alertDialog.findViewById(R.id.svbar);
-        Button btnOk = alertDialog.findViewById(R.id.btn_holo_ok);
-        Button btnCancel = alertDialog.findViewById(R.id.btn_holo_cancel);
-        MaterialButton matBtnResetColor = alertDialog.findViewById(R.id.btn_reset_color_picker);
-
-        // assert
-        assert colorPickerView != null;
-        assert btnOk != null;
-        assert btnCancel != null;
-        assert matBtnResetColor != null;
-        assert svBar != null;
+        SVBar svBar = alertDialog.findViewById(R.id.svbar);
+        Button btnOk = alertDialog.findViewById(R.id.btn_color_picker_ok);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_color_picker_cancel);
+        MaterialButton btnResetColor = alertDialog.findViewById(R.id.btn_reset_color_picker);
 
         color = MyColor.getColorCustom(activity);
-        boolean isDarkModeOn = MyColor.isDarkMode(activity);
+        //boolean isDarkModeOn = MyColor.isDarkMode(activity);
         colorPickerView.addSVBar(svBar);
 
 
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
-        MyColor.setColorMaterialBtn(activity, matBtnResetColor);
+        MyColor.setColorMaterialBtn(activity, btnResetColor);
 
         colorPickerView.setShowOldCenterColor(false); // выключить показ старого цвета
 
         // ColorPicker
         colorPickerView.setColor(color);
-        colorPickerView.setOnColorChangedListener(color -> {
-            MyDialogColor.color = color;
-        });
+        colorPickerView.setOnColorChangedListener(color -> this.color = color);
 
         // OK
         btnOk.setOnClickListener(v -> {
 
-            if ((isDarkModeOn && color == -16777216) || (!isDarkModeOn && color == -1)) {
-                color = Color.GRAY;
+            if (color == -16777216 || color == -1) {
+                String message = activity.getString(R.string.bad_idea);
+                MyToast.showToast(activity, message,false);
+                color = activity.getResources()
+                        .getColor(R.color.color_default_light_blue);
             }
 
             MySharedPref.setInt(activity, MyPrefKey.KEY_COLOR, color);
 
-            if (callbackColorNavIcon != null && callbackColorColorSettingsApp != null
-                    && callbackColorNotifyData != null && callbackColorMain != null) {
-                callbackColorNavIcon.callingBackColorNavIcon(color);
-                callbackColorColorSettingsApp.callingBackColorSettingsApp(color);
-                callbackColorNotifyData.callingBackColorNotifyData();
-                callbackColorMain.callingBackColorMain(color);
-            }
+            callbackNavIcon.onCallBackNavIcon(color);
+            callbackSettingsApp.onCallBackSettingsApp(color);
+            callbackNotifyData.onCallBackNotifyData();
+            callbackColorMain.onCallBackMain(color);
 
-            alertDialog.dismiss();
-        });
-
-        // Cancel
-        btnCancel.setOnClickListener(v -> {
             alertDialog.dismiss();
         });
 
         // Reset
-        matBtnResetColor.setOnClickListener(view -> {
-            colorPickerView.setColor(activity
-                    .getResources().getColor(R.color.color_default_light_blue));
-        });
+        btnResetColor.setOnClickListener(view -> colorPickerView.setColor(activity
+                .getResources().getColor(R.color.color_default_light_blue)));
+
+        // Cancel
+        btnCancel.setOnClickListener(view -> alertDialog.dismiss());
     }
 
-    public interface CallbackColorNavIcon {
-        void callingBackColorNavIcon(int color);
+    public interface CallbackNavIcon {
+        void onCallBackNavIcon(int color);
     }
 
-    public interface CallbackColorColorSettingsApp {
-        void callingBackColorSettingsApp(int color);
+    public interface CallbackSettingsApp {
+        void onCallBackSettingsApp(int color);
     }
 
-    public interface CallbackColorNotifyData {
-        void callingBackColorNotifyData();
+    public interface CallbackNotifyData {
+        void onCallBackNotifyData();
     }
 
     public interface CallbackColorMain {
-        void callingBackColorMain(int color);
+        void onCallBackMain(int color);
     }
-
 }

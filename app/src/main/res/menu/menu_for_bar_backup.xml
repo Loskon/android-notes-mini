@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_logout"
-        android:icon="@drawable/baseline_logout_black_24"
+        android:id="@+id/action_account"
+        android:icon="@drawable/baseline_account_circle_black_24"
         app:showAsAction="always"
-        android:title="@string/menu_item1_switch" />
-
+        android:title="@string/menu_backup_logout"/>
 </menu>

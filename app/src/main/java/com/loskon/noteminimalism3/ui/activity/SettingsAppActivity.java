@@ -6,13 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.MyIntent;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 import com.loskon.noteminimalism3.ui.fragments.MySettingsAppFragment;
 
 public class SettingsAppActivity
-        extends AppCompatActivity implements MyDialogColor.CallbackColorNavIcon {
+        extends AppCompatActivity implements MyDialogColor.CallbackNavIcon {
 
     private BottomAppBar btmAppBarSettingsApp;
 
@@ -20,8 +20,6 @@ public class SettingsAppActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_app);
-
-        // Меняем цвет статус бара
         MyColor.setColorStatBarAndTaskDesc(this);
 
         if (savedInstanceState == null) {
@@ -35,7 +33,7 @@ public class SettingsAppActivity
         btmAppBarSettingsApp.setNavigationOnClickListener(
                 v -> MyIntent.goSettingsActivity(this));
 
-        (new MyDialogColor()).registerCallBackColorNavIcon(this);
+        MyDialogColor.regCallBackNavIcon(this);
     }
 
     @Override
@@ -45,7 +43,7 @@ public class SettingsAppActivity
     }
 
     @Override
-    public void callingBackColorNavIcon(int color) {
+    public void onCallBackNavIcon(int color) {
         MyColor.setNavIconColor(this, btmAppBarSettingsApp);
     }
 }

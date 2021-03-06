@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:text="@string/dialog_restore_title"
+        android:text="@string/dg_restore_title"
         android:textColor="?attr/titleTextColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/img_btn_remove_all"
@@ -60,7 +60,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-        app:rippleColor="?attr/colorControlHighlight" />
+        app:rippleColor="@android:color/transparent" />
 
     <ImageButton
         android:id="@+id/img_btn_remove_all"

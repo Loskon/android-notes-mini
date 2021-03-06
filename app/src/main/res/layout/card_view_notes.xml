@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/view_favorites"
             android:layout_width="16dp"
             android:layout_height="10dp"
             android:layout_gravity="end"
@@ -25,7 +25,7 @@
             android:backgroundTint="@color/color_default_light_blue" />
 
         <TextView
-            android:id="@+id/title_item_note"
+            android:id="@+id/txt_title_card_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/date_item_note"
+            android:id="@+id/txt_date_card_note"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"

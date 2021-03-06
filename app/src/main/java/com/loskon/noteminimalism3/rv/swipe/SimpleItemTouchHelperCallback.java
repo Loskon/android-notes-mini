@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
+import com.loskon.noteminimalism3.rv.adapter.MyRecyclerViewAdapter;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
     private final MyRecyclerViewAdapter rvAdapter;

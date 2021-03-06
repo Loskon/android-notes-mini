@@ -41,6 +41,9 @@
         <item name="android:textColorHighlight">#80A9A9A9</item>
 
         <item name="bg_search_view">@drawable/bg_round_search_dark</item>
+
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
     </style>
 
     <!-- MaterialAlertDialog -->

@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +13,21 @@ import androidx.core.content.res.ResourcesCompat;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
-import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.ui.activity.SettingsActivity;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 
 /**
- *
+ * Нижнее наивгационное меню для перемещения по категориям и открытия настроек приложения
  */
 
 public class MyDialogBottomSheet extends BottomSheetDialogFragment {
 
     public static final String TAG = "BottomSheetDialog";
     public NavigationView navigationView;
-    private ItemClickListenerBottomNavView itemClickListener; // Для обратного вызова
+    private ItemClickListenerBottomNavView itemClickListener;
     private int selNotesCategory;
 
     public static MyDialogBottomSheet newInstance() {
@@ -45,45 +44,10 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_bottomsheet, container, false);
-        navigationView =  view.findViewById(R.id.navigation_view);
-        //navigationView.setBackgroundColor(Color.BLUE);
-        navigationView.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.bottom_sheet_round_corner, null));
+        navigationView = view.findViewById(R.id.navigation_view);
+        navigationView.setBackground(ResourcesCompat
+                .getDrawable(getResources(), R.drawable.bottom_sheet_round_corner, null));
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        selNotesCategory = GetSharedPref.getNotesCategory(requireContext());
-
-        navigationView.getMenu().getItem(selNotesCategory).setChecked(true);
-
-        MyColor.setNavMenuItemThemeColors(requireActivity(), navigationView);
-
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            int menuId = menuItem.getItemId();
-
-            if (menuId == R.id.nav1_note) {
-                selNotesCategory = 0;
-            } else if (menuId == R.id.nav2_fav) {
-                selNotesCategory = 1;
-            } else if (menuId == R.id.nav3_trash) {
-                selNotesCategory = 2;
-            } else if (menuId == R.id.nav4_settings) {
-                Intent intent = new Intent(requireContext(), SettingsActivity.class);
-                requireContext().startActivity(intent);
-            }
-
-            MySharedPref.setInt(requireContext(), MyPrefKey.KEY_NOTES_CATEGORY, selNotesCategory);
-
-            if (menuId != R.id.nav4_settings) {
-                itemClickListener.onItemClickBottomNavView();
-            }
-
-            dismiss();
-            return true;
-        });
     }
 
     @Override
@@ -96,6 +60,39 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
             throw new RuntimeException(context.toString()
                     + " must implement ItemClickListener");
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        selNotesCategory = GetSharedPref.getNotesCategory(requireContext());
+        navigationView.getMenu().getItem(selNotesCategory).setChecked(true);
+
+        MyColor.setNavMenuItemThemeColors(requireActivity(), navigationView);
+
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            int menuId = menuItem.getItemId();
+
+            if (menuId == R.id.nav_item_note) {
+                selNotesCategory = 0;
+            } else if (menuId == R.id.nav_item_favorites) {
+                selNotesCategory = 1;
+            } else if (menuId == R.id.nav_item_trash) {
+                selNotesCategory = 2;
+            } else if (menuId == R.id.nav_item_settings) {
+                MyIntent.OpenSettings(requireContext());
+            }
+
+            MySharedPref.setInt(requireContext(), MyPrefKey.KEY_NOTES_CATEGORY, selNotesCategory);
+
+            if (menuId != R.id.nav_item_settings) {
+                itemClickListener.onItemClickBottomNavView();
+            }
+
+            dismiss();
+            return true;
+        });
     }
 
     @Override

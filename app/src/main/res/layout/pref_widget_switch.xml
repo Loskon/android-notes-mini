@@ -11,7 +11,7 @@
         android:elevation="2dp"
         app:borderColor="@color/teal_700"
         app:borderWidth="1dp"
-        app:divider="@color/color_default_light_blue"
+        app:divider="@android:color/transparent"
         app:dividerPadding="10dp"
         app:dividerWidth="1dp"
         app:layout_constraintBottom_toBottomOf="parent"

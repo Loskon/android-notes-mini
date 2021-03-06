@@ -1,30 +1,28 @@
 package com.loskon.noteminimalism3.ui.dialogs;
 
-import android.app.Activity;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.ui.activity.MainActivity;
+
+/**
+ * Объединение заметок в одну
+ */
 
 public class MyDialogUnification {
 
-    private final Activity activity;
+    private final MainActivity mainActivity;
     private AlertDialog alertDialog;
 
-    private static CallbackUni callbackUni;
-
-    public void registerCallBackUni(CallbackUni callbackUni) {
-        MyDialogUnification.callbackUni = callbackUni;
-    }
-
-    public MyDialogUnification(Activity activity) {
-        this.activity = activity;
+    public MyDialogUnification(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
     }
 
     public void call() {
-        alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_unification);
+        alertDialog = DialogBuilder.buildDialog(mainActivity, R.layout.dialog_unification);
         alertDialog.show();
 
         Button btnOk = alertDialog.findViewById(R.id.button3678);
@@ -33,20 +31,16 @@ public class MyDialogUnification {
         assert btnOk != null;
         assert btnCancel != null;
 
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getColorCustom(mainActivity);
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
 
         btnOk.setOnClickListener(view -> {
-            callbackUni.callingBackUni();
+            mainActivity.unification();
             alertDialog.dismiss();
         });
 
         // Click cancel
         btnCancel.setOnClickListener(v -> alertDialog.dismiss());
-    }
-
-    public interface CallbackUni{
-        void callingBackUni();
     }
 }

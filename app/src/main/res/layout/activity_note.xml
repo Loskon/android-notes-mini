@@ -20,6 +20,7 @@
         android:clickable="false"
         android:fillViewport="true"
         android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/fabNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,7 @@
                 android:autofillHints=""
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:hint="@string/note_hint_text"
+                android:hint="@string/hint_text"
                 android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
                 android:textColor="?attr/titleTextColor"
                 android:textColorHint="@android:color/darker_gray"
@@ -57,6 +58,7 @@
         android:focusable="true"
         android:onClick="addNoteClick"
         android:elevation="0dp"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_navigate_next_black_48"
@@ -103,7 +105,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:onClick="otherClick"
+        android:onClick="moreClick"
         app:icon="@drawable/baseline_more_horiz_black_24"
         app:iconGravity="textStart"
         app:iconPadding="-6dp"
@@ -119,6 +121,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <include layout="@layout/bottom_sheet" />

@@ -9,17 +9,22 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.slider.Slider;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
-import com.loskon.noteminimalism3.helper.sharedpref.GetSharedPref;
-import com.loskon.noteminimalism3.helper.sharedpref.MyPrefKey;
-import com.loskon.noteminimalism3.helper.sharedpref.MySharedPref;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
+
+/**
+ * Изменение размера шрифта текста внутри заметок
+ */
 
 public class MyDialogFontSize{
 
     private final Activity activity;
     private AlertDialog alertDialog;
-    private int fontSizeNotes;
-    private TextView textViewSize;
+    private int fontSizeNote;
+    private TextView textView;
+    private Slider slider;
 
     public MyDialogFontSize(Activity activity) {
         this.activity = activity;
@@ -29,33 +34,27 @@ public class MyDialogFontSize{
         alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_font_size);
         alertDialog.show();
 
-        textViewSize = alertDialog.findViewById(R.id.textViewSize);
-        Slider slider = alertDialog.findViewById(R.id.slider_font_size2);
-        Button btnOk = alertDialog.findViewById(R.id.btn_ok_size);
-        Button btnReset = alertDialog.findViewById(R.id.btn_ok_size2);
-
-        // assert
-        assert textViewSize != null;
-        assert slider != null;
-        assert btnOk != null;
-        assert btnReset != null;
+        textView = alertDialog.findViewById(R.id.txt_size_note);
+        slider = alertDialog.findViewById(R.id.slider_font_size_note);
+        Button btnOk = alertDialog.findViewById(R.id.btn_ok_size_note);
+        Button btnReset = alertDialog.findViewById(R.id.btn_reset_size_note);
 
         int color = MyColor.getColorCustom(activity);
         btnOk.setBackgroundColor(color);
         btnReset.setTextColor(color);
         MyColor.setColorSlider(activity, slider);
 
-        fontSizeNotes = GetSharedPref.getFontSizeNote(activity);
+        fontSizeNote = GetSharedPref.getFontSizeNote(activity);
 
-        slider.setValue(fontSizeNotes);
-        textViewSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeNotes);
+        slider.setValue(fontSizeNote);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeNote);
 
         slider.addOnChangeListener((slider2, value, fromUser) -> {
-            fontSizeNotes = (int) value;
-            setSharedPref(fontSizeNotes);
+            fontSizeNote = (int) value;
+            setSharedPref(fontSizeNote);
         });
 
-        btnOk.setOnClickListener(v -> alertDialog.dismiss());
+        btnOk.setOnClickListener(view -> alertDialog.dismiss());
 
         btnReset.setOnClickListener(view -> {
             int size = 18;
@@ -65,7 +64,7 @@ public class MyDialogFontSize{
     }
 
     private void setSharedPref(int fontSizeNotes) {
-        textViewSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeNotes);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeNotes);
         MySharedPref.setInt(activity, MyPrefKey.KEY_TITLE_FONT_SIZE_NOTES, fontSizeNotes);
     }
 }

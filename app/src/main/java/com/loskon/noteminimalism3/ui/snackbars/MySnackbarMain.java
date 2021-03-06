@@ -18,24 +18,30 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.rv.MyRecyclerViewAdapter;
+import com.loskon.noteminimalism3.rv.adapter.MyRecyclerViewAdapter;
+
+/**
+ * Кастомный Snackbar с обратным таймером
+ */
 
 public class MySnackbarMain {
 
     private final Activity activity;
     private final MyRecyclerViewAdapter rvAdapter;
     private final FloatingActionButton fabMain;
+    private final CoordinatorLayout coordinatorLayout;
 
     private Snackbar snackbarMain;
     private CountDownTimer countDownTimer;
 
-    public MySnackbarMain(Activity activity,
-                          MyRecyclerViewAdapter rvAdapter, FloatingActionButton fabMain) {
+    public MySnackbarMain(Activity activity, MyRecyclerViewAdapter rvAdapter,
+                          FloatingActionButton fabMain, CoordinatorLayout coordinatorLayout) {
         this.activity = activity;
         this.rvAdapter = rvAdapter;
         this.fabMain = fabMain;
+        this.coordinatorLayout = coordinatorLayout;
     }
 
     @SuppressLint("InflateParams")
@@ -43,8 +49,6 @@ public class MySnackbarMain {
         if (countDownTimer != null) {
             countDownTimer.cancel(); // Сброс таймера
         }
-
-        CoordinatorLayout coordinatorLayout = activity.findViewById(R.id.coord_layout_main);
 
         snackbarMain = Snackbar.make(coordinatorLayout, "", Snackbar.LENGTH_INDEFINITE);
         Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbarMain.getView();
@@ -66,7 +70,7 @@ public class MySnackbarMain {
         //progressBar.getProgressDrawable().setColorFilter(
         //Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
 
-        textSnackbar.setText(activity.getString(R.string.snackbar_main_text_add_trash));
+        textSnackbar.setText(activity.getString(R.string.sb_main_add_trash));
         progressBar.setProgress(0);
         progressBar.setMax(10000);
 

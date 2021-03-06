@@ -4,6 +4,10 @@ import android.app.Activity;
 
 import java.io.File;
 
+/**
+ * Создание имени бэкапа
+ */
+
 public class BackupSetName {
 
     private final Activity activity;
@@ -12,12 +16,12 @@ public class BackupSetName {
         this.activity = activity;
     }
 
-    public void callBackup(String titleText) {
+    public void callBackup(boolean isAutoBackup, String backupName) {
         File folder = BackupPath.getFolder(activity);
-        String outFileName = BackupPath.getPathToFiles(activity);
+        String filePath = BackupPath.getPath(activity) + File.separator;
 
-        String outText = outFileName + titleText  + ".db";
-        BackupDb.backupDatabase(activity, outText);
+        String outFileName = filePath + backupName  + ".db";
+        (new BackupDb(activity)).backupDatabase(isAutoBackup, outFileName);
         BackupLimiter.delExtraFiles(activity, folder);
     }
 }

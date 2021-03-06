@@ -6,22 +6,34 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.helper.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+
+/**
+ * Конструктор для Snackbar
+ */
 
 public class SnackbarBuilder {
 
+    private static Snackbar snackbar;
+
     public static void makeSnackbar(Activity activity, View layout,
                                     String message, View anchorView, boolean isSuccess) {
-        if (layout != null) {
-            Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_SHORT);
-            snackbar.setTextColor(Color.WHITE);
 
-            View snackbarView = snackbar.getView();
-            snackbarView.setBackgroundResource(R.drawable.snackbar_round_corner);
-            MyColor.setColorSnackbar(activity, snackbarView, isSuccess);
+        snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_SHORT);
 
-            snackbar.setAnchorView(anchorView);
-            snackbar.show();
+        snackbar.setTextColor(Color.WHITE);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundResource(R.drawable.snackbar_round_corner);
+        MyColor.setColorSnackbar(activity, snackbarView, isSuccess);
+
+        snackbar.setAnchorView(anchorView);
+        snackbar.show();
+    }
+
+    public static void close() {
+        if (snackbar != null) {
+            snackbar.dismiss();
         }
     }
 }

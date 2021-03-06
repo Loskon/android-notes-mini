@@ -13,7 +13,9 @@ import androidx.preference.SwitchPreference;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 
-import java.util.Objects;
+/**
+ * Настройки внешнего вида заметок
+ */
 
 public class MySettingsAppFragment extends PreferenceFragmentCompat implements
         Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
@@ -22,18 +24,19 @@ public class MySettingsAppFragment extends PreferenceFragmentCompat implements
 
     private String switchOneSizeString, resetString, selectColorString;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private SwitchPreference switchOneSizePref;
-
+    @SuppressWarnings("FieldCanBeLocal")
     private Preference resetPref, selectColorPref;
 
     private static CallbackOneSize callbackOneSize;
     private static CallbackReset callbackReset;
 
-    public void registerCallBackOneSize(CallbackOneSize callbackOneSize){
+    public static void regCallbackOneSize(CallbackOneSize callbackOneSize) {
         MySettingsAppFragment.callbackOneSize = callbackOneSize;
     }
 
-    public void registerCallBackReset(CallbackReset callbackReset){
+    public static void registerCallBackReset(CallbackReset callbackReset) {
         MySettingsAppFragment.callbackReset = callbackReset;
     }
 
@@ -41,11 +44,14 @@ public class MySettingsAppFragment extends PreferenceFragmentCompat implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        (new MyDialogColor()).registerCallBackColorNotifyData(
-                () -> Objects.requireNonNull(getListView().getAdapter()).notifyDataSetChanged());
-
         setDivider(null);
         setDividerHeight(0);
+
+        MyDialogColor.regCallBackNotifyData(() -> {
+            if (getListView() != null && getListView().getAdapter() != null) {
+                getListView().getAdapter().notifyDataSetChanged();
+            }
+        });
 
         getListView().setVerticalScrollBarEnabled(false);
     }
@@ -56,9 +62,9 @@ public class MySettingsAppFragment extends PreferenceFragmentCompat implements
 
         activity = requireActivity();
 
-        switchOneSizeString = getString(R.string.one_size_cards);
-        resetString = getString(R.string.reset);
-        selectColorString = getString(R.string.select_color);
+        switchOneSizeString = getString(R.string.one_size_title);
+        resetString = getString(R.string.reset_title);
+        selectColorString = getString(R.string.select_color_title);
 
         switchOneSizePref = findPreference(switchOneSizeString);
         resetPref = findPreference(resetString);
@@ -67,19 +73,16 @@ public class MySettingsAppFragment extends PreferenceFragmentCompat implements
         switchOneSizePref.setOnPreferenceChangeListener(this);
         resetPref.setOnPreferenceClickListener(this);
         selectColorPref.setOnPreferenceClickListener(this);
-
     }
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         if (key.equals(resetString)) {
-            if (callbackReset != null) {
-                callbackReset.callingBackReset();
-            }
+            callbackReset.callBackReset();
             return true;
         } else if (key.equals(selectColorString)) {
-            MyDialogColor.alertDialogShowColorPicker(activity);
+            (new MyDialogColor(activity)).call();
             return true;
         }
 
@@ -90,21 +93,17 @@ public class MySettingsAppFragment extends PreferenceFragmentCompat implements
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
         if (key.equals(switchOneSizeString)) {
-            if (callbackOneSize != null) {
-                callbackOneSize.callingBackOneSize((Boolean) newValue);
-            }
+            callbackOneSize.callBackOneSize((Boolean) newValue);
             return true;
         }
         return false;
     }
 
-
     public interface CallbackOneSize {
-        void callingBackOneSize(boolean isOneSizeOn);
+        void callBackOneSize(boolean isOneSizeOn);
     }
 
     public interface CallbackReset {
-        void callingBackReset();
+        void callBackReset();
     }
-
 }

@@ -20,11 +20,10 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase database) {
         // Table Create Statement
-        db.execSQL("CREATE TABLE " + NoteTable.NAME_TABLE + "(" +
+        database.execSQL("CREATE TABLE " + NoteTable.NAME_TABLE + "(" +
                 Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Columns.UUID + " INTEGER, " +
                 Columns.COLUMN_TITLE + " TEXT, " +
                 Columns.COLUMN_DATE + " INTEGER, " +
                 Columns.COLUMN_DATE_DEL + " INTEGER, " +
@@ -34,17 +33,17 @@ public class DbHelper extends SQLiteOpenHelper {
         );
 
         // добавление начальных данных
-        //db.execSQL("INSERT INTO " + UserTable.NAME + " (" +
+        //database.execSQL("INSERT INTO " + UserTable.NAME + " (" +
              //   UserTable.Cols.TEXT + ", " +
               //  UserTable.Cols.DATE + ") " +
                // "VALUES ('Том Смит', 1981);");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {
-        //reinitialize db
-        db.execSQL("DROP TABLE IF EXISTS " + NoteTable.NAME_TABLE);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase database, int oldVersion,  int newVersion) {
+        // Повторная инициализация базы данных
+        database.execSQL("DROP TABLE IF EXISTS " + NoteTable.NAME_TABLE);
+        onCreate(database);
     }
 }
 

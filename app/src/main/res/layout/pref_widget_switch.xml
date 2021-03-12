@@ -6,11 +6,11 @@
 
     <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
         android:id="@+id/buttonGroup_lordOfTheRings"
-        android:layout_width="80dp"
+        android:layout_width="72dp"
         android:layout_height="20dp"
         android:elevation="2dp"
-        app:borderColor="@color/teal_700"
-        app:borderWidth="1dp"
+        app:borderColor="@color/color_highlight"
+        app:borderWidth="@dimen/border_width_switch"
         app:divider="@android:color/transparent"
         app:dividerPadding="10dp"
         app:dividerWidth="1dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:position="0"
-        app:radius="6dp"
+        app:radius="4dp"
         app:ripple="true"
         app:selectedBackground="@color/teal_700">
 
@@ -28,21 +28,22 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?attr/switchBackgroundColor"
+            android:background="?attr/colorSwitchBackground"
             android:padding="10dp"
             app:selectedTextColor="@color/white"
             app:text="@string/off"
+            app:textColor="?attr/colorTitle"
             app:textSize="10sp" />
 
         <com.addisonelliott.segmentedbutton.SegmentedButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?attr/switchBackgroundColor"
+            android:background="?attr/colorSwitchBackground"
             android:padding="5dp"
             app:selectedTextColor="@color/white"
             app:text="@string/on"
-            app:textColor="?attr/titleTextColor"
+            app:textColor="?attr/colorTitle"
             app:textSize="10sp" />
     </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>
 

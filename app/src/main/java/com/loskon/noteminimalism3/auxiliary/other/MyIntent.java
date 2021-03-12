@@ -3,11 +3,13 @@ package com.loskon.noteminimalism3.auxiliary.other;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 
+import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.ui.activity.BackupActivity;
 import com.loskon.noteminimalism3.ui.activity.MainActivity;
 import com.loskon.noteminimalism3.ui.activity.NoteActivity;
@@ -22,18 +24,19 @@ import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_COD
 
 public class MyIntent {
 
-    private static final int intentDelay = 50;
     public static final String PUT_EXTRA_SEL_NOTE_CATEGORY = "selNotesCategory";
     public static final String PUT_EXTRA_ID = "id";
 
-    public static void AddNewNote(Context context, int selNotesCategory) {
+    private static final int intentDelay = 50;
+
+    public static void addNewNote(Context context, int selNotesCategory) {
         // Добавление новой заметки
         Intent intent = new Intent(context, NoteActivity.class);
         intent.putExtra(PUT_EXTRA_SEL_NOTE_CATEGORY, selNotesCategory);
         context.startActivity(intent);
     }
 
-    public static void OpenNote(Context context, int selNotesCategory, long id) {
+    public static void openNote(Context context, int selNotesCategory, long id) {
         // Открытие заметки для редактирования
         Intent intent = new Intent(context, NoteActivity.class);
         intent.putExtra(PUT_EXTRA_SEL_NOTE_CATEGORY, selNotesCategory);
@@ -41,13 +44,13 @@ public class MyIntent {
         context.startActivity(intent);
     }
 
-    public static void OpenSettings(Context context) {
+    public static void openSettings(Context context) {
         // Открытие SettingsActivity
         Intent intent = new Intent(context, SettingsActivity.class);
         context.startActivity(intent);
     }
 
-    public static void SettingsApp(Context context) {
+    public static void openSettingsApp(Context context) {
         // Open SettingsAppActivity
         Intent intent = new Intent(context, SettingsAppActivity.class);
         (new Handler()).postDelayed(() -> {
@@ -55,13 +58,13 @@ public class MyIntent {
         }, intentDelay);
     }
 
-    public static void BackupActivity(Context context) {
+    public static void openBackupActivity(Context context) {
         // Open BackupActivity
         Intent intent = new Intent(context, BackupActivity.class);
         (new Handler()).postDelayed(() -> context.startActivity(intent), intentDelay);
     }
 
-    public static void openFindFolder(Fragment fragment) {
+    public static void startFindFolder(Fragment fragment) {
         // Open documents
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -99,6 +102,16 @@ public class MyIntent {
         sendIntent.putExtra(Intent.EXTRA_TEXT, editTitleText.getText().toString().trim());
         sendIntent.setType("text/plain");
         context.startActivity(Intent.createChooser(sendIntent,"share"));
+    }
+
+    public static void startMailClient(Context context) {
+        String email = context.getString(R.string.developer_email);
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback));
+        context.startActivity(intent);
     }
 
     private static int delayForNote(boolean isButtonClick) {

@@ -8,6 +8,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.ui.activity.NoteActivity;
 
+/**
+ * Помощник для отображения различнх уведомлений о действиях пользователя
+ * или о возниккших ошибках
+ */
+
 public class MySnackbarNoteMessage {
 
     public static final String MSG_TEXT_NO_PERMISSION_NOTE = "msg_no_permission";

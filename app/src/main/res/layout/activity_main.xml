@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_for_bottom_app_bar"
         android:layout_gravity="bottom"
-        android:backgroundTint="?attr/bottomAppBarColor"
-        app:backgroundTint="?attr/bottomAppBarColor"
+        android:backgroundTint="?attr/colorAppBar"
+        app:backgroundTint="?attr/colorAppBar"
         app:fabAlignmentMode="end"
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
@@ -36,7 +36,7 @@
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
         app:layout_anchor="@id/btmAppBarMain"
-        app:tint="?attr/bottomAppBarColor" />
+        app:tint="?attr/colorAppBar" />
 
     <TextView
         android:id="@+id/textEmpty"
@@ -45,7 +45,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="?attr/actionBarSize"
         android:text="@string/empty_list"
-        android:textColor="?attr/dateTextColor" />
+        android:textColor="?attr/colorDate" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_main"

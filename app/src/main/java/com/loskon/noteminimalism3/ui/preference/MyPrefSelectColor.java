@@ -36,7 +36,7 @@ public class MyPrefSelectColor extends Preference {
 
         ImageView imageViewColorForSettings =
                 (ImageView) holder.findViewById(R.id.imageViewColor);
-        imageViewColorForSettings.setColorFilter(MyColor.getColorCustom(context));
+        imageViewColorForSettings.setColorFilter(MyColor.getMyColor(context));
 
         MyDialogColor
                 .regCallBackSettingsApp(imageViewColorForSettings::setColorFilter);

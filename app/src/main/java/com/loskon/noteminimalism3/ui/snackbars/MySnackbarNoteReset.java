@@ -37,7 +37,7 @@ public class MySnackbarNoteReset {
                         activity.restoreNote())
                 .setTextColor(Color.WHITE)
                 .setBackgroundTint(MyColor.getColorBackgroundSnackbar(activity))
-                .setActionTextColor(MyColor.getColorCustom(activity))
+                .setActionTextColor(MyColor.getMyColor(activity))
                 .show();
     }
 }

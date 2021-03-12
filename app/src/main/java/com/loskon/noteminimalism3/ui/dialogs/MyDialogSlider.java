@@ -46,7 +46,7 @@ public class MyDialogSlider {
 
         textTitle.setText(keyTitle);
 
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         MyColor.setColorSlider(activity, slider);
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);

@@ -28,13 +28,10 @@ public class NoteCursorWrapper extends CursorWrapper {
         long date = getLong(getColumnIndex(NoteTable.Columns.COLUMN_DATE));
         long dateDelete = getLong(getColumnIndex(NoteTable.Columns.COLUMN_DATE_DEL));
         String fav = getString(getColumnIndex(NoteTable.Columns.COLUMN_FAVORITES));
-        String select = getString(getColumnIndex(NoteTable.Columns.COLUMN_DEL_ITEMS));
 
-
-        // ATTENTION!!!! SQLite does not have a separate Boolean storage class.
+        // ВНИМАНИЕ!!!! SQLite не имеет отдельного класса логического хранилища.
         boolean favoritesItem = fav.equals("1");
-        boolean selectItemForDel = select.equals("1");
 
-        return new Note(id, text, new Date(date), new Date(dateDelete), favoritesItem, selectItemForDel);
+        return new Note(id, text, new Date(date), new Date(dateDelete), favoritesItem);
     }
 }

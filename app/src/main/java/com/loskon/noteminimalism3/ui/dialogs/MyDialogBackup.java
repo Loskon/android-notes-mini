@@ -51,7 +51,7 @@ public class MyDialogBackup {
         assert btnCancel != null;
 
         // color
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
         textInputLayout.setBoxStrokeColor(color);

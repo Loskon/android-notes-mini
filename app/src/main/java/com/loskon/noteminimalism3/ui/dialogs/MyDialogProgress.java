@@ -36,7 +36,7 @@ public class MyDialogProgress {
         CircularProgressIndicator linearProgressIndicator =
                 alertDialog.findViewById(R.id.circularProgressIndicator);
 
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         linearProgressIndicator.setIndicatorColor(color);
         linearProgressIndicator.setTrackColor(ColorUtils.setAlphaComponent(color, 70));
     }

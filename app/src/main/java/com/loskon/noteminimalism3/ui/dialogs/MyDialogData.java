@@ -40,7 +40,7 @@ public class MyDialogData {
         btnOk6No = alertDialog.findViewById(R.id.button6);
         Button btnCancel = alertDialog.findViewById(R.id.button5);
 
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         btnOk1.setBackgroundColor(color);
         btnOk2.setBackgroundColor(color);
         btnOk7Yes.setTextColor(color);

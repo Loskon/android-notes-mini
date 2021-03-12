@@ -4,7 +4,7 @@
     android:id="@+id/layout_bottomSheetBehavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/bottomAppBarColor"
+    android:background="?attr/colorAppBar"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
@@ -21,15 +21,15 @@
             app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="?attr/shadowImitationColor" />
+            app:srcCompat="?attr/colorShadow" />
 
         <TextView
             android:id="@+id/tv_sheet_paste"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
-            android:text="@string/bottom_sheet_paste_text"
-            android:textColor="?attr/titleTextColor"
+            android:text="@string/bs_paste_text"
+            android:textColor="?attr/colorTitle"
             android:textSize="17sp" />
 
         <TextView
@@ -37,8 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
-            android:text="@string/bottom_sheet_copy_all_text"
-            android:textColor="?attr/titleTextColor"
+            android:text="@string/bs_copy_text"
+            android:textColor="?attr/colorTitle"
             android:textSize="17sp" />
 
         <TextView
@@ -46,8 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
-            android:text="@string/bottom_sheet_share"
-            android:textColor="?attr/titleTextColor"
+            android:text="@string/bs_share"
+            android:textColor="?attr/colorTitle"
             android:textSize="17sp" />
 
         <TextView
@@ -55,8 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
-            android:text="@string/bottom_sheet_download"
-            android:textColor="?attr/titleTextColor"
+            android:text="@string/bs_download"
+            android:textColor="?attr/colorTitle"
             android:textSize="17sp" />
 
         <TextView
@@ -64,8 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
-            android:text="@string/bottom_sheet_to_close"
-            android:textColor="?attr/titleTextColor"
+            android:text="@string/bs_to_close"
+            android:textColor="?attr/colorTitle"
             android:textSize="17sp" />
 
     </LinearLayout>

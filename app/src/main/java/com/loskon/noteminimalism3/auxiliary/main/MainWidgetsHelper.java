@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.auxiliary.main;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
@@ -31,8 +32,9 @@ public class MainWidgetsHelper {
     private final BottomAppBar bottomAppBar;
     private final FloatingActionButton fabMain;
     private final CardView cardView;
+    private final int spanCount;
 
-    boolean isDeleteMode = false;
+    private boolean isDeleteMode = false;
 
     public MainWidgetsHelper(Activity activity, BottomAppBar bottomAppBar, FloatingActionButton fabMain) {
         this.activity = activity;
@@ -40,13 +42,14 @@ public class MainWidgetsHelper {
         this.fabMain = fabMain;
         appBarMenu = bottomAppBar.getMenu();
         cardView = activity.findViewById(R.id.card_view_main);
+        spanCount = getScreenSize();
     }
 
-    public void setSelectIcon(boolean isSelOne) {
+    public void setSelectIcon(boolean isNotAllSelected) {
         // Смена иконок выделения
         int menuItem = R.id.action_select_item;
 
-        if (isSelOne) {
+        if (isNotAllSelected) {
             setMenuIcon(menuItem, R.drawable.baseline_done_black_24);
         } else {
             setMenuIcon(menuItem, R.drawable.baseline_done_all_black_24);
@@ -75,10 +78,23 @@ public class MainWidgetsHelper {
         } else {
             setMenuIcon(menuItem, R.drawable.baseline_view_agenda_black_24);
             recyclerView.setLayoutManager(new
-                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                    StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL));
         }
 
         setColorMenuIcon();
+    }
+
+    private int getScreenSize() {
+        int screenSize = activity.getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        int spanCount = 2;
+
+        if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            spanCount = 3;
+        }
+
+        return spanCount;
     }
 
     public void changeIconFabSearch(boolean isSearchMode, int selNotesCategory) {
@@ -238,7 +254,7 @@ public class MainWidgetsHelper {
 
     public void setColorItem() {
         // Установить цвет элементов
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         MyColor.setColorFab(activity, fabMain);
         MyColor.setNavIconColor(activity, bottomAppBar);
         MyColor.setColorMenuItem(activity, appBarMenu);

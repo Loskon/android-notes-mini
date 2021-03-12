@@ -31,7 +31,7 @@ public class MyDialogConfirm {
         Button btnYes = alertDialog.findViewById(R.id.btn_yes_confirm);
         Button btnNo = alertDialog.findViewById(R.id.btn_no_confirm);
 
-        int color = MyColor.getColorCustom(backupActivity);
+        int color = MyColor.getMyColor(backupActivity);
         btnYes.setBackgroundColor(color);
         btnNo.setTextColor(color);
 

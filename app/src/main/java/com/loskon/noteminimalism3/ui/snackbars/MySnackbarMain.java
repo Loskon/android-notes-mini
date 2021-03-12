@@ -74,11 +74,11 @@ public class MySnackbarMain {
         progressBar.setProgress(0);
         progressBar.setMax(10000);
 
-        btnSnackbar.setTextColor(MyColor.getColorCustom(activity));
+        btnSnackbar.setTextColor(MyColor.getMyColor(activity));
         btnSnackbar.setOnClickListener(v -> {
             closeSnackbar();
             (new Handler()).postDelayed(() -> {
-                rvAdapter.resetItem(note, position);
+                rvAdapter.onResetItem(note, position);
             }, 100);
         });
 

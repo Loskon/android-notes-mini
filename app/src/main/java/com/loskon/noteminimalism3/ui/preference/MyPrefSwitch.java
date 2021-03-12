@@ -20,6 +20,8 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 public class MyPrefSwitch extends SwitchPreference {
 
     private final Context context;
+    private SegmentedButtonGroup segmentedButtonGroup;
+    private int color;
 
     public MyPrefSwitch(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -46,21 +48,31 @@ public class MyPrefSwitch extends SwitchPreference {
         super.onBindViewHolder(holder);
         holder.itemView.setClickable(true);
 
-        SegmentedButtonGroup segmentedButtonGroup =
+        segmentedButtonGroup =
                 (SegmentedButtonGroup) holder.findViewById(R.id.buttonGroup_lordOfTheRings);
 
+        setMyColor();
+        initSettings();
+        initSwitchPosition();
+    }
 
-        int color = MyColor.getColorCustom(context);
-        int borderGroup = MySizeItem.getBorder(context);
-
-        if (!isEnabled()) {
-            color = Color.GRAY;
-        }
+    private void initSettings() {
+        int borderGroup = MySizeItem.getBorderWidghtSwitch(context);
 
         segmentedButtonGroup.setSelectedBackgroundColor(color);
         segmentedButtonGroup.setBorder(borderGroup, color, 0, 0);
         segmentedButtonGroup.setClickable(false);
+    }
 
+    private void setMyColor() {
+        if (isEnabled()) {
+            color = MyColor.getMyColor(context);
+        } else {
+            color = Color.GRAY;
+        }
+    }
+
+    private void initSwitchPosition() {
         boolean toggleButton = MySharedPref.getBoolean(context, getKey(), false);
 
         if (toggleButton) {
@@ -68,7 +80,5 @@ public class MyPrefSwitch extends SwitchPreference {
         } else {
             segmentedButtonGroup.setPosition(0, false);
         }
-
-
     }
 }

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.rv;
+package com.loskon.noteminimalism3.rv.other;
 
 import android.app.Activity;
 import android.view.View;

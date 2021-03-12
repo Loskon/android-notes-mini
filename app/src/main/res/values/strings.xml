@@ -1,5 +1,5 @@
 <resources>
-    <!-- tittle my app -->
+    <!-- Name my app -->
     <string name="app_name" translatable="false">Notes Mini</string>
     <string name="app_name_backup" translatable="false">Notes Mini Backup</string>
 
@@ -10,28 +10,22 @@
     <string name="hint_search_text">Search</string>
 
     <!-- activity_note -->
-    <string name="hint_text">Text</string>
-
-    <!-- activity_backup -->
-    <string name="btn_backup_text">Backup</string>
-    <string name="btn_backup_cloud_text">Backup to Cloud</string>
-    <string name="btn_restore_text">Restore</string>
-    <string name="btn_restore_cloud_text">Restore from Cloud</string>
+    <string name="hint_note_text">Text</string>
 
     <!-- activity_settings -->
     <string name="feedback">Feedback</string>
 
     <!-- activity_settings_app -->
-    <string name="font_size_change">Hello, Word!</string>
-    <string name="date_cards">01/21/96 12:00 AM</string>
+    <string name="title_card_view">Hello, Word!</string>
+    <string name="date_card_view">01/21/96 12:00 AM</string>
 
 
     <!-- Menu -->
     <!-- menu for bottom app bar Main -->
     <string name="menu_main_switch">Switch view</string>
     <string name="menu_main_search">Search go</string>
-    <string name="menu_main_select">Select item</string>
-    <string name="menu_main_unification">Unification</string>
+    <string name="menu_main_select">Select notes</string>
+    <string name="menu_main_combine">Combine notes</string>
 
     <!-- menu for nav drawer view -->
     <string name="navigation_note">Note</string>
@@ -41,6 +35,7 @@
 
     <!-- menu for bottom app bar Backup -->
     <string name="menu_backup_settings">Settings account</string>
+
 
     <!-- Toast -->
     <!-- Main -->
@@ -63,7 +58,6 @@
     <string name="sb_note_need_copy_text">You need to copy text!</string>
     <string name="sb_note_invalid_format">Invalid format!</string>
 
-
     <!-- Backup -->
     <string name="sb_bp_text_error">Error. Retry!</string>
     <string name="sb_bp_text_no_folder">Backup folder not present.
@@ -71,17 +65,18 @@
     <string name="sb_bp_completed">Backup completed!</string>
     <string name="sb_bp_failed">Unable to backup database. Retry!</string>
     <string name="sb_bp_restore_completed">Restore completed!</string>
-    <string name="sb_bp_restore_failed">Unable to restore database. Retry!</string>
+    <string name="sb_bp_restore_failed">Unable to restore. Retry!</string>
     <string name="sb_bp_logged_account">You are logged out of account</string>
     <string name="sb_bp_no_internet">No internet connection</string>
     <string name="sb_bp_sign_in_failed">Sign in failed</string>
     <string name="sb_bp_del_acc">Data deleted from the cloud!</string>
-    <string name="sb_bp_problem_internet">Problems with the Internet connection!</string>
+    <string name="sb_bp_problem_internet">Problems with the internet connection!</string>
+
 
     <!-- Dialog -->
     <!-- dialog_backup -->
-    <string name="dg_bp_hint_text">Backup name in english</string>
-    <string name="dg_bp_error">Enter a name</string>
+    <string name="dg_bp_hint_text">Name in english</string>
+    <string name="dg_bp_error">Enter a name!</string>
     <string name="dg_bp_forbidden_text" translatable="false">ABCDEFGHIJKLMNOPQRSTUVWXYZ
         abcdefghijklmnopqrstuvwxyz0123456789()#№/_:.- </string>
 
@@ -90,9 +85,10 @@
 
     <!-- dialog_font_size -->
     <string name="dg_font_size_title">Font size</string>
+    <string name="dg_font_size_reset">Reset</string>
 
     <!-- dialog_pref_links -->
-    <string name="dg_pref_links_title">Definition of hyperlinks</string>
+    <string name="dg_pref_links_title">Type of hyperlink</string>
     <string name="dg_pref_links_web_url">Web URL</string>
     <string name="dg_pref_links_email">Email</string>
     <string name="dg_pref_links_phone_number">Phone Number</string>
@@ -101,14 +97,7 @@
     <string name="dg_trash_title">Empty trash?</string>
 
     <!-- dialog_unification -->
-    <string name="dialog_unification_title">Unification this notes?</string>
-
-    <!-- bottom_sheet_dialog -->
-    <string name="bottom_sheet_paste_text">Paste text</string>
-    <string name="bottom_sheet_copy_all_text">Copy all text</string>
-    <string name="bottom_sheet_share">Share</string>
-    <string name="bottom_sheet_download">Download txt file</string>
-    <string name="bottom_sheet_to_close">To close</string>
+    <string name="dg_unification_title">Unification this notes?</string>
 
     <!-- dialog_open_link -->
     <string name="dialog_open_link_open">Open</string>
@@ -117,68 +106,75 @@
     <string name="dialog_open_link_copy">Copy</string>
 
     <!-- dialog_account -->
-    <string name="dialog_account_delete_data">Delete data</string>
+    <string name="dialog_account_delete_data">Delete all data</string>
     <string name="menu_backup_logout">Logout</string>
 
     <!-- dialog_account -->
-    <string name="dialog_account_warning">Warning! You will delete all your data from the cloud
+    <string name="dialog_account_warning">Warning! You will delete your data from the cloud
         and will not be able to restore it. Continue?</string>
 
     <!-- dialog_confirm -->
     <string name="dialog_confirm_action">Confirm action</string>
+
+    <!-- bottom_sheet_dialog -->
+    <string name="bs_paste_text">Paste text</string>
+    <string name="bs_copy_text">Copy text</string>
+    <string name="bs_share">Share</string>
+    <string name="bs_download">Download txt file</string>
+    <string name="bs_to_close">To close</string>
 
 
     <!-- Preference -->
     <!-- preference -->
     <!-- Preference Category Header -->
     <string name="settings_app_header">Appearance settings</string>
-    <string name="backup_header">Backup of notes</string>
+    <string name="data_header">Data</string>
     <string name="notes_header">Notes</string>
     <string name="other_header">Other</string>
 
     <!-- Preference Titles -->
-    <string name="custom_app_title">Customize appearance</string>
+    <string name="custom_app_title">Customize</string>
     <string name="dark_mode_title">Dark mode</string>
     <string name="backup_title">Backup and Restore</string>
-    <string name="folder_title">Folder for backup</string>
+    <string name="folder_title">Folder for data</string>
     <string name="auto_backup_title">Auto backup</string>
-    <string name="notification_title">Notification of auto backup success</string>
+    <string name="notification_title">Notification</string>
     <string name="num_of_backup_title">Number of backups</string>
-    <string name="update_date_title">Update the date when the content changes</string>
+    <string name="update_date_title">Update time</string>
     <string name="font_size_notes_title">Font size</string>
-    <string name="hyperlinks_title">Definition of hyperlinks</string>
-    <string name="retention_trash_title">The retention time of notes in the trash</string>
-    <string name="communication_title">Communication with the developer</string>
+    <string name="hyperlinks_title">Hyperlinks</string>
+    <string name="retention_trash_title">Retention time of notes in trash</string>
+    <string name="communication_title">Communication with developer</string>
 
     <!-- Preference summary -->
-    <string name="auto_backup_summary">Creates a backup of every 5 added notes</string>
-    <string name="num_backup_summary">Maximum number of backups</string>
+    <string name="auto_backup_summary">When creating several new notes</string>
     <string name="number_of_days_summary">Number of days</string>
-    <string name="update_date_summary">Обновление при изменнении содержимого</string>
-    <string name="notification_auto_backup_summary">Уведомление</string>
-    <string name="one_size_cards_summary">Одинаковый размер плиток для мульти режима</string>
+    <string name="update_date_summary">When changing the content of a note</string>
+    <string name="notification_auto_backup_summary">About successful auto backup</string>
 
     <!-- preference_app -->
     <!-- Preference Category Header -->
-    <string name="note_app_header">Note appearance</string>
-    <string name="font_size_card_header">The font size of the text</string>
-    <string name="reset_font_size_header">Reset the font size</string>
+    <string name="note_app_header">Cards appearance</string>
+    <string name="font_size_card_header">Font size of text</string>
     <string name="theme_color_header">Theme color</string>
     <string name="num_of_lines_header">Number of lines</string>
-    <string name="other_app_title">Other</string>
+    <string name="other_app_header">Other</string>
 
     <!-- Preference Titles -->
-    <string name="reset_title">Reset</string>
+    <string name="reset_title">Reset font size</string>
     <string name="select_color_title">Select color</string>
-    <string name="one_size_title">One size for multi-cards mode</string>
+    <string name="one_size_title">Same cards size</string>
 
+    <!-- Preference summary -->
+    <string name="one_size_cards_summary">For multi-cards mode</string>
 
-    <!-- other -->
+    <!-- Other -->
     <string name="no_permissions">No permissions!</string>
     <string name="unknown_error">Unknown error!</string>
+    <string name="bad_idea">It is a bad idea :)</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="bad_idea">It is a bad idea :)</string>
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
+    <string name="developer_email" translatable="false">andreyrochev23@gmail.com</string>
 </resources>

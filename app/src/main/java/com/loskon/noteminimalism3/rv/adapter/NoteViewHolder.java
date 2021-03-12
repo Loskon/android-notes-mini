@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.loskon.noteminimalism3.R;
 
 /**
- * Наш собственный ViewHolder, который предоставляет доступ к View-компонентам
+ * Кастомный ViewHolder, который предоставляет доступ к View-компонентам
  */
 
 public class NoteViewHolder extends RecyclerView.ViewHolder {
 
-    LinearLayout linearLayoutCard;
-    CardView cardView;
-    TextView title;
-    TextView date;
-    View view;
+    public LinearLayout linearLayoutCard;
+    public CardView cardView;
+    public TextView title;
+    public TextView date;
+    public View view;
 
     public NoteViewHolder(@NonNull View itemView) {
         super(itemView);

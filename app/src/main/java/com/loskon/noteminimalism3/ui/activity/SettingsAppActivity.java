@@ -8,6 +8,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 import com.loskon.noteminimalism3.ui.fragments.MySettingsAppFragment;
 
@@ -18,6 +19,7 @@ public class SettingsAppActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_app);
         MyColor.setColorStatBarAndTaskDesc(this);

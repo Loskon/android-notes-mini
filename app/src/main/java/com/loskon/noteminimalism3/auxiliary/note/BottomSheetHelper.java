@@ -17,6 +17,10 @@ import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorage;
 import com.loskon.noteminimalism3.ui.activity.NoteActivity;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 
+/**
+ * Помощник для работы с всплывающим окном
+ */
+
 public class BottomSheetHelper {
 
     private final NoteActivity activity;
@@ -30,7 +34,7 @@ public class BottomSheetHelper {
     public BottomSheetHelper(NoteActivity activity) {
         this.activity = activity;
         getSettings();
-        callback();
+        handlerCallbackBottomSheet();
         handlerItem();
     }
 
@@ -44,14 +48,15 @@ public class BottomSheetHelper {
         sheetBehavior.setPeekHeight(0);
     }
 
-    private void callback() {
-        // настройка колбэков при изменениях
+    private void handlerCallbackBottomSheet() {
         sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {}
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                // Анимация скрытия fab
                 float difference = 1 - slideOffset;
                 fabNote.animate().scaleX(difference).scaleY(difference).setDuration(0).start();
             }
@@ -59,8 +64,8 @@ public class BottomSheetHelper {
     }
 
     private void handlerItem() {
-        TextView tvPaste= bottomSheet.findViewById(R.id.tv_sheet_paste);
-        TextView tvCopyAll= bottomSheet.findViewById(R.id.tv_sheet_copy_all_text);
+        TextView tvPaste = bottomSheet.findViewById(R.id.tv_sheet_paste);
+        TextView tvCopyAll = bottomSheet.findViewById(R.id.tv_sheet_copy_all_text);
         TextView tvSave = bottomSheet.findViewById(R.id.tv_sheet_save_txt);
         TextView tvShare = bottomSheet.findViewById(R.id.tv_sheet_share);
         TextView tvClose = bottomSheet.findViewById(R.id.tv_sheet_close);
@@ -72,91 +77,111 @@ public class BottomSheetHelper {
         tvClose.setOnClickListener(onClickListener);
     }
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int id = view.getId();
+    View.OnClickListener onClickListener = view -> {
+        int id = view.getId();
 
-            hideBottomSheet();
+        hideBottomSheet();
 
-            if (id == R.id.tv_sheet_copy_all_text) {
-                copyText();
-            } else if (id == R.id.tv_sheet_paste) {
-                pasteText();
-            } else if (id == R.id.tv_sheet_save_txt) {
-                saveTxtFile();
-            } else if (id == R.id.tv_sheet_share) {
-                sendText(editText.getText().toString());
-            }
+        if (id == R.id.tv_sheet_paste) {
+            pasteText();
+        } else if (id == R.id.tv_sheet_copy_all_text) {
+            copyText();
+        } else if (id == R.id.tv_sheet_save_txt) {
+            saveTextFile();
+        } else if (id == R.id.tv_sheet_share) {
+            sendText();
         }
     };
 
-    private void copyText() {
-        if (!editText.getText().toString().isEmpty()) {
-            ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("label", editText.getText().toString());
-            clipboard.setPrimaryClip(clip);
-        }
-    }
-
-    private void saveTxtFile() {
-        boolean isPermissions = PermissionsStorage
-                .verify(activity, null, true);
-        if (isPermissions) {
-            createTextFile();
-        }
-    }
-
     private void pasteText() {
-        String string = editText.getText().toString();
+        // Вставить текст
         ClipboardManager clipboard = (ClipboardManager)
                 activity.getSystemService(Context.CLIPBOARD_SERVICE);
 
         if ((clipboard.hasPrimaryClip())) {
-            try {
-                CharSequence textToPaste = clipboard.getPrimaryClip().getItemAt(0).getText();
-
-                if (string.isEmpty()) {
-                    string = (String) textToPaste;
-                } else {
-                    string = string + "\n\n" + textToPaste;
-                }
-
-                editText.setText(string.trim());
-                editText.setSelection(string.length());
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                showSnackbar(MySnackbarNoteMessage.MSG_INVALID_FORMAT);
-            }
+            goPasteText(clipboard);
         } else {
             showSnackbar(MySnackbarNoteMessage.MSG_NEED_COPY_TEXT);
         }
     }
 
-    public void createTextFile() {
-        String string = editText.getText().toString();
-        if (!string.trim().isEmpty()) {
+    private void goPasteText(ClipboardManager clipboard) {
+        String title = editText.getText().toString().trim();
+
+        try {
+            CharSequence textToPaste = clipboard.getPrimaryClip().getItemAt(0).getText();
+
+            if (title.isEmpty()) {
+                title = (String) textToPaste;
+            } else {
+                title = title + "\n\n" + textToPaste;
+            }
+
+            editText.setText(title.trim());
+            editText.setSelection(title.length());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            showSnackbar(MySnackbarNoteMessage.MSG_INVALID_FORMAT);
+        }
+    }
+
+    private void showSnackbar(String message) {
+        activity.getMySnackbarNoteMessage().show(false, message);
+    }
+
+    private void copyText() {
+        String title = editText.getText().toString().trim();
+
+        if (!title.isEmpty()) {
+            goCopyText();
+        } else {
+            showSnackbar(MySnackbarNoteMessage.MSG_NOTE_IS_EMPTY);
+        }
+    }
+
+    private void goCopyText() {
+        try {
+            ClipboardManager clipboard = (ClipboardManager)
+                    activity.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("label", editText.getText().toString());
+            clipboard.setPrimaryClip(clip);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            showSnackbar("null");
+        }
+    }
+
+    private void saveTextFile() {
+        boolean isPermissions = PermissionsStorage
+                .verify(activity, null, true);
+        if (isPermissions) {
+            goSaveTextFile();
+        }
+    }
+
+    public void goSaveTextFile() {
+        String string = editText.getText().toString().trim();
+
+        if (!string.isEmpty()) {
             (new TextFile(activity)).createTextFile(string);
         } else {
             showSnackbar(MySnackbarNoteMessage.MSG_NOTE_IS_EMPTY);
         }
     }
 
-    private void sendText(String string) {
-        if (!string.trim().isEmpty()) {
+    private void sendText() {
+        String title = editText.getText().toString().trim();
+
+        if (!title.isEmpty()) {
             try {
                 MyIntent.sendIntent(activity, editText);
             } catch (Exception exception) {
                 exception.printStackTrace();
-                showSnackbar("");
+                showSnackbar("null");
             }
         } else {
             showSnackbar(MySnackbarNoteMessage.MSG_NOTE_IS_EMPTY);
         }
-    }
-
-    public void showSnackbar(String message) {
-        activity.getMySnackbarNoteMessage().show(false, message);
     }
 
     public void showBottomSheet() {
@@ -170,7 +195,15 @@ public class BottomSheetHelper {
         sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
-    public boolean visibleBottomSheet() {
-        return sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED;
+    public boolean isVisibleBottomSheet() {
+        boolean isVisible = false;
+
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_SETTLING) {
+            isVisible = true;
+        } else if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            isVisible = true;
+        }
+
+        return isVisible;
     }
 }

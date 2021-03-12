@@ -12,7 +12,6 @@ public class NoteDbSchema {
         public static final class Columns {
             // Notes Table - column name
             public static final String ID = "_id";
-            public static final String UUID = "uuid";
             public static final String COLUMN_TITLE = "title";
             public static final String COLUMN_DATE = "date";
             public static final String COLUMN_FAVORITES = "favorites";

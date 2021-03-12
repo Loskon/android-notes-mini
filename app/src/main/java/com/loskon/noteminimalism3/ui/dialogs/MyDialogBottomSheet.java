@@ -81,7 +81,7 @@ public class MyDialogBottomSheet extends BottomSheetDialogFragment {
             } else if (menuId == R.id.nav_item_trash) {
                 selNotesCategory = 2;
             } else if (menuId == R.id.nav_item_settings) {
-                MyIntent.OpenSettings(requireContext());
+                MyIntent.openSettings(requireContext());
             }
 
             MySharedPref.setInt(requireContext(), MyPrefKey.KEY_NOTES_CATEGORY, selNotesCategory);

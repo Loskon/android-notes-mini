@@ -20,8 +20,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_sd"
-            android:layout_width="@dimen/box_size"
-            android:layout_height="@dimen/box_size"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -29,12 +29,12 @@
             app:icon="@drawable/round_drive_folder_upload_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/bottomAppBarColor" />
+            app:iconTint="?attr/colorAppBar" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_restore_sd"
-            android:layout_width="@dimen/box_size"
-            android:layout_height="@dimen/box_size"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -42,7 +42,7 @@
             app:icon="@drawable/round_download_for_offline_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/bottomAppBarColor" />
+            app:iconTint="?attr/colorAppBar" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,8 +58,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_cloud"
-            android:layout_width="@dimen/box_size"
-            android:layout_height="@dimen/box_size"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -67,12 +67,12 @@
             app:icon="@drawable/baseline_cloud_upload_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/bottomAppBarColor" />
+            app:iconTint="?attr/colorAppBar" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_restore_cloud"
-            android:layout_width="@dimen/box_size"
-            android:layout_height="@dimen/box_size"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -80,7 +80,7 @@
             app:icon="@drawable/baseline_cloud_download_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/bottomAppBarColor" />
+            app:iconTint="?attr/colorAppBar" />
     </LinearLayout>
 
     <ImageView
@@ -90,7 +90,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cstLytBarBackup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="?attr/shadowImitationColor" />
+        app:srcCompat="?attr/colorShadow" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cstLytBarBackup"
@@ -115,8 +115,8 @@
                 android:layout_height="@dimen/height_for_bottom_app_bar"
                 android:layout_gravity="bottom"
                 app:menu="@menu/menu_for_bar_backup"
-                android:backgroundTint="?attr/bottomAppBarColor"
-                app:backgroundTint="?attr/bottomAppBarColor"
+                android:backgroundTint="?attr/colorAppBar"
+                app:backgroundTint="?attr/colorAppBar"
                 app:elevation="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:navigationIcon="@drawable/baseline_navigate_before_black_24" />

@@ -36,12 +36,12 @@ public class MyDialogFontSize{
 
         textView = alertDialog.findViewById(R.id.txt_size_note);
         slider = alertDialog.findViewById(R.id.slider_font_size_note);
-        Button btnOk = alertDialog.findViewById(R.id.btn_ok_size_note);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_ok_size_note);
         Button btnReset = alertDialog.findViewById(R.id.btn_reset_size_note);
 
-        int color = MyColor.getColorCustom(activity);
-        btnOk.setBackgroundColor(color);
-        btnReset.setTextColor(color);
+        int color = MyColor.getMyColor(activity);
+        btnCancel.setTextColor(color);
+        btnReset.setBackgroundColor(color);
         MyColor.setColorSlider(activity, slider);
 
         fontSizeNote = GetSharedPref.getFontSizeNote(activity);
@@ -54,7 +54,7 @@ public class MyDialogFontSize{
             setSharedPref(fontSizeNote);
         });
 
-        btnOk.setOnClickListener(view -> alertDialog.dismiss());
+        btnCancel.setOnClickListener(view -> alertDialog.dismiss());
 
         btnReset.setOnClickListener(view -> {
             int size = 18;

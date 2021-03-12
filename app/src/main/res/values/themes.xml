@@ -12,50 +12,49 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/black</item>
+
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/roboto_light</item>
         <item name="android:overScrollMode">never</item>
 
-        <item name="titleTextColor">@color/black</item>
-        <item name="dateTextColor">@android:color/darker_gray</item>
-        <item name="bottomAppBarColor">@color/white</item>
-        <item name="iconFabColor">@color/white</item>
-        <item name="cardViewColor">@color/white</item>
-        <item name="bottomSheetColor">@color/white</item>
-        <item name="borderStroke">@color/black</item>
-        <item name="reverseTitleTextColor">@color/white</item>
-        <item name="backgroundSnackbar">@color/snackbar_background_light</item>
-        <item name="textColorOkDialog">@color/white</item>
-        <item name="shadowImitationColor">@android:color/darker_gray</item>
-        <item name="buttonIconColor">@android:color/white</item>
-        <item name="switchBackgroundColor">@android:color/white</item>
+        <!-- My custom colors for items -->
+        <item name="colorTitle">@color/black</item>
+        <item name="colorDate">@android:color/darker_gray</item>
+        <item name="colorAppBar">@color/white</item>
+        <item name="colorFabIcon">@color/white</item>
+        <item name="colorCardView">@color/white</item>
+        <item name="colorBottomSheet">@color/white</item>
+        <item name="colorBorderStroke">@color/black</item>
+        <item name="colorTitleReverse">@color/white</item>
+        <item name="colorSnackbar">@color/snackbar_background_light</item>
+        <item name="colorOkDialog">@color/white</item>
+        <item name="colorShadow">@android:color/darker_gray</item>
+        <item name="colorButtonIcon">@android:color/white</item>
+        <item name="colorSwitchBackground">@android:color/white</item>
+
+        <!-- My custom drawable for items -->
+        <item name="drawableSearchView">@drawable/bg_round_search_light</item>
 
         <!-- Window background -->
         <item name="android:windowBackground">@color/white</item>
         <item name="android:colorBackground">@color/white</item>
 
-        <!-- set cursor color -->
+        <!-- Cursor EditText color -->
         <item name="colorControlActivated">@android:color/darker_gray</item>
-        <!-- set highlight color -->
+        <!-- EditText highlight color -->
         <item name="android:textColorHighlight">#80A9A9A9</item>
 
-        <item name="bg_search_view">@drawable/bg_round_search_light</item>
-        <item name="closeIcon">@color/color_default_light_blue</item>
-
+        <!-- Disable Multi-touch -->
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
     </style>
 
 
-    <style name="ShapeAppearance.YourApp.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">12dp</item>
-    </style>
-
-
-        <!-- MaterialAlertDialog -->
+    <!-- MaterialAlertDialog -->
     <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded
+        </item>
         <item name="colorSurface">@android:color/white</item>
     </style>
 
@@ -64,27 +63,14 @@
     </style>
 
 
-
-    <style name="roundedCornersImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
+    <!-- TextInputLayout -->
+    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlActivated">@android:color/darker_gray</item>
+        <item name="colorOnSurface">@color/gray</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
-        <item name="cornerFamily">cut</item>
-        <item name="cornerSize">10%</item>
-    </style>
 
-    <!--Диалог с прозрачным фоном-->
-    <style name="customDialog" parent="android:Theme.Dialog">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
-    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-    </style>
-
+    <!-- Style -->
     <!-- set the rounded drawable as background to your bottom sheet -->
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
@@ -95,20 +81,14 @@
         <item name="bottomSheetStyle">@style/BottomSheet</item>
     </style>
 
-    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlActivated">@android:color/darker_gray</item>
-        <item name="colorOnSurface">@color/gray</item>
-    </style>
-
-    <style name="transparent_theme">
-        <item name="colorControlHighlight">@android:color/transparent</item>
-        <item name="colorControlActivated">@android:color/transparent</item>
-    </style>
-
-
+    <!-- AuthenticationTheme -->
     <style name="AuthenticationTheme" parent="FirebaseUI">
         <item name="colorControlActivated">@android:color/darker_gray</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <!-- BottomSheetDialogTheme -->
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>

@@ -61,7 +61,7 @@ public class BackupPath {
     }
 
 
-    public static String getSummary(Context context) {
+    public static String getSummaryPath(Context context) {
         // Путь для Summary в виде текста
         String summary = getPath(context);
         summary = summary.replace("//", "/");

@@ -9,16 +9,10 @@
             app:key="1" />
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
-    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
-        android:title="@string/reset_font_size_header"
-        app:iconSpaceReserved="false">
-
-        <Preference
-            android:title="@string/reset_title"
-            app:iconSpaceReserved="false"
-            app:key="@string/reset_title" />
-    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
-
+    <Preference
+        android:title="@string/reset_title"
+        app:iconSpaceReserved="false"
+        app:key="@string/reset_title" />
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
         app:title="@string/theme_color_header">
@@ -37,7 +31,7 @@
     </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
-        android:title="@string/other_app_title"
+        android:title="@string/other_app_header"
         app:iconSpaceReserved="false">
         <com.loskon.noteminimalism3.ui.preference.MyPrefSwitch
             android:key="@string/one_size_title"

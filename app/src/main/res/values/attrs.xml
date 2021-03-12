@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- color -->
-    <attr name="bottomAppBarColor" format="color"/>
-    <attr name="iconFabColor" format="color"/>
-    <attr name="cardViewColor" format="color"/>
-    <attr name="titleTextColor" format="color"/>
-    <attr name="dateTextColor" format="color"/>
-    <attr name="bottomSheetColor" format="color"/>
-    <attr name="borderStroke" format="color"/>
-    <attr name="reverseTitleTextColor" format="color"/>
-    <attr name="backgroundSnackbar" format="color"/>
-    <attr name="textColorOkDialog" format="color"/>
-    <attr name="shadowImitationColor" format="color"/>
-    <attr name="buttonIconColor" format="color"/>
-    <attr name="switchBackgroundColor" format="color"/>
+    <attr name="colorAppBar" format="color"/>
+    <attr name="colorFabIcon" format="color"/>
+    <attr name="colorCardView" format="color"/>
+    <attr name="colorTitle" format="color"/>
+    <attr name="colorDate" format="color"/>
+    <attr name="colorBottomSheet" format="color"/>
+    <attr name="colorBorderStroke" format="color"/>
+    <attr name="colorTitleReverse" format="color"/>
+    <attr name="colorSnackbar" format="color"/>
+    <attr name="colorOkDialog" format="color"/>
+    <attr name="colorShadow" format="color"/>
+    <attr name="colorButtonIcon" format="color"/>
+    <attr name="colorSwitchBackground" format="color"/>
 
     <!-- reference -->
-    <attr name="bg_search_view" format="reference"/>
+    <attr name="drawableSearchView" format="reference"/>
 </resources>

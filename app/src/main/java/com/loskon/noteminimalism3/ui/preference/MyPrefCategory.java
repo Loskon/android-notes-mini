@@ -32,6 +32,6 @@ public class MyPrefCategory extends PreferenceCategory {
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         TextView titleView = (TextView) holder.findViewById(android.R.id.title);
-        titleView.setTextColor(MyColor.getColorCustom(getContext()));
+        titleView.setTextColor(MyColor.getMyColor(getContext()));
     }
 }

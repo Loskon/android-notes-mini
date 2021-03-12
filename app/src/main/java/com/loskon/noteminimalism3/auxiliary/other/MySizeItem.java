@@ -10,10 +10,6 @@ import com.loskon.noteminimalism3.R;
 
 public class MySizeItem {
 
-    public static int getHeightItem(Context context) {
-        return (int) context.getResources().getDimension(R.dimen.height_item);
-    }
-
     public static int getRadiusLinLay(Context context) {
         return (int) context.getResources().getDimension(R.dimen.corner_radius);
     }
@@ -22,8 +18,8 @@ public class MySizeItem {
         return (int) context.getResources().getDimension(R.dimen.border_stroke);
     }
 
-    public static int getBorder(Context context) {
-        return (int) context.getResources().getDimension(R.dimen.border);
+    public static int getBorderWidghtSwitch(Context context) {
+        return (int) context.getResources().getDimension(R.dimen.border_width_switch);
     }
 
     public static int getSizeRefresh(Context context) {

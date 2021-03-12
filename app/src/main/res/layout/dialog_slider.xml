@@ -13,7 +13,7 @@
         android:gravity="center"
         android:maxLines="2"
         android:text="TextView"
-        android:textColor="?attr/titleTextColor"
+        android:textColor="?attr/colorTitle"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@android:string/ok"
-        android:textColor="?attr/textColorOkDialog"
+        android:textColor="?attr/colorOkDialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -64,6 +64,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slider_range"
-        app:rippleColor="@android:color/transparent" />
+        app:rippleColor="?attr/colorControlHighlight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

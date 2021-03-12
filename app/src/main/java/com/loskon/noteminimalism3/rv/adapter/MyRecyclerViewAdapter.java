@@ -1,4 +1,4 @@
- package com.loskon.noteminimalism3.rv.adapter;
+package com.loskon.noteminimalism3.rv.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
@@ -23,7 +22,7 @@ import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.other.MySizeItem;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.rv.CallbackDelMode;
+import com.loskon.noteminimalism3.rv.other.CallbackDelMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,7 +30,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- *
+ * Отображение элементов списка, обработка удаления, выделения и фильтр поиска
  */
 
 public class MyRecyclerViewAdapter extends
@@ -41,60 +40,60 @@ public class MyRecyclerViewAdapter extends
 
     private List<Note> notes;
     private final ArrayList<Note> toSearchList;
-    private final ArrayList <Note> toRemoveList = new ArrayList<>();
+    private final ArrayList<Note> toRemoveList = new ArrayList<>();
     protected Stack<View> cachedViews = new Stack<>();
     private final Context context;
 
-    private boolean isSelectionModeOn;
-    private final boolean isOneSizeOn;
-    private boolean isTypeNotesSingleOn;
-    private boolean isSearchOn;
+    private boolean isSelectionMode;
+    private boolean isOneSize;
+    private boolean isTypeNotesSingle;
+    private boolean isSearchMode;
 
-    private int colorStroke, border, radius;
-    private int radius_dp;
-    private int stoke_dp;
-    private final int selNotesCategory; // Выбранный режим заметок
-    private final int numOfLines;
+    private int colorStroke, borderStroke, radiusStroke;
+    private int radiusStroke_dp, boredStroke_dp;
+    private int selNotesCategory;
+    private int numOfLines;
     private int numSelItem;
-    private final int fontSize;
-    private final int dateFontSize;
-    private final int color;
+    private int fontSize, dateFontSize;
+    private int color;
 
     @SuppressWarnings("FieldCanBeLocal")
     private final int NUM_CACHED_VIEWS = 6;
 
-    private CallbackDelMode callbackDelMode; // Поле слушателя для обратного вызова
+    private CallbackDelMode callbackDelMode;
 
     // setting the listener
-    public void setCallbackDelMode(CallbackDelMode callbackDelMode)    {
+    public void regCallbackDelMode(CallbackDelMode callbackDelMode) {
         this.callbackDelMode = callbackDelMode;
     }
 
-    public MyRecyclerViewAdapter(Context context, List<Note> notes, DbAdapter dbAdapter,
-                                 int selNotesCategory, boolean isSelectionModeOn,
-                                 boolean isTypeNotesSingleOn, int numOfLines, boolean isOneSizeOn,
-                                 int fontSize, int dateFontSize, int color) {
+    public MyRecyclerViewAdapter(Context context, List<Note> notes, DbAdapter dbAdapter) {
         this.context = context;
         this.notes = notes;
         this.dbAdapter = dbAdapter;
-        this.selNotesCategory = selNotesCategory;
-        this.isSelectionModeOn = isSelectionModeOn;
-        this.isTypeNotesSingleOn = isTypeNotesSingleOn;
-        this.numOfLines = numOfLines;
-        this.isOneSizeOn = isOneSizeOn;
-        this.fontSize = fontSize;
-        this.dateFontSize = dateFontSize;
-        this.color = color;
         toSearchList = (ArrayList<Note>) notes;
     }
 
-    private void initSettings() {
-        radius_dp = MySizeItem.getRadiusLinLay(context);
-        stoke_dp = MySizeItem.getStrokeLinLay(context);
+    public void initSettings(int selNotesCategory, boolean isSelectionMode,
+                             boolean isTypeNotesSingle, int numOfLines, boolean isOneSize,
+                             int fontSize, int dateFontSize, int color) {
+        this.selNotesCategory = selNotesCategory;
+        this.isSelectionMode = isSelectionMode;
+        this.isTypeNotesSingle = isTypeNotesSingle;
+        this.numOfLines = numOfLines;
+        this.isOneSize = isOneSize;
+        this.fontSize = fontSize;
+        this.dateFontSize = dateFontSize;
+        this.color = color;
     }
 
-    public void setTypeOfNotes(boolean isTypeNotesSingleOn) {
-        this.isTypeNotesSingleOn = isTypeNotesSingleOn;
+    public void initStrokeInDp() {
+        radiusStroke_dp = MySizeItem.getRadiusLinLay(context);
+        boredStroke_dp = MySizeItem.getStrokeLinLay(context);
+    }
+
+    public void setTypeOfNotes(boolean isTypeNotesSingle) {
+        this.isTypeNotesSingle = isTypeNotesSingle;
     }
 
     @NonNull
@@ -108,29 +107,76 @@ public class MyRecyclerViewAdapter extends
         AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(parent.getContext());
         for (int i = 0; i < NUM_CACHED_VIEWS; i++) {
             asyncLayoutInflater.inflate(R.layout.card_view_notes,
-                     parent, inflateListener);
+                    parent, inflateListener);
         }
 
-        recyclerViewItem.setOnClickListener(v -> handleItemClick( (RecyclerView) parent, v));
+        recyclerViewItem.setOnClickListener(v -> handlerItemClick((RecyclerView) parent, v));
         recyclerViewItem.setOnLongClickListener(v -> {
-            handleItemLongClick( (RecyclerView) parent, v);
-            return  true;
+            handleItemLongClick((RecyclerView) parent, v);
+            return true;
         });
 
-        initSettings();
-
         //View recyclerViewItem;
-       // if (cachedViews.isEmpty()) {
-          //  recyclerViewItem = layoutInflater.inflate(R.layout.card_for_swipe_item_note6,
-                //    parent, false);
+        // if (cachedViews.isEmpty()) {
+        //  recyclerViewItem = layoutInflater.inflate(R.layout.card_for_swipe_item_note6,
+        //    parent, false);
         //} else {
-          //  recyclerViewItem = cachedViews.pop();
+        //  recyclerViewItem = cachedViews.pop();
         //}
         return new NoteViewHolder(recyclerViewItem);
     }
 
     private final AsyncLayoutInflater.OnInflateFinishedListener inflateListener =
             (view, resId, parent) -> cachedViews.push(view);
+
+    private void handlerItemClick(RecyclerView recyclerView, View itemView) {
+        int position = recyclerView.getChildLayoutPosition(itemView);
+        Note note = notes.get(position);
+
+        if (isSelectionMode) {
+            methodItemSelection(note, position);
+        } else {
+            MyIntent.openNote(context, selNotesCategory, note.getId());
+        }
+    }
+
+    private void handleItemLongClick(RecyclerView recyclerView, View itemView) {
+        int position = recyclerView.getChildLayoutPosition(itemView);
+        Note note = notes.get(position);
+
+        if (!isSelectionMode) goDeleteMode();
+        methodItemSelection(note, position);
+    }
+
+    private void goDeleteMode() {
+        isSelectionMode = true;
+        numSelItem = 0;
+        callbackDelMode.onCallBackSelMode(true);
+    }
+
+    private void methodItemSelection(Note note, int position) {
+
+        if (note.getSelectItemForDel()) {
+            numSelItem--;
+            removeItemFromRemoveList(note);
+        } else {
+            numSelItem++;
+            addItemInRemoveList(note);
+        }
+
+        checkSelectAll();
+        notifyItemChanged(position);
+    }
+
+    private void removeItemFromRemoveList(Note note) {
+        note.setSelectItemForDel(false);
+        toRemoveList.remove(note);
+    }
+
+    private void addItemInRemoveList(Note note) {
+        note.setSelectItemForDel(true);
+        toRemoveList.add(note);
+    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -149,8 +195,8 @@ public class MyRecyclerViewAdapter extends
 
             holder.title.setMaxLines(numOfLines);
 
-            if (!isTypeNotesSingleOn || !isOneSizeOn) {
-                if (isOneSizeOn) {
+            if (!isTypeNotesSingle || !isOneSize) {
+                if (isOneSize) {
                     holder.title.setMinLines(numOfLines);
                 }
             } else {
@@ -166,21 +212,14 @@ public class MyRecyclerViewAdapter extends
             }
 
             if (note.getSelectItemForDel()) {
-                varForGradientDrawable(radius_dp, stoke_dp, color);
+                varForGradientDrawable(radiusStroke_dp, boredStroke_dp, color);
             } else {
                 varForGradientDrawable(0, 0, Color.TRANSPARENT);
             }
 
-            // Сброс всех выделенных переменных
-            if (!isSelectionModeOn) {
-                note.setSelectItemForDel(false);
-                varForGradientDrawable(0, 0, Color.TRANSPARENT);
-            }
-
-            gradientDrawable.setCornerRadius(radius);
-            gradientDrawable.setStroke(border, colorStroke);
+            gradientDrawable.setCornerRadius(radiusStroke);
+            gradientDrawable.setStroke(borderStroke, colorStroke);
             holder.linearLayoutCard.setBackground(gradientDrawable);
-
         }
     }
 
@@ -189,203 +228,153 @@ public class MyRecyclerViewAdapter extends
         return notes.size();
     }
 
-    private void methodItemSelection(Note note, int position) {
-
-        if (note.getSelectItemForDel()) {
-            numSelItem--;
-            removeItemFromRemoveList(note);
-        } else {
-            numSelItem++;
-            addItemInRemoveList(note);
-        }
-
-        checkSelectAll();
-        notifyItemChanged(position);
-    }
-
-    private void varForGradientDrawable(int radius, int border, int colorStroke) {
-        this.radius = radius;
-        this.border = border;
-        this.colorStroke = colorStroke;
-    }
-
-    private void handleItemClick(RecyclerView recyclerView, View itemView) {
-        int position = recyclerView.getChildLayoutPosition(itemView);
-        Note note  = notes.get(position);
-
-        if (note != null) {
-            if (isSelectionModeOn) {
-                methodItemSelection(note, position);
-            } else {
-                MyIntent.OpenNote(context, selNotesCategory, note.getId());
-            }
-        }
-    }
-
-    private void handleItemLongClick(RecyclerView recyclerView, View itemView) {
-        int position = recyclerView.getChildLayoutPosition(itemView);
-        Note note = notes.get(position);
-
-        if (note != null) {
-            if (!isSelectionModeOn) {
-                isSelectionModeOn = true;
-                numSelItem = 0;
-                if (callbackDelMode != null) {
-                    callbackDelMode.onCallbackSelMode(true);
-                }
-            }
-            methodItemSelection(note, position);
-        }
-    }
-
-    public void deleteSelectedItems(boolean isDelete) {
-        isSelectionModeOn = false;
-
-        try {
-
-        if (isDelete) {
-            // Удаление
-            dbAdapter.open();
-            for (Note note : toRemoveList) {
-                if (selNotesCategory == 2) {
-                    dbAdapter.deleteNote(note.getId());
-                } else {
-                    note.setFavoritesItem(false);
-                    dbAdapter.updateFavorites(note, false);
-                    dbAdapter.updateSelectItemForDel(note, true, note.getDate(), new Date());
-                }
-            }
-            dbAdapter.close();
-            notes.removeAll(toRemoveList);
-            if (isSearchOn) toSearchList.removeAll(toRemoveList);
-        }
-
-        for (Note note : toRemoveList) {
-            note.setSelectItemForDel(false);
-        }
-
-        toRemoveList.clear();
-        notifyDataSetChanged();
-
-        } catch (Exception e) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
-    public void resetItem (Note note, int position) {
-        try {
-            dbAdapter.open();
-            dbAdapter.updateSelectItemForDel(note, false, note.getDate(), new Date());
-            dbAdapter.close();
-
-            notes.add(position, note);
-            if (isSearchOn) toSearchList.add(position, note);
-            //notifyItemInserted(position);
-            notifyDataSetChanged();
-
-        } catch (Exception e) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteItem(Note note, int position) {
-        try {
-            dbAdapter.open();
-            if (selNotesCategory == 2) {
-                dbAdapter.deleteNote(note.getId());
-            } else {
-                note.setSelectItemForDel(true);
-                dbAdapter.updateSelectItemForDel(note, true, note.getDate(), new Date());
-                dbAdapter.updateFavorites(note, false);
-            }
-            dbAdapter.close();
-
-            notes.remove(position);
-            if (isSearchOn) toSearchList.remove(position);
-            notifyItemRemoved(position);
-
-        } catch (Exception e) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList <Note> getNotes() {
+    public ArrayList<Note> getNotes() {
         return (ArrayList<Note>) notes;
     }
 
-    public void selectItems() {
-        toRemoveList.clear(); // Очистка от уже добавленных элементов
+    private void varForGradientDrawable(int radius, int border, int colorStroke) {
+        this.radiusStroke = radius;
+        this.borderStroke = border;
+        this.colorStroke = colorStroke;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public void onExitFromDeleteMode(boolean isDelete) {
+        isSelectionMode = false;
+
+        if (isDelete) deleteSelectedItems();
+        for (Note note : toRemoveList) note.setSelectItemForDel(false);
+
+        toRemoveList.clear();
+        notifyDataSetChanged();
+    }
+
+    private void deleteSelectedItems() {
+        for (Note note : toRemoveList) selectingDeletionMethod(note);
+
+        notes.removeAll(toRemoveList);
+        if (isSearchMode) toSearchList.removeAll(toRemoveList);
+    }
+
+    private void selectingDeletionMethod(Note note) {
+        dbAdapter.open();
+
+        if (selNotesCategory == 2) {
+            dbAdapter.deleteNote(note.getId());
+        } else {
+            sendToTrash(note);
+        }
+
+        dbAdapter.close();
+    }
+
+    private void sendToTrash(Note note) {
+        note.setFavoritesItem(false);
+        dbAdapter.updateFavorites(note, false);
+        dbAdapter.updateSelectItemForDel(note, true, note.getDate(), new Date());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public void onResetItem(Note note, int position) {
+        dbAdapter.open();
+        dbAdapter.updateSelectItemForDel(note, false, note.getDate(), new Date());
+        dbAdapter.close();
+
+        notes.add(position, note);
+        if (isSearchMode) toSearchList.add(position, note);
+
+        notifyDataSetChanged();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public void onDeleteItem(Note note, int position) {
+        selectingDeletionMethod(note);
+
+        notes.remove(position);
+        if (isSearchMode) toSearchList.remove(position);
+
+        notifyItemRemoved(position);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public void onSelectAllItems() {
+        toRemoveList.clear();
 
         if (numSelItem == getItemCount()) {
-            numSelItem = 0;
-            for (Note note : notes) {
-                removeItemFromRemoveList(note);
-            }
+            resetSelection();
         } else {
-            numSelItem = getItemCount();
-            for (Note note : notes) {
-                addItemInRemoveList(note);
-            }
+            selectAllItems();
         }
 
         checkSelectAll();
         notifyDataSetChanged();
     }
 
-    public void unificationItems() {
-        StringBuilder sb = new StringBuilder();
-            for (Note note : toRemoveList) {
-
-                if (note != toRemoveList.get(toRemoveList.size() - 1)) {
-                    sb.append(note.getTitle()).append("\n\n");
-                } else {
-                    sb.append(note.getTitle());
-                }
-
-                if (note != toRemoveList.get(0)) {
-                    dbAdapter.open();
-                    dbAdapter.deleteNote(note.getId());
-                    dbAdapter.close();
-                }
-
-            }
-
-        Note note = toRemoveList.get(0);
-        note.setSelectItemForDel(false);
-        note.setTitle(String.valueOf(sb));
-        note.setDate((new Date()));
-
-        dbAdapter.open();
-        dbAdapter.updateTitle(note, String.valueOf(sb));
-        dbAdapter.close();
-
-        toRemoveList.remove(note);
-        notes.removeAll(toRemoveList);
-        toRemoveList.clear();
-        notifyDataSetChanged();
-        callbackDelMode.onCallbackUni();
+    private void resetSelection() {
+        // Сбросить выделение со всех элементов
+        numSelItem = 0;
+        for (Note note : notes) removeItemFromRemoveList(note);
     }
 
-    private void addItemInRemoveList(Note note) {
-        note.setSelectItemForDel(true);
-        toRemoveList.add(note);
-    }
-
-    private void removeItemFromRemoveList(Note note) {
-        note.setSelectItemForDel(false);
-        toRemoveList.remove(note);
+    private void selectAllItems() {
+        // Выделить все элементы
+        numSelItem = getItemCount();
+        for (Note note : notes) addItemInRemoveList(note);
     }
 
     private void checkSelectAll() {
-        if (callbackDelMode != null) {
-            callbackDelMode.onCallbackSelOne(numSelItem == getItemCount());
-            callbackDelMode.onCallbackNumSel(numSelItem);
+        callbackDelMode.onCallBackNotAllSelected(numSelItem == getItemCount());
+        callbackDelMode.onCallBackNumSel(numSelItem);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public void onUnificationItems() {
+        StringBuilder stringBuilder = new StringBuilder();
+        String title = null;
+
+        for (Note note : toRemoveList) {
+            title = combineTitle(note, stringBuilder);
+            deleteUnnecessaryItems(note);
+        }
+
+        Note note = toRemoveList.get(0);
+        updateTitle(note, title);
+        toRemoveList.remove(note);
+
+        notes.removeAll(toRemoveList);
+        toRemoveList.clear();
+
+        callbackDelMode.onCallBackUni();
+    }
+
+    private String combineTitle(Note note, StringBuilder stringBuilder) {
+        // Объединение текста
+        if (note != toRemoveList.get(toRemoveList.size() - 1)) {
+            stringBuilder.append(note.getTitle()).append("\n\n");
+        } else {
+            stringBuilder.append(note.getTitle());
+        }
+
+        return String.valueOf(stringBuilder);
+    }
+
+    private void deleteUnnecessaryItems(Note note) {
+        // Удаление лишних заметок
+        if (note != toRemoveList.get(0)) {
+            dbAdapter.open();
+            dbAdapter.deleteNote(note.getId());
+            dbAdapter.close();
         }
     }
 
+    private void updateTitle(Note note, String title) {
+        // Обновить текст заметки
+        dbAdapter.open();
+        dbAdapter.updateTitle(note, title);
+        dbAdapter.close();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -395,10 +384,10 @@ public class MyRecyclerViewAdapter extends
                 String charString = charSequence.toString();
 
                 if (charString.isEmpty()) {
-                    isSearchOn = false;
+                    isSearchMode = false;
                     notes = toSearchList;
                 } else {
-                    isSearchOn = true;
+                    isSearchMode = true;
                     ArrayList<Note> filteredList = new ArrayList<>();
 
                     for (Note note : toSearchList) {
@@ -419,6 +408,7 @@ public class MyRecyclerViewAdapter extends
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 notes = (ArrayList<Note>) filterResults.values;
                 notifyDataSetChanged();
-                }
-        };}
+            }
+        };
+    }
 }

@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.widget.EditText;
 
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.rv.CustomMovementMethod;
+import com.loskon.noteminimalism3.rv.other.CustomMovementMethod;
 import com.loskon.noteminimalism3.ui.activity.NoteActivity;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogLinks;
 
@@ -24,7 +24,7 @@ public class NoteHelperLinks {
 
     public void setLinks() {
         editText.setAutoLinkMask(getTypeLinks());
-        setColorLinks(MyColor.getColorCustom(activity));
+        setColorLinks(MyColor.getMyColor(activity));
 
         editText.setMovementMethod(new CustomMovementMethod() {
             @Override

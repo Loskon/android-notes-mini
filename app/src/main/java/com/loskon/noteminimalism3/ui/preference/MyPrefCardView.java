@@ -75,15 +75,15 @@ public class MyPrefCardView extends Preference implements MySettingsAppFragment.
     }
 
     private void initialiseWidgets() {
-        txtFontSize.setText(getContext().getString(R.string.font_size_change));
-        txtDateFontSize.setText(getContext().getString(R.string.date_cards));
+        txtFontSize.setText(getContext().getString(R.string.title_card_view));
+        txtDateFontSize.setText(getContext().getString(R.string.date_card_view));
 
         sliderFontSize.setValue(fontSize);
         txtFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
         txtDateFontSize.setTextSize(TypedValue
                 .COMPLEX_UNIT_SP, PrefHelper.getDateFontSize(fontSize));
 
-        int color = MyColor.getColorCustom(getContext());
+        int color = MyColor.getMyColor(getContext());
         changeColor(color);
 
         MyDialogColor.regCallBackSettingsApp(this::changeColor);

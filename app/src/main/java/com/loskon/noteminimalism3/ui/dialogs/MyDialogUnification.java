@@ -31,7 +31,7 @@ public class MyDialogUnification {
         assert btnOk != null;
         assert btnCancel != null;
 
-        int color = MyColor.getColorCustom(mainActivity);
+        int color = MyColor.getMyColor(mainActivity);
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
 

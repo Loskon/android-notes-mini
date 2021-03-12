@@ -37,7 +37,7 @@ public class MyDialogPrefLinks {
         checkBoxPhone = alertDialog.findViewById(R.id.checkBoxPhone);
         Button btnOk = alertDialog.findViewById(R.id.dialog_btn_ok);
 
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         checkBoxWeb.setButtonTintList(ColorStateList.valueOf(color));
         checkBoxMail.setButtonTintList(ColorStateList.valueOf(color));
         checkBoxPhone.setButtonTintList(ColorStateList.valueOf(color));

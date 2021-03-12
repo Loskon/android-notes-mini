@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -127,7 +126,6 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         if (!PermissionsStorage.verify(activity, fragment, false)) {
             autoBackupSwitchPref.setChecked(false);
         }
-
     }
 
     private void initialiseSettings() {
@@ -145,7 +143,6 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         callDialogHyperlinksStr = getString(R.string.hyperlinks_title);
         retentionStr = getString(R.string.retention_trash_title);
         fontSizeStr = getString(R.string.font_size_notes_title);
-        //updateDateStr = getString(R.string.update_date_title);
         communicationStr = getString(R.string.communication_title);
     }
 
@@ -159,7 +156,6 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         callDialogHyperlinksPref = findPreference(callDialogHyperlinksStr);
         retentionPref = findPreference(retentionStr);
         fontSizePref = findPreference(fontSizeStr);
-        //updateDatePref = findPreference(updateDateStr);
         communicationPref = findPreference(communicationStr);
     }
 
@@ -183,22 +179,14 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private void setSummaryPreferences() {
         loadSharedPref();
-        setSummaryNum(numOfBackupPref, numOfBackupStr, numOfBackup);
-        setSummaryNum(retentionPref, retentionStr, rangeInDays);
-        setSummaryFolder();
+        retentionPref.setSummary(PrefHelper.getSummaryRange(activity, rangeInDays));
+        numOfBackupPref.setSummary(String.valueOf(numOfBackup));
+        intentFolderPref.setSummary(BackupPath.getSummaryPath(activity));
     }
 
     private void loadSharedPref() {
         numOfBackup = GetSharedPref.getNumOfBackup(activity);
         rangeInDays = GetSharedPref.getRangeInDays(activity);
-    }
-
-    private void setSummaryNum(Preference pref, String prefString, int prefValue) {
-        pref.setSummary(PrefHelper.getPrefSummary(activity, prefString, prefValue));
-    }
-
-    private void setSummaryFolder() {
-        intentFolderPref.setSummary(BackupPath.getSummary(activity));
     }
 
     @Override
@@ -225,10 +213,10 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         prefKey = key;
 
         if (key.equals(customizeAppString)) {
-            MyIntent.SettingsApp(activity);
+            MyIntent.openSettingsApp(activity);
             return true;
         } else if (key.equals(intentBackupString)) {
-            MyIntent.BackupActivity(activity);
+            MyIntent.openBackupActivity(activity);
             return true;
         } else if (key.equals(intentFolderString)) {
             goFindFolder();
@@ -249,11 +237,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
             (new MyDialogFontSize(activity)).call();
             return true;
         } else if (key.equals(communicationStr)) {
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:"));
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"andreyrochev23@gmail.com"});
-            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback));
-            startActivity(intent);
+            MyIntent.startMailClient(activity);
             return true;
         }
 
@@ -262,20 +246,23 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private void goFindFolder() {
         if (PermissionsStorage.verify(activity, fragment, true)) {
-            MyIntent.openFindFolder(fragment);
+            MyIntent.startFindFolder(fragment);
         }
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == REQUEST_CODE_READ && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
-                String backupPath = BackupPath.findFullPath(resultData.getData().getPath());
-                MySharedPref.setString(activity, MyPrefKey.KEY_SEL_DIRECTORY, backupPath);
-                setSummaryFolder();
+                saveNewPath(resultData);
             }
         }
+    }
+
+    private void saveNewPath(Intent resultData) {
+        String backupPath = BackupPath.findFullPath(resultData.getData().getPath());
+        MySharedPref.setString(activity, MyPrefKey.KEY_SEL_DIRECTORY, backupPath);
+        setSummaryPreferences();
     }
 
     @Override
@@ -284,16 +271,11 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                if (prefKey.equals(intentFolderString)) {
-                    MyIntent.openFindFolder(fragment);
-                }
+                if (prefKey.equals(intentFolderString)) MyIntent.startFindFolder(fragment);
 
             } else {
 
-                if (prefKey.equals(autoBackupString)) {
-                    autoBackupSwitchPref.setChecked(false);
-                }
-
+                if (prefKey.equals(autoBackupString)) autoBackupSwitchPref.setChecked(false);
                 showSnackbar();
             }
         }

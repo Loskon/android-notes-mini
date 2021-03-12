@@ -60,7 +60,7 @@ public class MyDialogColor {
         Button btnCancel = alertDialog.findViewById(R.id.btn_color_picker_cancel);
         MaterialButton btnResetColor = alertDialog.findViewById(R.id.btn_reset_color_picker);
 
-        color = MyColor.getColorCustom(activity);
+        color = MyColor.getMyColor(activity);
         //boolean isDarkModeOn = MyColor.isDarkMode(activity);
         colorPickerView.addSVBar(svBar);
 
@@ -82,7 +82,7 @@ public class MyDialogColor {
                 String message = activity.getString(R.string.bad_idea);
                 MyToast.showToast(activity, message,false);
                 color = activity.getResources()
-                        .getColor(R.color.color_default_light_blue);
+                        .getColor(R.color.light_blue);
             }
 
             MySharedPref.setInt(activity, MyPrefKey.KEY_COLOR, color);
@@ -97,7 +97,7 @@ public class MyDialogColor {
 
         // Reset
         btnResetColor.setOnClickListener(view -> colorPickerView.setColor(activity
-                .getResources().getColor(R.color.color_default_light_blue)));
+                .getResources().getColor(R.color.light_blue)));
 
         // Cancel
         btnCancel.setOnClickListener(view -> alertDialog.dismiss());

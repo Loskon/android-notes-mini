@@ -61,7 +61,7 @@ public class MyDialogRestore {
         assert btnCancel != null;
         assert files != null;
 
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         btnCancel.setTextColor(color);
 
         //RestoreHelper.purgeLogFiles(files);

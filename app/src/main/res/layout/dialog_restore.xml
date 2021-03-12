@@ -12,7 +12,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="@string/dg_restore_title"
-        android:textColor="?attr/titleTextColor"
+        android:textColor="?attr/colorTitle"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/img_btn_remove_all"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-        app:rippleColor="@android:color/transparent" />
+        app:rippleColor="?attr/colorControlHighlight" />
 
     <ImageButton
         android:id="@+id/img_btn_remove_all"
@@ -71,7 +71,7 @@
         android:background="@android:color/transparent"
         android:paddingStart="9dp"
         android:paddingEnd="9dp"
-        android:tint="?attr/titleTextColor"
+        android:tint="?attr/colorTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_delete_outline_black_24" />

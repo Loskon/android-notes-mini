@@ -100,7 +100,7 @@ public class MyColor {
 
     public static void setColorSlider(Context context, Slider slider) {
         // Цвет Slider
-        int color = getColorCustom(context);
+        int color = getMyColor(context);
         slider.setThumbTintList(ColorStateList.valueOf(color));
         slider.setTrackActiveTintList(ColorStateList.valueOf(color));
         slider.setTickTintList(ColorStateList.valueOf(color));
@@ -115,7 +115,7 @@ public class MyColor {
             int color;
 
             if (isDarkMode(activity)) {
-                color = activity.getColor(R.color.dark_light);
+                color = activity.getColor(R.color.background_dark);
                 activity.getWindow().getDecorView().setSystemUiVisibility(0);
             } else {
                 color = Color.WHITE;
@@ -133,7 +133,7 @@ public class MyColor {
         int color;
 
         if (isDarkMode(activity)) {
-            color = activity.getResources().getColor(R.color.dark_light);
+            color = activity.getResources().getColor(R.color.background_dark);
         } else {
             color = Color.WHITE;
         }
@@ -148,7 +148,7 @@ public class MyColor {
                 Drawable drawable = menu.getItem(i).getIcon();
                 if (drawable != null) {
                     drawable.mutate();
-                    drawable.setColorFilter(getColorCustom(context), PorterDuff.Mode.SRC_ATOP);
+                    drawable.setColorFilter(getMyColor(context), PorterDuff.Mode.SRC_ATOP);
                 }
             }
         }
@@ -156,24 +156,24 @@ public class MyColor {
 
     public static void setColorFab(Context context, FloatingActionButton fab) {
         // Цвет FloatingActionButton
-        fab.setBackgroundTintList(ColorStateList.valueOf(getColorCustom(context)));
+        fab.setBackgroundTintList(ColorStateList.valueOf(getMyColor(context)));
     }
 
     public static void setColorMaterialBtn(Context context, MaterialButton materialBtn) {
         // Цвет MaterialButton
-        materialBtn.setIconTint(ColorStateList.valueOf(getColorCustom(context)));
+        materialBtn.setIconTint(ColorStateList.valueOf(getMyColor(context)));
     }
 
-    public static int getColorCustom(Context context) {
+    public static int getMyColor(Context context) {
         return MySharedPref.getInt(context,
                 MyPrefKey.KEY_COLOR, context.getResources()
-                        .getColor(R.color.color_default_light_blue));
+                        .getColor(R.color.light_blue));
     }
 
     public static void setNavMenuItemThemeColors(Activity activity,
                                                  NavigationView navigationView) {
         // Цвет MenuItem для NavigationView
-        int color = MyColor.getColorCustom(activity);
+        int color = MyColor.getMyColor(activity);
         int navDefaultTextColor = Color.BLACK;
         int navDefaultIconColor = Color.BLACK;
 
@@ -230,10 +230,10 @@ public class MyColor {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 appBar.getNavigationIcon()
                         .setColorFilter(new BlendModeColorFilter(
-                                getColorCustom(context), BlendMode.SRC_ATOP));
+                                getMyColor(context), BlendMode.SRC_ATOP));
             } else {
                 appBar.getNavigationIcon()
-                        .setColorFilter(getColorCustom(context), PorterDuff.Mode.SRC_ATOP);
+                        .setColorFilter(getMyColor(context), PorterDuff.Mode.SRC_ATOP);
             }
         }
     }

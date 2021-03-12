@@ -14,7 +14,7 @@
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:text="@string/dg_font_size_title"
-        android:textColor="?attr/titleTextColor"
+        android:textColor="?attr/colorTitle"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:maxLines="1"
-        android:text="@string/font_size_change"
+        android:text="@string/title_card_view"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,40 +53,40 @@
 
     <Button
         android:id="@+id/btn_ok_size_note"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@android:string/ok"
-        android:textColor="?attr/textColorOkDialog"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_reset_size_note" />
-
-    <Button
-        android:id="@+id/btn_reset_size_note"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/reset_title"
+        android:text="@string/bs_to_close"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/slider_font_size_note"
-        app:rippleColor="@android:color/transparent" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_reset_size_note"
+        app:rippleColor="?attr/colorControlHighlight" />
+
+    <Button
+        android:id="@+id/btn_reset_size_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/dg_font_size_reset"
+        android:textColor="?attr/colorOkDialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/slider_font_size_note" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.21" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,13 +15,12 @@ public class Note {
     private boolean selectItemForDel;
 
     public Note(long id, String title, Date date, Date dateDelete,
-                boolean favoritesItem, boolean selectItemForDel) {
+                boolean favoritesItem) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.dateDelete = dateDelete;
         this.favoritesItem = favoritesItem;
-        this.selectItemForDel = selectItemForDel;
     }
 
     public long getId() {

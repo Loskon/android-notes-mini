@@ -1,105 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hint_text">Текст</string>
-    <string name="bottom_sheet_to_close">Закрыть</string>
-    <string name="btn_backup_text">Бэкап</string>
-    <string name="btn_backup_cloud_text">Бэкап в Облако</string>
-    <string name="btn_restore_text">Восстановить</string>
-    <string name="btn_restore_cloud_text">Восстановить из Облака</string>
+    <!-- Activity -->
+    <!-- activity_main -->
+    <string name="empty_list">Пусто</string>
+    <string name="hint_search_text">Поиск</string>
+
+    <!-- activity_note -->
+    <string name="hint_note_text">Текст</string>
+
+    <!-- activity_settings -->
+    <string name="feedback">Обратная связь</string>
+
+    <!-- activity_settings_app -->
+    <string name="title_card_view">Привет, Мир!</string>
+    <string name="date_card_view">21.01.96 12:00</string>
+
+
+    <!-- Menu -->
+    <!-- menu for bottom app bar Main -->
     <string name="menu_main_switch">Сменить вид</string>
-    <string name="menu_main_search">Поиск</string>
-    <string name="menu_main_select">Выбрать</string>
-    <string name="menu_main_unification">Объединить</string>
+    <string name="menu_main_search">Искать</string>
+    <string name="menu_main_select">Выделить заметки</string>
+    <string name="menu_main_combine">Объединить заметки</string>
+
+    <!-- menu for nav drawer view -->
     <string name="navigation_note">Заметки</string>
     <string name="navigation_favorites">Избранное</string>
     <string name="navigation_trash">Корзина</string>
     <string name="navigation_settings">Настройки</string>
-    <string name="toast_main_auto_backup_completed">Авто бэкап успешен!</string>
-    <string name="toast_main_auto_backup_failed">Ошибка авто бэкапа!</string>
+
+    <!-- menu for bottom app bar Backup -->
+    <string name="menu_backup_settings">Настройки аккаунта</string>
+
+
+    <!-- Toast -->
+    <!-- Main -->
+    <string name="toast_main_auto_backup_completed">Авторезервирование прошло успешно!</string>
+    <string name="toast_main_auto_backup_failed">Ошибка авторезервирования!</string>
+
+
+    <!-- Snackbars -->
+    <!-- Main -->
     <string name="sb_main_add_trash">Заметка отправлена в корзину!</string>
+    <string name="sb_main_but_empty_trash">Но в корзине было пусто…</string>
+
+    <!-- Note -->
     <string name="sb_note_in_trash">Эта заметка находится в корзине!</string>
-    <string name="sb_note_is_empty">Ошибка! Эта заметка пустая!</string>
+    <string name="sb_note_is_empty">Ошибка! Заметка пустая!</string>
     <string name="sb_note_restore">Восстановить</string>
     <string name="sb_note_save_txt_completed">Скачать текстовый файл</string>
+    <string name="sb_note_save_txt_failed">Не удалось скачать текстовый файл!</string>
+    <string name="sb_note_invalid_link">Неверная ссылка!</string>
+    <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
+    <string name="sb_note_invalid_format">Неверный формат!</string>
+
+    <!-- Backup -->
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
-    <string name="sb_bp_text_no_folder">Папка резервного копирования отсутствует. Сделайте резервную копию перед восстановлением!</string>
-    <string name="sb_bp_completed">Бэкап успешен!</string>
-    <string name="sb_bp_failed">Невозможно создать резервную копию базы данных. Повторите попытку!</string>
-    <string name="sb_bp_restore_completed">Восстановление завершено!</string>
-    <string name="sb_bp_restore_failed">Невозможно восстановить базу данных. Повторите попытку!</string>
-    <string name="dg_bp_hint_text">Имя бэкапа на английском языке</string>
-    <string name="dg_bp_error">Введите имя</string>
+    <string name="sb_bp_text_no_folder">Папка резервного копирования отсутствует.
+        Сделайте резервную копию перед восстановлением!</string>
+    <string name="sb_bp_completed">Резервное копирование прошло успешно!</string>
+    <string name="sb_bp_failed">Невозможно создать резервную копию базы данных.
+        Повторите попытку!</string>
+    <string name="sb_bp_restore_completed">Восстановление прошло успешно!</string>
+    <string name="sb_bp_restore_failed">Ошибка восстановления. Повторите попытку!</string>
+    <string name="sb_bp_logged_account">Вы вышли из учетной записи</string>
+    <string name="sb_bp_no_internet">Нет интернет-соединения</string>
+    <string name="sb_bp_sign_in_failed">Не удалось войти в учетную запись</string>
+    <string name="sb_bp_del_acc">Данные удалены из облака!</string>
+    <string name="sb_bp_problem_internet">Проблемы с интернет-соединением!</string>
+
+
+    <!-- Dialog -->
+    <!-- dialog_backup -->
+    <string name="dg_bp_hint_text">Название на английском языке</string>
+    <string name="dg_bp_error">Введите название!</string>
+
+    <!-- dialog_restore -->
     <string name="dg_restore_title">Выберите файл:</string>
+
+    <!-- dialog_font_size -->
     <string name="dg_font_size_title">Размер текста</string>
-    <string name="dg_pref_links_title">Гиперссылки</string>
+    <string name="dg_font_size_reset">Сбросить</string>
+
+    <!-- dialog_pref_links -->
+    <string name="dg_pref_links_title">Тип гиперссылок</string>
     <string name="dg_pref_links_web_url">Вэб URL</string>
     <string name="dg_pref_links_email">Электронная почта</string>
     <string name="dg_pref_links_phone_number">Номер телефона</string>
+
+    <!-- dialog_trash -->
     <string name="dg_trash_title">Очистить корзину?</string>
-    <string name="sb_main_but_empty_trash">Но она была пуста…</string>
-    <string name="dialog_unification_title">Объединить заметки?</string>
-    <string name="note_app_header">Внешний вид плиток</string>
-    <string name="font_size_card_header">Размер текста</string>
-    <string name="reset_font_size_header">Сброс размера текста</string>
-    <string name="theme_color_header">Цвет темы</string>
-    <string name="num_of_lines_header">Число строк</string>
-    <string name="other_app_title">Прочее</string>
-    <string name="reset_title">Сбросить</string>
-    <string name="select_color_title">Выбрать цвет</string>
-    <string name="one_size_title">Одинаковый размер плиток</string>
-    <string name="one_size_cards_summary">Одинаковый размер плиток для мульти режима</string>
+
+    <!-- dialog_unification -->
+    <string name="dg_unification_title">Объединить заметки?</string>
+
+    <!-- dialog_open_link -->
+    <string name="dialog_open_link_open">Открыть</string>
+    <string name="dialog_open_link_call">Позвонить</string>
+    <string name="dialog_open_link_send">Отправить эл.письмо</string>
+    <string name="dialog_open_link_copy">Копировать</string>
+
+    <!-- dialog_account -->
+    <string name="dialog_account_delete_data">Удалить все данные</string>
+    <string name="menu_backup_logout">Выйти из аккаунта</string>
+
+    <!-- dialog_account -->
+    <string name="dialog_account_warning">Внимание! Вы удалите свои данные из облака
+        и не сможете их восстановить. Продолжить?</string>
+
+    <!-- dialog_confirm -->
+    <string name="dialog_confirm_action">Подтвердить действие</string>
+
+    <!-- bottom_sheet_dialog -->
+    <string name="bs_paste_text">Вставить текст</string>
+    <string name="bs_copy_text">Копировать текст</string>
+    <string name="bs_share">Поделиться</string>
+    <string name="bs_download">Скачать текстовый файл</string>
+    <string name="bs_to_close">Закрыть</string>
+
+
+    <!-- Preference -->
+    <!-- preference -->
+    <!-- Preference Category Header -->
     <string name="settings_app_header">Внешний вид</string>
-    <string name="backup_header">Данные</string>
+    <string name="data_header">Данные</string>
     <string name="notes_header">Заметки</string>
     <string name="other_header">Прочее</string>
+
+    <!-- Preference Titles -->
     <string name="custom_app_title">Настроить</string>
     <string name="dark_mode_title">Темная тема</string>
     <string name="backup_title">Резервное копирование</string>
-    <string name="folder_title">Папка для копии</string>
+    <string name="folder_title">Папка для данных</string>
     <string name="auto_backup_title">Авторезервирование</string>
-    <string name="notification_title">Включить уведомлени</string>
-    <string name="notification_auto_backup_summary">Уведомление об успешном авторезервировании</string>
-    <string name="num_of_backup_title">Количество копий</string>
+    <string name="notification_title">Уведомление</string>
+    <string name="num_of_backup_title">Количество резервных копий</string>
     <string name="update_date_title">Обновление даты</string>
-    <string name="update_date_summary">Обновлять дату при изменнении содержимого заметки</string>
     <string name="font_size_notes_title">Размер текста</string>
     <string name="hyperlinks_title">Гиперссылки</string>
     <string name="retention_trash_title">Время хранения заметок в корзине</string>
     <string name="communication_title">Связь с разработчиком</string>
-    <string name="auto_backup_summary">Автобэкап при создании нескольких новых заметок</string>
-    <string name="num_backup_summary">Максимальное количество</string>
+
+    <!-- Preference summary -->
+    <string name="auto_backup_summary">При создании нескольких новых заметок</string>
     <string name="number_of_days_summary">Количество дней</string>
-    <string name="bottom_sheet_share">Поделиться</string>
-    <string name="feedback">Обратная связь</string>
-    <string name="hint_search_text">Поиск</string>
-    <string name="dialog_open_link_open">Перейти</string>
-    <string name="dialog_open_link_call">Позвонить</string>
-    <string name="dialog_open_link_send">Отправить эл.письмо</string>
-    <string name="bad_idea">Это плохая идея :)</string>
-    <string name="empty_list">Пусто</string>
+    <string name="update_date_summary">При изменении содержимого заметки</string>
+    <string name="notification_auto_backup_summary">Об успешном авторезервировании</string>
+
+
+    <!-- preference_app -->
+    <!-- Preference Category Header -->
+    <string name="note_app_header">Внешний вид плиток</string>
+    <string name="font_size_card_header">Размер текста</string>
+    <string name="theme_color_header">Цвет темы</string>
+    <string name="num_of_lines_header">Число строк</string>
+    <string name="other_app_header">Прочее</string>
+
+    <!-- Preference Titles -->
+    <string name="reset_title">Сбросить размер текста</string>
+    <string name="select_color_title">Выбрать цвет</string>
+    <string name="one_size_title">Одинаковый размер плиток</string>
+
+    <!-- Preference summary -->
+    <string name="one_size_cards_summary">Для режима нескольких плиток</string>
+
+    <!-- Other -->
     <string name="no_permissions">Нет разрешения!</string>
-    <string name="font_size_change">Привет, Мир!</string>
-    <string name="bottom_sheet_download">Скачать текстовый файл</string>
-    <string name="menu_backup_logout">Выйти из аккаунта</string>
-    <string name="date_cards">21.01.96 12:00</string>
-    <string name="dialog_open_link_copy">Копировать</string>
-    <string name="sb_bp_sign_in_failed">Не удалось войти в учетную запись</string>
-    <string name="sb_bp_no_internet">Нет интернет-соединения</string>
-    <string name="sb_bp_logged_account">Вы вышли из учетной записи</string>
-    <string name="sb_note_save_txt_failed">Не удалось сохранить текстовый файл!</string>
-    <string name="sb_note_invalid_link">Неверная ссылка!</string>
-    <string name="unknown_error">Error!</string>
-    <string name="bottom_sheet_paste_text">Вставить текст</string>
-    <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
-    <string name="sb_note_invalid_format">Неверный формат!</string>
-    <string name="bottom_sheet_copy_all_text">Копировать текст</string>
-    <string name="dialog_account_delete_data">Удалить данные</string>
-    <string name="menu_backup_settings">Настройки аккаунта</string>
-    <string name="sb_bp_del_acc">Данные удалены из облака!</string>
-    <string name="sb_bp_problem_internet">Проблемы с интернет-соединением!</string>
-    <string name="dialog_account_warning">Внимание! Вы удалите все свои данные из облака
-        и не сможете их восстановить. Продолжить?</string>
+    <string name="unknown_error">Неизввестная ошибка!</string>
+    <string name="bad_idea">Это плохая идея :)</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="dialog_confirm_action">Подтвердить действие</string>
 </resources>

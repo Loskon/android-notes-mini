@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.rv;
+package com.loskon.noteminimalism3.rv.other;
 
 import android.text.Layout;
 import android.text.Spannable;

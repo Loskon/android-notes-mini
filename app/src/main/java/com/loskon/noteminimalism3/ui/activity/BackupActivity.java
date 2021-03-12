@@ -16,6 +16,7 @@ import com.loskon.noteminimalism3.auxiliary.bp.InternetCheck;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorage;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupLocal;
 import com.loskon.noteminimalism3.backup.prime.BpCloud;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogConfirm;
@@ -39,6 +40,7 @@ public class BackupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -69,7 +71,7 @@ public class BackupActivity extends AppCompatActivity {
     private void setColorItems() {
         MyColor.setNavIconColor(this, btmAppBarSettings);
 
-        int color = MyColor.getColorCustom(this);
+        int color = MyColor.getMyColor(this);
         btnBpSd.setBackgroundColor(color);
         btnRestoreSd.setBackgroundColor(color);
         btnBpCloud.setBackgroundColor(color);

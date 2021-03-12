@@ -38,6 +38,10 @@ import java.util.Date;
 
 import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_PERMISSIONS;
 
+/**
+ * Класс для работы с выбранной заметкой
+ */
+
 public class NoteActivity extends AppCompatActivity {
 
     private DbAdapter dbAdapter;
@@ -61,6 +65,7 @@ public class NoteActivity extends AppCompatActivity {
     private long noteId = 0;
     private Date receivedDate, autoBackupDate;
     private int selNotesCategory;
+    private String title, textFromDb;
 
     // for new Note
     private boolean isAutoBackup = false;
@@ -68,14 +73,11 @@ public class NoteActivity extends AppCompatActivity {
 
     // for old Note
     private boolean isFavItem = false;
-    private boolean isDeleteItem = false;
     private boolean isListGoUp = false;
-    private boolean isUpdateDateTame = false;
-    private boolean isUpdateDateTameWhenChanges = false;
-    private boolean isSaveNoteOn = true;
+    private boolean isUpdateDate = false;
+    private boolean isUpdateDateTimeWhenChanges = false;
+    private boolean isSaveNote = true;
     private boolean isShowToast = false;
-
-    //public boolean isEditMode = false;
 
     private static CallbackNote callbackNote;
 
@@ -85,6 +87,7 @@ public class NoteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -96,6 +99,14 @@ public class NoteActivity extends AppCompatActivity {
         initialiseColors();
         buildNote();
         handlerOutClick();
+    }
+
+    private void getIdAndCategory() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            noteId = extras.getLong(MyIntent.PUT_EXTRA_ID);
+            selNotesCategory = extras.getInt(MyIntent.PUT_EXTRA_SEL_NOTE_CATEGORY);
+        }
     }
 
     private void initialiseWidgets() {
@@ -116,7 +127,7 @@ public class NoteActivity extends AppCompatActivity {
             mySnackbarNoteMessage = new MySnackbarNoteMessage(this, cstLayNote);
             bottomSheetHelper = new BottomSheetHelper(this);
             helperLinks = new NoteHelperLinks(this);
-            helperLinks.setLinks();
+            if (noteId != 0) helperLinks.setLinks();
         } else {
             noteSbAdapter = new MySnackbarNoteReset(this, cstLayNote);
         }
@@ -127,7 +138,6 @@ public class NoteActivity extends AppCompatActivity {
     private void initialiseConfigureWidgets() {
         int fontSizeNotes = GetSharedPref.getFontSizeNote(this);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeNotes);
-        if (selNotesCategory != 2) setFavoriteStatus();
     }
 
     private void setFavoriteStatus() {
@@ -149,16 +159,10 @@ public class NoteActivity extends AppCompatActivity {
             setSettingsNote();
         }
 
+        if (selNotesCategory != 2) setFavoriteStatus();
+
         handlerScrollView();
         handlerEditTextClick();
-    }
-
-    private void getIdAndCategory() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            noteId = extras.getLong(MyIntent.PUT_EXTRA_ID);
-            selNotesCategory = extras.getInt(MyIntent.PUT_EXTRA_SEL_NOTE_CATEGORY);
-        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,16 +179,17 @@ public class NoteActivity extends AppCompatActivity {
 
     private void existingNote() {
         // Старая заметка
-        isUpdateDateTameWhenChanges = GetSharedPref.isUpdateDateTameWhenChanges(this);
+        isUpdateDateTimeWhenChanges = GetSharedPref.isUpdateDateTameWhenChanges(this);
 
         dbAdapter.open();
         note = dbAdapter.getNote(noteId);
         dbAdapter.close();
 
-        editText.setText(getMyText());
+        textFromDb = getMyText();
+
+        editText.setText(textFromDb);
         receivedDate = note.getDate();
         isFavItem = note.getFavoritesItem();
-        isDeleteItem = note.getSelectItemForDel();
     }
 
     private String getMyText() {
@@ -266,7 +271,7 @@ public class NoteActivity extends AppCompatActivity {
 
     public void restoreNote() {
         if (selNotesCategory == 2) {
-            isUpdateDateTame = true;
+            isUpdateDate = true;
             // Восстановление заметки
             dbAdapter.open();
             dbAdapter.updateSelectItemForDel(note, false, updateDateTime(), new Date());
@@ -278,7 +283,7 @@ public class NoteActivity extends AppCompatActivity {
 
     public void deleteNoteClick(View view) {
         isListGoUp = false;
-        isSaveNoteOn = false;
+        isSaveNote = false;
 
         dbAdapter.open();
         if (selNotesCategory == 2 || noteId == 0) {
@@ -316,7 +321,7 @@ public class NoteActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                bottomSheetHelper.createTextFile();
+                bottomSheetHelper.goSaveTextFile();
             } else {
                 mySnackbarNoteMessage.show(false, MySnackbarNoteMessage.MSG_TEXT_NO_PERMISSION_NOTE);
             }
@@ -337,40 +342,64 @@ public class NoteActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         // Защита от сохранения при удалении
-        if (selNotesCategory != 2 && isSaveNoteOn) saveNote();
+        if (selNotesCategory != 2 && isSaveNote) saveNote();
     }
 
     private void saveNote() {
-        String text = editText.getText().toString();
+        title = editText.getText().toString();
 
         dbAdapter.open();
-        if (text.isEmpty()) {
-            dbAdapter.deleteNote(noteId); // Удаление навсегда пустой заметки
+        if (title.trim().isEmpty()) {
+            dbAdapter.deleteNote(noteId);
         } else {
-
-            note = new Note(noteId, text, updateDateTime(), new Date(),
-                    isFavItem, isDeleteItem);
-
-            if (noteId > 0) {
-                if (!text.trim().equals(note.getTitle().trim()) && isUpdateDateTameWhenChanges) {
-                    isUpdateDateTame = true;
-                }
-                dbAdapter.updateNote(note);
-            } else {
-                noteId = dbAdapter.addNewNote(note);
-                autoBackupDate = new Date();
-                isUpdateDateTame = true;
-            }
-
-            if (noteId % 5 == 0 && isAutoBackup && isNewNote) {
-                (new BackupAuto(this)).buildBackup(isShowToast, autoBackupDate);
-            }
+            editNote();
         }
         dbAdapter.close();
     }
 
+    private void editNote() {
+        if (noteId == 0) {
+            addNewNote();
+        } else {
+            updateNote();
+        }
+
+        callAutoBackup();
+    }
+
+    private void addNewNote() {
+        getMyNote();
+        noteId = dbAdapter.addNewNote(note);
+
+        autoBackupDate = new Date();
+        isUpdateDate = true;
+    }
+
+    private void updateNote() {
+        if (!isNewNote) updateDateNote();
+
+        getMyNote();
+        dbAdapter.updateNote(note);
+    }
+
+    private void updateDateNote() {
+        boolean isTitleChanged = !title.trim().equals(textFromDb.trim());
+        if (isTitleChanged && isUpdateDateTimeWhenChanges) isUpdateDate = true;
+    }
+
+    private void getMyNote() {
+        Date date = updateDateTime();
+        note = new Note(noteId, title, date, date, isFavItem);
+    }
+
+    private void callAutoBackup() {
+        if (noteId % 4 == 0 && isAutoBackup && isNewNote) {
+            (new BackupAuto(this)).buildBackup(isShowToast, autoBackupDate);
+        }
+    }
+
     private Date updateDateTime() {
-        if (isUpdateDateTame || noteId == 0) {
+        if (isUpdateDate || noteId == 0) {
             return new Date();  // Обновляет дату
         } else {
             return receivedDate; // Оставляет старой
@@ -381,7 +410,7 @@ public class NoteActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (selNotesCategory != 2) {
-                if (bottomSheetHelper.visibleBottomSheet()) {
+                if (bottomSheetHelper.isVisibleBottomSheet()) {
                     hideBottomSheet();
                     return false;
                 } else {

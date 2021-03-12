@@ -27,8 +27,8 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.prime.BpCloud;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.rv.CallbackDelMode;
-import com.loskon.noteminimalism3.rv.CheckEmptyRecyclerView;
+import com.loskon.noteminimalism3.rv.other.CallbackDelMode;
+import com.loskon.noteminimalism3.rv.other.CheckEmptyRecyclerView;
 import com.loskon.noteminimalism3.rv.adapter.MyRecyclerViewAdapter;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogBottomSheet;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
@@ -44,6 +44,10 @@ import java.util.List;
 import java.util.Objects;
 
 import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
+
+/**
+ * Основной класс для работы со списком заметок
+ */
 
 public class MainActivity extends AppCompatActivity
         implements CallbackDelMode, MyDialogBottomSheet.ItemClickListenerBottomNavView {
@@ -77,8 +81,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MyColor.setColorStatBarAndTaskDesc(this);
 
@@ -182,7 +186,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void unification() {
-        rvAdapter.unificationItems();
+        rvAdapter.onUnificationItems();
         onClickDelete(false);
     }
 
@@ -191,7 +195,7 @@ public class MainActivity extends AppCompatActivity
         isOneSizeOn = GetSharedPref.isOneSize(this);
         fontSize = GetSharedPref.getFontSize(this);
         dateFontSize = GetSharedPref.getDateFontSize(this);
-        color = MyColor.getColorCustom(this);
+        color = MyColor.getMyColor(this);
         rangeInDays = GetSharedPref.getRangeInDays(this);
     }
 
@@ -209,11 +213,13 @@ public class MainActivity extends AppCompatActivity
         dbAdapter.close();
 
         rvAdapter = new MyRecyclerViewAdapter(
-                this, notes, dbAdapter, selNotesCategory, isDeleteMode,
-                isTypeNotesSingle, numOfLines, isOneSizeOn, fontSize, dateFontSize, color);
+                this, notes, dbAdapter);
+        rvAdapter.initSettings(selNotesCategory, isDeleteMode, isTypeNotesSingle,
+                numOfLines, isOneSizeOn, fontSize, dateFontSize, color);
+        rvAdapter.initStrokeInDp();
 
         widgetsHelper.setHandlerSearchView(searchView, rvAdapter);
-        rvAdapter.setCallbackDelMode(this);
+        rvAdapter.regCallbackDelMode(this);
 
         checkEmptyRecyclerView();
         recyclerView.setAdapter(rvAdapter);
@@ -234,7 +240,7 @@ public class MainActivity extends AppCompatActivity
                 switchType();
                 return  true;
             } else if (item.getItemId() == R.id.action_select_item) {
-                rvAdapter.selectItems();
+                rvAdapter.onSelectAllItems();
                 return  true;
             } else if (item.getItemId() == R.id.action_search) {
                 goSearch();
@@ -299,7 +305,7 @@ public class MainActivity extends AppCompatActivity
             if (selNotesCategory == 2) {
                 myDialogTrash.call(rvAdapter.getItemCount());
             } else {
-                MyIntent.AddNewNote(this, selNotesCategory);
+                MyIntent.addNewNote(this, selNotesCategory);
             }
         }
     }
@@ -364,32 +370,36 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCallbackSelMode(boolean isSelMode) {
+    public void onCallBackSelMode(boolean isSelMode) {
         // Callback FROM SwipeRecyclerViewAdapter
         closeSnackBar();
         deleteMode(true);
     }
 
     @Override
-    public void onCallbackSelOne(boolean isSelOne) {
+    public void onCallBackNotAllSelected(boolean isNotAllSelected) {
         // Callback2 FROM SwipeRecyclerViewAdapter
-        widgetsHelper.setSelectIcon(isSelOne);
+        widgetsHelper.setSelectIcon(isNotAllSelected);
     }
 
     @Override
-    public void onCallbackNumSel(int numSelItem) {
+    public void onCallBackNumSel(int numSelItem) {
         textNumSelItem.setText(String.valueOf(numSelItem));
-        widgetsHelper.setVisUniMenuItem(numSelItem >= 2 && numSelItem <= 3);
+        if (selNotesCategory != 2) {
+            widgetsHelper.setVisUniMenuItem(numSelItem >= 2 && numSelItem <= 3);
+        } else {
+            widgetsHelper.setVisUniMenuItem(false);
+        }
     }
 
     @Override
-    public void onCallbackUni() {
+    public void onCallBackUni() {
         goUpdateMethod();
     }
 
     public void onClickDelete(boolean isDelete) {
         // IN SwipeRecyclerViewAdapter
-        rvAdapter.deleteSelectedItems(isDelete);
+        rvAdapter.onExitFromDeleteMode(isDelete);
         deleteMode(false);
     }
 
@@ -447,7 +457,7 @@ public class MainActivity extends AppCompatActivity
                         int position = viewHolder.getAbsoluteAdapterPosition();
                         Note note = rvAdapter.getNotes().get(position);
 
-                        rvAdapter.deleteItem(note, position);
+                        rvAdapter.onDeleteItem(note, position);
                         if (selNotesCategory != 2) showSnackBar(note, position);
                     }
                 };

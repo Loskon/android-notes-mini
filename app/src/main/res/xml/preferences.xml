@@ -21,7 +21,7 @@
 
     <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
         app:iconSpaceReserved="false"
-        android:title="@string/backup_header">
+        android:title="@string/data_header">
 
         <Preference
             android:title="@string/backup_title"

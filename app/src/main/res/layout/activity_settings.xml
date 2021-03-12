@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="?attr/shadowImitationColor" />
+        app:srcCompat="?attr/colorShadow" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -42,8 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_for_bottom_app_bar"
             android:layout_gravity="bottom"
-            android:backgroundTint="?attr/bottomAppBarColor"
-            app:backgroundTint="?attr/bottomAppBarColor"
+            android:backgroundTint="?attr/colorAppBar"
+            app:backgroundTint="?attr/colorAppBar"
             app:elevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:navigationIcon="@drawable/baseline_navigate_before_black_24" />

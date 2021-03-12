@@ -21,20 +21,14 @@ public class PrefHelper {
         else if (fontSize <= 38) return 22;
         else if (fontSize <= 42) return 24;
 
-        return 0;
+        return 14;
     }
 
-    public static String getPrefSummary(Activity activity, String prefString, int prefValue) {
-        // Получение текста для сводки
-        String summary = "";
+    public static String getSummaryRange(Activity activity, int rangeInDays) {
+        String summary = activity.getString(R.string.number_of_days_summary);
 
-        if (prefString.equals(activity.getString(R.string.num_of_backup_title))) {
-            summary = activity.getString(R.string.num_backup_summary);
-        } else if (prefString.equals(activity.getString(R.string.retention_trash_title))) {
-            summary = activity.getString(R.string.number_of_days_summary);
-        }
+        summary = summary +" \u2014 " + rangeInDays;
 
-        summary = summary +" \u2014 " + prefValue;
         return summary;
     }
 }

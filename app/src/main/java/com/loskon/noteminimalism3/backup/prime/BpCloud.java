@@ -235,11 +235,11 @@ public class BpCloud {
 
     public void deleteData() {
         if (dbRef != null) dbRef.delete();
-        firebaseAuth.signOut();
         authUI
                 .delete(activity)
                 .addOnCompleteListener(this::onSuccesDelData);
         authUI.signOut(activity);
+        firebaseAuth.signOut();
 
         getUser();
     }

@@ -39,7 +39,7 @@ public class MyDialogTrash {
         Button btnOk = alertDialog.findViewById(R.id.btn_ok_trash);
         Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_trash);
 
-        int color = MyColor.getColorCustom(mainActivity);
+        int color = MyColor.getMyColor(mainActivity);
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
 

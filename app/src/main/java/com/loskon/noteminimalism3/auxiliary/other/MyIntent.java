@@ -53,9 +53,7 @@ public class MyIntent {
     public static void openSettingsApp(Context context) {
         // Open SettingsAppActivity
         Intent intent = new Intent(context, SettingsAppActivity.class);
-        (new Handler()).postDelayed(() -> {
-            context.startActivity(intent);
-        }, intentDelay);
+        (new Handler()).postDelayed(() -> context.startActivity(intent), intentDelay);
     }
 
     public static void openBackupActivity(Context context) {
@@ -96,20 +94,22 @@ public class MyIntent {
         context.startActivity(intent);
     }
 
-    public static void sendIntent(Context context, EditText editTitleText) {
+    public static void startShareText(Context context, EditText editTitleText) {
+        // Share text from Note
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, editTitleText.getText().toString().trim());
         sendIntent.setType("text/plain");
-        context.startActivity(Intent.createChooser(sendIntent,"share"));
+        context.startActivity(Intent.createChooser(sendIntent, "share"));
     }
 
     public static void startMailClient(Context context) {
+        // Open email client
         String email = context.getString(R.string.developer_email);
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
         intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback));
         context.startActivity(intent);
     }
@@ -122,5 +122,4 @@ public class MyIntent {
             return 0;
         }
     }
-
 }

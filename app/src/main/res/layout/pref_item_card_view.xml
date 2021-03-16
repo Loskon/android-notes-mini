@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_title_category"
+        android:id="@+id/tv_category_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_title_category"
+        app:layout_constraintTop_toBottomOf="@+id/tv_category_title"
         app:thumbRadius="@dimen/slider_thumb_radius"
         app:tickVisible="false" />
 

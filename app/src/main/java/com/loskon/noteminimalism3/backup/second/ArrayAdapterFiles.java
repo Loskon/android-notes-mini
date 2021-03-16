@@ -69,8 +69,8 @@ public class ArrayAdapterFiles extends BaseAdapter {
         }
 
         // initView
-        TextView nameFiles = view.findViewById(R.id.txt_title_files);
-        ImageButton delFile = view.findViewById(R.id.img_btn_delete_file);
+        TextView nameFiles = view.findViewById(R.id.tv_title_file);
+        ImageButton delFile = view.findViewById(R.id.btn_delete_file);
 
         nameFiles.setText(listFiles.get(position).replace(".db", ""));
 

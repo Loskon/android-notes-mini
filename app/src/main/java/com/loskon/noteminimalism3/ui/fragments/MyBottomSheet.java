@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.dialogs;
+package com.loskon.noteminimalism3.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,30 +23,30 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
  * Нижнее наивгационное меню для перемещения по категориям и открытия настроек приложения
  */
 
-public class MyDialogBottomSheet extends BottomSheetDialogFragment {
+public class MyBottomSheet extends BottomSheetDialogFragment {
 
     public static final String TAG = "BottomSheetDialog";
     public NavigationView navigationView;
     private ItemClickListenerBottomNavView itemClickListener;
     private int selNotesCategory;
 
-    public static MyDialogBottomSheet newInstance() {
-        return new MyDialogBottomSheet();
+    public static MyBottomSheet newInstance() {
+        return new MyBottomSheet();
     }
 
     @Override
     public int getTheme() {
-        return R.style.BottomSheetDialogTheme;
+        return R.style.BottomSheetFragmentTheme;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_bottomsheet, container, false);
+        View view = inflater.inflate(R.layout.fragment_bottomsheet, container, false);
         navigationView = view.findViewById(R.id.navigation_view);
         navigationView.setBackground(ResourcesCompat
-                .getDrawable(getResources(), R.drawable.bottom_sheet_round_corner, null));
+                .getDrawable(getResources(), R.drawable.bottom_sheet_round_corner_light, null));
         return view;
     }
 

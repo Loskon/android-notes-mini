@@ -23,7 +23,7 @@ public class TextFile {
         this.activity = activity;
     }
 
-    public void createTextFile(String text) {
+    public void createTextFile(String title) {
 
         boolean isFolderNoteCreated = AppFolder.createBackupFolder(activity);
 
@@ -35,10 +35,11 @@ public class TextFile {
 
             if (isFolderTextCreated) {
                 try {
-                    String saveText = text;
-                    text = text.trim().substring(0, Math.min(16, text.trim().length()));
+                    String saveText = title;
+                    title = title.trim().substring(0, Math.min(16, title.trim().length()));
+                    title = title.replace("https://", "").replace("http://", "");
 
-                    File fileName = new File(file, text);
+                    File fileName = new File(file, title);
                     FileWriter writer = new FileWriter(fileName);
 
                     writer.append(saveText);

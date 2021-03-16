@@ -283,7 +283,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private void showSnackbar() {
         SnackbarBuilder.makeSnackbar(activity, activity.
-                        findViewById(R.id.cstSetting), getString(R.string.no_permissions),
+                        findViewById(R.id.cstLytSettings), getString(R.string.no_permissions),
                                 activity.findViewById(R.id.btmAppBarSettings), false);
     }
 

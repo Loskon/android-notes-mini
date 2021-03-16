@@ -48,9 +48,9 @@ public class MyDialogLinks {
         alertDialog = DialogBuilder.buildDialog(noteActivity, R.layout.dialog_open_link);
         alertDialog.show();
 
-        textView = alertDialog.findViewById(R.id.txt_title_links);
-        btnOpen = alertDialog.findViewById(R.id.dialog_btn_open);
-        btnCopy = alertDialog.findViewById(R.id.dialog_btn_copy);
+        textView = alertDialog.findViewById(R.id.tv_link_title);
+        btnOpen = alertDialog.findViewById(R.id.btn_link_open);
+        btnCopy = alertDialog.findViewById(R.id.btn_link_copy);
 
         typeLinks = typeURL(titleLinks);
 
@@ -93,9 +93,9 @@ public class MyDialogLinks {
         public void onClick(View view) {
             int btnId = view.getId();
 
-            if (btnId == R.id.dialog_btn_open) {
+            if (btnId == R.id.btn_link_open) {
                 startLinks();
-            } else if (btnId == R.id.dialog_btn_copy) {
+            } else if (btnId == R.id.btn_link_copy) {
                 copyLinks();
             }
 

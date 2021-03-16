@@ -39,10 +39,10 @@ public class MyDialogSlider {
 
         File folder = BackupPath.getFolder(activity);
 
-        TextView textTitle = alertDialog.findViewById(R.id.txt_slider);
+        TextView textTitle = alertDialog.findViewById(R.id.tv_slider_title);
         Slider slider = alertDialog.findViewById(R.id.slider_range);
-        Button btnOk = alertDialog.findViewById(R.id.btn_ok_slider);
-        Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_slider);
+        Button btnOk = alertDialog.findViewById(R.id.btn_slider_ok);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_slider_cancel);
 
         textTitle.setText(keyTitle);
 

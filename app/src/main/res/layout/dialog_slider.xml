@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/txt_slider"
+        android:id="@+id/tv_slider_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -33,14 +33,14 @@
         app:haloRadius="@dimen/slider_halo_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_slider"
+        app:layout_constraintTop_toBottomOf="@+id/tv_slider_title"
         app:thumbRadius="@dimen/slider_thumb_radius"
         app:tickVisible="false">
 
     </com.google.android.material.slider.Slider>
 
     <Button
-        android:id="@+id/btn_ok_slider"
+        android:id="@+id/btn_slider_ok"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -49,18 +49,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_cancel_slider"
+        app:layout_constraintStart_toEndOf="@+id/btn_slider_cancel"
         app:layout_constraintTop_toBottomOf="@id/slider_range" />
 
     <Button
-        android:id="@+id/btn_cancel_slider"
+        android:id="@+id/btn_slider_cancel"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_ok_slider"
+        app:layout_constraintEnd_toStartOf="@+id/btn_slider_ok"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slider_range"

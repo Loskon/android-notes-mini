@@ -19,7 +19,7 @@ import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorage;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupLocal;
 import com.loskon.noteminimalism3.backup.prime.BpCloud;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogConfirm;
+import com.loskon.noteminimalism3.ui.sheet.MySheetConfirm;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
 
 import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_PERMISSIONS;
@@ -30,7 +30,6 @@ public class BackupActivity extends AppCompatActivity {
     private BackupLocal backupLocal;
     private BpCloud bpCloud;
     private InternetCheck internetCheck;
-    private MyDialogConfirm myDialogConfirm;
 
     private BottomAppBar btmAppBarSettings;
     private Button btnBpSd, btnRestoreSd;
@@ -61,7 +60,6 @@ public class BackupActivity extends AppCompatActivity {
 
     private void initialiseAdapters() {
         backupLocal = new BackupLocal(this);
-        myDialogConfirm = new MyDialogConfirm(this);
         bpCloud = new BpCloud(this);
         internetCheck = new InternetCheck(this);
 
@@ -108,9 +106,9 @@ public class BackupActivity extends AppCompatActivity {
         } else if (btnId == R.id.btn_restore_sd) {
             backupLocal.performRestore();
         } else if (btnId == R.id.btn_backup_cloud) {
-            myDialogConfirm.call(true);
+            (new MySheetConfirm(this)).call(true);
         } else if (btnId == R.id.btn_restore_cloud) {
-            myDialogConfirm.call(false);
+            (new MySheetConfirm(this)).call(false);
         }
 
         lastClickTime = SystemClock.elapsedRealtime();

@@ -25,8 +25,8 @@ public class MyDialogUnification {
         alertDialog = DialogBuilder.buildDialog(mainActivity, R.layout.dialog_unification);
         alertDialog.show();
 
-        Button btnOk = alertDialog.findViewById(R.id.button3678);
-        Button btnCancel = alertDialog.findViewById(R.id.button4678);
+        Button btnOk = alertDialog.findViewById(R.id.btn_unification_ok);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_unification_cancel);
 
         assert btnOk != null;
         assert btnCancel != null;

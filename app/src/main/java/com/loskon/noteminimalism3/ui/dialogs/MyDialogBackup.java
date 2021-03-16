@@ -41,10 +41,10 @@ public class MyDialogBackup {
         alertDialog.show();
 
         // initView
-        textInputLayout = alertDialog.findViewById(R.id.textInputLayout2);
-        textInputEditText = alertDialog.findViewById(R.id.textInputEditText);
-        Button btnOk = alertDialog.findViewById(R.id.btn_ok_backup);
-        Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_backup);
+        textInputLayout = alertDialog.findViewById(R.id.textInputLayoutBackup);
+        textInputEditText = alertDialog.findViewById(R.id.textInputEditTextBackup);
+        Button btnOk = alertDialog.findViewById(R.id.btn_backup_ok);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_backup_cancel);
 
         // assert
         assert btnOk != null;
@@ -100,6 +100,7 @@ public class MyDialogBackup {
             // Вывести сообщение об ошибке, если editText пуст
             textInputLayout.setError(activity.getString(R.string.dg_bp_error));
             textInputLayout.setErrorEnabled(true);
+            textInputEditText.setSelection(0);
         } else {
             // Создать имя бэкапа
             String backupName = textInputEditText.getText().toString();

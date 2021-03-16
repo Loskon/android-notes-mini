@@ -29,7 +29,7 @@ public class NoteHelperLinks {
         editText.setMovementMethod(new CustomMovementMethod() {
             @Override
             public void onLinkClick(String url) {
-                setLinkClick(url);
+                if (!isEditMode) setLinkClick(url);
             }
 
             @Override
@@ -45,10 +45,8 @@ public class NoteHelperLinks {
     }
 
     private void setLinkClick(String url) {
-        if (!isEditMode) {
             delFocusFromLinks();
             (new MyDialogLinks(activity, url)).call();
-        }
     }
 
     private int getTypeLinks() {

@@ -41,7 +41,7 @@ public class MainWidgetsHelper {
         this.bottomAppBar = bottomAppBar;
         this.fabMain = fabMain;
         appBarMenu = bottomAppBar.getMenu();
-        cardView = activity.findViewById(R.id.card_view_main);
+        cardView = activity.findViewById(R.id.cardViewMain);
         spanCount = getScreenSize();
     }
 

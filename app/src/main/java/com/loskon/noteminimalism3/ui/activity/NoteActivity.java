@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -79,6 +80,8 @@ public class NoteActivity extends AppCompatActivity {
     private boolean isSaveNote = true;
     private boolean isShowToast = false;
 
+    private ActionMode actionMode;
+
     private static CallbackNote callbackNote;
 
     public static void regCallbackNote(CallbackNote callbackNote) {
@@ -110,13 +113,13 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void initialiseWidgets() {
-        editText = findViewById(R.id.title_text);
+        editText = findViewById(R.id.tv_note_title);
         cstLayNote = findViewById(R.id.cstLayNote);
-        btnFav = findViewById(R.id.favorite_button);
-        btnDel = findViewById(R.id.delete_button);
-        btnMore = findViewById(R.id.more_button);
+        btnFav = findViewById(R.id.btnFavNote);
+        btnDel = findViewById(R.id.btnDelNote);
+        btnMore = findViewById(R.id.btnMoreNote);
         fabNote = findViewById(R.id.fabNote);
-        linearNote = findViewById(R.id.linearNote);
+        linearNote = findViewById(R.id.linLytNote);
     }
 
     private void initialiseAdapters() {
@@ -210,7 +213,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void handlerScrollView() {
-        ScrollView scrollView = findViewById(R.id.scroll);
+        ScrollView scrollView = findViewById(R.id.scrollViewNote);
         scrollView.getViewTreeObserver().addOnScrollChangedListener(this::hideBottomSheet);
     }
 
@@ -404,6 +407,16 @@ public class NoteActivity extends AppCompatActivity {
         } else {
             return receivedDate; // Оставляет старой
         }
+    }
+
+    @Override
+    public void onActionModeStarted(ActionMode actionMode) {
+        super.onActionModeStarted(actionMode);
+        this.actionMode = actionMode;
+    }
+
+    public void closeActionMode() {
+        if (actionMode != null) actionMode.finish();
     }
 
     @Override

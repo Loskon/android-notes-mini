@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.auxiliary.other;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ public class MyToast {
         View view = toast.getView();
         TextView text = view.findViewById(android.R.id.message);
         text.setTextColor(Color.WHITE);
+        text.setGravity(Gravity.CENTER);
         MyColor.setColorToast(activity, view, isSuccess);
         toast.show();
     }

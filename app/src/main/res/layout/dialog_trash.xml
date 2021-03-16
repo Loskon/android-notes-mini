@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView67"
+        android:id="@+id/tv_trash_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_ok_trash"
+        android:id="@+id/btn_trash_ok"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -28,21 +28,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_cancel_trash"
-        app:layout_constraintTop_toBottomOf="@id/textView67" />
+        app:layout_constraintStart_toEndOf="@+id/btn_trash_cancel"
+        app:layout_constraintTop_toBottomOf="@id/tv_trash_title" />
 
     <Button
-        android:id="@+id/btn_cancel_trash"
+        android:id="@+id/btn_trash_cancel"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_ok_trash"
+        app:layout_constraintEnd_toStartOf="@+id/btn_trash_ok"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView67"
+        app:layout_constraintTop_toBottomOf="@id/tv_trash_title"
         app:rippleColor="?attr/colorControlHighlight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

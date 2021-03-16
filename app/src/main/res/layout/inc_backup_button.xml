@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cstLayoutB"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linLytSd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linLytCloud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_backup_sd"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:onClick="onClickBtnSd"
+            app:icon="@drawable/round_drive_folder_upload_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/colorAppBar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_restore_sd"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:onClick="onClickBtnSd"
+            app:icon="@drawable/round_download_for_offline_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/colorAppBar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linLytCloud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linLytSd">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_backup_cloud"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:onClick="onClickBtnDrive"
+            app:icon="@drawable/baseline_cloud_upload_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/colorAppBar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_restore_cloud"
+            android:layout_width="@dimen/size_for_square_button"
+            android:layout_height="@dimen/size_for_square_button"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:onClick="onClickBtnDrive"
+            app:icon="@drawable/baseline_cloud_download_black_48"
+            app:iconGravity="textStart"
+            app:iconPadding="-4dp"
+            app:iconTint="?attr/colorAppBar" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

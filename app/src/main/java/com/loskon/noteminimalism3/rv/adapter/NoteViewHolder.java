@@ -28,8 +28,8 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
         title = itemView.findViewById(R.id.txt_title_card_note);
         date = itemView.findViewById(R.id.txt_date_card_note);
 
-        linearLayoutCard = itemView.findViewById(R.id.linLayCard);
+        linearLayoutCard = itemView.findViewById(R.id.linLytCard);
         cardView = itemView.findViewById(R.id.card_view);
-        view = itemView.findViewById(R.id.view_favorites);
+        view = itemView.findViewById(R.id.viewFavForCard);
     }
 }

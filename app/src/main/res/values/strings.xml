@@ -118,9 +118,9 @@
 
     <!-- bottom_sheet_dialog -->
     <string name="bs_paste_text">Paste text</string>
-    <string name="bs_copy_text">Copy text</string>
+    <string name="bs_copy_text">Copy text note</string>
     <string name="bs_share">Share</string>
-    <string name="bs_download">Download txt file</string>
+    <string name="bs_download">Download</string>
     <string name="bs_to_close">To close</string>
 
 
@@ -172,6 +172,7 @@
     <string name="no_permissions">No permissions!</string>
     <string name="unknown_error">Unknown error!</string>
     <string name="bad_idea">It is a bad idea :)</string>
+    <string name="confirm">Confirm</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="on" translatable="false">On</string>

@@ -9,41 +9,16 @@
     android:backgroundTint="@android:color/transparent"
     tools:context=".ui.activity.NoteActivity">
 
-    <ScrollView
-        android:id="@+id/scroll"
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/include_scroll"
+        layout="@layout/inc_note_scroll"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="4dp"
-        android:clickable="false"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        android:scrollbarThumbVertical="@android:color/transparent"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toTopOf="@+id/fabNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/linearNote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/title_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:background="@android:color/transparent"
-                android:ems="10"
-                android:hint="@string/hint_note_text"
-                android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
-                android:textColor="?attr/colorTitle"
-                android:textColorHint="@android:color/darker_gray" />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabNote"
@@ -62,7 +37,7 @@
         app:tint="?attr/colorFabIcon" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/favorite_button"
+        android:id="@+id/btnFavNote"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -72,14 +47,14 @@
         app:iconGravity="textStart"
         app:iconPadding="-4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/delete_button"
+        app:layout_constraintEnd_toStartOf="@+id/btnDelNote"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@android:color/transparent"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/delete_button"
+        android:id="@+id/btnDelNote"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -90,14 +65,14 @@
         app:iconGravity="textStart"
         app:iconPadding="-6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/more_button"
+        app:layout_constraintEnd_toStartOf="@+id/btnMoreNote"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/favorite_button"
+        app:layout_constraintStart_toEndOf="@+id/btnFavNote"
         app:rippleColor="@android:color/transparent"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/more_button"
+        android:id="@+id/btnMoreNote"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -108,12 +83,12 @@
         app:iconPadding="-6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fabNote"
-        app:layout_constraintStart_toEndOf="@+id/delete_button"
+        app:layout_constraintStart_toEndOf="@+id/btnDelNote"
         app:rippleColor="@android:color/transparent"
         app:strokeColor="@android:color/transparent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+        android:id="@+id/coordLytNote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -121,7 +96,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <include layout="@layout/bottom_sheet" />
+        <include layout="@layout/inc__note_bottom_sheet" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

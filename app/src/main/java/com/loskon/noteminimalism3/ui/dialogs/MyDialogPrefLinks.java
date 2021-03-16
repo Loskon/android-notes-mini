@@ -35,7 +35,7 @@ public class MyDialogPrefLinks {
         checkBoxWeb = alertDialog.findViewById(R.id.checkBoxWeb);
         checkBoxMail = alertDialog.findViewById(R.id.checkBoxMail);
         checkBoxPhone = alertDialog.findViewById(R.id.checkBoxPhone);
-        Button btnOk = alertDialog.findViewById(R.id.dialog_btn_ok);
+        Button btnOk = alertDialog.findViewById(R.id.btn_hyperlink_ok);
 
         int color = MyColor.getMyColor(activity);
         checkBoxWeb.setButtonTintList(ColorStateList.valueOf(color));
@@ -56,7 +56,7 @@ public class MyDialogPrefLinks {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (view.getId() == R.id.dialog_btn_ok) {
+            if (view.getId() == R.id.btn_hyperlink_ok) {
                 alertDialog.dismiss();
             }
 

@@ -41,7 +41,7 @@ public class BottomSheetHelper {
     private void getSettings() {
         fabNote = activity.getFabNote();
         editText = activity.getEditText();
-        bottomSheet = activity.findViewById(R.id.layout_bottomSheetBehavior);
+        bottomSheet = activity.findViewById(R.id.nestedScrollViewSheet);
         sheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         sheetBehavior.setHideable(false);
@@ -106,7 +106,7 @@ public class BottomSheetHelper {
     }
 
     private void goPasteText(ClipboardManager clipboard) {
-        String title = editText.getText().toString().trim();
+        String title = getTitleTrim();
 
         try {
             CharSequence textToPaste = clipboard.getPrimaryClip().getItemAt(0).getText();
@@ -125,12 +125,16 @@ public class BottomSheetHelper {
         }
     }
 
+    private String getTitleTrim() {
+        return editText.getText().toString().trim();
+    }
+
     private void showSnackbar(String message) {
         activity.getMySnackbarNoteMessage().show(false, message);
     }
 
     private void copyText() {
-        String title = editText.getText().toString().trim();
+        String title = getTitleTrim();
 
         if (!title.isEmpty()) {
             goCopyText();
@@ -160,7 +164,7 @@ public class BottomSheetHelper {
     }
 
     public void goSaveTextFile() {
-        String string = editText.getText().toString().trim();
+        String string = getTitleTrim();
 
         if (!string.isEmpty()) {
             (new TextFile(activity)).createTextFile(string);
@@ -170,11 +174,11 @@ public class BottomSheetHelper {
     }
 
     private void sendText() {
-        String title = editText.getText().toString().trim();
+        String title = getTitleTrim();
 
         if (!title.isEmpty()) {
             try {
-                MyIntent.sendIntent(activity, editText);
+                MyIntent.startShareText(activity, editText);
             } catch (Exception exception) {
                 exception.printStackTrace();
                 showSnackbar("null");
@@ -187,6 +191,7 @@ public class BottomSheetHelper {
     public void showBottomSheet() {
         sheetBehavior.setHideable(false);
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        activity.closeActionMode();
         editText.setSelection(editText.getSelectionEnd());
     }
 

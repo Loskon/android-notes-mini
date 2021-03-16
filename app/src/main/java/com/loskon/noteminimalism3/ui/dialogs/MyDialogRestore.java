@@ -49,9 +49,9 @@ public class MyDialogRestore {
 
         // initView
         ListView listViewFiles = alertDialog.findViewById(R.id.list_view_files);
-        txtEmptyRestore = alertDialog.findViewById(R.id.txt_empty_restore);
-        btnRemoveAll = alertDialog.findViewById(R.id.img_btn_remove_all);
-        Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_restore);
+        txtEmptyRestore = alertDialog.findViewById(R.id.tv_restore_empty);
+        btnRemoveAll = alertDialog.findViewById(R.id.btn_restore_delete);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_restore_cancel);
 
         ArrayAdapterFiles arrayAdapterFiles;
         File[] files = BackupHelper.getListFile(folder);

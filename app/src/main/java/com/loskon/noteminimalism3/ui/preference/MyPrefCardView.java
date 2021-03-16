@@ -62,10 +62,10 @@ public class MyPrefCardView extends Preference implements MySettingsAppFragment.
     }
 
     private void initView(PreferenceViewHolder holder) {
-        view = holder.findViewById(R.id.view_favorites);
+        view = holder.findViewById(R.id.viewFavForCard);
         txtFontSize = (TextView) holder.findViewById(R.id.txt_title_card_note);
         txtDateFontSize = (TextView) holder.findViewById(R.id.txt_date_card_note);
-        titleCategory = (TextView) holder.findViewById(R.id.txt_title_category);
+        titleCategory = (TextView) holder.findViewById(R.id.tv_category_title);
         sliderFontSize = (Slider) holder.findViewById(R.id.slider_font_size_card_note);
         MySettingsAppFragment.registerCallBackReset(this);
     }

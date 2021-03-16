@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cstSetting2"
+    android:id="@+id/cstLytSettingApp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.SettingsAppActivity">
@@ -12,22 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
+        app:layout_constraintBottom_toTopOf="@id/include_shadow_settings_app"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/shadow_imiation3"
+    <include
+        android:id="@+id/include_shadow_settings_app"
+        layout="@layout/inc_shadow_imitation"
         android:layout_width="0dp"
-        android:layout_height="1px"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout2"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/coordSettingsApp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="?attr/colorShadow" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout2"
+        android:id="@+id/coordSettingsApp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

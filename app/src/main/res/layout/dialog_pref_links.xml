@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tv_hyperlink"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -27,7 +27,7 @@
         android:text="@string/dg_pref_links_web_url"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_hyperlink" />
 
     <CheckBox
         android:id="@+id/checkBoxMail"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBoxMail" />
 
     <Button
-        android:id="@+id/dialog_btn_ok"
+        android:id="@+id/btn_hyperlink_ok"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

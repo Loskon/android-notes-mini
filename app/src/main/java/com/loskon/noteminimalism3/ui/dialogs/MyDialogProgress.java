@@ -29,7 +29,7 @@ public class MyDialogProgress {
         alertDialog.setCancelable(false);
         alertDialog.show();
 
-        int width = (int) (activity.getResources().getDisplayMetrics().widthPixels * 0.42);
+        int width = (int) (activity.getResources().getDisplayMetrics().widthPixels * 0.38);
         int height = ViewGroup.LayoutParams.WRAP_CONTENT;
         alertDialog.getWindow().setLayout(width, height);
 

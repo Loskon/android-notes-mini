@@ -30,7 +30,7 @@ import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.rv.other.CallbackDelMode;
 import com.loskon.noteminimalism3.rv.other.CheckEmptyRecyclerView;
 import com.loskon.noteminimalism3.rv.adapter.MyRecyclerViewAdapter;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogBottomSheet;
+import com.loskon.noteminimalism3.ui.fragments.MyBottomSheet;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogRestore;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogTrash;
@@ -50,7 +50,7 @@ import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements CallbackDelMode, MyDialogBottomSheet.ItemClickListenerBottomNavView {
+        implements CallbackDelMode, MyBottomSheet.ItemClickListenerBottomNavView {
 
     private DbAdapter dbAdapter;
     private MyRecyclerViewAdapter rvAdapter;
@@ -118,9 +118,9 @@ public class MainActivity extends AppCompatActivity
     private void initialiseWidgets() {
         recyclerView =  findViewById(R.id.recyclerView);
         bottomAppBar =  findViewById(R.id.btmAppBarMain);
-        coordinatorLayout = findViewById(R.id.coord_layout_main);
+        coordinatorLayout = findViewById(R.id.coordLytMain);
         fabMain =  findViewById(R.id.fabMain);
-        textNumSelItem = findViewById(R.id.textView);
+        textNumSelItem = findViewById(R.id.tv_font_size_title);
         searchView = findViewById(R.id.searchView);
 
         dbAdapter = new DbAdapter(this);

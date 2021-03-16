@@ -6,91 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linLytSd"
+    <include
+        android:id="@+id/include_button"
+        layout="@layout/inc_backup_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linLytCloud"
+        app:layout_constraintBottom_toTopOf="@+id/include_shadow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed">
+        app:layout_constraintVertical_bias="0.49" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_backup_sd"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:onClick="onClickBtnSd"
-            app:icon="@drawable/round_drive_folder_upload_black_48"
-            app:iconGravity="textStart"
-            app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_restore_sd"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:onClick="onClickBtnSd"
-            app:icon="@drawable/round_download_for_offline_black_48"
-            app:iconGravity="textStart"
-            app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linLytCloud"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/cstLytBarBackup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linLytSd">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_backup_cloud"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:onClick="onClickBtnDrive"
-            app:icon="@drawable/baseline_cloud_upload_black_48"
-            app:iconGravity="textStart"
-            app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_restore_cloud"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:onClick="onClickBtnDrive"
-            app:icon="@drawable/baseline_cloud_download_black_48"
-            app:iconGravity="textStart"
-            app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/shadow_imiation_backup"
+    <include
+        android:id="@+id/include_shadow"
+        layout="@layout/inc_shadow_imitation"
         android:layout_width="0dp"
-        android:layout_height="1px"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/cstLytBarBackup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="?attr/colorShadow" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cstLytBarBackup"

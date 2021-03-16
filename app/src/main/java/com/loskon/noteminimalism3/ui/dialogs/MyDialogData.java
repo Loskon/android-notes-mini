@@ -21,7 +21,7 @@ public class MyDialogData {
 
     private AlertDialog alertDialog;
 
-    private MaterialButton btnOk7Yes, btnOk6No, btnOk2;
+    private MaterialButton btnYes, btnNo, btnDelete;
     private TextView textView;
 
     public MyDialogData(BackupActivity activity) {
@@ -33,27 +33,27 @@ public class MyDialogData {
         alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_data);
         alertDialog.show();
 
-        Button btnOk1 = alertDialog.findViewById(R.id.button2);
-        btnOk2 = alertDialog.findViewById(R.id.button3);
-        textView = alertDialog.findViewById(R.id.textView3);
-        btnOk7Yes = alertDialog.findViewById(R.id.button7);
-        btnOk6No = alertDialog.findViewById(R.id.button6);
-        Button btnCancel = alertDialog.findViewById(R.id.button5);
+        Button btnLogout = alertDialog.findViewById(R.id.btn_data_logout);
+        btnDelete = alertDialog.findViewById(R.id.btn_data_delete);
+        textView = alertDialog.findViewById(R.id.tv_data_warning);
+        btnYes = alertDialog.findViewById(R.id.btn_data_yes);
+        btnNo = alertDialog.findViewById(R.id.btn_data_no);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_data_cancel);
 
         int color = MyColor.getMyColor(activity);
-        btnOk1.setBackgroundColor(color);
-        btnOk2.setBackgroundColor(color);
-        btnOk7Yes.setTextColor(color);
-        btnOk7Yes.setStrokeColor(ColorStateList.valueOf(color));
-        btnOk6No.setBackgroundColor(color);
+        btnLogout.setBackgroundColor(color);
+        btnDelete.setBackgroundColor(color);
+        btnYes.setTextColor(color);
+        btnYes.setStrokeColor(ColorStateList.valueOf(color));
+        btnNo.setBackgroundColor(color);
         btnCancel.setTextColor(color);
 
         setItemVisibility(false);
 
-        btnOk1.setOnClickListener(onClickListener);
-        btnOk2.setOnClickListener(onClickListener);
-        btnOk7Yes.setOnClickListener(onClickListener);
-        btnOk6No.setOnClickListener(onClickListener);
+        btnLogout.setOnClickListener(onClickListener);
+        btnDelete.setOnClickListener(onClickListener);
+        btnYes.setOnClickListener(onClickListener);
+        btnNo.setOnClickListener(onClickListener);
         btnCancel.setOnClickListener(onClickListener);
     }
 
@@ -61,22 +61,22 @@ public class MyDialogData {
         int id = view.getId();
 
         if (activity.getInternetCheck().isConnected()) {
-            if (id == R.id.button2) {
+            if (id == R.id.btn_data_logout) {
                 bpCloud.signOut();
                 alertDialog.dismiss();
-            } else if (id == R.id.button3) {
+            } else if (id == R.id.btn_data_delete) {
                 setItemVisibility(true);
-            } else if (id == R.id.button7) {
+            } else if (id == R.id.btn_data_yes) {
                 bpCloud.deleteData();
                 alertDialog.dismiss();
-            } else if (id == R.id.button6) {
+            } else if (id == R.id.btn_data_no) {
                 setItemVisibility(false);
-            } else if (id == R.id.button5) {
+            } else if (id == R.id.btn_data_cancel) {
                 alertDialog.dismiss();
             }
         } else {
             alertDialog.dismiss();
-            if (id != R.id.button5) MySnackbarBackup
+            if (id != R.id.btn_data_cancel) MySnackbarBackup
                     .showSnackbar(activity, false, MySnackbarBackup.MSG_TEXT_NO_INTERNET);
         }
     };
@@ -92,9 +92,9 @@ public class MyDialogData {
         }
 
         textView.setVisibility(typeVisible);
-        btnOk7Yes.setVisibility(typeVisible);
-        btnOk6No.setVisibility(typeVisible);
+        btnYes.setVisibility(typeVisible);
+        btnNo.setVisibility(typeVisible);
 
-        btnOk2.setEnabled(!isVisible);
+        btnDelete.setEnabled(!isVisible);
     }
 }

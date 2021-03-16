@@ -11,13 +11,13 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:id="@+id/linLayCard"
+        android:id="@+id/linLytCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <View
-            android:id="@+id/view_favorites"
+            android:id="@+id/viewFavForCard"
             android:layout_width="16dp"
             android:layout_height="10dp"
             android:layout_gravity="end"

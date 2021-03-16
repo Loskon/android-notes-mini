@@ -31,12 +31,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 Columns.COLUMN_DEL_ITEMS + " INTEGER" +
                 ")"
         );
-
-        // добавление начальных данных
-        //database.execSQL("INSERT INTO " + UserTable.NAME + " (" +
-             //   UserTable.Cols.TEXT + ", " +
-              //  UserTable.Cols.DATE + ") " +
-               // "VALUES ('Том Смит', 1981);");
     }
 
     @Override

@@ -2,15 +2,35 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coord_layout_main"
+    android:id="@+id/coordLytMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
     <include
-        layout="@layout/content_recycler_view"
+        layout="@layout/inc_main_recycler_view"
         app:layout_anchor="@+id/textEmpty"
         app:layout_anchorGravity="center" />
+
+    <TextView
+        android:id="@+id/textEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:text="@string/empty_list"
+        android:textColor="?attr/colorDate" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:overScrollMode="ifContentScrolls"
+        android:src="@drawable/baseline_add_black_24"
+        app:elevation="0dp"
+        app:layout_anchor="@id/btmAppBarMain"
+        app:tint="?attr/colorAppBar" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/btmAppBarMain"
@@ -27,28 +47,8 @@
         app:menu="@menu/menu_for_bar_main"
         app:navigationIcon="@drawable/baseline_menu_black_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="0dp"
-        app:elevation="0dp"
-        android:overScrollMode="ifContentScrolls"
-        android:src="@drawable/baseline_add_black_24"
-        app:layout_anchor="@id/btmAppBarMain"
-        app:tint="?attr/colorAppBar" />
-
-    <TextView
-        android:id="@+id/textEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:text="@string/empty_list"
-        android:textColor="?attr/colorDate" />
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_main"
+        android:id="@+id/cardViewMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
@@ -58,7 +58,7 @@
         app:cardCornerRadius="6dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_font_size_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

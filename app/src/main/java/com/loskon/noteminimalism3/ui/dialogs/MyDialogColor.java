@@ -58,7 +58,7 @@ public class MyDialogColor {
         SVBar svBar = alertDialog.findViewById(R.id.svbar);
         Button btnOk = alertDialog.findViewById(R.id.btn_color_picker_ok);
         Button btnCancel = alertDialog.findViewById(R.id.btn_color_picker_cancel);
-        MaterialButton btnResetColor = alertDialog.findViewById(R.id.btn_reset_color_picker);
+        MaterialButton btnReset = alertDialog.findViewById(R.id.btn_color_picker_reset);
 
         color = MyColor.getMyColor(activity);
         //boolean isDarkModeOn = MyColor.isDarkMode(activity);
@@ -67,7 +67,7 @@ public class MyDialogColor {
 
         btnOk.setBackgroundColor(color);
         btnCancel.setTextColor(color);
-        MyColor.setColorMaterialBtn(activity, btnResetColor);
+        MyColor.setColorMaterialBtn(activity, btnReset);
 
         colorPickerView.setShowOldCenterColor(false); // выключить показ старого цвета
 
@@ -96,7 +96,7 @@ public class MyDialogColor {
         });
 
         // Reset
-        btnResetColor.setOnClickListener(view -> colorPickerView.setColor(activity
+        btnReset.setOnClickListener(view -> colorPickerView.setColor(activity
                 .getResources().getColor(R.color.light_blue)));
 
         // Cancel

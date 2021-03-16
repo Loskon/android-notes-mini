@@ -153,6 +153,8 @@ public class DbAdapter {
     }
 
     private NoteCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
+
+
         Cursor cursor = sqlDatabase.query(
                 NoteTable.NAME_TABLE,
                 null,
@@ -160,9 +162,21 @@ public class DbAdapter {
                 whereArgs,
                 null,
                 null,
-                Columns.COLUMN_DATE + " DESC" // Обратная сортировка по _id
+                getOrderBy(whereClause) + " DESC" // Обратная сортировка по времени
         );
         return new NoteCursorWrapper(cursor);
     }
 
+    private String getOrderBy(String whereClause) {
+        // Разделение сортировки для корзины
+        String orderBy;
+
+        if (whereClause.equals("del_items = 1")) {
+            orderBy = Columns.COLUMN_DATE_DEL;
+        } else {
+            orderBy = Columns.COLUMN_DATE;
+        }
+
+        return orderBy;
+    }
 }

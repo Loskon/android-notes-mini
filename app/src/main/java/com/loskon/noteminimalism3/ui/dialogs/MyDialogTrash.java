@@ -36,8 +36,8 @@ public class MyDialogTrash {
         alertDialog = DialogBuilder.buildDialog(mainActivity, R.layout.dialog_trash);
         alertDialog.show();
 
-        Button btnOk = alertDialog.findViewById(R.id.btn_ok_trash);
-        Button btnCancel = alertDialog.findViewById(R.id.btn_cancel_trash);
+        Button btnOk = alertDialog.findViewById(R.id.btn_trash_ok);
+        Button btnCancel = alertDialog.findViewById(R.id.btn_trash_cancel);
 
         int color = MyColor.getMyColor(mainActivity);
         btnOk.setBackgroundColor(color);

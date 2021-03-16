@@ -116,13 +116,6 @@ public class MyRecyclerViewAdapter extends
             return true;
         });
 
-        //View recyclerViewItem;
-        // if (cachedViews.isEmpty()) {
-        //  recyclerViewItem = layoutInflater.inflate(R.layout.card_for_swipe_item_note6,
-        //    parent, false);
-        //} else {
-        //  recyclerViewItem = cachedViews.pop();
-        //}
         return new NoteViewHolder(recyclerViewItem);
     }
 

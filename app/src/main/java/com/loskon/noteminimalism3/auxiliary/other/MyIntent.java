@@ -117,7 +117,7 @@ public class MyIntent {
     private static int delayForNote(boolean isButtonClick) {
         // Задержка для того, чтобы клавиатура успела закрыться
         if (isButtonClick) {
-            return intentDelay;
+            return 100;
         } else {
             return 0;
         }

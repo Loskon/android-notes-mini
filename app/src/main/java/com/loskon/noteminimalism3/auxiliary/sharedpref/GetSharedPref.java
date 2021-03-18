@@ -91,4 +91,8 @@ public class GetSharedPref {
     public static int getNotesCategory(Context context) {
         return MySharedPref.getInt(context,MyPrefKey.KEY_NOTES_CATEGORY, 0);
     }
+
+    public static int getSort(Context context) {
+        return MySharedPref.getInt(context,MyPrefKey.KEY_SORT, R.id.rb_sort_creation);
+    }
 }

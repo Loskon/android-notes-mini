@@ -11,8 +11,8 @@ android {
         applicationId "com.loskon.noteminimalism3"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,7 +32,6 @@ android {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
 
-    implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
     implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'jp.wasabeef:recyclerview-animators:4.0.1'
     implementation 'io.michaelrocks:libphonenumber-android:8.12.16'

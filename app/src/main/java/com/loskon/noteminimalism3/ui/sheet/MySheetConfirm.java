@@ -21,7 +21,7 @@ public class MySheetConfirm {
         BpCloud bpCloud = activity.getBpCloud();
 
         BottomSheetDialog bottomSheetDialog  = new BottomSheetDialog(activity,
-                R.style.AppBottomSheetDialogTheme);
+                R.style.BottomSheetBackground);
         View inflate = View.inflate(activity, R.layout.bottom_sheet, null);
 
         Button btnConfirm = inflate.findViewById(R.id.btn_sheet_confirm);

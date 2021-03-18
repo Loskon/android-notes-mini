@@ -34,7 +34,7 @@ public class MyDialogSlider {
     }
 
     public void call(String keyTitle, int value) {
-        AlertDialog alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_slider);
+        AlertDialog alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_pref_slider);
         alertDialog.show();
 
         File folder = BackupPath.getFolder(activity);

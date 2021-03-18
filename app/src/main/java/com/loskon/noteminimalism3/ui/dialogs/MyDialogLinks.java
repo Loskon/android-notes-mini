@@ -65,15 +65,15 @@ public class MyDialogLinks {
         switch (typeLinks) {
             case URL_MAIL:
                 replaceText("mailto:");
-                setTextBtn(R.string.dialog_open_link_send);
+                setTextBtn(R.string.dg_open_link_send);
                 break;
             case URL_PHONE:
                 replaceText("tel:");
-                setTextBtn(R.string.dialog_open_link_call);
+                setTextBtn(R.string.dg_open_link_call);
                 break;
             default:
                 titleTextView = titleLinks;
-                setTextBtn(R.string.dialog_open_link_open);
+                setTextBtn(R.string.dg_open_link_open);
                 break;
         }
 

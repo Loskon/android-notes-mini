@@ -6,5 +6,5 @@
         android:id="@+id/action_account"
         android:icon="@drawable/baseline_account_circle_black_24"
         app:showAsAction="always"
-        android:title="@string/menu_backup_logout"/>
+        android:title="@string/menu_backup_settings"/>
 </menu>

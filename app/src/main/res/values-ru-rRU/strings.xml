@@ -42,17 +42,18 @@
     <!-- Snackbars -->
     <!-- Main -->
     <string name="sb_main_add_trash">Заметка отправлена в корзину!</string>
-    <string name="sb_main_but_empty_trash">Но корзина была пуста…</string>
+    <string name="sb_main_but_empty_trash">Но корзина же пустая…</string>
 
     <!-- Note -->
     <string name="sb_note_in_trash">Эта заметка находится в корзине!</string>
     <string name="sb_note_is_empty">Ошибка! Заметка пустая!</string>
     <string name="sb_note_restore">Восстановить</string>
-    <string name="sb_note_save_txt_completed">Скачать текстовый файл</string>
+    <string name="sb_note_save_txt_completed">Текстовый файл скачан</string>
     <string name="sb_note_save_txt_failed">Не удалось скачать текстовый файл!</string>
     <string name="sb_note_invalid_link">Неверная ссылка!</string>
     <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
     <string name="sb_note_invalid_format">Неверный формат!</string>
+    <string name="sb_note_text_copied">Текст скопирован</string>
 
     <!-- Backup -->
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
@@ -95,14 +96,14 @@
     <string name="dg_unification_title">Объединить заметки?</string>
 
     <!-- dialog_open_link -->
-    <string name="dialog_open_link_open">Открыть</string>
-    <string name="dialog_open_link_call">Позвонить</string>
-    <string name="dialog_open_link_send">Отправить эл.письмо</string>
-    <string name="dialog_open_link_copy">Копировать</string>
+    <string name="dg_open_link_open">Открыть</string>
+    <string name="dg_open_link_call">Позвонить</string>
+    <string name="dg_open_link_send">Отправить эл.письмо</string>
+    <string name="dg_open_link_copy">Копировать</string>
 
     <!-- dialog_account -->
-    <string name="dialog_account_delete_data">Удалить все данные</string>
-    <string name="menu_backup_logout">Выйти из аккаунта</string>
+    <string name="dg_data_delete">Удалить все данные</string>
+    <string name="dg_data_logout">Выйти из аккаунта</string>
 
     <!-- dialog_account -->
     <string name="dialog_account_warning">Внимание! Вы удалите свои данные из облака
@@ -112,11 +113,18 @@
     <string name="dialog_confirm_action">Подтвердить действие</string>
 
     <!-- bottom_sheet_dialog -->
+    <string name="bs_last_modified">Последнее изменение</string>
     <string name="bs_paste_text">Вставить текст</string>
     <string name="bs_copy_text">Копировать текст заметки</string>
     <string name="bs_share">Поделиться</string>
     <string name="bs_download">Скачать</string>
     <string name="bs_to_close">Закрыть</string>
+
+    <!-- dialog_pref_sorting -->
+    <string name="dg_sorting_title">Сортировка</string>
+    <string name="dg_sorting_time_creation">По дате создания</string>
+    <string name="dg_sorting_time_modification">По дате изменения</string>
+    <string name="dg_sorting_alphabetical">По алфавиту</string>
 
 
     <!-- Preference -->
@@ -129,13 +137,14 @@
 
     <!-- Preference Titles -->
     <string name="custom_app_title">Настроить</string>
+    <string name="sort_title">Сортировка</string>
     <string name="dark_mode_title">Темная тема</string>
     <string name="backup_title">Резервное копирование</string>
     <string name="folder_title">Папка для данных</string>
     <string name="auto_backup_title">Авторезервирование</string>
     <string name="notification_title">Уведомление</string>
     <string name="num_of_backup_title">Количество резервных копий</string>
-    <string name="update_date_title">Обновление даты</string>
+    <string name="update_date_title">Обновлять дату</string>
     <string name="font_size_notes_title">Размер текста</string>
     <string name="hyperlinks_title">Гиперссылки</string>
     <string name="retention_trash_title">Время хранения заметок в корзине</string>

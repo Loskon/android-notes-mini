@@ -66,7 +66,7 @@
     <!-- TextInputLayout -->
     <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
         <item name="colorControlActivated">@android:color/darker_gray</item>
-        <item name="colorOnSurface">@color/gray</item>
+        <item name="colorOnSurface">@color/gray_for_surface</item>
     </style>
 
 
@@ -87,13 +87,13 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <!-- BottomSheetFragmentTheme -->
-    <style name="BottomSheetFragmentTheme" parent="BaseBottomSheetDialog">
+    <!-- BottomSheetStatusBar -->
+    <style name="BottomSheetStatusBar" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <!-- BottomSheetDialogTheme -->
-    <style name="AppBottomSheetDialogTheme"
+    <!-- BottomSheetBackground -->
+    <style name="BottomSheetBackground"
         parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>

@@ -40,10 +40,7 @@ public class NoteHelper {
 
     public void handlerLongEditTextClick() {
         editText.setOnLongClickListener(view -> {
-            activity.hideBottomSheet();
-            activity.getHelperLinks().changeColorLinks();
-            showKeyboard(true);
-            editText.requestFocus();
+            activity.goClick();
             return false;
         });
     }
@@ -70,8 +67,6 @@ public class NoteHelper {
         editText.setOnClickListener(view -> {
             if (selNotesCategory == 2) {
                 activity.getNoteSbAdapter().show();
-            } else {
-                activity.hideBottomSheet();
             }
         });
     }

@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,17 +18,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.auxiliary.note.BottomSheetHelper;
 import com.loskon.noteminimalism3.auxiliary.note.FindLinks;
 import com.loskon.noteminimalism3.auxiliary.note.MyKeyboard;
 import com.loskon.noteminimalism3.auxiliary.note.NoteHelper;
 import com.loskon.noteminimalism3.auxiliary.note.NoteHelperLinks;
+import com.loskon.noteminimalism3.auxiliary.note.TextAssistant;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
+import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupAuto;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
+import com.loskon.noteminimalism3.ui.sheet.MySheetNote;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteReset;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
@@ -49,7 +49,7 @@ public class NoteActivity extends AppCompatActivity {
     private Note note;
 
     private FindLinks findLinks;
-    private BottomSheetHelper bottomSheetHelper;
+    private MySheetNote mySheetNote;
     private NoteHelper noteHelper;
     private NoteHelperLinks helperLinks;
     private MySnackbarNoteMessage mySnackbarNoteMessage;
@@ -64,9 +64,9 @@ public class NoteActivity extends AppCompatActivity {
     private EditText editText;
 
     private long noteId = 0;
-    private Date receivedDate, autoBackupDate;
+    private Date receivedDate, autoBackupDate, dateMod;
     private int selNotesCategory;
-    private String title, textFromDb;
+    private String title, textFromDb, textDateMod;
 
     // for new Note
     private boolean isAutoBackup = false;
@@ -128,14 +128,16 @@ public class NoteActivity extends AppCompatActivity {
 
         if (selNotesCategory != 2) {
             mySnackbarNoteMessage = new MySnackbarNoteMessage(this, cstLayNote);
-            bottomSheetHelper = new BottomSheetHelper(this);
+            mySheetNote = new MySheetNote(this);
             helperLinks = new NoteHelperLinks(this);
-            if (noteId != 0) helperLinks.setLinks();
+
+            if (noteId != 0) {
+                helperLinks.setLinks();
+                findLinks = new FindLinks(this);
+            }
         } else {
             noteSbAdapter = new MySnackbarNoteReset(this, cstLayNote);
         }
-
-        if (noteId != 0 && selNotesCategory != 2) findLinks = new FindLinks(this);
     }
 
     private void initialiseConfigureWidgets() {
@@ -164,7 +166,6 @@ public class NoteActivity extends AppCompatActivity {
 
         if (selNotesCategory != 2) setFavoriteStatus();
 
-        handlerScrollView();
         handlerEditTextClick();
     }
 
@@ -189,9 +190,11 @@ public class NoteActivity extends AppCompatActivity {
         dbAdapter.close();
 
         textFromDb = getMyText();
+        textDateMod = MyDate.getNowDate(note.getDateMod());
 
         editText.setText(textFromDb);
         receivedDate = note.getDate();
+        dateMod  = note.getDateMod();
         isFavItem = note.getFavoritesItem();
     }
 
@@ -210,11 +213,6 @@ public class NoteActivity extends AppCompatActivity {
     private void handlerEditTextClick() {
         noteHelper.handlerEditTextClick();
         if (selNotesCategory != 2) noteHelper.handlerLongEditTextClick();
-    }
-
-    private void handlerScrollView() {
-        ScrollView scrollView = findViewById(R.id.scrollViewNote);
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(this::hideBottomSheet);
     }
 
     private void setSettingsNote() {
@@ -251,21 +249,17 @@ public class NoteActivity extends AppCompatActivity {
 
     private void eventOutClick() {
         handler.removeCallbacksAndMessages(null);
-        SnackbarBuilder.close();
-        hideBottomSheet();
 
-        (new Handler()).postDelayed(() -> {
-            hideBottomSheet();
-            helperLinks.changeColorLinks();
-            editText.requestFocus();
-            noteHelper.showKeyboard(true);
-        }, 300);
+        goClick();
 
         editText.setSelection(editText.getText().toString().length());
     }
 
-    public void hideBottomSheet() {
-        bottomSheetHelper.hideBottomSheet();
+    public void goClick() {
+        SnackbarBuilder.close();
+        helperLinks.changeColorLinks();
+        editText.requestFocus();
+        noteHelper.showKeyboard(true);
     }
 
     public void addNoteClick(View view) {
@@ -277,7 +271,7 @@ public class NoteActivity extends AppCompatActivity {
             isUpdateDate = true;
             // Восстановление заметки
             dbAdapter.open();
-            dbAdapter.updateSelectItemForDel(note, false, updateDateTime(), new Date());
+            dbAdapter.updateSelectItemForDel(note, false, getTime(), new Date());
             dbAdapter.close();
         }
 
@@ -302,7 +296,7 @@ public class NoteActivity extends AppCompatActivity {
     private void sendInTrash() {
         note.setSelectItemForDel(true);
         note.setFavoritesItem(false);
-        dbAdapter.updateSelectItemForDel(note, false, updateDateTime(), new Date());
+        dbAdapter.updateSelectItemForDel(note, false, getTime(), new Date());
         dbAdapter.updateFavorites(note, false);
     }
 
@@ -312,11 +306,11 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     public void moreClick(View view) {
+        SnackbarBuilder.close();
         MyKeyboard.hideSoftKeyboard(this, editText);
-        handler.postDelayed(() -> {
-            SnackbarBuilder.close();
-            bottomSheetHelper.showBottomSheet();
-        }, 300);
+        closeActionMode();
+        editText.setSelection(editText.getSelectionEnd());
+        handler.postDelayed(() -> mySheetNote.call(textDateMod), 300);
     }
 
     @Override
@@ -324,9 +318,10 @@ public class NoteActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                bottomSheetHelper.goSaveTextFile();
+                (new TextAssistant(this)).goSaveTextFile();
             } else {
-                mySnackbarNoteMessage.show(false, MySnackbarNoteMessage.MSG_TEXT_NO_PERMISSION_NOTE);
+                mySnackbarNoteMessage.show(false,
+                        MySnackbarNoteMessage.MSG_TEXT_NO_PERMISSION_NOTE);
             }
         }
     }
@@ -388,11 +383,13 @@ public class NoteActivity extends AppCompatActivity {
     private void updateDateNote() {
         boolean isTitleChanged = !title.trim().equals(textFromDb.trim());
         if (isTitleChanged && isUpdateDateTimeWhenChanges) isUpdateDate = true;
+        if (isTitleChanged) dateMod = new Date();
     }
 
     private void getMyNote() {
-        Date date = updateDateTime();
-        note = new Note(noteId, title, date, date, isFavItem);
+        Date date = getTime();
+        if (noteId == 0) dateMod = date;
+        note = new Note(noteId, title, date, dateMod, date, isFavItem);
     }
 
     private void callAutoBackup() {
@@ -401,7 +398,7 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
-    private Date updateDateTime() {
+    private Date getTime() {
         if (isUpdateDate || noteId == 0) {
             return new Date();  // Обновляет дату
         } else {
@@ -419,23 +416,12 @@ public class NoteActivity extends AppCompatActivity {
         if (actionMode != null) actionMode.finish();
     }
 
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (selNotesCategory != 2) {
-                if (bottomSheetHelper.isVisibleBottomSheet()) {
-                    hideBottomSheet();
-                    return false;
-                } else {
-                    goMainActivity(false);
-                    return true;
-                }
-            } else {
-                goMainActivity(false);
-                return true;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        goMainActivity(false);
     }
 
     public NoteHelper getNoteHelper() {
@@ -460,10 +446,6 @@ public class NoteActivity extends AppCompatActivity {
 
     public MySnackbarNoteMessage getMySnackbarNoteMessage() {
         return mySnackbarNoteMessage;
-    }
-
-    public NoteHelperLinks getHelperLinks() {
-        return helperLinks;
     }
 
     public int getSelNotesCategory() {

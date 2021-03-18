@@ -22,6 +22,7 @@ public class MySnackbarNoteMessage {
     public static final String MSG_INVALID_LINK = "msg_invalid_link";
     public static final String MSG_NEED_COPY_TEXT = "msg_need_copy_text";
     public static final String MSG_INVALID_FORMAT = "msg_invalid_format";
+    public static final String MSG_NOTE_TEXT_COPIED = "msg_text_copied";
 
     private final NoteActivity noteActivity;
 
@@ -58,6 +59,9 @@ public class MySnackbarNoteMessage {
                 break;
             case MSG_INVALID_FORMAT:
                 message = noteActivity.getString(R.string.sb_note_invalid_format);
+                break;
+            case MSG_NOTE_TEXT_COPIED:
+                message = noteActivity.getString(R.string.sb_note_text_copied);
                 break;
             default:
                 message = noteActivity.getString(R.string.unknown_error);

@@ -26,12 +26,14 @@ public class NoteCursorWrapper extends CursorWrapper {
         long  id = getLong(getColumnIndex(NoteTable.Columns.ID));
         String text = getString(getColumnIndex(NoteTable.Columns.COLUMN_TITLE));
         long date = getLong(getColumnIndex(NoteTable.Columns.COLUMN_DATE));
+        long dateMod = getLong(getColumnIndex(NoteTable.Columns.COLUMN_DATE_MOD));
         long dateDelete = getLong(getColumnIndex(NoteTable.Columns.COLUMN_DATE_DEL));
         String fav = getString(getColumnIndex(NoteTable.Columns.COLUMN_FAVORITES));
 
         // ВНИМАНИЕ!!!! SQLite не имеет отдельного класса логического хранилища.
         boolean favoritesItem = fav.equals("1");
 
-        return new Note(id, text, new Date(date), new Date(dateDelete), favoritesItem);
+        return new Note(id, text, new Date(date),
+                new Date(dateMod), new Date(dateDelete), favoritesItem);
     }
 }

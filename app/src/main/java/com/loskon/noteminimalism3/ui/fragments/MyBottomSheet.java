@@ -36,7 +36,7 @@ public class MyBottomSheet extends BottomSheetDialogFragment {
 
     @Override
     public int getTheme() {
-        return R.style.BottomSheetFragmentTheme;
+        return R.style.BottomSheetStatusBar;
     }
 
     @Nullable

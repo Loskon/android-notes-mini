@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nestedScrollViewSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,6 +20,19 @@
             layout="@layout/inc_shadow_imitation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="2dp"
+            android:text="TextView"
+            android:textColor="@color/color_text_date_mod"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/tv_sheet_paste"

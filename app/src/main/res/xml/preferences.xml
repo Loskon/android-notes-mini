@@ -10,6 +10,11 @@
             android:title="@string/custom_app_title"
             app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="@string/sort_title"
+            android:title="@string/sort_title"
+            app:iconSpaceReserved="false" />
+
         <com.loskon.noteminimalism3.ui.preference.MyPrefSwitch
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"

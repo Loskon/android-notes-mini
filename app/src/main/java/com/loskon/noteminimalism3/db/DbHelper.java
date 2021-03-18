@@ -26,6 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Columns.COLUMN_TITLE + " TEXT, " +
                 Columns.COLUMN_DATE + " INTEGER, " +
+                Columns.COLUMN_DATE_MOD + " INTEGER, " +
                 Columns.COLUMN_DATE_DEL + " INTEGER, " +
                 Columns.COLUMN_FAVORITES + " INTEGER, " +
                 Columns.COLUMN_DEL_ITEMS + " INTEGER" +

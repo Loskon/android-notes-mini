@@ -14,9 +14,10 @@ public class NoteDbSchema {
             public static final String ID = "_id";
             public static final String COLUMN_TITLE = "title";
             public static final String COLUMN_DATE = "date";
+            public static final String COLUMN_DATE_MOD = "date_mod";
+            public static final String COLUMN_DATE_DEL = "date_del";
             public static final String COLUMN_FAVORITES = "favorites";
             public static final String COLUMN_DEL_ITEMS = "del_items";
-            public static final String COLUMN_DATE_DEL = "date_del";
         }
     }
 }

@@ -101,12 +101,12 @@ public class MyRecyclerViewAdapter extends
     public NoteViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View recyclerViewItem = layoutInflater.inflate(R.layout.card_view_notes,
+        View recyclerViewItem = layoutInflater.inflate(R.layout.inc_card_view_notes,
                 parent, false);
 
         AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(parent.getContext());
         for (int i = 0; i < NUM_CACHED_VIEWS; i++) {
-            asyncLayoutInflater.inflate(R.layout.card_view_notes,
+            asyncLayoutInflater.inflate(R.layout.inc_card_view_notes,
                     parent, inflateListener);
         }
 

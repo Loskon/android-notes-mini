@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable;
@@ -36,11 +35,11 @@ public class DbAdapter {
         dbHelper.close();
     }
 
-    public List<Note> getNotes(String whereClause) {
+    public List<Note> getNotes(String whereClause, String orderBy) {
         // Получить все заметки
         ArrayList<Note> notes = new ArrayList<>();
 
-        try (NoteCursorWrapper cursor = queryCrimes(whereClause, null)) {
+        try (NoteCursorWrapper cursor = queryCrimes(whereClause, orderBy, null)) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 notes.add(cursor.getNotes());
@@ -55,6 +54,7 @@ public class DbAdapter {
         // Получить заметку по id
         try (NoteCursorWrapper cursor = queryCrimes(
                 Columns.ID + "=?",
+                null,
                 new String[]{String.valueOf(id)}
         )) {
             if (cursor.getCount() == 0) {
@@ -64,10 +64,6 @@ public class DbAdapter {
             cursor.moveToFirst();
             return cursor.getNotes();
         }
-    }
-
-    public int getNumberOfRows() {
-        return (int) DatabaseUtils.queryNumEntries(sqlDatabase, NoteTable.NAME_TABLE);
     }
 
     public int addNewNote(Note note) {
@@ -146,15 +142,14 @@ public class DbAdapter {
         if (note.getId() != 0) values.put(NoteTable.Columns.ID, note.getId());
         values.put(Columns.COLUMN_TITLE, note.getTitle());
         values.put(Columns.COLUMN_DATE, note.getDate().getTime());
+        values.put(Columns.COLUMN_DATE_MOD, note.getDateMod().getTime());
         values.put(Columns.COLUMN_DATE_DEL, note.getDateDelete().getTime());
         values.put(Columns.COLUMN_FAVORITES, note.getFavoritesItem());
         values.put(Columns.COLUMN_DEL_ITEMS, note.getSelectItemForDel());
         return values;
     }
 
-    private NoteCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
-
-
+    private NoteCursorWrapper queryCrimes(String whereClause, String orderBy, String[] whereArgs) {
         Cursor cursor = sqlDatabase.query(
                 NoteTable.NAME_TABLE,
                 null,
@@ -162,21 +157,8 @@ public class DbAdapter {
                 whereArgs,
                 null,
                 null,
-                getOrderBy(whereClause) + " DESC" // Обратная сортировка по времени
+                orderBy
         );
         return new NoteCursorWrapper(cursor);
-    }
-
-    private String getOrderBy(String whereClause) {
-        // Разделение сортировки для корзины
-        String orderBy;
-
-        if (whereClause.equals("del_items = 1")) {
-            orderBy = Columns.COLUMN_DATE_DEL;
-        } else {
-            orderBy = Columns.COLUMN_DATE;
-        }
-
-        return orderBy;
     }
 }

@@ -26,6 +26,7 @@ import com.loskon.noteminimalism3.backup.second.BackupPath;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogFontSize;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogPrefLinks;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogSlider;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogSort;
 import com.loskon.noteminimalism3.ui.preference.PrefHelper;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
 
@@ -46,13 +47,13 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     private String prefKey;
 
     @SuppressWarnings("FieldCanBeLocal")
-    private Preference intentFolderPref, customizeAppPref;
+    private Preference intentFolderPref, sortPref, customizeAppPref;
     private Preference numOfBackupPref, intentBackupPref, communicationPref;
     private Preference callDialogHyperlinksPref, retentionPref, fontSizePref;
     @SuppressWarnings("FieldCanBeLocal")
     private SwitchPreference darkModeSwitchPref, autoBackupSwitchPref;
 
-    private String darkModeString, autoBackupString, customizeAppString;
+    private String darkModeString, autoBackupString, customizeAppString, sortString;
     private String numOfBackupStr, intentBackupString, intentFolderString, communicationStr;
     private String callDialogHyperlinksStr, retentionStr, fontSizeStr;
 
@@ -135,6 +136,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private void getPrefKeys() {
         customizeAppString = getString(R.string.custom_app_title);
+        sortString = getString(R.string.sort_title);
         darkModeString = getString(R.string.dark_mode_title);
         autoBackupString = getString(R.string.auto_backup_title);
         numOfBackupStr = getString(R.string.num_of_backup_title);
@@ -148,6 +150,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private void setPreferences() {
         customizeAppPref = findPreference(customizeAppString);
+        sortPref = findPreference(sortString);
         darkModeSwitchPref = findPreference(darkModeString);
         autoBackupSwitchPref = findPreference(autoBackupString);
         numOfBackupPref = findPreference(numOfBackupStr);
@@ -162,6 +165,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     private void setClickPreferences() {
         // ClickListener
         customizeAppPref.setOnPreferenceClickListener(this);
+        sortPref.setOnPreferenceClickListener(this);
         numOfBackupPref.setOnPreferenceClickListener(this);
         intentBackupPref.setOnPreferenceClickListener(this);
         intentFolderPref.setOnPreferenceClickListener(this);
@@ -214,6 +218,9 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
         if (key.equals(customizeAppString)) {
             MyIntent.openSettingsApp(activity);
+            return true;
+        } else if (key.equals(sortString)) {
+            (new MyDialogSort(activity)).call();
             return true;
         } else if (key.equals(intentBackupString)) {
             MyIntent.openBackupActivity(activity);

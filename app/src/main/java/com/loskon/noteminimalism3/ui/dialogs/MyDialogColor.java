@@ -50,7 +50,7 @@ public class MyDialogColor {
     }
 
     public void call() {
-        AlertDialog alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_color_picker);
+        AlertDialog alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_pref_color_picker);
         alertDialog.show();
 
         // Initiation View

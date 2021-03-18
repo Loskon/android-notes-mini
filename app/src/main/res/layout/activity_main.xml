@@ -21,17 +21,6 @@
         android:text="@string/empty_list"
         android:textColor="?attr/colorDate" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="0dp"
-        android:overScrollMode="ifContentScrolls"
-        android:src="@drawable/baseline_add_black_24"
-        app:elevation="0dp"
-        app:layout_anchor="@id/btmAppBarMain"
-        app:tint="?attr/colorAppBar" />
-
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/btmAppBarMain"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
@@ -46,6 +35,17 @@
         app:fabCradleRoundedCornerRadius="6dp"
         app:menu="@menu/menu_for_bar_main"
         app:navigationIcon="@drawable/baseline_menu_black_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:overScrollMode="ifContentScrolls"
+        android:src="@drawable/baseline_add_black_24"
+        app:elevation="0dp"
+        app:layout_anchor="@id/btmAppBarMain"
+        app:tint="?attr/colorAppBar" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewMain"

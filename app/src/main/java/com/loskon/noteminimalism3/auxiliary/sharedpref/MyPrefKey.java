@@ -15,6 +15,7 @@ public class MyPrefKey {
     public static final String KEY_POSITION_TOP = "key_position_top";
     public static final String KEY_POSITION_INDEX = "key_position_index";
     public static final String KEY_NOTES_CATEGORY = "key_sel_note_category";
+    public static final String KEY_SORT = "key_sort";
 
     public static final String KEY_WEB = "key_web";
     public static final String KEY_MAIL = "key_mail";

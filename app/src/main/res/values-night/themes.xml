@@ -68,7 +68,7 @@
     </style>
 
     <!-- BottomSheetDialogTheme -->
-    <style name="AppBottomSheetDialogTheme"
+    <style name="BottomSheetBackground"
         parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>

@@ -57,6 +57,7 @@
     <string name="sb_note_invalid_link">Invalid link!</string>
     <string name="sb_note_need_copy_text">You need to copy text!</string>
     <string name="sb_note_invalid_format">Invalid format!</string>
+    <string name="sb_note_text_copied">Text copied</string>
 
     <!-- Backup -->
     <string name="sb_bp_text_error">Error. Retry!</string>
@@ -100,14 +101,14 @@
     <string name="dg_unification_title">Unification this notes?</string>
 
     <!-- dialog_open_link -->
-    <string name="dialog_open_link_open">Open</string>
-    <string name="dialog_open_link_call">Call</string>
-    <string name="dialog_open_link_send">Send</string>
-    <string name="dialog_open_link_copy">Copy</string>
+    <string name="dg_open_link_open">Open</string>
+    <string name="dg_open_link_call">Call</string>
+    <string name="dg_open_link_send">Send</string>
+    <string name="dg_open_link_copy">Copy</string>
 
     <!-- dialog_account -->
-    <string name="dialog_account_delete_data">Delete all data</string>
-    <string name="menu_backup_logout">Logout</string>
+    <string name="dg_data_delete">Delete all data</string>
+    <string name="dg_data_logout">Logout</string>
 
     <!-- dialog_account -->
     <string name="dialog_account_warning">Warning! You will delete your data from the cloud
@@ -117,11 +118,18 @@
     <string name="dialog_confirm_action">Confirm action</string>
 
     <!-- bottom_sheet_dialog -->
+    <string name="bs_last_modified">Last modified</string>
     <string name="bs_paste_text">Paste text</string>
     <string name="bs_copy_text">Copy text note</string>
     <string name="bs_share">Share</string>
     <string name="bs_download">Download</string>
     <string name="bs_to_close">To close</string>
+
+    <!-- dialog_pref_sorting -->
+    <string name="dg_sorting_title">Sort</string>
+    <string name="dg_sorting_time_creation">By time of creation</string>
+    <string name="dg_sorting_time_modification">By time of modification</string>
+    <string name="dg_sorting_alphabetical">By alphabetical order</string>
 
 
     <!-- Preference -->
@@ -134,6 +142,7 @@
 
     <!-- Preference Titles -->
     <string name="custom_app_title">Customize</string>
+    <string name="sort_title">Sort</string>
     <string name="dark_mode_title">Dark mode</string>
     <string name="backup_title">Backup and Restore</string>
     <string name="folder_title">Folder for data</string>

@@ -11,7 +11,7 @@
 
     <!-- My color -->
     <color name="background_search_view_light">#15000000</color>
-    <color name="gray">#45474A</color>
+    <color name="gray_for_surface">#45474A</color>
     <color name="background_dark">#121212</color>
     <color name="item_dark">#272727</color>
 
@@ -22,15 +22,20 @@
     <color name="snackbar_background_light">#FF333333</color>
     <color name="snackbar_background_dark">#383838</color>
 
+
     <!-- custom -->
     <color name="snackbar_completed_light">#60ad5e</color>
     <color name="snackbar_completed_dark">#005005</color>
-    <color name="snackbar_no_completed_light">#ff5f52</color>
+    <color name="snackbar_no_completed_light">#c62828</color>
     <color name="snackbar_no_completed_dark">#8e0000</color>
 
 
     <!-- EditText -->
     <color name="color_highlight">#a9a9a9</color>
+
+
+    <!-- TextView -->
+    <color name="color_text_date_mod">#a9a9a9</color>
 
 
     <!-- Divider -->

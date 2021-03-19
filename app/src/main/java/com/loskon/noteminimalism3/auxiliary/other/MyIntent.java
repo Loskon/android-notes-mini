@@ -26,6 +26,7 @@ public class MyIntent {
 
     public static final String PUT_EXTRA_SEL_NOTE_CATEGORY = "selNotesCategory";
     public static final String PUT_EXTRA_ID = "id";
+    public static final String PUT_IS_WIDGET = "isWidget";
 
     private static final int intentDelay = 50;
 
@@ -111,6 +112,15 @@ public class MyIntent {
         intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
         intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback));
+        context.startActivity(intent);
+    }
+
+    public static void addNewNoteFromWidget (Context context) {
+        // Добавление новой заметки
+        Intent intent = new Intent(context, NoteActivity.class);
+        intent.putExtra(PUT_EXTRA_SEL_NOTE_CATEGORY, 0);
+        intent.putExtra(PUT_IS_WIDGET, true);
+        intent.putExtra(PUT_EXTRA_ID, 0);
         context.startActivity(intent);
     }
 

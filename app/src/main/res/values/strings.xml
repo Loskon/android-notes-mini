@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Name my app -->
     <string name="app_name" translatable="false">Notes Mini</string>
@@ -11,6 +12,7 @@
 
     <!-- activity_note -->
     <string name="hint_note_text">Text</string>
+    <string name="note_deleted">Note deleted</string>
 
     <!-- activity_settings -->
     <string name="feedback">Feedback</string>

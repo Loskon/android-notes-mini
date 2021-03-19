@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.appwidget.AppWidgetManager;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.loskon.noteminimalism3.AppWidgetConfigure;
+import com.loskon.noteminimalism3.MyAppWidgetProvider;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.note.FindLinks;
 import com.loskon.noteminimalism3.auxiliary.note.MyKeyboard;
@@ -27,6 +30,7 @@ import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupAuto;
 import com.loskon.noteminimalism3.db.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
@@ -64,7 +68,8 @@ public class NoteActivity extends AppCompatActivity {
     private EditText editText;
 
     private long noteId = 0;
-    private Date receivedDate, autoBackupDate, dateMod;
+    private boolean isWidget = false;
+    private Date receivedDate, autoBackupDate, dateMod, dateFinaly;
     private int selNotesCategory;
     private String title, textFromDb, textDateMod;
 
@@ -88,6 +93,12 @@ public class NoteActivity extends AppCompatActivity {
         NoteActivity.callbackNote = callbackNote;
     }
 
+    private static CallbackNoteWidget callbackNoteWidget;
+
+    public static void regCallbackNoteWidget(CallbackNoteWidget callbackNoteWidget) {
+        NoteActivity.callbackNoteWidget = callbackNoteWidget;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
@@ -108,6 +119,7 @@ public class NoteActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             noteId = extras.getLong(MyIntent.PUT_EXTRA_ID);
+            isWidget  = extras.getBoolean(MyIntent.PUT_IS_WIDGET);
             selNotesCategory = extras.getInt(MyIntent.PUT_EXTRA_SEL_NOTE_CATEGORY);
         }
     }
@@ -179,6 +191,8 @@ public class NoteActivity extends AppCompatActivity {
 
         isNewNote = true;
         isListGoUp = true;
+
+        editText.requestFocus(); // for api >29
     }
 
     private void existingNote() {
@@ -290,6 +304,8 @@ public class NoteActivity extends AppCompatActivity {
         }
         dbAdapter.close();
 
+        updateWidget(true);
+
         goMainActivity(true);
     }
 
@@ -330,10 +346,15 @@ public class NoteActivity extends AppCompatActivity {
         isShowToast = true;
         if (editText.getText().toString().isEmpty()) isListGoUp = false;
 
-        callbackNote.onCallBack(isListGoUp);
+        if (callbackNote != null) callbackNote.onCallBack(isListGoUp);
 
         MyKeyboard.hideSoftKeyboard(this, editText);
-        MyIntent.goMainActivityFromNote(this, isButtonClick);
+
+        if (isWidget) {
+            finish();
+        } else {
+            MyIntent.goMainActivityFromNote(this, isButtonClick);
+        }
     }
 
     @Override
@@ -371,6 +392,10 @@ public class NoteActivity extends AppCompatActivity {
 
         autoBackupDate = new Date();
         isUpdateDate = true;
+
+        if (callbackNoteWidget != null) {
+            callbackNoteWidget.onCallBackWidget(title, noteId, MyDate.getNowDate(dateFinaly));
+        }
     }
 
     private void updateNote() {
@@ -378,6 +403,25 @@ public class NoteActivity extends AppCompatActivity {
 
         getMyNote();
         dbAdapter.updateNote(note);
+
+        updateWidget(false);
+    }
+
+    private void updateWidget(boolean isDelete) {
+        int appWidgetId = MySharedPref.getCustomInt(this, noteId);
+
+        if (appWidgetId != -1) {
+            if (isDelete) {
+                title = getString(R.string.note_deleted);
+                dateFinaly = getTime();
+            }
+
+            MyAppWidgetProvider.updateAppWidget(this,
+                    AppWidgetManager.getInstance(this), appWidgetId, title, noteId,
+                    MyDate.getNowDate(dateFinaly), isDelete);
+
+            if (isDelete) AppWidgetConfigure.deleteTitlePref(this, appWidgetId);
+        }
     }
 
     private void updateDateNote() {
@@ -387,9 +431,9 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void getMyNote() {
-        Date date = getTime();
-        if (noteId == 0) dateMod = date;
-        note = new Note(noteId, title, date, dateMod, date, isFavItem);
+        dateFinaly = getTime();
+        if (noteId == 0) dateMod = dateFinaly;
+        note = new Note(noteId, title, dateFinaly, dateMod, dateFinaly, isFavItem);
     }
 
     private void callAutoBackup() {
@@ -470,5 +514,9 @@ public class NoteActivity extends AppCompatActivity {
 
     public interface CallbackNote {
         void onCallBack(boolean isListGoUp);
+    }
+
+    public interface CallbackNoteWidget {
+        void onCallBackWidget(String string, long id, String date);
     }
 }

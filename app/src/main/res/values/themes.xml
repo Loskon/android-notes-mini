@@ -93,13 +93,16 @@
     </style>
 
     <!-- BottomSheetBackground -->
-    <style name="BottomSheetBackground"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="BottomSheetBackground" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_round_corner_light</item>
+    </style>
+
+    <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
+        <item name="appWidgetTextColor">@color/light_blue_50</item>
     </style>
 </resources>

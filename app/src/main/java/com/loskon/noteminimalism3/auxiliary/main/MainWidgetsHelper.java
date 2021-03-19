@@ -73,10 +73,10 @@ public class MainWidgetsHelper {
         int menuItem = R.id.action_switch_view;
 
         if (isTypeNotesSingle) {
-            setMenuIcon(menuItem, R.drawable.baseline_dashboard_black_24);
+            setMenuIcon(menuItem, R.drawable.outline_dashboard_black_24);
             recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         } else {
-            setMenuIcon(menuItem, R.drawable.baseline_view_agenda_black_24);
+            setMenuIcon(menuItem, R.drawable.outline_view_agenda_black_24);
             recyclerView.setLayoutManager(new
                     StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL));
         }

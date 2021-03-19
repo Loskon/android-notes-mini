@@ -5,11 +5,15 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
+import static com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey.PREF_PREFIX_WIDGET_ID;
+
 /**
  * Помощник для работы с данными постоянного хранилища
  */
 
 public class MySharedPref {
+
+    private static final String PREFS_NAME_WIDGET = "name_for_widget";
 
     // String
     public static void setString(Context context, String key, String value) {
@@ -44,5 +48,23 @@ public class MySharedPref {
     public static boolean getBoolean(Context context, String key, boolean defValue) {
         return PreferenceManager
                 .getDefaultSharedPreferences(context).getBoolean(key, defValue);
+    }
+
+
+    // long
+    public static void setCustomInt(Context context, long noteId, int appWidgetId) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME_WIDGET, 0).edit();
+        prefs.putInt(PREF_PREFIX_WIDGET_ID + noteId, appWidgetId);
+        prefs.apply();
+    }
+
+    public static int getCustomInt(Context context, long noteId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME_WIDGET, 0);
+        return prefs.getInt(PREF_PREFIX_WIDGET_ID + noteId, -1);
+    }
+
+    public static void deleteCustomInt(Context context, long noteId) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME_WIDGET, 0).edit();
+        prefs.remove(PREF_PREFIX_WIDGET_ID + noteId).apply();
     }
 }

@@ -58,6 +58,7 @@ public class MyDialogBackup {
         textInputLayout.setHintTextColor(ColorStateList.valueOf(color));
 
         // settings
+        textInputEditText.requestFocus(); // for android 10
         MyKeyboard.showSoftKeyboardInput(activity, textInputEditText);
         checkTextChanged();
         setDateInEditText();

@@ -21,6 +21,9 @@
     <string name="title_card_view">Hello, Word!</string>
     <string name="date_card_view">01/21/96 12:00 AM</string>
 
+    <!-- activity_widget_configure -->
+    <string name="select_note">Select a note:</string>
+
 
     <!-- Menu -->
     <!-- menu for bottom app bar Main -->
@@ -189,4 +192,6 @@
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="developer_email" translatable="false">andreyrochev23@gmail.com</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

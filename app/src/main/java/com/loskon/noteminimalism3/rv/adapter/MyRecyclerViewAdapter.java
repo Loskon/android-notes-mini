@@ -264,13 +264,13 @@ public class MyRecyclerViewAdapter extends
     private void sendToTrash(Note note) {
         note.setFavoritesItem(false);
         dbAdapter.updateFavorites(note, false);
-        dbAdapter.updateSelectItemForDel(note, true, note.getDate(), new Date());
+        dbAdapter.updateItemDel(note, true, note.getDate(), new Date());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public void onResetItem(Note note, int position) {
         dbAdapter.open();
-        dbAdapter.updateSelectItemForDel(note, false, note.getDate(), new Date());
+        dbAdapter.updateItemDel(note, false, note.getDate(), new Date());
         dbAdapter.close();
 
         notes.add(position, note);

@@ -14,52 +14,37 @@
         android:xlargeScreens="false" />
 
     <compatible-screens>
-
         <!-- all small size screens -->
         <screen
-            android:screenDensity="ldpi"
-            android:screenSize="small" />
+            android:screenDensity="ldpi" android:screenSize="small" />
         <screen
-            android:screenDensity="mdpi"
-            android:screenSize="small" />
+            android:screenDensity="mdpi" android:screenSize="small" />
         <screen
-            android:screenDensity="hdpi"
-            android:screenSize="small" />
+            android:screenDensity="hdpi" android:screenSize="small" />
         <screen
-            android:screenDensity="xhdpi"
-            android:screenSize="small" />
+            android:screenDensity="xhdpi" android:screenSize="small" />
         <screen
-            android:screenDensity="480"
-            android:screenSize="small" />
+            android:screenDensity="480" android:screenSize="small" />
         <screen
-            android:screenDensity="640"
-            android:screenSize="small" />
+            android:screenDensity="640" android:screenSize="small" />
 
         <!-- all normal size screens -->
         <screen
-            android:screenDensity="ldpi"
-            android:screenSize="normal" />
+            android:screenDensity="ldpi" android:screenSize="normal" />
         <screen
-            android:screenDensity="mdpi"
-            android:screenSize="normal" />
+            android:screenDensity="mdpi" android:screenSize="normal" />
         <screen
-            android:screenDensity="hdpi"
-            android:screenSize="normal" />
+            android:screenDensity="hdpi" android:screenSize="normal" />
         <screen
-            android:screenDensity="xhdpi"
-            android:screenSize="normal" />
+            android:screenDensity="xhdpi" android:screenSize="normal" />
         <screen
-            android:screenDensity="420"
-            android:screenSize="normal" />
+            android:screenDensity="420" android:screenSize="normal" />
         <screen
-            android:screenDensity="480"
-            android:screenSize="normal" />
+            android:screenDensity="480" android:screenSize="normal" />
         <screen
-            android:screenDensity="560"
-            android:screenSize="normal" />
+            android:screenDensity="560" android:screenSize="normal" />
         <screen
-            android:screenDensity="640"
-            android:screenSize="normal" />
+            android:screenDensity="640" android:screenSize="normal" />
     </compatible-screens>
 
     <application
@@ -67,12 +52,22 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Noteminimalism3">
 
-        <receiver android:name=".MyAppWidgetProvider">
+        <receiver android:name=".ui.widgets.add.AppWidgetAddProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_add" />
+        </receiver>
+
+        <receiver android:name=".ui.widgets.note.AppWidgetNoteProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -82,9 +77,9 @@
                 android:resource="@xml/app_widget_note" />
         </receiver>
 
-        <activity android:name=".AppWidgetConfigure">
+        <activity android:name=".ui.widgets.note.AppWidgetConfigure">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 

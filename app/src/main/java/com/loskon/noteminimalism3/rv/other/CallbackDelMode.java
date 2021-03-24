@@ -1,7 +1,7 @@
 package com.loskon.noteminimalism3.rv.other;
 
 /**
- *
+ * Callbacks for recyclerViewAdapter
  */
 
 public interface CallbackDelMode {

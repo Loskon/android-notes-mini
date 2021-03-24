@@ -10,27 +10,28 @@
         android:id="@+id/title_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
         android:ellipsize="end"
         android:maxLines="2"
+        android:minLines="2"
         android:text="Title"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/date_widget"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Date"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>

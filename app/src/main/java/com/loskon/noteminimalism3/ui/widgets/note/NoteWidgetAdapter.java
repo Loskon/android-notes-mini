@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3;
+package com.loskon.noteminimalism3.ui.widgets.note;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,10 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.model.Note;
 
 import java.util.List;
+
+/**
+ * Адаптер для списка с выбором заметки для виджета
+ */
 
 public class NoteWidgetAdapter extends ArrayAdapter<Note> {
 
@@ -39,9 +44,9 @@ public class NoteWidgetAdapter extends ArrayAdapter<Note> {
             outerContainer = inflater.inflate(R.layout.inc_card_view_notes, parent, false);
         }
 
-        TextView title = (TextView) outerContainer.findViewById(R.id.txt_title_card_note);
-        TextView date = (TextView) outerContainer.findViewById(R.id.txt_date_card_note);
-        View view = (View) outerContainer.findViewById(R.id.viewFavForCard);
+        TextView title =  outerContainer.findViewById(R.id.txt_title_card_note);
+        TextView date =  outerContainer.findViewById(R.id.txt_date_card_note);
+        View view =  outerContainer.findViewById(R.id.viewFavForCard);
 
         title.setText(notes.get(position).getTitle().trim());
         date.setText(MyDate.getNowDate(notes.get(position).getDate()));

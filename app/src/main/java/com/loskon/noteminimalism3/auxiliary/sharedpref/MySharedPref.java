@@ -51,7 +51,7 @@ public class MySharedPref {
     }
 
 
-    // long
+    // Custom pref
     public static void setCustomInt(Context context, long noteId, int appWidgetId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME_WIDGET, 0).edit();
         prefs.putInt(PREF_PREFIX_WIDGET_ID + noteId, appWidgetId);

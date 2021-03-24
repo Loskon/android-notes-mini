@@ -16,6 +16,9 @@
     <string name="title_card_view">Привет, Мир!</string>
     <string name="date_card_view">21.01.96 12:00</string>
 
+    <!-- activity_widget_configure -->
+    <string name="select_note">Выберите замету:</string>
+
 
     <!-- Menu -->
     <!-- menu for bottom app bar Main -->

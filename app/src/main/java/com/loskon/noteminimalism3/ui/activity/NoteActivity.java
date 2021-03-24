@@ -18,8 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.loskon.noteminimalism3.AppWidgetConfigure;
-import com.loskon.noteminimalism3.MyAppWidgetProvider;
+import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetConfigure;
+import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetNoteProvider;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.note.FindLinks;
 import com.loskon.noteminimalism3.auxiliary.note.MyKeyboard;
@@ -70,7 +70,7 @@ public class NoteActivity extends AppCompatActivity {
     private long noteId = 0;
     private boolean isWidget = false;
     private Date receivedDate, autoBackupDate, dateMod, dateFinaly;
-    private int selNotesCategory;
+    private int selNotesCategory = 0;
     private String title, textFromDb, textDateMod;
 
     // for new Note
@@ -285,7 +285,7 @@ public class NoteActivity extends AppCompatActivity {
             isUpdateDate = true;
             // Восстановление заметки
             dbAdapter.open();
-            dbAdapter.updateSelectItemForDel(note, false, getTime(), new Date());
+            dbAdapter.updateItemDel(note, false, new Date(), new Date());
             dbAdapter.close();
         }
 
@@ -312,7 +312,7 @@ public class NoteActivity extends AppCompatActivity {
     private void sendInTrash() {
         note.setSelectItemForDel(true);
         note.setFavoritesItem(false);
-        dbAdapter.updateSelectItemForDel(note, false, getTime(), new Date());
+        dbAdapter.updateItemDel(note, false, new Date(), new Date());
         dbAdapter.updateFavorites(note, false);
     }
 
@@ -411,14 +411,16 @@ public class NoteActivity extends AppCompatActivity {
         int appWidgetId = MySharedPref.getCustomInt(this, noteId);
 
         if (appWidgetId != -1) {
+            String dateWidget = MyDate.getNowDate(dateFinaly);
+
             if (isDelete) {
                 title = getString(R.string.note_deleted);
-                dateFinaly = getTime();
+                dateWidget = "";
             }
 
-            MyAppWidgetProvider.updateAppWidget(this,
-                    AppWidgetManager.getInstance(this), appWidgetId, title, noteId,
-                    MyDate.getNowDate(dateFinaly), isDelete);
+            AppWidgetNoteProvider.updateAppWidget(
+                    this, AppWidgetManager.getInstance(this),
+                    appWidgetId, title, noteId, dateWidget, isDelete);
 
             if (isDelete) AppWidgetConfigure.deleteTitlePref(this, appWidgetId);
         }

@@ -7,6 +7,11 @@ import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+
+/**
+ * Кастомный класс для поиска и обработки нажатия по гиперссылкам
+ */
+
 public abstract class CustomMovementMethod extends LinkMovementMethod {
 
     public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {

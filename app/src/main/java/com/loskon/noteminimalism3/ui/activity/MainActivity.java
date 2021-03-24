@@ -25,6 +25,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.prime.BpCloud;
 import com.loskon.noteminimalism3.db.DbAdapter;
+import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable.Columns;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.rv.adapter.MyRecyclerViewAdapter;
 import com.loskon.noteminimalism3.rv.other.CallbackDelMode;
@@ -40,7 +41,6 @@ import com.loskon.noteminimalism3.ui.preference.MyPrefCardView;
 import com.loskon.noteminimalism3.ui.preference.MyPrefNumOfLines;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarMain;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
-import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable.Columns;
 
 import java.util.List;
 import java.util.Objects;

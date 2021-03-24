@@ -97,8 +97,8 @@ public class DbAdapter {
                 new String[]{String.valueOf(note.getId())});
     }
 
-    public void updateSelectItemForDel(Note note, boolean isDelItem,
-                                       Date date, Date dateDelete) {
+    public void updateItemDel(Note note, boolean isDelItem,
+                              Date date, Date dateDelete) {
         // Добавить/удалить корзина
         ContentValues values = getContentValues(note);
         values.put(Columns.COLUMN_DEL_ITEMS, isDelItem);

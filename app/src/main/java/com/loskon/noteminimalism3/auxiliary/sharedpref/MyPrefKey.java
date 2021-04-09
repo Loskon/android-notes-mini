@@ -1,9 +1,8 @@
 package com.loskon.noteminimalism3.auxiliary.sharedpref;
 
 /**
- * Ключи для сохранения настроек
+ * Ключи для сохранения настроек.
  */
-
 
 public class MyPrefKey {
     public static final String KEY_TYPE_NOTES = "key_type_notes";
@@ -17,6 +16,8 @@ public class MyPrefKey {
     public static final String KEY_NOTES_CATEGORY = "key_sel_note_category";
     public static final String KEY_SORT = "key_sort";
     public static final String PREF_PREFIX_WIDGET_ID = "key_widget_id_";
+    public static final String KEY_TYPE_FONT = "key_type_font";
+    public static final String KEY_DIALOG_WARNING_SHOW = "key_dialog_warning_show";
 
     public static final String KEY_WEB = "key_web";
     public static final String KEY_MAIL = "key_mail";

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Value for preferences -->
+    <dimen name="padding_for_title_pref">24dp</dimen>
+    <dimen name="margin_for_slider_pref">12dp</dimen>
+</resources>

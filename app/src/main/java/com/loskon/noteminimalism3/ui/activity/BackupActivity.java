@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.bp.InternetCheck;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
@@ -40,6 +41,7 @@ public class BackupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
+        new AppFontManager(this).setFont();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
         MyColor.setColorStatBarAndTaskDesc(this);

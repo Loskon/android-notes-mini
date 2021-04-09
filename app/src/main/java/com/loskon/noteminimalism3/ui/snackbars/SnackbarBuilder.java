@@ -27,6 +27,8 @@ public class SnackbarBuilder {
         snackbarView.setBackgroundResource(R.drawable.snackbar_round_corner);
         MyColor.setColorSnackbar(activity, snackbarView, isSuccess);
 
+        snackbarView.setOnClickListener(v -> snackbar.dismiss());
+
         snackbar.setAnchorView(anchorView);
         snackbar.show();
     }

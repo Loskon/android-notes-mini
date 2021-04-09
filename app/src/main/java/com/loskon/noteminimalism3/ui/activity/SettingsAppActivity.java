@@ -5,12 +5,17 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 import com.loskon.noteminimalism3.ui.fragments.MySettingsAppFragment;
+
+/**
+ * Класс для работы с настройками внешнего вида плиток
+ */
 
 public class SettingsAppActivity
         extends AppCompatActivity implements MyDialogColor.CallbackNavIcon {
@@ -20,6 +25,7 @@ public class SettingsAppActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
+        new AppFontManager(this).setFont();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_app);
         MyColor.setColorStatBarAndTaskDesc(this);

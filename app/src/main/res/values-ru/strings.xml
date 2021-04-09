@@ -36,6 +36,9 @@
     <!-- menu for bottom app bar Backup -->
     <string name="menu_backup_settings">Настройки аккаунта</string>
 
+    <!-- menu for bottom app bar Backup -->
+    <string name="menu_fonts_select_font">Выбрать шрифт</string>
+
 
     <!-- Toast -->
     <!-- Main -->
@@ -58,6 +61,7 @@
     <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
     <string name="sb_note_invalid_format">Неверный формат!</string>
     <string name="sb_note_text_copied">Текст скопирован</string>
+    <string name="sb_note_hyperlinks_copied">Гипперсылка скопирована</string>
 
     <!-- Backup -->
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
@@ -108,9 +112,7 @@
     <!-- dialog_account -->
     <string name="dg_data_delete">Удалить все данные</string>
     <string name="dg_data_logout">Выйти из аккаунта</string>
-
-    <!-- dialog_account -->
-    <string name="dialog_account_warning">Внимание! Вы удалите свои данные из облака
+    <string name="dg_account_warning">Внимание! Вы удалите свои данные из облака
         и не сможете их восстановить. Продолжить?</string>
 
     <!-- dialog_confirm -->
@@ -130,6 +132,15 @@
     <string name="dg_sorting_time_modification">По дате изменения</string>
     <string name="dg_sorting_alphabetical">По алфавиту</string>
 
+    <!-- dialog_type_fonts -->
+    <string name="dg_type_font_title">Выбрать данный шрифт?</string>
+
+    <!-- dialog_warning -->
+    <string name="dg_warning_title">Предупреждение!</string>
+    <string name="dg_warning_attention">Внимание! Выбранный
+        шрифт может не поддерживать ваш язык или некоторые символы!</string>
+
+
     <!-- Preference -->
     <!-- preference -->
     <!-- Preference Category Header -->
@@ -140,6 +151,7 @@
 
     <!-- Preference Titles -->
     <string name="custom_app_title">Настроить</string>
+    <string name="type_font_title">Шрифт</string>
     <string name="sort_title">Сортировка</string>
     <string name="dark_mode_title">Темная тема</string>
     <string name="backup_title">Резервное копирование</string>
@@ -177,6 +189,7 @@
     <string name="one_size_cards_summary">Для режима нескольких плиток</string>
 
     <!-- Other -->
+    <string name="email_client_not_found">Почтовый клиент не найден!</string>
     <string name="no_permissions">Нет разрешения!</string>
     <string name="unknown_error">Неизввестная ошибка!</string>
     <string name="bad_idea">Это плохая идея :)</string>

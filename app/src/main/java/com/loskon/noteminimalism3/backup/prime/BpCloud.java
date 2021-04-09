@@ -201,7 +201,7 @@ public class BpCloud {
 
     private void onSuccessRestore(FileDownloadTask.TaskSnapshot taskSnapshot) {
         closeDialogAndTimer();
-        cbResNotes.onCallBack();
+        if (cbResNotes != null) cbResNotes.onCallBack();
         showSnackbar(true, MySnackbarBackup.MSG_RESTORE_COMPLETED);
     }
 

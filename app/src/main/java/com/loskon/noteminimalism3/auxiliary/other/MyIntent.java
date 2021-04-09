@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.ui.activity.BackupActivity;
+import com.loskon.noteminimalism3.ui.activity.FontsActivity;
 import com.loskon.noteminimalism3.ui.activity.MainActivity;
 import com.loskon.noteminimalism3.ui.activity.NoteActivity;
 import com.loskon.noteminimalism3.ui.activity.SettingsActivity;
@@ -63,6 +64,12 @@ public class MyIntent {
         (new Handler()).postDelayed(() -> context.startActivity(intent), intentDelay);
     }
 
+    public static void openFonts(Context context) {
+        // Открытие SettingsActivity
+        Intent intent = new Intent(context, FontsActivity.class);
+        context.startActivity(intent);
+    }
+
     public static void startFindFolder(Fragment fragment) {
         // Open documents
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
@@ -92,6 +99,13 @@ public class MyIntent {
         // Return in SettingsActivity from BackupActivity/SettingsAppActivity
         Intent intent = new Intent(context, SettingsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+    }
+
+    public static void goSettingsActivityClear(Context context) {
+        // Return in SettingsActivity from BackupActivity/SettingsAppActivity
+        Intent intent = new Intent(context, SettingsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 

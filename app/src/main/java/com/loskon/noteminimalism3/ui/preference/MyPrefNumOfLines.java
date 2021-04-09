@@ -65,7 +65,7 @@ public class MyPrefNumOfLines extends Preference {
 
         sliderNumOfLines.addOnChangeListener((slider1, value, fromUser) -> {
             MySharedPref.setInt(getContext(), key, (int) value);
-            callbackNumOfLines.callBack((int) value);
+            if (callbackNumOfLines != null) callbackNumOfLines.callBack((int) value);
         });
     }
 

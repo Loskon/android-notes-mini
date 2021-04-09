@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.ui.fragments;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -45,9 +46,10 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     private LinearLayoutManager layoutManager;
     private int index, top, numOfBackup, rangeInDays;
     private String prefKey;
+    private boolean isDialogShow;
 
     @SuppressWarnings("FieldCanBeLocal")
-    private Preference intentFolderPref, sortPref, customizeAppPref;
+    private Preference intentFolderPref, sortPref, customizeAppPref, intentFontsPref;
     private Preference numOfBackupPref, intentBackupPref, communicationPref;
     private Preference callDialogHyperlinksPref, retentionPref, fontSizePref;
     @SuppressWarnings("FieldCanBeLocal")
@@ -55,7 +57,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private String darkModeString, autoBackupString, customizeAppString, sortString;
     private String numOfBackupStr, intentBackupString, intentFolderString, communicationStr;
-    private String callDialogHyperlinksStr, retentionStr, fontSizeStr;
+    private String callDialogHyperlinksStr, retentionStr, fontSizeStr, intentFontsString;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,6 +138,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private void getPrefKeys() {
         customizeAppString = getString(R.string.custom_app_title);
+        intentFontsString= getString(R.string.type_font_title);
         sortString = getString(R.string.sort_title);
         darkModeString = getString(R.string.dark_mode_title);
         autoBackupString = getString(R.string.auto_backup_title);
@@ -150,6 +153,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
 
     private void setPreferences() {
         customizeAppPref = findPreference(customizeAppString);
+        intentFontsPref = findPreference(intentFontsString);
         sortPref = findPreference(sortString);
         darkModeSwitchPref = findPreference(darkModeString);
         autoBackupSwitchPref = findPreference(autoBackupString);
@@ -165,6 +169,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     private void setClickPreferences() {
         // ClickListener
         customizeAppPref.setOnPreferenceClickListener(this);
+        intentFontsPref.setOnPreferenceClickListener(this);
         sortPref.setOnPreferenceClickListener(this);
         numOfBackupPref.setOnPreferenceClickListener(this);
         intentBackupPref.setOnPreferenceClickListener(this);
@@ -219,6 +224,9 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
         if (key.equals(customizeAppString)) {
             MyIntent.openSettingsApp(activity);
             return true;
+        } else if (key.equals(intentFontsString)) {
+            MyIntent.openFonts(activity);
+            return true;
         } else if (key.equals(sortString)) {
             (new MyDialogSort(activity)).call();
             return true;
@@ -244,7 +252,7 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
             (new MyDialogFontSize(activity)).call();
             return true;
         } else if (key.equals(communicationStr)) {
-            MyIntent.startMailClient(activity);
+            goMailClient();
             return true;
         }
 
@@ -254,6 +262,15 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
     private void goFindFolder() {
         if (PermissionsStorage.verify(activity, fragment, true)) {
             MyIntent.startFindFolder(fragment);
+        }
+    }
+
+    private void goMailClient() {
+        try {
+            MyIntent.startMailClient(activity);
+        } catch (ActivityNotFoundException exception) {
+            exception.printStackTrace();
+            showSnackbar(getString(R.string.email_client_not_found));
         }
     }
 
@@ -283,14 +300,14 @@ public class MySettingsFragment extends PreferenceFragmentCompat implements
             } else {
 
                 if (prefKey.equals(autoBackupString)) autoBackupSwitchPref.setChecked(false);
-                showSnackbar();
+                showSnackbar(getString(R.string.no_permissions));
             }
         }
     }
 
-    private void showSnackbar() {
+    private void showSnackbar(String message) {
         SnackbarBuilder.makeSnackbar(activity, activity.
-                        findViewById(R.id.cstLytSettings), getString(R.string.no_permissions),
+                        findViewById(R.id.cstLytSettings), message,
                                 activity.findViewById(R.id.btmAppBarSettings), false);
     }
 

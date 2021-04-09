@@ -87,10 +87,10 @@ public class MyDialogColor {
 
             MySharedPref.setInt(activity, MyPrefKey.KEY_COLOR, color);
 
-            callbackNavIcon.onCallBackNavIcon(color);
-            callbackSettingsApp.onCallBackSettingsApp(color);
-            callbackNotifyData.onCallBackNotifyData();
-            callbackColorMain.onCallBackMain(color);
+            if (callbackNavIcon != null) callbackNavIcon.onCallBackNavIcon(color);
+            if (callbackSettingsApp != null) callbackSettingsApp.onCallBackSettingsApp(color);
+            if (callbackNotifyData != null) callbackNotifyData.onCallBackNotifyData();
+            if (callbackColorMain != null) callbackColorMain.onCallBackMain(color);
 
             alertDialog.dismiss();
         });

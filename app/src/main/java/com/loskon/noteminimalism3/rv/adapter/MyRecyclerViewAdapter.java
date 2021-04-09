@@ -48,6 +48,7 @@ public class MyRecyclerViewAdapter extends
     private boolean isOneSize;
     private boolean isTypeNotesSingle;
     private boolean isSearchMode;
+    private boolean isFavorite;
 
     private int colorStroke, borderStroke, radiusStroke;
     private int radiusStroke_dp, boredStroke_dp;
@@ -262,14 +263,20 @@ public class MyRecyclerViewAdapter extends
     }
 
     private void sendToTrash(Note note) {
-        note.setFavoritesItem(false);
-        dbAdapter.updateFavorites(note, false);
+        isFavorite = note.getFavoritesItem();
+        if (isFavorite) isFavorite(note, false);
         dbAdapter.updateItemDel(note, true, note.getDate(), new Date());
+    }
+
+    private void isFavorite(Note note, boolean isFav) {
+        note.setFavoritesItem(isFav);
+        dbAdapter.updateFavorites(note, isFav);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public void onResetItem(Note note, int position) {
         dbAdapter.open();
+        if (isFavorite) isFavorite(note, true);
         dbAdapter.updateItemDel(note, false, note.getDate(), new Date());
         dbAdapter.close();
 

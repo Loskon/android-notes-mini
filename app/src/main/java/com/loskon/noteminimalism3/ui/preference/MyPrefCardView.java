@@ -33,12 +33,12 @@ public class MyPrefCardView extends Preference implements MySettingsAppFragment.
 
     private static CallbackFontSize callbackFontSize;
 
-    public MyPrefCardView(Context context) {
-        super(context);
-    }
-
     public static void regCallbackFontSize(CallbackFontSize callbackFontSize){
         MyPrefCardView.callbackFontSize = callbackFontSize;
+    }
+
+    public MyPrefCardView(Context context) {
+        super(context);
     }
 
     public MyPrefCardView(Context context, AttributeSet attrs) {
@@ -124,7 +124,7 @@ public class MyPrefCardView extends Preference implements MySettingsAppFragment.
     }
 
     private void goCallbackInMain() {
-        callbackFontSize.callBack(fontSize, dateFontSize);
+        if (callbackFontSize != null) callbackFontSize.callBack(fontSize, dateFontSize);
     }
 
     public interface CallbackFontSize {

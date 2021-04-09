@@ -5,11 +5,16 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.ui.fragments.MySettingsFragment;
+
+/**
+ * Класс для работы с основными настройками
+ */
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -18,6 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
+        new AppFontManager(this).setFont();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         MyColor.setColorStatBarAndTaskDesc(this);

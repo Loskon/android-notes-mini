@@ -11,6 +11,11 @@
             app:iconSpaceReserved="false" />
 
         <Preference
+            android:key="@string/type_font_title"
+            android:title="@string/type_font_title"
+            app:iconSpaceReserved="false" />
+
+        <Preference
             android:key="@string/sort_title"
             android:title="@string/sort_title"
             app:iconSpaceReserved="false" />

@@ -14,7 +14,6 @@
         <item name="android:statusBarColor">@color/black</item>
 
         <!-- Customize your theme here. -->
-        <item name="android:fontFamily">@font/roboto_light</item>
         <item name="android:overScrollMode">never</item>
 
         <!-- My custom colors for items -->
@@ -104,5 +103,70 @@
     <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">
         <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
         <item name="appWidgetTextColor">@color/light_blue_50</item>
+    </style>
+
+    <!-- Fonts -->
+    <style name="RobotoLightFont">
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="LatoLightFont">
+        <item name="android:fontFamily">@font/lato_light</item>
+    </style>
+
+    <style name="OpenSansLightFont">
+        <item name="android:fontFamily">@font/open_sans_light</item>
+    </style>
+
+    <style name="OswaldLightFont">
+        <item name="android:fontFamily">@font/oswald_light</item>
+    </style>
+
+    <style name="SourceSansProLightFont">
+        <item name="android:fontFamily">@font/source_sans_pro_light</item>
+    </style>
+
+    <style name="MontserratLightFont">
+        <item name="android:fontFamily">@font/montserrat_light</item>
+    </style>
+
+    <style name="RobotoCondensedLightFont">
+        <item name="android:fontFamily">@font/roboto_condensed_light</item>
+    </style>
+
+    <style name="PoppinsLightFont">
+        <item name="android:fontFamily">@font/poppins_light</item>
+    </style>
+
+    <style name="UbuntuLightFont">
+        <item name="android:fontFamily">@font/ubuntu_light</item>
+    </style>
+
+    <style name="DosisLightFont">
+        <item name="android:fontFamily">@font/dosis_light</item>
+    </style>
+
+    <style name="TitilliumWebLightFont">
+        <item name="android:fontFamily">@font/titillium_web_light</item>
+    </style>
+
+    <style name="IBMPlexSerifLightFont">
+        <item name="android:fontFamily">@font/ibm_plex_serif_light</item>
+    </style>
+
+    <style name="KarlaLightFont">
+        <item name="android:fontFamily">@font/karla_light</item>
+    </style>
+
+    <style name="MarmeladRegularFont">
+        <item name="android:fontFamily">@font/marmelad_regular</item>
+    </style>
+
+    <style name="NunitoLightFont">
+        <item name="android:fontFamily">@font/nunito_light</item>
+    </style>
+
+    <style name="AliceRegularFont">
+        <item name="android:fontFamily">@font/alice_regular</item>
     </style>
 </resources>

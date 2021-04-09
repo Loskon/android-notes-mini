@@ -19,7 +19,7 @@ public class MyDialogSort {
     private final Activity activity;
     private AlertDialog alertDialog;
     private RadioButton radioButtonCreate, radioButtonMod;
-    private int checkedId;
+    private int checkedNumber;
 
     private static CallbackSort callbackSort;
 
@@ -41,9 +41,13 @@ public class MyDialogSort {
         Button btnOk = alertDialog.findViewById(R.id.btn_sort_ok);
         Button btnCancel = alertDialog.findViewById(R.id.btn_sort_cancel);
 
-        checkedId = GetSharedPref.getSort(activity);
+        checkedNumber = GetSharedPref.getSort(activity);
 
-        radioGroup.check(checkedId);
+        if (checkedNumber == 1) {
+            radioGroup.check(R.id.rb_sort_modification);
+        } else {
+            radioGroup.check(R.id.rb_sort_creation);
+        }
 
         int color = MyColor.getMyColor(activity);
         btnOk.setBackgroundColor(color);
@@ -51,11 +55,17 @@ public class MyDialogSort {
         radioButtonCreate.setButtonTintList(ColorStateList.valueOf(color));
         radioButtonMod.setButtonTintList(ColorStateList.valueOf(color));
 
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> this.checkedId = checkedId);
+        radioGroup.setOnCheckedChangeListener((radioGroup1, radioButtonId) -> {
+            if (radioButtonId == R.id.rb_sort_modification) {
+                checkedNumber = 1;
+            } else {
+                checkedNumber = 0;
+            }
+        });
 
         btnOk.setOnClickListener(view -> {
-            MySharedPref.setInt(activity, MyPrefKey.KEY_SORT, checkedId);
-            callbackSort.onCallBack();
+            MySharedPref.setInt(activity, MyPrefKey.KEY_SORT, checkedNumber);
+            if (callbackSort != null) callbackSort.onCallBack();
             alertDialog.dismiss();
         });
 

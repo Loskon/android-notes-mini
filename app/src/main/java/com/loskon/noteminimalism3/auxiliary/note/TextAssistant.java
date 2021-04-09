@@ -32,8 +32,12 @@ public class TextAssistant {
         if ((clipboard.hasPrimaryClip())) {
             goPasteText(clipboard);
         } else {
-            showSnackbar(false, MySnackbarNoteMessage.MSG_NEED_COPY_TEXT);
+            showSnackbarNeedCopy();
         }
+    }
+
+    private void showSnackbarNeedCopy() {
+        showSnackbar(false, MySnackbarNoteMessage.MSG_NEED_COPY_TEXT);
     }
 
     private void goPasteText(ClipboardManager clipboard) {
@@ -43,16 +47,21 @@ public class TextAssistant {
         try {
             CharSequence textToPaste = clipboard.getPrimaryClip().getItemAt(0).getText();
 
-            if (title.isEmpty()) {
-                title = (String) textToPaste;
+            if (!textToPaste.toString().trim().isEmpty()) {
+                if (title.isEmpty()) {
+                    title = (String) textToPaste;
+                } else {
+                    title = title + "\n\n" + textToPaste;
+                }
+
+                pasteText = title.trim();
+
+                editText.setText(pasteText);
+                editText.setSelection(pasteText.length());
             } else {
-                title = title + "\n\n" + textToPaste;
+                showSnackbarNeedCopy();
             }
 
-            pasteText = title.trim();
-
-            editText.setText(pasteText);
-            editText.setSelection(pasteText.length());
         } catch (Exception exception) {
             exception.printStackTrace();
             showSnackbar(false, MySnackbarNoteMessage.MSG_INVALID_FORMAT);

@@ -8,44 +8,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <supports-screens
+        android:anyDensity="true"
         android:largeScreens="true"
+        android:largestWidthLimitDp="600"
         android:normalScreens="true"
+        android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="false" />
-
-    <compatible-screens>
-        <!-- all small size screens -->
-        <screen
-            android:screenDensity="ldpi" android:screenSize="small" />
-        <screen
-            android:screenDensity="mdpi" android:screenSize="small" />
-        <screen
-            android:screenDensity="hdpi" android:screenSize="small" />
-        <screen
-            android:screenDensity="xhdpi" android:screenSize="small" />
-        <screen
-            android:screenDensity="480" android:screenSize="small" />
-        <screen
-            android:screenDensity="640" android:screenSize="small" />
-
-        <!-- all normal size screens -->
-        <screen
-            android:screenDensity="ldpi" android:screenSize="normal" />
-        <screen
-            android:screenDensity="mdpi" android:screenSize="normal" />
-        <screen
-            android:screenDensity="hdpi" android:screenSize="normal" />
-        <screen
-            android:screenDensity="xhdpi" android:screenSize="normal" />
-        <screen
-            android:screenDensity="420" android:screenSize="normal" />
-        <screen
-            android:screenDensity="480" android:screenSize="normal" />
-        <screen
-            android:screenDensity="560" android:screenSize="normal" />
-        <screen
-            android:screenDensity="640" android:screenSize="normal" />
-    </compatible-screens>
 
     <application
         android:allowBackup="true"
@@ -66,7 +35,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_add" />
         </receiver>
-
         <receiver android:name=".ui.widgets.note.AppWidgetNoteProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -83,6 +51,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.activity.FontsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.BackupActivity"
             android:screenOrientation="portrait" />

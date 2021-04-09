@@ -24,6 +24,24 @@
     <!-- activity_widget_configure -->
     <string name="select_note">Select a note:</string>
 
+    <!-- activity_fonts -->
+    <string name="default_font" translatable="false">Default</string>
+    <string name="lato_light_font" translatable="false">Lato</string>
+    <string name="open_sans_light_font" translatable="false">Open Sans</string>
+    <string name="oswald_light_font" translatable="false">Oswald</string>
+    <string name="source_sans_pro_light_font" translatable="false">Source Sans Pro</string>
+    <string name="montserrat_light_font" translatable="false">Montserrat</string>
+    <string name="roboto_condensed_light_font" translatable="false">Roboto Condensed</string>
+    <string name="poppins_light_font" translatable="false">Poppins</string>
+    <string name="ubuntu_light_font" translatable="false">Ubuntu</string>
+    <string name="dosis_light_font" translatable="false">Dosis</string>
+    <string name="titillium_web_light_font" translatable="false">Titillium Web</string>
+    <string name="ibm_plex_serif_light_font" translatable="false">IBM Plex Serif</string>
+    <string name="karla_light_font" translatable="false">Karla</string>
+    <string name="marmelad_regular_font" translatable="false">Marmelad</string>
+    <string name="nunito_light_font" translatable="false">Nunito</string>
+    <string name="alice_regular_font" translatable="false">Alice</string>
+
 
     <!-- Menu -->
     <!-- menu for bottom app bar Main -->
@@ -40,6 +58,9 @@
 
     <!-- menu for bottom app bar Backup -->
     <string name="menu_backup_settings">Settings account</string>
+
+    <!-- menu for bottom app bar Backup -->
+    <string name="menu_fonts_select_font">Select a font</string>
 
 
     <!-- Toast -->
@@ -63,6 +84,7 @@
     <string name="sb_note_need_copy_text">You need to copy text!</string>
     <string name="sb_note_invalid_format">Invalid format!</string>
     <string name="sb_note_text_copied">Text copied</string>
+    <string name="sb_note_hyperlinks_copied">Hyperlinks copied</string>
 
     <!-- Backup -->
     <string name="sb_bp_text_error">Error. Retry!</string>
@@ -114,9 +136,7 @@
     <!-- dialog_account -->
     <string name="dg_data_delete">Delete all data</string>
     <string name="dg_data_logout">Logout</string>
-
-    <!-- dialog_account -->
-    <string name="dialog_account_warning">Warning! You will delete your data from the cloud
+    <string name="dg_account_warning">Warning! You will delete your data from the cloud
         and will not be able to restore it. Continue?</string>
 
     <!-- dialog_confirm -->
@@ -136,6 +156,14 @@
     <string name="dg_sorting_time_modification">By time of modification</string>
     <string name="dg_sorting_alphabetical">By alphabetical order</string>
 
+    <!-- dialog_type_fonts -->
+    <string name="dg_type_font_title">Select this font?</string>
+
+    <!-- dialog_warning -->
+    <string name="dg_warning_title">Warning!</string>
+    <string name="dg_warning_attention">Attention! The selected
+        font may not support your language or some characters!</string>
+
 
     <!-- Preference -->
     <!-- preference -->
@@ -147,6 +175,7 @@
 
     <!-- Preference Titles -->
     <string name="custom_app_title">Customize</string>
+    <string name="type_font_title">Type of font</string>
     <string name="sort_title">Sort</string>
     <string name="dark_mode_title">Dark mode</string>
     <string name="backup_title">Backup and Restore</string>
@@ -183,6 +212,7 @@
     <string name="one_size_cards_summary">For multi-cards mode</string>
 
     <!-- Other -->
+    <string name="email_client_not_found">Email client not found!</string>
     <string name="no_permissions">No permissions!</string>
     <string name="unknown_error">Unknown error!</string>
     <string name="bad_idea">It is a bad idea :)</string>
@@ -192,6 +222,10 @@
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="developer_email" translatable="false">andreyrochev23@gmail.com</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="example_text" translatable="false">A B C D E F G H I J K L M N O
+        P Q R S T U V W X Y Z
+        \n\n
+        a b c d e f g h i j k l m n o p q r s t u v w x y z
+        \n\n
+        1 2 3 4 5 6 7 8 9 0</string>
 </resources>

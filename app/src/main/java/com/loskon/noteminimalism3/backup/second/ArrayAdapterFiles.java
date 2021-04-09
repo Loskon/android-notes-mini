@@ -64,7 +64,7 @@ public class ArrayAdapterFiles extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            view = inflater.inflate(R.layout.row_for_import, null, true);
+            view = inflater.inflate(R.layout.row_list_restore, null, true);
         }
 
         // initView

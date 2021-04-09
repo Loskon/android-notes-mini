@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:configure="com.loskon.noteminimalism3.ui.widgets.note.AppWidgetConfigure"
-    android:initialKeyguardLayout="@layout/widget_note"
-    android:initialLayout="@layout/widget_note"
+    android:initialKeyguardLayout="@layout/app_widget_note"
+    android:initialLayout="@layout/app_widget_note"
     android:minHeight="46dp"
     android:minWidth="160dp"
     android:previewImage="@drawable/note_preview_widget"

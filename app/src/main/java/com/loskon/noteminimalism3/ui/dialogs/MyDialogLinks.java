@@ -24,7 +24,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class MyDialogLinks {
 
-    private final NoteActivity noteActivity;
+    private final NoteActivity activity;
 
     private final String titleLinks;
     private String typeLinks;
@@ -39,13 +39,13 @@ public class MyDialogLinks {
     public static final String URL_PHONE = "PHONE";
     public static final String ERROR = "ERROR";
 
-    public MyDialogLinks(NoteActivity noteActivity, String titleLinks) {
-        this.noteActivity = noteActivity;
+    public MyDialogLinks(NoteActivity activity, String titleLinks) {
+        this.activity = activity;
         this.titleLinks = titleLinks;
     }
 
     public void call() {
-        alertDialog = DialogBuilder.buildDialog(noteActivity, R.layout.dialog_open_link);
+        alertDialog = DialogBuilder.buildDialog(activity, R.layout.dialog_open_link);
         alertDialog.show();
 
         textView = alertDialog.findViewById(R.id.tv_link_title);
@@ -81,7 +81,7 @@ public class MyDialogLinks {
     }
 
     private void setTextBtn(int textBtn) {
-        btnOpen.setText(noteActivity.getString(textBtn));
+        btnOpen.setText(activity.getString(textBtn));
     }
 
     private void replaceText(String title) {
@@ -107,25 +107,35 @@ public class MyDialogLinks {
         // Открытие ссылок
         switch (typeLinks) {
             case URL_WEB:
-                noteActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(titleLinks)));
+                activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(titleLinks)));
                 break;
             case URL_MAIL:
-                noteActivity.startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse(titleLinks)));
+                activity.startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse(titleLinks)));
                 break;
             case URL_PHONE:
-                noteActivity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(titleLinks)));
+                activity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(titleLinks)));
                 break;
             default:
-                noteActivity.getMySnackbarNoteMessage().show(false,
-                        MySnackbarNoteMessage.MSG_INVALID_LINK);
+                showSnackbar(false, "ERROR");
                 break;
         }
     }
 
     private void copyLinks() {
-        ClipboardManager clipboard = (ClipboardManager) noteActivity.getSystemService(CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("copy", titleTextView);
-        clipboard.setPrimaryClip(clip);
+        try {
+            ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("copy_links", titleTextView);
+            clipboard.setPrimaryClip(clip);
+            showSnackbar(true, MySnackbarNoteMessage.MSG_NOTE_HYPERLINKS_COPIED);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            showSnackbar(false, MySnackbarNoteMessage.MSG_INVALID_LINK);
+        }
+
+    }
+
+    private void showSnackbar(boolean isSuccess, String message) {
+        activity.getMySnackbarNoteMessage().show(isSuccess, message);
     }
 
     private String typeURL(String titleLinks) {
@@ -141,7 +151,7 @@ public class MyDialogLinks {
         boolean matchesMail = Pattern.matches(regexMail, titleLinks);
         boolean matchesPhone = Pattern.matches(regexPhone, titleLinks);
 
-        if (matchesWeb | matchesWebS) typeLinks = URL_WEB;
+        if (matchesWeb || matchesWebS) typeLinks = URL_WEB;
         if (matchesMail) typeLinks = URL_MAIL;
         if (matchesPhone) typeLinks = URL_PHONE;
 

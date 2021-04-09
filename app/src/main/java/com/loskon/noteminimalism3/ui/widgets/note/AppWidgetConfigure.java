@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyDate;
@@ -52,6 +53,7 @@ public class AppWidgetConfigure extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        new AppFontManager(this).setFont();
         super.onCreate(savedInstanceState);
         setResult(RESULT_CANCELED);
         setContentView(R.layout.activity_widget_configure);

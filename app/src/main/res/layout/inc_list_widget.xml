@@ -21,6 +21,7 @@
 
     <ListView
         android:id="@+id/listView"
+        tools:listitem="@layout/inc_card_view_notes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"

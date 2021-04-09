@@ -29,7 +29,7 @@ public class MySheetNote {
     public void call(String textDateMod) {
         if (bottomSheetDialog != null && bottomSheetDialog.isShowing()) return;
         bottomSheetDialog = new BottomSheetDialog(activity, R.style.BottomSheetStatusBar);
-        inflate = View.inflate(activity, R.layout.inc__note_bottom_sheet, null);
+        inflate = View.inflate(activity, R.layout.inc_note_bottom_sheet, null);
 
         initItems();
         setTextDateMod(textDateMod);

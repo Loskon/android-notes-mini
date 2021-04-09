@@ -18,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.main.MainSomeHelper;
 import com.loskon.noteminimalism3.auxiliary.main.MainWidgetsHelper;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
@@ -34,6 +35,7 @@ import com.loskon.noteminimalism3.ui.dialogs.MyDialogColor;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogRestore;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogSort;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogTrash;
+import com.loskon.noteminimalism3.ui.dialogs.MyDialogTypeFont;
 import com.loskon.noteminimalism3.ui.dialogs.MyDialogUnification;
 import com.loskon.noteminimalism3.ui.fragments.MyBottomSheet;
 import com.loskon.noteminimalism3.ui.fragments.MySettingsAppFragment;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
+        setTypeFont();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -98,6 +101,10 @@ public class MainActivity extends AppCompatActivity
         enableSwipeToDelete();
         differentHandlers();
         setColorItem();
+    }
+
+    private void setTypeFont() {
+        new AppFontManager(this).setFont();
     }
 
     private void initialiseStartSettings(Bundle savedInstanceState) {
@@ -151,6 +158,7 @@ public class MainActivity extends AppCompatActivity
         MyDialogColor.regCallbackMain(this::changeColor);
         BpCloud.regCallbackCloud(this::restore);
         MyDialogSort.regCallBackNavIcon(this::goUpdateMethodTop);
+        MyDialogTypeFont.regCallBackTypeFont(this::goUpdateTypeFont);
     }
 
     public void changeNumOfLines(int numOfLines) {
@@ -188,6 +196,12 @@ public class MainActivity extends AppCompatActivity
 
     public void goUpdateMethodTop() {
         isListGoUp = true;
+        isUpdateDate = true;
+        updateDateMethod();
+    }
+
+    public void goUpdateTypeFont() {
+        setTypeFont();
         isUpdateDate = true;
         updateDateMethod();
     }
@@ -337,10 +351,15 @@ public class MainActivity extends AppCompatActivity
     private void notesSort() {
         int sort = GetSharedPref.getSort(this);
 
-        if (sort == R.id.rb_sort_creation) orderBy = Columns.COLUMN_DATE + " DESC"; // Create
-        else if (sort == R.id.rb_sort_modification) orderBy = Columns.COLUMN_DATE_MOD + " DESC"; // Modification
-
-        if (selNotesCategory == 2) orderBy = Columns.COLUMN_DATE_DEL + " DESC"; // Date of deletion
+        if (selNotesCategory != 2) {
+            if (sort == 1) {
+                orderBy = Columns.COLUMN_DATE_MOD + " DESC"; // Modification
+            } else {
+                orderBy = Columns.COLUMN_DATE + " DESC"; // Create
+            }
+        } else {
+            orderBy = Columns.COLUMN_DATE_DEL + " DESC"; // Date of deletion
+        }
     }
 
     private void checkEmptyRecyclerView() {

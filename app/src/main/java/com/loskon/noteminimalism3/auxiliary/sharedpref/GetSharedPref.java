@@ -52,6 +52,10 @@ public class GetSharedPref {
         return MySharedPref.getBoolean(context, MyPrefKey.KEY_TYPE_NOTES, true);
     }
 
+    public static boolean isDialogShow(Context context) {
+        return MySharedPref.getBoolean(context, MyPrefKey.KEY_DIALOG_WARNING_SHOW, true);
+    }
+
     // int
     public static int getNumOfBackup(Context context) {
         String key = context.getString(R.string.num_of_backup_title);
@@ -93,6 +97,10 @@ public class GetSharedPref {
     }
 
     public static int getSort(Context context) {
-        return MySharedPref.getInt(context,MyPrefKey.KEY_SORT, R.id.rb_sort_creation);
+        return MySharedPref.getInt(context,MyPrefKey.KEY_SORT, 0);
+    }
+
+    public static int getTypeFont(Context context) {
+        return MySharedPref.getInt(context,MyPrefKey.KEY_TYPE_FONT, -1);
     }
 }

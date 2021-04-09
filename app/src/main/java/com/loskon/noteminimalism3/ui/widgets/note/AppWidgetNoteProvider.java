@@ -58,7 +58,7 @@ public class AppWidgetNoteProvider extends AppWidgetProvider {
             PendingIntent pendingAppIntent = PendingIntent.getActivity(context, appWidgetId,
                     intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_note);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget_note);
             views.setTextViewText(R.id.title_widget, titlePrefix);
             views.setTextViewText(R.id.date_widget, date);
             views.setOnClickPendingIntent(R.id.linLytWidget, pendingAppIntent);

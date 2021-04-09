@@ -79,7 +79,7 @@ public class MySettingsAppFragment extends PreferenceFragmentCompat implements
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         if (key.equals(resetString)) {
-            callbackReset.callBackReset();
+            if (callbackReset != null) callbackReset.callBackReset();
             return true;
         } else if (key.equals(selectColorString)) {
             (new MyDialogColor(activity)).call();
@@ -93,7 +93,7 @@ public class MySettingsAppFragment extends PreferenceFragmentCompat implements
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
         if (key.equals(switchOneSizeString)) {
-            callbackOneSize.callBackOneSize((Boolean) newValue);
+            if (callbackOneSize != null)  callbackOneSize.callBackOneSize((Boolean) newValue);
             return true;
         }
         return false;

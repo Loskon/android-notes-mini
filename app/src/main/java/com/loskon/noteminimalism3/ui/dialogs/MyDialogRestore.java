@@ -53,7 +53,6 @@ public class MyDialogRestore {
         btnRemoveAll = alertDialog.findViewById(R.id.btn_restore_delete);
         Button btnCancel = alertDialog.findViewById(R.id.btn_restore_cancel);
 
-        ArrayAdapterFiles arrayAdapterFiles;
         File[] files = BackupHelper.getListFile(folder);
 
         // assert
@@ -78,15 +77,14 @@ public class MyDialogRestore {
         checkEmptyListFiles();
 
         // Устанавливам адаптер
-        arrayAdapterFiles = new ArrayAdapterFiles(activity, listFiles, folder, files);
+        ArrayAdapterFiles arrayAdapterFiles =
+                new ArrayAdapterFiles(activity, listFiles, folder, files);
         listViewFiles.setAdapter(arrayAdapterFiles);
 
         // Click listView
         listViewFiles.setOnItemClickListener((adapterView, view, position, l) -> {
             (new BackupDb(activity)).restoreDatabase(fileList.get(position).getPath());
-            if (cbRestoreNotes != null) {
-                cbRestoreNotes.callBackRestore();
-            }
+            if (cbRestoreNotes != null)  cbRestoreNotes.onCallBack();
             alertDialog.dismiss();
         });
 
@@ -113,6 +111,6 @@ public class MyDialogRestore {
     }
 
     public interface CallbackRestoreNotes {
-        void callBackRestore();
+        void onCallBack();
     }
 }

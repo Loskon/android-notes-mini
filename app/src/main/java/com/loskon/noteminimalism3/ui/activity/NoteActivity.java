@@ -18,8 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetConfigure;
-import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetNoteProvider;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.note.FindLinks;
 import com.loskon.noteminimalism3.auxiliary.note.MyKeyboard;
@@ -38,6 +37,8 @@ import com.loskon.noteminimalism3.ui.sheet.MySheetNote;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteReset;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
+import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetConfigure;
+import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetNoteProvider;
 
 import java.util.Date;
 
@@ -51,6 +52,7 @@ public class NoteActivity extends AppCompatActivity {
 
     private DbAdapter dbAdapter;
     private Note note;
+    private ActionMode actionMode;
 
     private FindLinks findLinks;
     private MySheetNote mySheetNote;
@@ -68,32 +70,28 @@ public class NoteActivity extends AppCompatActivity {
     private EditText editText;
 
     private long noteId = 0;
-    private boolean isWidget = false;
-    private Date receivedDate, autoBackupDate, dateMod, dateFinaly;
     private int selNotesCategory = 0;
     private String title, textFromDb, textDateMod;
+    private Date receivedDate, autoBackupDate, dateMod, dateFinally;
 
-    // for new Note
+    // false
     private boolean isAutoBackup = false;
     private boolean isNewNote = false;
-
-    // for old Note
     private boolean isFavItem = false;
     private boolean isListGoUp = false;
     private boolean isUpdateDate = false;
     private boolean isUpdateDateTimeWhenChanges = false;
-    private boolean isSaveNote = true;
     private boolean isShowToast = false;
-
-    private ActionMode actionMode;
+    private boolean isWidget = false;
+    // true
+    private boolean isSaveNote = true;
 
     private static CallbackNote callbackNote;
+    private static CallbackNoteWidget callbackNoteWidget;
 
     public static void regCallbackNote(CallbackNote callbackNote) {
         NoteActivity.callbackNote = callbackNote;
     }
-
-    private static CallbackNoteWidget callbackNoteWidget;
 
     public static void regCallbackNoteWidget(CallbackNoteWidget callbackNoteWidget) {
         NoteActivity.callbackNoteWidget = callbackNoteWidget;
@@ -102,6 +100,7 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
+        new AppFontManager(this).setFont();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -125,7 +124,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void initialiseWidgets() {
-        editText = findViewById(R.id.tv_note_title);
+        editText = findViewById(R.id.et_note_title);
         cstLayNote = findViewById(R.id.cstLayNote);
         btnFav = findViewById(R.id.btnFavNote);
         btnDel = findViewById(R.id.btnDelNote);
@@ -394,7 +393,7 @@ public class NoteActivity extends AppCompatActivity {
         isUpdateDate = true;
 
         if (callbackNoteWidget != null) {
-            callbackNoteWidget.onCallBackWidget(title, noteId, MyDate.getNowDate(dateFinaly));
+            callbackNoteWidget.onCallBackWidget(title, noteId, MyDate.getNowDate(dateFinally));
         }
     }
 
@@ -411,7 +410,7 @@ public class NoteActivity extends AppCompatActivity {
         int appWidgetId = MySharedPref.getCustomInt(this, noteId);
 
         if (appWidgetId != -1) {
-            String dateWidget = MyDate.getNowDate(dateFinaly);
+            String dateWidget = MyDate.getNowDate(dateFinally);
 
             if (isDelete) {
                 title = getString(R.string.note_deleted);
@@ -433,9 +432,9 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void getMyNote() {
-        dateFinaly = getTime();
-        if (noteId == 0) dateMod = dateFinaly;
-        note = new Note(noteId, title, dateFinaly, dateMod, dateFinaly, isFavItem);
+        dateFinally = getTime();
+        if (noteId == 0) dateMod = dateFinally;
+        note = new Note(noteId, title, dateFinally, dateMod, dateFinally, isFavItem);
     }
 
     private void callAutoBackup() {

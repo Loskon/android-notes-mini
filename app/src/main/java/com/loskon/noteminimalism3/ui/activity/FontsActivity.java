@@ -41,7 +41,9 @@ public class FontsActivity extends AppCompatActivity {
         setColorItems();
         handlerBottomAppBar();
 
-        if (isDialogShow) new MyDialogWarning(this).call();
+        if (isDialogShow) {
+            new MyDialogWarning(this).call();
+        }
     }
 
     private void initialiseWidgets() {

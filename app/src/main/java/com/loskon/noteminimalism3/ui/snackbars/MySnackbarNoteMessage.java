@@ -6,7 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 
 /**
  * Помощник для отображения различнх уведомлений о действиях пользователя
@@ -24,6 +24,7 @@ public class MySnackbarNoteMessage {
     public static final String MSG_INVALID_FORMAT = "msg_invalid_format";
     public static final String MSG_NOTE_TEXT_COPIED = "msg_text_copied";
     public static final String MSG_NOTE_HYPERLINKS_COPIED = "msg_hyperlinks_copied";
+    public static final String ERROR = "msg_error";
 
     private final NoteActivity activity;
 

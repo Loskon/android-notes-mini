@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.note.MyKeyboard;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.rv.adapter.MyRecyclerViewAdapter;
+import com.loskon.noteminimalism3.ui.recyclerview.adapter.MyRecyclerViewAdapter;
 
 /**
  * Помощник для управления элементами в MainActivity

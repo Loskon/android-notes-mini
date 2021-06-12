@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.backup.second;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
 
@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import static com.loskon.noteminimalism3.db.DbHelper.DATABASE_NAME;
+import static com.loskon.noteminimalism3.database.DbHelper.DATABASE_NAME;
 
 /**
  * Создание файла бэкапа и его восстановление
@@ -18,12 +18,12 @@ import static com.loskon.noteminimalism3.db.DbHelper.DATABASE_NAME;
 
 public class BackupDb {
 
-    private final Activity activity;
+    private final Context activity;
 
     private String typeMessage;
     private boolean isSuccess = false;
 
-    public BackupDb(Activity activity) {
+    public BackupDb(Context activity) {
         this.activity = activity;
     }
 

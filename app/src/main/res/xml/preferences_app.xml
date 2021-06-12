@@ -1,45 +1,45 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+    <com.loskon.noteminimalism3.ui.preferences.MyPrefCategory
         app:iconSpaceReserved="false"
         app:title="@string/note_app_header">
-        <com.loskon.noteminimalism3.ui.preference.MyPrefCardView
+        <com.loskon.noteminimalism3.ui.preferences.MyPrefCardView
             app:allowDividerAbove="false"
             app:key="1" />
-    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+    </com.loskon.noteminimalism3.ui.preferences.MyPrefCategory>
 
     <Preference
         android:title="@string/reset_title"
         app:iconSpaceReserved="false"
         app:key="@string/reset_title" />
-    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+    <com.loskon.noteminimalism3.ui.preferences.MyPrefCategory
         app:iconSpaceReserved="false"
         app:title="@string/theme_color_header">
-        <com.loskon.noteminimalism3.ui.preference.MyPrefSelectColor
+        <com.loskon.noteminimalism3.ui.preferences.MyPrefSelectColor
             android:layout="@layout/custom_pref_layout"
             android:title="@string/select_color_title"
             app:allowDividerAbove="false"
             app:key="@string/select_color_title" />
-    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+    </com.loskon.noteminimalism3.ui.preferences.MyPrefCategory>
 
-    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+    <com.loskon.noteminimalism3.ui.preferences.MyPrefCategory
         app:iconSpaceReserved="false"
         app:title="@string/num_of_lines_header">
-        <com.loskon.noteminimalism3.ui.preference.MyPrefNumOfLines
+        <com.loskon.noteminimalism3.ui.preferences.MyPrefNumOfLines
             app:allowDividerAbove="false" />
-    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+    </com.loskon.noteminimalism3.ui.preferences.MyPrefCategory>
 
-    <com.loskon.noteminimalism3.ui.preference.MyPrefCategory
+    <com.loskon.noteminimalism3.ui.preferences.MyPrefCategory
         android:title="@string/other_app_header"
         app:iconSpaceReserved="false">
-        <com.loskon.noteminimalism3.ui.preference.MyPrefSwitch
+        <com.loskon.noteminimalism3.ui.preferences.MyPrefSwitch
             android:key="@string/one_size_title"
             android:title="@string/one_size_title"
             android:layout="@layout/custom_pref_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             app:summary="@string/one_size_cards_summary" />
-    </com.loskon.noteminimalism3.ui.preference.MyPrefCategory>
+    </com.loskon.noteminimalism3.ui.preferences.MyPrefCategory>
 
 </PreferenceScreen>

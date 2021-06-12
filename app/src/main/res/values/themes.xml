@@ -30,9 +30,12 @@
         <item name="colorShadow">@android:color/darker_gray</item>
         <item name="colorButtonIcon">@android:color/white</item>
         <item name="colorSwitchBackground">@android:color/white</item>
+        <item name="colorDialogBackground">@android:color/white</item>
+        <item name="colorDeleteIconRestore">@android:color/holo_red_dark</item>
 
         <!-- My custom drawable for items -->
         <item name="drawableSearchView">@drawable/bg_round_search_light</item>
+        <item name="drawableBottomSheet">@drawable/bottom_sheet_round_corner_light</item>
 
         <!-- Window background -->
         <item name="android:windowBackground">@color/white</item>
@@ -50,15 +53,17 @@
 
 
     <!-- MaterialAlertDialog -->
-    <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="MaterialAlertDialogBackground" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">
             @style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded
         </item>
-        <item name="colorSurface">@android:color/white</item>
+        <item name="android:background">?attr/colorDialogBackground</item>
+        <item name="android:backgroundTint">?attr/colorDialogBackground</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">
-        <item name="cornerSize">4dp</item>
+        <item name="cornerSize">6dp</item>
     </style>
 
 
@@ -76,7 +81,6 @@
     </style>
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
     </style>
 
@@ -94,15 +98,27 @@
     <!-- BottomSheetBackground -->
     <style name="BottomSheetBackground" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_sheet_round_corner_light</item>
+        <item name="android:background">?attr/drawableBottomSheet</item>
     </style>
 
     <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">
         <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
         <item name="appWidgetTextColor">@color/light_blue_50</item>
+    </style>
+
+
+    <!-- Button -->
+    <style name="ButtonIcon" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="cornerRadius">4dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">-6dp</item>
+        <item name="strokeColor">@android:color/transparent</item>
     </style>
 
     <!-- Fonts -->

@@ -8,7 +8,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 
 /**
  * Кастомный Snackbar

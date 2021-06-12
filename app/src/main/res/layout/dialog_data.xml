@@ -63,17 +63,4 @@
         app:layout_constraintStart_toEndOf="@+id/btn_data_yes"
         app:layout_constraintTop_toBottomOf="@+id/tv_data_warning" />
 
-    <Button
-        android:id="@+id/btn_data_cancel"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_data_no"
-        app:rippleColor="@android:color/transparent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

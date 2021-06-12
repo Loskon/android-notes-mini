@@ -5,65 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_slider_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:maxLines="2"
-        android:text="TextView"
-        android:textColor="?attr/colorTitle"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.slider.Slider
         android:id="@+id/slider_range"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="4dp"
         android:stepSize="1"
         android:valueFrom="1"
         android:valueTo="30"
         app:haloRadius="@dimen/slider_halo_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_slider_title"
+        app:layout_constraintTop_toTopOf="parent"
         app:thumbRadius="@dimen/slider_thumb_radius"
         app:tickVisible="false">
 
     </com.google.android.material.slider.Slider>
-
-    <Button
-        android:id="@+id/btn_slider_ok"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@android:string/ok"
-        android:textColor="?attr/colorOkDialog"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_slider_cancel"
-        app:layout_constraintTop_toBottomOf="@id/slider_range" />
-
-    <Button
-        android:id="@+id/btn_slider_cancel"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_slider_ok"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/slider_range"
-        app:rippleColor="?attr/colorControlHighlight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

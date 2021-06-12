@@ -3,12 +3,9 @@ package com.loskon.noteminimalism3.backup.prime;
 import android.app.Activity;
 
 import com.loskon.noteminimalism3.backup.second.AppFolder;
-import com.loskon.noteminimalism3.backup.second.BackupPath;
+import com.loskon.noteminimalism3.ui.dialogs.SheetListFiles;
+import com.loskon.noteminimalism3.ui.sheets.SheetBackupCreate;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogBackup;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogRestore;
-
-import java.io.File;
 
 /**
  * Проверка и создание папки для бэкапа
@@ -29,7 +26,7 @@ public class BackupLocal {
         boolean isFolderCreated = AppFolder.createBackupFolder(activity);
 
         if (isFolderCreated) {
-            (new MyDialogBackup(activity)).call();
+            (new SheetBackupCreate(activity)).show();
         } else {
             typeMessage = MySnackbarBackup.MSG_TEXT_ERROR;
             showSnackbar();
@@ -38,16 +35,7 @@ public class BackupLocal {
     }
 
     public void performRestore() {
-
-        File folder = BackupPath.getFolder(activity);
-
-        if (folder.exists()) {
-            (new MyDialogRestore(activity)).callDialogRestore(folder);
-        } else {
-            typeMessage = MySnackbarBackup.MSG_TEXT_NO_FOLDER;
-            showSnackbar();
-        }
-
+        (new SheetListFiles(activity)).show();
     }
 
     private void showSnackbar() {

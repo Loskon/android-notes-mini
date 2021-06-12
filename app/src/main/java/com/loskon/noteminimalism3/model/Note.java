@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.model;
 import java.util.Date;
 
 /**
- * A model class for a notes
+ * Модель Note
  */
 
 public class Note {

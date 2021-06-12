@@ -10,12 +10,12 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.activity.BackupActivity;
-import com.loskon.noteminimalism3.ui.activity.FontsActivity;
-import com.loskon.noteminimalism3.ui.activity.MainActivity;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
-import com.loskon.noteminimalism3.ui.activity.SettingsActivity;
-import com.loskon.noteminimalism3.ui.activity.SettingsAppActivity;
+import com.loskon.noteminimalism3.ui.activities.BackupActivity;
+import com.loskon.noteminimalism3.ui.activities.FontsActivity;
+import com.loskon.noteminimalism3.ui.activities.MainActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.SettingsActivity;
+import com.loskon.noteminimalism3.ui.activities.SettingsAppActivity;
 
 import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_READ;
 

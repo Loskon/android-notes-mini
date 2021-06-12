@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.BlendModeColorFilterCompat;
@@ -43,9 +44,9 @@ public class MyColor {
         }
     }
 
-    public static boolean isDarkMode(Activity activity) {
+    public static boolean isDarkMode(Context context) {
         // Проверка установлена ли темная тема
-        int currentNightMode = activity
+        int currentNightMode = context
                 .getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return currentNightMode != Configuration.UI_MODE_NIGHT_NO;
     }
@@ -72,16 +73,16 @@ public class MyColor {
                                         isSuccess)), BlendModeCompat.SRC_IN));
     }
 
-    public static void setColorSnackbar(Activity activity, View snackbarView, boolean isSuccess) {
+    public static void setColorSnackbar(Context context, View snackbarView, boolean isSuccess) {
         // Цвет фона Snackbar
         snackbarView.setBackgroundTintList(ColorStateList
-                .valueOf(activity.getResources().getColor(getSuccessColor(activity, isSuccess))));
+                .valueOf(context.getResources().getColor(getSuccessColor(context, isSuccess))));
     }
 
-    private static int getSuccessColor(Activity activity, boolean isSuccess) {
+    private static int getSuccessColor(Context context, boolean isSuccess) {
         int color;
 
-        if (isDarkMode(activity)) {
+        if (isDarkMode(context)) {
             if (isSuccess) {
                 color = R.color.snackbar_completed_dark;
             } else {
@@ -113,17 +114,20 @@ public class MyColor {
         // Цвет Status Bar и Task Description
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int color;
+            Window window = activity.getWindow();
+
+            window.setNavigationBarColor(Color.BLACK);
 
             if (isDarkMode(activity)) {
                 color = activity.getColor(R.color.background_dark);
-                activity.getWindow().getDecorView().setSystemUiVisibility(0);
+                window.getDecorView().setSystemUiVisibility(0);
             } else {
                 color = Color.WHITE;
-                activity.getWindow().getDecorView().
+                window.getDecorView().
                         setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
 
-            activity.getWindow().setStatusBarColor(color);
+            window.setStatusBarColor(color);
         }
 
         setColorTask(activity);
@@ -167,7 +171,7 @@ public class MyColor {
     public static int getMyColor(Context context) {
         return MySharedPref.getInt(context,
                 MyPrefKey.KEY_COLOR, context.getResources()
-                        .getColor(R.color.light_blue));
+                        .getColor(R.color.material_blue));
     }
 
     public static void setNavMenuItemThemeColors(Activity activity,

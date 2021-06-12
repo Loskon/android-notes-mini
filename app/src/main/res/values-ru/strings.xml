@@ -44,7 +44,8 @@
     <!-- Main -->
     <string name="toast_main_auto_backup_completed">Авторезервирование прошло успешно!</string>
     <string name="toast_main_auto_backup_failed">Ошибка авторезервирования!</string>
-
+    <string name="toast_main_auto_backup_not_possible">
+        Авторезервирование невозможно! Нет разрешения</string>
 
     <!-- Snackbars -->
     <!-- Main -->
@@ -82,7 +83,7 @@
     <!-- Dialog -->
     <!-- dialog_backup -->
     <string name="dg_bp_hint_text">Название на английском языке</string>
-    <string name="dg_bp_error">Введите название!</string>
+    <string name="dg_bp_error">Введите корректное название!</string>
 
     <!-- dialog_restore -->
     <string name="dg_restore_title">Выберите файл:</string>
@@ -110,6 +111,7 @@
     <string name="dg_open_link_copy">Копировать</string>
 
     <!-- dialog_account -->
+    <string name="dg_data_title">Управление аккаунтом</string>
     <string name="dg_data_delete">Удалить все данные</string>
     <string name="dg_data_logout">Выйти из аккаунта</string>
     <string name="dg_account_warning">Внимание! Вы удалите свои данные из облака
@@ -194,6 +196,7 @@
     <string name="unknown_error">Неизввестная ошибка!</string>
     <string name="bad_idea">Это плохая идея :)</string>
     <string name="confirm">Потвердить</string>
+    <string name="continue_action">Продолжить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
 </resources>

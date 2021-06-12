@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.loskon.noteminimalism3">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.loskon.noteminimalism3"
+    tools:ignore="LockedOrientationActivity">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29"
+        tools:ignore="ScopedStorage" />
 
     <supports-screens
         android:anyDensity="true"
@@ -51,22 +58,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.FontsActivity"
+        <activity
+            android:name=".ui.activities.FontsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.BackupActivity"
+            android:name=".ui.activities.BackupActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.SettingsAppActivity"
+            android:name=".ui.activities.SettingsAppActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.NoteActivity"
+            android:name=".ui.activities.NoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.activity.MainActivity;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.MainActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 
 import static com.loskon.noteminimalism3.auxiliary.other.MyIntent.PUT_EXTRA_ID;
 import static com.loskon.noteminimalism3.auxiliary.other.MyIntent.PUT_EXTRA_SEL_NOTE_CATEGORY;

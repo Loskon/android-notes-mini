@@ -5,7 +5,7 @@
     android:id="@+id/cstLytSettingApp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.SettingsAppActivity">
+    tools:context=".ui.activities.SettingsAppActivity">
 
     <FrameLayout
         android:id="@+id/fragment_settings_app"

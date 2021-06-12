@@ -4,9 +4,9 @@ import android.graphics.Color;
 import android.widget.EditText;
 
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.rv.other.CustomMovementMethod;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogLinks;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
+import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks;
+import com.loskon.noteminimalism3.ui.recyclerview.other.CustomMovementMethod;
 
 public class NoteHelperLinks {
 
@@ -46,7 +46,7 @@ public class NoteHelperLinks {
 
     private void setLinkClick(String url) {
             delFocusFromLinks();
-            (new MyDialogLinks(activity, url)).call();
+            (new DialogNoteLinks(activity)).show(url);
     }
 
     private int getTypeLinks() {

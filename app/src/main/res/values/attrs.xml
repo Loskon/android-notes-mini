@@ -14,9 +14,13 @@
     <attr name="colorShadow" format="color" />
     <attr name="colorButtonIcon" format="color" />
     <attr name="colorSwitchBackground" format="color" />
+    <attr name="colorDialogBackground" format="color" />
+    <attr name="colorDeleteIconRestore" format="color" />
 
     <!-- reference -->
     <attr name="drawableSearchView" format="reference" />
+    <attr name="drawableBottomSheet" format="reference" />
+
     <declare-styleable name="AppWidgetAttrs">
         <attr name="appWidgetBackgroundColor" format="color" />
         <attr name="appWidgetTextColor" format="color" />

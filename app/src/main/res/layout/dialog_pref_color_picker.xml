@@ -15,53 +15,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.larswerkman.holocolorpicker.SVBar
-        android:id="@+id/svbar"
+        android:id="@+id/sv_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_color_picker_ok"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/holo_picker" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_color_picker_reset"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        style="@style/ButtonIcon"
         android:layout_width="50dp"
         android:layout_height="44dp"
         android:layout_margin="8dp"
         app:icon="@drawable/baseline_refresh_black_24"
-        app:iconGravity="textStart"
-        app:iconPadding="-4dp"
         app:layout_constraintBottom_toBottomOf="@+id/holo_picker"
         app:layout_constraintEnd_toEndOf="@+id/holo_picker"
-        app:rippleColor="@android:color/transparent"
-        app:strokeColor="@android:color/transparent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_color_picker_cancel"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_color_picker_ok"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/svbar"
         app:rippleColor="?attr/colorControlHighlight" />
-
-    <Button
-        android:id="@+id/btn_color_picker_ok"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@android:string/ok"
-        android:textColor="?attr/colorOkDialog"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_color_picker_cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

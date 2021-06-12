@@ -6,8 +6,8 @@ import android.content.Context;
 import android.widget.EditText;
 
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorage;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 
 /**
@@ -104,10 +104,9 @@ public class TextAssistant {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void saveTextFile() {
-        boolean isPermissions = PermissionsStorage
-                .verify(activity, null, true);
+        boolean isAccess = new PermissionsInActivity().isAccess(activity);
 
-        if (isPermissions) goSaveTextFile();
+        if (isAccess) goSaveTextFile();
     }
 
     public void goSaveTextFile() {

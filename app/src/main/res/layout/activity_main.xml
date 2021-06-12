@@ -5,7 +5,7 @@
     android:id="@+id/coordLytMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity">
+    tools:context=".ui.activities.MainActivity">
 
     <include
         layout="@layout/inc_main_recycler_view"

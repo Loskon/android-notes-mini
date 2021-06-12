@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.auxiliary.note;
 
 import com.loskon.noteminimalism3.backup.second.AppFolder;
 import com.loskon.noteminimalism3.backup.second.BackupPath;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 
 import java.io.File;
@@ -37,9 +37,10 @@ public class TextFile {
                 try {
                     String saveText = title;
                     title = title.trim().substring(0, Math.min(16, title.trim().length()));
-                    title = title.replace("https://", "").replace("http://", "");
+                    title = title.replace("https://", "")
+                            .replace("http://", "").replace("\n", " ");
 
-                    File fileName = new File(file, title);
+                    File fileName = new File(file, title.trim());
                     FileWriter writer = new FileWriter(fileName);
 
                     writer.append(saveText);

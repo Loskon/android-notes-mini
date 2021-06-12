@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.rv.adapter.MyRecyclerViewAdapter;
+import com.loskon.noteminimalism3.ui.recyclerview.adapter.MyRecyclerViewAdapter;
 
 /**
  * Кастомный Snackbar с обратным таймером
@@ -59,18 +59,15 @@ public class MySnackbarMain {
 
         LayoutInflater objLayoutInflater = (LayoutInflater)
                 activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View snackView = objLayoutInflater.inflate(R.layout.snackbar_main, null);
-        snackView.setBackgroundColor(MyColor.getColorBackgroundSnackbar(activity));
+        View snackView = objLayoutInflater.inflate(R.layout.snackbar_swipe, null);
 
         Button btnSnackbar =  snackView.findViewById(R.id.snackbar_btn);
-        TextView textSnackbar =  snackView.findViewById(R.id.snackbar_text_title);
         ProgressBar progressBar =  snackView.findViewById(R.id.snackbar_progress_bar);
         TextView textProgress =  snackView.findViewById(R.id.snackbar_text_progress);
 
         //progressBar.getProgressDrawable().setColorFilter(
         //Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
 
-        textSnackbar.setText(activity.getString(R.string.sb_main_add_trash));
         progressBar.setProgress(0);
         progressBar.setMax(10000);
 
@@ -84,11 +81,11 @@ public class MySnackbarMain {
 
         ObjectAnimator animation = ObjectAnimator.ofInt(progressBar,
                 "progress", 10000);
-        animation.setDuration(3900); // 4 second
+        animation.setDuration(4900); // 4 second
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
 
-        countDownTimer = new CountDownTimer(4 * 1000, 100) {
+        countDownTimer = new CountDownTimer(5 * 1000, 100) {
             @Override
             public void onTick(long leftTimeInMilliseconds) {
                 long seconds = leftTimeInMilliseconds / 1000;

@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.backup.second;
 
-import android.app.Activity;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
@@ -13,9 +13,10 @@ import java.io.File;
 
 public class BackupLimiter {
 
-    public static void delExtraFiles(Activity activity, File folder) {
+    public static void delExtraFiles(Context context) {
+        File folder = BackupPath.getFolder(context);
 
-        int numOfBackup = GetSharedPref.getNumOfBackup(activity);
+        int numOfBackup = GetSharedPref.getNumOfBackup(context);
         File[] logFiles = BackupHelper.getListFile(folder);
 
         if (logFiles != null && logFiles.length > numOfBackup) {

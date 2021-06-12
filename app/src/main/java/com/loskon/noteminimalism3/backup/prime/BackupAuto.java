@@ -6,7 +6,7 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.auxiliary.other.MyToast;
 import com.loskon.noteminimalism3.auxiliary.other.ReplaceText;
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorage;
+import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInActivity;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.second.AppFolder;
 import com.loskon.noteminimalism3.backup.second.BackupSetName;
@@ -20,7 +20,7 @@ import java.util.Date;
 public class BackupAuto {
 
     private final Activity activity;
-    boolean isPermissions;
+    boolean isAccess;
 
     public BackupAuto(Activity activity) {
         this.activity = activity;
@@ -28,10 +28,9 @@ public class BackupAuto {
 
     public void buildBackup(boolean isShowToast, Date date) {
 
-        isPermissions = PermissionsStorage
-                .verify(activity, null, false);
+        isAccess = new PermissionsInActivity().isAccess(activity);
 
-        if (isPermissions) {
+        if (isAccess) {
 
             boolean isFolderCreated = AppFolder.createBackupFolder(activity);
             boolean isNotification = GetSharedPref.isNotificationAutoBackup(activity);
@@ -56,14 +55,14 @@ public class BackupAuto {
     private void showToast(boolean isSuccess) {
         String message;
 
-        if (isPermissions) {
+        if (isAccess) {
             if (isSuccess) {
                 message = activity.getString(R.string.toast_main_auto_backup_completed);
             } else {
                 message = activity.getString(R.string.toast_main_auto_backup_failed);
             }
         } else {
-            message = activity.getString(R.string.no_permissions);
+            message = activity.getString(R.string.toast_main_auto_backup_not_possible);
         }
 
         MyToast.showToast(activity, message, isSuccess);

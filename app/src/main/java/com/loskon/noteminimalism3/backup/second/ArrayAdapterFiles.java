@@ -1,15 +1,18 @@
 package com.loskon.noteminimalism3.backup.second;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
+import com.google.android.material.button.MaterialButton;
 import com.loskon.noteminimalism3.R;
 
 import java.io.File;
@@ -22,7 +25,7 @@ import java.util.ArrayList;
 
 public class ArrayAdapterFiles extends BaseAdapter {
 
-    private final Context context;
+    private final Activity activity;
     private final ArrayList<String> listFiles;
     private final File folder;
     private final File[] files;
@@ -34,9 +37,9 @@ public class ArrayAdapterFiles extends BaseAdapter {
         ArrayAdapterFiles.callback = callback;
     }
 
-    public ArrayAdapterFiles(Context context, ArrayList<String> listFiles,
+    public ArrayAdapterFiles(Activity activity, ArrayList<String> listFiles,
                              File folder, File[] files) {
-        this.context = context;
+        this.activity = activity;
         this.listFiles = listFiles;
         this.folder = folder;
         this.files = files;
@@ -61,17 +64,24 @@ public class ArrayAdapterFiles extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            view = inflater.inflate(R.layout.row_list_restore, null, true);
+            view = inflater.inflate(R.layout.row_list_restore2, null, true);
         }
 
         // initView
         TextView nameFiles = view.findViewById(R.id.tv_title_file);
-        ImageButton delFile = view.findViewById(R.id.btn_delete_file);
+        CardView cardView = view.findViewById(R.id.card_view);
+        MaterialButton delFile = view.findViewById(R.id.button2);
 
         nameFiles.setText(listFiles.get(position).replace(".db", ""));
+
+        cardView.setOnClickListener(v -> {
+            (new BackupDb(activity)).restoreDatabase(files[position].getPath());
+           // if (cbRestoreNotes != null)  cbRestoreNotes.onCallBack();
+            //alertDialog.dismiss();
+        });
 
         delFile.setOnClickListener(v -> {
 

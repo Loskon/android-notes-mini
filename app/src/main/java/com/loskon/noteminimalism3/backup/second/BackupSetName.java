@@ -17,11 +17,10 @@ public class BackupSetName {
     }
 
     public void callBackup(boolean isAutoBackup, String backupName) {
-        File folder = BackupPath.getFolder(activity);
         String filePath = BackupPath.getPath(activity) + File.separator;
 
         String outFileName = filePath + backupName  + ".db";
         (new BackupDb(activity)).backupDatabase(isAutoBackup, outFileName);
-        BackupLimiter.delExtraFiles(activity, folder);
+        BackupLimiter.delExtraFiles(activity);
     }
 }

@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.ui.snackbars;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
@@ -16,7 +16,7 @@ public class SnackbarBuilder {
 
     private static Snackbar snackbar;
 
-    public static void makeSnackbar(Activity activity, View layout,
+    public static void makeSnackbar(Context context, View layout,
                                     String message, View anchorView, boolean isSuccess) {
 
         snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_SHORT);
@@ -25,7 +25,7 @@ public class SnackbarBuilder {
 
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundResource(R.drawable.snackbar_round_corner);
-        MyColor.setColorSnackbar(activity, snackbarView, isSuccess);
+        MyColor.setColorSnackbar(context, snackbarView, isSuccess);
 
         snackbarView.setOnClickListener(v -> snackbar.dismiss());
 

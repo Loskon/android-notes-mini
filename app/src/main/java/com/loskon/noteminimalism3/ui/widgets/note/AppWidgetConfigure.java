@@ -17,10 +17,10 @@ import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
-import com.loskon.noteminimalism3.db.DbAdapter;
-import com.loskon.noteminimalism3.db.NoteDbSchema.NoteTable.Columns;
+import com.loskon.noteminimalism3.database.DbAdapter;
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.Columns;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 
 import java.util.List;
 

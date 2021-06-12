@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="8dp"
-    tools:context=".ui.activity.FontsActivity">
+    tools:context=".ui.activities.FontsActivity">
 
     <include
         layout="@layout/inc_list_fonts"

@@ -15,7 +15,7 @@
     <color name="background_dark">#121212</color>
     <color name="item_dark">#272727</color>
 
-    <color name="light_blue">#0091ea</color>
+    <color name="material_blue">#4285F4</color>
 
     <!-- Snackbar -->
     <!-- default -->

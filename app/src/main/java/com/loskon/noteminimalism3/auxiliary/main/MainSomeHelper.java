@@ -4,7 +4,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.loskon.noteminimalism3.ui.fragments.MyBottomSheet;
+import com.loskon.noteminimalism3.ui.fragments.BottomSheetFragment;
 
 /**
  * Помощник со статическими методами для MainActivity
@@ -14,9 +14,9 @@ public class MainSomeHelper {
 
     public static void bottomNavViewShow(FragmentManager fragmentManager) {
         // Вызов bottomSheet
-        if (fragmentManager.findFragmentByTag(MyBottomSheet.TAG) == null) {
-            MyBottomSheet dialogBottomSheet = MyBottomSheet.newInstance();
-            dialogBottomSheet.show(fragmentManager, MyBottomSheet.TAG);
+        if (fragmentManager.findFragmentByTag(BottomSheetFragment.TAG) == null) {
+            BottomSheetFragment dialogBottomSheet = BottomSheetFragment.newInstance();
+            dialogBottomSheet.show(fragmentManager, BottomSheetFragment.TAG);
         }
     }
 

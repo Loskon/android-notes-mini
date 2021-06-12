@@ -8,7 +8,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.loskon.noteminimalism3.R;
-import com.loskon.noteminimalism3.ui.activity.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 
 /**
  * Помощник для управления элементами в NoteActivity

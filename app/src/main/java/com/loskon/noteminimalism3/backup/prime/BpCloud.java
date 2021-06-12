@@ -16,9 +16,9 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.ui.activity.BackupActivity;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogData;
-import com.loskon.noteminimalism3.ui.dialogs.MyDialogProgress;
+import com.loskon.noteminimalism3.ui.activities.BackupActivity;
+import com.loskon.noteminimalism3.ui.dialogs.DialogProgress;
+import com.loskon.noteminimalism3.ui.sheets.SheetPrefDateAccount;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
 
 import java.io.File;
@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_SIGN_IN;
-import static com.loskon.noteminimalism3.db.DbHelper.DATABASE_NAME;
+import static com.loskon.noteminimalism3.database.DbHelper.DATABASE_NAME;
 
 /**
  * Аутентификация пользователя, экспорт/импорт копии базы данны в/из облака
@@ -35,7 +35,7 @@ import static com.loskon.noteminimalism3.db.DbHelper.DATABASE_NAME;
 public class BpCloud {
 
     private final BackupActivity activity;
-    private MyDialogProgress dialogProgress;
+    private DialogProgress dialogProgress;
 
     @SuppressWarnings("FieldCanBeLocal")
     private FirebaseStorage storage;
@@ -77,7 +77,7 @@ public class BpCloud {
         appBarMenu = bottomAppBar.getMenu();
         dbFile = new File(getDbPath());
 
-        dialogProgress = new MyDialogProgress(activity);
+        dialogProgress = new DialogProgress(activity);
 
         bottomAppBarMenuHandler();
         getUser();
@@ -91,7 +91,7 @@ public class BpCloud {
         bottomAppBar.setOnMenuItemClickListener(item -> {
 
             if (item.getItemId() == R.id.action_account) {
-                (new MyDialogData(activity)).call();
+                (new SheetPrefDateAccount(activity)).show();
                 return true;
             }
 
@@ -136,7 +136,7 @@ public class BpCloud {
     }
 
     private void callDialogAndTimer() {
-        dialogProgress.call();
+        dialogProgress.show();
         setCountDownTimer();
     }
 
@@ -237,14 +237,18 @@ public class BpCloud {
         if (dbRef != null) dbRef.delete();
         authUI
                 .delete(activity)
-                .addOnCompleteListener(this::onSuccesDelData);
+                .addOnCompleteListener(this::onSuccessDelData);
         authUI.signOut(activity);
         firebaseAuth.signOut();
 
         getUser();
     }
 
-    private void onSuccesDelData(Task<Void> voidTask) {
+    public void noInternet() {
+        showSnackbar(false, MySnackbarBackup.MSG_TEXT_NO_INTERNET);
+    }
+
+    private void onSuccessDelData(Task<Void> voidTask) {
         showSnackbar(true, MySnackbarBackup.MSG_DEL_DATA);
     }
 

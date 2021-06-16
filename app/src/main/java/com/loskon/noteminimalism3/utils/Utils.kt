@@ -8,7 +8,8 @@ import android.widget.Toast.makeText
  *
  */
 
-fun Context.showToast(message: String) {
+fun Context.showToast(stringIdForToast: Int) {
+    val message: String = getString(stringIdForToast)
     var toast: Toast? = null
     toast?.cancel()
     toast = makeText(this, message, Toast.LENGTH_SHORT)

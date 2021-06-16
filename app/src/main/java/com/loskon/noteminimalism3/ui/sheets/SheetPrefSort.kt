@@ -14,13 +14,13 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
- *
+ * Выбор способа сортировки для списка заметок
  */
 
 class SheetPrefSort(private val context: Context) {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.dialog_pref_sorting, null)
+    private val view = View.inflate(context, R.layout.sheet_pref_sorting, null)
 
     private val radioGroup: RadioGroup = view.findViewById(R.id.rg_sort)
     private val radioButtonCreate: RadioButton = view.findViewById(R.id.rb_sort_creation)
@@ -44,7 +44,7 @@ class SheetPrefSort(private val context: Context) {
 
     private fun configViews() {
         sheetDialog.setInsertView(view)
-        sheetDialog.setTextTitle(context.getString(R.string.sort_title))
+        sheetDialog.setTextTitle(R.string.sort_title)
     }
 
     private fun setStateChecked() {
@@ -87,7 +87,7 @@ class SheetPrefSort(private val context: Context) {
         var callbackSort: CallbackSort? = null
 
         @JvmStatic
-        fun regCallbackSort2(callbackSort: CallbackSort) {
+        fun regCallbackSort(callbackSort: CallbackSort) {
             SheetPrefSort.callbackSort = callbackSort
         }
     }

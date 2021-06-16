@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="@string/dg_bp_forbidden_text"
-            android:hint="@string/dg_bp_hint_text"
+            android:hint="@string/sheet_backup_title"
             android:inputType="textCapSentences|textNoSuggestions"
             android:lines="1"
             android:maxLines="1"

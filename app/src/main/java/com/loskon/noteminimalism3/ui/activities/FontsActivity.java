@@ -32,7 +32,7 @@ public class FontsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
-        new AppFontManager(this).setFont();
+        AppFontManager.setFont(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fonts);
         MyColor.setColorStatBarAndTaskDesc(this);

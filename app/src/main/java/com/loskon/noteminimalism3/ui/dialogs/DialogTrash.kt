@@ -1,22 +1,25 @@
 package com.loskon.noteminimalism3.ui.dialogs
 
+import android.content.Context
 import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
- *
+ * Очистка корзины
  */
 
-class DialogTrash(private val activity: MainActivity) {
+class DialogTrash(context: Context) {
 
-    private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(activity)
+    private val activity: MainActivity = context as MainActivity
+
+    private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(context)
 
     private val btnOk: Button = materialDialog.getButtonOk
 
     init {
-        materialDialog.setTextTitle(activity.getString(R.string.dg_trash_title))
+        materialDialog.setTextTitle(R.string.dg_trash_title)
         materialDialog.setContainerVisibility(false)
     }
 

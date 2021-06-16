@@ -7,47 +7,23 @@
 
     <Button
         android:id="@+id/btn_link_open"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        style="@style/ButtonFlat"
         android:layout_width="0dp"
-        android:layout_height="@dimen/height_item"
         android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:letterSpacing="0"
-        android:paddingStart="16dp"
-        android:paddingEnd="8dp"
         android:text="Open"
-        android:textAllCaps="false"
-        android:textColor="?attr/colorTitle"
-        android:textSize="16sp"
-        app:cornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="?attr/colorControlHighlight" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_link_copy"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        style="@style/ButtonFlat"
         android:layout_width="0dp"
-        android:layout_height="@dimen/height_item"
         android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:letterSpacing="0"
-        android:paddingStart="16dp"
-        android:paddingEnd="8dp"
         android:text="@string/dg_open_link_copy"
-        android:textAllCaps="false"
-        android:textColor="?attr/colorTitle"
-        android:textSize="16sp"
-        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_link_open"
-        app:rippleColor="?attr/colorControlHighlight" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_link_open" />
 </androidx.constraintlayout.widget.ConstraintLayout>

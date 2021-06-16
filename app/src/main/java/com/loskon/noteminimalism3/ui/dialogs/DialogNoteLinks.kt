@@ -13,18 +13,20 @@ import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage
 import java.util.regex.Pattern
 
 /**
- *
+ * Работа с ссылками в тексте заметок
  */
 
-const val URL_WEB = "WEB"
-const val URL_MAIL = "MAIL"
-const val URL_PHONE = "PHONE"
-const val ERROR = "ERROR"
+class DialogNoteLinks(private val context: Context) : View.OnClickListener {
 
-class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener {
+    companion object {
+        const val URL_WEB = "WEB"
+        const val URL_MAIL = "MAIL"
+        const val URL_PHONE = "PHONE"
+        const val ERROR = "ERROR"
+    }
 
-    private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(activity)
-    private val dialogView = View.inflate(activity, R.layout.dialog_open_link, null)
+    private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(context)
+    private val dialogView = View.inflate(context, R.layout.dialog_open_link, null)
 
     private val btnOpen: Button = dialogView.findViewById(R.id.btn_link_open)
     private val btnCopy: Button = dialogView.findViewById(R.id.btn_link_copy)
@@ -39,8 +41,8 @@ class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener
 
     fun show(titleLinks: String) {
         this.titleLinks = titleLinks
-        typeLinks = getTypeURL(titleLinks)
-        setTitle()
+
+        setDialogTitle()
         installHandlers()
         materialDialog.show(dialogView)
     }
@@ -65,7 +67,9 @@ class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener
         return typeLinks
     }
 
-    private fun setTitle() {
+    private fun setDialogTitle() {
+        typeLinks = getTypeURL(titleLinks.toString())
+
         when (typeLinks) {
             URL_MAIL -> {
                 replaceText("mailto:")
@@ -84,7 +88,7 @@ class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener
             }
         }
 
-        titleLinks?.let { it -> materialDialog.setTextTitle(it) }
+        materialDialog.setTextTitle(titleLinks.toString())
     }
 
     private fun replaceText(title: String) {
@@ -92,7 +96,7 @@ class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener
     }
 
     private fun setTextBtn(textId: Int) {
-        btnOpen.text = activity.getString(textId)
+        btnOpen.text = context.getString(textId)
     }
 
     private fun installHandlers() {
@@ -112,13 +116,13 @@ class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener
 
     private fun openLink() {
         when (typeLinks) {
-            URL_WEB -> activity.startActivity(
+            URL_WEB -> context.startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse(titleLinks))
             )
-            URL_MAIL -> activity.startActivity(
+            URL_MAIL -> context.startActivity(
                 Intent(Intent.ACTION_SENDTO, Uri.parse(titleLinks))
             )
-            URL_PHONE -> activity.startActivity(
+            URL_PHONE -> context.startActivity(
                 Intent(Intent.ACTION_DIAL, Uri.parse(titleLinks))
             )
 
@@ -130,7 +134,7 @@ class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener
         replaceText("http://")
         replaceText("https://")
         try {
-            val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("copy_links", titleLinks)
             clipboard.setPrimaryClip(clip)
             showSnackbar(true, MySnackbarNoteMessage.MSG_NOTE_HYPERLINKS_COPIED)
@@ -141,6 +145,6 @@ class DialogNoteLinks(private val activity: NoteActivity) : View.OnClickListener
     }
 
     private fun showSnackbar(isSuccess: Boolean, message: String) {
-        activity.mySnackbarNoteMessage.show(isSuccess, message)
+        (context as NoteActivity).mySnackbarNoteMessage.show(isSuccess, message)
     }
 }

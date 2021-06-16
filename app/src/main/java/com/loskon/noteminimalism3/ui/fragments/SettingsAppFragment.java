@@ -47,7 +47,7 @@ public class SettingsAppFragment extends PreferenceFragmentCompat implements
         setDivider(null);
         setDividerHeight(0);
 
-        SheetPrefSelectColor.regCallBackNotifyData2(() -> {
+        SheetPrefSelectColor.regCallBackColorNotifyData(() -> {
             if (getListView() != null && getListView().getAdapter() != null) {
                 getListView().getAdapter().notifyDataSetChanged();
             }
@@ -64,7 +64,7 @@ public class SettingsAppFragment extends PreferenceFragmentCompat implements
 
         switchOneSizeString = getString(R.string.one_size_title);
         resetString = getString(R.string.reset_title);
-        selectColorString = getString(R.string.select_color_title);
+        selectColorString = getString(R.string.sheet_color_picker_title);
 
         switchOneSizePref = findPreference(switchOneSizeString);
         resetPref = findPreference(resetString);

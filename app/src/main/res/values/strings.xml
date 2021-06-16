@@ -72,6 +72,7 @@
 
     <!-- Snackbars -->
     <!-- Main -->
+    <string name="sb_main_deleted">Note deleted!</string>
     <string name="sb_main_add_trash">Note added to trash!</string>
     <string name="sb_main_but_empty_trash">But it was empty…</string>
 
@@ -104,20 +105,22 @@
 
     <!-- Dialog -->
     <!-- dialog_backup -->
-    <string name="dg_bp_hint_text">Name in english</string>
+    <string name="sheet_backup_title">Name in english</string>
     <string name="dg_bp_error">Enter the correct name!</string>
     <string name="dg_bp_forbidden_text" translatable="false">ABCDEFGHIJKLMNOPQRSTUVWXYZ
         abcdefghijklmnopqrstuvwxyz0123456789()#№/_:.- </string>
 
-    <!-- dialog_restore -->
-    <string name="dg_restore_title">Select file:</string>
+    <!-- sheet_restore -->
+    <string name="sheet_list_files_title">Select file:</string>
+    <string name="dg_restore_delete_all">Delete all</string>
+    <string name="dg_restore_empty">List is empty!</string>
 
     <!-- dialog_font_size -->
-    <string name="dg_font_size_title">Font size</string>
+    <string name="sheet_font_size_title">Font size</string>
     <string name="dg_font_size_reset">Reset</string>
 
     <!-- dialog_pref_links -->
-    <string name="dg_pref_links_title">Type of hyperlink</string>
+    <string name="sheet_pref_links_title">Type of hyperlink</string>
     <string name="dg_pref_links_web_url">Web URL</string>
     <string name="dg_pref_links_email">Email</string>
     <string name="dg_pref_links_phone_number">Phone Number</string>
@@ -142,7 +145,7 @@
         and will not be able to restore it. Continue?</string>
 
     <!-- dialog_confirm -->
-    <string name="dialog_confirm_action">Confirm action</string>
+    <string name="sheet_confirm_action">Confirm action</string>
 
     <!-- bottom_sheet_dialog -->
     <string name="bs_last_modified">Last modified</string>
@@ -150,7 +153,7 @@
     <string name="bs_copy_text">Copy text note</string>
     <string name="bs_share">Share</string>
     <string name="bs_download">Download</string>
-    <string name="bs_to_close">To close</string>
+    <string name="to_close">To close</string>
 
     <!-- dialog_pref_sorting -->
     <string name="dg_sorting_title">Sort</string>
@@ -207,7 +210,7 @@
 
     <!-- Preference Titles -->
     <string name="reset_title">Reset font size</string>
-    <string name="select_color_title">Select color</string>
+    <string name="sheet_color_picker_title">Select color</string>
     <string name="one_size_title">Same cards size</string>
 
     <!-- Preference summary -->

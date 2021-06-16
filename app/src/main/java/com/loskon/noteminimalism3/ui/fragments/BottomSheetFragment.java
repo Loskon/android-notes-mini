@@ -46,7 +46,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.fragment_bottomsheet, container, false);
         navigationView = view.findViewById(R.id.navigation_view);
         navigationView.setBackground(ResourcesCompat
-                .getDrawable(getResources(), R.drawable.bottom_sheet_round_corner_light, null));
+                .getDrawable(getResources(), R.drawable.sheet_round_corner, null));
         return view;
     }
 

@@ -6,7 +6,7 @@ import android.widget.EditText;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks;
-import com.loskon.noteminimalism3.ui.recyclerview.other.CustomMovementMethod;
+import com.loskon.noteminimalism3.ui.recyclerview.CustomMovementMethod;
 
 public class NoteHelperLinks {
 

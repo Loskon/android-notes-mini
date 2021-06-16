@@ -32,10 +32,8 @@
         <item name="colorSwitchBackground">@android:color/white</item>
         <item name="colorDialogBackground">@android:color/white</item>
         <item name="colorDeleteIconRestore">@android:color/holo_red_dark</item>
+        <item name="colorBackgroundSearchView">@color/background_search_view_light</item>
 
-        <!-- My custom drawable for items -->
-        <item name="drawableSearchView">@drawable/bg_round_search_light</item>
-        <item name="drawableBottomSheet">@drawable/bottom_sheet_round_corner_light</item>
 
         <!-- Window background -->
         <item name="android:windowBackground">@color/white</item>
@@ -70,7 +68,7 @@
     <!-- TextInputLayout -->
     <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
         <item name="colorControlActivated">@android:color/darker_gray</item>
-        <item name="colorOnSurface">@color/gray_for_surface</item>
+        <item name="colorOnSurface">@android:color/darker_gray</item>
     </style>
 
 
@@ -93,6 +91,7 @@
     <!-- BottomSheetStatusBar -->
     <style name="BottomSheetStatusBar" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
     <!-- BottomSheetBackground -->
@@ -104,22 +103,30 @@
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">?attr/drawableBottomSheet</item>
+        <item name="android:background">@drawable/sheet_round_corner</item>
     </style>
 
-    <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">
-        <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
-        <item name="appWidgetTextColor">@color/light_blue_50</item>
-    </style>
-
-
-    <!-- Button -->
+    <!-- ButtonIcon -->
     <style name="ButtonIcon" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
         <item name="cornerRadius">4dp</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">-6dp</item>
         <item name="strokeColor">@android:color/transparent</item>
     </style>
+
+    <!-- ButtonFlat -->
+    <style name="ButtonFlat" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">?attr/colorTitle</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_height">@dimen/height_item</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+    </style>
+
 
     <!-- Fonts -->
     <style name="RobotoLightFont">
@@ -184,5 +191,11 @@
 
     <style name="AliceRegularFont">
         <item name="android:fontFamily">@font/alice_regular</item>
+    </style>
+
+    <!-- AppWidget -->
+    <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
+        <item name="appWidgetTextColor">@color/light_blue_50</item>
     </style>
 </resources>

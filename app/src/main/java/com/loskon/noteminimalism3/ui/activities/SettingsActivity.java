@@ -1,15 +1,16 @@
 package com.loskon.noteminimalism3.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
+import com.loskon.noteminimalism3.room.AppRepository;
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment;
 
 /**
@@ -23,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
-        new AppFontManager(this).setFont();
+        AppFontManager.setFont(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -36,18 +37,21 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         btmAppBarSettings = findViewById(R.id.btmAppBarSettings);
-        btmAppBarSettings.setNavigationOnClickListener(v -> MyIntent.goMainActivity(this));
+        btmAppBarSettings.setNavigationOnClickListener(v -> onBackPressed());
+
+
+    }
+
+    public void fff() {
+        AppRepository.initRepository(this);
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         MyColor.setNavIconColor(this, btmAppBarSettings);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        MyIntent.goMainActivity(this);
     }
 }

@@ -10,7 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import static com.loskon.noteminimalism3.database.DbHelper.DATABASE_NAME;
+import static com.loskon.noteminimalism3.database.NoteDbSchema.DATABASE_NAME;
+
 
 /**
  * Создание файла бэкапа и его восстановление
@@ -30,6 +31,7 @@ public class BackupDb {
     public void backupDatabase(boolean isAutoBackup, String outFileName) {
         // Backup
         try {
+            //AppRepository.destroyInstance();
             buildDatabaseFile(getDbPath(), outFileName);
             typeMessage = MySnackbarBackup.MSG_BACKUP_COMPLETED;
             isSuccess = true;
@@ -44,6 +46,8 @@ public class BackupDb {
     public void restoreDatabase(String inFileName) {
         // Restore
         try {
+            //DDDDD.exportDatabase(inFileName);
+            //AppRepository.destroyInstance();
             buildDatabaseFile(inFileName, getDbPath());
             typeMessage = MySnackbarBackup.MSG_RESTORE_COMPLETED;
             isSuccess = true;

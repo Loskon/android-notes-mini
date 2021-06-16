@@ -41,7 +41,7 @@ public class NoteWidgetAdapter extends ArrayAdapter<Note> {
 
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         if (convertView == null) {
-            outerContainer = inflater.inflate(R.layout.inc_card_view_notes, parent, false);
+            outerContainer = inflater.inflate(R.layout.item_note, parent, false);
         }
 
         TextView title =  outerContainer.findViewById(R.id.txt_title_card_note);

@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.utils.setColorSlider
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
- *
+ * Нижнее меню с слайдером
  */
 
 class SheetPrefSlider(
@@ -22,7 +22,7 @@ class SheetPrefSlider(
 ) {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.dialog_pref_slider, null)
+    private val view = View.inflate(context, R.layout.sheet_pref_slider, null)
 
     private val slider: Slider = view.findViewById(R.id.slider_range)
     private val btnOk: Button = sheetDialog.getButtonOk

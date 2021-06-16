@@ -14,13 +14,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 
 public class AppFontManager {
 
-    private final Context context;
-
-    public AppFontManager(Context context) {
-        this.context = context;
-    }
-
-    public void setFont() {
+    public static void setFont(Context context) {
         int fontNumber = GetSharedPref.getTypeFont(context);
 
         if (fontNumber == R.id.rb_lato_light_font) {
@@ -58,7 +52,7 @@ public class AppFontManager {
         }
     }
 
-    public Typeface setFontText(int fontNumber) {
+    public static Typeface setFontText(Context context, int fontNumber) {
         int font;
 
         if (fontNumber == R.id.rb_lato_light_font) {

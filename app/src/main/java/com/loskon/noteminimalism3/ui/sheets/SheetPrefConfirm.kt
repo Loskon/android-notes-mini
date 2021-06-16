@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.utils.setMargins
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
- *
+ * Потверждение действия при облачном резервном копировании
  */
 
 class SheetPrefConfirm(private val activity: BackupActivity) {
@@ -18,7 +18,7 @@ class SheetPrefConfirm(private val activity: BackupActivity) {
     private val btnOk: Button = sheetDialog.getButtonOk
 
     init {
-        sheetDialog.setTextTitle(activity.getString(R.string.dialog_confirm_action))
+        sheetDialog.setTextTitle(R.string.sheet_confirm_action)
         sheetDialog.setBtnCancelVisibility(false)
         sheetDialog.setContainerVisibility(false)
         btnOk.text = activity.getString(R.string.continue_action)

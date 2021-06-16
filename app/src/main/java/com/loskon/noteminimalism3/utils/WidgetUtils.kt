@@ -4,17 +4,21 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
 
 /**
  *
@@ -89,7 +93,7 @@ fun TextView.setTextSizeInSp(fontSizeNote: Int) {
 
 //
 fun Context.getShortDrawable(icon: Int): Drawable? {
-    return ResourcesCompat.getDrawable(this.resources, icon, null)
+    return ResourcesCompat.getDrawable(resources, icon, null)
 }
 
 //
@@ -97,4 +101,20 @@ fun Context.getShortColor(colorId: Int): Int {
     return ContextCompat.getColor(this, colorId)
 }
 
+//
+fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) =
+    navigationIcon?.mutate()?.setTint(color)
 
+//
+fun Menu.menuIconColor(@ColorInt color: Int) {
+    if (size() != 0) {
+        for (i in 0 until size()) {
+            val drawable: Drawable = getItem(i).icon
+            drawable.mutate()
+            drawable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                color,
+                BlendModeCompat.SRC_ATOP
+            )
+        }
+    }
+}

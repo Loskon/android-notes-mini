@@ -1,21 +1,26 @@
 package com.loskon.noteminimalism3.ui.sheets
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
 import com.loskon.noteminimalism3.ui.activities.BackupActivity
 import com.loskon.noteminimalism3.utils.setVisibleView
 
-class SheetPrefDateAccount(private val activity: BackupActivity) : View.OnClickListener {
+/**
+ * Управление гугл-аккаунтом
+ */
 
+class SheetPrefDateAccount(private val context: Context) : View.OnClickListener {
+
+    private val activity: BackupActivity = context as BackupActivity
     private val bpCloud = activity.bpCloud
 
-    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(activity)
-    private val view = View.inflate(activity, R.layout.dialog_data, null)
+    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val view = View.inflate(context, R.layout.sheet_data_account, null)
 
     private val btnLogout: MaterialButton = view.findViewById(R.id.btn_data_logout)
     private val btnYes: MaterialButton = view.findViewById(R.id.btn_data_yes)
@@ -30,7 +35,7 @@ class SheetPrefDateAccount(private val activity: BackupActivity) : View.OnClickL
     }
 
     private fun setupColorViews() {
-        val color = MyColor.getMyColor(activity)
+        val color = MyColor.getMyColor(context)
         btnLogout.setBackgroundColor(color)
         btnDelete.setBackgroundColor(color)
         btnNo.setBackgroundColor(color)
@@ -41,8 +46,8 @@ class SheetPrefDateAccount(private val activity: BackupActivity) : View.OnClickL
     private fun configViews() {
         sheetDialog.setInsertView(view)
         sheetDialog.setBtnOkVisibility(false)
-        sheetDialog.setTextTitle(activity.getString(R.string.dg_data_title))
-        sheetDialog.setTextBtnCancel(activity.getString(R.string.bs_to_close))
+        sheetDialog.setTextTitle(R.string.dg_data_title)
+        sheetDialog.setTextBtnCancel(R.string.to_close)
         setItemVisibility(false)
     }
 
@@ -88,5 +93,4 @@ class SheetPrefDateAccount(private val activity: BackupActivity) : View.OnClickL
     fun show() {
         sheetDialog.show()
     }
-
 }

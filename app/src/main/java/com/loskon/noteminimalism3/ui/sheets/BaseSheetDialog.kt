@@ -16,13 +16,12 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
- *
+ * Единая форма для нижнего меню
  */
 
-class BaseSheetDialog(context: Context) :
-    BottomSheetDialog(context, R.style.BottomSheetBackground) {
+class BaseSheetDialog(private val sheetContext: Context) :
+    BottomSheetDialog(sheetContext, R.style.BottomSheetBackground) {
 
-    private val sheetContext: Context = context
     private val sheetBehavior: BottomSheetBehavior<FrameLayout> = behavior
 
     private val sheetView: View = View.inflate(sheetContext, R.layout.dialog_base, null)
@@ -64,16 +63,30 @@ class BaseSheetDialog(context: Context) :
         linearLayout.addView(insertView)
     }
 
+
+    //
+    fun setTextTitle(stringTitleId: Int) {
+        textTitle.text = sheetContext.getString(stringTitleId)
+    }
+
     fun setTextTitle(title: String) {
         textTitle.text = title
     }
 
-    fun setTextBtnCancel(titleCancel: String) {
-        btnCancel.text = titleCancel
+    fun setTextBtnOk(stringOkId: Int) {
+        btnOk.text = sheetContext.getString(stringOkId)
+    }
+
+    fun setTextBtnCancel(stringCancelId: Int) {
+        btnCancel.text = sheetContext.getString(stringCancelId)
     }
 
     fun setTextTitleVisibility(isVisible: Boolean) {
         textTitle.setVisibleView(isVisible)
+    }
+
+    fun setContainerVisibility(isVisible: Boolean) {
+        linearLayout.setVisibleView(isVisible)
     }
 
     fun setBtnOkVisibility(isVisible: Boolean) {
@@ -84,12 +97,15 @@ class BaseSheetDialog(context: Context) :
         btnCancel.setVisibleView(isVisible)
     }
 
-    fun setContainerVisibility(isVisible: Boolean) {
-        linearLayout.setVisibleView(isVisible)
-    }
 
+    //
     val getButtonOk: MaterialButton
         get() {
             return btnOk
+        }
+
+    val getButtonCancel: MaterialButton
+        get() {
+            return btnCancel
         }
 }

@@ -18,9 +18,9 @@
         app:title="@string/theme_color_header">
         <com.loskon.noteminimalism3.ui.preferences.MyPrefSelectColor
             android:layout="@layout/custom_pref_layout"
-            android:title="@string/select_color_title"
+            android:title="@string/sheet_color_picker_title"
             app:allowDividerAbove="false"
-            app:key="@string/select_color_title" />
+            app:key="@string/sheet_color_picker_title" />
     </com.loskon.noteminimalism3.ui.preferences.MyPrefCategory>
 
     <com.loskon.noteminimalism3.ui.preferences.MyPrefCategory

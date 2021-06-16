@@ -16,9 +16,8 @@ import com.loskon.noteminimalism3.utils.setLayoutParams
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
-
 /**
- *
+ * Единая форма для материального диалога
  */
 
 class BaseMaterialDialog(private val context: Context) {
@@ -97,6 +96,10 @@ class BaseMaterialDialog(private val context: Context) {
 
 
     //
+    fun setTextTitle(stringId: Int) {
+        textTitle.text = context.getString(stringId)
+    }
+
     fun setTextTitle(title: String) {
         textTitle.text = title
     }

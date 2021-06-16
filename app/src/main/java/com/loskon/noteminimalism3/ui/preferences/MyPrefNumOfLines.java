@@ -56,7 +56,7 @@ public class MyPrefNumOfLines extends Preference {
 
         MyColor.setColorSlider(getContext(), sliderNumOfLines);
 
-        SheetPrefSelectColor.regCallBackSettingsApp2(color ->
+        SheetPrefSelectColor.regCallBackColorSettingsApp(color ->
                 MyColor.setColorSlider(getContext(), sliderNumOfLines));
 
         int numOfLines = GetSharedPref.getNumOfLines(getContext());

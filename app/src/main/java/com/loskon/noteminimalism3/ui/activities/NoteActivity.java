@@ -18,13 +18,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.note.FindLinks;
 import com.loskon.noteminimalism3.auxiliary.note.MyKeyboard;
 import com.loskon.noteminimalism3.auxiliary.note.NoteHelper;
 import com.loskon.noteminimalism3.auxiliary.note.NoteHelperLinks;
 import com.loskon.noteminimalism3.auxiliary.note.TextAssistant;
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
@@ -33,7 +33,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupAuto;
 import com.loskon.noteminimalism3.database.DbAdapter;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.ui.sheets.SheetNote;
+import com.loskon.noteminimalism3.ui.sheets.SheetCustomNote;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteReset;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
@@ -55,7 +55,6 @@ public class NoteActivity extends AppCompatActivity {
     private ActionMode actionMode;
 
     private FindLinks findLinks;
-    private SheetNote sheetNote;
     private NoteHelper noteHelper;
     private NoteHelperLinks helperLinks;
     private MySnackbarNoteMessage mySnackbarNoteMessage;
@@ -69,9 +68,11 @@ public class NoteActivity extends AppCompatActivity {
     private FloatingActionButton fabNote;
     private EditText editText;
 
+    private int position = 0;
     private long noteId = 0;
     private int selNotesCategory = 0;
-    private String title, textFromDb, textDateMod;
+    private String title, textFromDb;
+    private String textDateMod = null;
     private Date receivedDate, autoBackupDate, dateMod, dateFinally;
 
     // false
@@ -100,7 +101,7 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
-        new AppFontManager(this).setFont();
+        AppFontManager.setFont(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -118,8 +119,9 @@ public class NoteActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             noteId = extras.getLong(MyIntent.PUT_EXTRA_ID);
-            isWidget  = extras.getBoolean(MyIntent.PUT_IS_WIDGET);
+            isWidget = extras.getBoolean(MyIntent.PUT_IS_WIDGET);
             selNotesCategory = extras.getInt(MyIntent.PUT_EXTRA_SEL_NOTE_CATEGORY);
+            position = extras.getInt(MyIntent.PUT_EXTRA_POSITION);
         }
     }
 
@@ -139,7 +141,6 @@ public class NoteActivity extends AppCompatActivity {
 
         if (selNotesCategory != 2) {
             mySnackbarNoteMessage = new MySnackbarNoteMessage(this, cstLayNote);
-            sheetNote = new SheetNote(this);
             helperLinks = new NoteHelperLinks(this);
 
             if (noteId != 0) {
@@ -207,7 +208,7 @@ public class NoteActivity extends AppCompatActivity {
 
         editText.setText(textFromDb);
         receivedDate = note.getDate();
-        dateMod  = note.getDateMod();
+        dateMod = note.getDateMod();
         isFavItem = note.getFavoritesItem();
     }
 
@@ -281,6 +282,7 @@ public class NoteActivity extends AppCompatActivity {
 
     public void restoreNote() {
         if (selNotesCategory == 2) {
+            if (callbackNote != null) callbackNote.onCallBackDelete(position);
             isUpdateDate = true;
             // Восстановление заметки
             dbAdapter.open();
@@ -305,6 +307,7 @@ public class NoteActivity extends AppCompatActivity {
 
         updateWidget(true);
 
+        if (callbackNote != null) callbackNote.onCallBackDelete(position);
         goMainActivity(true);
     }
 
@@ -325,12 +328,13 @@ public class NoteActivity extends AppCompatActivity {
         MyKeyboard.hideSoftKeyboard(this, editText);
         closeActionMode();
         editText.setSelection(editText.getSelectionEnd());
-        handler.postDelayed(() -> sheetNote.call(textDateMod), 300);
+        handler.postDelayed(() -> new SheetCustomNote(this).show(textDateMod, noteId), 300);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 (new TextAssistant(this)).goSaveTextFile();
@@ -515,6 +519,8 @@ public class NoteActivity extends AppCompatActivity {
 
     public interface CallbackNote {
         void onCallBack(boolean isListGoUp);
+
+        void onCallBackDelete(int position);
     }
 
     public interface CallbackNoteWidget {

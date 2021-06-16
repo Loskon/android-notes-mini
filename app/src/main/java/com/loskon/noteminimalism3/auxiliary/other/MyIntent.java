@@ -27,6 +27,7 @@ public class MyIntent {
 
     public static final String PUT_EXTRA_SEL_NOTE_CATEGORY = "selNotesCategory";
     public static final String PUT_EXTRA_ID = "id";
+    public static final String PUT_EXTRA_POSITION = "postion";
     public static final String PUT_IS_WIDGET = "isWidget";
 
     private static final int intentDelay = 50;
@@ -38,11 +39,12 @@ public class MyIntent {
         context.startActivity(intent);
     }
 
-    public static void openNote(Context context, int selNotesCategory, long id) {
+    public static void openNote(Context context, int selNotesCategory, long id, int position) {
         // Открытие заметки для редактирования
         Intent intent = new Intent(context, NoteActivity.class);
         intent.putExtra(PUT_EXTRA_SEL_NOTE_CATEGORY, selNotesCategory);
         intent.putExtra(PUT_EXTRA_ID, id);
+        intent.putExtra(PUT_EXTRA_POSITION, position);
         context.startActivity(intent);
     }
 

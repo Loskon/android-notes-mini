@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 
 /**
- *
+ * Выбор шрифта для приложения
  */
 
 class DialogTypeFont(private val context: Context) {
@@ -33,7 +33,7 @@ class DialogTypeFont(private val context: Context) {
     }
 
     private fun installHandlers(checkedId: Int) {
-        val typeface = AppFontManager(context).setFontText(checkedId)
+        val typeface = AppFontManager.setFontText(context, checkedId)
         textView.typeface = typeface
     }
 
@@ -57,7 +57,7 @@ class DialogTypeFont(private val context: Context) {
         var callbackTypeFont: CallbackTypeFont? = null
 
         @JvmStatic
-        fun regCallBackTypeFont2(callbackTypeFont: CallbackTypeFont) {
+        fun regCallBackTypeFont(callbackTypeFont: CallbackTypeFont) {
             DialogTypeFont.callbackTypeFont = callbackTypeFont
         }
     }

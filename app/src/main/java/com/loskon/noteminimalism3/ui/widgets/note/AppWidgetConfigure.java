@@ -18,11 +18,12 @@ import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.database.DbAdapter;
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.Columns;
 import com.loskon.noteminimalism3.model.Note;
 import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 
 import java.util.List;
+
+import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE;
 
 /**
  * The screen for the configure widget.
@@ -53,7 +54,7 @@ public class AppWidgetConfigure extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        new AppFontManager(this).setFont();
+        AppFontManager.setFont(this);
         super.onCreate(savedInstanceState);
         setResult(RESULT_CANCELED);
         setContentView(R.layout.activity_widget_configure);
@@ -98,7 +99,7 @@ public class AppWidgetConfigure extends Activity {
 
     private void initialiseAdapters() {
         dbAdapter.open();
-        notes = dbAdapter.getNotes("del_items = 0", Columns.COLUMN_DATE + " DESC");
+        notes = dbAdapter.getNotes("del_items = 0", COLUMN_DATE + " DESC");
         dbAdapter.close();
 
         NoteWidgetAdapter noteWidgetAdapter =

@@ -16,15 +16,15 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showToast
 
 /**
- *
+ * Выбор основного цвета для приложения
  */
 
 class SheetPrefSelectColor(private val context: Context) {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.dialog_pref_color_picker, null)
+    private val view = View.inflate(context, R.layout.sheet_pref_color_picker, null)
 
-    private val colorPickerView: ColorPicker = view.findViewById(R.id.holo_picker)
+    private val colorPicker: ColorPicker = view.findViewById(R.id.color_picker)
     private val svBar: SVBar = view.findViewById(R.id.sv_bar)
     private val btnReset: MaterialButton = view.findViewById(R.id.btn_color_picker_reset)
     private val btnOk: Button = sheetDialog.getButtonOk
@@ -39,19 +39,19 @@ class SheetPrefSelectColor(private val context: Context) {
 
     private fun configViews() {
         sheetDialog.setInsertView(view)
-        sheetDialog.setTextTitle(context.getString(R.string.select_color_title))
-        colorPickerView.addSVBar(svBar)
-        colorPickerView.showOldCenterColor = false
+        sheetDialog.setTextTitle(R.string.sheet_color_picker_title)
+        colorPicker.addSVBar(svBar)
+        colorPicker.showOldCenterColor = false
     }
 
     private fun setupColorViews() {
         val color: Int = MyColor.getMyColor(context)
         btnReset.iconTint = ColorStateList.valueOf(color)
-        colorPickerView.color = color
+        colorPicker.color = color
     }
 
     private fun installHandlers() {
-        colorPickerView.onColorChangedListener =
+        colorPicker.onColorChangedListener =
             ColorPicker.OnColorChangedListener { color: Int ->
                 this.color = color
             }
@@ -63,14 +63,13 @@ class SheetPrefSelectColor(private val context: Context) {
         }
 
         btnReset.setOnSingleClickListener {
-            colorPickerView.color = context.getShortColor(R.color.material_blue)
+            colorPicker.color = context.getShortColor(R.color.material_blue)
         }
     }
 
     private fun callingWarning() {
         if (color == -16777216 || color == -1) {
-            val message: String = context.getString(R.string.bad_idea)
-            context.showToast(message)
+            context.showToast(R.string.bad_idea)
             color = MyColor.getMyColor(context)
         } else {
             MySharedPref.setInt(context, MyPrefKey.KEY_COLOR, color)
@@ -78,10 +77,10 @@ class SheetPrefSelectColor(private val context: Context) {
     }
 
     private fun callingCallbacks() {
-        callbackColorNavIcon?.onCallBackNavIcon(color)
-        callbackColorSettingsApp?.onCallBackSettingsApp(color)
-        callbackColorNotifyData?.onCallBackNotifyData()
-        callbackColorMain?.onCallBackMain(color)
+        callbackColorNavIcon?.onCallback(color)
+        callbackColorSettingsApp?.onCallback(color)
+        callbackColorNotifyData?.onCallback()
+        callbackColorMain?.onCallback(color)
     }
 
     fun show() {
@@ -91,19 +90,19 @@ class SheetPrefSelectColor(private val context: Context) {
 
     // Callbacks
     interface CallbackColorNavIcon {
-        fun onCallBackNavIcon(color: Int)
+        fun onCallback(color: Int)
     }
 
     interface CallbackColorSettingsApp {
-        fun onCallBackSettingsApp(color: Int)
+        fun onCallback(color: Int)
     }
 
     interface CallbackColorNotifyData {
-        fun onCallBackNotifyData()
+        fun onCallback()
     }
 
     interface CallbackColorMain {
-        fun onCallBackMain(color: Int)
+        fun onCallback(color: Int)
     }
 
     companion object {
@@ -113,22 +112,22 @@ class SheetPrefSelectColor(private val context: Context) {
         private var callbackColorMain: CallbackColorMain? = null
 
         @JvmStatic
-        fun regCallBackNavIcon2(callbackColorNavIcon: CallbackColorNavIcon) {
+        fun regCallBackColorNavIcon(callbackColorNavIcon: CallbackColorNavIcon) {
             SheetPrefSelectColor.callbackColorNavIcon = callbackColorNavIcon
         }
 
         @JvmStatic
-        fun regCallBackSettingsApp2(callbackColorSettingsApp: CallbackColorSettingsApp) {
+        fun regCallBackColorSettingsApp(callbackColorSettingsApp: CallbackColorSettingsApp) {
             SheetPrefSelectColor.callbackColorSettingsApp = callbackColorSettingsApp
         }
 
         @JvmStatic
-        fun regCallBackNotifyData2(callbackColorNotifyData: CallbackColorNotifyData) {
+        fun regCallBackColorNotifyData(callbackColorNotifyData: CallbackColorNotifyData) {
             SheetPrefSelectColor.callbackColorNotifyData = callbackColorNotifyData
         }
 
         @JvmStatic
-        fun regCallbackMain2(callbackColorMain: CallbackColorMain) {
+        fun regCallBackColorMain(callbackColorMain: CallbackColorMain) {
             SheetPrefSelectColor.callbackColorMain = callbackColorMain
         }
     }

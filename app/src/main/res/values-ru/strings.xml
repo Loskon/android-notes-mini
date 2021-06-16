@@ -49,6 +49,7 @@
 
     <!-- Snackbars -->
     <!-- Main -->
+    <string name="sb_main_deleted">Заметка удалена!</string>
     <string name="sb_main_add_trash">Заметка отправлена в корзину!</string>
     <string name="sb_main_but_empty_trash">Но корзина же пустая…</string>
 
@@ -82,18 +83,20 @@
 
     <!-- Dialog -->
     <!-- dialog_backup -->
-    <string name="dg_bp_hint_text">Название на английском языке</string>
+    <string name="sheet_backup_title">Название на английском языке</string>
     <string name="dg_bp_error">Введите корректное название!</string>
 
-    <!-- dialog_restore -->
-    <string name="dg_restore_title">Выберите файл:</string>
+    <!-- sheet_restore -->
+    <string name="sheet_list_files_title">Выберите файл:</string>
+    <string name="dg_restore_delete_all">Удалить все</string>
+    <string name="dg_restore_empty">Список пуст!</string>
 
     <!-- dialog_font_size -->
-    <string name="dg_font_size_title">Размер текста</string>
+    <string name="sheet_font_size_title">Размер текста</string>
     <string name="dg_font_size_reset">Сбросить</string>
 
     <!-- dialog_pref_links -->
-    <string name="dg_pref_links_title">Тип гиперссылок</string>
+    <string name="sheet_pref_links_title">Тип гиперссылок</string>
     <string name="dg_pref_links_web_url">Вэб URL</string>
     <string name="dg_pref_links_email">Электронная почта</string>
     <string name="dg_pref_links_phone_number">Номер телефона</string>
@@ -118,7 +121,7 @@
         и не сможете их восстановить. Продолжить?</string>
 
     <!-- dialog_confirm -->
-    <string name="dialog_confirm_action">Подтвердить действие</string>
+    <string name="sheet_confirm_action">Подтвердить действие</string>
 
     <!-- bottom_sheet_dialog -->
     <string name="bs_last_modified">Последнее изменение</string>
@@ -126,7 +129,7 @@
     <string name="bs_copy_text">Копировать текст заметки</string>
     <string name="bs_share">Поделиться</string>
     <string name="bs_download">Скачать</string>
-    <string name="bs_to_close">Закрыть</string>
+    <string name="to_close">Закрыть</string>
 
     <!-- dialog_pref_sorting -->
     <string name="dg_sorting_title">Сортировка</string>
@@ -184,7 +187,7 @@
 
     <!-- Preference Titles -->
     <string name="reset_title">Сбросить размер текста</string>
-    <string name="select_color_title">Выбрать цвет</string>
+    <string name="sheet_color_picker_title">Выбрать цвет</string>
     <string name="one_size_title">Одинаковый размер плиток</string>
 
     <!-- Preference summary -->

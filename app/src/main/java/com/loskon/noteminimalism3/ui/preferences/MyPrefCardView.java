@@ -86,7 +86,7 @@ public class MyPrefCardView extends Preference implements SettingsAppFragment.Ca
         int color = MyColor.getMyColor(getContext());
         changeColor(color);
 
-        SheetPrefSelectColor.regCallBackSettingsApp2(this::changeColor);
+        SheetPrefSelectColor.regCallBackColorSettingsApp(this::changeColor);
     }
 
     private void changeColor(int color) {

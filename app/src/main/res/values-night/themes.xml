@@ -31,10 +31,8 @@
         <item name="colorSwitchBackground">@color/background_dark</item>
         <item name="colorDialogBackground">@color/item_dark</item>
         <item name="colorDeleteIconRestore">@android:color/holo_red_light</item>
+        <item name="colorBackgroundSearchView">@color/item_dark</item>
 
-        <!-- My custom drawable for items -->
-        <item name="drawableSearchView">@drawable/bg_round_search_dark</item>
-        <item name="drawableBottomSheet">@drawable/bottom_sheet_round_corner_dark</item>
 
         <!-- Window background -->
         <item name="android:windowBackground">@color/background_dark</item>
@@ -48,12 +46,6 @@
         <!-- Disable Multi-touch -->
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
-    </style>
-
-    <!-- TextInputLayout -->
-    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlActivated">@android:color/darker_gray</item>
-        <item name="colorOnSurface">@android:color/darker_gray</item>
     </style>
 
     <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">

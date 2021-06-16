@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.ui.recyclerview.adapter.MyRecyclerViewAdapter;
+import com.loskon.noteminimalism3.ui.recyclerview.MyRecyclerViewAdapter;
 
 /**
  * Кастомный Snackbar с обратным таймером

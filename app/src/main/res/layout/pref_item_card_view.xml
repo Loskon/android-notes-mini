@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/inc_card_view_notes"
+        layout="@layout/item_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"

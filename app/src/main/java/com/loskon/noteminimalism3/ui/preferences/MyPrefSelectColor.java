@@ -39,7 +39,7 @@ public class MyPrefSelectColor extends Preference {
         imageViewColorForSettings.setColorFilter(MyColor.getMyColor(context));
 
         SheetPrefSelectColor
-                .regCallBackSettingsApp2(imageViewColorForSettings::setColorFilter);
+                .regCallBackColorSettingsApp(imageViewColorForSettings::setColorFilter);
     }
 
 }

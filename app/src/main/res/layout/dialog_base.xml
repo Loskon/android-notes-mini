@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:text="@string/dg_font_size_title"
+        android:text="@string/sheet_font_size_title"
         android:textColor="?attr/colorTitle"
         android:textSize="16sp"
         android:textStyle="bold"

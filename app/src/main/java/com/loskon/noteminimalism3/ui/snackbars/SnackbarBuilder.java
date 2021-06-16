@@ -19,6 +19,8 @@ public class SnackbarBuilder {
     public static void makeSnackbar(Context context, View layout,
                                     String message, View anchorView, boolean isSuccess) {
 
+        close();
+
         snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_SHORT);
 
         snackbar.setTextColor(Color.WHITE);
@@ -34,8 +36,6 @@ public class SnackbarBuilder {
     }
 
     public static void close() {
-        if (snackbar != null) {
-            snackbar.dismiss();
-        }
+        if (snackbar != null) snackbar.dismiss();
     }
 }

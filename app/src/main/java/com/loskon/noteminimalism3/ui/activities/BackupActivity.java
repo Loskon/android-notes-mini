@@ -15,7 +15,6 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.bp.InternetCheck;
 import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInActivity;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupLocal;
@@ -41,7 +40,7 @@ public class BackupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
-        new AppFontManager(this).setFont();
+        AppFontManager.setFont(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -79,7 +78,7 @@ public class BackupActivity extends AppCompatActivity {
     }
 
     private void handlerBottomAppBar() {
-        btmAppBarSettings.setNavigationOnClickListener(v -> MyIntent.goSettingsActivity(this));
+        btmAppBarSettings.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     public void onClickBtnSd(View view) {
@@ -166,11 +165,5 @@ public class BackupActivity extends AppCompatActivity {
 
     public BottomAppBar getBtmAppBarSettings() {
         return btmAppBarSettings;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        MyIntent.goSettingsActivity(this);
     }
 }

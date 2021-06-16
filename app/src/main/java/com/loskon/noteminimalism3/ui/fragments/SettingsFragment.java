@@ -26,7 +26,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.second.BackupPath;
 import com.loskon.noteminimalism3.ui.preferences.PrefHelper;
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefFontSize;
+import com.loskon.noteminimalism3.ui.sheets.SheetPrefNoteFontSize;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefLinks;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSlider;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort;
@@ -251,7 +251,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             return true;
         } else if (key.equals(fontSizeStr)) {
             loadSharedPref();
-            (new SheetPrefFontSize(activity)).show();
+            (new SheetPrefNoteFontSize(activity)).show();
             return true;
         } else if (key.equals(communicationStr)) {
             goMailClient();

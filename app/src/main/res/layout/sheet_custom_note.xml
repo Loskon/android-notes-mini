@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScrollViewSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorAppBar"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <include
+            layout="@layout/inc_shadow_imitation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_sheet_note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="2dp"
+            android:text="TextView"
+            android:textColor="@color/color_text_date_mod"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_paste"
+            style="@style/ButtonFlat"
+            android:layout_width="match_parent"
+            android:text="@string/bs_paste_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_copy_all_text"
+            style="@style/ButtonFlat"
+            android:layout_width="match_parent"
+            android:text="@string/bs_copy_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_share"
+            style="@style/ButtonFlat"
+            android:layout_width="match_parent"
+            android:text="@string/bs_share" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_save_txt"
+            style="@style/ButtonFlat"
+            android:layout_width="match_parent"
+            android:text="@string/bs_download" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sheet_close"
+            style="@style/ButtonFlat"
+            android:layout_width="match_parent"
+            android:text="@string/to_close"
+            android:textColor="@color/color_text_date_mod" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@android:color/transparent"
+        app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
@@ -38,7 +38,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnFavNote"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@android:color/transparent"
+        app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/transparent" />
 
     <com.google.android.material.button.MaterialButton
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnDelNote"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@android:color/transparent"
+        app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

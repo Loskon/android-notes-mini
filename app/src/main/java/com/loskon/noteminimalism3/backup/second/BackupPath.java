@@ -55,11 +55,10 @@ public class BackupPath {
         return path;
     }
 
-    // Получени файлов из папки
+    // Получение файлов из папки
     public static File getFolder(Context context) {
         return new File(getPath(context));
     }
-
 
     public static String getSummaryPath(Context context) {
         // Путь для Summary в виде текста

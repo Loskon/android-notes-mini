@@ -81,7 +81,7 @@ public class GetSharedPref {
     }
 
     public static int getFontSizeNote(Context context) {
-        return MySharedPref.getInt(context, MyPrefKey.KEY_TITLE_FONT_SIZE_NOTES, 18);
+        return MySharedPref.getInt(context, MyPrefKey.KEY_TITLE_FONT_SIZE_NOTE, 18);
     }
 
     public static int getIndexSettings(Context context) {

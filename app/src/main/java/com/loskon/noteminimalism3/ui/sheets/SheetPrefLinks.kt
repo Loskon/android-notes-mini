@@ -10,10 +10,14 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 
+/**
+ * Состояние активности ссылок в заметках
+ */
+
 class SheetPrefLinks(private val context: Context) : View.OnClickListener {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.dialog_pref_links, null)
+    private val view = View.inflate(context, R.layout.sheet_pref_links, null)
 
     private val checkBoxWeb: CheckBox = view.findViewById(R.id.check_box_web)
     private val checkBoxMail: CheckBox = view.findViewById(R.id.check_box_mail)
@@ -36,8 +40,8 @@ class SheetPrefLinks(private val context: Context) : View.OnClickListener {
     private fun configViews() {
         sheetDialog.setInsertView(view)
         sheetDialog.setBtnOkVisibility(false)
-        sheetDialog.setTextTitle(context.getString(R.string.dg_pref_links_title))
-        sheetDialog.setTextBtnCancel(context.getString(R.string.bs_to_close))
+        sheetDialog.setTextTitle(R.string.sheet_pref_links_title)
+        sheetDialog.setTextBtnCancel(R.string.to_close)
     }
 
     private fun setStateChecked() {

@@ -25,7 +25,7 @@ public class SettingsAppActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyColor.setDarkTheme(GetSharedPref.isDarkMode(this));
-        new AppFontManager(this).setFont();
+        AppFontManager.setFont(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_app);
         MyColor.setColorStatBarAndTaskDesc(this);
@@ -41,7 +41,7 @@ public class SettingsAppActivity
         btmAppBarSettingsApp.setNavigationOnClickListener(
                 v -> MyIntent.goSettingsActivity(this));
 
-        SheetPrefSelectColor.regCallBackNavIcon2(this);
+        SheetPrefSelectColor.regCallBackColorNavIcon(this);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SettingsAppActivity
     }
 
     @Override
-    public void onCallBackNavIcon(int color) {
+    public void onCallback(int color) {
         MyColor.setNavIconColor(this, btmAppBarSettingsApp);
     }
 }

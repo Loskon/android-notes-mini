@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.utils.setColorProgressIndicator
 
 /**
- *
+ * Прогресс соединения с Firebase
  */
 
 class DialogProgress(private val context: Context) {

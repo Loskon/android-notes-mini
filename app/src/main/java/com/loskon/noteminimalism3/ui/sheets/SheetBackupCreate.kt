@@ -10,13 +10,15 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.auxiliary.other.MyDate
 import com.loskon.noteminimalism3.auxiliary.other.ReplaceText
+import com.loskon.noteminimalism3.backup.second.AppFolder
 import com.loskon.noteminimalism3.backup.second.BackupSetName
+import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 import java.util.*
 
 /**
- *
+ * Создание резервно копии базы данных
  */
 
 class SheetBackupCreate(private val activity: Activity) {
@@ -30,15 +32,11 @@ class SheetBackupCreate(private val activity: Activity) {
 
     init {
         sheetDialog.setInsertView(view)
-        sheetDialog.setTextTitle(activity.getString(R.string.dg_bp_hint_text))
-    }
+        sheetDialog.setTextTitle(R.string.sheet_backup_title)
 
-    fun show() {
         setupColorViews()
         configViews()
         installHandlers()
-
-        sheetDialog.show()
     }
 
     private fun setupColorViews() {
@@ -77,7 +75,7 @@ class SheetBackupCreate(private val activity: Activity) {
         if (textTrim.isEmpty()) {
             outErrorMessage()
         } else {
-            saveProgram(text)
+            createBackupFile(text)
         }
     }
 
@@ -87,9 +85,20 @@ class SheetBackupCreate(private val activity: Activity) {
         inputLayout.isErrorEnabled = true
     }
 
-    private fun saveProgram(text: String) {
-        val backupName: String = ReplaceText.replaceForSaveTittle(text)
-        BackupSetName(activity).callBackup(false, backupName)
+    private fun createBackupFile(text: String) {
+        val isFolderCreated = AppFolder.createBackupFolder(activity)
+
+        if (isFolderCreated) {
+            val backupName: String = ReplaceText.replaceForSaveTittle(text)
+            BackupSetName(activity).callBackup(false, backupName)
+        } else {
+            MySnackbarBackup.showSnackbar(activity, false, MySnackbarBackup.MSG_TEXT_ERROR)
+        }
+
         sheetDialog.dismiss()
+    }
+
+    fun show() {
+        sheetDialog.show()
     }
 }

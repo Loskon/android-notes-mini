@@ -26,28 +26,30 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.prime.BpCloud;
 import com.loskon.noteminimalism3.database.DbAdapter;
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.Columns;
 import com.loskon.noteminimalism3.model.Note;
-import com.loskon.noteminimalism3.ui.dialogs.SheetListFiles;
 import com.loskon.noteminimalism3.ui.dialogs.DialogTrash;
 import com.loskon.noteminimalism3.ui.dialogs.DialogTypeFont;
-import com.loskon.noteminimalism3.ui.dialogs.DialogUnification;
 import com.loskon.noteminimalism3.ui.fragments.BottomSheetFragment;
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment;
 import com.loskon.noteminimalism3.ui.preferences.MyPrefCardView;
 import com.loskon.noteminimalism3.ui.preferences.MyPrefNumOfLines;
-import com.loskon.noteminimalism3.ui.recyclerview.adapter.MyRecyclerViewAdapter;
-import com.loskon.noteminimalism3.ui.recyclerview.other.CallbackDelMode;
-import com.loskon.noteminimalism3.ui.recyclerview.other.CheckEmptyRecyclerView;
+import com.loskon.noteminimalism3.ui.recyclerview.CallbackDelMode;
+import com.loskon.noteminimalism3.ui.recyclerview.CheckEmptyRecyclerView;
+import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator;
+import com.loskon.noteminimalism3.ui.recyclerview.MyRecyclerViewAdapter;
+import com.loskon.noteminimalism3.ui.sheets.SheetListFiles;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort;
+import com.loskon.noteminimalism3.ui.sheets.SheetUnification;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarMain;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
 
 import java.util.List;
 import java.util.Objects;
 
-import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
+import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE;
+import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_DEL;
+import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_MOD;
 
 /**
  * Основной класс для работы со списком заметок
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setTypeFont() {
-        new AppFontManager(this).setFont();
+        AppFontManager.setFont(this);
     }
 
     private void initialiseStartSettings(Bundle savedInstanceState) {
@@ -123,12 +125,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initialiseWidgets() {
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recycler_view_notes);
         bottomAppBar = findViewById(R.id.btmAppBarMain);
         coordLytMain = findViewById(R.id.coordLytMain);
         fabMain = findViewById(R.id.fabMain);
         textNumSelItem = findViewById(R.id.tv_font_size_title);
-        searchView = findViewById(R.id.searchView);
+        searchView = findViewById(R.id.search_view);
 
         dbAdapter = new DbAdapter(this);
         widgetsHelper = new MainWidgetsHelper(this, bottomAppBar, fabMain);
@@ -143,20 +145,30 @@ public class MainActivity extends AppCompatActivity
 
         widgetsHelper.setVisCardView(false);
 
-        MainSomeHelper.removeFlicker(recyclerView);
-        recyclerView.setItemAnimator(new ScaleInTopAnimator());
+        recyclerView.setItemAnimator(new CustomItemAnimator());
     }
 
     private void setCallbackForMain() {
-        NoteActivity.regCallbackNote(this::setChangedView);
+        NoteActivity.regCallbackNote(new NoteActivity.CallbackNote() {
+            @Override
+            public void onCallBack(boolean isListGoUp) {
+                setChangedView(isListGoUp);
+            }
+
+            @Override
+            public void onCallBackDelete(int position) {
+                rvAdapter.onDeleteItem(position);
+            }
+        });
+        //NoteActivity.regCallbackNote(this::setChangedView);
         MyPrefNumOfLines.regCallbackNumOfLines(this::changeNumOfLines);
         SettingsAppFragment.regCallbackOneSize(this::changeOneSize);
         MyPrefCardView.regCallbackFontSize(this::changeFontSize);
         SheetListFiles.regCallbackRestoreNote(this::restore);
-        SheetPrefSelectColor.regCallbackMain2(this::changeColor);
+        SheetPrefSelectColor.regCallBackColorMain(this::changeColor);
         BpCloud.regCallbackCloud(this::restore);
-        SheetPrefSort.regCallbackSort2(this::goUpdateMethodTop);
-        DialogTypeFont.regCallBackTypeFont2(this::goUpdateTypeFont);
+        SheetPrefSort.regCallbackSort(this::goUpdateMethodTop);
+        DialogTypeFont.regCallBackTypeFont(this::goUpdateTypeFont);
     }
 
     public void changeNumOfLines(int numOfLines) {
@@ -284,7 +296,7 @@ public class MainActivity extends AppCompatActivity
                 goSearch();
                 return true;
             } else if (item.getItemId() == R.id.action_unification) {
-                (new DialogUnification(this)).show();
+                (new SheetUnification(this)).show();
                 return true;
             } else
                 return false;
@@ -363,12 +375,12 @@ public class MainActivity extends AppCompatActivity
 
         if (selNotesCategory != 2) {
             if (sort == 1) {
-                orderBy = Columns.COLUMN_DATE_MOD + " DESC"; // Modification
+                orderBy = COLUMN_DATE_MOD + " DESC"; // Modification
             } else {
-                orderBy = Columns.COLUMN_DATE + " DESC"; // Create
+                orderBy = COLUMN_DATE + " DESC"; // Create
             }
         } else {
-            orderBy = Columns.COLUMN_DATE_DEL + " DESC"; // Date of deletion
+            orderBy = COLUMN_DATE_DEL + " DESC"; // Date of deletion
         }
     }
 
@@ -387,7 +399,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void updateDateMethod() {
-        // Вызвает установку адаптера для измения содержания списка
+        // Вызывает установку адаптера для измения содержания списка
         if (isUpdateDate) {
             isUpdateDate = false;
             setupRecyclerViewAdapter();
@@ -534,7 +546,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setChangedView(boolean isListGoUp) {
-        isUpdateDate = true;
-        this.isListGoUp = isListGoUp;
+        if (!isSearchMode) {
+            isUpdateDate = true;
+            this.isListGoUp = isListGoUp;
+        }
     }
 }

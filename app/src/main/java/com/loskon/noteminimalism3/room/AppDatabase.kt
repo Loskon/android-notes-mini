@@ -5,6 +5,15 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_CHECKED
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_DEL
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_MOD
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DEL_ITEMS
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_FAVORITES
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_ID
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_TITLE
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.NAME_TABLE
 import com.loskon.noteminimalism3.model.Note2
 
 /**
@@ -12,33 +21,50 @@ import com.loskon.noteminimalism3.model.Note2
  */
 
 @Database(entities = [Note2::class], version = 2, exportSchema = false)
-@TypeConverters(CrimeTypeConverters::class)
+@TypeConverters(NotesTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 }
 
+const val TABLE_TMP = "notes_tmp"
+
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
+
         database.execSQL(
-            """
-                CREATE TABLE new_Song (
-                    _id INTEGER PRIMARY KEY NOT NULL,
-                    title TEXT NOT NULL DEFAULT '',
-                    date INTEGER NOT NULL DEFAULT 0,
-                    date_mod INTEGER NOT NULL DEFAULT 0,
-                    date_del INTEGER NOT NULL DEFAULT 0,
-                    favorites INTEGER NOT NULL DEFAULT 0,
-                    del_items INTEGER NOT NULL DEFAULT 0
-                )
-                """.trimIndent()
+            "CREATE TABLE $TABLE_TMP (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    COLUMN_TITLE + " TEXT NOT NULL DEFAULT '', " +
+                    COLUMN_DATE + " INTEGER NOT NULL DEFAULT 0, " +
+                    COLUMN_DATE_MOD + " INTEGER NOT NULL DEFAULT 0, " +
+                    COLUMN_DATE_DEL + " INTEGER NOT NULL DEFAULT 0, " +
+                    COLUMN_FAVORITES + " INTEGER NOT NULL DEFAULT 0, " +
+                    COLUMN_DEL_ITEMS + " INTEGER NOT NULL DEFAULT 0" +
+                    ")"
         )
+
         database.execSQL(
-            """
-                INSERT INTO new_Song (_id, title, date,date_mod, date_del,favorites,del_items)
-                SELECT _id, title, date,date_mod, date_del,favorites,del_items   FROM notes
-                """.trimIndent()
+            "INSERT INTO $TABLE_TMP (" +
+                    COLUMN_ID + ", " +
+                    COLUMN_TITLE + ", " +
+                    COLUMN_DATE + ", " +
+                    COLUMN_DATE_MOD + ", " +
+                    COLUMN_DATE_DEL + ", " +
+                    COLUMN_FAVORITES + ", " +
+                    COLUMN_DEL_ITEMS + ")" +
+                    " SELECT " +
+                    COLUMN_ID + ", " +
+                    COLUMN_TITLE + ", " +
+                    COLUMN_DATE + ", " +
+                    COLUMN_DATE_MOD + ", " +
+                    COLUMN_DATE_DEL + ", " +
+                    COLUMN_FAVORITES + ", " +
+                    COLUMN_DEL_ITEMS +
+                    " FROM $NAME_TABLE"
         )
-        database.execSQL("DROP TABLE notes")
-        database.execSQL("ALTER TABLE new_Song RENAME TO notes")
+
+        database.execSQL("DROP TABLE $NAME_TABLE")
+        database.execSQL("ALTER TABLE $TABLE_TMP RENAME TO $NAME_TABLE")
+        database.execSQL("ALTER TABLE $NAME_TABLE ADD COLUMN $COLUMN_CHECKED INTEGER NOT NULL DEFAULT 0");
     }
 }

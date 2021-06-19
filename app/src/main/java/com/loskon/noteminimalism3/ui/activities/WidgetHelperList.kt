@@ -11,7 +11,9 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.utils.getShortDrawable
 import com.loskon.noteminimalism3.utils.menuIconColor
+import com.loskon.noteminimalism3.utils.setFabColor
 import com.loskon.noteminimalism3.utils.setNavigationIconColor
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 
 /**
  *
@@ -28,6 +30,7 @@ class WidgetHelperList(private val activity: ListActivity) {
 
     init {
         bottomAppBar.setNavigationIconColor(color)
+        fab.setFabColor(color)
         setMenuIconColor()
     }
 
@@ -46,7 +49,8 @@ class WidgetHelperList(private val activity: ListActivity) {
 
     fun setVisibleList(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_switch_view, isVisible)
-        setVisibleMenuItem(R.id.search_view, isVisible)
+        setVisibleMenuItem(R.id.action_search, isVisible)
+        setMenuIconColor()
     }
 
     private fun setVisibleMenuItem(menuId: Int, isVisible: Boolean) {
@@ -62,6 +66,11 @@ class WidgetHelperList(private val activity: ListActivity) {
 
         setMenuIcon(R.id.action_select_item, menuIdSelect)
         setMenuIconColor()
+    }
+
+    fun setNavIcon(icon: Int) {
+        bottomAppBar.setNavigationIcon(icon)
+        bottomAppBar.setNavigationIconColor(color)
     }
 
     fun setTypeNotes(recyclerView: RecyclerView, isTypeNotesSingle: Boolean) {
@@ -84,12 +93,41 @@ class WidgetHelperList(private val activity: ListActivity) {
         appBarMenu.findItem(menuItem).icon = activity.getShortDrawable(icon)
     }
 
+    companion object {
+        const val ICON_FAB_ADD = "icon_add"
+        const val ICON_FAB_NAVIGATE_NEXT = "icon_navigate_next"
+        const val ICON_FAB_SEARCH_CLOSE = "icon_search_close"
+        const val ICON_FAB_DELETE = "icon_delete"
+    }
+
+    fun setIconFabString(icon: String) {
+
+        val iconIdFab: Int = when (icon) {
+            ICON_FAB_ADD -> R.drawable.baseline_add_black_24
+            ICON_FAB_NAVIGATE_NEXT -> R.drawable.baseline_navigate_next_black_24
+            ICON_FAB_SEARCH_CLOSE -> R.drawable.baseline_search_off_black_24
+            ICON_FAB_DELETE -> R.drawable.baseline_delete_black_24
+            else -> throw Exception("Invalid icon")
+        }
+
+        fab.setImageDrawable(activity.getShortDrawable(iconIdFab))
+    }
+
+    fun setIconFabOld(category: String) {
+        val iconIdFabOld: Int = when (category) {
+            NoteViewModel.CATEGORY_TRASH -> R.drawable.baseline_delete_black_24
+            else -> R.drawable.baseline_add_black_24
+        }
+
+        fab.setImageDrawable(activity.getShortDrawable(iconIdFabOld))
+    }
+
     // Widgets
     fun setIconFab(isIconAdd: Boolean) {
         val iconIdFab: Int = if (isIconAdd) {
             R.drawable.baseline_add_black_24
         } else {
-            R.drawable.baseline_navigate_next_black_48
+            R.drawable.baseline_navigate_next_black_24
         }
 
         fab.setImageDrawable(activity.getShortDrawable(iconIdFab))

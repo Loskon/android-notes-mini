@@ -40,7 +40,7 @@ class FilterCustomerSearch2(
 
     @Suppress("UNCHECKED_CAST")
     override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults) {
-        adapter.setNotes(filterResults.values as List<Note2>)
+        //adapter.setNotes(filterResults.values as List<Note2>)
         adapter.notifyDataSetChanged()
     }
 }

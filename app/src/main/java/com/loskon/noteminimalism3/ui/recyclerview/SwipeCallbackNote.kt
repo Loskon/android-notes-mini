@@ -21,6 +21,17 @@ class SwipeCallbackNote(
     ) {
 
     private var notesCategory: String = NoteViewModel.CATEGORY_ALL_NOTES
+    private var isDeleteMode: Boolean = false
+
+    override fun getSwipeDirs(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        return if (isDeleteMode) 0 else super.getSwipeDirs(
+            recyclerView,
+            viewHolder
+        )
+    }
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -30,7 +41,7 @@ class SwipeCallbackNote(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        val note: Note2 = adapter.getItemProgram(position)
+        val note: Note2 = adapter.getItemNote(position)
 
         if (notesCategory == CATEGORY_TRASH) {
             viewModel.delete(note)
@@ -46,6 +57,11 @@ class SwipeCallbackNote(
     fun setCategory(category: String) {
         notesCategory = category
     }
+
+    fun setBlockSwiped(isDelMode: Boolean) {
+        isDeleteMode = isDelMode
+    }
+
 
 
     // Callback

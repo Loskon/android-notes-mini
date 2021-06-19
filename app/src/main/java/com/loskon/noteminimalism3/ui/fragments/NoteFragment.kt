@@ -110,7 +110,7 @@ class NoteFragment : Fragment(), View.OnClickListener {
                 note.isDelete = true
                 viewModel.update(note)
                 activity.onBackPressed()
-                listener?.onDeletedNote(note)
+                listener?.onNoteDelete(note)
             }
 
             R.id.btnMoreNote -> {
@@ -149,7 +149,7 @@ class NoteFragment : Fragment(), View.OnClickListener {
     }
 
     private fun createNewNote() {
-        showSoftKeyboard()
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -186,6 +186,8 @@ class NoteFragment : Fragment(), View.OnClickListener {
 
         widgetsHelper.setIconFab(false)
         widgetsHelper.setBottomBarVisible(false)
+
+        showSoftKeyboard()
     }
 
     private fun installHandlers() {
@@ -208,7 +210,7 @@ class NoteFragment : Fragment(), View.OnClickListener {
     }
 
     interface OnNote {
-        fun onDeletedNote(note: Note2)
+        fun onNoteDelete(note: Note2)
     }
 
     companion object {

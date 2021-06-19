@@ -17,6 +17,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
 
@@ -117,4 +118,9 @@ fun Menu.menuIconColor(@ColorInt color: Int) {
             )
         }
     }
+}
+
+//
+fun FloatingActionButton.setFabColor(@ColorInt color: Int) {
+    backgroundTintList = ColorStateList.valueOf(color)
 }

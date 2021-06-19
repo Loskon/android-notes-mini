@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_CHECKED
 import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE
 import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_DEL
 import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_MOD
@@ -42,5 +43,8 @@ data class Note2(
     var isFavorite: Boolean = false,
 
     @ColumnInfo(name = COLUMN_DEL_ITEMS)
-    var isDelete: Boolean = false
+    var isDelete: Boolean = false,
+
+    @ColumnInfo(name = COLUMN_CHECKED)
+    var isChecked: Boolean = false
 ) : Parcelable

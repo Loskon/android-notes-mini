@@ -5,9 +5,9 @@
     <data>
 
         <import type="android.view.View" />
-
         <import type="com.loskon.noteminimalism3.auxiliary.other.MyDate" />
         <import type="com.loskon.noteminimalism3.auxiliary.other.MyColor" />
+        <import type="com.loskon.noteminimalism3.utils.GradientDrawableUtils" />
 
         <variable
             name="profile"
@@ -26,8 +26,10 @@
         app:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/lll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@{profile.checked ? GradientDrawableUtils.getColoredDrawable(context, true): GradientDrawableUtils.getColoredDrawable(context, false)}"
             android:orientation="vertical">
 
             <View

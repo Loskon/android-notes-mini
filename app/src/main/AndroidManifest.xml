@@ -34,7 +34,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity android:name=".ui.activities.MainActivity" />
+
 
         <receiver android:name=".ui.widgets.add.AppWidgetAddProvider">
             <intent-filter>
@@ -60,6 +60,9 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.activities.MainActivity" />
+
         <activity
             android:name=".ui.activities.FontsActivity"
             android:screenOrientation="portrait" />
@@ -77,6 +80,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.ListActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -63,17 +63,17 @@ class SheetListFiles(private val context: Context) {
 
     fun checkEmptyListFiles() {
         if (filesAdapter.count == 0) {
-            visible(true)
+            textEmptyVisible(true)
         } else {
-            visible(false)
+            textEmptyVisible(false)
         }
     }
 
-    private fun visible(isVisible: Boolean) {
+    private fun textEmptyVisible(isVisible: Boolean) {
         txtEmptyRestore.setVisibleView(isVisible)
     }
 
-    fun asd() {
+    fun dismissSheet() {
         callbackRestoreNote?.onCallBack()
         sheetDialog.dismiss()
     }

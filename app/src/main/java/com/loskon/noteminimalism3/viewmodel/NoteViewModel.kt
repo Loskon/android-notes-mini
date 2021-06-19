@@ -16,40 +16,46 @@ class NoteViewModel : ViewModel() {
         const val CATEGORY_ALL_NOTES = "CATEGORY_ALL_NOTES"
         const val CATEGORY_FAVORITES = "CATEGORY_NOTES"
         const val CATEGORY_TRASH = "CATEGORY_TRASH"
-        const val CATEGORY_SEARCH = "CATEGORY_SEARCH"
     }
 
+    private var currentOrder = CATEGORY_ALL_NOTES
+
+    //private var currentSaveOrder = currentOrder
     private val repository = AppRepository.getRepository()
+    private val getSearchList = MutableLiveData<String>()
+    private val getNotes = MediatorLiveData<List<Note2>>()
 
     private val getNotesById: LiveData<List<Note2>> =
         repository.getNotesById().asLiveData()
+
     private val getNotesByFavorite: LiveData<List<Note2>> =
         repository.getNotesByFavorite().asLiveData()
+
     private val getNotesByTrash: LiveData<List<Note2>> =
         repository.getNotesByTrash().asLiveData()
 
-    private fun allProductsByNames(query: String): LiveData<List<Note2>> =
-        repository.getListAllByName(query).asLiveData()
-
-
-    private val getSearchList = MutableLiveData<String>()
-
-    val searchList: LiveData<List<Note2>> =
+    val getNotesBySearch: LiveData<List<Note2>> =
         Transformations.switchMap(getSearchList) { query ->
             if (TextUtils.isEmpty(query)) {
                 getNotes
             } else {
-                allProductsByNames(query)
+                when (currentOrder) {
+                    CATEGORY_FAVORITES -> getNotesSearchByFavorite(query)
+                    CATEGORY_TRASH -> getNotesSearchByTrash(query)
+                    else -> getNotesSearchById(query)
+                }
             }
         }
 
-    fun searchNameChanged(query: String) {
-        getSearchList.value = query
-    }
+    private fun getNotesSearchById(query: String): LiveData<List<Note2>> =
+        repository.getNotesSearchById(query).asLiveData()
 
-    val getNotes = MediatorLiveData<List<Note2>>()
+    private fun getNotesSearchByFavorite(query: String): LiveData<List<Note2>> =
+        repository.getNotesSearchByFavorite(query).asLiveData()
 
-    private var currentOrder = CATEGORY_ALL_NOTES
+    private fun getNotesSearchByTrash(query: String): LiveData<List<Note2>> =
+        repository.getNotesSearchByTrash(query).asLiveData()
+
 
     init {
         getNotes.addSource(getNotesById) { result ->
@@ -70,11 +76,7 @@ class NoteViewModel : ViewModel() {
             }
         }
 
-/*        getNotes.addSource(searchList) { result ->
-            if (currentOrder == CATEGORY_SEARCH) {
-                result?.let { getNotes.value = it }
-            }
-        }*/
+        updateCheckedStatus()
     }
 
     fun categoryNotes(order: String) = when (order) {
@@ -82,6 +84,32 @@ class NoteViewModel : ViewModel() {
         CATEGORY_TRASH -> getNotesByTrash.value.let { getNotes.value = it }
         else -> getNotesById.value.let { getNotes.value = it }
     }.also { currentOrder = order }
+
+    fun searchNameChanged(query: String) {
+        getSearchList.value = query
+    }
+
+/*    fun setCategory(string: String) {
+        currentSaveOrder = string
+    }*/
+
+    fun deleteItemsAlways() {
+        viewModelScope.launch {
+            repository.deleteItemsAlways()
+        }
+    }
+
+    fun deleteItems() {
+        viewModelScope.launch {
+            repository.deleteItems()
+        }
+    }
+
+    fun updateCheckedStatus() {
+        viewModelScope.launch {
+            repository.updateCheckedStatus()
+        }
+    }
 
     fun insert(note: Note2) {
         viewModelScope.launch {

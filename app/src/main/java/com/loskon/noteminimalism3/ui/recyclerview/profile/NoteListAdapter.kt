@@ -2,27 +2,27 @@ package com.loskon.noteminimalism3.ui.recyclerview.profile
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.databinding.ItemProfileBinding
-import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.recyclerview.FilterCustomerSearch2
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 /**
  * Адаптер для работы со списком тренировочных профилей
  */
 
-class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>(), Filterable {
+class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
 
     private var list = emptyList<Note2>()
-    private var search = emptyList<Note2>()
+
+    private val removeItemsList = ArrayList<Note2>()
+    private var isSelectionMode: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
         val view: ItemProfileBinding = DataBindingUtil.inflate(
@@ -35,6 +35,8 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>(), Filterable {
         return NoteListViewHolder(view)
     }
 
+    override fun getItemCount(): Int = list.size
+
     override fun onBindViewHolder(holder: NoteListViewHolder, position: Int) {
         val note = list[position]
 
@@ -42,44 +44,72 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>(), Filterable {
             bind(note)
 
             itemView.setOnSingleClickListener {
-                clickListener?.onItemClick(note)
+                handlingClick(note)
             }
 
             itemView.setOnLongClickListener {
-                clickListener?.onLongItemClick(note)
+                handlingLongClick(note)
                 true
             }
         }
     }
 
-    override fun getItemCount(): Int = list.size
+    private fun handlingClick(note: Note2) {
+        if (isSelectionMode) {
+            onItemSelection(note)
+        } else {
+            clickListener?.onItemClick(note)
+        }
+    }
+
+    private fun handlingLongClick(note: Note2) {
+        if (isSelectionMode) {
+
+        } else {
+            isSelectionMode = true
+            clickListener?.onDeleteMode(true)
+            removeItemsList.clear()
+
+            //for (item in list) note.isChecked = false
+        }
+
+        onItemSelection(note)
+    }
+
+    private fun onItemSelection(note: Note2) {
+        if (note.isChecked) {
+            removeItemsList.remove(note)
+        } else {
+            removeItemsList.add(note)
+        }
+
+        clickListener?.onSelectedItem(note, removeItemsList.size)
+    }
 
     // Other methods
-    fun setListProfiles(newList: List<Note2>) {
+    fun setListNote(newList: List<Note2>) {
         val diffUtil = NoteDiffUtil(list, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil, false)
         list = newList
-        search = list
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun getItemProgram(position: Int): Note2 {
+    fun getItemNote(position: Int): Note2 {
         return list[position]
     }
 
-    override fun getFilter(): Filter? {
-        return FilterCustomerSearch2(this, list, search)
+    fun disableDeleteMode() {
+        isSelectionMode = false
     }
 
-    fun setNotes(searchList: List<Note2>) {
-        list = searchList
-    }
+    fun getRemoveList() : List<Note2> = removeItemsList.toList()
 
 
     // Callback
     interface OnItemClickListener {
         fun onItemClick(note: Note2)
-        fun onLongItemClick(note: Note2)
+        fun onSelectedItem(note: Note2, numSelItem: Int)
+        fun onDeleteMode(isDelMode: Boolean)
     }
 
     companion object {

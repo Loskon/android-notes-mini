@@ -7,8 +7,10 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,22 +26,22 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.activities.ListActivity
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
+import com.loskon.noteminimalism3.ui.activities.WidgetHelperList.Companion.ICON_FAB_ADD
+import com.loskon.noteminimalism3.ui.activities.WidgetHelperList.Companion.ICON_FAB_DELETE
+import com.loskon.noteminimalism3.ui.activities.WidgetHelperList.Companion.ICON_FAB_SEARCH_CLOSE
 import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.SwipeCallbackNote
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListAdapter
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
-import com.loskon.noteminimalism3.utils.showToast
+import com.loskon.noteminimalism3.utils.showKeyboard
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_SEARCH
 
 /**
  * Форма списка
  */
-
-const val RECYCLER_STATE_NOTES = "recycler_state_notes"
 
 class NoteListFragment :
     Fragment(),
@@ -59,6 +61,8 @@ class NoteListFragment :
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvEmpty: TextView
+    private lateinit var cardView: CardView
+    private lateinit var tvNumber: TextView
 
     private lateinit var adapter: NoteListAdapter
     private lateinit var swipeCallback: SwipeCallbackNote
@@ -66,6 +70,7 @@ class NoteListFragment :
 
     private var notesCategory: String = CATEGORY_ALL_NOTES
     private var isTypeNotesOne = false
+    private var isSearchMode = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -90,12 +95,14 @@ class NoteListFragment :
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.recycler_view_notes)
         tvEmpty = view.findViewById(R.id.tv_empty_list)
+
+        cardView = view.findViewById(R.id.cardViewMain)
+        tvNumber = view.findViewById(R.id.tv_font_size_title)
     }
 
     private fun configuratorViews() {
         searchView.onActionViewExpanded()
-        searchView.visibility = View.GONE
-
+        searchViewVisible(false)
 
         // Установка обработчика поиска
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -104,17 +111,26 @@ class NoteListFragment :
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (TextUtils.isEmpty(newText.trim())) {
-                    selectNotesCategory(CATEGORY_ALL_NOTES)
-                    //adapter.filter?.filter("")
+                val searchText = newText.trim()
+
+                if (TextUtils.isEmpty(searchText)) {
+                    viewModel.searchNameChanged("")
                 } else {
-                    selectNotesCategory(CATEGORY_SEARCH)
-                    viewModel.searchNameChanged(newText.trim())
-                    //adapter.filter?.filter(newText.trim())
+                    val searchTextQuery = "%$searchText%"
+                    viewModel.searchNameChanged(searchTextQuery)
                 }
+
+                goTopRecyclerPosition()
+
                 return true
             }
         })
+
+        cardView.setVisibleView(false)
+    }
+
+    private fun searchViewVisible(isVisible: Boolean) {
+        searchView.setVisibleView(isVisible)
     }
 
     private fun configureRecyclerView() {
@@ -162,21 +178,42 @@ class NoteListFragment :
 
     private fun installHandlers() {
         fab.setOnClickListener {
-            activity.openItem(Note2())
+            if (isDeleteMode) {
+
+                if (notesCategory == CATEGORY_ALL_NOTES) {
+                    viewModel.deleteItems()
+                } else {
+                    viewModel.deleteItemsAlways()
+                }
+
+                onDeleteMode(false)
+            } else {
+                if (isSearchMode) {
+                    searchModeDisabled()
+                } else {
+                    activity.openItem(Note2())
+                }
+            }
         }
 
         bottomAppBar.setOnSingleClickListener {
             snackbarUndo.close()
-            val dialogBottomSheet = BottomSheetCategory.newInstance(this, notesCategory)
-            dialogBottomSheet.show(activity.supportFragmentManager, BottomSheetCategory.TAG)
+
+            if (isDeleteMode) {
+                onDeleteMode(false)
+            } else {
+                val dialogBottomSheet = BottomSheetCategory.newInstance(this, notesCategory)
+                dialogBottomSheet.show(activity.supportFragmentManager, BottomSheetCategory.TAG)
+            }
         }
 
         bottomAppBar.setOnMenuItemClickListener { item ->
             snackbarUndo.close()
             when (item.itemId) {
                 R.id.action_switch_view -> {
-                    widgetsHelper.setTypeNotes(recyclerView, !isTypeNotesOne)
-                    MySharedPref.setBoolean(activity, MyPrefKey.KEY_TYPE_NOTES, !isTypeNotesOne)
+                    isTypeNotesOne = !isTypeNotesOne
+                    widgetsHelper.setTypeNotes(recyclerView, isTypeNotesOne)
+                    MySharedPref.setBoolean(activity, MyPrefKey.KEY_TYPE_NOTES, isTypeNotesOne)
                     true
                 }
                 R.id.action_select_item -> {
@@ -184,7 +221,7 @@ class NoteListFragment :
                 }
 
                 R.id.action_search -> {
-                    searchView.visibility = View.VISIBLE
+                    searchModeActivated()
                     true
                 }
 
@@ -196,11 +233,34 @@ class NoteListFragment :
         }
     }
 
+    private fun searchModeActivated() {
+        isSearchMode = true
+        searchViewVisible(true)
+
+        val searchText: EditText = searchView.findViewById(R.id.search_src_text)
+        searchText.showKeyboard(activity)
+
+        widgetsHelper.setBottomBarVisible(false)
+        widgetsHelper.setIconFabString(ICON_FAB_SEARCH_CLOSE)
+    }
+
+    private fun searchModeDisabled() {
+        isSearchMode = false
+        searchViewVisible(false)
+
+        searchView.setQuery("", false)
+
+        widgetsHelper.setBottomBarVisible(true)
+        widgetsHelper.setIconFabString(ICON_FAB_ADD)
+
+        goTopRecyclerPosition()
+        //viewModel.searchNameChanged("")
+    }
+
     private fun setupObserver() {
-        viewModel.searchList.observe(viewLifecycleOwner, { list ->
+        viewModel.getNotesBySearch.observe(viewLifecycleOwner, { list ->
             list?.let {
                 updateUI(list)
-                activity.showToast(R.string.unknown_error)
             }
         })
 
@@ -215,7 +275,7 @@ class NoteListFragment :
 
     private fun updateUI(list: List<Note2>) {
         tvEmpty.setVisibleView(list.isEmpty())
-        adapter.setListProfiles(list)
+        adapter.setListNote(list)
     }
 
     override fun onResume() {
@@ -256,26 +316,66 @@ class NoteListFragment :
         activity.openItem(note)
     }
 
-    override fun onLongItemClick(note: Note2) {
+    override fun onSelectedItem(note: Note2, numSelItem: Int) {
+        note.isChecked = !note.isChecked
+        tvNumber.text = numSelItem.toString()
+        viewModel.update(note)
+    }
 
+    private var isDeleteMode: Boolean = false
+
+    override fun onDeleteMode(isDelMode: Boolean) {
+        isDeleteMode = isDelMode
+        deleteMode()
+    }
+
+    private fun deleteMode() {
+        if (isDeleteMode) {
+            cardView.setVisibleView(true)
+            swipeCallback.setBlockSwiped(true)
+
+            widgetsHelper.setIconFabString(ICON_FAB_DELETE)
+            widgetsHelper.setVisibleList(false)
+            widgetsHelper.setNavIcon(R.drawable.baseline_close_black_24)
+
+            if (isSearchMode) widgetsHelper.setBottomBarVisible(true)
+
+        } else {
+            cardView.setVisibleView(false)
+            swipeCallback.setBlockSwiped(false)
+            adapter.disableDeleteMode()
+
+            if (isSearchMode)  {
+                widgetsHelper.setIconFabString(ICON_FAB_SEARCH_CLOSE)
+            } else {
+                widgetsHelper.setIconFabOld(notesCategory)
+            }
+
+            widgetsHelper.setVisibleList(true)
+            widgetsHelper.setNavIcon(R.drawable.baseline_menu_black_24)
+
+            if (isSearchMode) widgetsHelper.setBottomBarVisible(false)
+
+            viewModel.updateCheckedStatus()
+        }
     }
 
     override fun onItemSwipe(note: Note2, category: String) {
         snackbarUndo.show(note, category)
     }
 
-    override fun onDeletedNote(note: Note2) {
+    override fun onNoteDelete(note: Note2) {
         snackbarUndo.show(note, "")
     }
 
 
     // Instance
     companion object {
+        const val RECYCLER_STATE_NOTES = "recycler_state_notes"
+
         @JvmStatic
         fun newInstance(): NoteListFragment {
             return NoteListFragment()
         }
     }
-
-
 }

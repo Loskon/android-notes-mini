@@ -41,7 +41,8 @@ class CustomItemAnimator : SimpleItemAnimator() {
 
     override fun animateAdd(holder: RecyclerView.ViewHolder): Boolean {
         endAnimation(holder)
-        holder.itemView.visibility = View.INVISIBLE // Внесенные изменения
+        holder.itemView.alpha = 0f
+       // holder.itemView.visibility = View.INVISIBLE // Внесенные изменения
         pendingAdditions.add(holder)
         return true
     }
@@ -50,19 +51,20 @@ class CustomItemAnimator : SimpleItemAnimator() {
         val view = holder.itemView
         val animation = view.animate()
         addAnimations.add(holder)
-        animation.setDuration(addDuration)
+        animation.alpha(1f).setDuration(0)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animator: Animator) {
                     dispatchAddStarting(holder)
                 }
 
                 override fun onAnimationCancel(animator: Animator) {
-                    view.visibility = View.VISIBLE // Внесенные изменения
+                    view.alpha = 1f
+                    //view.visibility = View.VISIBLE // Внесенные изменения
                 }
 
                 override fun onAnimationEnd(animator: Animator) {
                     animation.setListener(null)
-                    view.visibility = View.VISIBLE // Внесенные изменения
+                    //view.visibility = View.VISIBLE // Внесенные изменения
                     dispatchAddFinished(holder)
                     addAnimations.remove(holder)
                     dispatchFinishedWhenDone()
@@ -81,7 +83,7 @@ class CustomItemAnimator : SimpleItemAnimator() {
         val animation = view.animate()
         removeAnimations.add(holder)
         //view.visibility = View.INVISIBLE // Внесенные изменения
-        animation.setDuration(removeDuration).setListener(
+        animation.setDuration(0).setListener(
             object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animator: Animator) {
                     dispatchRemoveStarting(holder)
@@ -89,7 +91,8 @@ class CustomItemAnimator : SimpleItemAnimator() {
 
                 override fun onAnimationEnd(animator: Animator) {
                     animation.setListener(null)
-                    view.visibility = View.VISIBLE // Внесенные изменения
+                    view.alpha = 1f
+                   // view.visibility = View.VISIBLE // Внесенные изменения
                     dispatchRemoveFinished(holder)
                     removeAnimations.remove(holder)
                     dispatchFinishedWhenDone()

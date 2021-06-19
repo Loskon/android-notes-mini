@@ -2,8 +2,8 @@ package com.loskon.noteminimalism3.room
 
 import android.content.Context
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.DATABASE_NAME
 import com.loskon.noteminimalism3.model.Note2
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +19,9 @@ class AppRepository(context: Context) {
         context.applicationContext,
         AppDatabase::class.java,
         DATABASE_NAME
-    ).addMigrations(MIGRATION_1_2).build()
+    ).setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
+        .addMigrations(MIGRATION_1_2)
+        .build()
 
     val getAppDatabase: AppDatabase
         get() {
@@ -37,8 +39,29 @@ class AppRepository(context: Context) {
     fun getNotesByFavorite(): Flow<List<Note2>> = noteDao.getNotesByFavorite()
     fun getNotesByTrash(): Flow<List<Note2>> = noteDao.getNotesByTrash()
 
-    fun getListAllByName(query: String): Flow<List<Note2>> {
-        return noteDao.getListAllByName(query)
+    fun getNotesSearchById(query: String): Flow<List<Note2>> =
+        noteDao.getNotesSearchById(query)
+
+    fun getNotesSearchByFavorite(query: String): Flow<List<Note2>> =
+        noteDao.getNotesSearchByFavorite(query)
+
+    fun getNotesSearchByTrash(query: String): Flow<List<Note2>> =
+        noteDao.getNotesSearchByTrash(query)
+
+
+    @WorkerThread
+    suspend fun deleteItemsAlways() {
+        noteDao.deleteItemsAlways()
+    }
+
+    @WorkerThread
+    suspend fun deleteItems() {
+        noteDao.deleteItems()
+    }
+
+    @WorkerThread
+    suspend fun updateCheckedStatus() {
+        noteDao.updateCheckedStatus()
     }
 
     @WorkerThread
@@ -78,10 +101,8 @@ class AppRepository(context: Context) {
             return INSTANCE?.database
         }
 
-        // close database
-        @JvmStatic
         fun destroyInstance() {
-            INSTANCE?.close()
+            if (INSTANCE != null) INSTANCE?.close()
             INSTANCE = null
         }
     }

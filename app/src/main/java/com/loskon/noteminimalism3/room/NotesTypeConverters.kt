@@ -3,10 +3,14 @@ package com.loskon.noteminimalism3.room
 import androidx.room.TypeConverter
 import java.util.*
 
-class CrimeTypeConverters {
+/**
+ *
+ */
+
+class NotesTypeConverters {
 
     @TypeConverter
-    fun formateDate(date: Date?): Long? {
+    fun formatDate(date: Date?): Long? {
         return date?.time
     }
 
@@ -16,5 +20,4 @@ class CrimeTypeConverters {
             Date(it)
         }
     }
-
 }

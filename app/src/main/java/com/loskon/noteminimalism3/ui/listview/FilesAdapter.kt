@@ -49,7 +49,7 @@ class FilesAdapter(
 
         cardView.setOnSingleClickListener {
             BackupDb(context).restoreDatabase(file.path)
-            sheetListFiles.asd()
+            sheetListFiles.dismissSheet()
         }
 
         delFile.setOnSingleClickListener { deleteItem(file) }

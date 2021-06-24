@@ -16,3 +16,6 @@ fun Context.showToast(stringIdForToast: Int) {
     toast.show()
 }
 
+fun Context.showToast(message: String) = makeText(this, message, Toast.LENGTH_SHORT).show()
+
+

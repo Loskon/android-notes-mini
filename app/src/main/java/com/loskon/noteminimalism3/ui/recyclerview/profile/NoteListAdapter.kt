@@ -1,28 +1,48 @@
 package com.loskon.noteminimalism3.ui.recyclerview.profile
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.databinding.ItemProfileBinding
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.utils.getRadiusLinLay
+import com.loskon.noteminimalism3.utils.getStrokeLinLay
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
  * Адаптер для работы со списком тренировочных профилей
  */
 
+private val TAG = "MyLogs_${NoteListAdapter::class.java.simpleName}"
+
 class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
+
+    private var colorStroke: Int = 0
+    private var borderStroke: Int = 0
+    private var radiusStroke: Int = 0
+    private var color: Int = 0
+
+    private var radiusStroke_dp = 0
+    private var boredStroke_dp: Int = 0
 
     private var list = emptyList<Note2>()
 
-    private val removeItemsList = ArrayList<Note2>()
+    private var numItemSel: Int = 0
     private var isSelectionMode: Boolean = false
+
+    fun setColor(context: Context) {
+        radiusStroke_dp = context.getRadiusLinLay()
+        boredStroke_dp = context.getStrokeLinLay()
+        color = MyColor.getMyColor(context)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
         val view: ItemProfileBinding = DataBindingUtil.inflate(
@@ -39,6 +59,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
 
     override fun onBindViewHolder(holder: NoteListViewHolder, position: Int) {
         val note = list[position]
+        val gradientDrawable = GradientDrawable()
 
         holder.apply {
             bind(note)
@@ -51,39 +72,70 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
                 handlingLongClick(note)
                 true
             }
+
+
+
+            if (note.isChecked) {
+                varForGradientDrawable(radiusStroke_dp, boredStroke_dp, color)
+            } else {
+                varForGradientDrawable(0, 0, Color.TRANSPARENT)
+            }
+
+            gradientDrawable.cornerRadius = radiusStroke.toFloat()
+            gradientDrawable.setStroke(borderStroke, colorStroke)
+            getLinearLayout.background = gradientDrawable
         }
+    }
+
+    private fun varForGradientDrawable(radius: Int, border: Int, color: Int) {
+        radiusStroke = radius
+        borderStroke = border
+        colorStroke = color
     }
 
     private fun handlingClick(note: Note2) {
         if (isSelectionMode) {
             onItemSelection(note)
         } else {
-            clickListener?.onItemClick(note)
+            callback?.onItemClick(note)
         }
     }
 
     private fun handlingLongClick(note: Note2) {
-        if (isSelectionMode) {
-
-        } else {
-            isSelectionMode = true
-            clickListener?.onDeleteMode(true)
-            removeItemsList.clear()
-
-            //for (item in list) note.isChecked = false
-        }
-
+        if (!isSelectionMode) startDelMode()
         onItemSelection(note)
+    }
+
+    private fun startDelMode() {
+        isSelectionMode = true
+        callback?.onDeleteMode(true)
+        numItemSel = 0
     }
 
     private fun onItemSelection(note: Note2) {
         if (note.isChecked) {
-            removeItemsList.remove(note)
+            numItemSel--
         } else {
-            removeItemsList.add(note)
+            numItemSel++
         }
 
-        clickListener?.onSelectedItem(note, removeItemsList.size)
+        callback?.onSelectedItem(note)
+        checkNumberSelectedItems()
+    }
+
+    private fun checkNumberSelectedItems() {
+        val isSelectedAll: Boolean = numItemSel == itemCount
+        callback?.onNumSelItem(isSelectedAll, numItemSel)
+    }
+
+    fun selectAllItems() {
+        numItemSel = if (numItemSel == itemCount) {
+            0
+        } else {
+            itemCount
+        }
+
+        checkNumberSelectedItems()
     }
 
     // Other methods
@@ -94,6 +146,11 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun setListNote2(newList: List<Note2>) {
+        list = newList
+        notifyDataSetChanged()
+    }
+
     fun getItemNote(position: Int): Note2 {
         return list[position]
     }
@@ -102,21 +159,21 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
         isSelectionMode = false
     }
 
-    fun getRemoveList() : List<Note2> = removeItemsList.toList()
-
 
     // Callback
     interface OnItemClickListener {
         fun onItemClick(note: Note2)
-        fun onSelectedItem(note: Note2, numSelItem: Int)
+        fun onSelectedItem(note: Note2)
         fun onDeleteMode(isDelMode: Boolean)
+        fun onNumSelItem(isAll: Boolean, numSelItem: Int)
+        fun onX()
     }
 
     companion object {
-        private var clickListener: OnItemClickListener? = null
+        private var callback: OnItemClickListener? = null
 
         fun setClickListener(clickListener: OnItemClickListener) {
-            this.clickListener = clickListener
+            this.callback = clickListener
         }
     }
 }

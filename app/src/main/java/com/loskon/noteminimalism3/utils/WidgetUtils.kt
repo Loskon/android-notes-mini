@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -73,7 +74,7 @@ fun View.setLayoutParams() {
 }
 
 //
-fun Slider.setColorSlider(color: Int) {
+fun Slider.setColorSlider(@ColorInt color: Int) {
     thumbTintList = ColorStateList.valueOf(color)
     trackActiveTintList = ColorStateList.valueOf(color)
     tickTintList = ColorStateList.valueOf(color)
@@ -82,7 +83,7 @@ fun Slider.setColorSlider(color: Int) {
 }
 
 //
-fun CircularProgressIndicator.setColorProgressIndicator(color: Int) {
+fun CircularProgressIndicator.setColorProgressIndicator(@ColorInt color: Int) {
     setIndicatorColor(color)
     trackColor = ColorUtils.setAlphaComponent(color, 70)
 }
@@ -93,7 +94,7 @@ fun TextView.setTextSizeInSp(fontSizeNote: Int) {
 }
 
 //
-fun Context.getShortDrawable(icon: Int): Drawable? {
+fun Context.getShortDrawable(@DrawableRes icon: Int): Drawable? {
     return ResourcesCompat.getDrawable(resources, icon, null)
 }
 

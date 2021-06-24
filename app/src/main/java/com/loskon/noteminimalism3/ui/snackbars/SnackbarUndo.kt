@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_TRASH
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
 
 /**
  * Кастомный Snackbar с таймером

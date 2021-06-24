@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,7 +36,7 @@ class NoteFragment : Fragment(), View.OnClickListener {
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
 
-    private val viewModel: NoteViewModel by viewModels()
+    private lateinit var viewModel: NoteViewModel
 
     // fragment
     private lateinit var linearNote: LinearLayout
@@ -108,7 +107,7 @@ class NoteFragment : Fragment(), View.OnClickListener {
 
             R.id.btnDelNote -> {
                 note.isDelete = true
-                viewModel.update(note)
+                //viewModel.update(note)
                 activity.onBackPressed()
                 listener?.onNoteDelete(note)
             }
@@ -174,6 +173,7 @@ class NoteFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity = requireActivity() as ListActivity
+        viewModel = activity.getViewModel
 
         initWidgets()
         installHandlers()
@@ -184,8 +184,7 @@ class NoteFragment : Fragment(), View.OnClickListener {
         fab = widgetsHelper.getFab
         bottomAppBar = widgetsHelper.getBottomAppBar
 
-        widgetsHelper.setIconFab(false)
-        widgetsHelper.setBottomBarVisible(false)
+        widgetsHelper.setVisibleWidgets(false)
 
         showSoftKeyboard()
     }
@@ -196,21 +195,26 @@ class NoteFragment : Fragment(), View.OnClickListener {
             note.isFavorite = isFavorite
 
             if (id == 0L) {
+                listener?.onNoteAdd(note)
                 viewModel.insert(note)
             } else {
-                viewModel.update(note)
+                //viewModel.update(note)
             }
 
-            activity.onBackPressed()
+
+            activity.supportFragmentManager.popBackStack()
         }
 
         bottomAppBar.setOnSingleClickListener {
-            activity.onBackPressed()
+            activity.supportFragmentManager.popBackStack()
         }
     }
 
+
+
     interface OnNote {
         fun onNoteDelete(note: Note2)
+        fun onNoteAdd(note: Note2)
     }
 
     companion object {

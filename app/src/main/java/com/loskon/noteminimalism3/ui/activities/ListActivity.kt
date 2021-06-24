@@ -1,36 +1,43 @@
 package com.loskon.noteminimalism3.ui.activities
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
-import com.loskon.noteminimalism3.ui.fragments.NoteListFragment
+import com.loskon.noteminimalism3.ui.fragments.NoteListFragment3
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 
 /**
- *
+ * Хост для фрагментов
  */
+
+/*private val TAG = MainActivity::class.java.simpleName*/
 
 class ListActivity : AppCompatActivity() {
 
-    companion object {
-        private val TAG = MainActivity::class.java.simpleName
-    }
-
-    private lateinit var widgetHelper: WidgetHelperList
+    private lateinit var viewModel: NoteViewModel
+    private lateinit var widgetsHelper: WidgetHelperList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        initialiseSettings()
+        initializationObjects()
+        startNoteListFragment()
+    }
 
+    private fun initializationObjects() {
+        viewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+        widgetsHelper = WidgetHelperList(this)
+    }
 
+    fun startNoteListFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null) {
-            val fragment = NoteListFragment.newInstance()
+            val fragment = NoteListFragment3.newInstance()
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
@@ -38,11 +45,11 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    private fun initialiseSettings() {
-        widgetHelper = WidgetHelperList(this)
-    }
 
-    fun openItem(note: Note2) {
+    // Public method
+    fun openNoteFragment(note: Note2) {
+        widgetsHelper.setVisibleWidgets(false)
+
         val fragment = NoteFragment.newInstance(note)
         supportFragmentManager
             .beginTransaction()
@@ -51,13 +58,15 @@ class ListActivity : AppCompatActivity() {
             .commit()
     }
 
-    val getWidgetsHelper: WidgetHelperList
+
+    // Getters
+    val getViewModel: NoteViewModel
         get() {
-            return widgetHelper
+            return viewModel
         }
 
-    fun op() {
-        val intent = Intent(this, BackupActivity::class.java)
-        startActivity(intent)
-    }
+    val getWidgetsHelper: WidgetHelperList
+        get() {
+            return widgetsHelper
+        }
 }

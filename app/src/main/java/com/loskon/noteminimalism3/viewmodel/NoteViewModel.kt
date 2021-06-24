@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.viewmodel
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.lifecycle.*
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.room.AppRepository
@@ -10,11 +11,13 @@ import kotlinx.coroutines.launch
  *
  */
 
+private val TAG = "MyLogs_${NoteViewModel::class.java.simpleName}"
+
 class NoteViewModel : ViewModel() {
 
-    companion object Category {
+    companion object {
         const val CATEGORY_ALL_NOTES = "CATEGORY_ALL_NOTES"
-        const val CATEGORY_FAVORITES = "CATEGORY_NOTES"
+        const val CATEGORY_FAVORITES = "CATEGORY_FAVORITES"
         const val CATEGORY_TRASH = "CATEGORY_TRASH"
     }
 
@@ -23,16 +26,20 @@ class NoteViewModel : ViewModel() {
     //private var currentSaveOrder = currentOrder
     private val repository = AppRepository.getRepository()
     private val getSearchList = MutableLiveData<String>()
-    private val getNotes = MediatorLiveData<List<Note2>>()
 
-    private val getNotesById: LiveData<List<Note2>> =
-        repository.getNotesById().asLiveData()
+    val getNotes = MediatorLiveData<List<Note2>>()
 
-    private val getNotesByFavorite: LiveData<List<Note2>> =
-        repository.getNotesByFavorite().asLiveData()
+    val getNotesById: LiveData<List<Note2>> = repository.getNotesById().asLiveData()
 
-    private val getNotesByTrash: LiveData<List<Note2>> =
-        repository.getNotesByTrash().asLiveData()
+    fun getNotesById(): LiveData<List<Note2>> = repository.getNotesById().asLiveData()
+
+    private fun getNotesByFavorite(): LiveData<List<Note2>> = repository.getNotesByFavorite().asLiveData()
+
+    fun getNotesByTrash(): LiveData<List<Note2>> = repository.getNotesByTrash().asLiveData()
+
+    private val getNotesByFavorite: LiveData<List<Note2>> = repository.getNotesByFavorite().asLiveData()
+
+    private val getNotesByTrash: LiveData<List<Note2>> = repository.getNotesByTrash().asLiveData()
 
     val getNotesBySearch: LiveData<List<Note2>> =
         Transformations.switchMap(getSearchList) { query ->
@@ -58,6 +65,8 @@ class NoteViewModel : ViewModel() {
 
 
     init {
+        Log.d(TAG, "initialization")
+
         getNotes.addSource(getNotesById) { result ->
             if (currentOrder == CATEGORY_ALL_NOTES) {
                 result?.let { getNotes.value = it }
@@ -76,7 +85,7 @@ class NoteViewModel : ViewModel() {
             }
         }
 
-        updateCheckedStatus()
+        disableCheckedStatus()
     }
 
     fun categoryNotes(order: String) = when (order) {
@@ -86,7 +95,7 @@ class NoteViewModel : ViewModel() {
     }.also { currentOrder = order }
 
     fun searchNameChanged(query: String) {
-        getSearchList.value = query
+        // getSearchList.value = query
     }
 
 /*    fun setCategory(string: String) {
@@ -105,7 +114,13 @@ class NoteViewModel : ViewModel() {
         }
     }
 
-    fun updateCheckedStatus() {
+    fun activateCheckedStatus() {
+        viewModelScope.launch {
+            repository.activateCheckedStatus()
+        }
+    }
+
+    fun disableCheckedStatus() {
         viewModelScope.launch {
             repository.updateCheckedStatus()
         }
@@ -113,12 +128,14 @@ class NoteViewModel : ViewModel() {
 
     fun insert(note: Note2) {
         viewModelScope.launch {
+            Log.d("NoteListFragment.TAG", "insert")
             repository.insert(note)
         }
     }
 
     fun update(note: Note2) {
         viewModelScope.launch {
+            Log.d("NoteListFragment.TAG", "update")
             repository.update(note)
         }
     }

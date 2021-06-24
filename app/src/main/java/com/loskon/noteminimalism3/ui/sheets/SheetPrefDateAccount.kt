@@ -31,7 +31,9 @@ class SheetPrefDateAccount(private val context: Context) : View.OnClickListener 
     init {
         setupColorViews()
         configViews()
+        setItemVisibility(false)
         installHandlers()
+
     }
 
     private fun setupColorViews() {
@@ -48,7 +50,6 @@ class SheetPrefDateAccount(private val context: Context) : View.OnClickListener 
         sheetDialog.setBtnOkVisibility(false)
         sheetDialog.setTextTitle(R.string.dg_data_title)
         sheetDialog.setTextBtnCancel(R.string.to_close)
-        setItemVisibility(false)
     }
 
     private fun installHandlers() {

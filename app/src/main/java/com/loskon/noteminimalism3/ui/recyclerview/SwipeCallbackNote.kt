@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListAdapter
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_TRASH
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
 
 /**
  * Обработка свайпа для списка Program

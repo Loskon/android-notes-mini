@@ -60,6 +60,11 @@ class AppRepository(context: Context) {
     }
 
     @WorkerThread
+    suspend fun activateCheckedStatus() {
+        noteDao.activateCheckedStatus()
+    }
+
+    @WorkerThread
     suspend fun updateCheckedStatus() {
         noteDao.updateCheckedStatus()
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,10 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,7 +38,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 import com.loskon.noteminimalism3.utils.showKeyboard
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_ALL_NOTES
 
 /**
  * Форма списка
@@ -56,7 +57,7 @@ class NoteListFragment :
     private lateinit var bottomAppBar: BottomAppBar
 
     private lateinit var snackbarUndo: SnackbarUndo
-    private val viewModel: NoteViewModel by viewModels()
+    private lateinit var viewModel: NoteViewModel
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
@@ -75,6 +76,7 @@ class NoteListFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         isTypeNotesOne = GetSharedPref.isTypeSingle(context)
+        //viewModel = (context as ListActivity).getViewModel
     }
 
     override fun onCreateView(
@@ -86,8 +88,8 @@ class NoteListFragment :
         initViews(view)
         configuratorViews()
         configureRecyclerView()
-        setSwiped()
-        setupObserver()
+        //setSwiped()
+
         return view
     }
 
@@ -95,16 +97,13 @@ class NoteListFragment :
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.recycler_view_notes)
         tvEmpty = view.findViewById(R.id.tv_empty_list)
-
         cardView = view.findViewById(R.id.cardViewMain)
         tvNumber = view.findViewById(R.id.tv_font_size_title)
     }
 
     private fun configuratorViews() {
-        searchView.onActionViewExpanded()
-        searchViewVisible(false)
+        //searchView.onActionViewExpanded()
 
-        // Установка обработчика поиска
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -125,12 +124,6 @@ class NoteListFragment :
                 return true
             }
         })
-
-        cardView.setVisibleView(false)
-    }
-
-    private fun searchViewVisible(isVisible: Boolean) {
-        searchView.setVisibleView(isVisible)
     }
 
     private fun configureRecyclerView() {
@@ -149,6 +142,9 @@ class NoteListFragment :
         super.onViewCreated(view, savedInstanceState)
         activity = requireActivity() as ListActivity
 
+        setupObserver()
+        loadingEntireList()
+
         initWidgets()
         initObjects()
         installCallbacks()
@@ -160,10 +156,8 @@ class NoteListFragment :
         fab = widgetsHelper.getFab
         bottomAppBar = widgetsHelper.getBottomAppBar
 
-        widgetsHelper.setBottomBarVisible(true)
-        widgetsHelper.setVisibleSelect(false)
+        //widgetsHelper.setVisibleSelect(false)
         widgetsHelper.setVisibleUnification(false)
-        widgetsHelper.setIconFab(true)
     }
 
     private fun initObjects() {
@@ -191,7 +185,7 @@ class NoteListFragment :
                 if (isSearchMode) {
                     searchModeDisabled()
                 } else {
-                    activity.openItem(Note2())
+                    activity.openNoteFragment(Note2())
                 }
             }
         }
@@ -202,8 +196,8 @@ class NoteListFragment :
             if (isDeleteMode) {
                 onDeleteMode(false)
             } else {
-                val dialogBottomSheet = BottomSheetCategory.newInstance(this, notesCategory)
-                dialogBottomSheet.show(activity.supportFragmentManager, BottomSheetCategory.TAG)
+                //val dialogBottomSheet = BottomSheetCategory.newInstance(this, notesCategory)
+                // dialogBottomSheet.show(activity.supportFragmentManager, BottomSheetCategory.TAG)
             }
         }
 
@@ -235,35 +229,53 @@ class NoteListFragment :
 
     private fun searchModeActivated() {
         isSearchMode = true
-        searchViewVisible(true)
+        searchView.setVisibleView(true)
 
         val searchText: EditText = searchView.findViewById(R.id.search_src_text)
         searchText.showKeyboard(activity)
 
-        widgetsHelper.setBottomBarVisible(false)
-        widgetsHelper.setIconFabString(ICON_FAB_SEARCH_CLOSE)
+        widgetsHelper.changeBarVisible(false)
+        widgetsHelper.setIconFab(ICON_FAB_SEARCH_CLOSE)
     }
 
     private fun searchModeDisabled() {
         isSearchMode = false
-        searchViewVisible(false)
+        searchView.setVisibleView(false)
 
         searchView.setQuery("", false)
 
-        widgetsHelper.setBottomBarVisible(true)
-        widgetsHelper.setIconFabString(ICON_FAB_ADD)
+        widgetsHelper.changeBarVisible(true)
+        widgetsHelper.setIconFab(ICON_FAB_ADD)
 
         goTopRecyclerPosition()
         //viewModel.searchNameChanged("")
     }
 
-    private fun setupObserver() {
-        viewModel.getNotesBySearch.observe(viewLifecycleOwner, { list ->
-            list?.let {
-                updateUI(list)
-            }
-        })
+    private val dataObserver = Observer<List<Note2>> { list ->
+        list?.let {
 
+            if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                Log.d(TAG, list.size.toString() + " RESUMED")
+                list?.let {
+                    updateUI(list)
+                }
+            } else if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.STARTED) {
+                Log.d(TAG, list.size.toString() + " STARTED")
+                list?.let {
+                    updateUI(list)
+                }
+            }
+
+        }
+    }
+
+
+    private fun setupObserver() {
+        Log.d(TAG, "Set observe")
+        //viewModel.getNotesById.observe(viewLifecycleOwner, dataObserver)
+    }
+
+    private fun loadingEntireList() {
         viewModel.searchNameChanged("")
         selectNotesCategory(notesCategory)
     }
@@ -275,12 +287,14 @@ class NoteListFragment :
 
     private fun updateUI(list: List<Note2>) {
         tvEmpty.setVisibleView(list.isEmpty())
+        // context?.showToast("" + list.size)
         adapter.setListNote(list)
     }
 
     override fun onResume() {
         super.onResume()
-        resetRecyclerState()
+        // resetRecyclerState()
+        //if (isTop) goTopRecyclerPosition()
     }
 
     private fun resetRecyclerState() {
@@ -294,8 +308,9 @@ class NoteListFragment :
 
     override fun onPause() {
         super.onPause()
+        //Log.d("NoteListFragment", "onPause")
         snackbarUndo.close()
-        saveRecyclerStata()
+        //  saveRecyclerStata()
     }
 
     private fun saveRecyclerStata() {
@@ -313,12 +328,12 @@ class NoteListFragment :
 
     // Callbacks
     override fun onItemClick(note: Note2) {
-        activity.openItem(note)
+        activity.openNoteFragment(note)
     }
 
-    override fun onSelectedItem(note: Note2, numSelItem: Int) {
+    override fun onSelectedItem(note: Note2) {
         note.isChecked = !note.isChecked
-        tvNumber.text = numSelItem.toString()
+       // tvNumber.text = numSelItem.toString()
         viewModel.update(note)
     }
 
@@ -334,29 +349,24 @@ class NoteListFragment :
             cardView.setVisibleView(true)
             swipeCallback.setBlockSwiped(true)
 
-            widgetsHelper.setIconFabString(ICON_FAB_DELETE)
+            widgetsHelper.setIconFab(ICON_FAB_DELETE)
             widgetsHelper.setVisibleList(false)
-            widgetsHelper.setNavIcon(R.drawable.baseline_close_black_24)
+            // widgetsHelper.setNavigationIcon(R.drawable.baseline_close_black_24)
 
-            if (isSearchMode) widgetsHelper.setBottomBarVisible(true)
+            if (isSearchMode) widgetsHelper.changeBarVisible(true)
 
         } else {
             cardView.setVisibleView(false)
             swipeCallback.setBlockSwiped(false)
             adapter.disableDeleteMode()
 
-            if (isSearchMode)  {
-                widgetsHelper.setIconFabString(ICON_FAB_SEARCH_CLOSE)
-            } else {
-                widgetsHelper.setIconFabOld(notesCategory)
-            }
+            widgetsHelper.setIconFab(notesCategory, isSearchMode)
+
 
             widgetsHelper.setVisibleList(true)
-            widgetsHelper.setNavIcon(R.drawable.baseline_menu_black_24)
+            //  widgetsHelper.setNavigationIcon(R.drawable.baseline_menu_black_24)
 
-            if (isSearchMode) widgetsHelper.setBottomBarVisible(false)
-
-            viewModel.updateCheckedStatus()
+            viewModel.disableCheckedStatus()
         }
     }
 
@@ -368,14 +378,30 @@ class NoteListFragment :
         snackbarUndo.show(note, "")
     }
 
+    private var isTop: Boolean = false
+
+    override fun onNoteAdd(note: Note2) {
+        viewModel.insert(note)
+    }
+
 
     // Instance
     companion object {
+        private val TAG = NoteListFragment::class.java.simpleName
+
         const val RECYCLER_STATE_NOTES = "recycler_state_notes"
 
         @JvmStatic
         fun newInstance(): NoteListFragment {
             return NoteListFragment()
         }
+    }
+
+    override fun onX() {
+
+    }
+
+    override fun onNumSelItem(isAll: Boolean, numSelItem: Int) {
+        tvNumber.text = numSelItem.toString()
     }
 }

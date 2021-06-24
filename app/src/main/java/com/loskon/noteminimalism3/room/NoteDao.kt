@@ -39,6 +39,9 @@ interface NoteDao {
     @Query("DELETE FROM notes WHERE del_items = 1")
     suspend fun deleteItemsAlways()
 
+    @Query("UPDATE notes SET is_checked = 1")
+    suspend fun activateCheckedStatus()
+
     @Query("UPDATE notes SET is_checked = 0")
     suspend fun updateCheckedStatus()
 

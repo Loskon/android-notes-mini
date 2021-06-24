@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,28 +13,42 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.utils.getShortDrawable
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_FAVORITES
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Category.CATEGORY_TRASH
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_FAVORITES
+import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
 
-class BottomSheetCategory(
-    private val listFragment: NoteListFragment,
-    private var categoryInSheet: String
-) :
-    BottomSheetDialogFragment() {
+/**
+ *
+ */
+
+class BottomSheetCategory : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "BottomSheetDialogFragment"
+        private const val ARG_CATEGORY = "arg_category"
 
-        fun newInstance(
-            listFragment: NoteListFragment,
-            categoryInSheet: String
-        ): BottomSheetCategory {
-            return BottomSheetCategory(listFragment, categoryInSheet)
+        private var navViewListener: OnNavViewListener? = null
+
+        fun setNavViewListener(navViewListener: OnNavViewListener) {
+            this.navViewListener = navViewListener
+        }
+
+        @JvmStatic
+        fun newInstance(categoryInSheet: String) = BottomSheetCategory().apply {
+            arguments = Bundle().apply {
+                putString(ARG_CATEGORY, categoryInSheet)
+            }
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        categoryInSheet = arguments?.getString(ARG_CATEGORY).toString()
+
+    }
+
     private lateinit var navigationView: NavigationView
+    private var categoryInSheet: String = CATEGORY_ALL_NOTES
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,7 +92,7 @@ class BottomSheetCategory(
             }
 
             if (menuId != R.id.nav_item_settings) {
-                listFragment.onClickMenuItem(categoryInSheet)
+                navViewListener?.onCallback(categoryInSheet)
             }
 
             dismiss()
@@ -92,4 +107,8 @@ class BottomSheetCategory(
             CATEGORY_TRASH -> 2
             else -> 0
         }
+
+    interface OnNavViewListener {
+        fun onCallback(category: String)
+    }
 }

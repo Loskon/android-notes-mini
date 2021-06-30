@@ -135,6 +135,7 @@
     <string name="dg_open_link_open">Open</string>
     <string name="dg_open_link_call">Call</string>
     <string name="dg_open_link_send">Send</string>
+    <string name="dg_open_link_invalid">Invalid link</string>
     <string name="dg_open_link_copy">Copy</string>
 
     <!-- dialog_account -->

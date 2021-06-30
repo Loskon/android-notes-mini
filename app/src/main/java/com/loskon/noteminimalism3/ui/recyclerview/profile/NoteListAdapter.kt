@@ -38,7 +38,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
     private var numItemSel: Int = 0
     private var isSelectionMode: Boolean = false
 
-    fun setColor(context: Context) {
+    fun setSettings(context: Context) {
         radiusStroke_dp = context.getRadiusLinLay()
         boredStroke_dp = context.getStrokeLinLay()
         color = MyColor.getMyColor(context)
@@ -157,6 +157,10 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
 
     fun disableDeleteMode() {
         isSelectionMode = false
+    }
+
+    fun getListNote(): List<Note2> {
+        return list
     }
 
 

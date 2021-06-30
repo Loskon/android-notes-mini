@@ -6,6 +6,7 @@ import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListAdapter
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
+import java.util.*
 
 /**
  * Обработка свайпа для списка Program
@@ -40,18 +41,20 @@ class SwipeCallbackNote(
     ) = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
+        val position: Int = viewHolder.bindingAdapterPosition
         val note: Note2 = adapter.getItemNote(position)
+        val isFav: Boolean = note.isFavorite
 
         if (notesCategory == CATEGORY_TRASH) {
             viewModel.delete(note)
         } else {
+            note.dateDelete = Date()
             note.isDelete = true
             note.isFavorite = false
             viewModel.update(note)
         }
 
-        swipeListener?.onItemSwipe(note, notesCategory)
+        swipeListener?.onItemSwipe(note, isFav ,notesCategory)
     }
 
     fun setCategory(category: String) {
@@ -66,7 +69,7 @@ class SwipeCallbackNote(
 
     // Callback
     interface OnItemSwipeListener {
-        fun onItemSwipe(note: Note2, category: String)
+        fun onItemSwipe(note: Note2, isFav: Boolean, category: String)
     }
 
     companion object {

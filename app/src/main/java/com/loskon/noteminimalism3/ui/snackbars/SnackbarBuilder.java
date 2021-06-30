@@ -26,7 +26,7 @@ public class SnackbarBuilder {
         snackbar.setTextColor(Color.WHITE);
 
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundResource(R.drawable.snackbar_round_corner);
+        snackbarView.setBackgroundResource(R.drawable.snackbar_background);
         MyColor.setColorSnackbar(context, snackbarView, isSuccess);
 
         snackbarView.setOnClickListener(v -> snackbar.dismiss());

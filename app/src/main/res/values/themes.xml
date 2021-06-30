@@ -48,6 +48,17 @@
         <!-- Disable Multi-touch -->
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
+
+        <!-- Snackbar -->
+        <item name="snackbarStyle">@style/MaterialSnackbarTheme</item>
+    </style>
+
+    <!-- Snackbar -->
+    <style name="MaterialSnackbarTheme" parent="@style/Widget.MaterialComponents.Snackbar">
+        <item name="android:background">@drawable/snackbar_background</item>
+<!--        <item name="cornerRadius">@dimen/mtrl_snackbar_background_corner_radius</item>
+        <item name="android:layout_margin">@dimen/mtrl_snackbar_margin</item>
+        <item name="actionTextColorAlpha">@dimen/mtrl_snackbar_action_text_color_alpha</item>-->
     </style>
 
 

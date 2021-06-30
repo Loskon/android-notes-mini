@@ -114,12 +114,6 @@ class NoteViewModel : ViewModel() {
         }
     }
 
-    fun activateCheckedStatus() {
-        viewModelScope.launch {
-            repository.activateCheckedStatus()
-        }
-    }
-
     fun disableCheckedStatus() {
         viewModelScope.launch {
             repository.updateCheckedStatus()
@@ -128,14 +122,12 @@ class NoteViewModel : ViewModel() {
 
     fun insert(note: Note2) {
         viewModelScope.launch {
-            Log.d("NoteListFragment.TAG", "insert")
             repository.insert(note)
         }
     }
 
     fun update(note: Note2) {
         viewModelScope.launch {
-            Log.d("NoteListFragment.TAG", "update")
             repository.update(note)
         }
     }

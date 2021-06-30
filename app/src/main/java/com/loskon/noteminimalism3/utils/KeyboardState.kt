@@ -12,11 +12,17 @@ fun EditText.showKeyboard(context: Context) {
     inputMethodManager.showSoftInput(this, 0)
 }
 
-fun hideKeyboard(activity: Activity) {
+fun EditText.hideKeyboard(context: Context) {
     val inputMethodManager =
-        activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
-    val currentFocusedView = activity.currentFocus
+    inputMethodManager.hideSoftInputFromWindow(this.windowToken, 0)
+}
+
+fun Activity.hideKeyboard() {
+    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+    val currentFocusedView = currentFocus
     currentFocusedView?.let {
         inputMethodManager.hideSoftInputFromWindow(
             currentFocusedView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS

@@ -51,17 +51,17 @@ public class MyColor {
         return currentNightMode != Configuration.UI_MODE_NIGHT_NO;
     }
 
-    public static int getColorBackgroundSnackbar(Activity activity) {
+    public static int getColorBackgroundSnackbar(Context context) {
         // Получение цвета фона Snackbar
         int color;
 
-        if (isDarkMode(activity)) {
+        if (isDarkMode(context)) {
             color = R.color.snackbar_background_dark;
         } else {
             color = R.color.snackbar_background_light;
         }
 
-        return activity.getResources().getColor(color);
+        return context.getResources().getColor(color);
     }
 
     public static void setColorToast(Activity activity, View toastView, boolean isSuccess) {

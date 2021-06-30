@@ -34,7 +34,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-
+        <activity android:name=".ui.activities.NewNoteActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.activities.ListActivity" />
 
         <receiver android:name=".ui.widgets.add.AppWidgetAddProvider">
             <intent-filter>
@@ -60,9 +62,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.activities.MainActivity" />
-
         <activity
             android:name=".ui.activities.FontsActivity"
             android:screenOrientation="portrait" />
@@ -79,9 +79,9 @@
             android:name=".ui.activities.NoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.ListActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait">
+            android:name=".ui.activities.NoteActivityKt"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

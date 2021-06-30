@@ -111,6 +111,7 @@
     <string name="dg_open_link_open">Открыть</string>
     <string name="dg_open_link_call">Позвонить</string>
     <string name="dg_open_link_send">Отправить эл.письмо</string>
+    <string name="dg_open_link_invalid">Неверная ссылка</string>
     <string name="dg_open_link_copy">Копировать</string>
 
     <!-- dialog_account -->

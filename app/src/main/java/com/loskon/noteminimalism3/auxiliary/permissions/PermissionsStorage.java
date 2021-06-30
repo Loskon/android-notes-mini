@@ -53,7 +53,7 @@ public class PermissionsStorage {
 
             int granted = PackageManager.PERMISSION_GRANTED;
 
-            if (writePermission != granted || readPermission != granted) {
+            if (writePermission != granted && readPermission != granted) {
                 if (isAskForPermission) {
                     if (fragment == null) {
                         ActivityCompat.requestPermissions(

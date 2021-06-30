@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.ui.snackbars
 
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.os.CountDownTimer
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -15,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
+import com.loskon.noteminimalism3.ui.activities.NoteActivityKt
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
 
@@ -24,13 +23,12 @@ import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRA
  */
 
 class SnackbarUndo(
-    private val context: Context,
-    helperList: WidgetHelperList,
+    private val activityKt: NoteActivityKt,
     private val viewModel: NoteViewModel
 ) {
 
-    private val fab: FloatingActionButton = helperList.getFab
-    private val coordLayout: CoordinatorLayout = helperList.getCoordLayout
+    private val fab: FloatingActionButton = activityKt.getFab
+    private val coordLayout: CoordinatorLayout = activityKt.getCoordLayout
 
     private var snackbarMain: Snackbar? = null
     private var countDownTimer: CountDownTimer? = null
@@ -40,7 +38,7 @@ class SnackbarUndo(
     private lateinit var textProgress: TextView
     private lateinit var textTitle: TextView
 
-    fun show(note: Note2, category: String) {
+    fun show(note: Note2, isFav: Boolean, category: String) {
         countDownTimer?.cancel()
         snackbarMain?.dismiss()
 
@@ -48,10 +46,10 @@ class SnackbarUndo(
         snackbarMain?.anchorView = fab
 
         val layout = snackbarMain?.view as SnackbarLayout
-        val view: View = View.inflate(context, R.layout.snackbar_swipe, null)
+        val view: View = View.inflate(activityKt, R.layout.snackbar_swipe, null)
 
         initViews(view)
-        configViews(note, category)
+        configViews(note, isFav, category)
         setAnimation()
         setTimer()
 
@@ -66,17 +64,17 @@ class SnackbarUndo(
         textTitle = snackView.findViewById(R.id.snackbar_text_title)
     }
 
-    private fun configViews(note: Note2, category: String) {
-        btnSnackbar.setTextColor(MyColor.getMyColor(context))
+    private fun configViews(note: Note2, isFav: Boolean, category: String) {
+        btnSnackbar.setTextColor(MyColor.getMyColor(activityKt))
         progressBar.progress = 0
         progressBar.max = 10000
-        textTitle.text = context.getString(getMessage(category))
+        textTitle.text = activityKt.getString(getMessage(category))
 
         btnSnackbar.setOnClickListener {
-
             if (category == CATEGORY_TRASH) {
                 viewModel.insert(note)
             } else {
+                note.isFavorite = isFav
                 note.isDelete = false
                 viewModel.update(note)
             }

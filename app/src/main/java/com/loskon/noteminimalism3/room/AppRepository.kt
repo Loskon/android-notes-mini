@@ -6,7 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.DATABASE_NAME
 import com.loskon.noteminimalism3.model.Note2
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
 
 
 /**
@@ -60,13 +63,18 @@ class AppRepository(context: Context) {
     }
 
     @WorkerThread
-    suspend fun activateCheckedStatus() {
-        noteDao.activateCheckedStatus()
-    }
-
-    @WorkerThread
     suspend fun updateCheckedStatus() {
         noteDao.updateCheckedStatus()
+    }
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    @WorkerThread
+    suspend fun insertWithId(note: Note2): Long = runBlocking(Dispatchers.IO) {
+        val count = async {
+            noteDao.insertWithId(note)
+        }
+        count.start()
+        count.await()
     }
 
     @WorkerThread

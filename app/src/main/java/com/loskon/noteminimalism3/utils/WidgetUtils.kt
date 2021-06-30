@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -18,6 +19,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
@@ -103,6 +105,10 @@ fun Context.getShortColor(colorId: Int): Int {
     return ContextCompat.getColor(this, colorId)
 }
 
+fun MaterialButton.setIconColor(@ColorInt colorId: Int) {
+    iconTint = ColorStateList.valueOf(colorId)
+}
+
 //
 fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) =
     navigationIcon?.mutate()?.setTint(color)
@@ -125,3 +131,16 @@ fun Menu.menuIconColor(@ColorInt color: Int) {
 fun FloatingActionButton.setFabColor(@ColorInt color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
+
+//
+fun LinearLayout.installFocus() {
+    isFocusable = true
+    isFocusableInTouchMode = true
+    requestFocus()
+}
+
+//
+fun EditText.getLength(): Int {
+    return text.toString().length
+}
+

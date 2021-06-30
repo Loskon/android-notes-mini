@@ -1,29 +1,30 @@
-package com.loskon.noteminimalism3.ui.fragments
+package com.loskon.noteminimalism3.ui.activities
 
-import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.Fragment
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
+import com.loskon.noteminimalism3.auxiliary.other.MyColor
+import com.loskon.noteminimalism3.auxiliary.other.MyIntent
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.activities.ListActivity
-import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
+import com.loskon.noteminimalism3.ui.fragments.BottomSheetCategory
+import com.loskon.noteminimalism3.ui.fragments.NoteFragmentKt
+import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
 import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.SwipeCallbackNote
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListAdapter
@@ -31,143 +32,94 @@ import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 import com.loskon.noteminimalism3.utils.showKeyboard
+import com.loskon.noteminimalism3.utils.showToast
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_ALL_NOTES
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.*
 
 /**
- * Форма списка заметок
+ * Основное activity для работы со списком
  */
 
-private val TAG = "MyLogs_${NoteListFragment3::class.java.simpleName}"
-
-class NoteListFragment3 : Fragment(),
+class NoteActivityKt : AppCompatActivity(),
     NoteListAdapter.OnItemClickListener,
     SwipeCallbackNote.OnItemSwipeListener,
-    NoteFragment.OnNote,
-    BottomSheetCategory.OnNavViewListener {
+    NoteFragmentKt.OnNote2,
+    BottomSheetCategory.OnNavViewListener,
+    NoteTrashFragment.CallbackNoteTrash {
 
-    private lateinit var activity: ListActivity
+    companion object {
+        private val TAG = "MyLogs_${NoteActivityKt::class.java.simpleName}"
+    }
+
     private lateinit var viewModel: NoteViewModel
+    private val adapter: NoteListAdapter = NoteListAdapter()
 
-    private lateinit var widgetsHelper: WidgetHelperList
+    private lateinit var widgetsHelper: WidgetHelperKt
     private lateinit var snackbarUndo: SnackbarUndo
+    private lateinit var swipeCallback: SwipeCallbackNote
 
-    // Activity views
-    private lateinit var fab: FloatingActionButton
-    private lateinit var bottomAppBar: BottomAppBar
-
-    // Fragment views
+    private lateinit var coordLayout: CoordinatorLayout
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvEmpty: TextView
     private lateinit var cardView: CardView
     private lateinit var tvNumber: TextView
+    private lateinit var fab: FloatingActionButton
+    private lateinit var bottomAppBar: BottomAppBar
 
-    private val adapter: NoteListAdapter = NoteListAdapter()
-    private lateinit var swipeCallback: SwipeCallbackNote
-
-    private var notesCategory: String = CATEGORY_ALL_NOTES
+    private var notesCategory: String = NoteViewModel.CATEGORY_ALL_NOTES
     private var isTypeNotesOne = false
     private var isSearchMode = false
     private var isDeleteMode: Boolean = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity = context as ListActivity
-        adapter.setSettings(context)
-
-        loadSharedPreferences()
-        initWidgets()
-    }
-
-    private fun loadSharedPreferences() {
-        isTypeNotesOne = GetSharedPref.isTypeSingle(activity)
-    }
-
-    private fun initWidgets() {
-        widgetsHelper = activity.getWidgetsHelper
-        fab = widgetsHelper.getFab
-        bottomAppBar = widgetsHelper.getBottomAppBar
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val view = inflater.inflate(R.layout.fragment_list_notes, container, false)
-        initFragmentViews(view)
-        configureRecyclerView()
-        return view
-    }
-
-    private fun initFragmentViews(view: View) {
-        searchView = view.findViewById(R.id.search_view)
-        recyclerView = view.findViewById(R.id.recycler_view_notes)
-        tvEmpty = view.findViewById(R.id.tv_empty_list)
-        cardView = view.findViewById(R.id.cardViewMain)
-        tvNumber = view.findViewById(R.id.tv_font_size_title)
-    }
-
-    private fun configureRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
-        recyclerView.itemAnimator = CustomItemAnimator()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_new)
 
         setupObserver()
-        setupWidgets()
-        setupSearchView()
-        initObjects()
-        installSwiped()
+        initViews()
         installCallbacks()
+        initObjects()
+        configureRecyclerView()
+        installSwiped()
         installHandlers()
     }
 
     private fun setupObserver() {
-        viewModel = activity.getViewModel
+        viewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
-        viewModel.getNotes.observe(viewLifecycleOwner, { list ->
+        viewModel.getNotes.observe(this, { list ->
             list?.let {
                 updateUI(list)
             }
         })
     }
 
-    fun setupWidgets() {
-        widgetsHelper.setVisibleWidgets(true)
-    }
+    private fun initViews() {
+        coordLayout = findViewById(R.id.coord_layout_new)
+        searchView = findViewById(R.id.search_view)
+        recyclerView = findViewById(R.id.recycler_view_notes)
+        tvEmpty = findViewById(R.id.text_empty_new)
+        cardView = findViewById(R.id.card_view_new)
+        tvNumber = findViewById(R.id.tv_number_new)
+        fab = findViewById(R.id.fab_new)
+        bottomAppBar = findViewById(R.id.btm_app_bar_new)
 
-    private fun setupSearchView() {
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                //handlingSearch(newText)
-                return true
-            }
-        })
-    }
-
-    private fun handlingSearch(newText: String) {
-        val searchText = newText.trim()
-
-        if (TextUtils.isEmpty(searchText)) {
-            viewModel.searchNameChanged("")
-        } else {
-            viewModel.searchNameChanged("%$searchText%")
-        }
-
-        recyclerView.scrollToPosition(0)
+        cardView.backgroundTintList = ColorStateList.valueOf(MyColor.getMyColor(this))
     }
 
     private fun initObjects() {
-     //   snackbarUndo = SnackbarUndo(activity, widgetsHelper, viewModel)
+        widgetsHelper = WidgetHelperKt(this)
+        snackbarUndo = SnackbarUndo(this, viewModel)
+    }
+
+    private fun configureRecyclerView() {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+        adapter.setSettings(this)
+        recyclerView.itemAnimator = CustomItemAnimator()
     }
 
     private fun installSwiped() {
@@ -178,8 +130,9 @@ class NoteListFragment3 : Fragment(),
     private fun installCallbacks() {
         NoteListAdapter.setClickListener(this)
         SwipeCallbackNote.setSwipeListener(this)
-        NoteFragment.setNoteListener(this)
+        NoteFragmentKt.setNoteListener(this)
         BottomSheetCategory.setNavViewListener(this)
+        NoteTrashFragment.setNoteListener(this)
     }
 
     private fun installHandlers() {
@@ -201,11 +154,7 @@ class NoteListFragment3 : Fragment(),
                 }
                 R.id.action_select_item -> {
                     adapter.selectAllItems()
-/*                    if (isAllSel) {
-                        viewModel.activateCheckedStatus()
-                    } else {
-                        viewModel.disableCheckedStatus()
-                    }*/
+                    selectAllItems(isAllSel)
                     true
                 }
 
@@ -222,6 +171,14 @@ class NoteListFragment3 : Fragment(),
         }
     }
 
+    private fun selectAllItems(isSel: Boolean) {
+        for (note in adapter.getListNote()) {
+            if(notesCategory != NoteViewModel.CATEGORY_TRASH) note.dateDelete = Date()
+            note.isChecked = isSel
+            viewModel.update(note)
+        }
+    }
+
     private fun handlingFabClick() {
         if (isDeleteMode) {
             onDeleteItemsClick()
@@ -231,10 +188,10 @@ class NoteListFragment3 : Fragment(),
     }
 
     private fun onDeleteItemsClick() {
-        if (notesCategory == CATEGORY_ALL_NOTES) {
-            viewModel.deleteItems()
-        } else {
+        if (notesCategory == NoteViewModel.CATEGORY_TRASH) {
             viewModel.deleteItemsAlways()
+        } else {
+            viewModel.deleteItems()
         }
 
         onDeleteMode(false)
@@ -244,14 +201,8 @@ class NoteListFragment3 : Fragment(),
         if (isSearchMode) {
             searchModeDisabled()
         } else {
-            activity.openNoteFragment(Note2())
+            MyIntent.addNewNote2(this, Note2(), notesCategory)
         }
-    }
-
-    private fun handlingSwitchClick() {
-        isTypeNotesOne = !isTypeNotesOne
-        widgetsHelper.setTypeNotes(recyclerView, isTypeNotesOne)
-        MySharedPref.setBoolean(activity, MyPrefKey.KEY_TYPE_NOTES, isTypeNotesOne)
     }
 
     private fun searchModeActivated() {
@@ -262,7 +213,7 @@ class NoteListFragment3 : Fragment(),
         widgetsHelper.setIconFab(WidgetHelperList.ICON_FAB_SEARCH_CLOSE)
 
         val searchText: EditText = searchView.findViewById(R.id.search_src_text)
-        searchText.showKeyboard(activity)
+        searchText.showKeyboard(this)
     }
 
     private fun searchModeDisabled() {
@@ -274,7 +225,12 @@ class NoteListFragment3 : Fragment(),
 
         searchView.setQuery("", false)
         recyclerView.scrollToPosition(0)
-        //viewModel.searchNameChanged("")
+    }
+
+    private fun handlingSwitchClick() {
+        isTypeNotesOne = !isTypeNotesOne
+        widgetsHelper.setTypeNotes(recyclerView, isTypeNotesOne)
+        MySharedPref.setBoolean(this, MyPrefKey.KEY_TYPE_NOTES, isTypeNotesOne)
     }
 
     private fun handlingNavBtnClick() {
@@ -284,7 +240,7 @@ class NoteListFragment3 : Fragment(),
             onDeleteMode(false)
         } else {
             val dialogBottomSheet = BottomSheetCategory.newInstance(notesCategory)
-            dialogBottomSheet.show(childFragmentManager, BottomSheetCategory.TAG)
+            dialogBottomSheet.show(supportFragmentManager, BottomSheetCategory.TAG)
         }
     }
 
@@ -319,12 +275,11 @@ class NoteListFragment3 : Fragment(),
 
     // Callbacks
     override fun onItemClick(note: Note2) {
-        activity.openNoteFragment(note)
+        MyIntent.addNewNote2(this, note, notesCategory)
     }
 
     override fun onSelectedItem(note: Note2) {
         note.isChecked = !note.isChecked
-
         viewModel.update(note)
     }
 
@@ -343,6 +298,20 @@ class NoteListFragment3 : Fragment(),
 
     override fun onX() {
         viewModel.disableCheckedStatus()
+    }
+
+
+    override fun onDeleteFromTrash(note: Note2, isDel: Boolean) {
+        if (isDel) {
+            lifecycleScope.launch {
+                delay(500L)
+                note.dateDelete = Date()
+                snackbarUndo.show(note, false, notesCategory)
+            }
+        } else {
+            this.showToast("hi")
+        }
+
     }
 
     private fun deleteMode() {
@@ -369,15 +338,20 @@ class NoteListFragment3 : Fragment(),
         }
     }
 
-    override fun onItemSwipe(note: Note2,isFav: Boolean, category: String) {
-        //snackbarUndo.show(note, category)
+    override fun onItemSwipe(note: Note2, isFav: Boolean, category: String) {
+        snackbarUndo.show(note, isFav,  category)
     }
 
-    override fun onNoteDelete(note: Note2) {
-        TODO("Not yet implemented")
+    override fun onNoteDelete2(note: Note2, isFav: Boolean) {
+        lifecycleScope.launch {
+            delay(500L)
+            note.dateDelete = Date()
+            viewModel.update(note)
+            snackbarUndo.show(note, isFav, notesCategory)
+        }
     }
 
-    override fun onNoteAdd(note: Note2) {
+    override fun onNoteAdd2() {
         isTop = true
     }
 
@@ -390,11 +364,18 @@ class NoteListFragment3 : Fragment(),
     }
 
 
-    // instance
-    companion object {
-        fun newInstance(): NoteListFragment3 {
-            return NoteListFragment3()
+    val getCoordLayout: CoordinatorLayout
+        get() {
+            return coordLayout
         }
-    }
 
+    val getFab: FloatingActionButton
+        get() {
+            return fab
+        }
+
+    val getBottomAppBar: BottomAppBar
+        get() {
+            return bottomAppBar
+        }
 }

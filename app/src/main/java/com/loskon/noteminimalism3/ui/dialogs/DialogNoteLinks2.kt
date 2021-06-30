@@ -8,21 +8,29 @@ import android.net.Uri
 import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.ui.activities.NoteActivity
-import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage
+import com.loskon.noteminimalism3.ui.fragments.NoteFragmentKt
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_ERROR
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_INVALID_LINK
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_NOTE_HYPERLINKS_COPIED
 import java.util.regex.Pattern
 
 /**
  * Работа с ссылками в тексте заметок
  */
 
-class DialogNoteLinks(private val context: Context) : View.OnClickListener {
+class DialogNoteLinks2(
+    private val context: Context,
+    private val noteFragmentKt: NoteFragmentKt
+) :
+    View.OnClickListener {
 
     companion object {
+        private val TAG = "MyLogs_${DialogNoteLinks2::class.java.simpleName}"
+
         const val URL_WEB = "WEB"
         const val URL_MAIL = "MAIL"
         const val URL_PHONE = "PHONE"
-        const val ERROR = "ERROR"
+        const val URL_ERROR = "ERROR"
     }
 
     private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(context)
@@ -49,7 +57,7 @@ class DialogNoteLinks(private val context: Context) : View.OnClickListener {
     }
 
     private fun getTypeURL(titleLinks: String): String {
-        var typeLinks = ERROR
+        var typeLinks = URL_ERROR
 
         val regexWebS = ".*https://.*"
         val regexWeb = ".*http://.*"
@@ -84,7 +92,7 @@ class DialogNoteLinks(private val context: Context) : View.OnClickListener {
                 setTextBtn(R.string.dg_open_link_open)
             }
 
-            ERROR -> {
+            URL_ERROR -> {
                 setTextBtn(R.string.dg_open_link_invalid)
             }
         }
@@ -127,7 +135,7 @@ class DialogNoteLinks(private val context: Context) : View.OnClickListener {
                 Intent(Intent.ACTION_DIAL, Uri.parse(link))
             )
 
-            else -> showSnackbar(false, MySnackbarNoteMessage.ERROR)
+            else -> showSnackbar(MSG_ERROR, false)
         }
     }
 
@@ -138,14 +146,14 @@ class DialogNoteLinks(private val context: Context) : View.OnClickListener {
             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("copy_links", link)
             clipboard.setPrimaryClip(clip)
-            showSnackbar(true, MySnackbarNoteMessage.MSG_NOTE_HYPERLINKS_COPIED)
+            showSnackbar(MSG_NOTE_HYPERLINKS_COPIED, true)
         } catch (exception: Exception) {
             exception.printStackTrace()
-            showSnackbar(false, MySnackbarNoteMessage.MSG_INVALID_LINK)
+            showSnackbar(MSG_INVALID_LINK, false)
         }
     }
 
-    private fun showSnackbar(isSuccess: Boolean, message: String) {
-        (context as NoteActivity).mySnackbarNoteMessage.show(isSuccess, message)
+    private fun showSnackbar(typeMessage: String, isSuccess: Boolean) {
+        noteFragmentKt.showSnackbar(typeMessage, isSuccess)
     }
 }

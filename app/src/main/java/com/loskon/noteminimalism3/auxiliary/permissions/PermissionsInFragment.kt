@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.auxiliary.permissions
 import android.Manifest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsValues.Companion.PERMISSIONS_STORAGE
 
 /**
  *
@@ -11,16 +10,33 @@ import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsValues.Compan
 
 class PermissionsInFragment(fragment: Fragment, permissionsInterface: PermissionsInterface) {
 
-    val requestMultiplePermissions = fragment.registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val isGranted: Boolean =
-            (permissions[Manifest.permission.READ_EXTERNAL_STORAGE] == true &&
-                    permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] == true)
-        permissionsInterface.onRequestPermissionsStorageResult(isGranted)
+    companion object {
+        val PERMISSIONS_STORAGE = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
     }
+
+    private var isGranted: Boolean = false
+
+    val requestMultiplePermissions =
+        fragment.registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            val readPermissions = permissions[Manifest.permission.READ_EXTERNAL_STORAGE]
+            val writePermissions = permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE]
+
+            isGranted = (readPermissions == true && writePermissions == true)
+
+            permissionsInterface.onRequestPermissionsStorageResult(isGranted)
+        }
 
     fun startPermissionsRequest() {
         requestMultiplePermissions.launch(PERMISSIONS_STORAGE)
     }
+
+    val isGrantedPermissions: Boolean
+        get() {
+            return isGranted
+        }
 }

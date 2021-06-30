@@ -161,7 +161,7 @@ class NoteListFragment :
     }
 
     private fun initObjects() {
-        snackbarUndo = SnackbarUndo(activity, widgetsHelper, viewModel)
+       // snackbarUndo = SnackbarUndo(activity, widgetsHelper, viewModel)
     }
 
     private fun installCallbacks() {
@@ -370,12 +370,12 @@ class NoteListFragment :
         }
     }
 
-    override fun onItemSwipe(note: Note2, category: String) {
-        snackbarUndo.show(note, category)
+    override fun onItemSwipe(note: Note2, isFav : Boolean, category: String) {
+        snackbarUndo.show(note, isFav, category)
     }
 
     override fun onNoteDelete(note: Note2) {
-        snackbarUndo.show(note, "")
+        snackbarUndo.show(note,false, "")
     }
 
     private var isTop: Boolean = false

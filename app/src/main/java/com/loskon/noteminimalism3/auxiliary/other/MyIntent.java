@@ -10,9 +10,11 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 
 import com.loskon.noteminimalism3.R;
+import com.loskon.noteminimalism3.model.Note2;
 import com.loskon.noteminimalism3.ui.activities.BackupActivity;
 import com.loskon.noteminimalism3.ui.activities.FontsActivity;
 import com.loskon.noteminimalism3.ui.activities.MainActivity;
+import com.loskon.noteminimalism3.ui.activities.NewNoteActivity;
 import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity;
 import com.loskon.noteminimalism3.ui.activities.SettingsAppActivity;
@@ -30,12 +32,22 @@ public class MyIntent {
     public static final String PUT_EXTRA_POSITION = "postion";
     public static final String PUT_IS_WIDGET = "isWidget";
 
+    public static final String PUT_EXTRA_NOTE = "put_extra_note";
+    public static final String PUT_EXTRA_CATEGORY = "put_extra_category";
+
     private static final int intentDelay = 50;
 
     public static void addNewNote(Context context, int selNotesCategory) {
         // Добавление новой заметки
         Intent intent = new Intent(context, NoteActivity.class);
         intent.putExtra(PUT_EXTRA_SEL_NOTE_CATEGORY, selNotesCategory);
+        context.startActivity(intent);
+    }
+
+    public static void addNewNote2(Context context, Note2 note, String category) {
+        Intent intent = new Intent(context, NewNoteActivity.class);
+        intent.putExtra(PUT_EXTRA_NOTE, note);
+        intent.putExtra(PUT_EXTRA_CATEGORY, category);
         context.startActivity(intent);
     }
 
@@ -131,7 +143,7 @@ public class MyIntent {
         context.startActivity(intent);
     }
 
-    public static void addNewNoteFromWidget (Context context) {
+    public static void addNewNoteFromWidget(Context context) {
         // Добавление новой заметки
         Intent intent = new Intent(context, NoteActivity.class);
         intent.putExtra(PUT_EXTRA_SEL_NOTE_CATEGORY, 0);

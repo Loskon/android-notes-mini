@@ -26,7 +26,7 @@ public class GetSharedPref {
         return MySharedPref.getBoolean(context, key, false);
     }
 
-    public static boolean isNotificationAutoBackup(Context context) {
+    public static boolean hasNotificationAutoBackup(Context context) {
         String key = context.getString(R.string.notification_title);
         return MySharedPref.getBoolean(context, key, true);
     }

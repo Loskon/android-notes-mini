@@ -6,11 +6,9 @@ import java.io.File;
  * Помощник для BackupActivity
  */
 
-public class BackupHelper {
-
+public class BackupFilter {
     // Получение списка файлов с расширением .db
     public static File[] getListFile(File folder) {
         return folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".db"));
     }
-
 }

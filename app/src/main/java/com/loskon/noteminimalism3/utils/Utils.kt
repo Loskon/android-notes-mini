@@ -5,17 +5,25 @@ import android.widget.Toast
 import android.widget.Toast.makeText
 
 /**
- *
+ * Утилиты
  */
 
-fun Context.showToast(stringIdForToast: Int) {
-    val message: String = getString(stringIdForToast)
+// Тост 1
+fun Context.showToast(stringId: Int) {
     var toast: Toast? = null
+
+    toast?.cancel()
+    toast = makeText(this, getString(stringId), Toast.LENGTH_SHORT)
+    toast.show()
+}
+
+// Тост 2
+fun Context.showToast(message: String) {
+    var toast: Toast? = null
+
     toast?.cancel()
     toast = makeText(this, message, Toast.LENGTH_SHORT)
     toast.show()
 }
-
-fun Context.showToast(message: String) = makeText(this, message, Toast.LENGTH_SHORT).show()
 
 

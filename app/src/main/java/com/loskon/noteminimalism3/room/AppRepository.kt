@@ -114,6 +114,7 @@ class AppRepository(context: Context) {
             return INSTANCE?.database
         }
 
+        @JvmStatic
         fun destroyInstance() {
             if (INSTANCE != null) INSTANCE?.close()
             INSTANCE = null

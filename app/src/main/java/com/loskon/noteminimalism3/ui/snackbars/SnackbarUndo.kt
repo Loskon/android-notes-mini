@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.activities.NoteActivityKt
+import com.loskon.noteminimalism3.ui.activities.ListActivityKt
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
 
@@ -23,7 +23,7 @@ import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRA
  */
 
 class SnackbarUndo(
-    private val activityKt: NoteActivityKt,
+    private val activityKt: ListActivityKt,
     private val viewModel: NoteViewModel
 ) {
 

@@ -1,6 +1,5 @@
-package com.loskon.noteminimalism3.auxiliary.permissions
+package com.loskon.noteminimalism3.permissions
 
-import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.pm.PackageManager

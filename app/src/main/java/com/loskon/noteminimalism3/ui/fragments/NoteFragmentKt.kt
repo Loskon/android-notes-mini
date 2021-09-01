@@ -5,32 +5,28 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.activity.ComponentActivity
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.note.MyLinkify
-import com.loskon.noteminimalism3.auxiliary.note.TextNoteAssistant
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
-import com.loskon.noteminimalism3.auxiliary.other.MyDate
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorageKt
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInterface
+import com.loskon.noteminimalism3.files.AutoBackup
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.activities.NewNoteActivity
+import com.loskon.noteminimalism3.other.TextNoteAssistant
+import com.loskon.noteminimalism3.permissions.PermissionsInterface
+import com.loskon.noteminimalism3.permissions.PermissionsStorageKt
+import com.loskon.noteminimalism3.ui.activities.NoteActivityKt
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks2
 import com.loskon.noteminimalism3.ui.sheets.SheetCustomNoteKt
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_TEXT_NO_PERMISSION_NOTE
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_TEXT_NO_PERMISSION_NOTE
 import com.loskon.noteminimalism3.utils.*
 import com.loskon.noteminimalism3.viewmodel.NoteDetailViewModel
 import kotlinx.coroutines.delay
@@ -39,9 +35,9 @@ import java.util.*
 
 class NoteFragmentKt : Fragment(),
     View.OnClickListener,
-    PermissionsInterface{
+    PermissionsInterface {
 
-    private lateinit var activity: NewNoteActivity
+    private lateinit var activity: NoteActivityKt
     private lateinit var viewModel: NoteDetailViewModel
 
     private lateinit var constraintLayout: ConstraintLayout
@@ -52,7 +48,7 @@ class NoteFragmentKt : Fragment(),
     private lateinit var btnDel: MaterialButton
     private lateinit var btnMore: MaterialButton
 
-    private lateinit var snackbarNoteMessage: SnackbarNoteMessage
+    private lateinit var snackbarMessage: SnackbarMessage
     private lateinit var textAssistant: TextNoteAssistant
 
     private lateinit var note: Note2
@@ -60,13 +56,28 @@ class NoteFragmentKt : Fragment(),
     private var isFav: Boolean = false
 
     // Для работы с гиперссылками
-    private var supportedLinkTypes: Int = 0
+    private var supportedLinks: Int = 0
     private var hasTextHyperlinks: Boolean = false
     private var isTextEditingMod: Boolean = false
 
+    private val backupDate: Date = Date()
+    private var isShowBackupToast: Boolean = false
+    private var isNewNote: Boolean = false
+    private var savedText: String = ""
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        PermissionsStorageKt.installingVerification(context as ComponentActivity, this, this)
+        activity = requireActivity() as NoteActivityKt
+
+        PermissionsStorageKt.installingVerification(activity, this)
+
+        activity.onBackPressedDispatcher.addCallback(this) {
+            isShowBackupToast = true
+            if (isEnabled) {
+                isEnabled = false
+                activity.onBackPressed()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -89,17 +100,21 @@ class NoteFragmentKt : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         initVar()
+
         setupColor()
+
         includedLinks()
 
         configureViews()
 
         initObjects()
+
         installNoteHandlers()
+
+        setupNote()
     }
 
     private fun initVar() {
-        activity = requireActivity() as NewNoteActivity
         viewModel = activity.getViewModel
         note = activity.getNote
         noteId = note.id
@@ -114,16 +129,20 @@ class NoteFragmentKt : Fragment(),
     }
 
     private fun includedLinks() {
-        supportedLinkTypes = MyLinkify.getTypeLinks(activity)
-        if (noteId != 0L && supportedLinkTypes != 0) hasTextHyperlinks = true
+        supportedLinks = LinksUtil.getActiveLinks(activity)
+        if (noteId != 0L && supportedLinks != 0) hasTextHyperlinks = true
     }
 
     private fun configureViews() {
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, activity.getFontSize)
         if (hasTextHyperlinks) editText.configureEditTextMovementMethod()
         editText.setText(note.title)
+
+
         isFav = note.isFavorite
         installFavoriteStatus()
+
+
         if (noteId != 0L) removeFocusFromEddiText()
     }
 
@@ -147,7 +166,8 @@ class NoteFragmentKt : Fragment(),
     }
 
     private fun EditText.configureEditTextMovementMethod() {
-        autoLinkMask = supportedLinkTypes
+        autoLinkMask = supportedLinks
+
         setLinkTextColor(MyColor.getMyColor(activity))
         movementMethod = object : CustomMovementMethod3() {
             override fun onLinkClick(url: String) {
@@ -172,13 +192,15 @@ class NoteFragmentKt : Fragment(),
         btnDel.setOnClickListener(this)
         btnMore.setOnClickListener(this)
         linearNote.handlerOutClick()
+        editText.handlerClickListener()
     }
 
     override fun onClick(v: View?) {
-        BaseSnackbar.close()
+        BaseSnackbar.dismissSnackbar()
 
         when (v?.id) {
             R.id.fab_new_note2 -> {
+                isShowBackupToast = true
                 editText.hideKeyboard(activity)
                 activity.onBackPressed()
             }
@@ -199,10 +221,8 @@ class NoteFragmentKt : Fragment(),
                 editText.hideKeyboard(activity)
                 lifecycleScope.launch {
                     delay(300L)
-                    SheetCustomNoteKt(
-                        activity,
-                        textAssistant
-                    ).show(MyDate.getNowDate(note.dateModification), noteId)
+                    val stringDate: String = DateUtils.getStringDate(note.dateModification)
+                    SheetCustomNoteKt(activity, textAssistant).show(stringDate, noteId)
                 }
             }
         }
@@ -216,8 +236,12 @@ class NoteFragmentKt : Fragment(),
         }
     }
 
+    private fun EditText.handlerClickListener() {
+        setOnClickListener { BaseSnackbar.dismissSnackbar() }
+    }
+
     private fun handlingClickOnEmptyArea() {
-        BaseSnackbar.close()
+        BaseSnackbar.dismissSnackbar()
         if (hasTextHyperlinks && !isTextEditingMod) activationTextEditingMod()
         editText.showKeyboard(activity)
         editText.setSelection(editText.getLength())
@@ -236,8 +260,16 @@ class NoteFragmentKt : Fragment(),
 
 
     private fun initObjects() {
-        snackbarNoteMessage = SnackbarNoteMessage(activity, constraintLayout, fab)
+        snackbarMessage = SnackbarMessage(activity, constraintLayout, fab)
         textAssistant = TextNoteAssistant(activity, this)
+    }
+
+    private fun setupNote() {
+        if (noteId == 0L) {
+            isNewNote = true
+        } else {
+            savedText = note.title
+        }
     }
 
     override fun onPause() {
@@ -253,16 +285,41 @@ class NoteFragmentKt : Fragment(),
 
     private fun saveNote() {
         val date = Date()
+
         note.isFavorite = isFav
-        note.dateModification = date
 
         if (noteId == 0L) {
-            note.dateCreation = date
-            listener?.onNoteAdd2()
-            viewModel.insertWithId(note)
-            noteId = viewModel.insertedId
+            addNewNote(date)
         } else {
-            viewModel.update(note)
+            updateOldNote(date)
+        }
+
+        autoBackup()
+    }
+
+    private fun addNewNote(date: Date) {
+        note.dateModification = date
+        note.dateCreation = date
+
+        listener?.onNoteAdd2()
+
+        viewModel.insertWithId(note)
+        note.id = viewModel.insertedId
+        noteId = note.id
+
+        activity.showToast("add")
+    }
+
+    private fun updateOldNote(date: Date) {
+        if (note.title.trim() != savedText.trim()) note.dateModification = date
+
+        viewModel.update(note)
+        activity.showToast("update")
+    }
+
+    private fun autoBackup() {
+        if (noteId % 3 == 0L && isNewNote) {
+            AutoBackup(activity).createBackupFile(backupDate, isShowBackupToast)
         }
     }
 
@@ -271,18 +328,22 @@ class NoteFragmentKt : Fragment(),
             return editText
         }
 
+    val getNote: Note2
+        get() {
+            return note
+        }
+
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
         if (isGranted) {
-            textAssistant.goSaveTextFile()
+            textAssistant.mainMethodSaveTextFile()
         } else {
             showSnackbar(MSG_TEXT_NO_PERMISSION_NOTE, false)
         }
     }
 
 
-
     fun showSnackbar(typeMessage: String, isSuccess: Boolean) {
-        snackbarNoteMessage.show(typeMessage, isSuccess)
+        snackbarMessage.show(typeMessage, isSuccess)
     }
 
     //

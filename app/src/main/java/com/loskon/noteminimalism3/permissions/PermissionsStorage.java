@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.auxiliary.permissions;
+package com.loskon.noteminimalism3.permissions;
 
 import android.Manifest;
 import android.app.Activity;

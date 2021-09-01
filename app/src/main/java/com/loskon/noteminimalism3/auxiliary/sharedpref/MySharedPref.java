@@ -2,8 +2,7 @@ package com.loskon.noteminimalism3.auxiliary.sharedpref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import androidx.preference.PreferenceManager;
+import android.preference.PreferenceManager;
 
 import static com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey.PREF_PREFIX_WIDGET_ID;
 

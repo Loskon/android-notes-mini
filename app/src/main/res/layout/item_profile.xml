@@ -7,7 +7,6 @@
         <import type="android.view.View" />
         <import type="com.loskon.noteminimalism3.auxiliary.other.MyDate" />
         <import type="com.loskon.noteminimalism3.auxiliary.other.MyColor" />
-        <import type="com.loskon.noteminimalism3.utils.GradientDrawableUtils" />
 
         <variable
             name="profile"

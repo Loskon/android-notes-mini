@@ -1,28 +1,17 @@
 package com.loskon.noteminimalism3.utils
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
-import androidx.core.graphics.ColorUtils
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.android.material.slider.Slider
 
 /**
  *
@@ -76,21 +65,6 @@ fun View.setLayoutParams() {
 }
 
 //
-fun Slider.setColorSlider(@ColorInt color: Int) {
-    thumbTintList = ColorStateList.valueOf(color)
-    trackActiveTintList = ColorStateList.valueOf(color)
-    tickTintList = ColorStateList.valueOf(color)
-    haloTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 70))
-    trackInactiveTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 70))
-}
-
-//
-fun CircularProgressIndicator.setColorProgressIndicator(@ColorInt color: Int) {
-    setIndicatorColor(color)
-    trackColor = ColorUtils.setAlphaComponent(color, 70)
-}
-
-//
 fun TextView.setTextSizeInSp(fontSizeNote: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeNote.toFloat())
 }
@@ -105,42 +79,7 @@ fun Context.getShortColor(colorId: Int): Int {
     return ContextCompat.getColor(this, colorId)
 }
 
-fun MaterialButton.setIconColor(@ColorInt colorId: Int) {
-    iconTint = ColorStateList.valueOf(colorId)
-}
-
-//
-fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) =
-    navigationIcon?.mutate()?.setTint(color)
-
-//
-fun Menu.menuIconColor(@ColorInt color: Int) {
-    if (size() != 0) {
-        for (i in 0 until size()) {
-            val drawable: Drawable = getItem(i).icon
-            drawable.mutate()
-            drawable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                color,
-                BlendModeCompat.SRC_ATOP
-            )
-        }
-    }
-}
-
-//
-fun FloatingActionButton.setFabColor(@ColorInt color: Int) {
-    backgroundTintList = ColorStateList.valueOf(color)
-}
-
-//
-fun LinearLayout.installFocus() {
-    isFocusable = true
-    isFocusableInTouchMode = true
-    requestFocus()
-}
-
 //
 fun EditText.getLength(): Int {
     return text.toString().length
 }
-

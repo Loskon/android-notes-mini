@@ -9,9 +9,9 @@ import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.NoteFragmentKt
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_ERROR
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_INVALID_LINK
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_NOTE_HYPERLINKS_COPIED
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_ERROR
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_INVALID_LINK
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_NOTE_HYPERLINKS_COPIED
 import java.util.regex.Pattern
 
 /**

@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.backup.second;
 
 import android.content.Context;
 
+import com.loskon.noteminimalism3.files.BackupFilesLimiter;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
 
 import java.io.File;
@@ -19,13 +20,13 @@ import static com.loskon.noteminimalism3.database.NoteDbSchema.DATABASE_NAME;
 
 public class BackupDb {
 
-    private final Context activity;
+    private final Context context;
 
     private String typeMessage;
     private boolean isSuccess = false;
 
-    public BackupDb(Context activity) {
-        this.activity = activity;
+    public BackupDb(Context context) {
+        this.context = context;
     }
 
     public void backupDatabase(boolean isAutoBackup, String outFileName) {
@@ -41,12 +42,13 @@ public class BackupDb {
         }
 
         if (!isAutoBackup) showSnackbar();
+
+        BackupFilesLimiter.deleteExtraFiles(context);
     }
 
     public void restoreDatabase(String inFileName) {
         // Restore
         try {
-            //DDDDD.exportDatabase(inFileName);
             //AppRepository.destroyInstance();
             buildDatabaseFile(inFileName, getDbPath());
             typeMessage = MySnackbarBackup.MSG_RESTORE_COMPLETED;
@@ -61,7 +63,7 @@ public class BackupDb {
 
     // Путь к базе данных
     private String getDbPath() {
-        return activity.getDatabasePath(DATABASE_NAME).toString();
+        return context.getDatabasePath(DATABASE_NAME).toString();
     }
 
     private void buildDatabaseFile(String inFileName, String outFileName) throws IOException {
@@ -86,6 +88,6 @@ public class BackupDb {
     }
 
     private void showSnackbar() {
-        MySnackbarBackup.showSnackbar(activity, isSuccess, typeMessage);
+        MySnackbarBackup.showSnackbar(context, isSuccess, typeMessage);
     }
 }

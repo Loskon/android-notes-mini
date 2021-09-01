@@ -14,7 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.activities.NewNoteActivity
+import com.loskon.noteminimalism3.ui.activities.NoteActivityKt
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteReset
 import com.loskon.noteminimalism3.utils.setFabColor
 import com.loskon.noteminimalism3.utils.setIconColor
@@ -27,7 +27,7 @@ import com.loskon.noteminimalism3.viewmodel.NoteDetailViewModel
 
 class NoteTrashFragment : Fragment() {
 
-    private lateinit var activity: NewNoteActivity
+    private lateinit var activityKt: NoteActivityKt
     private lateinit var viewModel: NoteDetailViewModel
 
     private lateinit var constraintLayout: ConstraintLayout
@@ -62,13 +62,13 @@ class NoteTrashFragment : Fragment() {
     }
 
     private fun initVar() {
-        activity = requireActivity() as NewNoteActivity
-        viewModel = activity.getViewModel
-        note = activity.getNote
+        activityKt = requireActivity() as NoteActivityKt
+        viewModel = activityKt.getViewModel
+        note = activityKt.getNote
     }
 
     private fun setupColor() {
-        val color: Int = MyColor.getMyColor(activity)
+        val color: Int = MyColor.getMyColor(activityKt)
         fab.setFabColor(color)
         btnDel.setIconColor(color)
     }
@@ -77,7 +77,7 @@ class NoteTrashFragment : Fragment() {
         editText.isClickable = true
         editText.isCursorVisible = false
         editText.isFocusable = false
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, activity.getFontSize)
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, activityKt.getFontSize)
         editText.setText(note.title)
     }
 
@@ -92,17 +92,17 @@ class NoteTrashFragment : Fragment() {
         note.isDelete = false
         viewModel.update(note)
         callback?.onDeleteFromTrash(note, false)
-        activity.onBackPressed()
+        activityKt.onBackPressed()
     }
 
     private fun deleteNoteForever() {
         //viewModel.delete(note)
         callback?.onDeleteFromTrash(note, true)
-        activity.onBackPressed()
+        activityKt.onBackPressed()
     }
 
     private fun showSnackbar() {
-        SnackbarNoteReset(activity, this).show()
+        SnackbarNoteReset(activityKt, this).show()
     }
 
 

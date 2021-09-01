@@ -12,13 +12,14 @@ import com.loskon.noteminimalism3.utils.setColorBackgroundSnackbar
  */
 
 object BaseSnackbar {
+
     private var snackbar: Snackbar? = null
 
     fun makeSnackbar(
         context: Context, layout: View,
-        message: String, anchorView: View, isSuccess: Boolean
+        anchorView: View, message: String, isSuccess: Boolean
     ) {
-        snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_SHORT)
+        snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
 
         snackbar?.setTextColor(Color.WHITE)
         val snackbarView: View? = snackbar?.view
@@ -30,7 +31,7 @@ object BaseSnackbar {
         snackbar?.show()
     }
 
-    fun close() {
+    fun dismissSnackbar() {
         snackbar?.dismiss()
     }
 }

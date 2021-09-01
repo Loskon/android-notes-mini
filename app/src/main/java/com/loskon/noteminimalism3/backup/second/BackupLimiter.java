@@ -17,7 +17,7 @@ public class BackupLimiter {
         File folder = BackupPath.getFolder(context);
 
         int numOfBackup = GetSharedPref.getNumOfBackup(context);
-        File[] logFiles = BackupHelper.getListFile(folder);
+        File[] logFiles = BackupFilter.getListFile(folder);
 
         if (logFiles != null && logFiles.length > numOfBackup) {
             // Удалить все старые файлы после того, как есть более N файлов
@@ -37,7 +37,7 @@ public class BackupLimiter {
                     SQLiteDatabase.deleteDatabase(new File(oldestFile.getPath()));
                 }
 
-                logFiles = BackupHelper.getListFile(folder);
+                logFiles = BackupFilter.getListFile(folder);
 
             } while (logFiles.length > numOfBackup);
         }

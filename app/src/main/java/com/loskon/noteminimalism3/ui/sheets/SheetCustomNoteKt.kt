@@ -7,7 +7,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.BottomSheetStatusBar
-import com.loskon.noteminimalism3.auxiliary.note.TextNoteAssistant
+import com.loskon.noteminimalism3.other.TextNoteAssistant
 import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**

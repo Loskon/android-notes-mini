@@ -6,7 +6,7 @@ import android.content.Context;
 import android.widget.EditText;
 
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInActivity;
+import com.loskon.noteminimalism3.permissions.PermissionsInActivity;
 import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarNoteMessage;
 

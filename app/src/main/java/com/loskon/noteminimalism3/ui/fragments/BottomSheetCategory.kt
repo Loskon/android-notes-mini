@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.utils.getShortDrawable
+import com.loskon.noteminimalism3.utils.setColorStateMenuItem
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
@@ -23,32 +23,14 @@ import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRA
 
 class BottomSheetCategory : BottomSheetDialogFragment() {
 
-    companion object {
-        const val TAG = "BottomSheetDialogFragment"
-        private const val ARG_CATEGORY = "arg_category"
-
-        private var navViewListener: OnNavViewListener? = null
-
-        fun setNavViewListener(navViewListener: OnNavViewListener) {
-            this.navViewListener = navViewListener
-        }
-
-        @JvmStatic
-        fun newInstance(categoryInSheet: String) = BottomSheetCategory().apply {
-            arguments = Bundle().apply {
-                putString(ARG_CATEGORY, categoryInSheet)
-            }
-        }
-    }
+    private lateinit var navigationView: NavigationView
+    private var category: String = CATEGORY_ALL_NOTES
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        categoryInSheet = arguments?.getString(ARG_CATEGORY).toString()
+        category = arguments?.getString(ARG_CATEGORY).toString()
 
     }
-
-    private lateinit var navigationView: NavigationView
-    private var categoryInSheet: String = CATEGORY_ALL_NOTES
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,41 +49,42 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigationView.apply {
+            menu.getItem(getNumSelectedItemMenu()).isChecked = true
 
-        navigationView.menu.getItem(getNumSelectedItemMenu()).isChecked = true
+            setColorStateMenuItem(requireContext())
 
-        MyColor.setNavMenuItemThemeColors(requireActivity(), navigationView)
+            setNavigationItemSelectedListener { menuItem: MenuItem ->
+                val menuId = menuItem.itemId
 
-        navigationView.setNavigationItemSelectedListener { menuItem: MenuItem ->
-            val menuId = menuItem.itemId
+                when (menuId) {
+                    R.id.nav_item_note -> {
+                        category = CATEGORY_ALL_NOTES
+                    }
+                    R.id.nav_item_favorites -> {
+                        category = CATEGORY_FAVORITES
+                    }
+                    R.id.nav_item_trash -> {
+                        category = CATEGORY_TRASH
+                    }
+                    R.id.nav_item_settings -> {
+                        val intent = Intent(activity, SettingsActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
 
-            when (menuId) {
-                R.id.nav_item_note -> {
-                    categoryInSheet = CATEGORY_ALL_NOTES
+                if (menuId != R.id.nav_item_settings) {
+                    navViewListener?.onCallback(category)
                 }
-                R.id.nav_item_favorites -> {
-                    categoryInSheet = CATEGORY_FAVORITES
-                }
-                R.id.nav_item_trash -> {
-                    categoryInSheet = CATEGORY_TRASH
-                }
-                R.id.nav_item_settings -> {
-                    val intent = Intent(activity, SettingsActivity::class.java)
-                    startActivity(intent)
-                }
+
+                dismiss()
+                true
             }
-
-            if (menuId != R.id.nav_item_settings) {
-                navViewListener?.onCallback(categoryInSheet)
-            }
-
-            dismiss()
-            true
         }
     }
 
     private fun getNumSelectedItemMenu(): Int =
-        when (categoryInSheet) {
+        when (category) {
             CATEGORY_ALL_NOTES -> 0
             CATEGORY_FAVORITES -> 1
             CATEGORY_TRASH -> 2
@@ -110,5 +93,23 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
 
     interface OnNavViewListener {
         fun onCallback(category: String)
+    }
+
+    companion object {
+        const val TAG = "BottomSheetDialogFragment"
+        private const val ARG_CATEGORY = "arg_category"
+
+        private var navViewListener: OnNavViewListener? = null
+
+        fun setNavViewListener(navViewListener: OnNavViewListener) {
+            this.navViewListener = navViewListener
+        }
+
+        @JvmStatic
+        fun newInstance(categoryInSheet: String) = BottomSheetCategory().apply {
+            arguments = Bundle().apply {
+                putString(ARG_CATEGORY, categoryInSheet)
+            }
+        }
     }
 }

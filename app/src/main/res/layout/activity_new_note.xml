@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:backgroundTint="@android:color/transparent"
-    tools:context=".ui.activities.NewNoteActivity">
+    tools:context=".ui.activities.NoteActivityKt">
 
 
     <FrameLayout

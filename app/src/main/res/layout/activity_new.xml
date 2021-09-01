@@ -5,7 +5,7 @@
     android:id="@+id/coord_layout_new"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.NoteActivityKt">
+    tools:context=".ui.activities.ListActivityKt">
 
     <include
         layout="@layout/inc_list_notes"

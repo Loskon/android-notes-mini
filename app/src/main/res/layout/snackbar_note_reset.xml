@@ -8,7 +8,7 @@
     android:background="?attr/colorSnackbar">
 
     <TextView
-        android:id="@+id/snackbar_text"
+        android:id="@+id/snackbar_text_reset"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/snackbar_text"
+        app:layout_constraintStart_toEndOf="@+id/snackbar_text_reset"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="?attr/colorControlHighlight" />
 

@@ -6,7 +6,7 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyDate;
 import com.loskon.noteminimalism3.auxiliary.other.MyToast;
 import com.loskon.noteminimalism3.auxiliary.other.ReplaceText;
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInActivity;
+import com.loskon.noteminimalism3.permissions.PermissionsInActivity;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.second.AppFolder;
 import com.loskon.noteminimalism3.backup.second.BackupSetName;
@@ -33,7 +33,7 @@ public class BackupAuto {
         if (isAccess) {
 
             boolean isFolderCreated = AppFolder.createBackupFolder(activity);
-            boolean isNotification = GetSharedPref.isNotificationAutoBackup(activity);
+            boolean isNotification = GetSharedPref.hasNotificationAutoBackup(activity);
 
             if (isFolderCreated) {
 

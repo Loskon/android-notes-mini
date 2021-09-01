@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.backup.second;
 
-import android.app.Activity;
+import android.content.Context;
 
 import java.io.File;
 
@@ -10,9 +10,9 @@ import java.io.File;
 
 public class AppFolder {
 
-    public static boolean createBackupFolder(Activity activity) {
+    public static boolean createBackupFolder(Context context) {
         // Проверка и создание папки для бэкапа
-        File folder = BackupPath.getFolder(activity);
+        File folder = BackupPath.getFolder(context);
 
         boolean isFolderCreated = true;
 

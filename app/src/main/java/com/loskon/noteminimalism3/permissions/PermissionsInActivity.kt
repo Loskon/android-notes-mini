@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.auxiliary.permissions
+package com.loskon.noteminimalism3.permissions
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -13,9 +13,9 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_PERMISSIONS
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsValues.Companion.GRANTED
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsValues.Companion.PERMISSIONS_STORAGE
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsValues.Companion.REQUEST_CODE_STORAGE
+import com.loskon.noteminimalism3.permissions.PermissionsValues.Companion.GRANTED
+import com.loskon.noteminimalism3.permissions.PermissionsValues.Companion.PERMISSIONS_STORAGE
+import com.loskon.noteminimalism3.permissions.PermissionsValues.Companion.REQUEST_CODE_STORAGE
 
 /**
  * Проверка разрешений для взаимодействия с внутренней памятью

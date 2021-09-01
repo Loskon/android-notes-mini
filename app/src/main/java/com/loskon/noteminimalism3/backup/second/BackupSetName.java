@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.backup.second;
 
-import android.app.Activity;
+import android.content.Context;
 
 import java.io.File;
 
@@ -10,17 +10,19 @@ import java.io.File;
 
 public class BackupSetName {
 
-    private final Activity activity;
+    private final Context context;
 
-    public BackupSetName(Activity activity) {
-        this.activity = activity;
+    public BackupSetName(Context context) {
+        this.context = context;
     }
 
     public void callBackup(boolean isAutoBackup, String backupName) {
-        String filePath = BackupPath.getPath(activity) + File.separator;
+        String filePath = BackupPath.getPath(context) + File.separator;
 
-        String outFileName = filePath + backupName  + ".db";
-        (new BackupDb(activity)).backupDatabase(isAutoBackup, outFileName);
-        BackupLimiter.delExtraFiles(activity);
+        String outFileName = filePath + backupName + ".db";
+
+        (new BackupDb(context)).backupDatabase(isAutoBackup, outFileName);
+
+
     }
 }

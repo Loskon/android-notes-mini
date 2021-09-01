@@ -60,7 +60,7 @@ public class BackupPath {
         return new File(getPath(context));
     }
 
-    public static String getSummaryPath(Context context) {
+    public static String getNamePath(Context context) {
         // Путь для Summary в виде текста
         String summary = getPath(context);
         summary = summary.replace("//", "/");

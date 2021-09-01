@@ -10,7 +10,7 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.second.BackupDb
-import com.loskon.noteminimalism3.backup.second.BackupHelper
+import com.loskon.noteminimalism3.backup.second.BackupFilter
 import com.loskon.noteminimalism3.backup.second.BackupPath
 import com.loskon.noteminimalism3.backup.second.BackupSort.SortFileDate
 import com.loskon.noteminimalism3.ui.sheets.SheetListFiles
@@ -29,7 +29,7 @@ class FilesAdapter(
     BaseAdapter() {
 
     private val folder = BackupPath.getFolder(context)
-    private val files: Array<File> = BackupHelper.getListFile(folder)
+    private val files: Array<File> = BackupFilter.getListFile(folder)
     private val list: MutableList<File> = files.toMutableList()
 
     init {

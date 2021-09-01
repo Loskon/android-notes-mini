@@ -34,7 +34,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity android:name=".ui.activities.NewNoteActivity"
+        <activity android:name=".ui.activities.NoteActivityKt"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.activities.ListActivity" />
 
@@ -79,7 +79,7 @@
             android:name=".ui.activities.NoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.NoteActivityKt"
+            android:name=".ui.activities.ListActivityKt"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

@@ -46,6 +46,7 @@
     <string name="toast_main_auto_backup_failed">Ошибка авторезервирования!</string>
     <string name="toast_main_auto_backup_not_possible">
         Авторезервирование невозможно! Нет разрешения</string>
+    <string name="toast_main_auto_backup_unable_create">Ошибка! Невозможно создать файо!</string>
 
     <!-- Snackbars -->
     <!-- Main -->
@@ -57,8 +58,8 @@
     <string name="sb_note_in_trash">Эта заметка находится в корзине!</string>
     <string name="sb_note_is_empty">Ошибка! Заметка пустая!</string>
     <string name="sb_note_restore">Восстановить</string>
-    <string name="sb_note_save_txt_completed">Текстовый файл скачан</string>
-    <string name="sb_note_save_txt_failed">Не удалось скачать текстовый файл!</string>
+    <string name="sb_note_save_txt_completed">Текстовый файл сохранен: /Notes Mini Backup/Text Files</string>
+    <string name="sb_note_save_txt_failed">Не удалось сохранить текстовый файл!</string>
     <string name="sb_note_invalid_link">Неверная ссылка!</string>
     <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
     <string name="sb_note_invalid_format">Неверный формат!</string>

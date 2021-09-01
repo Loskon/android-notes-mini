@@ -1,13 +1,11 @@
 package com.loskon.noteminimalism3.ui.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -15,17 +13,17 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.bp.InternetCheck;
 import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInActivity;
+import com.loskon.noteminimalism3.permissions.PermissionsInterface;
+import com.loskon.noteminimalism3.permissions.PermissionsStorageKt;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupLocal;
 import com.loskon.noteminimalism3.backup.prime.BpCloud;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefConfirm;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
 
-import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_PERMISSIONS;
 import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_SIGN_IN;
 
-public class BackupActivity extends AppCompatActivity {
+public class BackupActivity extends AppCompatActivity implements PermissionsInterface {
 
     private BackupLocal backupLocal;
     private BpCloud bpCloud;
@@ -44,6 +42,8 @@ public class BackupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
         MyColor.setColorStatBarAndTaskDesc(this);
+
+        PermissionsStorageKt.installingVerification(this, this);
 
         initialiseWidgets();
         initialiseAdapters();
@@ -84,7 +84,7 @@ public class BackupActivity extends AppCompatActivity {
     public void onClickBtnSd(View view) {
         btnId = view.getId();
 
-        boolean isAccess = new PermissionsInActivity().isAccess(this);
+        boolean isAccess = PermissionsStorageKt.isAccessMemory(this);
 
         if (isAccess) {
             btnClick();
@@ -131,15 +131,11 @@ public class BackupActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                btnClick();
-            } else {
-                showSnackbar(MySnackbarBackup.MSG_TEXT_NO_PERMISSION);
-            }
+    public void onRequestPermissionsStorageResult(boolean isGranted) {
+        if (isGranted) {
+            btnClick();
+        } else {
+            showSnackbar(MySnackbarBackup.MSG_TEXT_NO_PERMISSION);
         }
     }
 

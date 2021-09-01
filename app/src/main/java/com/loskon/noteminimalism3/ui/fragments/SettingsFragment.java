@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,15 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInFragment;
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsInterface;
+import com.loskon.noteminimalism3.permissions.PermissionsInterface;
+import com.loskon.noteminimalism3.permissions.PermissionsStorageKt;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.second.BackupPath;
 import com.loskon.noteminimalism3.ui.preferences.PrefHelper;
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefNoteFontSize;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefLinks;
+import com.loskon.noteminimalism3.ui.sheets.SheetPrefNoteFontSize;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSlider;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
@@ -39,7 +40,9 @@ import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_COD
  */
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
-        Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener, PermissionsInterface {
+        Preference.OnPreferenceChangeListener,
+        Preference.OnPreferenceClickListener,
+        PermissionsInterface {
 
     private Activity activity;
     private Fragment fragment;
@@ -59,12 +62,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     private String numOfBackupStr, intentBackupString, intentFolderString, communicationStr;
     private String callDialogHyperlinksStr, retentionStr, fontSizeStr, intentFontsString;
 
-    private PermissionsInFragment permissionsInFragment;
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        permissionsInFragment = new PermissionsInFragment(this, this);
+        PermissionsStorageKt.installingVerification((ComponentActivity) context, this);
     }
 
     @Override
@@ -191,7 +192,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         loadSharedPref();
         retentionPref.setSummary(PrefHelper.getSummaryRange(activity, rangeInDays));
         numOfBackupPref.setSummary(String.valueOf(numOfBackup));
-        intentFolderPref.setSummary(BackupPath.getSummaryPath(activity));
+        intentFolderPref.setSummary(BackupPath.getNamePath(activity));
     }
 
     private void loadSharedPref() {
@@ -209,8 +210,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             MyColor.setDarkTheme((Boolean) newValue);
             return true;
         } else if (key.equals(autoBackupString)) {
-            permissionsInFragment.startPermissionsRequest();
-            //PermissionsStorage.verify(activity, fragment, true);
+            PermissionsStorageKt.isAccessMemory(activity);
             return true;
         }
 
@@ -262,10 +262,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
 
     private void goFindFolder() {
-        permissionsInFragment.startPermissionsRequest();
-        // if (PermissionsStorage.verify(activity, fragment, true)) {
-        //     MyIntent.startFindFolder(fragment);
-        // }
+        if (PermissionsStorageKt.isAccessMemory(activity)){
+            MyIntent.startFindFolder(fragment);
+        }
     }
 
     private void goMailClient() {

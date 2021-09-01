@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
  * Помощник для управления элементами активити
  */
 
-class WidgetHelperKt(private val activityKt: NoteActivityKt) {
+class WidgetHelperKt(private val activityKt: ListActivityKt) {
 
     companion object {
         private val TAG = "MyLogs_${WidgetHelperKt::class.java.simpleName}"

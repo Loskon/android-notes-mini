@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.auxiliary.permissions
+package com.loskon.noteminimalism3.permissions
 
 import android.Manifest
 import android.content.Context
@@ -13,7 +13,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 
 /**
  * Универсальный метод для проверки и запроса доступа к внутренней памяти
@@ -30,19 +29,15 @@ class PermissionsStorageKt {
         private var resultLauncherAndroidR: ActivityResultLauncher<Intent>? = null
         private var resultLauncher: ActivityResultLauncher<Array<out String>>? = null
 
+        @JvmStatic
         fun installingVerification(
             activity: ComponentActivity?,
-            fragment: Fragment?,
             permissionsInterface: PermissionsInterface?
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 checkPermissionsForAndroidR(activity, permissionsInterface)
             } else {
-                if (fragment == null) {
-                    checkPermissions(activity, permissionsInterface)
-                } else {
-                    checkPermissions(fragment, permissionsInterface)
-                }
+                checkPermissions(activity, permissionsInterface)
             }
         }
 
@@ -69,15 +64,6 @@ class PermissionsStorageKt {
             ) { permissions -> getResultPermissions(permissions, permissionsInterface) }
         }
 
-        private fun checkPermissions(
-            fragment: Fragment?,
-            permissionsInterface: PermissionsInterface?
-        ) {
-            resultLauncher = fragment?.registerForActivityResult(
-                ActivityResultContracts.RequestMultiplePermissions()
-            ) { permissions -> getResultPermissions(permissions, permissionsInterface) }
-        }
-
         private fun getResultPermissions(
             permissions: Map<String, Boolean>,
             permissionsInterface: PermissionsInterface?
@@ -89,6 +75,7 @@ class PermissionsStorageKt {
             permissionsInterface?.onRequestPermissionsStorageResult(isGranted)
         }
 
+        @JvmStatic
         fun isAccessMemory(context: Context): Boolean {
             var isGrantedPermissions = false
 
@@ -107,6 +94,22 @@ class PermissionsStorageKt {
                 } else {
                     requestPermissions()
                 }
+            }
+
+            return isGrantedPermissions
+        }
+
+        @JvmStatic
+        fun isAccessMemoryWithoutRequest(context: Context): Boolean {
+            var isGrantedPermissions = false
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) isGrantedPermissions = true
+            } else {
+                val read = ActivityCompat.checkSelfPermission(context, readPermissions)
+                val write = ActivityCompat.checkSelfPermission(context, writePermissions)
+
+                if (read == GRANTED && write == GRANTED) isGrantedPermissions = true
             }
 
             return isGrantedPermissions

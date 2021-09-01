@@ -1,17 +1,19 @@
-package com.loskon.noteminimalism3.auxiliary.note
+package com.loskon.noteminimalism3.other
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.widget.EditText
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent
-import com.loskon.noteminimalism3.auxiliary.permissions.PermissionsStorageKt
+import com.loskon.noteminimalism3.files.SaveTextFile
+import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.permissions.PermissionsStorageKt
 import com.loskon.noteminimalism3.ui.fragments.NoteFragmentKt
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_ERROR
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_INVALID_FORMAT
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_NEED_COPY_TEXT
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_NOTE_IS_EMPTY
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteMessage.Companion.MSG_NOTE_TEXT_COPIED
-import com.loskon.noteminimalism3.utils.showToast
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_ERROR
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_INVALID_FORMAT
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_NEED_COPY_TEXT
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_NOTE_IS_EMPTY
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_NOTE_TEXT_COPIED
 
 /**
  * Помощник для работы с текстом заметки
@@ -22,7 +24,8 @@ class TextNoteAssistant(
     private val noteFragment: NoteFragmentKt
 ) {
 
-    private val editText = noteFragment.getEditText
+    private val note: Note2 = noteFragment.getNote
+    private val editText: EditText = noteFragment.getEditText
     private val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
     fun pasteText() {
@@ -52,6 +55,7 @@ class TextNoteAssistant(
                     title + "\n\n" + textToPaste
                 }
 
+                note.title = pasteText
                 editText.setText(pasteText)
                 editText.setSelection(pasteText.length)
 
@@ -95,15 +99,14 @@ class TextNoteAssistant(
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     fun saveTextFile() {
-        val isAccess = PermissionsStorageKt.isAccessMemory(context)
-        if (isAccess) goSaveTextFile()
+        if (PermissionsStorageKt.isAccessMemory(context)) mainMethodSaveTextFile()
     }
 
-    fun goSaveTextFile() {
+    fun mainMethodSaveTextFile() {
         val string = getTextTrim()
+
         if (string.isNotEmpty()) {
-            context.showToast("save")
-            //TextFile((context as NoteActivity)).createTextFile(string)
+            SaveTextFile(context, noteFragment).createTextFile(string)
         } else {
             showSnackbar(MSG_NOTE_IS_EMPTY, false)
         }

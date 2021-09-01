@@ -69,6 +69,7 @@
     <string name="toast_main_auto_backup_failed">Auto backup error!</string>
     <string name="toast_main_auto_backup_not_possible">
         Auto backup is not possible! No permission</string>
+    <string name="toast_main_auto_backup_unable_create">Error! Unable to create a file!</string>
 
     <!-- Snackbars -->
     <!-- Main -->
@@ -80,7 +81,7 @@
     <string name="sb_note_in_trash">The note is in the trash!</string>
     <string name="sb_note_is_empty">Error! The note is empty!</string>
     <string name="sb_note_restore">Restore</string>
-    <string name="sb_note_save_txt_completed">Save text file!</string>
+    <string name="sb_note_save_txt_completed">Save text file: /Notes Mini Backup/Text Files </string>
     <string name="sb_note_save_txt_failed">Failed to save text file!</string>
     <string name="sb_note_invalid_link">Invalid link!</string>
     <string name="sb_note_need_copy_text">You need to copy text!</string>

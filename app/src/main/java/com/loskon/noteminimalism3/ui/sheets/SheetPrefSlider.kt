@@ -7,7 +7,7 @@ import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
-import com.loskon.noteminimalism3.backup.second.BackupLimiter
+import com.loskon.noteminimalism3.files.BackupFilesLimiter
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.utils.setColorSlider
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
@@ -56,7 +56,7 @@ class SheetPrefSlider(
             MySharedPref.setInt(context, keyTitle, sliderValue)
 
             if (keyTitle == context.getString(R.string.num_of_backup_title)) {
-                BackupLimiter.delExtraFiles(context)
+                BackupFilesLimiter.deleteExtraFiles(context)
             }
 
             fragment.setSummaryPreferences()

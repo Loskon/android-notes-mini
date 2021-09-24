@@ -1,5 +1,7 @@
 package com.loskon.noteminimalism3.auxiliary.other;
 
+import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_READ;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,12 +16,11 @@ import com.loskon.noteminimalism3.model.Note2;
 import com.loskon.noteminimalism3.ui.activities.BackupActivity;
 import com.loskon.noteminimalism3.ui.activities.FontsActivity;
 import com.loskon.noteminimalism3.ui.activities.MainActivity;
-import com.loskon.noteminimalism3.ui.activities.NoteActivityKt;
 import com.loskon.noteminimalism3.ui.activities.NoteActivity;
+import com.loskon.noteminimalism3.ui.activities.NoteActivityKt;
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity;
 import com.loskon.noteminimalism3.ui.activities.SettingsAppActivity;
-
-import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_READ;
+import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate;
 
 /**
  * Переходы между активностями, откыите различных лаунчеров
@@ -46,6 +47,13 @@ public class MyIntent {
 
     public static void addNewNote2(Context context, Note2 note, String category) {
         Intent intent = new Intent(context, NoteActivityKt.class);
+        intent.putExtra(PUT_EXTRA_NOTE, note);
+        intent.putExtra(PUT_EXTRA_CATEGORY, category);
+        context.startActivity(intent);
+    }
+
+    public static void addNewNoteUpdate(Context context, Note2 note, String category) {
+        Intent intent = new Intent(context, NoteActivityUpdate.class);
         intent.putExtra(PUT_EXTRA_NOTE, note);
         intent.putExtra(PUT_EXTRA_CATEGORY, category);
         context.startActivity(intent);

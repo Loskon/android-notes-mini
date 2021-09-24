@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_SIGN_IN;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.DATABASE_NAME;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.DATABASE_NAME;
 
 /**
  * Аутентификация пользователя, экспорт/импорт копии базы данны в/из облака

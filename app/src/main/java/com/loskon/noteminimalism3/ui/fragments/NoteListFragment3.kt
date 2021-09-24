@@ -24,7 +24,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.activities.ListActivity
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
-import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
+import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.SwipeCallbackNote
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListAdapter
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
@@ -74,7 +74,7 @@ class NoteListFragment3 : Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as ListActivity
-        adapter.setSettings(context)
+        //adapter.setSettings(context)
 
         loadSharedPreferences()
         initWidgets()

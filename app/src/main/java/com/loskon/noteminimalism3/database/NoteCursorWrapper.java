@@ -1,18 +1,18 @@
 package com.loskon.noteminimalism3.database;
 
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_DEL;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_MOD;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_FAVORITES;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_ID;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_TITLE;
+
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import com.loskon.noteminimalism3.model.Note;
 
 import java.util.Date;
-
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_DEL;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_MOD;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_FAVORITES;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_ID;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_TITLE;
 
 /**
  * Класс обертки для курсора, который передает все вызовы к реальному объекту курсора

@@ -23,7 +23,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 private val TAG = "MyLogs_${NoteListAdapter::class.java.simpleName}"
 
-class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
+class NoteListAdapter() : RecyclerView.Adapter<NoteListViewHolder>() {
 
     private var colorStroke: Int = 0
     private var borderStroke: Int = 0
@@ -38,15 +38,19 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
     private var numItemSel: Int = 0
     private var isSelectionMode: Boolean = false
 
-    fun setSettings(context: Context) {
+/*    fun setSettings(context: Context) {
+
+    }*/
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
+        val context: Context = parent.context
+
         radiusStroke_dp = context.getRadiusLinLay()
         boredStroke_dp = context.getStrokeLinLay()
         color = MyColor.getMyColor(context)
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
         val view: ItemProfileBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
+            LayoutInflater.from(context),
             R.layout.item_profile,
             parent,
             false
@@ -162,7 +166,6 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListViewHolder>() {
     fun getListNote(): List<Note2> {
         return list
     }
-
 
     // Callback
     interface OnItemClickListener {

@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.activities.NoteActivityKt
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteReset
 import com.loskon.noteminimalism3.utils.setFabColor
-import com.loskon.noteminimalism3.utils.setIconColor
+import com.loskon.noteminimalism3.utils.setButtonIconColor
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.viewmodel.NoteDetailViewModel
 
@@ -70,7 +70,7 @@ class NoteTrashFragment : Fragment() {
     private fun setupColor() {
         val color: Int = MyColor.getMyColor(activityKt)
         fab.setFabColor(color)
-        btnDel.setIconColor(color)
+        btnDel.setButtonIconColor(color)
     }
 
     private fun configureEditText() {

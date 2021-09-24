@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import static com.loskon.noteminimalism3.database.NoteDbSchema.DATABASE_NAME;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.DATABASE_NAME;
 
 
 /**

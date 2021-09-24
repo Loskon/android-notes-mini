@@ -1,5 +1,14 @@
 package com.loskon.noteminimalism3.database;
 
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_DEL;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_MOD;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DEL_ITEMS;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_FAVORITES;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_ID;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_TITLE;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NAME_TABLE;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,15 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_DEL;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_MOD;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DEL_ITEMS;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_FAVORITES;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_ID;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_TITLE;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.NAME_TABLE;
 
 /**
  * Данный класс позволяте взамодействовать с БД
@@ -144,6 +144,7 @@ public class DbAdapter {
                 COLUMN_DEL_ITEMS + " = " + 1, null);
     }
 
+    // Запись и обновление базы данных
     private static ContentValues getContentValues(Note note) {
         ContentValues values = new ContentValues();
         if (note.getId() != 0) values.put(COLUMN_ID, note.getId());

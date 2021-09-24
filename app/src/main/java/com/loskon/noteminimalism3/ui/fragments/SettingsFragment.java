@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
 import com.loskon.noteminimalism3.permissions.PermissionsInterface;
-import com.loskon.noteminimalism3.permissions.PermissionsStorageKt;
+import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
@@ -65,7 +65,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        PermissionsStorageKt.installingVerification((ComponentActivity) context, this);
+        PermissionsStorageUpdate.installingVerification((ComponentActivity) context, this);
     }
 
     @Override
@@ -210,7 +210,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             MyColor.setDarkTheme((Boolean) newValue);
             return true;
         } else if (key.equals(autoBackupString)) {
-            PermissionsStorageKt.isAccessMemory(activity);
+            PermissionsStorageUpdate.isAccessMemory(activity);
             return true;
         }
 
@@ -262,7 +262,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
 
     private void goFindFolder() {
-        if (PermissionsStorageKt.isAccessMemory(activity)){
+        if (PermissionsStorageUpdate.isAccessMemory(activity)){
             MyIntent.startFindFolder(fragment);
         }
     }

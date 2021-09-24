@@ -7,7 +7,7 @@ import android.widget.EditText
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent
 import com.loskon.noteminimalism3.files.SaveTextFile
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.permissions.PermissionsStorageKt
+import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
 import com.loskon.noteminimalism3.ui.fragments.NoteFragmentKt
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_ERROR
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_INVALID_FORMAT
@@ -99,7 +99,7 @@ class TextNoteAssistant(
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     fun saveTextFile() {
-        if (PermissionsStorageKt.isAccessMemory(context)) mainMethodSaveTextFile()
+        if (PermissionsStorageUpdate.isAccessMemory(context)) mainMethodSaveTextFile()
     }
 
     fun mainMethodSaveTextFile() {

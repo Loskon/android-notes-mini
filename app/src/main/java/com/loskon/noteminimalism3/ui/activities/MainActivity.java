@@ -1,5 +1,9 @@
 package com.loskon.noteminimalism3.ui.activities;
 
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_DEL;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_MOD;
+
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.KeyEvent;
@@ -35,7 +39,7 @@ import com.loskon.noteminimalism3.ui.preferences.MyPrefCardView;
 import com.loskon.noteminimalism3.ui.preferences.MyPrefNumOfLines;
 import com.loskon.noteminimalism3.ui.recyclerview.CallbackDelMode;
 import com.loskon.noteminimalism3.ui.recyclerview.CheckEmptyRecyclerView;
-import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator;
+import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator;
 import com.loskon.noteminimalism3.ui.recyclerview.MyRecyclerViewAdapter;
 import com.loskon.noteminimalism3.ui.sheets.SheetListFiles;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor;
@@ -46,10 +50,6 @@ import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
 
 import java.util.List;
 import java.util.Objects;
-
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_DEL;
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE_MOD;
 
 /**
  * Основной класс для работы со списком заметок
@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity
 
     private void initialiseWidgets() {
         recyclerView = findViewById(R.id.recycler_view_notes);
-        bottomAppBar = findViewById(R.id.btmAppBarMain);
-        coordLytMain = findViewById(R.id.coordLytMain);
-        fabMain = findViewById(R.id.fabMain);
+        bottomAppBar = findViewById(R.id.bottom_bar_main);
+        coordLytMain = findViewById(R.id.coord_layout_main);
+        fabMain = findViewById(R.id.fab_main);
         textNumSelItem = findViewById(R.id.tv_font_size_title);
         searchView = findViewById(R.id.search_view);
 

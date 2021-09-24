@@ -1,10 +1,10 @@
-package com.loskon.noteminimalism3.database
+package com.loskon.noteminimalism3.sqlite
 
 /**
- * Схема базы данных, в которой храняться имя таблицы и описание ее столбцов
+ * Схема базы данных, в которой хранятся имя таблицы и описание ее столбцов
  */
 
-class NoteDbSchema {
+class NoteDateBaseSchema {
 
     companion object NoteTable {
         const val DATABASE_NAME = "notes.db" // название бд

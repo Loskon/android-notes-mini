@@ -18,7 +18,7 @@ import androidx.core.app.ActivityCompat
  * Универсальный метод для проверки и запроса доступа к внутренней памяти
  */
 
-class PermissionsStorageKt {
+class PermissionsStorageUpdate {
     companion object {
         private const val readPermissions = Manifest.permission.READ_EXTERNAL_STORAGE
         private const val writePermissions = Manifest.permission.WRITE_EXTERNAL_STORAGE

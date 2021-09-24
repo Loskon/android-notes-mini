@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.files.AutoBackup
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.other.TextNoteAssistant
 import com.loskon.noteminimalism3.permissions.PermissionsInterface
-import com.loskon.noteminimalism3.permissions.PermissionsStorageKt
+import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
 import com.loskon.noteminimalism3.ui.activities.NoteActivityKt
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks2
 import com.loskon.noteminimalism3.ui.sheets.SheetCustomNoteKt
@@ -69,7 +69,7 @@ class NoteFragmentKt : Fragment(),
         super.onAttach(context)
         activity = requireActivity() as NoteActivityKt
 
-        PermissionsStorageKt.installingVerification(activity, this)
+        PermissionsStorageUpdate.installingVerification(activity, this)
 
         activity.onBackPressedDispatcher.addCallback(this) {
             isShowBackupToast = true
@@ -123,9 +123,9 @@ class NoteFragmentKt : Fragment(),
     private fun setupColor() {
         val color: Int = MyColor.getMyColor(activity)
         fab.setFabColor(color)
-        btnFav.setIconColor(color)
-        btnDel.setIconColor(color)
-        btnMore.setIconColor(color)
+        btnFav.setButtonIconColor(color)
+        btnDel.setButtonIconColor(color)
+        btnMore.setButtonIconColor(color)
     }
 
     private fun includedLinks() {
@@ -196,7 +196,7 @@ class NoteFragmentKt : Fragment(),
     }
 
     override fun onClick(v: View?) {
-        BaseSnackbar.dismissSnackbar()
+        BaseSnackbar.dismiss()
 
         when (v?.id) {
             R.id.fab_new_note2 -> {
@@ -237,11 +237,11 @@ class NoteFragmentKt : Fragment(),
     }
 
     private fun EditText.handlerClickListener() {
-        setOnClickListener { BaseSnackbar.dismissSnackbar() }
+        setOnClickListener { BaseSnackbar.dismiss() }
     }
 
     private fun handlingClickOnEmptyArea() {
-        BaseSnackbar.dismissSnackbar()
+        BaseSnackbar.dismiss()
         if (hasTextHyperlinks && !isTextEditingMod) activationTextEditingMod()
         editText.showKeyboard(activity)
         editText.setSelection(editText.getLength())

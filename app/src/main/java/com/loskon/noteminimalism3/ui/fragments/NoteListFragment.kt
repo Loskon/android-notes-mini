@@ -30,7 +30,7 @@ import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperList.Companion.ICON_FAB_ADD
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperList.Companion.ICON_FAB_DELETE
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperList.Companion.ICON_FAB_SEARCH_CLOSE
-import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
+import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.SwipeCallbackNote
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListAdapter
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo

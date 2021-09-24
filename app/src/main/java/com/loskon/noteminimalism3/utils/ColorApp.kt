@@ -32,6 +32,7 @@ class ColorApp {
 
         const val ALPHA_COLOR = 70
 
+
         fun getColor(context: Context): Int {
             return MySharedPref.getInt(
                 context, MyPrefKey.KEY_COLOR,
@@ -145,7 +146,7 @@ fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) {
 }
 
 //
-fun MaterialButton.setIconColor(@ColorInt colorId: Int) {
+fun MaterialButton.setButtonIconColor(@ColorInt colorId: Int) {
     iconTint = ColorStateList.valueOf(colorId)
 }
 

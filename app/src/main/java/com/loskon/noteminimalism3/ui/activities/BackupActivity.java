@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.auxiliary.bp.InternetCheck;
 import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.permissions.PermissionsInterface;
-import com.loskon.noteminimalism3.permissions.PermissionsStorageKt;
+import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.backup.prime.BackupLocal;
 import com.loskon.noteminimalism3.backup.prime.BpCloud;
@@ -43,7 +43,7 @@ public class BackupActivity extends AppCompatActivity implements PermissionsInte
         setContentView(R.layout.activity_backup);
         MyColor.setColorStatBarAndTaskDesc(this);
 
-        PermissionsStorageKt.installingVerification(this, this);
+        PermissionsStorageUpdate.installingVerification(this, this);
 
         initialiseWidgets();
         initialiseAdapters();
@@ -84,7 +84,7 @@ public class BackupActivity extends AppCompatActivity implements PermissionsInte
     public void onClickBtnSd(View view) {
         btnId = view.getId();
 
-        boolean isAccess = PermissionsStorageKt.isAccessMemory(this);
+        boolean isAccess = PermissionsStorageUpdate.isAccessMemory(this);
 
         if (isAccess) {
             btnClick();

@@ -25,7 +25,7 @@
         android:xlargeScreens="false" />
 
     <application
-        android:name=".room.App"
+        android:name=".sqlite.AppSqlite"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -34,7 +34,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity android:name=".ui.activities.NoteActivityKt"
+        <activity android:name=".ui.activities.ListActivityKt"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.activities.ListActivity" />
 
@@ -62,7 +62,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.MainActivity" />
+        <activity android:name=".ui.activities.NoteActivityKt" />
         <activity
             android:name=".ui.activities.FontsActivity"
             android:screenOrientation="portrait" />
@@ -73,13 +73,20 @@
             android:name=".ui.activities.SettingsAppActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activities.MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".ui.activities.update.NoteActivityUpdate"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activities.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.NoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.ListActivityKt"
+            android:name=".ui.activities.update.MainActivityUpdate"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

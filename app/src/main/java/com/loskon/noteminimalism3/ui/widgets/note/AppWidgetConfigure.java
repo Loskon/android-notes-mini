@@ -23,7 +23,7 @@ import com.loskon.noteminimalism3.ui.activities.NoteActivity;
 
 import java.util.List;
 
-import static com.loskon.noteminimalism3.database.NoteDbSchema.COLUMN_DATE;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE;
 
 /**
  * The screen for the configure widget.

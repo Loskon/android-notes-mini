@@ -1,16 +1,15 @@
-package com.loskon.noteminimalism3.ui.recyclerview
+package com.loskon.noteminimalism3.ui.recyclerview.update
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.TimeInterpolator
-import android.view.View
-import android.view.animation.LinearInterpolator
+import android.animation.ValueAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import java.util.*
 
 /**
- * Кастомный аниматор с избавлением от бага с ripple effect в CardView
+ * Кастомный аниматор с избавлением от бага с ripple эффектом для CardView
  */
 
 class CustomItemAnimator : SimpleItemAnimator() {
@@ -19,7 +18,7 @@ class CustomItemAnimator : SimpleItemAnimator() {
         private const val DEBUG = false
     }
 
-    private val interpolator: TimeInterpolator = LinearInterpolator()
+    private val interpolator: TimeInterpolator = ValueAnimator().interpolator
 
     private val pendingRemovals = ArrayList<RecyclerView.ViewHolder>()
     private val pendingAdditions = ArrayList<RecyclerView.ViewHolder>()
@@ -36,13 +35,12 @@ class CustomItemAnimator : SimpleItemAnimator() {
     private val changeAnimations = ArrayList<RecyclerView.ViewHolder>()
 
     init {
-        supportsChangeAnimations = false
+        supportsChangeAnimations = false // Убрать ripple эффект
     }
 
     override fun animateAdd(holder: RecyclerView.ViewHolder): Boolean {
         endAnimation(holder)
         holder.itemView.alpha = 0f
-       // holder.itemView.visibility = View.INVISIBLE // Внесенные изменения
         pendingAdditions.add(holder)
         return true
     }
@@ -51,7 +49,7 @@ class CustomItemAnimator : SimpleItemAnimator() {
         val view = holder.itemView
         val animation = view.animate()
         addAnimations.add(holder)
-        animation.alpha(1f).setDuration(0)
+        animation.alpha(1f).setDuration(0) // Изменения setDuration с 120 -> 0
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animator: Animator) {
                     dispatchAddStarting(holder)
@@ -59,12 +57,10 @@ class CustomItemAnimator : SimpleItemAnimator() {
 
                 override fun onAnimationCancel(animator: Animator) {
                     view.alpha = 1f
-                    //view.visibility = View.VISIBLE // Внесенные изменения
                 }
 
                 override fun onAnimationEnd(animator: Animator) {
                     animation.setListener(null)
-                    //view.visibility = View.VISIBLE // Внесенные изменения
                     dispatchAddFinished(holder)
                     addAnimations.remove(holder)
                     dispatchFinishedWhenDone()
@@ -82,8 +78,7 @@ class CustomItemAnimator : SimpleItemAnimator() {
         val view = holder.itemView
         val animation = view.animate()
         removeAnimations.add(holder)
-        //view.visibility = View.INVISIBLE // Внесенные изменения
-        animation.setDuration(0).setListener(
+        animation.setDuration(0).setListener( // Изменения setDuration с 120 -> 0
             object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animator: Animator) {
                     dispatchRemoveStarting(holder)
@@ -92,14 +87,12 @@ class CustomItemAnimator : SimpleItemAnimator() {
                 override fun onAnimationEnd(animator: Animator) {
                     animation.setListener(null)
                     view.alpha = 1f
-                   // view.visibility = View.VISIBLE // Внесенные изменения
                     dispatchRemoveFinished(holder)
                     removeAnimations.remove(holder)
                     dispatchFinishedWhenDone()
                 }
             }).start()
     }
-
 
     private class MoveInfo(
         var holder: RecyclerView.ViewHolder,
@@ -621,7 +614,6 @@ class CustomItemAnimator : SimpleItemAnimator() {
                 || additionsList.isNotEmpty()
                 || changesList.isNotEmpty())
     }
-
 
     override fun animateMove(
         holder: RecyclerView.ViewHolder,

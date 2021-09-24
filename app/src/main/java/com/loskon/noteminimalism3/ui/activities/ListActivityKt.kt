@@ -25,9 +25,9 @@ import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.fragments.BottomSheetCategory
 import com.loskon.noteminimalism3.ui.fragments.NoteFragmentKt
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
-import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.SwipeCallbackNote
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListAdapter
+import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
@@ -119,7 +119,7 @@ class ListActivityKt : AppCompatActivity(),
     private fun configureRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-        adapter.setSettings(this)
+        //adapter.setSettings(this)
         recyclerView.itemAnimator = CustomItemAnimator()
     }
 

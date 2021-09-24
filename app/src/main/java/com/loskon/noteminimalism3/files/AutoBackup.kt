@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
 import com.loskon.noteminimalism3.backup.second.BackupDb
 import com.loskon.noteminimalism3.backup.second.BackupPath
-import com.loskon.noteminimalism3.permissions.PermissionsStorageKt
+import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
 import com.loskon.noteminimalism3.toast.ToastApp
 import com.loskon.noteminimalism3.toast.ToastApp.Companion.MSG_TOAST_AUTO_BACKUP_COMPLETED
 import com.loskon.noteminimalism3.toast.ToastApp.Companion.MSG_TOAST_AUTO_BACKUP_FAILED
@@ -26,7 +26,7 @@ class AutoBackup(private val context: Context) {
 
     fun createBackupFile(date: Date, isShowToast: Boolean) =
         (context as AppCompatActivity).lifecycleScope.launch {
-            val isAccess: Boolean = PermissionsStorageKt.isAccessMemoryWithoutRequest(context)
+            val isAccess: Boolean = PermissionsStorageUpdate.isAccessMemoryWithoutRequest(context)
 
             if (isAccess) {
 

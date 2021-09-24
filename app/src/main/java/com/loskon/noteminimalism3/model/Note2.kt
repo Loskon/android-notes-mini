@@ -4,15 +4,15 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_CHECKED
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_DEL
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_MOD
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DEL_ITEMS
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_FAVORITES
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_ID
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_TITLE
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.NAME_TABLE
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_CHECKED
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DATE
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DATE_DEL
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DATE_MOD
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DEL_ITEMS
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_FAVORITES
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_ID
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_TITLE
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.NAME_TABLE
 import kotlinx.parcelize.Parcelize
 import java.util.*
 

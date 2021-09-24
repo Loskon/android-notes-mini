@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.annotation.WorkerThread
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.DATABASE_NAME
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.DATABASE_NAME
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow

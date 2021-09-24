@@ -63,6 +63,6 @@ class SnackbarMessage(
     }
 
     fun close() {
-        BaseSnackbar.dismissSnackbar()
+        BaseSnackbar.dismiss()
     }
 }

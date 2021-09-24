@@ -31,7 +31,7 @@ object BaseSnackbar {
         snackbar?.show()
     }
 
-    fun dismissSnackbar() {
+    fun dismiss() {
         snackbar?.dismiss()
     }
 }

@@ -1,5 +1,7 @@
 package com.loskon.noteminimalism3.ui.activities;
 
+import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_PERMISSIONS;
+
 import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.pm.PackageManager;
@@ -41,8 +43,6 @@ import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetConfigure;
 import com.loskon.noteminimalism3.ui.widgets.note.AppWidgetNoteProvider;
 
 import java.util.Date;
-
-import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_PERMISSIONS;
 
 /**
  * Класс для работы с выбранной заметкой

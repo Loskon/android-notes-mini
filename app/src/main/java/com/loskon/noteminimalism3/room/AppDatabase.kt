@@ -5,16 +5,16 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_CHECKED
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_DEL
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DATE_MOD
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_DEL_ITEMS
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_FAVORITES
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_ID
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.COLUMN_TITLE
-import com.loskon.noteminimalism3.database.NoteDbSchema.NoteTable.NAME_TABLE
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_CHECKED
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DATE
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DATE_DEL
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DATE_MOD
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_DEL_ITEMS
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_FAVORITES
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_ID
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.COLUMN_TITLE
+import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.NAME_TABLE
 
 /**
  * Основной класс по работе с базой данных
@@ -65,6 +65,6 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
 
         database.execSQL("DROP TABLE $NAME_TABLE")
         database.execSQL("ALTER TABLE $TABLE_TMP RENAME TO $NAME_TABLE")
-        database.execSQL("ALTER TABLE $NAME_TABLE ADD COLUMN $COLUMN_CHECKED INTEGER NOT NULL DEFAULT 0");
+        database.execSQL("ALTER TABLE $NAME_TABLE ADD COLUMN $COLUMN_CHECKED INTEGER NOT NULL DEFAULT 0")
     }
 }

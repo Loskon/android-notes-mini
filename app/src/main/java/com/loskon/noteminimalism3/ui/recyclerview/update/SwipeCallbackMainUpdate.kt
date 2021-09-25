@@ -57,12 +57,12 @@ class SwipeCallbackMainUpdate(
         callback?.onNoteSwipe(note, isFav, notesCategory)
     }
 
-    fun setCategory(category: String) {
-        notesCategory = category
+    fun setCategory(notesCategory: String) {
+        this.notesCategory = notesCategory
     }
 
-    fun setBlockSwiped(isDelMode: Boolean) {
-        isDeleteMode = isDelMode
+    fun blockSwiped(isDeleteMode: Boolean) {
+        this.isDeleteMode = isDeleteMode
     }
 
     // Callback

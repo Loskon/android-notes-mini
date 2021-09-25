@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         bottomAppBar = findViewById(R.id.bottom_bar_main);
         coordLytMain = findViewById(R.id.coord_layout_main);
         fabMain = findViewById(R.id.fab_main);
-        textNumSelItem = findViewById(R.id.tv_font_size_title);
+        textNumSelItem = findViewById(R.id.tv_number_selected);
         searchView = findViewById(R.id.search_view);
 
         dbAdapter = new DbAdapter(this);

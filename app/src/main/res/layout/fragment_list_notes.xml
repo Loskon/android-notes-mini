@@ -57,7 +57,7 @@
         app:layout_constraintTop_toTopOf="@+id/recycler_view_notes" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewMain"
+        android:id="@+id/card_view_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="58dp"
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/tv_font_size_title"
+            android:id="@+id/tv_number_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

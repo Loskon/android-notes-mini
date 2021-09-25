@@ -12,7 +12,6 @@ import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteDiffUtil
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListViewHolder
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
-
 /**
  * Адаптер для работы со списком заметок
  */
@@ -45,19 +44,19 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
 
             itemView.apply {
                 setOnSingleClickListener {
-                    handlingClick(note, position)
+                    clickingItem(note, position)
                 }
 
                 setOnLongClickListener {
-                    handlingLongClick(note, position)
+                    longClickingItem(note, position)
                     true
                 }
             }
 
-            if (isSelected(position)) {
-                setVarGradDraw(radiusStrokeDp, boredStrokeDp, color)
+            if (note.isChecked) {
+                setVariablesGradDraw(radiusStrokeDp, boredStrokeDp, color)
             } else {
-                setVarGradDraw(0, 0, 0)
+                setVariablesGradDraw(0, 0, 0)
             }
 
             gradientDrawable.apply {
@@ -68,62 +67,32 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
         }
     }
 
-    ///
-
-    private fun handlingClick(note: Note2, position: Int) {
+    private fun clickingItem(note: Note2, position: Int) {
         if (isSelectionMode) {
-            toggleSelection(note, position)
-
-            //helper.onItemSelection(note)
-            //notifyItemChanged(position)
+            selectingItem(note, position)
         } else {
-            callback?.onItemClick(note)
+            callback?.onClickingItem(note)
         }
     }
 
-
-    private fun handlingLongClick(note: Note2, position: Int) {
-        if (!isSelectionMode) startDelMode()
-
+    private fun selectingItem(note: Note2, position: Int) {
         toggleSelection(note, position)
-
-        callback?.onSelectedItem(note, getSelectedItemCount())
-
-        //helper.onItemSelection(note)
-        //notifyItemChanged(position)
+        callback?.onSelectingItem(getSelectedItemCount(), hasAllSelected())
     }
 
-    private fun startDelMode() {
+    private fun hasAllSelected(): Boolean {
+        return getSelectedItemCount() == itemCount
+    }
+
+    private fun longClickingItem(note: Note2, position: Int) {
+        if (!isSelectionMode) activationDeleteMode()
+        selectingItem(note, position)
+    }
+
+    private fun activationDeleteMode() {
         isSelectionMode = true
-        //callback?.onDeleteMode(true)
-    }
-
-
-    private fun checkNumberSelectedItems() {
-        //val isSelectedAll: Boolean = numItemSel == itemCount
-        //callback?.onNumSelItem(isSelectedAll, numItemSel)
-    }
-
-    fun selectAllItems() {
-/*        numItemSel = if (numItemSel == itemCount) {
-            0
-        } else {
-            itemCount
-        }
-
-        checkNumberSelectedItems()*/
-    }
-
-    fun getItemNote(position: Int): Note2 {
-        return list[position]
-    }
-
-    fun disableDeleteMode() {
-        isSelectionMode = false
-    }
-
-    fun getListNote(): List<Note2> {
-        return list
+        callback?.onActivationDeleteMode(true)
+        clearSelectionItems()
     }
 
     // Внешние методы
@@ -143,14 +112,35 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun getItemNote(position: Int): Note2 {
+        return list[position]
+    }
+
+    fun getListNote(): List<Note2> {
+        return list
+    }
+
+    fun disableDeleteMode() {
+        isSelectionMode = false
+        resetSelectedItems()
+        clearSelectionItems()
+    }
+
+    fun selectAllItems() {
+        selectAllItem(list, hasAllSelected())
+        itemChanged()
+        callback?.onSelectingItem(getSelectedItemCount(), hasAllSelected())
+    }
+
+    fun itemChanged() {
+        notifyItemRangeChanged(0, itemCount)
+    }
 
     // Callback
     interface CallbackAdapter {
-        fun onItemClick(note: Note2)
-        fun onSelectedItem(note: Note2, size: Int)
-        fun onDeleteMode(isDelMode: Boolean)
-        fun onNumSelItem(isAll: Boolean, numSelItem: Int)
-        fun onX()
+        fun onClickingItem(note: Note2)
+        fun onActivationDeleteMode(isDeleteMode: Boolean)
+        fun onSelectingItem(selectedItemCount: Int, hasAllSelected: Boolean)
     }
 
     companion object {

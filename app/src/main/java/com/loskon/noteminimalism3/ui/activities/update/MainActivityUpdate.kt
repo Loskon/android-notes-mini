@@ -13,19 +13,17 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
-import com.loskon.noteminimalism3.auxiliary.other.MyIntent
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
+import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperMainKt
+import com.loskon.noteminimalism3.ui.fragments.BottomSheetCategory
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.update.NoteListAdapterUpdate
 import com.loskon.noteminimalism3.ui.recyclerview.update.SwipeCallbackMainUpdate
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarUndoUpdate
-import com.loskon.noteminimalism3.utils.getRadiusLinLay
-import com.loskon.noteminimalism3.utils.getStrokeLinLay
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.showToast
+import com.loskon.noteminimalism3.utils.*
 import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 
@@ -48,14 +46,18 @@ class MainActivityUpdate : AppCompatActivity(),
     private lateinit var snackbarUndo: SnackbarUndoUpdate
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var bottomAppBar: BottomAppBar
+    private lateinit var bottomBar: BottomAppBar
     private lateinit var fab: FloatingActionButton
     private lateinit var cardView: CardView
-    private lateinit var tvNumber: TextView
+    private lateinit var tvNumberSelected: TextView
     private lateinit var searchView: SearchView
     private lateinit var coordLayout: CoordinatorLayout
 
     private val adapter: NoteListAdapterUpdate = NoteListAdapterUpdate()
+
+    private var notesCategory: String = NoteViewModel.CATEGORY_ALL_NOTES
+    private var isDeleteMode: Boolean = false
+    private var isAllSel: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,12 +81,15 @@ class MainActivityUpdate : AppCompatActivity(),
     }
 
     private fun initViews() {
+        cardView = findViewById(R.id.card_view_main)
         coordLayout = findViewById(R.id.coord_layout_main)
         recyclerView = findViewById(R.id.recycler_view_notes)
-        bottomAppBar = findViewById(R.id.bottom_bar_main)
+        bottomBar = findViewById(R.id.bottom_bar_main)
         fab = findViewById(R.id.fab_main)
-        tvNumber = findViewById(R.id.tv_font_size_title)
+        tvNumberSelected = findViewById(R.id.tv_number_selected)
         searchView = findViewById(R.id.search_view)
+
+        //cardView.backgroundTintList = ColorStateList.valueOf(MyColor.getMyColor(this))
     }
 
     private fun configureRecyclerAdapter() {
@@ -104,27 +109,84 @@ class MainActivityUpdate : AppCompatActivity(),
 
     private fun initObjects() {
         shortsCommand = AppShortsCommand()
-        widgetsHelper = WidgetHelperMainKt(this, fab, bottomAppBar)
+        widgetsHelper = WidgetHelperMainKt(this, fab, bottomBar)
         snackbarUndo = SnackbarUndoUpdate(this, shortsCommand)
     }
 
     private fun installHandlers() {
         fab.setOnSingleClickListener {
+            clickingFab()
+        }
 
-            //this.showToast(""+ adapter.selectedItemCount+ " : " + adapter.selectedItemCount2)
+        bottomBar.setNavigationOnClickListener {
+            clickingNavigationButton()
+        }
 
-            val selected = adapter.getRemoveItems()
+        bottomBar.setOnMenuItemClickListener { item ->
+            snackbarUndo.close()
 
-            for (item in selected) {
-                item.isDelete = true
-                shortsCommand.update(item)
+            when (item.itemId) {
+                R.id.action_switch_view -> {
+                    //handlingSwitchClick()
+                    true
+                }
+                R.id.action_select_item -> {
+                    adapter.selectAllItems()
+                    true
+                }
+
+                R.id.action_search -> {
+
+                    true
+                }
+
+                R.id.action_unification -> {
+
+                    true
+                }
+                else -> false
             }
+        }
+    }
 
-            adapter.clearSelection()
+    private fun clickingFab() {
+        if (isDeleteMode) {
+            deleteItems()
+        } else {
+            IntentUtil.openNote(this, Note2(), notesCategory)
+        }
+    }
 
-            updateListNotes()
+    private fun deleteItems() {
+        if (notesCategory == NoteViewModel.CATEGORY_TRASH) {
+            adapter.removeItems(shortsCommand)
+        } else {
+            adapter.sendItemsToTrash(shortsCommand)
+        }
 
-            //MyIntent.addNewNoteUpdate(this, Note2(), NoteViewModel.CATEGORY_ALL_NOTES)
+        updateListNotes()
+        onActivationDeleteMode(false)
+    }
+
+    private fun clickingNavigationButton() {
+        snackbarUndo.close()
+
+        if (isDeleteMode) {
+            onActivationDeleteMode(false)
+            adapter.itemChanged()
+        } else {
+            val bottomSheet = BottomSheetCategory.newInstance(notesCategory)
+            if (supportFragmentManager.findFragmentByTag(BottomSheetCategory.TAG) == null) {
+                bottomSheet.show(supportFragmentManager, BottomSheetCategory.TAG);
+            }
+        }
+    }
+
+    private fun selectAllItems(isSel: Boolean) {
+        for (note in adapter.getListNote()) {
+            //if (notesCategory != NoteViewModel.CATEGORY_TRASH) note.dateDelete = Date()
+            //note.isChecked = isSel
+            shortsCommand.update(note)
         }
     }
 
@@ -145,25 +207,41 @@ class MainActivityUpdate : AppCompatActivity(),
         ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
     }
 
-
-    override fun onItemClick(note: Note2) {
-        MyIntent.addNewNoteUpdate(this, note, NoteViewModel.CATEGORY_ALL_NOTES)
+    // Callbacks
+    override fun onClickingItem(note: Note2) {
+        IntentUtil.openNote(this, note, notesCategory)
     }
 
-    override fun onSelectedItem(note: Note2, size: Int) {
-        this.showToast("" + size)
+    override fun onActivationDeleteMode(isDeleteMode: Boolean) {
+        this.isDeleteMode = isDeleteMode
+        deleteMode()
     }
 
-    override fun onDeleteMode(isDelMode: Boolean) {
+    private fun deleteMode() {
+        if (isDeleteMode) {
+            cardView.setVisibleView(true)
+            swipeCallback.blockSwiped(true)
+            widgetsHelper.setVisibleSelect(true)
+            widgetsHelper.setIconFab(WidgetHelperList.ICON_FAB_DELETE)
+            widgetsHelper.setVisibleList(false)
+            widgetsHelper.setNavigationIcon(false)
 
+            //if (isSearchMode) widgetsHelper.changeBarVisible(true)
+
+        } else {
+            cardView.setVisibleView(false)
+            swipeCallback.blockSwiped(false)
+            widgetsHelper.setVisibleSelect(false)
+            widgetsHelper.setIconFab(notesCategory, false)
+            widgetsHelper.setVisibleList(true)
+            widgetsHelper.setNavigationIcon(true)
+            adapter.disableDeleteMode()
+        }
     }
 
-    override fun onNumSelItem(isAll: Boolean, numSelItem: Int) {
-
-    }
-
-    override fun onX() {
-
+    override fun onSelectingItem(selectedItemCount: Int, hasAllSelected: Boolean) {
+        tvNumberSelected.text = selectedItemCount.toString()
+        widgetsHelper.setSelectIcon(hasAllSelected)
     }
 
     val getCoordLayout: CoordinatorLayout
@@ -178,7 +256,7 @@ class MainActivityUpdate : AppCompatActivity(),
 
     val getBottomAppBar: BottomAppBar
         get() {
-            return bottomAppBar
+            return bottomBar
         }
 
     override fun onNoteDelete(note: Note2, isFav: Boolean) {

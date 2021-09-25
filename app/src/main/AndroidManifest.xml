@@ -5,7 +5,6 @@
     tools:ignore="LockedOrientationActivity">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
@@ -34,8 +33,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity android:name=".ui.activities.ListActivityKt"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.activities.ListActivityKt"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.activities.ListActivity" />
 
         <receiver android:name=".ui.widgets.add.AppWidgetAddProvider">

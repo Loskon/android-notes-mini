@@ -105,8 +105,8 @@ class NoteListFragment3 : Fragment(),
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.recycler_view_notes)
         tvEmpty = view.findViewById(R.id.tv_empty_list)
-        cardView = view.findViewById(R.id.cardViewMain)
-        tvNumber = view.findViewById(R.id.tv_font_size_title)
+        cardView = view.findViewById(R.id.card_view_main)
+        tvNumber = view.findViewById(R.id.tv_number_selected)
     }
 
     private fun configureRecyclerView() {

@@ -74,7 +74,7 @@ class DateBaseAdapter(context: Context) {
         return NoteCursorWrapperKt(cursor)
     }
 
-
+    // insert
     fun insert(note: Note2) {
         val values = getContentValues(note)
         database.insert(NoteTable.NAME_TABLE, null, values)
@@ -85,6 +85,7 @@ class DateBaseAdapter(context: Context) {
         return database.insert(NoteTable.NAME_TABLE, null, values)
     }
 
+    // delete
     fun delete(note: Note2) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + note.id, null)
     }
@@ -93,6 +94,7 @@ class DateBaseAdapter(context: Context) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + id.toString(), null)
     }
 
+    // update
     fun update(note: Note2) {
         val values = getContentValues(note)
         database.update(NoteTable.NAME_TABLE, values, NoteTable.COLUMN_ID + "=" + note.id, null)

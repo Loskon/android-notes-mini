@@ -1,58 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view_file"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="?attr/colorCardView"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/linLytCard"
+    <data>
+
+        <import type="android.view.View" />
+        <import type="com.loskon.noteminimalism3.utils.DateUtils" />
+
+        <variable
+            name="note"
+            type="com.loskon.noteminimalism3.model.Note2" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="?attr/colorCardView"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
 
-        <View
-            android:id="@+id/viewFavForCard"
-            android:layout_width="16dp"
-            android:layout_height="10dp"
-            android:layout_gravity="end"
-            android:background="@drawable/view_round_corner"
-            android:backgroundTint="@color/white" />
-
-        <TextView
-            android:id="@+id/txt_title_card_note"
+        <LinearLayout
+            android:id="@+id/linear_layout_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:minLines="1"
-            android:text="Title"
-            android:textColor="?attr/colorTitle"
-            android:textSize="18sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txt_date_card_note"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Date"
-            android:textColor="?attr/colorDate"
-            android:textSize="14sp" />
+            <View
+                android:id="@+id/view_favorite"
+                android:layout_width="16dp"
+                android:layout_height="10dp"
+                android:layout_gravity="end"
+                android:background="@drawable/view_round_corner"
+                android:visibility="@{note.favorite ? View.VISIBLE: View.INVISIBLE}" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_card_note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:text="@{note.title}"
+                android:textColor="?attr/colorTitle"
+                android:textSize="18sp" />
 
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/tv_card_note_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{DateUtils.getStringDate(note.dateCreation)}"
+                android:textColor="?attr/colorDate" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -92,15 +92,15 @@ class NoteTrashFragmentUpdate : Fragment() {
     }
 
     fun restoreNoteFromTrash() {
-        //note.isDelete = false
+        note.isDelete = false
         shortsCommand.update(note)
-        //callback?.onDeleteFromTrash(note, false)
+        callback?.onNoteReset(note)
         activity.onBackPressed()
     }
 
     private fun deleteNoteForever() {
         shortsCommand.delete(note)
-        //callback?.onDeleteFromTrash(note, true)
+        callback?.onNoteDelete(note)
         activity.onBackPressed()
     }
 
@@ -119,7 +119,8 @@ class NoteTrashFragmentUpdate : Fragment() {
         }
 
     interface CallbackNoteTrashUpdate {
-        fun onNoteDeleteFromTrash(note: Note2, isDel: Boolean)
+        fun onNoteDelete(note: Note2)
+        fun onNoteReset(note: Note2)
     }
 
     companion object {

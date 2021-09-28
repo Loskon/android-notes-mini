@@ -13,8 +13,8 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 import com.loskon.noteminimalism3.utils.setColorSlider
+import com.loskon.noteminimalism3.utils.setFontSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setTextSizeInSp
 
 /**
  * Изменение размер текста заметок
@@ -76,7 +76,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
     }
 
     private fun setTextSize() {
-        textView.setTextSizeInSp(fontSizeNote)
+        textView.setFontSize(fontSizeNote)
     }
 
     private fun saveResult() {

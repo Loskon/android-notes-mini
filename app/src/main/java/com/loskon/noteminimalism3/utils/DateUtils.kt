@@ -9,6 +9,7 @@ import java.util.*
 
 class DateUtils {
     companion object {
+        @JvmStatic
         fun getStringDate(date: Date): String {
             val day: Int
             val month: Int

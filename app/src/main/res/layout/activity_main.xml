@@ -9,11 +9,11 @@
 
     <include
         layout="@layout/fragment_list_notes"
-        app:layout_anchor="@+id/textEmpty"
+        app:layout_anchor="@+id/tv_empty_list_up"
         app:layout_anchorGravity="center" />
 
     <TextView
-        android:id="@+id/textEmpty"
+        android:id="@+id/tv_empty_list_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

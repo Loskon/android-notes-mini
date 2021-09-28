@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.R;
 public class GetSharedPref {
 
     // boolean
-    public static boolean isOneSize(Context context) {
+    public static boolean getOneSizeCards(Context context) {
         String key = context.getString(R.string.one_size_title);
         return MySharedPref.getBoolean(context, key, false);
     }
@@ -48,7 +48,7 @@ public class GetSharedPref {
         return MySharedPref.getBoolean(context, MyPrefKey.KEY_PHONE, false);
     }
 
-    public static boolean isTypeSingle(Context context) {
+    public static boolean getLinearList(Context context) {
         return MySharedPref.getBoolean(context, MyPrefKey.KEY_TYPE_NOTES, true);
     }
 
@@ -67,7 +67,7 @@ public class GetSharedPref {
         return MySharedPref.getInt(context, key, 2);
     }
 
-    public static int getNumOfLines(Context context) {
+    public static int getNumberLines(Context context) {
         String key = context.getString(R.string.num_of_lines_header);
         return MySharedPref.getInt(context, key, 3);
     }

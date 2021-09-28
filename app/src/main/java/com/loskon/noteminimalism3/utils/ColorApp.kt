@@ -179,3 +179,8 @@ fun Context.getSuccessColor(isSuccess: Boolean): Int {
         }
     }
 }
+
+//
+fun View.setBackgroundTintColor(color: Int) {
+    backgroundTintList = ColorStateList.valueOf(color)
+}

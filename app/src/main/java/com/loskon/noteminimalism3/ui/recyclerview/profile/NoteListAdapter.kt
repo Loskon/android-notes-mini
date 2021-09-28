@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
-import com.loskon.noteminimalism3.databinding.ItemProfileBinding
+import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.utils.getRadiusLinLay
 import com.loskon.noteminimalism3.utils.getStrokeLinLay
@@ -49,9 +49,9 @@ class NoteListAdapter() : RecyclerView.Adapter<NoteListViewHolder>() {
         boredStroke_dp = context.getStrokeLinLay()
         color = MyColor.getMyColor(context)
 
-        val view: ItemProfileBinding = DataBindingUtil.inflate(
+        val view: ItemNoteBinding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.item_profile,
+            R.layout.item_note,
             parent,
             false
         )
@@ -87,7 +87,7 @@ class NoteListAdapter() : RecyclerView.Adapter<NoteListViewHolder>() {
 
             gradientDrawable.cornerRadius = radiusStroke.toFloat()
             gradientDrawable.setStroke(borderStroke, colorStroke)
-            getLinearLayout.background = gradientDrawable
+            linearLayout.background = gradientDrawable
         }
     }
 

@@ -19,7 +19,7 @@ public class CheckEmptyRecyclerView extends RecyclerView.AdapterDataObserver {
 
     public CheckEmptyRecyclerView(Activity activity, MyRecyclerViewAdapter rvAdapter) {
         this.rvAdapter = rvAdapter;
-        textEmpty = activity.findViewById(R.id.textEmpty);
+        textEmpty = activity.findViewById(R.id.tv_empty_list_up);
     }
 
     @Override

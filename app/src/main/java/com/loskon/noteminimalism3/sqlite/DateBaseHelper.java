@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.sqlite;
 
-import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_CHECKED;
 import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE;
 import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_DEL;
 import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.COLUMN_DATE_MOD;
@@ -23,7 +22,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DateBaseHelper extends SQLiteOpenHelper {
 
     public DateBaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
@@ -36,8 +35,7 @@ public class DateBaseHelper extends SQLiteOpenHelper {
                 COLUMN_DATE_MOD + " INTEGER, " +
                 COLUMN_DATE_DEL + " INTEGER, " +
                 COLUMN_FAVORITES + " INTEGER, " +
-                COLUMN_DEL_ITEMS + " INTEGER," +
-                COLUMN_CHECKED + " INTEGER" +
+                COLUMN_DEL_ITEMS + " INTEGER" +
                 ")"
         );
     }
@@ -46,9 +44,9 @@ public class DateBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
         // Повторная инициализация базы данных
         //database.execSQL("DROP TABLE IF EXISTS " + NAME_TABLE);
-        if (oldVersion < 2) {
+/*        if (oldVersion < 2) {
             database.execSQL("ALTER TABLE "+ NAME_TABLE+" ADD COLUMN " + COLUMN_CHECKED + " INTEGER DEFAULT 0");
-        }
+        }*/
         //onCreate(database);
     }
 }

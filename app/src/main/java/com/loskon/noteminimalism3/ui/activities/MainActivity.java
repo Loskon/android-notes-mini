@@ -241,8 +241,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadSharedPref() {
-        numOfLines = GetSharedPref.getNumOfLines(this);
-        isOneSizeOn = GetSharedPref.isOneSize(this);
+        numOfLines = GetSharedPref.getNumberLines(this);
+        isOneSizeOn = GetSharedPref.getOneSizeCards(this);
         fontSize = GetSharedPref.getFontSize(this);
         dateFontSize = GetSharedPref.getDateFontSize(this);
         color = MyColor.getMyColor(this);
@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity
 
     private void switchType() {
         // Изменение вида списка и иконки меню при переключении
-        isTypeNotesSingle = GetSharedPref.isTypeSingle(this);
+        isTypeNotesSingle = GetSharedPref.getLinearList(this);
         widgetsHelper.setTypeNotes(recyclerView, isTypeNotesSingle);
         rvAdapter.setTypeOfNotes(isTypeNotesSingle);
     }

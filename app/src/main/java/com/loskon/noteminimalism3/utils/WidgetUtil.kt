@@ -65,11 +65,6 @@ fun View.setLayoutParams() {
 }
 
 //
-fun TextView.setTextSizeInSp(fontSizeNote: Int) {
-    setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSizeNote.toFloat())
-}
-
-//
 fun Context.getShortDrawable(@DrawableRes icon: Int): Drawable? {
     return ResourcesCompat.getDrawable(resources, icon, null)
 }
@@ -82,4 +77,9 @@ fun Context.getShortColor(colorId: Int): Int {
 //
 fun EditText.getLength(): Int {
     return text.toString().length
+}
+
+//
+fun TextView.setFontSize(fontSize: Int) {
+    setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
 }

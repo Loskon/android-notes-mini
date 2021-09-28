@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
+import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.utils.getShortDrawable
 import com.loskon.noteminimalism3.utils.setColorStateMenuItem
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_FAVORITES
-import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRASH
 
 /**
  *
@@ -23,13 +23,14 @@ import com.loskon.noteminimalism3.viewmodel.NoteViewModel.Companion.CATEGORY_TRA
 
 class BottomSheetCategory : BottomSheetDialogFragment() {
 
+    private lateinit var mContext: Context
     private lateinit var navigationView: NavigationView
     private var category: String = CATEGORY_ALL_NOTES
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        mContext = context
         category = arguments?.getString(ARG_CATEGORY).toString()
-
     }
 
     override fun onCreateView(
@@ -39,7 +40,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bottomsheet, container, false)
         navigationView = view.findViewById(R.id.navigation_view)
-        navigationView.background = requireContext().getShortDrawable(R.drawable.sheet_round_corner)
+        navigationView.background = mContext.getShortDrawable(R.drawable.sheet_round_corner)
         return view
     }
 
@@ -52,7 +53,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
         navigationView.apply {
             menu.getItem(getNumSelectedItemMenu()).isChecked = true
 
-            setColorStateMenuItem(requireContext())
+            setColorStateMenuItem(mContext)
 
             setNavigationItemSelectedListener { menuItem: MenuItem ->
                 val menuId = menuItem.itemId
@@ -74,7 +75,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
                 }
 
                 if (menuId != R.id.nav_item_settings) {
-                    navViewListener?.onCallback(category)
+                    callback?.onCallbackCategory(category)
                 }
 
                 dismiss()
@@ -91,24 +92,24 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
             else -> 0
         }
 
-    interface OnNavViewListener {
-        fun onCallback(category: String)
+    interface CallbackCategory {
+        fun onCallbackCategory(notesCategory: String)
     }
 
     companion object {
         const val TAG = "BottomSheetDialogFragment"
         private const val ARG_CATEGORY = "arg_category"
 
-        private var navViewListener: OnNavViewListener? = null
+        private var callback: CallbackCategory? = null
 
-        fun setNavViewListener(navViewListener: OnNavViewListener) {
-            this.navViewListener = navViewListener
+        fun callbackCategoryListener(callback: CallbackCategory) {
+            this.callback = callback
         }
 
         @JvmStatic
-        fun newInstance(categoryInSheet: String) = BottomSheetCategory().apply {
+        fun newInstance(category: String) = BottomSheetCategory().apply {
             arguments = Bundle().apply {
-                putString(ARG_CATEGORY, categoryInSheet)
+                putString(ARG_CATEGORY, category)
             }
         }
     }

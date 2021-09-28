@@ -47,7 +47,7 @@ class ListActivityKt : AppCompatActivity(),
     NoteListAdapter.OnItemClickListener,
     SwipeCallbackNote.OnItemSwipeListener,
     NoteFragmentKt.OnNote2,
-    BottomSheetCategory.OnNavViewListener,
+    BottomSheetCategory.CallbackCategory,
     NoteTrashFragment.CallbackNoteTrash {
 
     companion object {
@@ -132,7 +132,7 @@ class ListActivityKt : AppCompatActivity(),
         NoteListAdapter.setClickListener(this)
         SwipeCallbackNote.setSwipeListener(this)
         NoteFragmentKt.setNoteListener(this)
-        BottomSheetCategory.setNavViewListener(this)
+        BottomSheetCategory.callbackCategoryListener(this)
         NoteTrashFragment.setNoteListener(this)
     }
 
@@ -359,7 +359,7 @@ class ListActivityKt : AppCompatActivity(),
     private var isTop: Boolean = false
 
 
-    override fun onCallback(category: String) {
+    override fun onCallbackCategory(category: String) {
         Log.d(TAG, "Notes category: $category")
         onClickMenuItem(category)
     }

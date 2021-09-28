@@ -58,7 +58,7 @@ class NoteFragmentUpdate : Fragment(),
 
     private lateinit var note: Note2
     private var noteId: Long = 0L
-    private var isFav: Boolean = false
+    private var isFavoriteStatus: Boolean = false
 
     private var color: Int = 0
     private lateinit var backupDate: Date
@@ -128,6 +128,8 @@ class NoteFragmentUpdate : Fragment(),
         } else {
             savedText = note.title
         }
+
+        activity.showToast("state "+ note.isDelete)
     }
 
     private fun setupColor() {
@@ -157,12 +159,12 @@ class NoteFragmentUpdate : Fragment(),
     }
 
     private fun configureOtherViews() {
-        isFav = note.isFavorite
+        isFavoriteStatus = note.isFavorite
         installFavoriteStatus()
     }
 
     private fun installFavoriteStatus() {
-        val icon: Int = if (isFav) {
+        val icon: Int = if (isFavoriteStatus) {
             R.drawable.baseline_star_black_24
         } else {
             R.drawable.baseline_star_border_black_24
@@ -229,19 +231,33 @@ class NoteFragmentUpdate : Fragment(),
             }
 
             R.id.btn_fav_note_up -> {
-                isFav = !isFav
+                isFavoriteStatus = !isFavoriteStatus
                 installFavoriteStatus()
             }
 
             R.id.btn_del_note_up -> {
-                note.isDelete = true
+                /*note.isDelete = true
 
                 note.dateDelete = Date()
 
                 //callback?.onNoteDelete(note, isFav)
                 shortsCommand.delete(note)
 
-                callback?.onNoteUpdate()
+                callback?.onNoteUpdate()*/
+
+
+                note.dateDelete = Date()
+                note.isDelete = true
+                note.isFavorite = false
+                shortsCommand.update(note)
+
+
+                callback?.onNoteSendToTrash(note, isFavoriteStatus)
+                activity.showToast("delete")
+
+
+
+
                 activity.onBackPressed()
             }
 
@@ -316,7 +332,7 @@ class NoteFragmentUpdate : Fragment(),
     }
 
     private fun addNote(date: Date) {
-        note.isFavorite = isFav
+        note.isFavorite = isFavoriteStatus
         note.dateModification = date
         note.dateCreation = date
 
@@ -331,9 +347,9 @@ class NoteFragmentUpdate : Fragment(),
 
     private fun updateNote(date: Date, newText: String) {
         if ((newText.trim() != savedText.trim())
-            or (isFav != note.isFavorite)
+            or (isFavoriteStatus != note.isFavorite)
         ) {
-            note.isFavorite = isFav
+            note.isFavorite = isFavoriteStatus
             note.dateModification = date
 
             shortsCommand.update(note)
@@ -352,6 +368,7 @@ class NoteFragmentUpdate : Fragment(),
     private fun removeNote() {
         shortsCommand.delete(note)
         callback?.onNoteUpdate()
+        activity.showToast("delete")
     }
 
     val getEditText: EditText
@@ -379,7 +396,7 @@ class NoteFragmentUpdate : Fragment(),
     interface CallbackNoteUpdate {
         fun onNoteAdd()
         fun onNoteUpdate()
-        fun onNoteDelete(note: Note2, isFav: Boolean)
+        fun onNoteSendToTrash(note: Note2, isFavorite: Boolean)
     }
 
     companion object {

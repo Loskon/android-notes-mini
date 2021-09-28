@@ -1,15 +1,18 @@
 package com.loskon.noteminimalism3.ui.recyclerview.update
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.databinding.ItemProfileBinding
+import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteDiffUtil
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListViewHolder
+import com.loskon.noteminimalism3.utils.setBackgroundTintColor
+import com.loskon.noteminimalism3.utils.setFontSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -20,12 +23,17 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
 
     private var list = emptyList<Note2>()
 
+    private var hasLinearList: Boolean = true
+    private var hasOneSizeCards: Boolean = false
     private var isSelectionMode: Boolean = false
+    private var titleFontSize: Int = 0
+    private var dateFontSize: Int = 0
+    private var numberLines: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
-        val view: ItemProfileBinding = DataBindingUtil.inflate(
+        val view: ItemNoteBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.item_profile,
+            R.layout.item_note,
             parent,
             false
         )
@@ -41,6 +49,24 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
 
         holder.apply {
             bind(note)
+
+            title.apply {
+                setFontSize(titleFontSize)
+                maxLines = numberLines
+
+                minLines = if (hasLinearList) {
+                    1
+                } else {
+                    if (hasOneSizeCards) {
+                        numberLines
+                    } else {
+                        1
+                    }
+                }
+            }
+
+            date.setFontSize(dateFontSize)
+            view.setBackgroundTintColor(color)
 
             itemView.apply {
                 setOnSingleClickListener {
@@ -62,7 +88,7 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
             gradientDrawable.apply {
                 cornerRadius = radiusStroke.toFloat()
                 setStroke(borderStroke, colorStroke)
-                getLinearLayout.background = this
+                linearLayout.background = this
             }
         }
     }
@@ -77,12 +103,10 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
 
     private fun selectingItem(note: Note2, position: Int) {
         toggleSelection(note, position)
-        callback?.onSelectingItem(getSelectedItemCount(), hasAllSelected())
+        callback?.onSelectingItem(selectedItemsCount, hasAllSelected)
     }
 
-    private fun hasAllSelected(): Boolean {
-        return getSelectedItemCount() == itemCount
-    }
+    private val hasAllSelected get() = (selectedItemsCount == itemCount)
 
     private fun longClickingItem(note: Note2, position: Int) {
         if (!isSelectionMode) activationDeleteMode()
@@ -105,19 +129,38 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
         this.color = color
     }
 
-    fun setListNote(newList: List<Note2>) {
+    fun setFontSizes(titleFontSize: Int, dateFontSize: Int) {
+        this.titleFontSize = titleFontSize
+        this.dateFontSize = dateFontSize
+    }
+
+    fun setNumberLines(numberLines: Int) {
+        this.numberLines = numberLines
+    }
+
+    fun setLinearList(hasLinearList: Boolean) {
+        this.hasLinearList = hasLinearList
+    }
+
+    fun setOneSizeCards(hasOneSizeCards: Boolean) {
+        this.hasOneSizeCards = hasOneSizeCards
+    }
+
+    // Обновление списка заметок
+    fun setNotesList(newList: List<Note2>) {
         val diffUtil = NoteDiffUtil(list, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil, false)
         list = newList
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun getItemNote(position: Int): Note2 {
-        return list[position]
+    fun setQuicklyNotesList(newList: List<Note2>) {
+        list = newList
+        itemsChanged()
     }
 
-    fun getListNote(): List<Note2> {
-        return list
+    fun getNote(position: Int): Note2 {
+        return list[position]
     }
 
     fun disableDeleteMode() {
@@ -126,14 +169,15 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
         clearSelectionItems()
     }
 
-    fun selectAllItems() {
-        selectAllItem(list, hasAllSelected())
-        itemChanged()
-        callback?.onSelectingItem(getSelectedItemCount(), hasAllSelected())
+    fun selectAllNotes() {
+        selectAllItem(list, hasAllSelected)
+        itemsChanged()
+        callback?.onSelectingItem(selectedItemsCount, hasAllSelected)
     }
 
-    fun itemChanged() {
-        notifyItemRangeChanged(0, itemCount)
+    @SuppressLint("NotifyDataSetChanged")
+    fun itemsChanged() {
+        notifyDataSetChanged()
     }
 
     // Callback
@@ -144,8 +188,6 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
     }
 
     companion object {
-        private val TAG = "MyLogs_${NoteListAdapterUpdate::class.java.simpleName}"
-
         private var callback: CallbackAdapter? = null
 
         fun callbackAdapterListener(callback: CallbackAdapter) {

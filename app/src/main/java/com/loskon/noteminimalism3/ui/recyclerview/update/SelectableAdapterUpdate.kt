@@ -43,10 +43,12 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
 
     // Очистить список выбранных элементов
     fun clearSelectionItems() {
-        if (selectedItems.size != 0) selectedItems.clear()
+        if (selectedItems.size != 0) {
+            selectedItems.clear()
+        }
     }
 
-    // Снимите статус выбора для выбранных элементов
+    // Снять статус выбора для выбранных элементов
     fun resetSelectedItems() {
         if (selectedItems.size != 0) {
             for (item in selectedItems) {
@@ -55,10 +57,11 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
         }
     }
 
-    // Подсчитайте выбранные элементы
-    fun getSelectedItemCount(): Int {
-        return selectedItems.size
-    }
+    // Подсчет выбранных элементов
+    val selectedItemsCount: Int
+        get() {
+            return selectedItems.size
+        }
 
     // Выбрать/снять выбор всех элементов списка
     fun selectAllItem(list: List<Note2>, hasAllSelected: Boolean) {
@@ -94,5 +97,48 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
         }
 
         clearSelectionItems()
+    }
+
+    // Объединить несколько заметок в одну новую
+    fun unificationItems(shortsCommand: AppShortsCommand) {
+        val stringBuilder: StringBuilder = StringBuilder()
+        val note = Note2()
+        var newTitle = ""
+        var isFavorite = false
+
+        try {
+            for (item in selectedItems) {
+                newTitle = uniteTitlesItems(item, stringBuilder)
+                if (item.isFavorite) isFavorite = true
+                shortsCommand.delete(item)
+            }
+
+            note.isFavorite = isFavorite
+            note.title = newTitle
+            shortsCommand.insert(note)
+
+        } catch (exception: Exception) {
+            exception.stackTraceToString()
+
+            shortsCommand.delete(note)
+
+            for (item in selectedItems) {
+                shortsCommand.delete(item)
+                shortsCommand.insert(item)
+            }
+        }
+    }
+
+    private fun uniteTitlesItems(note: Note2, stringBuilder: StringBuilder): String {
+        // Защита от добавления пустых строк для последнего объединенного текста
+        val title = note.title.trim()
+
+        if (note !== selectedItems[selectedItems.size - 1]) {
+            stringBuilder.append(title).append("\n\n")
+        } else {
+            stringBuilder.append(title)
+        }
+
+        return stringBuilder.toString()
     }
 }

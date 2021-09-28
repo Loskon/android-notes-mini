@@ -44,7 +44,7 @@ class NoteListFragment3 : Fragment(),
     NoteListAdapter.OnItemClickListener,
     SwipeCallbackNote.OnItemSwipeListener,
     NoteFragment.OnNote,
-    BottomSheetCategory.OnNavViewListener {
+    BottomSheetCategory.CallbackCategory {
 
     private lateinit var activity: ListActivity
     private lateinit var viewModel: NoteViewModel
@@ -81,7 +81,7 @@ class NoteListFragment3 : Fragment(),
     }
 
     private fun loadSharedPreferences() {
-        isTypeNotesOne = GetSharedPref.isTypeSingle(activity)
+        isTypeNotesOne = GetSharedPref.getLinearList(activity)
     }
 
     private fun initWidgets() {
@@ -179,7 +179,7 @@ class NoteListFragment3 : Fragment(),
         NoteListAdapter.setClickListener(this)
         SwipeCallbackNote.setSwipeListener(this)
         NoteFragment.setNoteListener(this)
-        BottomSheetCategory.setNavViewListener(this)
+        BottomSheetCategory.callbackCategoryListener(this)
     }
 
     private fun installHandlers() {
@@ -384,7 +384,7 @@ class NoteListFragment3 : Fragment(),
     private var isTop: Boolean = false
 
 
-    override fun onCallback(category: String) {
+    override fun onCallbackCategory(category: String) {
         Log.d(TAG, "Notes category: $category")
         onClickMenuItem(category)
     }

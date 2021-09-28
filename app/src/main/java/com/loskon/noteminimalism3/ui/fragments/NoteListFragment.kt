@@ -75,7 +75,7 @@ class NoteListFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        isTypeNotesOne = GetSharedPref.isTypeSingle(context)
+        isTypeNotesOne = GetSharedPref.getLinearList(context)
         //viewModel = (context as ListActivity).getViewModel
     }
 

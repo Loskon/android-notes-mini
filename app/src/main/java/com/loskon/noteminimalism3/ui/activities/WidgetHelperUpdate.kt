@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
+import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.utils.*
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 
@@ -18,14 +21,14 @@ import com.loskon.noteminimalism3.viewmodel.NoteViewModel
  * Помощник для управления элементами активити
  */
 
-class WidgetHelperMainKt(
+class WidgetHelperUpdate(
     private val context: Context,
     private val fab: FloatingActionButton,
     private val bottomAppBar: BottomAppBar
 ) {
 
     companion object {
-        private val TAG = "MyLogs_${WidgetHelperMainKt::class.java.simpleName}"
+        private val TAG = "MyLogs_${WidgetHelperUpdate::class.java.simpleName}"
 
         const val ICON_FAB_ADD = "fab_icon_add"
         const val ICON_FAB_SEARCH_CLOSE = "fab_icon_search_close"
@@ -42,13 +45,13 @@ class WidgetHelperMainKt(
         setMenuIconColor()
     }
 
-
     // Menu
-    fun setMenuIconColor() {
+    private fun setMenuIconColor() {
         appBarMenu.menuIconColor(color)
     }
 
-    fun setVisibleUnification(isVisible: Boolean) {
+    fun setVisibleUnification(notesCategory: String, hasRequiredRange: Boolean) {
+        val isVisible: Boolean = (notesCategory != CATEGORY_TRASH && hasRequiredRange)
         setVisibleMenuItem(R.id.action_unification, isVisible)
     }
 
@@ -96,11 +99,6 @@ class WidgetHelperMainKt(
         appBarMenu.findItem(menuItem).icon = context.getShortDrawable(icon)
     }
 
-    fun startAnimateFab() {
-        ObjectAnimator.ofFloat(fab, "rotation", 0f, 360f)
-            .setDuration(300).start()
-    }
-
 
     // Bottom App Bar
     fun setNavigationIcon(isDel: Boolean) {
@@ -112,6 +110,22 @@ class WidgetHelperMainKt(
 
         bottomAppBar.setNavigationIcon(navIconId)
         bottomAppBar.setNavigationIconColor(color)
+    }
+
+    fun setIconFabCategory(notesCategory: String) {
+        val iconIdFab: Int = when (notesCategory) {
+            CATEGORY_ALL_NOTES -> R.drawable.baseline_add_black_24
+            CATEGORY_FAVORITES -> R.drawable.baseline_star_black_24
+            CATEGORY_TRASH -> R.drawable.baseline_delete_black_24
+            else -> throw Exception("Invalid icon")
+        }
+
+        fab.setImageDrawable(context.getShortDrawable(iconIdFab))
+    }
+
+    fun startAnimateFab() {
+        ObjectAnimator.ofFloat(fab, "rotation", 0f, 360f)
+            .setDuration(300).start()
     }
 
 

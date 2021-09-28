@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -25,8 +26,10 @@ class DateBaseAdapter(context: Context) {
         }
 
     // Получение списка заметок
-    fun getNotes(whereClause: String, orderBy: String): List<Note2> {
-        val notes = ArrayList<Note2>()
+    fun getNotes(noteCategory: String, sortingWay: Int): List<Note2> {
+        val notes: ArrayList<Note2> = ArrayList<Note2>()
+        val whereClause: String = getWhereClause(noteCategory)
+        val orderBy: String = getOrderBy(noteCategory, sortingWay)
 
         queryNotes(whereClause, orderBy, null).use { cursor ->
             cursor.moveToFirst()
@@ -37,6 +40,29 @@ class DateBaseAdapter(context: Context) {
         }
 
         return notes
+    }
+
+    // Выбор категории
+    private fun getWhereClause(category: String): String =
+        when (category) {
+            CATEGORY_ALL_NOTES -> "del_items = 0"
+            CATEGORY_FAVORITES -> "favorites = 1"
+            CATEGORY_TRASH -> "del_items = 1"
+            else -> throw Exception("Invalid category value")
+        }
+
+
+    // Выбор способа сортировки
+    private fun getOrderBy(noteCategory: String, sort: Int): String {
+        return if (noteCategory == CATEGORY_TRASH) {
+            NoteTable.COLUMN_DATE_DEL + " DESC" // Date of deletion
+        } else {
+            if (sort == 1) {
+                NoteTable.COLUMN_DATE_MOD + " DESC" // Modification
+            } else {
+                NoteTable.COLUMN_DATE + " DESC" // Create
+            }
+        }
     }
 
     // Получение заметки по id
@@ -60,7 +86,7 @@ class DateBaseAdapter(context: Context) {
         whereClause: String,
         orderBy: String?,
         whereArgs: Array<String>?
-    ): NoteCursorWrapperKt {
+    ): NoteCursorWrapperUpdate {
         val cursor = database.query(
             NoteTable.NAME_TABLE,
             null,
@@ -71,7 +97,7 @@ class DateBaseAdapter(context: Context) {
             orderBy
         )
 
-        return NoteCursorWrapperKt(cursor)
+        return NoteCursorWrapperUpdate(cursor)
     }
 
     // insert
@@ -94,6 +120,17 @@ class DateBaseAdapter(context: Context) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + id.toString(), null)
     }
 
+    fun deleteByTime(rangeInDays: Int) {
+        // Перевод дня в Unix-time для корректного сложения и сравнения
+        val range = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
+        database.delete(
+            NoteTable.NAME_TABLE,
+            NoteTable.COLUMN_DEL_ITEMS + " = " + 1
+                    + " and " + Date().time + " > (" +
+                    NoteTable.COLUMN_DATE_DEL + "+" + range + ")", null
+        )
+    }
+
     // update
     fun update(note: Note2) {
         val values = getContentValues(note)
@@ -110,7 +147,6 @@ class DateBaseAdapter(context: Context) {
         values.put(NoteTable.COLUMN_DATE_DEL, note.dateDelete.time)
         values.put(NoteTable.COLUMN_FAVORITES, note.isFavorite)
         values.put(NoteTable.COLUMN_DEL_ITEMS, note.isDelete)
-        values.put(NoteTable.COLUMN_CHECKED, note.isChecked)
         return values
     }
 
@@ -128,5 +164,14 @@ class DateBaseAdapter(context: Context) {
         fun getDateBase(): DateBaseAdapter {
             return INSTANCE ?: throw Exception("DateBase must be initialized")
         }
+
+        //
+        fun deleteNotesByTime(rangeInDays: Int) {
+            INSTANCE?.deleteByTime(rangeInDays)
+        }
+
+        const val CATEGORY_ALL_NOTES = "category_all_notes"
+        const val CATEGORY_FAVORITES = "category_favorites"
+        const val CATEGORY_TRASH = "category_trash"
     }
 }

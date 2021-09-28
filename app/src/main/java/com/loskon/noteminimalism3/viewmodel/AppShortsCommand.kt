@@ -7,8 +7,8 @@ class AppShortsCommand {
 
     private val baseAdapter = DateBaseAdapter.getDateBase()
 
-    fun getNotes(whereClause: String, orderBy: String): List<Note2> {
-        return baseAdapter.getNotes(whereClause, orderBy)
+    fun getNotes(notesCategory: String, sortingWay: Int): List<Note2> {
+        return baseAdapter.getNotes(notesCategory, sortingWay)
     }
 
     fun insert(note: Note2) {

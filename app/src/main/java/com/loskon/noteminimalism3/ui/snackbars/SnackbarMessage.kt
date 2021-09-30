@@ -19,6 +19,9 @@ class SnackbarMessage(
         const val MSG_AUTO_BACKUP_COMPLETED = "msg_auto_backup_completed"
         const val MSG_AUTO_BACKUP_FAILED = "msg_auto_backup_failed"
         const val MSG_AUTO_BACKUP_NOT_POSSIBLE = "msg_auto_backup_not_possible"
+        const val MSG_NOTE_RESTORED = "msg_note_restored"
+        const val MSG_COMBINED_NOTE_ADD = "msg_combined_note_added"
+        const val MSG_ERROR_COMBINING_NOTES = "msg_error_combining_notes"
 
         // Для Заметок
         const val MSG_TEXT_NO_PERMISSION_NOTE = "msg_no_permission"
@@ -34,12 +37,16 @@ class SnackbarMessage(
         // Общее
         const val MSG_UNABLE_CREATE_FILE = "msg_unable_create_file"
         const val MSG_ERROR = "msg_error"
+    }
 
+    fun show(typeMessage: String) {
+        val message: String = getMessage(typeMessage)
+        BaseSnackbar.make(context, layout, anchorView, message)
     }
 
     fun show(typeMessage: String, isSuccess: Boolean) {
         val message: String = getMessage(typeMessage)
-        BaseSnackbar.makeSnackbar(context, layout, anchorView, message, isSuccess)
+        BaseSnackbar.make(context, layout, anchorView, message, isSuccess)
     }
 
     private fun getMessage(typeMessage: String): String = when (typeMessage) {
@@ -47,6 +54,9 @@ class SnackbarMessage(
         MSG_AUTO_BACKUP_COMPLETED -> context.getString(R.string.toast_main_auto_backup_completed)
         MSG_AUTO_BACKUP_FAILED -> context.getString(R.string.toast_main_auto_backup_failed)
         MSG_AUTO_BACKUP_NOT_POSSIBLE -> context.getString(R.string.toast_main_auto_backup_not_possible)
+        MSG_NOTE_RESTORED -> context.getString(R.string.sb_main_restored)
+        MSG_COMBINED_NOTE_ADD -> context.getString(R.string.sb_main_combined_note_added)
+        MSG_ERROR_COMBINING_NOTES -> context.getString(R.string.sb_main_error_combining_notes)
         // Для Заметок
         MSG_TEXT_NO_PERMISSION_NOTE -> context.getString(R.string.no_permissions)
         MSG_NOTE_IS_EMPTY -> context.getString(R.string.sb_note_is_empty)

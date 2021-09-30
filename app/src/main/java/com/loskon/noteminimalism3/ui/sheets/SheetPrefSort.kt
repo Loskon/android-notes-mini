@@ -68,7 +68,7 @@ class SheetPrefSort(private val context: Context) {
 
         btnOk.setOnSingleClickListener {
             MySharedPref.setInt(context, MyPrefKey.KEY_SORT, checkedNumber)
-            callbackSort?.onCallBack()
+            callbackSort?.onChangeSortingWay(checkedNumber)
             sheetDialog.dismiss()
         }
     }
@@ -80,15 +80,15 @@ class SheetPrefSort(private val context: Context) {
 
     // Callback
     interface CallbackSort {
-        fun onCallBack()
+        fun onChangeSortingWay(sortingWay: Int)
     }
 
     companion object {
         var callbackSort: CallbackSort? = null
 
         @JvmStatic
-        fun regCallbackSort(callbackSort: CallbackSort) {
-            SheetPrefSort.callbackSort = callbackSort
+        fun listenerCallback(callbackSort: CallbackSort) {
+            this.callbackSort = callbackSort
         }
     }
 }

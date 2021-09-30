@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import androidx.annotation.ColorInt
@@ -19,26 +20,17 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
-import com.loskon.noteminimalism3.utils.ColorApp.Companion.ALPHA_COLOR
+import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
+import com.loskon.noteminimalism3.utils.ColorUtil.Companion.ALPHA_COLOR
 
 /**
  *
  */
 
-class ColorApp {
+class ColorUtil {
     companion object {
 
         const val ALPHA_COLOR = 70
-
-
-        fun getColor(context: Context): Int {
-            return MySharedPref.getInt(
-                context, MyPrefKey.KEY_COLOR,
-                context.getShortColor(R.color.material_blue)
-            )
-        }
 
         fun setDarkTheme(isDarkMode: Boolean) {
             if (isDarkMode) {
@@ -59,18 +51,18 @@ class ColorApp {
 //
 fun NavigationView.setColorStateMenuItem(context: Context) {
     // Цвет MenuItem для NavigationView
-    val colorChecked = ColorApp.getColor(context)
+    val colorChecked = AppPref.getAppColor(context)
 
     var navDefaultTextColor = Color.BLACK
     var navDefaultIconColor = Color.BLACK
 
-    if (ColorApp.hasDarkMode(context)) {
+    if (ColorUtil.hasDarkMode(context)) {
         navDefaultTextColor = Color.WHITE
         navDefaultIconColor = context.getShortColor(R.color.color_icon_nav_menu_dark)
     }
 
 
-    // ColorStateList for menu item Text
+    // ColorStateList для текста пункта меню
     val navMenuTextList = ColorStateList(
         arrayOf(
             intArrayOf(android.R.attr.state_checked),
@@ -87,7 +79,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
         )
     )
 
-    // ColorStateList for menu item Icon
+    // ColorStateList для иконки пункта меню
     val navMenuIconList = ColorStateList(
         arrayOf(
             intArrayOf(android.R.attr.state_checked),
@@ -165,7 +157,7 @@ fun View.setColorBackgroundSnackbar(context: Context, isSuccess: Boolean) {
 }
 
 fun Context.getSuccessColor(isSuccess: Boolean): Int {
-    return if (ColorApp.hasDarkMode(this)) {
+    return if (ColorUtil.hasDarkMode(this)) {
         if (isSuccess) {
             R.color.snackbar_completed_dark
         } else {
@@ -180,7 +172,18 @@ fun Context.getSuccessColor(isSuccess: Boolean): Int {
     }
 }
 
+
 //
 fun View.setBackgroundTintColor(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
+}
+
+
+//
+fun View.ripple(): View {
+    val value = TypedValue()
+    context.theme.resolveAttribute(android.R.attr.colorControlHighlight, value, true)
+    setBackgroundResource(value.resourceId)
+    isFocusable = true // Required for some view types
+    return this
 }

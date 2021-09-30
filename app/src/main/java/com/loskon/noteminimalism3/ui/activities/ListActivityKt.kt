@@ -132,7 +132,7 @@ class ListActivityKt : AppCompatActivity(),
         NoteListAdapter.setClickListener(this)
         SwipeCallbackNote.setSwipeListener(this)
         NoteFragmentKt.setNoteListener(this)
-        BottomSheetCategory.callbackCategoryListener(this)
+        BottomSheetCategory.listenerCallback(this)
         NoteTrashFragment.setNoteListener(this)
     }
 

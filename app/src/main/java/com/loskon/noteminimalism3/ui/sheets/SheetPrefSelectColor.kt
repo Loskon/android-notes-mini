@@ -77,10 +77,10 @@ class SheetPrefSelectColor(private val context: Context) {
     }
 
     private fun callingCallbacks() {
-        callbackColorNavIcon?.onCallback(color)
-        callbackColorSettingsApp?.onCallback(color)
-        callbackColorNotifyData?.onCallback()
-        callbackColorMain?.onCallback(color)
+        callbackColorNavIcon?.onChangeColor(color)
+        callbackColorSettingsApp?.onChangeColor(color)
+        callbackColorNotifyData?.onChangeColor()
+        callbackColorMain?.onChangeColor(color)
     }
 
     fun show() {
@@ -90,19 +90,19 @@ class SheetPrefSelectColor(private val context: Context) {
 
     // Callbacks
     interface CallbackColorNavIcon {
-        fun onCallback(color: Int)
+        fun onChangeColor(color: Int)
     }
 
     interface CallbackColorSettingsApp {
-        fun onCallback(color: Int)
+        fun onChangeColor(color: Int)
     }
 
     interface CallbackColorNotifyData {
-        fun onCallback()
+        fun onChangeColor()
     }
 
     interface CallbackColorMain {
-        fun onCallback(color: Int)
+        fun onChangeColor(color: Int)
     }
 
     companion object {
@@ -113,22 +113,22 @@ class SheetPrefSelectColor(private val context: Context) {
 
         @JvmStatic
         fun regCallBackColorNavIcon(callbackColorNavIcon: CallbackColorNavIcon) {
-            SheetPrefSelectColor.callbackColorNavIcon = callbackColorNavIcon
+            this.callbackColorNavIcon = callbackColorNavIcon
         }
 
         @JvmStatic
         fun regCallBackColorSettingsApp(callbackColorSettingsApp: CallbackColorSettingsApp) {
-            SheetPrefSelectColor.callbackColorSettingsApp = callbackColorSettingsApp
+            this.callbackColorSettingsApp = callbackColorSettingsApp
         }
 
         @JvmStatic
         fun regCallBackColorNotifyData(callbackColorNotifyData: CallbackColorNotifyData) {
-            SheetPrefSelectColor.callbackColorNotifyData = callbackColorNotifyData
+            this.callbackColorNotifyData = callbackColorNotifyData
         }
 
         @JvmStatic
-        fun regCallBackColorMain(callbackColorMain: CallbackColorMain) {
-            SheetPrefSelectColor.callbackColorMain = callbackColorMain
+        fun listenerCallBack(callbackColorMain: CallbackColorMain) {
+            this.callbackColorMain = callbackColorMain
         }
     }
 }

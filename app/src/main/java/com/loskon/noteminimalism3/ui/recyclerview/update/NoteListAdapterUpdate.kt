@@ -21,11 +21,11 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
 
-    private var list = emptyList<Note2>()
+    private var list: List<Note2> = emptyList()
 
     private var hasLinearList: Boolean = true
     private var hasOneSizeCards: Boolean = false
-    private var isSelectionMode: Boolean = false
+    private var isSelMode: Boolean = false
     private var titleFontSize: Int = 0
     private var dateFontSize: Int = 0
     private var numberLines: Int = 0
@@ -53,16 +53,7 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
             title.apply {
                 setFontSize(titleFontSize)
                 maxLines = numberLines
-
-                minLines = if (hasLinearList) {
-                    1
-                } else {
-                    if (hasOneSizeCards) {
-                        numberLines
-                    } else {
-                        1
-                    }
-                }
+                minLines = getTitleMinLines()
             }
 
             date.setFontSize(dateFontSize)
@@ -94,29 +85,41 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
     }
 
     private fun clickingItem(note: Note2, position: Int) {
-        if (isSelectionMode) {
+        if (isSelMode) {
             selectingItem(note, position)
         } else {
-            callback?.onClickingItem(note)
+            callback?.onClickingNote(note)
         }
     }
 
     private fun selectingItem(note: Note2, position: Int) {
         toggleSelection(note, position)
-        callback?.onSelectingItem(selectedItemsCount, hasAllSelected)
+        callback?.onSelectingNote(selectedItemsCount, hasAllSelected)
     }
 
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
 
     private fun longClickingItem(note: Note2, position: Int) {
-        if (!isSelectionMode) activationDeleteMode()
+        if (!isSelMode) activationDeleteMode()
         selectingItem(note, position)
     }
 
     private fun activationDeleteMode() {
-        isSelectionMode = true
-        callback?.onActivationDeleteMode(true)
+        isSelMode = true
+        callback?.onActivatingSelectionMode(true)
         clearSelectionItems()
+    }
+
+    private fun getTitleMinLines(): Int {
+        return if (hasLinearList) {
+            1
+        } else {
+            if (hasOneSizeCards) {
+                numberLines
+            } else {
+                1
+            }
+        }
     }
 
     // Внешние методы
@@ -163,8 +166,8 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
         return list[position]
     }
 
-    fun disableDeleteMode() {
-        isSelectionMode = false
+    fun disableSelectionMode() {
+        isSelMode = false
         resetSelectedItems()
         clearSelectionItems()
     }
@@ -172,7 +175,7 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
     fun selectAllNotes() {
         selectAllItem(list, hasAllSelected)
         itemsChanged()
-        callback?.onSelectingItem(selectedItemsCount, hasAllSelected)
+        callback?.onSelectingNote(selectedItemsCount, hasAllSelected)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -182,15 +185,15 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
 
     // Callback
     interface CallbackAdapter {
-        fun onClickingItem(note: Note2)
-        fun onActivationDeleteMode(isDeleteMode: Boolean)
-        fun onSelectingItem(selectedItemCount: Int, hasAllSelected: Boolean)
+        fun onClickingNote(note: Note2)
+        fun onActivatingSelectionMode(isSelMode: Boolean)
+        fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
     }
 
     companion object {
         private var callback: CallbackAdapter? = null
 
-        fun callbackAdapterListener(callback: CallbackAdapter) {
+        fun listenerCallback(callback: CallbackAdapter) {
             this.callback = callback
         }
     }

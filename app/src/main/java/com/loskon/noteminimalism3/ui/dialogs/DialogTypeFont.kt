@@ -40,7 +40,7 @@ class DialogTypeFont(private val context: Context) {
     private fun setupViews(checkedId: Int) {
         btnOk.setOnClickListener {
             MySharedPref.setInt(context, MyPrefKey.KEY_TYPE_FONT, checkedId)
-            callbackTypeFont?.onCallBack()
+            callbackTypeFont?.onChangeFont()
             MyIntent.goSettingsActivityClear(context)
             materialDialog.dismiss()
         }
@@ -50,14 +50,14 @@ class DialogTypeFont(private val context: Context) {
 
     // Callback
     interface CallbackTypeFont {
-        fun onCallBack()
+        fun onChangeFont()
     }
 
     companion object {
         var callbackTypeFont: CallbackTypeFont? = null
 
         @JvmStatic
-        fun regCallBackTypeFont(callbackTypeFont: CallbackTypeFont) {
+        fun listenerCallBack(callbackTypeFont: CallbackTypeFont) {
             DialogTypeFont.callbackTypeFont = callbackTypeFont
         }
     }

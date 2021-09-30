@@ -24,9 +24,9 @@
 
 
     <!-- custom -->
-    <color name="snackbar_completed_light">#60ad5e</color>
+    <color name="snackbar_completed_light">#2e7d32</color>
     <color name="snackbar_completed_dark">#005005</color>
-    <color name="snackbar_no_completed_light">#c62828</color>
+    <color name="snackbar_no_completed_light">#b71c1c</color>
     <color name="snackbar_no_completed_dark">#8e0000</color>
 
 

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.utils
+package com.loskon.noteminimalism3.other
 
 import android.graphics.RectF
 import android.text.Layout
@@ -8,14 +8,18 @@ import android.text.style.URLSpan
 import android.view.MotionEvent
 import android.widget.TextView
 
+/**
+ * Кастомный класс LinkMovementMethod с защитой от неправильного определения
+ * ссылки
+ */
 
-abstract class CustomMovementMethod3 : LinkMovementMethod() {
+abstract class CustomMovementMethodUpdate : LinkMovementMethod() {
 
     private val rectF: RectF = RectF()
 
     override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_UP) {
-            // Locate the area that was pressed
+            // Найти область, которая была нажата
             var x: Int = event.x.toInt()
             var y: Int = event.y.toInt()
 
@@ -25,7 +29,7 @@ abstract class CustomMovementMethod3 : LinkMovementMethod() {
             x += widget.scrollX
             y += widget.scrollY
 
-            // Locate the URL text
+            // Найдите URL-адрес в тексте
             val layout: Layout = widget.layout
             val line: Int = layout.getLineForVertical(y)
             val offset: Int = layout.getOffsetForHorizontal(line, x.toFloat())
@@ -33,16 +37,17 @@ abstract class CustomMovementMethod3 : LinkMovementMethod() {
             rectF.getCoordinatesInTouchArea(layout, line)
 
             if (rectF.contains(x.toFloat(), y.toFloat())) {
-                // Найдите область кликабельности, которая находится под затронутой областью
+                // Найти область кликабельности, которая находится под затронутой областью
                 val link: Array<URLSpan> = buffer.getSpans(offset, offset, URLSpan::class.java)
 
                 if (link.isNotEmpty()) {
-                    onLinkClick(link[0].url)
+                    onClickingLink(link[0].url)
                 } else {
-                    onNoLinkClick()
+                    onClickingNoLink()
                 }
+
             } else {
-                onNoLinkClick()
+                onClickingNoLink()
             }
 
             return true
@@ -58,6 +63,6 @@ abstract class CustomMovementMethod3 : LinkMovementMethod() {
         bottom = layout.getLineBottom(line).toFloat()
     }
 
-    abstract fun onLinkClick(url: String)
-    abstract fun onNoLinkClick()
+    abstract fun onClickingLink(url: String)
+    abstract fun onClickingNoLink()
 }

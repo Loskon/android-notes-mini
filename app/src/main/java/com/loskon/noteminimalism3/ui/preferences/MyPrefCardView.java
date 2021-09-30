@@ -27,13 +27,13 @@ public class MyPrefCardView extends Preference implements SettingsAppFragment.Ca
 
     private View view;
     private TextView txtFontSize, txtDateFontSize, titleCategory;
-    private int fontSize;
+    private int titleFontSize;
     private int dateFontSize;
     private Slider sliderFontSize;
 
     private static CallbackFontSize callbackFontSize;
 
-    public static void regCallbackFontSize(CallbackFontSize callbackFontSize){
+    public static void listenerCallback(CallbackFontSize callbackFontSize){
         MyPrefCardView.callbackFontSize = callbackFontSize;
     }
 
@@ -71,17 +71,17 @@ public class MyPrefCardView extends Preference implements SettingsAppFragment.Ca
     }
 
     private void loadAppearanceSettings() {
-        fontSize = GetSharedPref.getFontSize(getContext());
+        titleFontSize = GetSharedPref.getFontSize(getContext());
     }
 
     private void initialiseWidgets() {
         txtFontSize.setText(getContext().getString(R.string.title_card_view));
         txtDateFontSize.setText(getContext().getString(R.string.date_card_view));
 
-        sliderFontSize.setValue(fontSize);
-        txtFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+        sliderFontSize.setValue(titleFontSize);
+        txtFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
         txtDateFontSize.setTextSize(TypedValue
-                .COMPLEX_UNIT_SP, PrefHelper.getDateFontSize(fontSize));
+                .COMPLEX_UNIT_SP, PrefHelper.getDateFontSize(titleFontSize));
 
         int color = MyColor.getMyColor(getContext());
         changeColor(color);
@@ -98,11 +98,11 @@ public class MyPrefCardView extends Preference implements SettingsAppFragment.Ca
 
     private void sliderHandler() {
         sliderFontSize.addOnChangeListener((slider, value, fromUser) -> {
-            fontSize = (int) value;
-            dateFontSize = PrefHelper.getDateFontSize(fontSize);
-            txtFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+            titleFontSize = (int) value;
+            dateFontSize = PrefHelper.getDateFontSize(titleFontSize);
+            txtFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
             txtDateFontSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, dateFontSize);
-            saveAppearanceSettings(fontSize, dateFontSize);
+            saveAppearanceSettings(titleFontSize, dateFontSize);
             goCallbackInMain();
         });
     }
@@ -116,18 +116,18 @@ public class MyPrefCardView extends Preference implements SettingsAppFragment.Ca
 
     @Override
     public void callBackReset() {
-        fontSize = 18;
-        dateFontSize = PrefHelper.getDateFontSize(fontSize);
-        saveAppearanceSettings(fontSize, dateFontSize);
+        titleFontSize = 18;
+        dateFontSize = PrefHelper.getDateFontSize(titleFontSize);
+        saveAppearanceSettings(titleFontSize, dateFontSize);
         initialiseWidgets();
         goCallbackInMain();
     }
 
     private void goCallbackInMain() {
-        if (callbackFontSize != null) callbackFontSize.callBack(fontSize, dateFontSize);
+        if (callbackFontSize != null) callbackFontSize.onChangeFontSizes(titleFontSize, dateFontSize);
     }
 
     public interface CallbackFontSize {
-        void callBack(int fontSize, int dateFontSize);
+        void onChangeFontSizes(int fontSize, int dateFontSize);
     }
 }

@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.ui.fragments.update
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -20,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.AutoBackup
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.other.CustomMovementMethodUpdate
 import com.loskon.noteminimalism3.other.TextNoteAssistantUpdate
 import com.loskon.noteminimalism3.permissions.PermissionsInterface
 import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
@@ -129,7 +129,7 @@ class NoteFragmentUpdate : Fragment(),
             savedText = note.title
         }
 
-        activity.showToast("state "+ note.isDelete)
+        activity.showToast("state " + note.isDelete)
     }
 
     private fun setupColor() {
@@ -195,12 +195,12 @@ class NoteFragmentUpdate : Fragment(),
         showSoftInputOnFocus = false
         setLinkTextColor(color)
 
-        movementMethod = object : CustomMovementMethod3() {
-            override fun onLinkClick(url: String) {
+        movementMethod = object : CustomMovementMethodUpdate() {
+            override fun onClickingLink(url: String) {
                 DialogNoteLinksUpdate(activity, this@NoteFragmentUpdate).show(url)
             }
 
-            override fun onNoLinkClick() {
+            override fun onClickingNoLink() {
                 handlingClickOnEmptyArea()
             }
         }
@@ -236,27 +236,13 @@ class NoteFragmentUpdate : Fragment(),
             }
 
             R.id.btn_del_note_up -> {
-                /*note.isDelete = true
-
-                note.dateDelete = Date()
-
-                //callback?.onNoteDelete(note, isFav)
-                shortsCommand.delete(note)
-
-                callback?.onNoteUpdate()*/
-
-
                 note.dateDelete = Date()
                 note.isDelete = true
                 note.isFavorite = false
                 shortsCommand.update(note)
 
-
                 callback?.onNoteSendToTrash(note, isFavoriteStatus)
                 activity.showToast("delete")
-
-
-
 
                 activity.onBackPressed()
             }
@@ -288,15 +274,16 @@ class NoteFragmentUpdate : Fragment(),
 
     private fun handlingClickOnEmptyArea() {
         BaseSnackbar.dismiss()
-        if (!isTextEditingMod) activationTextEditingMode()
+        if (supportedLinks != 0 && !isTextEditingMod) activationTextEditingMode()
         editText.showKeyboard(activity)
         editText.setSelection(editText.getLength())
-        Log.d(TAG, "Click")
+        activity.showToast(editText.text.toString())
     }
 
     private fun activationTextEditingMode() {
         isTextEditingMod = true
         editText.apply {
+            note.title = text.toString()
             autoLinkMask = 0
             showSoftInputOnFocus = true
             isCursorVisible = true
@@ -404,7 +391,7 @@ class NoteFragmentUpdate : Fragment(),
 
         private var callback: CallbackNoteUpdate? = null
 
-        fun callbackNoteListener(callback: CallbackNoteUpdate) {
+        fun listenerCallback(callback: CallbackNoteUpdate) {
             this.callback = callback
         }
 

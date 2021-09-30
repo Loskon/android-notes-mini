@@ -18,6 +18,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.files.AutoBackup
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.other.CustomMovementMethodUpdate
 import com.loskon.noteminimalism3.other.TextNoteAssistant
 import com.loskon.noteminimalism3.permissions.PermissionsInterface
 import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
@@ -169,12 +170,12 @@ class NoteFragmentKt : Fragment(),
         autoLinkMask = supportedLinks
 
         setLinkTextColor(MyColor.getMyColor(activity))
-        movementMethod = object : CustomMovementMethod3() {
-            override fun onLinkClick(url: String) {
+        movementMethod = object : CustomMovementMethodUpdate() {
+            override fun onClickingLink(url: String) {
                 DialogNoteLinks2(activity, this@NoteFragmentKt).show(url)
             }
 
-            override fun onNoLinkClick() {
+            override fun onClickingNoLink() {
                 handlingClickOnEmptyArea()
             }
         }

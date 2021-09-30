@@ -14,7 +14,10 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.utils.*
+import com.loskon.noteminimalism3.utils.getShortDrawable
+import com.loskon.noteminimalism3.utils.menuIconColor
+import com.loskon.noteminimalism3.utils.setFabColor
+import com.loskon.noteminimalism3.utils.setNavigationIconColor
 import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 
 /**
@@ -24,7 +27,7 @@ import com.loskon.noteminimalism3.viewmodel.NoteViewModel
 class WidgetHelperUpdate(
     private val context: Context,
     private val fab: FloatingActionButton,
-    private val bottomAppBar: BottomAppBar
+    private val bottomBar: BottomAppBar
 ) {
 
     companion object {
@@ -35,23 +38,36 @@ class WidgetHelperUpdate(
         const val ICON_FAB_DELETE = "fab_icon_delete"
     }
 
-    private val appBarMenu: Menu = bottomAppBar.menu
-    private val color: Int = ColorApp.getColor(context)
+    private val barMenu: Menu = bottomBar.menu
+
+    private var color: Int = 0
 
     init {
         Log.d(TAG, "initialization")
-        bottomAppBar.setNavigationIconColor(color)
-        fab.setFabColor(color)
+    }
+
+    fun setColorViews(color: Int) {
+        this.color = color
+        setColorWidgets()
         setMenuIconColor()
+    }
+
+    private fun setColorWidgets() {
+        bottomBar.setNavigationIconColor(color)
+        fab.setFabColor(color)
     }
 
     // Menu
     private fun setMenuIconColor() {
-        appBarMenu.menuIconColor(color)
+        barMenu.menuIconColor(color)
     }
 
-    fun setVisibleUnification(notesCategory: String, hasRequiredRange: Boolean) {
+    fun changeVisibleUnification(notesCategory: String, hasRequiredRange: Boolean) {
         val isVisible: Boolean = (notesCategory != CATEGORY_TRASH && hasRequiredRange)
+        setVisibleUnification(isVisible)
+    }
+
+    fun setVisibleUnification(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_unification, isVisible)
     }
 
@@ -59,14 +75,14 @@ class WidgetHelperUpdate(
         setVisibleMenuItem(R.id.action_select_item, isVisible)
     }
 
-    fun setVisibleList(isVisible: Boolean) {
+    fun setVisibleSearchAndSwitch(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_switch_view, isVisible)
         setVisibleMenuItem(R.id.action_search, isVisible)
         setMenuIconColor()
     }
 
     private fun setVisibleMenuItem(menuId: Int, isVisible: Boolean) {
-        appBarMenu.findItem(menuId).isVisible = isVisible
+        barMenu.findItem(menuId).isVisible = isVisible
     }
 
     fun setSelectIcon(isSelectOne: Boolean) {
@@ -96,22 +112,27 @@ class WidgetHelperUpdate(
     }
 
     private fun setMenuIcon(menuItem: Int, icon: Int) {
-        appBarMenu.findItem(menuItem).icon = context.getShortDrawable(icon)
+        barMenu.findItem(menuItem).icon = context.getShortDrawable(icon)
     }
 
 
-    // Bottom App Bar
-    fun setNavigationIcon(isDel: Boolean) {
-        val navIconId: Int = if (isDel) {
+    // Bottom Bar
+    fun setNavigationIcon(isIconClose: Boolean) {
+        val navIconId: Int = if (isIconClose) {
             R.drawable.baseline_menu_black_24
         } else {
             R.drawable.baseline_close_black_24
         }
 
-        bottomAppBar.setNavigationIcon(navIconId)
-        bottomAppBar.setNavigationIconColor(color)
+        bottomBar.setNavigationIcon(navIconId)
+        bottomBar.setNavigationIconColor(color)
     }
 
+    fun hideNavigationIcon() {
+        bottomBar.navigationIcon = null
+    }
+
+    // Fab
     fun setIconFabCategory(notesCategory: String) {
         val iconIdFab: Int = when (notesCategory) {
             CATEGORY_ALL_NOTES -> R.drawable.baseline_add_black_24
@@ -123,15 +144,23 @@ class WidgetHelperUpdate(
         fab.setImageDrawable(context.getShortDrawable(iconIdFab))
     }
 
+    fun setDeleteIconFab(notesCategory: String) {
+        val iconIdFab = if (notesCategory == CATEGORY_TRASH) {
+            R.drawable.baseline_delete_forever_black_24
+        } else {
+            R.drawable.baseline_delete_black_24
+        }
+
+        fab.setImageDrawable(context.getShortDrawable(iconIdFab))
+    }
+
     fun startAnimateFab() {
         ObjectAnimator.ofFloat(fab, "rotation", 0f, 360f)
             .setDuration(300).start()
     }
 
-
-    // Fab
-    fun setIconFab(icon: String) {
-        val iconIdFab: Int = when (icon) {
+    fun setIconFab(iconName: String) {
+        val iconIdFab: Int = when (iconName) {
             ICON_FAB_ADD -> R.drawable.baseline_add_black_24
             ICON_FAB_SEARCH_CLOSE -> R.drawable.baseline_search_off_black_24
             ICON_FAB_DELETE -> R.drawable.baseline_delete_black_24
@@ -144,7 +173,7 @@ class WidgetHelperUpdate(
     fun setIconFab(category: String, isSearch: Boolean) {
         if (isSearch) {
             setIconFab(ICON_FAB_SEARCH_CLOSE)
-            changeBarVisible(false)
+            bottomBarVisible(false)
         } else {
             if (category == NoteViewModel.CATEGORY_TRASH) {
                 setIconFab(ICON_FAB_DELETE)
@@ -154,11 +183,11 @@ class WidgetHelperUpdate(
         }
     }
 
-    fun changeBarVisible(isVisible: Boolean) {
+    fun bottomBarVisible(isVisible: Boolean) {
         if (isVisible) {
-            bottomAppBar.performShow()
+            bottomBar.performShow()
         } else {
-            bottomAppBar.performHide()
+            bottomBar.performHide()
         }
     }
 }

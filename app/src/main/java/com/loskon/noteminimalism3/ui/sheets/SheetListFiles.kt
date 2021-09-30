@@ -74,7 +74,7 @@ class SheetListFiles(private val context: Context) {
     }
 
     fun dismissSheet() {
-        callbackRestoreNote?.onCallBack()
+        callbackRestoreNote?.onRestoreNotes()
         sheetDialog.dismiss()
     }
 
@@ -85,14 +85,14 @@ class SheetListFiles(private val context: Context) {
 
     // Callback
     interface CallbackRestoreNote {
-        fun onCallBack()
+        fun onRestoreNotes()
     }
 
     companion object {
         private var callbackRestoreNote: CallbackRestoreNote? = null
 
         @JvmStatic
-        fun regCallbackRestoreNote(callbackRestoreNote: CallbackRestoreNote) {
+        fun listenerCallback(callbackRestoreNote: CallbackRestoreNote) {
             Companion.callbackRestoreNote = callbackRestoreNote
         }
     }

@@ -13,6 +13,7 @@
     <!-- activity_note -->
     <string name="hint_note_text">Text</string>
     <string name="note_deleted">Note deleted</string>
+    <string name="delete">Delete</string>
 
     <!-- activity_settings -->
     <string name="feedback">Feedback</string>
@@ -76,6 +77,9 @@
     <string name="sb_main_deleted">Note deleted!</string>
     <string name="sb_main_add_trash">Note added to trash!</string>
     <string name="sb_main_but_empty_trash">But it was empty…</string>
+    <string name="sb_main_restored">Note restored!</string>
+    <string name="sb_main_combined_note_added">Combined note added!</string>
+    <string name="sb_main_error_combining_notes">Error combining notes!</string>
 
     <!-- Note -->
     <string name="sb_note_in_trash">The note is in the trash!</string>

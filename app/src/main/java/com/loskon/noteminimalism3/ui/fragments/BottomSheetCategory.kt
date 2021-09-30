@@ -102,7 +102,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
 
         private var callback: CallbackCategory? = null
 
-        fun callbackCategoryListener(callback: CallbackCategory) {
+        fun listenerCallback(callback: CallbackCategory) {
             this.callback = callback
         }
 

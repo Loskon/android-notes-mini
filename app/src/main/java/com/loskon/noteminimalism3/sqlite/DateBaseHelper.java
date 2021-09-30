@@ -14,7 +14,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 /**
  * Помощник SQLite для настройки базы данных и ее обработки
  */
@@ -43,11 +42,8 @@ public class DateBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
         // Повторная инициализация базы данных
-        //database.execSQL("DROP TABLE IF EXISTS " + NAME_TABLE);
-/*        if (oldVersion < 2) {
-            database.execSQL("ALTER TABLE "+ NAME_TABLE+" ADD COLUMN " + COLUMN_CHECKED + " INTEGER DEFAULT 0");
-        }*/
-        //onCreate(database);
+        database.execSQL("DROP TABLE IF EXISTS " + NAME_TABLE);
+        onCreate(database);
     }
 }
 

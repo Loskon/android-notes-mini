@@ -48,12 +48,12 @@ class NoteTrashFragmentUpdate : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.note_trash, container, false)
-        constLayout = view.findViewById(R.id.cst)
-        editText = view.findViewById(R.id.et_note_title)
-        linearLayout = view.findViewById(R.id.linLytNote)
-        fab = view.findViewById(R.id.fab_trash)
-        btnDel = view.findViewById(R.id.btn_trash)
+        val view = inflater.inflate(R.layout.note_trash_update, container, false)
+        constLayout = view.findViewById(R.id.const_layout_note_up)
+        editText = view.findViewById(R.id.edit_text_note_up)
+        linearLayout = view.findViewById(R.id.linear_layout_note_up)
+        fab = view.findViewById(R.id.fab_note_up)
+        btnDel = view.findViewById(R.id.btn_delete)
         return view
     }
 
@@ -126,7 +126,7 @@ class NoteTrashFragmentUpdate : Fragment() {
     companion object {
         private var callback: CallbackNoteTrashUpdate? = null
 
-        fun callbackNoteTrashListener(callback: CallbackNoteTrashUpdate) {
+        fun listenerCallback(callback: CallbackNoteTrashUpdate) {
             this.callback = callback
         }
 

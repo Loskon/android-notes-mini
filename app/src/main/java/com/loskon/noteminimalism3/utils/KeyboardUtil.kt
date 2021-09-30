@@ -6,7 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
 /**
- *
+ * Управление состоянием клавиатуры
  */
 
 fun EditText.showKeyboard(context: Context) {

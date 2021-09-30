@@ -4,7 +4,7 @@ import android.os.SystemClock
 import android.view.View
 
 /**
- *
+ * Позволяет убрать двойной клик
  */
 
 class OnSingleClickListener(private val block: () -> Unit) : View.OnClickListener {

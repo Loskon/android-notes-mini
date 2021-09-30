@@ -45,7 +45,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="16dp"
                 android:ellipsize="end"
-                android:text="@{note.title}"
+                android:text="@{note.title.trim()}"
                 android:textColor="?attr/colorTitle"
                 android:textSize="18sp" />
 

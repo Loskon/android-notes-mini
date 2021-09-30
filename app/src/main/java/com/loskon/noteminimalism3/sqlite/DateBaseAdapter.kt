@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.sqlite
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import com.loskon.noteminimalism3.model.Note2
@@ -9,9 +10,8 @@ import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 /**
- * Работы с данными базы данных
+ * Вспомогательный класс для работы с данными БД
  */
 
 class DateBaseAdapter(context: Context) {
@@ -26,12 +26,12 @@ class DateBaseAdapter(context: Context) {
         }
 
     // Получение списка заметок
-    fun getNotes(noteCategory: String, sortingWay: Int): List<Note2> {
+    fun getNotes(searchTerm: String?, noteCategory: String, sortingWay: Int): List<Note2> {
         val notes: ArrayList<Note2> = ArrayList<Note2>()
         val whereClause: String = getWhereClause(noteCategory)
         val orderBy: String = getOrderBy(noteCategory, sortingWay)
 
-        queryNotes(whereClause, orderBy, null).use { cursor ->
+        queryNotes(searchTerm, whereClause, orderBy, null).use { cursor ->
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {
                 notes.add(cursor.getNotes())
@@ -45,9 +45,9 @@ class DateBaseAdapter(context: Context) {
     // Выбор категории
     private fun getWhereClause(category: String): String =
         when (category) {
-            CATEGORY_ALL_NOTES -> "del_items = 0"
-            CATEGORY_FAVORITES -> "favorites = 1"
-            CATEGORY_TRASH -> "del_items = 1"
+            CATEGORY_ALL_NOTES -> NoteTable.COLUMN_DEL_ITEMS + " = 0"
+            CATEGORY_FAVORITES -> NoteTable.COLUMN_FAVORITES + " = 1"
+            CATEGORY_TRASH -> NoteTable.COLUMN_DEL_ITEMS + " = 1"
             else -> throw Exception("Invalid category value")
         }
 
@@ -69,7 +69,7 @@ class DateBaseAdapter(context: Context) {
     fun getNote(id: Long): Note2? {
 
         queryNotes(
-            NoteTable.COLUMN_ID + "=?",
+            null, NoteTable.COLUMN_ID + "=?",
             null, arrayOf(id.toString())
         ).use { cursor ->
             if (cursor.count == 0) {
@@ -83,14 +83,23 @@ class DateBaseAdapter(context: Context) {
 
     // Получение объектов Note
     private fun queryNotes(
+        searchTerm: String?,
         whereClause: String,
         orderBy: String?,
         whereArgs: Array<String>?
     ): NoteCursorWrapperUpdate {
-        val cursor = database.query(
+        val cursor: Cursor
+
+        val where: String = if (searchTerm != null && searchTerm.isNotEmpty()) {
+            NoteTable.COLUMN_TITLE + " LIKE '%$searchTerm%' AND " + whereClause
+        } else {
+            whereClause
+        }
+
+        cursor = database.query(
             NoteTable.NAME_TABLE,
             null,
-            whereClause,
+            where,
             whereArgs,
             null,
             null,
@@ -114,10 +123,6 @@ class DateBaseAdapter(context: Context) {
     // delete
     fun delete(note: Note2) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + note.id, null)
-    }
-
-    fun deleteById(id: Long) {
-        database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + id.toString(), null)
     }
 
     fun deleteByTime(rangeInDays: Int) {

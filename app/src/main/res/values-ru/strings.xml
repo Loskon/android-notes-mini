@@ -8,6 +8,7 @@
     <!-- activity_note -->
     <string name="hint_note_text">Текст</string>
     <string name="note_deleted">Заметка удалена</string>
+    <string name="delete">Удалить</string>
 
     <!-- activity_settings -->
     <string name="feedback">Обратная связь</string>
@@ -53,6 +54,9 @@
     <string name="sb_main_deleted">Заметка удалена!</string>
     <string name="sb_main_add_trash">Заметка отправлена в корзину!</string>
     <string name="sb_main_but_empty_trash">Но корзина же пустая…</string>
+    <string name="sb_main_restored">Заметка восстановлена!</string>
+    <string name="sb_main_combined_note_added">Объединенная заметка добавлена!</string>
+    <string name="sb_main_error_combining_notes">Ошибка объединения заметок!</string>
 
     <!-- Note -->
     <string name="sb_note_in_trash">Эта заметка находится в корзине!</string>

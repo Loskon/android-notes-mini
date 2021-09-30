@@ -106,7 +106,7 @@ class NoteListFragment3 : Fragment(),
         recyclerView = view.findViewById(R.id.recycler_view_notes)
         tvEmpty = view.findViewById(R.id.tv_empty_list)
         cardView = view.findViewById(R.id.card_view_main)
-        tvNumber = view.findViewById(R.id.tv_number_selected)
+        tvNumber = view.findViewById(R.id.tv_selected_items_count)
     }
 
     private fun configureRecyclerView() {
@@ -179,7 +179,7 @@ class NoteListFragment3 : Fragment(),
         NoteListAdapter.setClickListener(this)
         SwipeCallbackNote.setSwipeListener(this)
         NoteFragment.setNoteListener(this)
-        BottomSheetCategory.callbackCategoryListener(this)
+        BottomSheetCategory.listenerCallback(this)
     }
 
     private fun installHandlers() {

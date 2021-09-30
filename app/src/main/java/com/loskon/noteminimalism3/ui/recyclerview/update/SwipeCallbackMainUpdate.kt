@@ -72,7 +72,7 @@ class SwipeCallbackMainUpdate(
     companion object {
         private var callback: CallbackSwipeUpdate? = null
 
-        fun callbackSwipeListener(callback: CallbackSwipeUpdate) {
+        fun listenerCallback(callback: CallbackSwipeUpdate) {
             Companion.callback = callback
         }
     }

@@ -20,15 +20,15 @@ import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor;
 
 public class MyPrefNumOfLines extends Preference {
 
-    private static CallbackNumOfLines callbackNumOfLines;
+    private static CallbackNumberLines callbackNumberLines;
 
     // for Callback
     public MyPrefNumOfLines(Context context) {
         super(context);
     }
 
-    public static void regCallbackNumOfLines(CallbackNumOfLines callbackNumOfLines){
-        MyPrefNumOfLines.callbackNumOfLines = callbackNumOfLines;
+    public static void listenerCallback(CallbackNumberLines callbackNumberLines){
+        MyPrefNumOfLines.callbackNumberLines = callbackNumberLines;
     }
 
     public MyPrefNumOfLines(Context context, AttributeSet attrs) {
@@ -65,12 +65,12 @@ public class MyPrefNumOfLines extends Preference {
 
         sliderNumOfLines.addOnChangeListener((slider1, value, fromUser) -> {
             MySharedPref.setInt(getContext(), key, (int) value);
-            if (callbackNumOfLines != null) callbackNumOfLines.callBack((int) value);
+            if (callbackNumberLines != null) callbackNumberLines.onChangeNumberLines((int) value);
         });
     }
 
-    public interface CallbackNumOfLines {
-        void callBack(int numOfLines);
+    public interface CallbackNumberLines {
+        void onChangeNumberLines(int numberLines);
     }
 
 }

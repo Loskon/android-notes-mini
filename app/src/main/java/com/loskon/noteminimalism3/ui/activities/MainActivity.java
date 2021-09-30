@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         bottomAppBar = findViewById(R.id.bottom_bar_main);
         coordLytMain = findViewById(R.id.coord_layout_main);
         fabMain = findViewById(R.id.fab_main);
-        textNumSelItem = findViewById(R.id.tv_number_selected);
+        textNumSelItem = findViewById(R.id.tv_selected_items_count);
         searchView = findViewById(R.id.search_view);
 
         dbAdapter = new DbAdapter(this);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         widgetsHelper.setVisSelectMenuItem(false);
         widgetsHelper.setVisUniMenuItem(false);
 
-        searchView.onActionViewExpanded();
+        //searchView.onActionViewExpanded();
         searchView.setVisibility(View.GONE);
 
         widgetsHelper.setVisCardView(false);
@@ -161,14 +161,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
         //NoteActivity.regCallbackNote(this::setChangedView);
-        MyPrefNumOfLines.regCallbackNumOfLines(this::changeNumOfLines);
-        SettingsAppFragment.regCallbackOneSize(this::changeOneSize);
-        MyPrefCardView.regCallbackFontSize(this::changeFontSize);
-        SheetListFiles.regCallbackRestoreNote(this::restore);
-        SheetPrefSelectColor.regCallBackColorMain(this::changeColor);
-        BpCloud.regCallbackCloud(this::restore);
-        SheetPrefSort.regCallbackSort(this::goUpdateMethodTop);
-        DialogTypeFont.regCallBackTypeFont(this::goUpdateTypeFont);
+        MyPrefNumOfLines.listenerCallback(this::changeNumOfLines);
+        SettingsAppFragment.listenerCallback(this::changeOneSize);
+        MyPrefCardView.listenerCallback(this::changeFontSize);
+        SheetListFiles.listenerCallback(this::restore);
+        SheetPrefSelectColor.listenerCallBack(this::changeColor);
+        BpCloud.listenerCallback(this::restore);
+        SheetPrefSort.listenerCallback(this::goUpdateMethodTop);
+        DialogTypeFont.listenerCallBack(this::goUpdateTypeFont);
     }
 
     public void changeNumOfLines(int numOfLines) {
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity
         updateDateMethod();
     }
 
-    public void goUpdateMethodTop() {
+    public void goUpdateMethodTop(int sortingWay) {
         isListGoUp = true;
         isUpdateDate = true;
         updateDateMethod();

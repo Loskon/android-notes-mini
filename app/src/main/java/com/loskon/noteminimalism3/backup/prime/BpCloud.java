@@ -1,5 +1,8 @@
 package com.loskon.noteminimalism3.backup.prime;
 
+import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_SIGN_IN;
+import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.DATABASE_NAME;
+
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.view.Menu;
@@ -24,9 +27,6 @@ import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-
-import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_SIGN_IN;
-import static com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.DATABASE_NAME;
 
 /**
  * Аутентификация пользователя, экспорт/импорт копии базы данны в/из облака
@@ -57,7 +57,7 @@ public class BpCloud {
 
     private static CallbackResNotes cbResNotes;
 
-    public static void regCallbackCloud(CallbackResNotes cbResNotes) {
+    public static void listenerCallback(CallbackResNotes cbResNotes) {
         BpCloud.cbResNotes = cbResNotes;
     }
 
@@ -201,7 +201,7 @@ public class BpCloud {
 
     private void onSuccessRestore(FileDownloadTask.TaskSnapshot taskSnapshot) {
         closeDialogAndTimer();
-        if (cbResNotes != null) cbResNotes.onCallBack();
+        if (cbResNotes != null) cbResNotes.onRestoreNotes();
         showSnackbar(true, MySnackbarBackup.MSG_RESTORE_COMPLETED);
     }
 
@@ -253,6 +253,6 @@ public class BpCloud {
     }
 
     public interface CallbackResNotes {
-        void onCallBack();
+        void onRestoreNotes();
     }
 }

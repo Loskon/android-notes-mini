@@ -12,7 +12,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.update.MainActivityUpdate
@@ -38,9 +37,13 @@ class SnackbarUndoUpdate(
     private lateinit var tvProgress: TextView
     private lateinit var tvTitle: TextView
 
-    fun show(note: Note2, isFavorite: Boolean, category: String) {
+    private var notesCategory: String = ""
+
+    fun show(note: Note2, isFavorite: Boolean) {
         countDownTimer?.cancel()
         snackbar?.dismiss()
+
+        notesCategory = activity.getNotesCategory()
 
         snackbar = Snackbar.make(coordLayout, "", Snackbar.LENGTH_INDEFINITE)
         snackbar?.anchorView = fab
@@ -49,8 +52,8 @@ class SnackbarUndoUpdate(
         val view: View = View.inflate(activity, R.layout.snackbar_swipe, null)
 
         initViews(view)
-        configViews(category)
-        clickingSnackbarButton(note, isFavorite, category)
+        configViews()
+        clickingSnackbarButton(note, isFavorite)
         setAnimation()
         setTimer()
 
@@ -65,22 +68,22 @@ class SnackbarUndoUpdate(
         tvTitle = snackView.findViewById(R.id.snackbar_text_title)
     }
 
-    private fun configViews(category: String) {
-        btnSnackbar.setTextColor(MyColor.getMyColor(activity))
+    private fun configViews() {
+        btnSnackbar.setTextColor(activity.getColor())
         progressBar.progress = 0
         progressBar.max = 10000
-        tvTitle.text = activity.getString(getMessage(category))
+        tvTitle.text = activity.getString(getMessage())
     }
 
-    private fun getMessage(category: String): Int = if (category == CATEGORY_TRASH) {
+    private fun getMessage(): Int = if (notesCategory == CATEGORY_TRASH) {
         R.string.sb_main_deleted
     } else {
         R.string.sb_main_add_trash
     }
 
-    private fun clickingSnackbarButton(note: Note2, isFavorite: Boolean, category: String) {
+    private fun clickingSnackbarButton(note: Note2, isFavorite: Boolean) {
         btnSnackbar.setOnClickListener {
-            if (category == CATEGORY_TRASH) {
+            if (notesCategory == CATEGORY_TRASH) {
                 shortsCommand.insert(note)
             } else {
                 note.isFavorite = isFavorite
@@ -96,13 +99,13 @@ class SnackbarUndoUpdate(
 
     private fun setAnimation() {
         val animation = ObjectAnimator.ofInt(progressBar, "progress", 10000)
-        animation.duration = 5900 // 6 second
+        animation.duration = 3900 // 4 second
         animation.interpolator = DecelerateInterpolator()
         animation.start()
     }
 
     private fun setTimer() {
-        countDownTimer = object : CountDownTimer(6000, 100) {
+        countDownTimer = object : CountDownTimer(4000, 100) {
             override fun onTick(leftTimeInMilliseconds: Long) {
                 val seconds: Long = leftTimeInMilliseconds / 1000
                 tvProgress.text = seconds.toString()
@@ -114,7 +117,7 @@ class SnackbarUndoUpdate(
         }.start()
     }
 
-    fun close() {
+    fun dismiss() {
         snackbar?.dismiss()
         countDownTimer?.cancel()
     }

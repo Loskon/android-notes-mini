@@ -18,11 +18,11 @@ fun Context.showToast(stringId: Int) {
 }
 
 // Тост 2
-fun Context.showToast(message: String) {
+fun Context.showToast(message: String?) {
     var toast: Toast? = null
 
     toast?.cancel()
-    toast = makeText(this, message, Toast.LENGTH_SHORT)
+    toast = makeText(this, "$message", Toast.LENGTH_SHORT)
     toast.show()
 }
 

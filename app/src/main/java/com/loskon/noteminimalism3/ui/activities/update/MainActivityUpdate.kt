@@ -2,6 +2,9 @@ package com.loskon.noteminimalism3.ui.activities.update
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.TextUtils
+import android.view.KeyEvent
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -14,18 +17,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.auxiliary.other.AppFontManager
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
+import com.loskon.noteminimalism3.backup.prime.BpCloud
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.other.ShortQueryTextListener
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
 import com.loskon.noteminimalism3.ui.activities.WidgetHelperUpdate
+import com.loskon.noteminimalism3.ui.dialogs.DialogTypeFont
 import com.loskon.noteminimalism3.ui.fragments.BottomSheetCategory
+import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.fragments.update.NoteTrashFragmentUpdate
+import com.loskon.noteminimalism3.ui.preferences.MyPrefCardView
+import com.loskon.noteminimalism3.ui.preferences.MyPrefNumOfLines
 import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.update.NoteListAdapterUpdate
 import com.loskon.noteminimalism3.ui.recyclerview.update.SwipeCallbackMainUpdate
+import com.loskon.noteminimalism3.ui.sheets.SheetListFiles
+import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
+import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
+import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarUndoUpdate
 import com.loskon.noteminimalism3.utils.*
 import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
@@ -38,13 +53,21 @@ import kotlinx.coroutines.launch
 
 class MainActivityUpdate : AppCompatActivity(),
     NoteListAdapterUpdate.CallbackAdapter,
-    NoteFragmentUpdate.CallbackNoteUpdate,
     SwipeCallbackMainUpdate.CallbackSwipeUpdate,
     BottomSheetCategory.CallbackCategory,
-    NoteTrashFragmentUpdate.CallbackNoteTrashUpdate {
+    NoteFragmentUpdate.CallbackNoteUpdate,
+    NoteTrashFragmentUpdate.CallbackNoteTrashUpdate,
+    SheetPrefSelectColor.CallbackColorMain,
+    MyPrefCardView.CallbackFontSize,
+    MyPrefNumOfLines.CallbackNumberLines,
+    SettingsAppFragment.CallbackOneSizeCards,
+    SheetListFiles.CallbackRestoreNote,
+    BpCloud.CallbackResNotes,
+    SheetPrefSort.CallbackSort,
+    DialogTypeFont.CallbackTypeFont {
 
     companion object {
-        private val TAG = "MyLogs_${MainActivityUpdate::class.java.simpleName}"
+        //private val TAG = "MyLogs_${MainActivityUpdate::class.java.simpleName}"
         const val RECYCLER_STATE_EXERCISE = "recycler_state"
     }
 
@@ -53,45 +76,41 @@ class MainActivityUpdate : AppCompatActivity(),
     private lateinit var swipeCallback: SwipeCallbackMainUpdate
     private lateinit var snackbarUndo: SnackbarUndoUpdate
 
+    private lateinit var coordLayout: CoordinatorLayout
+    private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvEmpty: TextView
-    private lateinit var bottomBar: BottomAppBar
     private lateinit var fab: FloatingActionButton
     private lateinit var cardView: CardView
-    private lateinit var tvNumberSelected: TextView
-    private lateinit var searchView: SearchView
-    private lateinit var coordLayout: CoordinatorLayout
+    private lateinit var tvSelectedItemsCount: TextView
+    private lateinit var bottomBar: BottomAppBar
 
     private val adapter: NoteListAdapterUpdate = NoteListAdapterUpdate()
     private var bundleState: Bundle? = null
 
     private var hasLinearList: Boolean = true
-    private var isDeleteMode: Boolean = false
+    private var isSelMode: Boolean = false
+    private var isSearchMode: Boolean = false
     private var color: Int = 0
     private var sortingWay: Int = 0
     private var notesCategory: String = CATEGORY_ALL_NOTES
+    private var searchText: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initViews()
-
-        configureRecyclerAdapter()
-
-        configureRecyclerView()
-
-        initObjects()
-
-        configureViews()
-
-        installHandlers()
-
         installCallbacks()
-
-        updateQuicklyNotesList()
-
+        configureRecyclerAdapter()
+        configureRecyclerView()
+        setupSearchView()
+        initObjects()
         installSwiped()
+        otherConfigurations()
+        establishColorViews()
+        installHandlers()
+        updateQuicklyNotesList()
     }
 
     private fun initViews() {
@@ -101,8 +120,27 @@ class MainActivityUpdate : AppCompatActivity(),
         tvEmpty = findViewById(R.id.tv_empty_list_up)
         fab = findViewById(R.id.fab_main)
         cardView = findViewById(R.id.card_view_main)
-        tvNumberSelected = findViewById(R.id.tv_number_selected)
+        tvSelectedItemsCount = findViewById(R.id.tv_selected_items_count)
         bottomBar = findViewById(R.id.bottom_bar_main)
+    }
+
+    private fun installCallbacks() {
+        // Для работы с заметками
+        NoteListAdapterUpdate.listenerCallback(this)
+        SwipeCallbackMainUpdate.listenerCallback(this)
+        BottomSheetCategory.listenerCallback(this)
+        NoteFragmentUpdate.listenerCallback(this)
+        NoteTrashFragmentUpdate.listenerCallback(this)
+        // Для изменения настроек
+        SheetPrefSelectColor.listenerCallBack(this)
+        MyPrefCardView.listenerCallback(this)
+        MyPrefNumOfLines.listenerCallback(this)
+        SettingsAppFragment.listenerCallback(this)
+
+        SheetListFiles.listenerCallback(this)
+        BpCloud.listenerCallback(this)
+        SheetPrefSort.listenerCallback(this)
+        DialogTypeFont.listenerCallBack(this)
     }
 
     private fun configureRecyclerAdapter() {
@@ -125,8 +163,6 @@ class MainActivityUpdate : AppCompatActivity(),
 
         val hasOneSizeCards: Boolean = AppPref.getOneSizeCards(this)
         adapter.setOneSizeCards(hasOneSizeCards)
-
-        sortingWay = AppPref.getSort(this)
     }
 
     private fun configureRecyclerView() {
@@ -135,14 +171,51 @@ class MainActivityUpdate : AppCompatActivity(),
         recyclerView.itemAnimator = CustomItemAnimator()
     }
 
+    private fun setupSearchView() {
+        searchView.setOnQueryTextListener(object : ShortQueryTextListener() {
+            override fun onShortQueryTextChange(query: String?) {
+                handlingSearch(query)
+                updateQuicklyNotesList()
+            }
+        })
+    }
+
+    private fun handlingSearch(newText: String?) {
+        searchText = if (TextUtils.isEmpty(newText)) {
+            null
+        } else {
+            newText
+        }
+    }
+
+    private fun updateQuicklyNotesList() {
+        adapter.setQuicklyNotesList(notes)
+        tvEmpty.setVisibleView(notes.isEmpty())
+    }
+
+    private val notes: List<Note2>
+        get() {
+            return shortsCommand.getNotes(searchText, notesCategory, sortingWay)
+        }
+
     private fun initObjects() {
         shortsCommand = AppShortsCommand()
         widgetsHelper = WidgetHelperUpdate(this, fab, bottomBar)
         snackbarUndo = SnackbarUndoUpdate(this, shortsCommand)
     }
 
-    private fun configureViews() {
+    private fun installSwiped() {
+        swipeCallback = SwipeCallbackMainUpdate(adapter, shortsCommand)
+        ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
+    }
+
+    private fun otherConfigurations() {
+        sortingWay = AppPref.getSort(this)
         widgetsHelper.setTypeNotes(recyclerView, hasLinearList)
+    }
+
+    private fun establishColorViews() {
+        widgetsHelper.setColorViews(color)
         cardView.setBackgroundTintColor(color)
     }
 
@@ -152,17 +225,16 @@ class MainActivityUpdate : AppCompatActivity(),
         }
 
         bottomBar.setNavigationOnClickListener {
-            snackbarUndo.close()
+            dismissSnackbars(true)
             clickingNavigationButton()
         }
 
         bottomBar.setOnMenuItemClickListener { item ->
-            snackbarUndo.close()
+            dismissSnackbars(true)
 
             when (item.itemId) {
                 R.id.action_switch_view -> {
                     clickingMenuSwitch()
-                    saveStateLinearList()
                     true
                 }
                 R.id.action_select_item -> {
@@ -171,19 +243,12 @@ class MainActivityUpdate : AppCompatActivity(),
                 }
 
                 R.id.action_search -> {
-
+                    activationSearchMode(true)
                     true
                 }
 
                 R.id.action_unification -> {
-                    adapter.unificationItems(shortsCommand)
-                    onActivationDeleteMode(false)
-                    updateListNotes()
-                    lifecycleScope.launch {
-                        delay(200L)
-                        recyclerView.smoothScrollToPosition(0)
-                    }
-
+                    unificationNotes()
                     true
                 }
                 else -> false
@@ -192,10 +257,14 @@ class MainActivityUpdate : AppCompatActivity(),
     }
 
     private fun clickingFab() {
-        if (isDeleteMode) {
+        if (isSelMode) {
             deleteItems()
         } else {
-            IntentUtil.openNote(this, Note2(), notesCategory)
+            if (isSearchMode) {
+                activationSearchMode(false)
+            } else {
+                IntentUtil.openNote(this, Note2(), notesCategory)
+            }
         }
     }
 
@@ -206,21 +275,78 @@ class MainActivityUpdate : AppCompatActivity(),
             adapter.sendItemsToTrash(shortsCommand)
         }
 
-        onActivationDeleteMode(false)
+        onActivatingSelectionMode(false)
         updateListNotes()
     }
 
-    private fun clickingNavigationButton() {
-        snackbarUndo.close()
+    override fun onActivatingSelectionMode(isSelMode: Boolean) {
+        this.isSelMode = isSelMode
+        dismissSnackbars(isSelMode)
+        selectionModeStatus()
+    }
 
-        if (isDeleteMode) {
-            onActivationDeleteMode(false)
-            adapter.itemsChanged()
+    private fun selectionModeStatus() {
+        cardView.setVisibleView(isSelMode)
+        swipeCallback.blockSwiped(isSelMode)
+        widgetsHelper.setVisibleSelect(isSelMode)
+
+        if (isSelMode) {
+            widgetsHelper.setVisibleSearchAndSwitch(false)
+
+            widgetsHelper.setNavigationIcon(false)
+            widgetsHelper.setDeleteIconFab(notesCategory)
+            if (isSearchMode) widgetsHelper.bottomBarVisible(true)
+
         } else {
-            val bottomSheet = BottomSheetCategory.newInstance(notesCategory)
-            if (supportFragmentManager.findFragmentByTag(BottomSheetCategory.TAG) == null) {
-                bottomSheet.show(supportFragmentManager, BottomSheetCategory.TAG);
+            widgetsHelper.setVisibleUnification(false)
+
+            if (isSearchMode) {
+                widgetsHelper.setVisibleSearchAndSwitch(false)
+
+                widgetsHelper.hideNavigationIcon()
+                widgetsHelper.bottomBarVisible(false)
+                widgetsHelper.setIconFab(WidgetHelperList.ICON_FAB_SEARCH_CLOSE)
+            } else {
+                widgetsHelper.setVisibleSearchAndSwitch(true)
+
+                widgetsHelper.setNavigationIcon(true)
+                widgetsHelper.setIconFabCategory(notesCategory)
             }
+
+            adapter.disableSelectionMode()
+        }
+    }
+
+    fun updateListNotes() {
+        adapter.setNotesList(notes)
+        tvEmpty.setVisibleView(notes.isEmpty())
+    }
+
+    private fun dismissSnackbars(isDismiss: Boolean) {
+        if (isDismiss) BaseSnackbar.dismiss()
+        snackbarUndo.dismiss()
+    }
+
+    private fun clickingNavigationButton() {
+        snackbarUndo.dismiss()
+
+        if (isSelMode) {
+            cancelSelectionMode()
+        } else {
+            openBottomSheetCategory()
+        }
+    }
+
+    private fun cancelSelectionMode() {
+        onActivatingSelectionMode(false)
+        adapter.itemsChanged()
+    }
+
+    private fun openBottomSheetCategory() {
+        val bottomSheet = BottomSheetCategory.newInstance(notesCategory)
+        // Защита от двойного открытия
+        if (supportFragmentManager.findFragmentByTag(BottomSheetCategory.TAG) == null) {
+            bottomSheet.show(supportFragmentManager, BottomSheetCategory.TAG)
         }
     }
 
@@ -228,79 +354,172 @@ class MainActivityUpdate : AppCompatActivity(),
         hasLinearList = !hasLinearList
         adapter.setLinearList(hasLinearList)
         widgetsHelper.setTypeNotes(recyclerView, hasLinearList)
+        saveStateLinearList(hasLinearList)
     }
 
-    private fun saveStateLinearList() {
+    private fun saveStateLinearList(hasLinearList: Boolean) {
         AppPref.setStateLinearList(this, hasLinearList)
     }
 
-    private fun installCallbacks() {
-        NoteListAdapterUpdate.callbackAdapterListener(this)
-        NoteFragmentUpdate.callbackNoteListener(this)
-        SwipeCallbackMainUpdate.callbackSwipeListener(this)
-        BottomSheetCategory.callbackCategoryListener(this)
-        NoteTrashFragmentUpdate.callbackNoteTrashListener(this)
-    }
+    private fun activationSearchMode(isSearchMode: Boolean) {
+        this.isSearchMode = isSearchMode
+        searchView.setQuery("", false)
 
-    fun updateListNotes() {
-        val notes: List<Note2> = shortsCommand.getNotes(notesCategory, sortingWay)
-        adapter.setNotesList(notes)
-        tvEmpty.setVisibleView(notes.isEmpty())
-    }
+        if (isSearchMode) {
+            searchView.setVisibleView(true)
+            widgetsHelper.bottomBarVisible(false)
 
-    private fun updateQuicklyNotesList() {
-        val notes: List<Note2> = shortsCommand.getNotes(notesCategory, sortingWay)
-        adapter.setQuicklyNotesList(notes)
-        tvEmpty.setVisibleView(notes.isEmpty())
-    }
+            val searchEditText: EditText = searchView.findViewById(R.id.search_src_text)
+            searchEditText.showKeyboard(this)
 
-    private fun installSwiped() {
-        swipeCallback = SwipeCallbackMainUpdate(adapter, shortsCommand)
-        ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
-    }
-
-    // Callbacks
-    override fun onClickingItem(note: Note2) {
-        IntentUtil.openNote(this, note, notesCategory)
-    }
-
-    override fun onActivationDeleteMode(isDeleteMode: Boolean) {
-        this.isDeleteMode = isDeleteMode
-        snackbarUndo.close()
-        deleteModeStatus()
-    }
-
-    private fun deleteModeStatus() {
-        widgetsHelper.startAnimateFab()
-
-        if (isDeleteMode) {
-            cardView.setVisibleView(true)
-            swipeCallback.blockSwiped(true)
-            widgetsHelper.setVisibleSelect(true)
-            widgetsHelper.setIconFab(WidgetHelperList.ICON_FAB_DELETE)
-            widgetsHelper.setVisibleList(false)
-            widgetsHelper.setNavigationIcon(false)
-
-            //if (isSearchMode) widgetsHelper.changeBarVisible(true)
-
+            widgetsHelper.setIconFab(WidgetHelperUpdate.ICON_FAB_SEARCH_CLOSE)
         } else {
-            cardView.setVisibleView(false)
-            swipeCallback.blockSwiped(false)
-            widgetsHelper.setVisibleSelect(false)
-            widgetsHelper.setIconFabCategory(notesCategory)
-            //widgetsHelper.setIconFab(notesCategory, false)
-            widgetsHelper.setVisibleList(true)
-            widgetsHelper.setNavigationIcon(true)
+            searchView.setVisibleView(false)
+            widgetsHelper.bottomBarVisible(true)
 
-            widgetsHelper.setVisibleUnification(notesCategory, false)
-            adapter.disableDeleteMode()
+
+            widgetsHelper.setNavigationIcon(true)
+            widgetsHelper.setVisibleSearchAndSwitch(true)
+            widgetsHelper.setIconFabCategory(notesCategory)
         }
     }
 
-    override fun onSelectingItem(selectedItemCount: Int, hasAllSelected: Boolean) {
-        tvNumberSelected.text = selectedItemCount.toString()
+    private fun unificationNotes() {
+        adapter.unificationItems(this, shortsCommand)
+        onActivatingSelectionMode(false)
+        updateQuicklyNotesWithScrollTop()
+    }
+
+    private fun updateQuicklyNotesWithScrollTop() {
+        updateQuicklyNotesList()
+        recyclerView.scrollToPosition(0)
+    }
+
+    // From recycler adapter
+    override fun onClickingNote(note: Note2) {
+        IntentUtil.openNote(this, note, notesCategory)
+    }
+
+    // From recycler adapter
+    override fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean) {
+        tvSelectedItemsCount.text = selectedItemsCount.toString()
         widgetsHelper.setSelectIcon(hasAllSelected)
-        widgetsHelper.setVisibleUnification(notesCategory, selectedItemCount in 2..5)
+        widgetsHelper.changeVisibleUnification(notesCategory, selectedItemsCount in 2..3)
+    }
+
+    // From note fragment
+    override fun onNoteAdd() = updateQuicklyNotesWithScrollTop()
+
+    // From note fragment
+    override fun onNoteUpdate() = updateListNotes()
+
+    // From note fragment
+    override fun onNoteSendToTrash(note: Note2, isFavorite: Boolean) {
+        lifecycleScope.launch {
+            delay(200L)
+            showSnackbar(note, isFavorite)
+        }
+    }
+
+    private fun showSnackbar(note: Note2, isFavorite: Boolean) {
+        updateListNotes()
+        snackbarUndo.show(note, isFavorite)
+    }
+
+    // From note trash fragment
+    override fun onNoteDelete(note: Note2) {
+        lifecycleScope.launch {
+            delay(200L)
+            showSnackbar(note, false)
+        }
+    }
+
+    // From note trash fragment
+    override fun onNoteReset(note: Note2) {
+        lifecycleScope.launch {
+            delay(200L)
+            updateListNotes()
+            showSnackbarMessage(SnackbarMessage.MSG_NOTE_RESTORED, true)
+        }
+    }
+
+    // From note swipe
+    override fun onSwipeUpdate(note: Note2, isFavorite: Boolean) = showSnackbar(note, isFavorite)
+
+    // From sheet category
+    override fun onCallbackCategory(notesCategory: String) {
+        this.notesCategory = notesCategory
+        swipeCallback.setCategory(notesCategory)
+        widgetsHelper.setIconFabCategory(notesCategory)
+
+        updateQuicklyNotesList()
+        scrollUpWithProtection()
+    }
+
+    private fun scrollUpWithProtection() {
+        // Защита от создания пустого пространства над списком
+        // при использовании StaggeredGridLayoutManager
+        if (notes.isNotEmpty()) {
+            recyclerView.scrollToPosition(0)
+        }
+    }
+
+    fun showSnackbarMessage(message: String, isSuccess: Boolean) {
+        SnackbarMessage(this, coordLayout, fab).show(message, isSuccess)
+    }
+
+    // From Settings
+    override fun onChangeColor(color: Int) {
+        this.color = color
+        adapter.setViewColor(color)
+        updateQuicklyNotesWithScrollTop()
+        establishColorViews()
+    }
+
+    override fun onChangeFontSizes(titleFontSize: Int, dateFontSize: Int) {
+        adapter.setFontSizes(titleFontSize, dateFontSize)
+        updateQuicklyNotesWithScrollTop()
+    }
+
+    override fun onChangeNumberLines(numberLines: Int) {
+        adapter.setNumberLines(numberLines)
+        updateQuicklyNotesWithScrollTop()
+    }
+
+    override fun onChangeStatusSizeCards(hasOneSizeCards: Boolean) {
+        adapter.setOneSizeCards(hasOneSizeCards)
+        updateQuicklyNotesWithScrollTop()
+    }
+
+    override fun onRestoreNotes() = updateQuicklyNotesWithScrollTop()
+
+    override fun onChangeSortingWay(sortingWay: Int) {
+        this.sortingWay = sortingWay
+        updateQuicklyNotesWithScrollTop()
+    }
+
+    override fun onChangeFont() {
+        AppFontManager.setFont(this)
+        updateQuicklyNotesWithScrollTop()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        return if (keyCode == KeyEvent.KEYCODE_BACK) {
+            when {
+                isSelMode -> {
+                    cancelSelectionMode()
+                    false
+                }
+                isSearchMode -> {
+                    activationSearchMode(false)
+                    false
+                }
+                else -> {
+                    finish()
+                    true
+                }
+            }
+        } else super.onKeyDown(keyCode, event)
     }
 
     override fun onResume() {
@@ -315,6 +534,7 @@ class MainActivityUpdate : AppCompatActivity(),
 
     override fun onPause() {
         super.onPause()
+        dismissSnackbars(true)
         saveRecyclerStata()
     }
 
@@ -323,50 +543,12 @@ class MainActivityUpdate : AppCompatActivity(),
         bundleState?.putParcelable(RECYCLER_STATE_EXERCISE, listState)
     }
 
-    override fun onNoteSendToTrash(note: Note2, isFavorite: Boolean) {
-        lifecycleScope.launch {
-            delay(200L)
-            snackbarUndo.show(note, isFavorite, notesCategory)
-            updateListNotes()
-        }
+    fun getColor(): Int {
+        return color
     }
 
-    override fun onNoteAdd() {
-        updateQuicklyNotesList()
-        recyclerView.scrollToPosition(0)
-    }
-
-    override fun onNoteUpdate() {
-        updateListNotes()
-    }
-
-    override fun onSwipeUpdate(note: Note2, isFavorite: Boolean) {
-        updateListNotes()
-        snackbarUndo.show(note, isFavorite, notesCategory)
-    }
-
-    override fun onCallbackCategory(notesCategory: String) {
-        // !!!!БАГ с StaggeredGridLayoutManager связан с recyclerview.scroll
-        this.notesCategory = notesCategory
-        swipeCallback.setCategory(notesCategory)
-        widgetsHelper.setIconFabCategory(notesCategory)
-        onNoteAdd()
-    }
-
-    override fun onNoteDelete(note: Note2) {
-        lifecycleScope.launch {
-            delay(200L)
-            snackbarUndo.show(note, false, notesCategory)
-            updateListNotes()
-        }
-    }
-
-    override fun onNoteReset(note: Note2) {
-        lifecycleScope.launch {
-            delay(200L)
-            showToast("reset")
-            updateListNotes()
-        }
+    fun getNotesCategory(): String {
+        return notesCategory
     }
 
     val getCoordLayout: CoordinatorLayout
@@ -377,10 +559,5 @@ class MainActivityUpdate : AppCompatActivity(),
     val getFab: FloatingActionButton
         get() {
             return fab
-        }
-
-    val getBottomAppBar: BottomAppBar
-        get() {
-            return bottomBar
         }
 }

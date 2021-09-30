@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/sheet_round_corner.xml" value="0.1537037037037037" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/snackbar_background.xml" value="0.14814814814814814" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/fragment_bottomsheet.xml" value="0.1375" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/fragment_list_notes.xml" value="0.25416666666666665" />
@@ -11,7 +12,11 @@
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_button_note_update.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_note_scroll_update.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/item_note.xml" value="0.264" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/note_trash_update.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/note_update.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_data_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_list_files.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/snackbar_swipe.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

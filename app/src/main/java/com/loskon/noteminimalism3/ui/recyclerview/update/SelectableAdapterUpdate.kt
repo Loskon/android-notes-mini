@@ -2,6 +2,8 @@ package com.loskon.noteminimalism3.ui.recyclerview.update
 
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.ui.activities.update.MainActivityUpdate
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
 import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
 import java.util.*
 
@@ -100,7 +102,7 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
     }
 
     // Объединить несколько заметок в одну новую
-    fun unificationItems(shortsCommand: AppShortsCommand) {
+    fun unificationItems(activity: MainActivityUpdate, shortsCommand: AppShortsCommand) {
         val stringBuilder: StringBuilder = StringBuilder()
         val note = Note2()
         var newTitle = ""
@@ -117,6 +119,8 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
             note.title = newTitle
             shortsCommand.insert(note)
 
+            activity.showSnackbarMessage(SnackbarMessage.MSG_COMBINED_NOTE_ADD, true)
+
         } catch (exception: Exception) {
             exception.stackTraceToString()
 
@@ -126,6 +130,8 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
                 shortsCommand.delete(item)
                 shortsCommand.insert(item)
             }
+
+            activity.showSnackbarMessage(SnackbarMessage.MSG_ERROR_COMBINING_NOTES, false)
         }
     }
 

@@ -51,7 +51,7 @@ public class SettingsAppActivity
     }
 
     @Override
-    public void onCallback(int color) {
+    public void onChangeColor(int color) {
         MyColor.setNavIconColor(this, btmAppBarSettingsApp);
     }
 }

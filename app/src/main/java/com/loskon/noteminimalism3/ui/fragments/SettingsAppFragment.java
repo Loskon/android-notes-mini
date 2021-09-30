@@ -29,11 +29,11 @@ public class SettingsAppFragment extends PreferenceFragmentCompat implements
     @SuppressWarnings("FieldCanBeLocal")
     private Preference resetPref, selectColorPref;
 
-    private static CallbackOneSize callbackOneSize;
+    private static CallbackOneSizeCards callbackOneSizeCards;
     private static CallbackReset callbackReset;
 
-    public static void regCallbackOneSize(CallbackOneSize callbackOneSize) {
-        SettingsAppFragment.callbackOneSize = callbackOneSize;
+    public static void listenerCallback(CallbackOneSizeCards callbackOneSizeCards) {
+        SettingsAppFragment.callbackOneSizeCards = callbackOneSizeCards;
     }
 
     public static void registerCallBackReset(CallbackReset callbackReset) {
@@ -93,14 +93,14 @@ public class SettingsAppFragment extends PreferenceFragmentCompat implements
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
         if (key.equals(switchOneSizeString)) {
-            if (callbackOneSize != null)  callbackOneSize.callBackOneSize((Boolean) newValue);
+            if (callbackOneSizeCards != null)  callbackOneSizeCards.onChangeStatusSizeCards((Boolean) newValue);
             return true;
         }
         return false;
     }
 
-    public interface CallbackOneSize {
-        void callBackOneSize(boolean isOneSizeOn);
+    public interface CallbackOneSizeCards {
+        void onChangeStatusSizeCards(boolean hasOneSizeCards);
     }
 
     public interface CallbackReset {

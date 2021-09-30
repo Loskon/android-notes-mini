@@ -61,7 +61,7 @@
         app:cardCornerRadius="6dp">
 
         <TextView
-            android:id="@+id/tv_number_selected"
+            android:id="@+id/tv_selected_items_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

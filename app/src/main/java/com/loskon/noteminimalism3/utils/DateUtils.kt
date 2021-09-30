@@ -4,11 +4,12 @@ import java.text.DateFormat
 import java.util.*
 
 /**
- * Получение текущей даты и преобразование в текстовую строку
+ * Получение текущей даты и преобразование в текстовый формат
  */
 
 class DateUtils {
     companion object {
+        
         @JvmStatic
         fun getStringDate(date: Date): String {
             val day: Int

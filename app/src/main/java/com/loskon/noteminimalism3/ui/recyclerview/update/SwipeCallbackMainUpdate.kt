@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import java.util.*
 
 /**
@@ -52,7 +52,7 @@ class SwipeCallbackMainUpdate(
             shortsCommand.update(note)
         }
 
-        callback?.onSwipeUpdate(note, isFavorite)
+        callback?.onSwipe(note, isFavorite)
     }
 
     // Внешние методы
@@ -66,7 +66,7 @@ class SwipeCallbackMainUpdate(
 
     // Callback
     interface CallbackSwipeUpdate {
-        fun onSwipeUpdate(note: Note2, isFavorite: Boolean)
+        fun onSwipe(note: Note2, isFavorite: Boolean)
     }
 
     companion object {

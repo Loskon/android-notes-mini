@@ -5,7 +5,6 @@ import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.dialogs.BaseMaterialDialog
-import com.loskon.noteminimalism3.ui.sheets.BaseSheetDialog
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -16,7 +15,7 @@ class SheetUnification(private val context: Context) {
 
     private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(context)
 
-    private val btnOk: Button = materialDialog.getButtonOk
+    private val btnOk: Button = materialDialog.buttonOk
 
     init {
         setupViews()

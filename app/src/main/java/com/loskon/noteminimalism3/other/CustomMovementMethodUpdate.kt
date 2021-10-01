@@ -43,11 +43,11 @@ abstract class CustomMovementMethodUpdate : LinkMovementMethod() {
                 if (link.isNotEmpty()) {
                     onClickingLink(link[0].url)
                 } else {
-                    onClickingNoLink()
+                    onClickingText()
                 }
 
             } else {
-                onClickingNoLink()
+                onClickingText()
             }
 
             return true
@@ -64,5 +64,5 @@ abstract class CustomMovementMethodUpdate : LinkMovementMethod() {
     }
 
     abstract fun onClickingLink(url: String)
-    abstract fun onClickingNoLink()
+    abstract fun onClickingText()
 }

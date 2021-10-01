@@ -133,6 +133,9 @@
     <!-- dialog_trash -->
     <string name="dg_trash_title">Empty trash?</string>
 
+    <!-- dialog_delete_forever -->
+    <string name="dg_delete_forever_title">Delete selected notes\n definitively?</string>
+
     <!-- dialog_unification -->
     <string name="dg_unification_title">Unification this notes?</string>
 

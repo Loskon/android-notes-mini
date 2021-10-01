@@ -20,7 +20,7 @@ class DialogTypeFont(private val context: Context) {
     private val dialogView = View.inflate(context, R.layout.dialog_type_font, null)
 
     private val textView: TextView = dialogView.findViewById(R.id.tv_font_example)
-    private val btnOk: Button = materialDialog.getButtonOk
+    private val btnOk: Button = materialDialog.buttonOk
 
     init {
         materialDialog.setTextTitle(context.getString(R.string.dg_type_font_title))

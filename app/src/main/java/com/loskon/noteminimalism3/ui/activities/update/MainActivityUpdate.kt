@@ -17,16 +17,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.AppFontManager
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.backup.prime.BpCloud
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.other.ShortQueryTextListener
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.activities.WidgetHelperList
-import com.loskon.noteminimalism3.ui.activities.WidgetHelperUpdate
 import com.loskon.noteminimalism3.ui.dialogs.DialogTypeFont
+import com.loskon.noteminimalism3.ui.dialogs.update.DialogDeleteForever
+import com.loskon.noteminimalism3.ui.dialogs.update.DialogTrashUpdate
 import com.loskon.noteminimalism3.ui.fragments.BottomSheetCategory
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
@@ -43,7 +43,6 @@ import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarUndoUpdate
 import com.loskon.noteminimalism3.utils.*
-import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -104,7 +103,7 @@ class MainActivityUpdate : AppCompatActivity(),
         installCallbacks()
         configureRecyclerAdapter()
         configureRecyclerView()
-        setupSearchView()
+        configureSearchView()
         initObjects()
         installSwiped()
         otherConfigurations()
@@ -171,7 +170,7 @@ class MainActivityUpdate : AppCompatActivity(),
         recyclerView.itemAnimator = CustomItemAnimator()
     }
 
-    private fun setupSearchView() {
+    private fun configureSearchView() {
         searchView.setOnQueryTextListener(object : ShortQueryTextListener() {
             override fun onShortQueryTextChange(query: String?) {
                 handlingSearch(query)
@@ -258,23 +257,26 @@ class MainActivityUpdate : AppCompatActivity(),
 
     private fun clickingFab() {
         if (isSelMode) {
-            deleteItems()
+            if (notesCategory == CATEGORY_TRASH) {
+                DialogDeleteForever(this).show()
+            } else {
+                sendItemsToTrash()
+            }
         } else {
             if (isSearchMode) {
                 activationSearchMode(false)
             } else {
-                IntentUtil.openNote(this, Note2(), notesCategory)
+                if (notesCategory == CATEGORY_TRASH) {
+                    DialogTrashUpdate(this).show(adapter.itemCount)
+                } else {
+                    IntentUtil.openNote(this, Note2(), notesCategory)
+                }
             }
         }
     }
 
-    private fun deleteItems() {
-        if (notesCategory == CATEGORY_TRASH) {
-            adapter.removeItems(shortsCommand)
-        } else {
-            adapter.sendItemsToTrash(shortsCommand)
-        }
-
+    private fun sendItemsToTrash() {
+        adapter.sendItemsToTrash(shortsCommand)
         onActivatingSelectionMode(false)
         updateListNotes()
     }
@@ -292,23 +294,23 @@ class MainActivityUpdate : AppCompatActivity(),
 
         if (isSelMode) {
             widgetsHelper.setVisibleSearchAndSwitch(false)
-
             widgetsHelper.setNavigationIcon(false)
             widgetsHelper.setDeleteIconFab(notesCategory)
-            if (isSearchMode) widgetsHelper.bottomBarVisible(true)
+
+            if (isSearchMode) {
+                widgetsHelper.bottomBarVisible(true)
+            }
 
         } else {
             widgetsHelper.setVisibleUnification(false)
 
             if (isSearchMode) {
                 widgetsHelper.setVisibleSearchAndSwitch(false)
-
                 widgetsHelper.hideNavigationIcon()
                 widgetsHelper.bottomBarVisible(false)
-                widgetsHelper.setIconFab(WidgetHelperList.ICON_FAB_SEARCH_CLOSE)
+                widgetsHelper.setIconFab(WidgetHelperUpdate.ICON_FAB_SEARCH_CLOSE)
             } else {
                 widgetsHelper.setVisibleSearchAndSwitch(true)
-
                 widgetsHelper.setNavigationIcon(true)
                 widgetsHelper.setIconFabCategory(notesCategory)
             }
@@ -322,13 +324,13 @@ class MainActivityUpdate : AppCompatActivity(),
         tvEmpty.setVisibleView(notes.isEmpty())
     }
 
-    private fun dismissSnackbars(isDismiss: Boolean) {
-        if (isDismiss) BaseSnackbar.dismiss()
+    private fun dismissSnackbars(isDisSnackMessage: Boolean) {
+        if (isDisSnackMessage) BaseSnackbar.dismiss()
         snackbarUndo.dismiss()
     }
 
     private fun clickingNavigationButton() {
-        snackbarUndo.dismiss()
+        dismissSnackbars(true)
 
         if (isSelMode) {
             cancelSelectionMode()
@@ -368,16 +370,12 @@ class MainActivityUpdate : AppCompatActivity(),
         if (isSearchMode) {
             searchView.setVisibleView(true)
             widgetsHelper.bottomBarVisible(false)
-
             val searchEditText: EditText = searchView.findViewById(R.id.search_src_text)
             searchEditText.showKeyboard(this)
-
             widgetsHelper.setIconFab(WidgetHelperUpdate.ICON_FAB_SEARCH_CLOSE)
         } else {
             searchView.setVisibleView(false)
             widgetsHelper.bottomBarVisible(true)
-
-
             widgetsHelper.setNavigationIcon(true)
             widgetsHelper.setVisibleSearchAndSwitch(true)
             widgetsHelper.setIconFabCategory(notesCategory)
@@ -387,10 +385,10 @@ class MainActivityUpdate : AppCompatActivity(),
     private fun unificationNotes() {
         adapter.unificationItems(this, shortsCommand)
         onActivatingSelectionMode(false)
-        updateQuicklyNotesWithScrollTop()
+        updateQuicklyNotesListTop()
     }
 
-    private fun updateQuicklyNotesWithScrollTop() {
+    private fun updateQuicklyNotesListTop() {
         updateQuicklyNotesList()
         recyclerView.scrollToPosition(0)
     }
@@ -408,29 +406,23 @@ class MainActivityUpdate : AppCompatActivity(),
     }
 
     // From note fragment
-    override fun onNoteAdd() = updateQuicklyNotesWithScrollTop()
+    override fun onNoteAdd() = updateQuicklyNotesListTop()
 
     // From note fragment
     override fun onNoteUpdate() = updateListNotes()
 
-    // From note fragment
-    override fun onNoteSendToTrash(note: Note2, isFavorite: Boolean) {
-        lifecycleScope.launch {
-            delay(200L)
-            showSnackbar(note, isFavorite)
-        }
-    }
-
-    private fun showSnackbar(note: Note2, isFavorite: Boolean) {
+    // From swipe
+    override fun onSwipe(note: Note2, isFavorite: Boolean) {
         updateListNotes()
         snackbarUndo.show(note, isFavorite)
     }
 
-    // From note trash fragment
-    override fun onNoteDelete(note: Note2) {
+    // From note trash fragment and note fragment
+    override fun onNoteDelete(note: Note2, isFavorite: Boolean) {
         lifecycleScope.launch {
             delay(200L)
-            showSnackbar(note, false)
+            updateListNotes()
+            snackbarUndo.show(note, isFavorite)
         }
     }
 
@@ -439,12 +431,9 @@ class MainActivityUpdate : AppCompatActivity(),
         lifecycleScope.launch {
             delay(200L)
             updateListNotes()
-            showSnackbarMessage(SnackbarMessage.MSG_NOTE_RESTORED, true)
+            showSnackbar(SnackbarMessage.MSG_NOTE_RESTORED, true)
         }
     }
-
-    // From note swipe
-    override fun onSwipeUpdate(note: Note2, isFavorite: Boolean) = showSnackbar(note, isFavorite)
 
     // From sheet category
     override fun onCallbackCategory(notesCategory: String) {
@@ -464,7 +453,7 @@ class MainActivityUpdate : AppCompatActivity(),
         }
     }
 
-    fun showSnackbarMessage(message: String, isSuccess: Boolean) {
+    fun showSnackbar(message: String, isSuccess: Boolean) {
         SnackbarMessage(this, coordLayout, fab).show(message, isSuccess)
     }
 
@@ -472,35 +461,47 @@ class MainActivityUpdate : AppCompatActivity(),
     override fun onChangeColor(color: Int) {
         this.color = color
         adapter.setViewColor(color)
-        updateQuicklyNotesWithScrollTop()
+        updateQuicklyNotesListTop()
         establishColorViews()
     }
 
     override fun onChangeFontSizes(titleFontSize: Int, dateFontSize: Int) {
         adapter.setFontSizes(titleFontSize, dateFontSize)
-        updateQuicklyNotesWithScrollTop()
+        updateQuicklyNotesListTop()
     }
 
     override fun onChangeNumberLines(numberLines: Int) {
         adapter.setNumberLines(numberLines)
-        updateQuicklyNotesWithScrollTop()
+        updateQuicklyNotesListTop()
     }
 
     override fun onChangeStatusSizeCards(hasOneSizeCards: Boolean) {
         adapter.setOneSizeCards(hasOneSizeCards)
-        updateQuicklyNotesWithScrollTop()
+        updateQuicklyNotesListTop()
     }
 
-    override fun onRestoreNotes() = updateQuicklyNotesWithScrollTop()
+    override fun onRestoreNotes() = updateQuicklyNotesListTop()
 
     override fun onChangeSortingWay(sortingWay: Int) {
         this.sortingWay = sortingWay
-        updateQuicklyNotesWithScrollTop()
+        updateQuicklyNotesListTop()
     }
 
     override fun onChangeFont() {
-        AppFontManager.setFont(this)
-        updateQuicklyNotesWithScrollTop()
+        //AppFontManager.setFont(this)
+        //updateQuicklyNotesListTop()
+    }
+
+    // Внешние методы
+    fun cleanTrash() {
+        shortsCommand.cleanTrash()
+        updateQuicklyNotesList()
+    }
+
+    fun deleteItemsForever() {
+        adapter.deleteItems(shortsCommand)
+        onActivatingSelectionMode(false)
+        updateListNotes()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

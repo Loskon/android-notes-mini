@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
- * Единая форма для материального диалога
+ * Единая форма для диалога
  */
 
 class BaseMaterialDialog(private val context: Context) {
@@ -122,7 +122,7 @@ class BaseMaterialDialog(private val context: Context) {
 
 
     //
-    val getButtonOk: MaterialButton
+    val buttonOk: MaterialButton
         get() {
             return btnOk
         }

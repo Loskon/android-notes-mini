@@ -131,7 +131,7 @@ class DialogNoteLinksUpdate(
                 Intent(Intent.ACTION_DIAL, Uri.parse(link))
             )
 
-            else -> showSnackbar(SnackbarMessage.MSG_ERROR, false)
+            else -> showSnackbar(SnackbarMessage.MSG_UNKNOWN_ERROR, false)
         }
     }
 

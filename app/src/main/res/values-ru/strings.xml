@@ -109,6 +109,9 @@
     <!-- dialog_trash -->
     <string name="dg_trash_title">Очистить корзину?</string>
 
+    <!-- dialog_delete_forever -->
+    <string name="dg_delete_forever_title">Удалить выбранные заметки\n навсегда?</string>
+
     <!-- dialog_unification -->
     <string name="dg_unification_title">Объединить заметки?</string>
 

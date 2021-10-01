@@ -4,12 +4,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.widget.EditText
-import com.loskon.noteminimalism3.auxiliary.other.MyIntent
 import com.loskon.noteminimalism3.files.SaveTextFileUpdate
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
+import com.loskon.noteminimalism3.utils.IntentUtil
 
 /**
  * Помощник для работы с текстом заметки
@@ -17,11 +17,11 @@ import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
 
 class TextNoteAssistantUpdate(
     private val context: Context,
-    private val noteFragment: NoteFragmentUpdate
+    private val fragment: NoteFragmentUpdate
 ) {
 
-    private val note: Note2 = noteFragment.getNote
-    private val editText: EditText = noteFragment.getEditText
+    private val note: Note2 = fragment.getNote
+    private val editText: EditText = fragment.getEditText
     private val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
     fun pasteText() {
@@ -33,7 +33,7 @@ class TextNoteAssistantUpdate(
     }
 
     private fun showSnackbar(message: String, isSuccess: Boolean) {
-        noteFragment.showSnackbar(message, isSuccess)
+        fragment.showSnackbar(message, isSuccess)
     }
 
     private fun mainMethodPasteText() {
@@ -60,7 +60,6 @@ class TextNoteAssistantUpdate(
             }
 
         } catch (exception: Exception) {
-            exception.printStackTrace()
             showSnackbar(SnackbarMessage.MSG_INVALID_FORMAT, false)
         }
     }
@@ -86,8 +85,7 @@ class TextNoteAssistantUpdate(
             clipboard.setPrimaryClip(clipData)
             showSnackbar(SnackbarMessage.MSG_NOTE_TEXT_COPIED, true)
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            showSnackbar(SnackbarMessage.MSG_ERROR, false)
+            showSnackbar(SnackbarMessage.MSG_UNKNOWN_ERROR, false)
         }
     }
 
@@ -102,7 +100,7 @@ class TextNoteAssistantUpdate(
         val string = getTextTrim()
 
         if (string.isNotEmpty()) {
-            SaveTextFileUpdate(context, noteFragment).createTextFile(string)
+            SaveTextFileUpdate(context, fragment).createTextFile(string)
         } else {
             showSnackbar(SnackbarMessage.MSG_NOTE_IS_EMPTY, false)
         }
@@ -123,10 +121,9 @@ class TextNoteAssistantUpdate(
 
     private fun goSendText() {
         try {
-            MyIntent.startShareText(context, editText)
+            IntentUtil.launcherShareText(context, editText)
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            showSnackbar(SnackbarMessage.MSG_ERROR, false)
+            showSnackbar(SnackbarMessage.MSG_UNKNOWN_ERROR, false)
         }
     }
 }

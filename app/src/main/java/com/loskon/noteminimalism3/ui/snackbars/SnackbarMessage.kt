@@ -22,6 +22,7 @@ class SnackbarMessage(
         const val MSG_NOTE_RESTORED = "msg_note_restored"
         const val MSG_COMBINED_NOTE_ADD = "msg_combined_note_added"
         const val MSG_ERROR_COMBINING_NOTES = "msg_error_combining_notes"
+        const val MSG_BUT_EMPTY_TRASH = "msg_but_empty_trash"
 
         // Для Заметок
         const val MSG_TEXT_NO_PERMISSION_NOTE = "msg_no_permission"
@@ -36,7 +37,7 @@ class SnackbarMessage(
 
         // Общее
         const val MSG_UNABLE_CREATE_FILE = "msg_unable_create_file"
-        const val MSG_ERROR = "msg_error"
+        const val MSG_UNKNOWN_ERROR = "msg_unknown_error"
     }
 
     fun show(typeMessage: String) {
@@ -57,6 +58,7 @@ class SnackbarMessage(
         MSG_NOTE_RESTORED -> context.getString(R.string.sb_main_restored)
         MSG_COMBINED_NOTE_ADD -> context.getString(R.string.sb_main_combined_note_added)
         MSG_ERROR_COMBINING_NOTES -> context.getString(R.string.sb_main_error_combining_notes)
+        MSG_BUT_EMPTY_TRASH -> context.getString(R.string.sb_main_but_empty_trash)
         // Для Заметок
         MSG_TEXT_NO_PERMISSION_NOTE -> context.getString(R.string.no_permissions)
         MSG_NOTE_IS_EMPTY -> context.getString(R.string.sb_note_is_empty)

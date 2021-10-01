@@ -17,7 +17,7 @@ class DialogWarning(private val context: Context) {
     private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(context)
     private val view = View.inflate(context, R.layout.dialog_warning, null)
 
-    private val btnOk: Button = materialDialog.getButtonOk
+    private val btnOk: Button = materialDialog.buttonOk
 
     init {
         setupViews()

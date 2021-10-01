@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.ui.fragments.update
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -29,7 +28,7 @@ import com.loskon.noteminimalism3.ui.sheets.update.SheetNoteUpdate
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
 import com.loskon.noteminimalism3.utils.*
-import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -44,8 +43,10 @@ class NoteFragmentUpdate : Fragment(),
 
     private lateinit var activity: NoteActivityUpdate
     private lateinit var shortsCommand: AppShortsCommand
+    private lateinit var snackbarMessage: SnackbarMessage
+    private lateinit var textAssistant: TextNoteAssistantUpdate
 
-    private lateinit var constLayoutNote: ConstraintLayout
+    private lateinit var constLayout: ConstraintLayout
     private lateinit var linLayoutNote: LinearLayout
     private lateinit var editText: EditText
     private lateinit var fab: FloatingActionButton
@@ -53,26 +54,21 @@ class NoteFragmentUpdate : Fragment(),
     private lateinit var btnDel: MaterialButton
     private lateinit var btnMore: MaterialButton
 
-    private lateinit var snackbarMessage: SnackbarMessage
-    private lateinit var textAssistant: TextNoteAssistantUpdate
-
     private lateinit var note: Note2
-    private var noteId: Long = 0L
-    private var isFavoriteStatus: Boolean = false
-
-    private var color: Int = 0
     private lateinit var backupDate: Date
-    private var isShowBackupToast: Boolean = false
-    private var isNewNote: Boolean = false
-    private var savedText: String = ""
 
-    // Для работы с гиперссылками
-    private var supportedLinks: Int = 0
+    private var isFavorite: Boolean = false
+    private var isShowBackupToast: Boolean = false
     private var isTextEditingMod: Boolean = false
+    private var supportedLinks: Int = 0
+    private var isNewNote: Boolean = false
+    private var color: Int = 0
+    private var noteId: Long = 0L
+    private var savedText: String = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity = requireActivity() as NoteActivityUpdate
+        activity = context as NoteActivityUpdate
         PermissionsStorageUpdate.installingVerification(activity, this)
         overrideBackPressed()
     }
@@ -93,7 +89,7 @@ class NoteFragmentUpdate : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.note_update, container, false)
-        constLayoutNote = view.findViewById(R.id.const_layout_note_up)
+        constLayout = view.findViewById(R.id.const_layout_note_up)
         linLayoutNote = view.findViewById(R.id.linear_layout_note_up)
         editText = view.findViewById(R.id.edit_text_note_up)
         fab = view.findViewById(R.id.fab_note_up)
@@ -105,10 +101,11 @@ class NoteFragmentUpdate : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initParameters()
-        installingSaveSettings()
-        setupColor()
+
         initObjects()
+        setupParameters()
+        establishColorViews()
+        installingSaveSettings()
         includedLinks()
         configureEditText()
         configureShowKeyboard()
@@ -116,10 +113,23 @@ class NoteFragmentUpdate : Fragment(),
         installNoteHandlers()
     }
 
-    private fun initParameters() {
-        shortsCommand = activity.getShortsCommand
-        note = activity.getNote
+    private fun initObjects() {
+        note = activity.getNote()
+        shortsCommand = activity.getShortsCommand()
+        snackbarMessage = SnackbarMessage(activity, constLayout, fab)
+        textAssistant = TextNoteAssistantUpdate(activity, this)
+    }
+
+    private fun setupParameters() {
         noteId = note.id
+    }
+
+    private fun establishColorViews() {
+        color = activity.getColor()
+        fab.setFabColor(color)
+        btnFav.setButtonIconColor(color)
+        btnDel.setButtonIconColor(color)
+        btnMore.setButtonIconColor(color)
     }
 
     private fun installingSaveSettings() {
@@ -128,58 +138,6 @@ class NoteFragmentUpdate : Fragment(),
         } else {
             savedText = note.title
         }
-
-        activity.showToast("state " + note.isDelete)
-    }
-
-    private fun setupColor() {
-        color = activity.getColor
-        fab.setFabColor(color)
-        btnFav.setButtonIconColor(color)
-        btnDel.setButtonIconColor(color)
-        btnMore.setButtonIconColor(color)
-    }
-
-    private fun initObjects() {
-        snackbarMessage = SnackbarMessage(activity, constLayoutNote, fab)
-        textAssistant = TextNoteAssistantUpdate(activity, this)
-    }
-
-    private fun configureEditText() {
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, activity.getFontSize)
-        editText.setText(note.title)
-    }
-
-    private fun configureShowKeyboard() {
-        if (noteId == 0L) {
-            editText.showKeyboard(activity)
-        } else {
-            removeFocusFromEditText()
-        }
-    }
-
-    private fun configureOtherViews() {
-        isFavoriteStatus = note.isFavorite
-        installFavoriteStatus()
-    }
-
-    private fun installFavoriteStatus() {
-        val icon: Int = if (isFavoriteStatus) {
-            R.drawable.baseline_star_black_24
-        } else {
-            R.drawable.baseline_star_border_black_24
-        }
-
-        btnFav.icon = activity.getShortDrawable(icon)
-    }
-
-    private fun removeFocusFromEditText() {
-        linLayoutNote.apply {
-            isFocusable = true
-            isFocusableInTouchMode = true
-            requestFocus()
-        }
-        editText.clearFocus()
     }
 
     private fun includedLinks() {
@@ -200,7 +158,7 @@ class NoteFragmentUpdate : Fragment(),
                 DialogNoteLinksUpdate(activity, this@NoteFragmentUpdate).show(url)
             }
 
-            override fun onClickingNoLink() {
+            override fun onClickingText() {
                 handlingClickOnEmptyArea()
             }
         }
@@ -209,6 +167,64 @@ class NoteFragmentUpdate : Fragment(),
             if (!isTextEditingMod) activationTextEditingMode()
             false
         }
+    }
+
+    private fun handlingClickOnEmptyArea() {
+        BaseSnackbar.dismiss()
+        if (supportedLinks != 0 && !isTextEditingMod) activationTextEditingMode()
+        editText.apply {
+            showKeyboard(activity)
+            setSelection(editText.getLength())
+        }
+    }
+
+    private fun activationTextEditingMode() {
+        isTextEditingMod = true
+        editText.apply {
+            note.title = text.toString()
+            autoLinkMask = 0
+            showSoftInputOnFocus = true
+            isCursorVisible = true
+            setText(note.title)
+        }
+    }
+
+    private fun configureEditText() {
+        editText.setFontSize(activity.getFontSize())
+        if (noteId != 0L) editText.setText(note.title)
+    }
+
+    private fun configureShowKeyboard() {
+        if (noteId == 0L) {
+            editText.showKeyboard(activity)
+        } else {
+            removeFocusFromEditText()
+        }
+    }
+
+    private fun removeFocusFromEditText() {
+        linLayoutNote.apply {
+            isFocusable = true
+            isFocusableInTouchMode = true
+            requestFocus()
+        }
+
+        editText.clearFocus()
+    }
+
+    private fun configureOtherViews() {
+        isFavorite = note.isFavorite
+        toggleFavoriteStatus()
+    }
+
+    private fun toggleFavoriteStatus() {
+        val icon: Int = if (isFavorite) {
+            R.drawable.baseline_star_black_24
+        } else {
+            R.drawable.baseline_star_border_black_24
+        }
+
+        btnFav.icon = activity.getShortDrawable(icon)
     }
 
     private fun installNoteHandlers() {
@@ -224,37 +240,42 @@ class NoteFragmentUpdate : Fragment(),
         BaseSnackbar.dismiss()
 
         when (v?.id) {
-            R.id.fab_note_up -> {
-                isShowBackupToast = true
-                editText.hideKeyboard(activity)
-                activity.onBackPressed()
-            }
+            R.id.fab_note_up -> clickingFab()
 
-            R.id.btn_fav_note_up -> {
-                isFavoriteStatus = !isFavoriteStatus
-                installFavoriteStatus()
-            }
+            R.id.btn_fav_note_up -> clickingFavoriteButton()
 
-            R.id.btn_del_note_up -> {
-                note.dateDelete = Date()
-                note.isDelete = true
-                note.isFavorite = false
-                shortsCommand.update(note)
+            R.id.btn_del_note_up -> clickingFavoriteDelete()
 
-                callback?.onNoteSendToTrash(note, isFavoriteStatus)
-                activity.showToast("delete")
+            R.id.btn_more_note_up -> clickingFavoriteMore()
+        }
+    }
 
-                activity.onBackPressed()
-            }
+    private fun clickingFab() {
+        isShowBackupToast = true
+        editText.hideKeyboard(activity)
+        activity.onBackPressed()
+    }
 
-            R.id.btn_more_note_up -> {
-                editText.hideKeyboard(activity)
-                lifecycleScope.launch {
-                    delay(300L)
-                    val stringDate: String = DateUtils.getStringDate(note.dateModification)
-                    SheetNoteUpdate(activity, textAssistant).show(stringDate, noteId)
-                }
-            }
+    private fun clickingFavoriteButton() {
+        isFavorite = !isFavorite
+        toggleFavoriteStatus()
+    }
+
+    private fun clickingFavoriteDelete() {
+        note.dateDelete = Date()
+        note.isDelete = true
+        note.isFavorite = false
+        shortsCommand.update(note)
+        callback?.onNoteDelete(note, isFavorite)
+        activity.onBackPressed()
+    }
+
+    private fun clickingFavoriteMore() {
+        editText.hideKeyboard(activity)
+        lifecycleScope.launch {
+            delay(300L)
+            val stringDate: String = DateUtils.getStringDate(note.dateModification)
+            SheetNoteUpdate(activity, textAssistant).show(stringDate, noteId)
         }
     }
 
@@ -272,82 +293,62 @@ class NoteFragmentUpdate : Fragment(),
         }
     }
 
-    private fun handlingClickOnEmptyArea() {
-        BaseSnackbar.dismiss()
-        if (supportedLinks != 0 && !isTextEditingMod) activationTextEditingMode()
-        editText.showKeyboard(activity)
-        editText.setSelection(editText.getLength())
-        activity.showToast(editText.text.toString())
-    }
-
-    private fun activationTextEditingMode() {
-        isTextEditingMod = true
-        editText.apply {
-            note.title = text.toString()
-            autoLinkMask = 0
-            showSoftInputOnFocus = true
-            isCursorVisible = true
-            setText(note.title)
-        }
-    }
-
     override fun onPause() {
         super.onPause()
-        selectingWaySaveNote()
+        selectingMethodSavingNote()
     }
 
-    private fun selectingWaySaveNote() {
+    private fun selectingMethodSavingNote() {
         val newText: String = editText.text.toString()
         note.title = newText
 
         if (newText.trim().isNotEmpty()) {
-            saveNote(newText)
-            autoBackupNewNote()
+            savingNote(newText)
         } else {
             removeNote()
         }
     }
 
-    private fun saveNote(newText: String) {
+    private fun savingNote(newText: String) {
         val date = Date()
 
         if (noteId == 0L) {
-            addNote(date)
+            insertNote(date)
         } else {
             updateNote(date, newText)
         }
+
+        callAutoBackup()
     }
 
-    private fun addNote(date: Date) {
-        note.isFavorite = isFavoriteStatus
+    private fun insertNote(date: Date) {
+        note.isFavorite = isFavorite
         note.dateModification = date
         note.dateCreation = date
 
         note.id = shortsCommand.insertGetId(note)
-
         noteId = note.id
+
         backupDate = date
 
         callback?.onNoteAdd()
-        activity.showToast("add")
     }
 
     private fun updateNote(date: Date, newText: String) {
-        if ((newText.trim() != savedText.trim())
-            or (isFavoriteStatus != note.isFavorite)
-        ) {
-            note.isFavorite = isFavoriteStatus
+        if (newText.trim() != savedText.trim()) {
+            note.isFavorite = isFavorite
             note.dateModification = date
-
             shortsCommand.update(note)
-
             callback?.onNoteUpdate()
-            activity.showToast("update")
+        } else if (isFavorite != note.isFavorite) {
+            note.isFavorite = isFavorite
+            shortsCommand.update(note)
+            callback?.onNoteUpdate()
         }
     }
 
-    private fun autoBackupNewNote() {
-        if (noteId % 3 == 0L && isNewNote) {
+    private fun callAutoBackup() {
+        if (isNewNote && noteId % 3 == 0L) {
             AutoBackup(activity).createBackupFile(backupDate, isShowBackupToast)
         }
     }
@@ -355,7 +356,6 @@ class NoteFragmentUpdate : Fragment(),
     private fun removeNote() {
         shortsCommand.delete(note)
         callback?.onNoteUpdate()
-        activity.showToast("delete")
     }
 
     val getEditText: EditText
@@ -383,11 +383,11 @@ class NoteFragmentUpdate : Fragment(),
     interface CallbackNoteUpdate {
         fun onNoteAdd()
         fun onNoteUpdate()
-        fun onNoteSendToTrash(note: Note2, isFavorite: Boolean)
+        fun onNoteDelete(note: Note2, isFavorite: Boolean)
     }
 
     companion object {
-        private val TAG = "MyLogs_${NoteFragmentUpdate::class.java.simpleName}"
+        //private val TAG = "MyLogs_${NoteFragmentUpdate::class.java.simpleName}"
 
         private var callback: CallbackNoteUpdate? = null
 

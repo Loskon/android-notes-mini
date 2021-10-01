@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.activities;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,7 +11,6 @@ import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.AppFontManager;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
-import com.loskon.noteminimalism3.room.AppRepository;
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment;
 
 /**
@@ -43,7 +43,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void fff() {
-        AppRepository.initRepository(this);
         Intent intent = new Intent(this, ListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

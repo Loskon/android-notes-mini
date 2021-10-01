@@ -16,7 +16,7 @@ class DialogTrash(context: Context) {
 
     private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(context)
 
-    private val btnOk: Button = materialDialog.getButtonOk
+    private val btnOk: Button = materialDialog.buttonOk
 
     init {
         materialDialog.setTextTitle(R.string.dg_trash_title)

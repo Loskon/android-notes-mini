@@ -4,15 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
-import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
+import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.fragments.update.NoteTrashFragmentUpdate
 import com.loskon.noteminimalism3.utils.IntentUtil
-import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 
 /**
  * Выбор фрагмента для работы с заметкой
@@ -20,49 +19,51 @@ import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
 
 class NoteActivityUpdate : AppCompatActivity() {
 
-    companion object {
-        private val TAG = "MyLogs_${NoteActivityUpdate::class.java.simpleName}"
-    }
-
     private lateinit var shortsCommand: AppShortsCommand
-
     private lateinit var note: Note2
-    private var category: String = ""
+
     private var color: Int = 0
-    private var fontSizeNote: Float = 0f
+    private var fontSizeNote: Int = 0
+    private var noteCategory: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_note)
 
-        shortsCommand = AppShortsCommand()
-        color = MyColor.getMyColor(this)
-
         getArguments()
-        if (category == CATEGORY_FAVORITES) note.isFavorite = true
-        selectFragment()
+        initObjects()
+        otherConfigurations()
+        setStatusFavorite()
+        selectFragmentOpen()
+    }
+
+    private fun initObjects() {
+        shortsCommand = AppShortsCommand()
+    }
+
+    private fun otherConfigurations() {
+        color = AppPref.getAppColor(this)
+        fontSizeNote = AppPref.getFontSizeNote(this)
     }
 
     private fun getArguments() {
-        val bundle = intent.extras
-
-        if (bundle != null) {
-            note = bundle.getParcelable(IntentUtil.PUT_EXTRA_NOTE)!!
-            category = bundle.getString(IntentUtil.PUT_EXTRA_CATEGORY)!!
-        }
-
-        fontSizeNote = GetSharedPref.getFontSizeNote(this).toFloat()
+        intent.getParcelableExtra<Note2>(IntentUtil.PUT_EXTRA_NOTE)?.let { note = it }
+        intent.getStringExtra(IntentUtil.PUT_EXTRA_CATEGORY)?.let { noteCategory = it }
     }
 
-    private fun selectFragment() {
-        if (category == CATEGORY_TRASH) {
-            startNoteFragment(NoteTrashFragmentUpdate.newInstance())
+    private fun setStatusFavorite() {
+        if (noteCategory == CATEGORY_FAVORITES) note.isFavorite = true
+    }
+
+    private fun selectFragmentOpen() {
+        if (noteCategory == CATEGORY_TRASH) {
+            startFragment(NoteTrashFragmentUpdate.newInstance())
         } else {
-            startNoteFragment(NoteFragmentUpdate.newInstance())
+            startFragment(NoteFragmentUpdate.newInstance())
         }
     }
 
-    private fun startNoteFragment(fragment: Fragment) {
+    private fun startFragment(fragment: Fragment) {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_note)
 
         if (currentFragment == null) {
@@ -74,23 +75,19 @@ class NoteActivityUpdate : AppCompatActivity() {
     }
 
     // getters
-    val getShortsCommand: AppShortsCommand
-        get() {
-            return shortsCommand
-        }
+    fun getShortsCommand(): AppShortsCommand {
+        return shortsCommand
+    }
 
-    val getColor: Int
-        get() {
-            return color
-        }
+    fun getColor(): Int {
+        return color
+    }
 
-    val getNote: Note2
-        get() {
-            return note
-        }
+    fun getNote(): Note2 {
+        return note
+    }
 
-    val getFontSize: Float
-        get() {
-            return fontSizeNote
-        }
+    fun getFontSize(): Int {
+        return fontSizeNote
+    }
 }

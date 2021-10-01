@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.update.MainActivityUpdate
-import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 
 /**
  * Кастомный Snackbar с таймером

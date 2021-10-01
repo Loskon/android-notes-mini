@@ -1,7 +1,6 @@
-package com.loskon.noteminimalism3.viewmodel
+package com.loskon.noteminimalism3.sqlite
 
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter
 
 class AppShortsCommand {
 
@@ -25,5 +24,9 @@ class AppShortsCommand {
 
     fun delete(note: Note2) {
         dateBaseAdapter.delete(note)
+    }
+
+    fun cleanTrash() {
+        dateBaseAdapter.cleanTrash()
     }
 }

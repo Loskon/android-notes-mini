@@ -17,7 +17,6 @@ import com.loskon.noteminimalism3.ui.activities.BackupActivity;
 import com.loskon.noteminimalism3.ui.activities.FontsActivity;
 import com.loskon.noteminimalism3.ui.activities.MainActivity;
 import com.loskon.noteminimalism3.ui.activities.NoteActivity;
-import com.loskon.noteminimalism3.ui.activities.NoteActivityKt;
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity;
 import com.loskon.noteminimalism3.ui.activities.SettingsAppActivity;
 import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate;
@@ -42,13 +41,6 @@ public class MyIntent {
         // Добавление новой заметки
         Intent intent = new Intent(context, NoteActivity.class);
         intent.putExtra(PUT_EXTRA_SEL_NOTE_CATEGORY, selNotesCategory);
-        context.startActivity(intent);
-    }
-
-    public static void addNewNote2(Context context, Note2 note, String category) {
-        Intent intent = new Intent(context, NoteActivityKt.class);
-        intent.putExtra(PUT_EXTRA_NOTE, note);
-        intent.putExtra(PUT_EXTRA_CATEGORY, category);
         context.startActivity(intent);
     }
 

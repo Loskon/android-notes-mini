@@ -2,7 +2,6 @@ package com.loskon.noteminimalism3.ui.fragments.update
 
 import android.content.Context
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +17,12 @@ import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarNoteResetUpdate
 import com.loskon.noteminimalism3.utils.setButtonIconColor
 import com.loskon.noteminimalism3.utils.setFabColor
+import com.loskon.noteminimalism3.utils.setFontSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.viewmodel.AppShortsCommand
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 
 /**
- *
+ * Работа с заметкой, находящейся в корзине
  */
 
 class NoteTrashFragmentUpdate : Fragment() {
@@ -38,9 +38,11 @@ class NoteTrashFragmentUpdate : Fragment() {
 
     private lateinit var note: Note2
 
+    private var color: Int = 0
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity = requireActivity() as NoteActivityUpdate
+        activity = context as NoteActivityUpdate
     }
 
     override fun onCreateView(
@@ -59,53 +61,56 @@ class NoteTrashFragmentUpdate : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initParameters()
-        setupColor()
+
+        initObjects()
+        establishColorViews()
         configureEditText()
-        installNoteHandlers()
+        installHandlers()
     }
 
-    private fun initParameters() {
-        shortsCommand = activity.getShortsCommand
-        note = activity.getNote
+    private fun initObjects() {
+        note = activity.getNote()
+        shortsCommand = activity.getShortsCommand()
     }
 
-    private fun setupColor() {
-        val color: Int = activity.getColor
+    private fun establishColorViews() {
+        color = activity.getColor()
         fab.setFabColor(color)
         btnDel.setButtonIconColor(color)
     }
 
     private fun configureEditText() {
-        editText.isClickable = true
-        editText.isCursorVisible = false
-        editText.isFocusable = false
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, activity.getFontSize)
-        editText.setText(note.title)
+        editText.apply {
+            isClickable = true
+            isCursorVisible = false
+            isFocusable = false
+            setFontSize(activity.getFontSize())
+            setText(note.title)
+        }
     }
 
-    private fun installNoteHandlers() {
-        fab.setOnSingleClickListener { restoreNoteFromTrash() }
-        btnDel.setOnSingleClickListener { deleteNoteForever() }
+    private fun installHandlers() {
+        fab.setOnSingleClickListener { restoreNote() }
+        btnDel.setOnSingleClickListener { deleteNote() }
         linearLayout.setOnClickListener { showSnackbar() }
         editText.setOnClickListener { showSnackbar() }
     }
 
-    fun restoreNoteFromTrash() {
+    fun restoreNote() {
         note.isDelete = false
         shortsCommand.update(note)
         callback?.onNoteReset(note)
         activity.onBackPressed()
     }
 
-    private fun deleteNoteForever() {
+    private fun deleteNote() {
         shortsCommand.delete(note)
-        callback?.onNoteDelete(note)
+        callback?.onNoteDelete(note, false)
         activity.onBackPressed()
     }
 
     private fun showSnackbar() {
-        SnackbarNoteResetUpdate(activity, this).show()
+        SnackbarNoteResetUpdate(activity, this).show(color)
     }
 
     val getConstLayout: ConstraintLayout
@@ -119,7 +124,7 @@ class NoteTrashFragmentUpdate : Fragment() {
         }
 
     interface CallbackNoteTrashUpdate {
-        fun onNoteDelete(note: Note2)
+        fun onNoteDelete(note: Note2, isFavorite: Boolean)
         fun onNoteReset(note: Note2)
     }
 

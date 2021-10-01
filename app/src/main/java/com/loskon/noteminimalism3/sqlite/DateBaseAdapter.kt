@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
+import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.util.*
@@ -125,7 +126,12 @@ class DateBaseAdapter(context: Context) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + note.id, null)
     }
 
-    fun deleteByTime(rangeInDays: Int) {
+    fun cleanTrash() {
+        database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_DEL_ITEMS + " = " + 1, null)
+    }
+
+    fun deleteByTime(context: Context) {
+        val rangeInDays: Int = AppPref.getRangeInDays(context)
         // Перевод дня в Unix-time для корректного сложения и сравнения
         val range = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
         database.delete(
@@ -171,8 +177,8 @@ class DateBaseAdapter(context: Context) {
         }
 
         //
-        fun deleteNotesByTime(rangeInDays: Int) {
-            INSTANCE?.deleteByTime(rangeInDays)
+        fun deleteNotesByTime(context: Context) {
+            INSTANCE?.deleteByTime(context)
         }
 
         const val CATEGORY_ALL_NOTES = "category_all_notes"

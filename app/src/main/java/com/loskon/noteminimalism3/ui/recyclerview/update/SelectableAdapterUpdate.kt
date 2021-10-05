@@ -2,9 +2,9 @@ package com.loskon.noteminimalism3.ui.recyclerview.update
 
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.activities.update.MainActivityUpdate
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
 import com.loskon.noteminimalism3.sqlite.AppShortsCommand
+import com.loskon.noteminimalism3.ui.activities.update.MainActivityUpdate
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import java.util.*
 
 /**
@@ -119,7 +119,7 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
             note.title = newTitle
             shortsCommand.insert(note)
 
-            activity.showSnackbar(SnackbarMessage.MSG_COMBINED_NOTE_ADD, true)
+            activity.showSnackbar(SnackbarApp.MSG_COMBINED_NOTE_ADD, true)
 
         } catch (exception: Exception) {
             exception.stackTraceToString()
@@ -131,7 +131,7 @@ abstract class SelectableAdapterUpdate<VH : RecyclerView.ViewHolder?> : Recycler
                 shortsCommand.insert(item)
             }
 
-            activity.showSnackbar(SnackbarMessage.MSG_ERROR_COMBINING_NOTES, false)
+            activity.showSnackbar(SnackbarApp.MSG_ERROR_COMBINING_NOTES, false)
         }
     }
 

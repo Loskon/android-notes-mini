@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.ui.sheets
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
@@ -12,6 +11,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.utils.setRadioButtonColor
 
 /**
  * Выбор способа сортировки для списка заметок
@@ -38,8 +38,8 @@ class SheetPrefSort(private val context: Context) {
 
     private fun setupColorViews() {
         val color: Int = MyColor.getMyColor(context)
-        radioButtonCreate.buttonTintList = ColorStateList.valueOf(color)
-        radioButtonMod.buttonTintList = ColorStateList.valueOf(color)
+        radioButtonCreate.setRadioButtonColor(color)
+        radioButtonMod.setRadioButtonColor(color)
     }
 
     private fun configViews() {

@@ -52,6 +52,7 @@ class SheetListFiles(private val context: Context) {
             if (filesAdapter.count == 0) {
                 context.showToast(R.string.dg_restore_empty)
             } else {
+                sheetDialog.dismiss()
                 SheetDeleteAllWarning(context, this).show()
             }
         }
@@ -93,7 +94,7 @@ class SheetListFiles(private val context: Context) {
 
         @JvmStatic
         fun listenerCallback(callbackRestoreNote: CallbackRestoreNote) {
-            Companion.callbackRestoreNote = callbackRestoreNote
+            this.callbackRestoreNote = callbackRestoreNote
         }
     }
 }

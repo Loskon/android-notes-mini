@@ -131,7 +131,7 @@ class DateBaseAdapter(context: Context) {
     }
 
     fun deleteByTime(context: Context) {
-        val rangeInDays: Int = AppPref.getRangeInDays(context)
+        val rangeInDays: Int = AppPref.getRetentionRange(context)
         // Перевод дня в Unix-time для корректного сложения и сравнения
         val range = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
         database.delete(

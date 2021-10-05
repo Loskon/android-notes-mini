@@ -134,7 +134,7 @@ public class MyIntent {
 
     public static void startMailClient(Context context) {
         // Open email client
-        String email = context.getString(R.string.developer_email);
+        String email = context.getString(R.string.my_email);
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));

@@ -5,7 +5,7 @@ import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.update.MainActivityUpdate
 import com.loskon.noteminimalism3.ui.dialogs.BaseMaterialDialog
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -35,7 +35,7 @@ class DialogTrashUpdate(context: Context) {
             if (itemCount != 0) {
                 activity.cleanTrash()
             } else {
-                activity.showSnackbar(SnackbarMessage.MSG_BUT_EMPTY_TRASH, false)
+                activity.showSnackbar(SnackbarApp.MSG_BUT_EMPTY_TRASH, false)
             }
 
             dialog.dismiss()

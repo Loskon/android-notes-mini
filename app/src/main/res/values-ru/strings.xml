@@ -69,6 +69,11 @@
     <string name="sb_note_invalid_format">Неверный формат!</string>
     <string name="sb_note_text_copied">Текст скопирован</string>
     <string name="sb_note_hyperlinks_copied">Гипперсылка скопирована</string>
+    <string name="sb_note_impossible_share">Error! Impossible to share!</string>
+
+    <!-- Settings -->
+    <string name="sb_settings_file_manager_not_found">Ошибка. Файловый менеджер не найден!</string>
+    <string name="sb_settings_unable_select_folder">Невозможно выбрать папку!</string>
 
     <!-- Backup -->
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
@@ -154,6 +159,9 @@
     <string name="dg_warning_attention">Внимание! Выбранный
         шрифт может не поддерживать ваш язык или некоторые символы!</string>
 
+    <!-- dialog_delete_all_warnings -->
+    <string name="dg_delete_all_warnings">Подтвердить удаление?</string>
+
 
     <!-- Preference -->
     <!-- preference -->
@@ -181,7 +189,7 @@
 
     <!-- Preference summary -->
     <string name="auto_backup_summary">При создании нескольких новых заметок</string>
-    <string name="number_of_days_summary">Количество дней</string>
+    <string name="number_of_days_summary">Количество дней: %1$d</string>
     <string name="update_date_summary">При изменении содержимого заметки</string>
     <string name="notification_auto_backup_summary">Об успешном авторезервировании</string>
 
@@ -211,4 +219,8 @@
     <string name="continue_action">Продолжить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+
+    <string name="templars">Тамплиеры – духовно-рыцарский орден, основанный
+        на Святой землев 1119 г. незначительной группой рыцарей, во главе с
+        Гуго де Пейном, послеПервого крестового похода (1096-1099).</string>
 </resources>

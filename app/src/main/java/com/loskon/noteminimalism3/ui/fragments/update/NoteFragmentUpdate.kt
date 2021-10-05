@@ -22,13 +22,13 @@ import com.loskon.noteminimalism3.other.CustomMovementMethodUpdate
 import com.loskon.noteminimalism3.other.TextNoteAssistantUpdate
 import com.loskon.noteminimalism3.permissions.PermissionsInterface
 import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinksUpdate
 import com.loskon.noteminimalism3.ui.sheets.update.SheetNoteUpdate
-import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
+import com.loskon.noteminimalism3.ui.snackbars.update.BaseSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import com.loskon.noteminimalism3.utils.*
-import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -43,7 +43,7 @@ class NoteFragmentUpdate : Fragment(),
 
     private lateinit var activity: NoteActivityUpdate
     private lateinit var shortsCommand: AppShortsCommand
-    private lateinit var snackbarMessage: SnackbarMessage
+    private lateinit var snackbarApp: SnackbarApp
     private lateinit var textAssistant: TextNoteAssistantUpdate
 
     private lateinit var constLayout: ConstraintLayout
@@ -116,7 +116,7 @@ class NoteFragmentUpdate : Fragment(),
     private fun initObjects() {
         note = activity.getNote()
         shortsCommand = activity.getShortsCommand()
-        snackbarMessage = SnackbarMessage(activity, constLayout, fab)
+        snackbarApp = SnackbarApp(activity, constLayout, fab)
         textAssistant = TextNoteAssistantUpdate(activity, this)
     }
 
@@ -372,12 +372,12 @@ class NoteFragmentUpdate : Fragment(),
         if (isGranted) {
             textAssistant.mainMethodSaveTextFile()
         } else {
-            showSnackbar(SnackbarMessage.MSG_TEXT_NO_PERMISSION_NOTE, false)
+            showSnackbar(SnackbarApp.MSG_NO_PERMISSION, false)
         }
     }
 
     fun showSnackbar(typeMessage: String, isSuccess: Boolean) {
-        snackbarMessage.show(typeMessage, isSuccess)
+        snackbarApp.show(typeMessage, isSuccess)
     }
 
     interface CallbackNoteUpdate {

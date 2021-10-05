@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.ui.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -13,7 +12,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.activities.SettingsActivity
+import com.loskon.noteminimalism3.utils.IntentUtil
 import com.loskon.noteminimalism3.utils.getShortDrawable
 import com.loskon.noteminimalism3.utils.setColorStateMenuItem
 
@@ -62,15 +61,17 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
                     R.id.nav_item_note -> {
                         category = CATEGORY_ALL_NOTES
                     }
+
                     R.id.nav_item_favorites -> {
                         category = CATEGORY_FAVORITES
                     }
+
                     R.id.nav_item_trash -> {
                         category = CATEGORY_TRASH
                     }
+
                     R.id.nav_item_settings -> {
-                        val intent = Intent(activity, SettingsActivity::class.java)
-                        startActivity(intent)
+                        IntentUtil.openSettings(mContext)
                     }
                 }
 

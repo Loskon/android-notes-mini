@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.files
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
+import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.backup.second.BackupFilter
 import com.loskon.noteminimalism3.backup.second.BackupPath
 import java.io.File
@@ -12,11 +12,13 @@ import java.io.File
  */
 
 class BackupFilesLimiter {
+
     companion object {
         @JvmStatic
         fun deleteExtraFiles(context: Context) {
+
             val homeFolder = BackupPath.getFolder(context)
-            val maxNumberFiles = GetSharedPref.getNumOfBackup(context)
+            val maxNumberFiles = AppPref.getNumberBackups(context)
             var logFiles = BackupFilter.getListFile(homeFolder)
 
             if (logFiles != null && logFiles.size > maxNumberFiles) {

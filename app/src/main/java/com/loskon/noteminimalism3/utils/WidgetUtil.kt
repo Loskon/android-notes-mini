@@ -1,16 +1,13 @@
 package com.loskon.noteminimalism3.utils
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 /**
@@ -62,11 +59,6 @@ fun View.setLayoutParams() {
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
     )
-}
-
-//
-fun Context.getShortDrawable(@DrawableRes icon: Int): Drawable? {
-    return ResourcesCompat.getDrawable(resources, icon, null)
 }
 
 //

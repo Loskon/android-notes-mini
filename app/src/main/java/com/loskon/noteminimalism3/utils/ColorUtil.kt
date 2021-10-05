@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
+import android.widget.RadioButton
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -186,4 +187,10 @@ fun View.ripple(): View {
     setBackgroundResource(value.resourceId)
     isFocusable = true // Required for some view types
     return this
+}
+
+
+//
+fun RadioButton.setRadioButtonColor(color: Int) {
+    buttonTintList = ColorStateList.valueOf(color)
 }

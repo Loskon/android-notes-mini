@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.files.SaveTextFileUpdate
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import com.loskon.noteminimalism3.utils.IntentUtil
 
 /**
@@ -28,7 +28,7 @@ class TextNoteAssistantUpdate(
         if (clipboard.hasPrimaryClip()) {
             mainMethodPasteText()
         } else {
-            showSnackbar(SnackbarMessage.MSG_NEED_COPY_TEXT, false)
+            showSnackbar(SnackbarApp.MSG_NEED_COPY_TEXT, false)
         }
     }
 
@@ -56,11 +56,11 @@ class TextNoteAssistantUpdate(
                 editText.setSelection(pasteText.length)
 
             } else {
-                showSnackbar(SnackbarMessage.MSG_NEED_COPY_TEXT, false)
+                showSnackbar(SnackbarApp.MSG_NEED_COPY_TEXT, false)
             }
 
         } catch (exception: Exception) {
-            showSnackbar(SnackbarMessage.MSG_INVALID_FORMAT, false)
+            showSnackbar(SnackbarApp.MSG_INVALID_FORMAT, false)
         }
     }
 
@@ -75,7 +75,7 @@ class TextNoteAssistantUpdate(
         if (title.isNotEmpty()) {
             mainMethodCopyText()
         } else {
-            showSnackbar(SnackbarMessage.MSG_NOTE_IS_EMPTY, false)
+            showSnackbar(SnackbarApp.MSG_NOTE_IS_EMPTY, false)
         }
     }
 
@@ -83,9 +83,9 @@ class TextNoteAssistantUpdate(
         try {
             val clipData = ClipData.newPlainText("label_copy_text", editText.text.toString())
             clipboard.setPrimaryClip(clipData)
-            showSnackbar(SnackbarMessage.MSG_NOTE_TEXT_COPIED, true)
+            showSnackbar(SnackbarApp.MSG_NOTE_TEXT_COPIED, true)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarMessage.MSG_UNKNOWN_ERROR, false)
+            showSnackbar(SnackbarApp.MSG_UNKNOWN_ERROR, false)
         }
     }
 
@@ -93,7 +93,7 @@ class TextNoteAssistantUpdate(
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     fun saveTextFile() {
-        if (PermissionsStorageUpdate.isAccessMemory(context)) mainMethodSaveTextFile()
+        if (PermissionsStorageUpdate.hasAccessStorageRequest(context)) mainMethodSaveTextFile()
     }
 
     fun mainMethodSaveTextFile() {
@@ -102,7 +102,7 @@ class TextNoteAssistantUpdate(
         if (string.isNotEmpty()) {
             SaveTextFileUpdate(context, fragment).createTextFile(string)
         } else {
-            showSnackbar(SnackbarMessage.MSG_NOTE_IS_EMPTY, false)
+            showSnackbar(SnackbarApp.MSG_NOTE_IS_EMPTY, false)
         }
     }
 
@@ -115,7 +115,7 @@ class TextNoteAssistantUpdate(
         if (title.isNotEmpty()) {
             goSendText()
         } else {
-            showSnackbar(SnackbarMessage.MSG_NOTE_IS_EMPTY, false)
+            showSnackbar(SnackbarApp.MSG_NOTE_IS_EMPTY, false)
         }
     }
 
@@ -123,7 +123,7 @@ class TextNoteAssistantUpdate(
         try {
             IntentUtil.launcherShareText(context, editText)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarMessage.MSG_UNKNOWN_ERROR, false)
+            showSnackbar(SnackbarApp.MSG_UNKNOWN_ERROR, false)
         }
     }
 }

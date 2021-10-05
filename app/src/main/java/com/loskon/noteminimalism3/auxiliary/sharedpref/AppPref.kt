@@ -22,7 +22,7 @@ class AppPref {
         const val PREF_KEY_POSITION_INDEX = "key_position_index"
         const val PREF_KEY_NOTES_CATEGORY = "key_sel_note_category"
         const val PREF_KEY_SORT = "key_sort"
-        const val PREF_KEY_TYPE_FONT = "key_type_font"
+        const val PREF_KEY_TYPE_FONT = "key_type_font_new"
         const val PREF_KEY_DIALOG_WARNING_SHOW = "key_dialog_warning_show"
         const val PREF_KEY_WEB = "key_web"
         const val PREF_KEY_MAIL = "key_mail"
@@ -66,6 +66,15 @@ class AppPref {
             save(context, PREF_KEY_STATE_LINEAR_LIST, hasLinearList)
         }
 
+        // int
+        fun setTypeFont(context: Context, selectedFont: Int) {
+            save(context, PREF_KEY_TYPE_FONT, selectedFont)
+        }
+
+        // string
+        fun setBackupPath(context: Context, path: String) {
+            save(context, PREF_KEY_SEL_DIRECTORY, path)
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // boolean
@@ -124,12 +133,16 @@ class AppPref {
 
         }
 
-        fun getNumOfBackup(context: Context): Int {
+        fun getNumberBackups(context: Context): Int {
             val key = context.getString(R.string.num_of_backup_title)
-            return load(context, key, context.resources.getInteger(R.integer.number_of_backups))
+            return load(
+                context,
+                key,
+                context.resources.getInteger(R.integer.number_of_backups)
+            )
         }
 
-        fun getRangeInDays(context: Context): Int {
+        fun getRetentionRange(context: Context): Int {
             val key = context.getString(R.string.retention_trash_title)
             return load(
                 context,
@@ -140,7 +153,11 @@ class AppPref {
 
         fun getNumberLines(context: Context): Int {
             val key = context.getString(R.string.num_of_lines_header)
-            return load(context, key, context.resources.getInteger(R.integer.number_lines))
+            return load(
+                context,
+                key,
+                context.resources.getInteger(R.integer.number_lines)
+            )
         }
 
         fun getFontSize(context: Context): Int {
@@ -179,18 +196,22 @@ class AppPref {
             return load(context, PREF_KEY_NOTES_CATEGORY, 0)
         }
 
-        fun getSort(context: Context): Int {
+        fun getSortingWay(context: Context): Int {
             return load(context, PREF_KEY_SORT, 0)
         }
 
         fun getTypeFont(context: Context): Int {
-            return load(context, PREF_KEY_TYPE_FONT, -1)
+            return load(context, PREF_KEY_TYPE_FONT, 0)
         }
 
         // string
         fun getSelectedDirectory(context: Context): String? {
             val defaultPath: String = Environment.getExternalStorageDirectory().toString()
-            return load(context, PREF_KEY_SEL_DIRECTORY, defaultPath)
+            return load(
+                context,
+                PREF_KEY_SEL_DIRECTORY,
+                defaultPath
+            )
         }
     }
 }

@@ -30,7 +30,7 @@ public class MySnackbarBackup {
     public static final String MSG_DEL_DATA = "msg_del_data";
     public static final String MSG_INTERNET_PROBLEM = "msg_internet_problem";
 
-    public static void showSnackbar(Context context, boolean isSuccess, String typeMessage) {
+    public static void  showSnackbar(Context context, boolean isSuccess, String typeMessage) {
         String message;
 
         ConstraintLayout constraintLayout = ((Activity) context).findViewById(R.id.cstLayBackup);

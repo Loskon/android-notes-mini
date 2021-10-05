@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import java.util.regex.Pattern
 
 /**
@@ -131,7 +131,7 @@ class DialogNoteLinksUpdate(
                 Intent(Intent.ACTION_DIAL, Uri.parse(link))
             )
 
-            else -> showSnackbar(SnackbarMessage.MSG_UNKNOWN_ERROR, false)
+            else -> showSnackbar(SnackbarApp.MSG_UNKNOWN_ERROR, false)
         }
     }
 
@@ -142,10 +142,10 @@ class DialogNoteLinksUpdate(
             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("copy_links", link)
             clipboard.setPrimaryClip(clip)
-            showSnackbar(SnackbarMessage.MSG_NOTE_HYPERLINKS_COPIED, true)
+            showSnackbar(SnackbarApp.MSG_NOTE_HYPERLINKS_COPIED, true)
         } catch (exception: Exception) {
             exception.printStackTrace()
-            showSnackbar(SnackbarMessage.MSG_INVALID_LINK, false)
+            showSnackbar(SnackbarApp.MSG_INVALID_LINK, false)
         }
     }
 

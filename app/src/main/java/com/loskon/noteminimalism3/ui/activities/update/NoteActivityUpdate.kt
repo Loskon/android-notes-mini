@@ -6,12 +6,13 @@ import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.other.AppFont
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.fragments.update.NoteTrashFragmentUpdate
 import com.loskon.noteminimalism3.utils.IntentUtil
-import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 
 /**
  * Выбор фрагмента для работы с заметкой
@@ -27,6 +28,7 @@ class NoteActivityUpdate : AppCompatActivity() {
     private var noteCategory: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppFont.setFont(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_note)
 

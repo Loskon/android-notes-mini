@@ -20,6 +20,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.backup.prime.BpCloud
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.other.AppFont
 import com.loskon.noteminimalism3.other.ShortQueryTextListener
 import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
@@ -29,6 +30,7 @@ import com.loskon.noteminimalism3.ui.dialogs.update.DialogDeleteForever
 import com.loskon.noteminimalism3.ui.dialogs.update.DialogTrashUpdate
 import com.loskon.noteminimalism3.ui.fragments.BottomSheetCategory
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
+import com.loskon.noteminimalism3.ui.fragments.update.FontsFragment
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.fragments.update.NoteTrashFragmentUpdate
 import com.loskon.noteminimalism3.ui.preferences.MyPrefCardView
@@ -39,8 +41,8 @@ import com.loskon.noteminimalism3.ui.recyclerview.update.SwipeCallbackMainUpdate
 import com.loskon.noteminimalism3.ui.sheets.SheetListFiles
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
-import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage
+import com.loskon.noteminimalism3.ui.snackbars.update.BaseSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarUndoUpdate
 import com.loskon.noteminimalism3.utils.*
 import kotlinx.coroutines.delay
@@ -63,7 +65,8 @@ class MainActivityUpdate : AppCompatActivity(),
     SheetListFiles.CallbackRestoreNote,
     BpCloud.CallbackResNotes,
     SheetPrefSort.CallbackSort,
-    DialogTypeFont.CallbackTypeFont {
+    DialogTypeFont.CallbackTypeFont,
+    FontsFragment.CallbackChangeTypeFont{
 
     companion object {
         //private val TAG = "MyLogs_${MainActivityUpdate::class.java.simpleName}"
@@ -96,6 +99,7 @@ class MainActivityUpdate : AppCompatActivity(),
     private var searchText: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setAppFonts()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -110,6 +114,10 @@ class MainActivityUpdate : AppCompatActivity(),
         establishColorViews()
         installHandlers()
         updateQuicklyNotesList()
+    }
+
+    private fun setAppFonts() {
+        AppFont.setFont(this)
     }
 
     private fun initViews() {
@@ -140,6 +148,7 @@ class MainActivityUpdate : AppCompatActivity(),
         BpCloud.listenerCallback(this)
         SheetPrefSort.listenerCallback(this)
         DialogTypeFont.listenerCallBack(this)
+        FontsFragment.listenerCallback(this)
     }
 
     private fun configureRecyclerAdapter() {
@@ -209,7 +218,7 @@ class MainActivityUpdate : AppCompatActivity(),
     }
 
     private fun otherConfigurations() {
-        sortingWay = AppPref.getSort(this)
+        sortingWay = AppPref.getSortingWay(this)
         widgetsHelper.setTypeNotes(recyclerView, hasLinearList)
     }
 
@@ -431,7 +440,7 @@ class MainActivityUpdate : AppCompatActivity(),
         lifecycleScope.launch {
             delay(200L)
             updateListNotes()
-            showSnackbar(SnackbarMessage.MSG_NOTE_RESTORED, true)
+            showSnackbar(SnackbarApp.MSG_NOTE_RESTORED, true)
         }
     }
 
@@ -454,7 +463,7 @@ class MainActivityUpdate : AppCompatActivity(),
     }
 
     fun showSnackbar(message: String, isSuccess: Boolean) {
-        SnackbarMessage(this, coordLayout, fab).show(message, isSuccess)
+        SnackbarApp(this, coordLayout, fab).show(message, isSuccess)
     }
 
     // From Settings
@@ -488,8 +497,8 @@ class MainActivityUpdate : AppCompatActivity(),
     }
 
     override fun onChangeFont() {
-        //AppFontManager.setFont(this)
-        //updateQuicklyNotesListTop()
+        setAppFonts()
+        updateQuicklyNotesListTop()
     }
 
     // Внешние методы
@@ -561,4 +570,9 @@ class MainActivityUpdate : AppCompatActivity(),
         get() {
             return fab
         }
+
+    override fun onChangeTypeFont() {
+        setAppFonts()
+        recyclerView.adapter = adapter
+    }
 }

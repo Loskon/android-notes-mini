@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.recyclerview.profile
+package com.loskon.noteminimalism3.ui.recyclerview.update
 
 import android.view.View
 import android.widget.LinearLayout

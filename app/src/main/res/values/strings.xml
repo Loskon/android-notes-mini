@@ -92,6 +92,12 @@
     <string name="sb_note_invalid_format">Invalid format!</string>
     <string name="sb_note_text_copied">Text copied</string>
     <string name="sb_note_hyperlinks_copied">Hyperlinks copied</string>
+    <string name="sb_note_impossible_share">Error! Impossible to share!</string>
+
+    <!-- Settings -->
+    <string name="sb_settings_file_manager_not_found">Error. File manager not found!</string>
+    <string name="sb_settings_unable_select_folder">Unable to select folder!</string>
+
 
     <!-- Backup -->
     <string name="sb_bp_text_error">Error. Retry!</string>
@@ -178,6 +184,9 @@
     <string name="dg_warning_attention">Attention! The selected
         font may not support your language or some characters!</string>
 
+    <!-- dialog_delete_all_warnings -->
+    <string name="dg_delete_all_warnings">Confirm deletion?</string>
+
 
     <!-- Preference -->
     <!-- preference -->
@@ -188,7 +197,7 @@
     <string name="other_header">Other</string>
 
     <!-- Preference Titles -->
-    <string name="custom_app_title">Customize</string>
+    <string name="custom_app_title">Customisation</string>
     <string name="type_font_title">Type of font</string>
     <string name="sort_title">Sort</string>
     <string name="dark_mode_title">Dark mode</string>
@@ -205,7 +214,7 @@
 
     <!-- Preference summary -->
     <string name="auto_backup_summary">When creating several new notes</string>
-    <string name="number_of_days_summary">Number of days</string>
+    <string name="number_of_days_summary">Number of days: %1$d</string>
     <string name="update_date_summary">When changing the content of a note</string>
     <string name="notification_auto_backup_summary">About successful auto backup</string>
 
@@ -236,11 +245,16 @@
     <string name="no">No</string>
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
-    <string name="developer_email" translatable="false">andreyrochev23@gmail.com</string>
+    <string name="my_email" translatable="false">andreyrochev23@gmail.com</string>
     <string name="example_text" translatable="false">A B C D E F G H I J K L M N O
         P Q R S T U V W X Y Z
         \n\n
         a b c d e f g h i j k l m n o p q r s t u v w x y z
         \n\n
         1 2 3 4 5 6 7 8 9 0</string>
+
+    <string name="example_text_for_font" translatable="false">ABCDabcd\n12345678</string>
+    <string name="templars">The Templars are a spiritual and knightly order
+        founded in the HolyLand in 1119 by a small group of knights,
+        led by Hugh de Payens,after the First Crusade (1096-1099).</string>
 </resources>

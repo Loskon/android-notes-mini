@@ -84,7 +84,7 @@ public class BackupActivity extends AppCompatActivity implements PermissionsInte
     public void onClickBtnSd(View view) {
         btnId = view.getId();
 
-        boolean isAccess = PermissionsStorageUpdate.isAccessMemory(this);
+        boolean isAccess = PermissionsStorageUpdate.hasAccessStorageRequest(this);
 
         if (isAccess) {
             btnClick();

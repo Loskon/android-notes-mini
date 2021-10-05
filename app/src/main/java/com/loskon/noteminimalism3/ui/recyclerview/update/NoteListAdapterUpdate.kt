@@ -10,7 +10,6 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteDiffUtil
-import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteListViewHolder
 import com.loskon.noteminimalism3.utils.setBackgroundTintColor
 import com.loskon.noteminimalism3.utils.setFontSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
@@ -183,7 +182,6 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
         notifyDataSetChanged()
     }
 
-    // Callback
     interface CallbackAdapter {
         fun onClickingNote(note: Note2)
         fun onActivatingSelectionMode(isSelMode: Boolean)

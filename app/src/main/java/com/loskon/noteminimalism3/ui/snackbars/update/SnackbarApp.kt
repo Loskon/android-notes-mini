@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.snackbars
+package com.loskon.noteminimalism3.ui.snackbars.update
 
 import android.content.Context
 import android.view.View
@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.R
  *
  */
 
-class SnackbarMessage(
+class SnackbarApp(
     private val context: Context,
     private val layout: View,
     private val anchorView: View
@@ -25,7 +25,6 @@ class SnackbarMessage(
         const val MSG_BUT_EMPTY_TRASH = "msg_but_empty_trash"
 
         // Для Заметок
-        const val MSG_TEXT_NO_PERMISSION_NOTE = "msg_no_permission"
         const val MSG_NOTE_IS_EMPTY = "msg_note_is_empty"
         const val MSG_SAVE_TXT_COMPLETED = "msg_save_txt_completed"
         const val MSG_SAVE_TXT_FAILED = "msg_save_txt_failed"
@@ -38,6 +37,11 @@ class SnackbarMessage(
         // Общее
         const val MSG_UNABLE_CREATE_FILE = "msg_unable_create_file"
         const val MSG_UNKNOWN_ERROR = "msg_unknown_error"
+
+        // Настройки
+        const val MSG_NO_PERMISSION = "msg_no_permission"
+        const val MSG_UNABLE_SELECT_FOLDER = "msg_unable_select_folder"
+
     }
 
     fun show(typeMessage: String) {
@@ -60,7 +64,6 @@ class SnackbarMessage(
         MSG_ERROR_COMBINING_NOTES -> context.getString(R.string.sb_main_error_combining_notes)
         MSG_BUT_EMPTY_TRASH -> context.getString(R.string.sb_main_but_empty_trash)
         // Для Заметок
-        MSG_TEXT_NO_PERMISSION_NOTE -> context.getString(R.string.no_permissions)
         MSG_NOTE_IS_EMPTY -> context.getString(R.string.sb_note_is_empty)
         MSG_SAVE_TXT_COMPLETED -> context.getString(R.string.sb_note_save_txt_completed)
         MSG_SAVE_TXT_FAILED -> context.getString(R.string.sb_note_save_txt_failed)
@@ -71,6 +74,9 @@ class SnackbarMessage(
         MSG_NOTE_HYPERLINKS_COPIED -> context.getString(R.string.sb_note_hyperlinks_copied)
         // Общее
         MSG_UNABLE_CREATE_FILE -> context.getString(R.string.toast_main_auto_backup_unable_create)
+        // Настройки
+        MSG_NO_PERMISSION -> context.getString(R.string.no_permissions)
+        MSG_UNABLE_SELECT_FOLDER -> context.getString(R.string.sb_settings_unable_select_folder)
         else -> context.getString(R.string.unknown_error)
     }
 

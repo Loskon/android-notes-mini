@@ -26,7 +26,7 @@ class AutoBackup(private val context: Context) {
 
     fun createBackupFile(date: Date, isShowToast: Boolean) =
         (context as AppCompatActivity).lifecycleScope.launch {
-            val isAccess: Boolean = PermissionsStorageUpdate.isAccessMemoryWithoutRequest(context)
+            val isAccess: Boolean = PermissionsStorageUpdate.hasAccessStorage(context)
 
             if (isAccess) {
 

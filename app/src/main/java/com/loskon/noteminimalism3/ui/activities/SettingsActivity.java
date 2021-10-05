@@ -1,7 +1,5 @@
 package com.loskon.noteminimalism3.ui.activities;
 
-import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,14 +36,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         btmAppBarSettings = findViewById(R.id.btmAppBarSettings);
         btmAppBarSettings.setNavigationOnClickListener(v -> onBackPressed());
-
-
-    }
-
-    public void fff() {
-        Intent intent = new Intent(this, ListActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     @Override

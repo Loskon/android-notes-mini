@@ -34,9 +34,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
         <activity
-            android:name=".ui.activities.ListActivityKt"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.activities.ListActivity" />
+            android:name=".ui.activities.update.SettingsActivityUpdate"
+            android:exported="true" />
 
         <receiver android:name=".ui.widgets.add.AppWidgetAddProvider">
             <intent-filter>
@@ -62,7 +61,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.NoteActivityKt" />
         <activity
             android:name=".ui.activities.FontsActivity"
             android:screenOrientation="portrait" />

@@ -12,6 +12,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.ui.recyclerview.update.NoteListViewHolder
 import com.loskon.noteminimalism3.utils.getRadiusLinLay
 import com.loskon.noteminimalism3.utils.getStrokeLinLay
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener

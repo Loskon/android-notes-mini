@@ -3,9 +3,9 @@ package com.loskon.noteminimalism3.files
 import android.content.Context
 import com.loskon.noteminimalism3.backup.second.BackupPath
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_SAVE_TXT_COMPLETED
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_SAVE_TXT_FAILED
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarMessage.Companion.MSG_UNABLE_CREATE_FILE
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp.Companion.MSG_SAVE_TXT_COMPLETED
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp.Companion.MSG_SAVE_TXT_FAILED
+import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp.Companion.MSG_UNABLE_CREATE_FILE
 import com.loskon.noteminimalism3.utils.createFolder
 import com.loskon.noteminimalism3.utils.replaceForbiddenCharacters
 import java.io.File

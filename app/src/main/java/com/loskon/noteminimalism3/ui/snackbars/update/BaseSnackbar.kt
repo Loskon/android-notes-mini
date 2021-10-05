@@ -1,12 +1,14 @@
-package com.loskon.noteminimalism3.ui.snackbars
+package com.loskon.noteminimalism3.ui.snackbars.update
 
 import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
+import com.loskon.noteminimalism3.utils.getShortFont
 import com.loskon.noteminimalism3.utils.ripple
 import com.loskon.noteminimalism3.utils.setColorBackgroundSnackbar
 
@@ -28,9 +30,11 @@ object BaseSnackbar {
 
         snackbar?.setTextColor(Color.WHITE)
         val snackbarView: View? = snackbar?.view
+        val textView: TextView? = snackbarView?.findViewById(R.id.snackbar_text)
         snackbarView?.setBackgroundResource(R.drawable.snackbar_background)
         snackbarView?.setColorBackgroundSnackbar(context, isSuccess)
         snackbarView?.setOnClickListener { snackbar?.dismiss() }
+        textView?.typeface = context.getShortFont(R.font.roboto_light)
         snackbar?.anchorView = anchorView
 
         snackbar?.show()

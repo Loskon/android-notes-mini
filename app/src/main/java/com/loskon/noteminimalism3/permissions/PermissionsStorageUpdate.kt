@@ -35,14 +35,14 @@ class PermissionsStorageUpdate {
             permissionsInterface: PermissionsInterface?
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                checkPermissionsForAndroidR(activity, permissionsInterface)
+                checkPermissionsAndroidR(activity, permissionsInterface)
             } else {
                 checkPermissions(activity, permissionsInterface)
             }
         }
 
         @RequiresApi(Build.VERSION_CODES.R)
-        private fun checkPermissionsForAndroidR(
+        private fun checkPermissionsAndroidR(
             activity: ComponentActivity?,
             permissionsInterface: PermissionsInterface?
         ) {
@@ -76,7 +76,7 @@ class PermissionsStorageUpdate {
         }
 
         @JvmStatic
-        fun isAccessMemory(context: Context): Boolean {
+        fun hasAccessStorageRequest(context: Context): Boolean {
             var isGrantedPermissions = false
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -100,7 +100,7 @@ class PermissionsStorageUpdate {
         }
 
         @JvmStatic
-        fun isAccessMemoryWithoutRequest(context: Context): Boolean {
+        fun hasAccessStorage(context: Context): Boolean {
             var isGrantedPermissions = false
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -118,7 +118,6 @@ class PermissionsStorageUpdate {
         @RequiresApi(Build.VERSION_CODES.R)
         private fun requestPermissionsAndroidR(context: Context) {
             val packageApp: String = context.applicationContext?.packageName.toString()
-
             val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
             intent.addCategory("android.intent.category.DEFAULT")
             intent.data = Uri.parse(String.format("package:%s", packageApp))

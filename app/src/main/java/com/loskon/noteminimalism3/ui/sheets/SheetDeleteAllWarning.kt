@@ -24,7 +24,7 @@ class SheetDeleteAllWarning(
     }
 
     private fun configViews() {
-        sheetDialog.setTextTitle(R.string.confirm)
+        sheetDialog.setTextTitle(R.string.dg_delete_all_warnings)
         sheetDialog.setContainerVisibility(false)
         sheetDialog.setTextBtnOk(R.string.yes)
         sheetDialog.setTextBtnCancel(R.string.no)

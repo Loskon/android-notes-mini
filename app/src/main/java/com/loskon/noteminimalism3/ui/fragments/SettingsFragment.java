@@ -1,5 +1,7 @@
 package com.loskon.noteminimalism3.ui.fragments;
 
+import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_READ;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -20,20 +22,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
 import com.loskon.noteminimalism3.auxiliary.other.MyIntent;
-import com.loskon.noteminimalism3.permissions.PermissionsInterface;
-import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey;
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.second.BackupPath;
+import com.loskon.noteminimalism3.permissions.PermissionsInterface;
+import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate;
 import com.loskon.noteminimalism3.ui.preferences.PrefHelper;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefLinks;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefNoteFontSize;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSlider;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort;
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarBuilder;
-
-import static com.loskon.noteminimalism3.auxiliary.other.RequestCode.REQUEST_CODE_READ;
 
 /**
  * Форма общих настроек
@@ -124,7 +124,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
-
         initialiseSettings();
         getPrefKeys();
         setPreferences();
@@ -210,7 +209,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             MyColor.setDarkTheme((Boolean) newValue);
             return true;
         } else if (key.equals(autoBackupString)) {
-            PermissionsStorageUpdate.isAccessMemory(activity);
+            PermissionsStorageUpdate.hasAccessStorageRequest(activity);
             return true;
         }
 
@@ -262,7 +261,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
 
     private void goFindFolder() {
-        if (PermissionsStorageUpdate.isAccessMemory(activity)){
+        if (PermissionsStorageUpdate.hasAccessStorageRequest(activity)) {
             MyIntent.startFindFolder(fragment);
         }
     }

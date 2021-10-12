@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
+import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.utils.setLayoutParams
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
@@ -24,11 +24,11 @@ class BaseSheetDialog(private val sheetContext: Context) :
 
     private val sheetBehavior: BottomSheetBehavior<FrameLayout> = behavior
 
-    private val sheetView: View = View.inflate(sheetContext, R.layout.dialog_base, null)
-    private val textTitle: TextView = sheetView.findViewById(R.id.tv_base_title)
-    private val linearLayout: LinearLayout = sheetView.findViewById(R.id.sheet_container)
-    private val btnOk: MaterialButton = sheetView.findViewById(R.id.btn_baset_ok)
-    private val btnCancel: MaterialButton = sheetView.findViewById(R.id.btn_base_cancel)
+    private val view: View = View.inflate(sheetContext, R.layout.dialog_base, null)
+    private val tvTitle: TextView = view.findViewById(R.id.tv_base_title)
+    private val linearLayout: LinearLayout = view.findViewById(R.id.sheet_container)
+    private val btnOk: MaterialButton = view.findViewById(R.id.btn_baset_ok)
+    private val btnCancel: MaterialButton = view.findViewById(R.id.btn_base_cancel)
 
     init {
         settingsBehavior()
@@ -43,7 +43,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
     }
 
     private fun setupColorViews() {
-        val color: Int = MyColor.getMyColor(sheetContext)
+        val color: Int = AppPref.getAppColor(sheetContext)
         btnOk.setBackgroundColor(color)
         btnCancel.setTextColor(color)
     }
@@ -54,7 +54,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(sheetView)
+        setContentView(view)
     }
 
     fun setInsertView(insertView: View) {
@@ -66,11 +66,11 @@ class BaseSheetDialog(private val sheetContext: Context) :
 
     //
     fun setTextTitle(stringTitleId: Int) {
-        textTitle.text = sheetContext.getString(stringTitleId)
+        tvTitle.text = sheetContext.getString(stringTitleId)
     }
 
     fun setTextTitle(title: String) {
-        textTitle.text = title
+        tvTitle.text = title
     }
 
     fun setTextBtnOk(stringOkId: Int) {
@@ -82,7 +82,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
     }
 
     fun setTextTitleVisibility(isVisible: Boolean) {
-        textTitle.setVisibleView(isVisible)
+        tvTitle.setVisibleView(isVisible)
     }
 
     fun setContainerVisibility(isVisible: Boolean) {
@@ -99,12 +99,12 @@ class BaseSheetDialog(private val sheetContext: Context) :
 
 
     //
-    val getButtonOk: MaterialButton
+    val buttonOk: MaterialButton
         get() {
             return btnOk
         }
 
-    val getButtonCancel: MaterialButton
+    val buttonCancel: MaterialButton
         get() {
             return btnCancel
         }

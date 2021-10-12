@@ -24,7 +24,7 @@ import com.loskon.noteminimalism3.permissions.PermissionsInterface
 import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
 import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate
-import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinksUpdate
+import com.loskon.noteminimalism3.ui.dialogs.update.DialogNoteLinksUpdate
 import com.loskon.noteminimalism3.ui.sheets.update.SheetNoteUpdate
 import com.loskon.noteminimalism3.ui.snackbars.update.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 /**
- * Работа с заметкой
+ * Форма для работы с текстом заметки
  */
 
 class NoteFragmentUpdate : Fragment(),
@@ -62,6 +62,7 @@ class NoteFragmentUpdate : Fragment(),
     private var isTextEditingMod: Boolean = false
     private var supportedLinks: Int = 0
     private var isNewNote: Boolean = false
+    private var hasReceivingText: Boolean = false
     private var color: Int = 0
     private var noteId: Long = 0L
     private var savedText: String = ""
@@ -122,6 +123,7 @@ class NoteFragmentUpdate : Fragment(),
 
     private fun setupParameters() {
         noteId = note.id
+        hasReceivingText = activity.hasReceivText
     }
 
     private fun establishColorViews() {
@@ -136,7 +138,9 @@ class NoteFragmentUpdate : Fragment(),
         if (noteId == 0L) {
             isNewNote = true
         } else {
-            savedText = note.title
+            if (!hasReceivingText) {
+                savedText = note.title
+            }
         }
     }
 
@@ -190,12 +194,12 @@ class NoteFragmentUpdate : Fragment(),
     }
 
     private fun configureEditText() {
-        editText.setFontSize(activity.getFontSize())
-        if (noteId != 0L) editText.setText(note.title)
+        editText.setTextSizeShort(activity.getFontSize())
+        editText.setText(note.title)
     }
 
     private fun configureShowKeyboard() {
-        if (noteId == 0L) {
+        if (noteId == 0L || hasReceivingText) {
             editText.showKeyboard(activity)
         } else {
             removeFocusFromEditText()
@@ -274,7 +278,7 @@ class NoteFragmentUpdate : Fragment(),
         editText.hideKeyboard(activity)
         lifecycleScope.launch {
             delay(300L)
-            val stringDate: String = DateUtils.getStringDate(note.dateModification)
+            val stringDate: String = DateUtil.getStringDate(note.dateModification)
             SheetNoteUpdate(activity, textAssistant).show(stringDate, noteId)
         }
     }
@@ -372,12 +376,12 @@ class NoteFragmentUpdate : Fragment(),
         if (isGranted) {
             textAssistant.mainMethodSaveTextFile()
         } else {
-            showSnackbar(SnackbarApp.MSG_NO_PERMISSION, false)
+            showSnackbar(SnackbarApp.MSG_NO_PERMISSION)
         }
     }
 
-    fun showSnackbar(typeMessage: String, isSuccess: Boolean) {
-        snackbarApp.show(typeMessage, isSuccess)
+    fun showSnackbar(typeMessage: String) {
+        snackbarApp.show(typeMessage)
     }
 
     interface CallbackNoteUpdate {

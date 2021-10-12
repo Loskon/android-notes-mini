@@ -1,0 +1,44 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/note_app_header">
+        <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCardView
+            app:allowDividerAbove="false" />
+    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+
+    <Preference
+        android:title="@string/reset_font_size_title"
+        app:iconSpaceReserved="false"
+        app:key="@string/reset_font_size_title" />
+    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/theme_color_header">
+        <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenColor
+            android:layout="@layout/custom_pref_layout"
+            android:title="@string/seletct_color_app_title"
+            app:allowDividerAbove="false"
+            app:key="@string/seletct_color_app_title" />
+    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+
+    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/num_of_lines_header">
+        <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenNumberLines
+            app:allowDividerAbove="false" />
+    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+
+    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+        android:title="@string/other_app_header"
+        app:iconSpaceReserved="false">
+        <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenSwitch
+            android:key="@string/one_size_cards_title"
+            android:title="@string/one_size_cards_title"
+            android:layout="@layout/custom_pref_layout"
+            app:allowDividerAbove="false"
+            app:iconSpaceReserved="false"
+            app:summary="@string/one_size_cards_summary" />
+    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+
+</PreferenceScreen>

@@ -84,17 +84,6 @@ class BaseMaterialDialog(private val context: Context) {
         alertDialog.dismiss()
     }
 
-    fun setCancelable(isCancel: Boolean) {
-        alertDialog.setCancelable(isCancel)
-    }
-
-    fun setWidthForProgress() {
-        val width = (context.resources.displayMetrics.widthPixels * 0.38).toInt()
-        val height = ViewGroup.LayoutParams.WRAP_CONTENT
-        alertDialog.window?.setLayout(width, height)
-    }
-
-
     //
     fun setTextTitle(stringId: Int) {
         textTitle.text = context.getString(stringId)
@@ -120,6 +109,17 @@ class BaseMaterialDialog(private val context: Context) {
         btnCancel.setVisibleView(isVisible)
     }
 
+
+    //
+    fun setWidthForProgress() {
+        val width = (context.resources.displayMetrics.widthPixels * 0.38).toInt()
+        val height = ViewGroup.LayoutParams.WRAP_CONTENT
+        alertDialog.window?.setLayout(width, height)
+    }
+
+    fun setCancelable(isCancel: Boolean) {
+        alertDialog.setCancelable(isCancel)
+    }
 
     //
     val buttonOk: MaterialButton

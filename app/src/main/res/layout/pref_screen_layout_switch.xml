@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
-        android:id="@+id/buttonGroup_lordOfTheRings"
+        android:id="@+id/segmentedB_buton_group"
         android:layout_width="72dp"
         android:layout_height="20dp"
         android:elevation="2dp"

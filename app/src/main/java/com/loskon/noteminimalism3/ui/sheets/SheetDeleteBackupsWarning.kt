@@ -9,14 +9,14 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Вывод дополнительного подтверждения для удаления
  */
 
-class SheetDeleteAllWarning(
+class SheetDeleteBackupsWarning(
     context: Context,
-    private val sheetListFiles: SheetListFiles
+    private val sheetRestoreDateBase: SheetRestoreDateBase
 ) {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
 
-    private val btnOk: Button = sheetDialog.getButtonOk
+    private val btnOk: Button = sheetDialog.buttonOk
 
     init {
         configViews()
@@ -24,7 +24,7 @@ class SheetDeleteAllWarning(
     }
 
     private fun configViews() {
-        sheetDialog.setTextTitle(R.string.dg_delete_all_warnings)
+        sheetDialog.setTextTitle(R.string.dg_delete_warnings)
         sheetDialog.setContainerVisibility(false)
         sheetDialog.setTextBtnOk(R.string.yes)
         sheetDialog.setTextBtnCancel(R.string.no)
@@ -32,7 +32,7 @@ class SheetDeleteAllWarning(
 
     private fun installHandlers() {
         btnOk.setOnSingleClickListener {
-            sheetListFiles.deleteAll()
+            sheetRestoreDateBase.deleteAll()
             sheetDialog.dismiss()
         }
     }

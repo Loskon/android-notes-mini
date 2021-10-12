@@ -9,10 +9,7 @@
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29"
-        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <supports-screens
         android:anyDensity="true"
@@ -35,7 +32,7 @@
         android:theme="@style/Theme.Noteminimalism3">
         <activity
             android:name=".ui.activities.update.SettingsActivityUpdate"
-            android:exported="true" />
+            android:windowSoftInputMode="adjustPan" />
 
         <receiver android:name=".ui.widgets.add.AppWidgetAddProvider">
             <intent-filter>
@@ -83,15 +80,28 @@
         <activity
             android:name=".ui.activities.NoteActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.update.ReceivingDataActivity"
+            android:screenOrientation="portrait"   >
+        </activity>
         <activity
             android:name=".ui.activities.update.MainActivityUpdate"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
         </activity>
     </application>
 

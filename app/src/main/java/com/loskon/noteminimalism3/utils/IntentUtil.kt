@@ -5,17 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.EditText
-import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.RequestCode
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate
+import com.loskon.noteminimalism3.ui.activities.update.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.activities.update.SettingsActivityUpdate
 
 class IntentUtil {
     companion object {
         const val PUT_EXTRA_NOTE = "put_extra_note"
         const val PUT_EXTRA_CATEGORY = "put_extra_category"
+        const val PUT_EXTRA_RECEIVING_TEXT = "put_extra_receiving_text"
+        const val PUT_EXTRA_HAS_RECEIVING_TEXT = "put_extra_has_receiving_text"
+
 
         fun openNote(context: Context, note: Note2, notesCategory: String) {
             val intent = Intent(context, NoteActivityUpdate::class.java)
@@ -24,22 +26,23 @@ class IntentUtil {
             context.startActivity(intent)
         }
 
+        fun openNoteFromDialog(context: Context, note: Note2, notesCategory: String) {
+            val intent = Intent(context, NoteActivityUpdate::class.java)
+            intent.putExtra(PUT_EXTRA_NOTE, note)
+            intent.putExtra(PUT_EXTRA_CATEGORY, notesCategory)
+            intent.putExtra(PUT_EXTRA_HAS_RECEIVING_TEXT, true)
+            context.startActivity(intent)
+        }
+
         fun openSettings(context: Context) {
             val intent = Intent(context, SettingsActivityUpdate::class.java)
             context.startActivity(intent)
         }
 
-        fun startFindFolder(fragment: Fragment) {
-            // Open documents
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-            intent.addCategory(Intent.CATEGORY_DEFAULT)
-            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-            fragment.startActivityForResult(
-                Intent.createChooser(
-                    intent,
-                    "Choose directory"
-                ), RequestCode.REQUEST_CODE_READ
-            )
+        fun openListNotes(context: Context, receivingText: String) {
+            val intent = Intent(context, ReceivingDataActivity::class.java)
+            intent.putExtra(PUT_EXTRA_RECEIVING_TEXT, receivingText)
+            context.startActivity(intent)
         }
 
         fun launcherEmailClient(context: Context) {

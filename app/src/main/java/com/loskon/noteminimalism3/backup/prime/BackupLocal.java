@@ -3,8 +3,8 @@ package com.loskon.noteminimalism3.backup.prime;
 import android.app.Activity;
 
 import com.loskon.noteminimalism3.backup.second.BackupPath;
-import com.loskon.noteminimalism3.ui.sheets.SheetBackupCreate;
-import com.loskon.noteminimalism3.ui.sheets.SheetListFiles;
+import com.loskon.noteminimalism3.ui.sheets.SheetBackupDateBase;
+import com.loskon.noteminimalism3.ui.sheets.SheetRestoreDateBase;
 import com.loskon.noteminimalism3.ui.snackbars.MySnackbarBackup;
 
 import java.io.File;
@@ -24,14 +24,14 @@ public class BackupLocal {
     }
 
     public void performBackup() {
-        (new SheetBackupCreate(activity)).show();
+        (new SheetBackupDateBase(activity)).show();
     }
 
     public void performRestore() {
-        File folder = BackupPath.getFolder(activity);
+        File folder = BackupPath.getFolderBackup(activity);
 
         if (folder.exists()) {
-            (new SheetListFiles(activity)).show();
+            (new SheetRestoreDateBase(activity)).show();
         } else {
             typeMessage = MySnackbarBackup.MSG_TEXT_NO_FOLDER;
             showSnackbar();

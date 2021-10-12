@@ -44,8 +44,11 @@ class Result {
 
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                 intent.addCategory(Intent.CATEGORY_DEFAULT)
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+
                 val intentChooser = Intent.createChooser(intent, "Choose a file")
                 resultLauncher?.launch(intentChooser)
+
             } catch (exception: Exception) {
                 context.showToast(R.string.sb_settings_file_manager_not_found)
             }

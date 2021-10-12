@@ -56,7 +56,7 @@ public class BackupPath {
     }
 
     // Получение файлов из папки
-    public static File getFolder(Context context) {
+    public static File getFolderBackup(Context context) {
         return new File(getPath(context));
     }
 

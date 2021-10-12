@@ -35,7 +35,7 @@ class NoteListViewHolder(private val binding: ItemNoteBinding) :
             return binding.tvCardNoteDate
         }
 
-    val view: View
+    val viewFavorite: View
         get() {
             return binding.viewFavorite
         }

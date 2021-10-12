@@ -17,7 +17,7 @@ class BackupFilesLimiter {
         @JvmStatic
         fun deleteExtraFiles(context: Context) {
 
-            val homeFolder = BackupPath.getFolder(context)
+            val homeFolder = BackupPath.getFolderBackup(context)
             val maxNumberFiles = AppPref.getNumberBackups(context)
             var logFiles = BackupFilter.getListFile(homeFolder)
 

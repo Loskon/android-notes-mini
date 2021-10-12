@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.toast.ToastApp.Companion.MSG_TOAST_AUTO_BACKUP
 import com.loskon.noteminimalism3.toast.ToastApp.Companion.MSG_TOAST_AUTO_BACKUP_FAILED
 import com.loskon.noteminimalism3.toast.ToastApp.Companion.MSG_TOAST_AUTO_BACKUP_NOT_POSSIBLE
 import com.loskon.noteminimalism3.toast.ToastApp.Companion.MSG_TOAST_UNABLE_CREATE_FILE
-import com.loskon.noteminimalism3.utils.DateUtils
+import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.createFolder
 import kotlinx.coroutines.launch
 import java.io.File
@@ -30,7 +30,7 @@ class AutoBackup(private val context: Context) {
 
             if (isAccess) {
 
-                val folder = BackupPath.getFolder(context)
+                val folder = BackupPath.getFolderBackup(context)
                 val hasCreatedFolder = folder.createFolder()
 
                 if (hasCreatedFolder) {
@@ -62,7 +62,7 @@ class AutoBackup(private val context: Context) {
     }
 
     private fun getName(date: Date): String {
-        var name: String = DateUtils.getStringDate(date)
+        var name: String = DateUtil.getStringDate(date)
 
         name = name.replace("[./]".toRegex(), "_")
         name = name.replace(":", "-")

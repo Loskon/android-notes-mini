@@ -29,7 +29,7 @@ public class TextFile {
 
         if (isFolderNoteCreated) {
 
-            File file = new File(BackupPath.getFolder(activity), "Text Files");
+            File file = new File(BackupPath.getFolderBackup(activity), "Text Files");
 
             boolean isFolderTextCreated = AppFolder.createTextFilesFolder(file);
 

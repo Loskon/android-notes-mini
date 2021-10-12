@@ -27,7 +27,7 @@ class SheetPrefSelectColor(private val context: Context) {
     private val colorPicker: ColorPicker = view.findViewById(R.id.color_picker)
     private val svBar: SVBar = view.findViewById(R.id.sv_bar)
     private val btnReset: MaterialButton = view.findViewById(R.id.btn_color_picker_reset)
-    private val btnOk: Button = sheetDialog.getButtonOk
+    private val btnOk: Button = sheetDialog.buttonOk
 
     private var color: Int = 0
 
@@ -39,7 +39,7 @@ class SheetPrefSelectColor(private val context: Context) {
 
     private fun configViews() {
         sheetDialog.setInsertView(view)
-        sheetDialog.setTextTitle(R.string.sheet_color_picker_title)
+        sheetDialog.setTextTitle(R.string.seletct_color_app_title)
         colorPicker.addSVBar(svBar)
         colorPicker.showOldCenterColor = false
     }

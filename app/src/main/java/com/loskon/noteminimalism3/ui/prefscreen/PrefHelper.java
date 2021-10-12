@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.preferences;
+package com.loskon.noteminimalism3.ui.prefscreen;
 
 import android.app.Activity;
 

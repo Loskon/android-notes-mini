@@ -62,9 +62,9 @@ public class SettingsAppFragment extends PreferenceFragmentCompat implements
 
         activity = requireActivity();
 
-        switchOneSizeString = getString(R.string.one_size_title);
-        resetString = getString(R.string.reset_title);
-        selectColorString = getString(R.string.sheet_color_picker_title);
+        switchOneSizeString = getString(R.string.one_size_cards_title);
+        resetString = getString(R.string.reset_font_size_title);
+        selectColorString = getString(R.string.seletct_color_app_title);
 
         switchOneSizePref = findPreference(switchOneSizeString);
         resetPref = findPreference(resetString);

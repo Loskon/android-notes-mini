@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 
 /**
  * Универсальный метод для проверки и запроса доступа к внутренней памяти
@@ -41,6 +42,18 @@ class PermissionsStorageUpdate {
             }
         }
 
+        @JvmStatic
+        fun installingVerification(
+            fragment: Fragment?,
+            permissionsInterface: PermissionsInterface?
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                checkPermissionsAndroidR(fragment, permissionsInterface)
+            } else {
+                checkPermissions(fragment, permissionsInterface)
+            }
+        }
+
         @RequiresApi(Build.VERSION_CODES.R)
         private fun checkPermissionsAndroidR(
             activity: ComponentActivity?,
@@ -55,11 +68,34 @@ class PermissionsStorageUpdate {
                 }
         }
 
+        @RequiresApi(Build.VERSION_CODES.R)
+        private fun checkPermissionsAndroidR(
+            fragment: Fragment?,
+            permissionsInterface: PermissionsInterface?
+        ) {
+            resultLauncherAndroidR =
+                fragment?.registerForActivityResult(
+                    ActivityResultContracts.StartActivityForResult()
+                ) {
+                    val isGrantedAndroidR: Boolean = Environment.isExternalStorageManager()
+                    permissionsInterface?.onRequestPermissionsStorageResult(isGrantedAndroidR)
+                }
+        }
+
         private fun checkPermissions(
             activity: ComponentActivity?,
             permissionsInterface: PermissionsInterface?
         ) {
             resultLauncher = activity?.registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions -> getResultPermissions(permissions, permissionsInterface) }
+        }
+
+        private fun checkPermissions(
+            fragment: Fragment?,
+            permissionsInterface: PermissionsInterface?
+        ) {
+            resultLauncher = fragment?.registerForActivityResult(
                 ActivityResultContracts.RequestMultiplePermissions()
             ) { permissions -> getResultPermissions(permissions, permissionsInterface) }
         }

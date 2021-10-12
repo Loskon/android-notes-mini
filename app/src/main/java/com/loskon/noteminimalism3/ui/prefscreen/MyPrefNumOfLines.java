@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.preferences;
+package com.loskon.noteminimalism3.ui.prefscreen;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -37,7 +37,7 @@ public class MyPrefNumOfLines extends Preference {
 
     public MyPrefNumOfLines(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setLayoutResource(R.layout.pref_item_num_of_lines);
+        setLayoutResource(R.layout.pref_screen_layout_number_lines);
     }
 
     @Override

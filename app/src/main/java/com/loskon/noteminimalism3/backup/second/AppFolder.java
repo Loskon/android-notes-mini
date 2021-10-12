@@ -12,7 +12,7 @@ public class AppFolder {
 
     public static boolean createBackupFolder(Context context) {
         // Проверка и создание папки для бэкапа
-        File folder = BackupPath.getFolder(context);
+        File folder = BackupPath.getFolderBackup(context);
 
         boolean isFolderCreated = true;
 

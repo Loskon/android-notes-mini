@@ -39,7 +39,7 @@ public class BackupAuto {
 
                 try {
                     String backupName = MyDate.getNowDate(date);
-                    backupName = ReplaceText.replaceForSaveTittle(backupName) + " (A)";
+                    backupName = ReplaceText.replace(backupName) + " (A)";
                     (new BackupSetName(activity)).callBackup(true, backupName);
                     if (isNotification && isShowToast) showToast(true);
                 } catch (Exception exception) {

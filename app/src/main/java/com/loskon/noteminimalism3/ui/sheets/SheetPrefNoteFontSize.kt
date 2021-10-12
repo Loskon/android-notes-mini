@@ -12,9 +12,9 @@ import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
 import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
-import com.loskon.noteminimalism3.utils.setColorSlider
-import com.loskon.noteminimalism3.utils.setFontSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.utils.setSliderColor
+import com.loskon.noteminimalism3.utils.setTextSizeShort
 
 /**
  * Изменение размер текста заметок
@@ -28,7 +28,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
     private val textView: TextView = view.findViewById(R.id.sheet_font_size_tv)
     private val slider: Slider = view.findViewById(R.id.sheet_font_size_slider)
     private val btnReset: MaterialButton = view.findViewById(R.id.sheet_font_size_reset_btn)
-    private val btnOk: Button = sheetDialog.getButtonOk
+    private val btnOk: Button = sheetDialog.buttonOk
 
     private var fontSizeNote: Int = 0
 
@@ -41,7 +41,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
 
     private fun setupColorViews() {
         val color = MyColor.getMyColor(context)
-        slider.setColorSlider(color)
+        slider.setSliderColor(color)
         btnReset.strokeColor = ColorStateList.valueOf(color)
         btnReset.setTextColor(color)
     }
@@ -76,7 +76,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
     }
 
     private fun setTextSize() {
-        textView.setFontSize(fontSizeNote)
+        textView.setTextSizeShort(fontSizeNote)
     }
 
     private fun saveResult() {

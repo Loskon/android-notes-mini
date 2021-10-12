@@ -15,8 +15,8 @@ import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.utils.getShortDrawable
-import com.loskon.noteminimalism3.utils.menuIconColor
 import com.loskon.noteminimalism3.utils.setFabColor
+import com.loskon.noteminimalism3.utils.setMenuIconColor
 import com.loskon.noteminimalism3.utils.setNavigationIconColor
 
 /**
@@ -58,7 +58,7 @@ class WidgetHelperUpdate(
 
     // Menu
     private fun setMenuIconColor() {
-        barMenu.menuIconColor(color)
+        barMenu.setMenuIconColor(color)
     }
 
     fun changeVisibleUnification(notesCategory: String, hasRequiredRange: Boolean) {

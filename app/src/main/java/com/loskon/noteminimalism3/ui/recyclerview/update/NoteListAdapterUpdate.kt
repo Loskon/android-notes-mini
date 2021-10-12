@@ -11,8 +11,8 @@ import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.ui.recyclerview.profile.NoteDiffUtil
 import com.loskon.noteminimalism3.utils.setBackgroundTintColor
-import com.loskon.noteminimalism3.utils.setFontSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.utils.setTextSizeShort
 
 /**
  * Адаптер для работы со списком заметок
@@ -50,13 +50,13 @@ class NoteListAdapterUpdate : SelectableAdapterUpdate<NoteListViewHolder>() {
             bind(note)
 
             title.apply {
-                setFontSize(titleFontSize)
+                setTextSizeShort(titleFontSize)
                 maxLines = numberLines
                 minLines = getTitleMinLines()
             }
 
-            date.setFontSize(dateFontSize)
-            view.setBackgroundTintColor(color)
+            date.setTextSizeShort(dateFontSize)
+            viewFavorite.setBackgroundTintColor(color)
 
             itemView.apply {
                 setOnSingleClickListener {

@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingStart="2dp"
-    android:paddingEnd="2dp">
+    android:orientation="horizontal">
 
     <include
         android:id="@+id/include"
@@ -47,8 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_category_title"
         app:thumbRadius="@dimen/slider_thumb_radius"
-        app:tickVisible="false" />
-
-    <!-- Continuous slider -->
+        app:tickVisible="false"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

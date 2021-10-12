@@ -36,7 +36,7 @@ class AppPref {
             preferences.edit().putString(key, value).apply()
         }
 
-        private fun load(context: Context, key: String, defValue: String): String? {
+        fun load(context: Context, key: String, defValue: String): String? {
             return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defValue)
         }
 
@@ -46,7 +46,7 @@ class AppPref {
             preferences.edit().putInt(key, value).apply()
         }
 
-        private fun load(context: Context, key: String, defValue: Int): Int {
+        fun load(context: Context, key: String, defValue: Int): Int {
             return PreferenceManager.getDefaultSharedPreferences(context).getInt(key, defValue)
         }
 
@@ -56,7 +56,7 @@ class AppPref {
             preferences.edit().putBoolean(key, value).apply()
         }
 
-        private fun load(context: Context, key: String, defValue: Boolean): Boolean {
+        fun load(context: Context, key: String, defValue: Boolean): Boolean {
             return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, defValue)
         }
 
@@ -66,9 +66,21 @@ class AppPref {
             save(context, PREF_KEY_STATE_LINEAR_LIST, hasLinearList)
         }
 
+        fun setStatusDialogShow(context: Context) {
+            save(context, PREF_KEY_DIALOG_WARNING_SHOW, false)
+        }
+
         // int
         fun setTypeFont(context: Context, selectedFont: Int) {
             save(context, PREF_KEY_TYPE_FONT, selectedFont)
+        }
+
+        fun setFontSizeTitle(context: Context, fontSizeTitle: Int) {
+            save(context, PREF_KEY_TITLE_FONT_SIZE, fontSizeTitle)
+        }
+
+        fun setFontSizeDate(context: Context, fontSizeDate: Int) {
+            save(context, PREF_KEY_DATE_FONT_SIZE, fontSizeDate)
         }
 
         // string
@@ -79,7 +91,7 @@ class AppPref {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // boolean
         fun getOneSizeCards(context: Context): Boolean {
-            val key = context.getString(R.string.one_size_title)
+            val key = context.getString(R.string.one_size_cards_title)
             return load(context, key, false)
         }
 
@@ -104,23 +116,43 @@ class AppPref {
         }
 
         fun isWeb(context: Context): Boolean {
-            return load(context, PREF_KEY_WEB, false)
+            return load(
+                context,
+                PREF_KEY_WEB,
+                false
+            )
         }
 
         fun isMail(context: Context): Boolean {
-            return load(context, PREF_KEY_MAIL, false)
+            return load(
+                context,
+                PREF_KEY_MAIL,
+                false
+            )
         }
 
         fun isPhone(context: Context): Boolean {
-            return load(context, PREF_KEY_PHONE, false)
+            return load(
+                context,
+                PREF_KEY_PHONE,
+                false
+            )
         }
 
         fun getLinearList(context: Context): Boolean {
-            return load(context, PREF_KEY_STATE_LINEAR_LIST, true)
+            return load(
+                context,
+                PREF_KEY_STATE_LINEAR_LIST,
+                true
+            )
         }
 
         fun isDialogShow(context: Context): Boolean {
-            return load(context, PREF_KEY_DIALOG_WARNING_SHOW, true)
+            return load(
+                context,
+                PREF_KEY_DIALOG_WARNING_SHOW,
+                true
+            )
         }
 
         // int
@@ -185,23 +217,43 @@ class AppPref {
         }
 
         fun getIndexSettings(context: Context): Int {
-            return load(context, PREF_KEY_POSITION_INDEX, 0)
+            return load(
+                context,
+                PREF_KEY_POSITION_INDEX,
+                0
+            )
         }
 
         fun getTopSettings(context: Context): Int {
-            return load(context, PREF_KEY_POSITION_TOP, 0)
+            return load(
+                context,
+                PREF_KEY_POSITION_TOP,
+                0
+            )
         }
 
         fun getNotesCategory(context: Context): Int {
-            return load(context, PREF_KEY_NOTES_CATEGORY, 0)
+            return load(
+                context,
+                PREF_KEY_NOTES_CATEGORY,
+                0
+            )
         }
 
         fun getSortingWay(context: Context): Int {
-            return load(context, PREF_KEY_SORT, 0)
+            return load(
+                context,
+                PREF_KEY_SORT,
+                0
+            )
         }
 
         fun getTypeFont(context: Context): Int {
-            return load(context, PREF_KEY_TYPE_FONT, 0)
+            return load(
+                context,
+                PREF_KEY_TYPE_FONT,
+                0
+            )
         }
 
         // string

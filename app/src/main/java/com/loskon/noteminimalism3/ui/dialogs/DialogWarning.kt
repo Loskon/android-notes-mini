@@ -4,8 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
+import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -14,10 +13,10 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class DialogWarning(private val context: Context) {
 
-    private val materialDialog: BaseMaterialDialog = BaseMaterialDialog(context)
+    private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
     private val view = View.inflate(context, R.layout.dialog_warning, null)
 
-    private val btnOk: Button = materialDialog.buttonOk
+    private val btnOk: Button = dialog.buttonOk
 
     init {
         setupViews()
@@ -25,18 +24,18 @@ class DialogWarning(private val context: Context) {
     }
 
     private fun setupViews() {
-        materialDialog.setTextTitle(context.getString(R.string.dg_warning_title))
-        materialDialog.setBtnCancelVisibility(false)
+        dialog.setTextTitle(context.getString(R.string.dg_warning_title))
+        dialog.setBtnCancelVisibility(false)
     }
 
     private fun installHandlers() {
         btnOk.setOnSingleClickListener {
-            MySharedPref.setBoolean(context, MyPrefKey.KEY_DIALOG_WARNING_SHOW, false)
-            materialDialog.dismiss()
+            AppPref.setStatusDialogShow(context)
+            dialog.dismiss()
         }
     }
 
     fun show() {
-        materialDialog.show(view)
+        dialog.show(view)
     }
 }

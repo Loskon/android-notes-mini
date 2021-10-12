@@ -1,10 +1,24 @@
 package com.loskon.noteminimalism3.utils
 
-import java.io.File
-
 /**
  *
  */
+class StringUtil {
+    companion object {
+        fun replaceForbiddenCharacters(oldString: String): String {
+            var newString = oldString
+
+            newString = newString.replace("\\", "_")
+            newString = newString.replace("[|/*]".toRegex(), "_")
+            newString = newString.replace("[\"<>«»]".toRegex(), "\'")
+            newString = newString.replace("?", ".")
+            newString = newString.replace("\n", " ")
+
+            return newString
+        }
+    }
+}
+
 
 // Замена запрещенных символов в именах файлов
 fun String.replaceForbiddenCharacters(): String {
@@ -17,13 +31,4 @@ fun String.replaceForbiddenCharacters(): String {
     string = string.replace("\n", " ")
 
     return string
-}
-
-fun String.outFileNameBackup(backupName: String): String {
-    var string = this
-
-    string = string.replaceForbiddenCharacters()
-    string = string.replace(":", "-")
-
-    return File.separator + "$string$backupName.db"
 }

@@ -43,7 +43,6 @@ public class FontsActivity extends AppCompatActivity {
 
         if (isDialogShow) {
             new DialogWarning(this).show();
-           // new DialogWarning(this).call();
         }
     }
 

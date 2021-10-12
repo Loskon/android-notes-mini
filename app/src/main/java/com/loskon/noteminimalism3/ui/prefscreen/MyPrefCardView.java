@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.preferences;
+package com.loskon.noteminimalism3.ui.prefscreen;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -47,7 +47,7 @@ public class MyPrefCardView extends Preference implements SettingsAppFragment.Ca
 
     public MyPrefCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setLayoutResource(R.layout.pref_item_card_view);
+        setLayoutResource(R.layout.pref_screen_layout_card_view);
     }
 
     @Override

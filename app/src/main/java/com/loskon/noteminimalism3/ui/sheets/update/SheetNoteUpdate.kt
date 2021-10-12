@@ -73,8 +73,6 @@ class SheetNoteUpdate(
     }
 
     private fun setTextDateModification(dateModification: String?) {
-        var text = context.getString(R.string.bs_last_modified)
-        text = "$text: $dateModification"
-        tvDateModification.text = text
+        tvDateModification.text = context.getString(R.string.bs_last_modified, dateModification)
     }
 }

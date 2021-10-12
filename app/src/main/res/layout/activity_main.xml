@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="?attr/actionBarSize"
+        android:layout_marginBottom="@dimen/height_for_bottom_app_bar"
         android:text="@string/empty_list"
         android:textColor="?attr/colorDate"
         android:textSize="16sp"

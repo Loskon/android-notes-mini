@@ -2,24 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cstLayBackup"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/slider_number_of_lines"
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/include_button"
+        layout="@layout/inc_backup_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_for_slider_pref"
-        android:layout_marginEnd="@dimen/margin_for_slider_pref"
-        android:stepSize="1"
-        android:valueFrom="1"
-        android:valueTo="10"
-        app:haloRadius="@dimen/slider_halo_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:thumbRadius="@dimen/slider_thumb_radius"
-        app:tickVisible="false" />
+        app:layout_constraintVertical_chainStyle="packed" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

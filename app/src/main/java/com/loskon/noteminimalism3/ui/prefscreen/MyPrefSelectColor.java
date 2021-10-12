@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.preferences;
+package com.loskon.noteminimalism3.ui.prefscreen;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,7 +9,6 @@ import androidx.preference.PreferenceViewHolder;
 
 import com.loskon.noteminimalism3.R;
 import com.loskon.noteminimalism3.auxiliary.other.MyColor;
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor;
 
 /**
  * Добавление бокового виджета
@@ -26,7 +25,7 @@ public class MyPrefSelectColor extends Preference {
     public MyPrefSelectColor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        setWidgetLayoutResource(R.layout.pref_widget_color);
+        setWidgetLayoutResource(R.layout.pref_screen_widget_color);
     }
 
     @Override
@@ -37,9 +36,6 @@ public class MyPrefSelectColor extends Preference {
         ImageView imageViewColorForSettings =
                 (ImageView) holder.findViewById(R.id.imageViewColor);
         imageViewColorForSettings.setColorFilter(MyColor.getMyColor(context));
-
-        SheetPrefSelectColor
-                .regCallBackColorSettingsApp(imageViewColorForSettings::setColorFilter);
     }
 
 }

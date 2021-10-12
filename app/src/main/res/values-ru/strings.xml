@@ -77,8 +77,7 @@
 
     <!-- Backup -->
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
-    <string name="sb_bp_text_no_folder">Папка не найдена.
-        Сделайте резервную копию перед восстановлением!</string>
+    <string name="sb_bp_text_no_folder">Папка Notes Mini Backup не найдена!</string>
     <string name="sb_bp_completed">Резервное копирование прошло успешно!</string>
     <string name="sb_bp_failed">Невозможно создать резервную копию базы данных.
         Повторите попытку!</string>
@@ -89,11 +88,15 @@
     <string name="sb_bp_sign_in_failed">Не удалось войти в учетную запись</string>
     <string name="sb_bp_del_acc">Данные удалены из облака!</string>
     <string name="sb_bp_problem_internet">Проблемы с интернет-соединением!</string>
-
+    <string name="sb_bp_backup_files_deleted">Backup files have been deleted!</string>
+    <string name="sb_bp_backup_not_found">Файл бэкапа не найден.
+        Возможно он не был еще загружен!</string>
+    <string name="sb_bp_you_can_local_storage">Вы можете указать папку только в локальной
+        памяти телефона</string>
 
     <!-- Dialog -->
     <!-- dialog_backup -->
-    <string name="sheet_backup_title">Название на английском языке</string>
+    <string name="sheet_backup_title">Введите название</string>
     <string name="dg_bp_error">Введите корректное название!</string>
 
     <!-- sheet_restore -->
@@ -138,7 +141,7 @@
     <string name="sheet_confirm_action">Подтвердить действие</string>
 
     <!-- bottom_sheet_dialog -->
-    <string name="bs_last_modified">Последнее изменение</string>
+    <string name="bs_last_modified">Последнее изменение: %1$s</string>
     <string name="bs_paste_text">Вставить текст</string>
     <string name="bs_copy_text">Копировать текст заметки</string>
     <string name="bs_share">Поделиться</string>
@@ -160,8 +163,10 @@
         шрифт может не поддерживать ваш язык или некоторые символы!</string>
 
     <!-- dialog_delete_all_warnings -->
-    <string name="dg_delete_all_warnings">Подтвердить удаление?</string>
+    <string name="dg_delete_warnings">Подтвердить удаление?</string>
 
+    <string name="dg_add_new_note">Добавить новую заметку</string>
+    <string name="dg_add_to_created_note">Добавить к созданной заметке</string>
 
     <!-- Preference -->
     <!-- preference -->
@@ -203,9 +208,9 @@
     <string name="other_app_header">Прочее</string>
 
     <!-- Preference Titles -->
-    <string name="reset_title">Сбросить размер текста</string>
-    <string name="sheet_color_picker_title">Выбрать цвет</string>
-    <string name="one_size_title">Одинаковый размер плиток</string>
+    <string name="reset_font_size_title">Сбросить размер текста</string>
+    <string name="seletct_color_app_title">Выбрать цвет</string>
+    <string name="one_size_cards_title">Одинаковый размер плиток</string>
 
     <!-- Preference summary -->
     <string name="one_size_cards_summary">Для режима нескольких плиток</string>

@@ -7,7 +7,7 @@ import java.util.*
  * Получение текущей даты и преобразование в текстовый формат
  */
 
-class DateUtils {
+class DateUtil {
     companion object {
         
         @JvmStatic

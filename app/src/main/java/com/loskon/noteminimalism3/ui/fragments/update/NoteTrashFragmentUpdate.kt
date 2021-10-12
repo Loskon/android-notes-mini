@@ -13,13 +13,13 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarNoteResetUpdate
 import com.loskon.noteminimalism3.utils.setButtonIconColor
 import com.loskon.noteminimalism3.utils.setFabColor
-import com.loskon.noteminimalism3.utils.setFontSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.sqlite.AppShortsCommand
+import com.loskon.noteminimalism3.utils.setTextSizeShort
 
 /**
  * Работа с заметкой, находящейся в корзине
@@ -84,7 +84,7 @@ class NoteTrashFragmentUpdate : Fragment() {
             isClickable = true
             isCursorVisible = false
             isFocusable = false
-            setFontSize(activity.getFontSize())
+            setTextSizeShort(activity.getFontSize())
             setText(note.title)
         }
     }

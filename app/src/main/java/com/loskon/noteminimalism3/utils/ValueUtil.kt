@@ -17,6 +17,11 @@ fun Context.getStrokeLinLay(): Int {
     return resources.getDimension(R.dimen.border_stroke).toInt()
 }
 
+//
+fun Context.getBorderWidgetSwitch(): Int {
+    return resources.getDimension(R.dimen.border_width_switch).toInt()
+}
+
 
 //
 fun Context.getShortDrawable(@DrawableRes icon: Int): Drawable? {

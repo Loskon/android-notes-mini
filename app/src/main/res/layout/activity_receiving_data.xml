@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/inc_list_notes_for_receiving_data"
+        app:layout_anchorGravity="center" />
+
+    <TextView
+        android:id="@+id/tv_empty_list_receiving_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/height_for_bottom_app_bar"
+        android:gravity="center"
+        android:text="@string/empty_list"
+        android:textColor="?attr/colorDate"
+        android:textSize="16sp" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/btmAppBarReceivingData"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_for_bottom_app_bar"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/white"
+        app:backgroundTint="@color/white"
+        app:fabAlignmentMode="end"
+        app:fabAnimationMode="scale"
+        app:fabCradleMargin="4dp"
+        app:fabCradleRoundedCornerRadius="6dp"
+        app:navigationIcon="@drawable/baseline_close_black_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabReceivingData2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:overScrollMode="ifContentScrolls"
+        android:src="@drawable/baseline_add_black_24"
+        android:visibility="gone"
+        app:elevation="0dp"
+        app:layout_anchor="@id/btmAppBarReceivingData"
+        app:tint="?attr/colorAppBar" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

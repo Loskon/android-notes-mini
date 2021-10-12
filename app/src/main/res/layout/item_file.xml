@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_file"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -37,7 +38,8 @@
             android:layout_weight="1"
             app:icon="@drawable/baseline_close_black_24"
             app:iconTint="?attr/colorDeleteIconRestore"
-            app:rippleColor="@android:color/transparent" />
+            app:rippleColor="@android:color/transparent"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     </LinearLayout>
 

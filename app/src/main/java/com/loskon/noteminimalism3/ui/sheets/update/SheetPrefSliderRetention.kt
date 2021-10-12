@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.other.MyColor
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.ui.sheets.BaseSheetDialog
-import com.loskon.noteminimalism3.utils.setColorSlider
+import com.loskon.noteminimalism3.utils.setSliderColor
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -21,7 +21,7 @@ class SheetPrefSliderRetention(private val context: Context) {
     private val view = View.inflate(context, R.layout.sheet_pref_slider, null)
 
     private val slider: Slider = view.findViewById(R.id.slider_range)
-    private val btnOk: Button = sheetDialog.getButtonOk
+    private val btnOk: Button = sheetDialog.buttonOk
 
     init {
         setupColorViews()
@@ -30,7 +30,7 @@ class SheetPrefSliderRetention(private val context: Context) {
 
     private fun setupColorViews() {
         val color = MyColor.getMyColor(context)
-        slider.setColorSlider(color)
+        slider.setSliderColor(color)
     }
 
     private fun configViews() {

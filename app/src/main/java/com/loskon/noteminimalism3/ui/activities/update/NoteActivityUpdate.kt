@@ -26,6 +26,7 @@ class NoteActivityUpdate : AppCompatActivity() {
     private var color: Int = 0
     private var fontSizeNote: Int = 0
     private var noteCategory: String = ""
+    private var hasReceivingText: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppFont.setFont(this)
@@ -39,6 +40,16 @@ class NoteActivityUpdate : AppCompatActivity() {
         selectFragmentOpen()
     }
 
+
+    private fun getArguments() {
+        intent.getParcelableExtra<Note2>(IntentUtil.PUT_EXTRA_NOTE)
+            ?.let { note = it }
+        intent.getStringExtra(IntentUtil.PUT_EXTRA_CATEGORY)
+            ?.let { noteCategory = it }
+        intent.getBooleanExtra(IntentUtil.PUT_EXTRA_HAS_RECEIVING_TEXT, false)
+            .let { hasReceivingText = it }
+    }
+
     private fun initObjects() {
         shortsCommand = AppShortsCommand()
     }
@@ -46,11 +57,6 @@ class NoteActivityUpdate : AppCompatActivity() {
     private fun otherConfigurations() {
         color = AppPref.getAppColor(this)
         fontSizeNote = AppPref.getFontSizeNote(this)
-    }
-
-    private fun getArguments() {
-        intent.getParcelableExtra<Note2>(IntentUtil.PUT_EXTRA_NOTE)?.let { note = it }
-        intent.getStringExtra(IntentUtil.PUT_EXTRA_CATEGORY)?.let { noteCategory = it }
     }
 
     private fun setStatusFavorite() {
@@ -92,4 +98,9 @@ class NoteActivityUpdate : AppCompatActivity() {
     fun getFontSize(): Int {
         return fontSizeNote
     }
+
+    val hasReceivText: Boolean
+        get() {
+            return hasReceivingText
+        }
 }

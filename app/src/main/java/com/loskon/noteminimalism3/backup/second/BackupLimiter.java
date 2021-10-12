@@ -14,7 +14,7 @@ import java.io.File;
 public class BackupLimiter {
 
     public static void delExtraFiles(Context context) {
-        File folder = BackupPath.getFolder(context);
+        File folder = BackupPath.getFolderBackup(context);
 
         int numOfBackup = GetSharedPref.getNumOfBackup(context);
         File[] logFiles = BackupFilter.getListFile(folder);

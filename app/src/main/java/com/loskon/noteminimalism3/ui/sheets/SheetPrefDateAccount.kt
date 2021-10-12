@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
+import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.ui.activities.BackupActivity
 import com.loskon.noteminimalism3.utils.setVisibleView
 
@@ -33,11 +33,10 @@ class SheetPrefDateAccount(private val context: Context) : View.OnClickListener 
         configViews()
         setItemVisibility(false)
         installHandlers()
-
     }
 
     private fun setupColorViews() {
-        val color = MyColor.getMyColor(context)
+        val color = AppPref.getAppColor(context)
         btnLogout.setBackgroundColor(color)
         btnDelete.setBackgroundColor(color)
         btnNo.setBackgroundColor(color)

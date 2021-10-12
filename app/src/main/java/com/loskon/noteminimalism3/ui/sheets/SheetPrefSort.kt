@@ -25,7 +25,7 @@ class SheetPrefSort(private val context: Context) {
     private val radioGroup: RadioGroup = view.findViewById(R.id.rg_sort)
     private val radioButtonCreate: RadioButton = view.findViewById(R.id.rb_sort_creation)
     private val radioButtonMod: RadioButton = view.findViewById(R.id.rb_sort_modification)
-    private val btnOk: Button = sheetDialog.getButtonOk
+    private val btnOk: Button = sheetDialog.buttonOk
 
     private var checkedNumber: Int = 0
 

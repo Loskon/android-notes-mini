@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.ui.activities.update.SettingsActivityUpdate
+import com.loskon.noteminimalism3.ui.dialogs.DialogWarning
 import com.loskon.noteminimalism3.ui.recyclerview.rvfont.CustomSnapHelper
 import com.loskon.noteminimalism3.ui.recyclerview.rvfont.FontListAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.rvfont.FontModel
 import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator
 import com.loskon.noteminimalism3.utils.getShortFont
 
-
 /**
- * Форма для выбора шрифта
+ * Форма для выбора шрифта в приложении
  */
 
 class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
@@ -60,6 +60,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
         updateFontsList()
         installSnapHelper()
         configureOtherViews()
+        showWarningDialog()
     }
 
     private fun installCallbacks() {
@@ -68,7 +69,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
 
     private fun configurationBottomBar() {
         activity.apply {
-            bottomBar.setOnClickListener {
+            bottomBar.setNavigationOnClickListener {
                 onBackPressed()
                 //parentFragmentManager.popBackStack()
             }
@@ -203,6 +204,12 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
 
     private fun configureOtherViews() {
         tvExample.typeface = getListFonts()[savedPosition].font_type_face
+    }
+
+    private fun showWarningDialog() {
+        if (AppPref.isDialogShow(activity)) {
+            DialogWarning(activity).show()
+        }
     }
 
     override fun onClickingItem(item: FontModel) {

@@ -103,7 +103,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
 
 
 //
-fun Menu.menuIconColor(@ColorInt color: Int) {
+fun Menu.setMenuIconColor(@ColorInt color: Int) {
     if (size() != 0) {
         for (i in 0 until size()) {
             val drawable: Drawable = getItem(i).icon
@@ -118,7 +118,7 @@ fun Menu.menuIconColor(@ColorInt color: Int) {
 
 
 //
-fun Slider.setColorSlider(@ColorInt color: Int) {
+fun Slider.setSliderColor(@ColorInt color: Int) {
     thumbTintList = ColorStateList.valueOf(color)
     trackActiveTintList = ColorStateList.valueOf(color)
     tickTintList = ColorStateList.valueOf(color)

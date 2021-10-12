@@ -6,7 +6,7 @@ package com.loskon.noteminimalism3.auxiliary.other;
 
 public class ReplaceText {
 
-    public static String replaceForSaveTittle(String fileTitle) {
+    public static String replace(String fileTitle) {
         fileTitle = fileTitle.replace("/", "_");
         fileTitle = fileTitle.replace(".", "_");
         fileTitle = fileTitle.replace(":", "-");

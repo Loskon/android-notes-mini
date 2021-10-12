@@ -29,7 +29,6 @@
             android:id="@+id/input_edit_text_backup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="@string/dg_bp_forbidden_text"
             android:hint="@string/sheet_backup_title"
             android:inputType="textCapSentences|textNoSuggestions"
             android:lines="1"

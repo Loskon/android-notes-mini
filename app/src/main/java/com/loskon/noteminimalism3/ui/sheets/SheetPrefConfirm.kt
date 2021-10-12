@@ -15,7 +15,7 @@ class SheetPrefConfirm(private val activity: BackupActivity) {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(activity)
 
-    private val btnOk: Button = sheetDialog.getButtonOk
+    private val btnOk: Button = sheetDialog.buttonOk
 
     init {
         sheetDialog.setTextTitle(R.string.sheet_confirm_action)

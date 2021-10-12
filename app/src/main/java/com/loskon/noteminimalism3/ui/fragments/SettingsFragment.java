@@ -28,7 +28,7 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref;
 import com.loskon.noteminimalism3.backup.second.BackupPath;
 import com.loskon.noteminimalism3.permissions.PermissionsInterface;
 import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate;
-import com.loskon.noteminimalism3.ui.preferences.PrefHelper;
+import com.loskon.noteminimalism3.ui.prefscreen.PrefHelper;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefLinks;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefNoteFontSize;
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSlider;

@@ -9,18 +9,20 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.other.AppFont
 import com.loskon.noteminimalism3.ui.fragments.update.SettingsFragmentUpdate
+import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
+import com.loskon.noteminimalism3.utils.setMenuIconColor
 import com.loskon.noteminimalism3.utils.setNavigationIconColor
 
 /**
  * Хост представления для фрагментов
  */
 
-class SettingsActivityUpdate : AppCompatActivity() {
+class SettingsActivityUpdate : AppCompatActivity(),
+    SheetPrefSelectColor.CallbackColorNavIcon {
 
     private lateinit var coordLayout: ConstraintLayout
     private lateinit var bottomAppBar: BottomAppBar
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setAppFonts()
@@ -29,7 +31,9 @@ class SettingsActivityUpdate : AppCompatActivity() {
 
         initViews()
         establishColorViews()
-        if (savedInstanceState == null) openSettingsFragment()
+        openSettingsFragment(savedInstanceState)
+        installCallbacks()
+        configureBottomBarMenu()
     }
 
     fun setAppFonts() {
@@ -37,20 +41,31 @@ class SettingsActivityUpdate : AppCompatActivity() {
     }
 
     private fun initViews() {
+        coordLayout = findViewById(R.id.cstLytSettings)
         bottomAppBar = findViewById(R.id.btmAppBarSettings)
-        coordLayout = findViewById(R.id.cstLytSettings )
     }
 
     private fun establishColorViews() {
         val color = AppPref.getAppColor(this)
         bottomAppBar.setNavigationIconColor(color)
+        bottomAppBar.menu.setMenuIconColor(color)
     }
 
-    private fun openSettingsFragment() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_settings, SettingsFragmentUpdate())
-            .commit()
+    private fun openSettingsFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_settings, SettingsFragmentUpdate())
+                .commit()
+        }
+    }
+
+    private fun installCallbacks() {
+        SheetPrefSelectColor.regCallBackColorNavIcon(this)
+    }
+
+    private fun configureBottomBarMenu() {
+        visibilityMenuItemAccount(false)
     }
 
     fun replaceFragment(fragment: Fragment) {
@@ -61,9 +76,19 @@ class SettingsActivityUpdate : AppCompatActivity() {
             .commit()
     }
 
-    fun showSnackbar(message: String, isSuccess: Boolean) {
-        SnackbarApp(this, coordLayout, bottomAppBar).show(message, isSuccess)
+    fun showSnackbar(typeMessage: String) {
+        SnackbarApp(this, coordLayout, bottomAppBar).show(typeMessage)
     }
+
+    override fun onChangeColor(color: Int) {
+        bottomAppBar.setNavigationIconColor(color)
+        bottomAppBar.menu.setMenuIconColor(color)
+    }
+
+    fun visibilityMenuItemAccount(isVisible: Boolean) {
+        bottomAppBar.menu.findItem(R.id.action_account).isVisible = isVisible
+    }
+
 
     val bottomBar: BottomAppBar
         get() {

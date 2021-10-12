@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.dialogs
+package com.loskon.noteminimalism3.ui.dialogs.update
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -8,6 +8,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.ui.dialogs.BaseMaterialDialog
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import java.util.regex.Pattern
@@ -124,32 +125,34 @@ class DialogNoteLinksUpdate(
             URL_WEB -> context.startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse(link))
             )
+
             URL_MAIL -> context.startActivity(
                 Intent(Intent.ACTION_SENDTO, Uri.parse(link))
             )
+
             URL_PHONE -> context.startActivity(
                 Intent(Intent.ACTION_DIAL, Uri.parse(link))
             )
 
-            else -> showSnackbar(SnackbarApp.MSG_UNKNOWN_ERROR, false)
+            else -> showSnackbar(SnackbarApp.MSG_UNKNOWN_ERROR)
         }
     }
 
     private fun copyLink() {
         replaceText("http://")
         replaceText("https://")
+
         try {
             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("copy_links", link)
             clipboard.setPrimaryClip(clip)
-            showSnackbar(SnackbarApp.MSG_NOTE_HYPERLINKS_COPIED, true)
+            showSnackbar(SnackbarApp.MSG_NOTE_HYPERLINKS_COPIED)
         } catch (exception: Exception) {
-            exception.printStackTrace()
-            showSnackbar(SnackbarApp.MSG_INVALID_LINK, false)
+            showSnackbar(SnackbarApp.MSG_INVALID_LINK)
         }
     }
 
-    private fun showSnackbar(typeMessage: String, isSuccess: Boolean) {
-        noteFragment.showSnackbar(typeMessage, isSuccess)
+    private fun showSnackbar(typeMessage: String) {
+        noteFragment.showSnackbar(typeMessage)
     }
 }

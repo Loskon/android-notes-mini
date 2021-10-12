@@ -72,6 +72,6 @@ fun EditText.getLength(): Int {
 }
 
 //
-fun TextView.setFontSize(fontSize: Int) {
+fun TextView.setTextSizeShort(fontSize: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
 }

@@ -12,7 +12,7 @@ public class GetSharedPref {
 
     // boolean
     public static boolean getOneSizeCards(Context context) {
-        String key = context.getString(R.string.one_size_title);
+        String key = context.getString(R.string.one_size_cards_title);
         return MySharedPref.getBoolean(context, key, false);
     }
 

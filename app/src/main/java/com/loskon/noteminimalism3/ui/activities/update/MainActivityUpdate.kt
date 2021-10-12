@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.activities.update
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
@@ -18,29 +19,29 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
-import com.loskon.noteminimalism3.backup.prime.BpCloud
+import com.loskon.noteminimalism3.backup.update.DateBaseCloudBackup
 import com.loskon.noteminimalism3.model.Note2
 import com.loskon.noteminimalism3.other.AppFont
 import com.loskon.noteminimalism3.other.ShortQueryTextListener
 import com.loskon.noteminimalism3.sqlite.AppShortsCommand
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.dialogs.DialogTypeFont
 import com.loskon.noteminimalism3.ui.dialogs.update.DialogDeleteForever
+import com.loskon.noteminimalism3.ui.dialogs.update.DialogNoteReceivingData
 import com.loskon.noteminimalism3.ui.dialogs.update.DialogTrashUpdate
 import com.loskon.noteminimalism3.ui.fragments.BottomSheetCategory
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.fragments.update.FontsFragment
 import com.loskon.noteminimalism3.ui.fragments.update.NoteFragmentUpdate
 import com.loskon.noteminimalism3.ui.fragments.update.NoteTrashFragmentUpdate
-import com.loskon.noteminimalism3.ui.preferences.MyPrefCardView
-import com.loskon.noteminimalism3.ui.preferences.MyPrefNumOfLines
+import com.loskon.noteminimalism3.ui.fragments.update.SettingsAppFragmentUpdate
+import com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCardView
+import com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenNumberLines
 import com.loskon.noteminimalism3.ui.recyclerview.update.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.update.NoteListAdapterUpdate
 import com.loskon.noteminimalism3.ui.recyclerview.update.SwipeCallbackMainUpdate
-import com.loskon.noteminimalism3.ui.sheets.SheetListFiles
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
+import com.loskon.noteminimalism3.ui.sheets.SheetRestoreDateBase
 import com.loskon.noteminimalism3.ui.snackbars.update.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarUndoUpdate
@@ -59,14 +60,13 @@ class MainActivityUpdate : AppCompatActivity(),
     NoteFragmentUpdate.CallbackNoteUpdate,
     NoteTrashFragmentUpdate.CallbackNoteTrashUpdate,
     SheetPrefSelectColor.CallbackColorMain,
-    MyPrefCardView.CallbackFontSize,
-    MyPrefNumOfLines.CallbackNumberLines,
-    SettingsAppFragment.CallbackOneSizeCards,
-    SheetListFiles.CallbackRestoreNote,
-    BpCloud.CallbackResNotes,
+    PrefScreenCardView.CallbackFontSizeUpdate,
+    PrefScreenNumberLines.CallbackNumberLinesUpdate,
+    SettingsAppFragmentUpdate.CallbackOneSizeCardsUpdate,
+    SheetRestoreDateBase.CallbackRestoreNote,
+    DateBaseCloudBackup.CallbackRestoreNoteCloud,
     SheetPrefSort.CallbackSort,
-    DialogTypeFont.CallbackTypeFont,
-    FontsFragment.CallbackChangeTypeFont{
+    FontsFragment.CallbackChangeTypeFont {
 
     companion object {
         //private val TAG = "MyLogs_${MainActivityUpdate::class.java.simpleName}"
@@ -81,7 +81,7 @@ class MainActivityUpdate : AppCompatActivity(),
     private lateinit var coordLayout: CoordinatorLayout
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var tvEmpty: TextView
+    private lateinit var tvEmptyList: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var cardView: CardView
     private lateinit var tvSelectedItemsCount: TextView
@@ -114,6 +114,7 @@ class MainActivityUpdate : AppCompatActivity(),
         establishColorViews()
         installHandlers()
         updateQuicklyNotesList()
+        receivingTextData()
     }
 
     private fun setAppFonts() {
@@ -124,7 +125,7 @@ class MainActivityUpdate : AppCompatActivity(),
         coordLayout = findViewById(R.id.coord_layout_main)
         searchView = findViewById(R.id.search_view)
         recyclerView = findViewById(R.id.recycler_view_notes)
-        tvEmpty = findViewById(R.id.tv_empty_list_up)
+        tvEmptyList = findViewById(R.id.tv_empty_list_up)
         fab = findViewById(R.id.fab_main)
         cardView = findViewById(R.id.card_view_main)
         tvSelectedItemsCount = findViewById(R.id.tv_selected_items_count)
@@ -140,14 +141,13 @@ class MainActivityUpdate : AppCompatActivity(),
         NoteTrashFragmentUpdate.listenerCallback(this)
         // Для изменения настроек
         SheetPrefSelectColor.listenerCallBack(this)
-        MyPrefCardView.listenerCallback(this)
-        MyPrefNumOfLines.listenerCallback(this)
-        SettingsAppFragment.listenerCallback(this)
+        PrefScreenCardView.listenerCallback(this)
+        PrefScreenNumberLines.listenerCallback(this)
+        SettingsAppFragmentUpdate.listenerCallbackSize(this)
 
-        SheetListFiles.listenerCallback(this)
-        BpCloud.listenerCallback(this)
+        SheetRestoreDateBase.listenerCallback(this)
+        DateBaseCloudBackup.listenerCallback(this)
         SheetPrefSort.listenerCallback(this)
-        DialogTypeFont.listenerCallBack(this)
         FontsFragment.listenerCallback(this)
     }
 
@@ -198,7 +198,7 @@ class MainActivityUpdate : AppCompatActivity(),
 
     private fun updateQuicklyNotesList() {
         adapter.setQuicklyNotesList(notes)
-        tvEmpty.setVisibleView(notes.isEmpty())
+        tvEmptyList.setVisibleView(notes.isEmpty())
     }
 
     private val notes: List<Note2>
@@ -330,7 +330,7 @@ class MainActivityUpdate : AppCompatActivity(),
 
     fun updateListNotes() {
         adapter.setNotesList(notes)
-        tvEmpty.setVisibleView(notes.isEmpty())
+        tvEmptyList.setVisibleView(notes.isEmpty())
     }
 
     private fun dismissSnackbars(isDisSnackMessage: Boolean) {
@@ -400,6 +400,16 @@ class MainActivityUpdate : AppCompatActivity(),
     private fun updateQuicklyNotesListTop() {
         updateQuicklyNotesList()
         recyclerView.scrollToPosition(0)
+    }
+
+    private fun receivingTextData() {
+        if (intent?.action == Intent.ACTION_SEND) {
+            if ("text/plain" == intent.type) {
+                intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+                    DialogNoteReceivingData(this).show(it)
+                }
+            }
+        }
     }
 
     // From recycler adapter
@@ -474,8 +484,8 @@ class MainActivityUpdate : AppCompatActivity(),
         establishColorViews()
     }
 
-    override fun onChangeFontSizes(titleFontSize: Int, dateFontSize: Int) {
-        adapter.setFontSizes(titleFontSize, dateFontSize)
+    override fun onChangeFontSizes(fontSizeTitle: Int, fontSizeDate: Int) {
+        adapter.setFontSizes(fontSizeTitle, fontSizeDate)
         updateQuicklyNotesListTop()
     }
 
@@ -489,16 +499,19 @@ class MainActivityUpdate : AppCompatActivity(),
         updateQuicklyNotesListTop()
     }
 
-    override fun onRestoreNotes() = updateQuicklyNotesListTop()
+    override fun onRestoreNotes() {
+        notesCategory = CATEGORY_ALL_NOTES
+        updateQuicklyNotesListTop()
+    }
 
     override fun onChangeSortingWay(sortingWay: Int) {
         this.sortingWay = sortingWay
         updateQuicklyNotesListTop()
     }
 
-    override fun onChangeFont() {
+    override fun onChangeTypeFont() {
         setAppFonts()
-        updateQuicklyNotesListTop()
+        recyclerView.adapter = adapter
     }
 
     // Внешние методы
@@ -570,9 +583,4 @@ class MainActivityUpdate : AppCompatActivity(),
         get() {
             return fab
         }
-
-    override fun onChangeTypeFont() {
-        setAppFonts()
-        recyclerView.adapter = adapter
-    }
 }

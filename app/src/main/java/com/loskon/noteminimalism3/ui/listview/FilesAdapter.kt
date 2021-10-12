@@ -1,7 +1,6 @@
 package com.loskon.noteminimalism3.ui.listview
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -9,11 +8,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.second.BackupDb
-import com.loskon.noteminimalism3.backup.second.BackupFilter
-import com.loskon.noteminimalism3.backup.second.BackupPath
-import com.loskon.noteminimalism3.backup.second.BackupSort.SortFileDate
-import com.loskon.noteminimalism3.ui.sheets.SheetListFiles
+import com.loskon.noteminimalism3.backup.second.BackupSort
+import com.loskon.noteminimalism3.ui.sheets.SheetRestoreDateBase
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.io.File
 import java.util.*
@@ -22,23 +18,14 @@ import java.util.*
  * Кастомный адаптер для вывода списка файлов резервных копий
  */
 
-class FilesAdapter(
-    private val context: Context,
-    private val sheetListFiles: SheetListFiles
-) :
+class FilesAdapter(private val sheetDialog: SheetRestoreDateBase) :
     BaseAdapter() {
 
-    private val folder = BackupPath.getFolder(context)
-    private val files: Array<File> = BackupFilter.getListFile(folder)
-    private val list: MutableList<File> = files.toMutableList()
-
-    init {
-        Collections.sort(list, SortFileDate())
-    }
+    private var list: ArrayList<File> = arrayListOf()
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = View.inflate(context, R.layout.item_file, null)
+        val view = View.inflate(parent?.context, R.layout.item_file, null)
         val file = list[position]
 
         val nameFiles: TextView = view.findViewById(R.id.tv_title_file)
@@ -48,29 +35,41 @@ class FilesAdapter(
         nameFiles.text = file.name.replace(".db", "")
 
         cardView.setOnSingleClickListener {
-            BackupDb(context).restoreDatabase(file.path)
-            sheetListFiles.dismissSheet()
+            sheetDialog.restoreDateBase(file.path)
         }
 
-        delFile.setOnSingleClickListener { deleteItem(file) }
+        delFile.setOnSingleClickListener {
+            remove(file)
+        }
 
         return view
     }
 
-    private fun deleteItem(file: File) {
+    private fun remove(file: File) {
         file.delete()
         list.remove(file)
         notifyDataSetChanged()
-        sheetListFiles.checkEmptyListFiles()
+        sheetDialog.checkEmptyFilesList()
     }
 
-    fun deleteAll() {
-        for (file in files) {
-            file.delete()
+    fun removeAll(files: Array<File>?) {
+        if (files != null) {
+            for (file in files) {
+                file.delete()
+            }
+
+            list.clear()
+            notifyDataSetChanged()
+            sheetDialog.checkEmptyFilesList()
         }
-        list.clear()
-        notifyDataSetChanged()
-        sheetListFiles.checkEmptyListFiles()
+    }
+
+    fun setFilesList(newList: Array<File>?) {
+        if (newList != null) {
+            list = newList.toCollection(ArrayList())
+            Collections.sort(list, BackupSort.SortFileDate())
+            notifyDataSetChanged()
+        }
     }
 
     override fun getCount(): Int = list.size

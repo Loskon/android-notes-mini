@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.preferences;
+package com.loskon.noteminimalism3.ui.prefscreen;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -30,7 +30,7 @@ public class MyPrefSwitch extends SwitchPreference {
     public MyPrefSwitch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        setWidgetLayoutResource(R.layout.pref_widget_switch);
+        setWidgetLayoutResource(R.layout.pref_screen_layout_switch);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MyPrefSwitch extends SwitchPreference {
         holder.itemView.setClickable(true);
 
         segmentedButtonGroup =
-                (SegmentedButtonGroup) holder.findViewById(R.id.buttonGroup_lordOfTheRings);
+                (SegmentedButtonGroup) holder.findViewById(R.id.segmentedB_buton_group);
 
         setMyColor();
         initSettings();

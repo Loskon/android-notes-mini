@@ -4,22 +4,19 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyIntent
 import com.loskon.noteminimalism3.auxiliary.other.RequestCode
 import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
 import com.loskon.noteminimalism3.backup.second.BackupPath
 import com.loskon.noteminimalism3.files.ActivityResultInterface
 import com.loskon.noteminimalism3.files.Result
 import com.loskon.noteminimalism3.permissions.PermissionsInterface
-import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate.Companion.hasAccessStorage
-import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate.Companion.hasAccessStorageRequest
-import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate.Companion.installingVerification
+import com.loskon.noteminimalism3.permissions.PermissionsStorageUpdate
 import com.loskon.noteminimalism3.ui.activities.update.SettingsActivityUpdate
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefLinks
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefNoteFontSize
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
@@ -28,6 +25,8 @@ import com.loskon.noteminimalism3.ui.sheets.update.SheetPrefSliderRetention
 import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
 import com.loskon.noteminimalism3.utils.ColorUtil
 import com.loskon.noteminimalism3.utils.IntentUtil
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Форма общих настроек
@@ -91,7 +90,7 @@ class SettingsFragmentUpdate :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as SettingsActivityUpdate
-        installingVerification(activity, this)
+        PermissionsStorageUpdate.installingVerification(this, this)
         Result.installing(activity, this)
     }
 
@@ -99,13 +98,15 @@ class SettingsFragmentUpdate :
         super.onViewCreated(view, savedInstanceState)
         setDivider(null)
         setDividerHeight(0)
+        listView.isVerticalScrollBarEnabled = false
+
         configurationBottomBar()
         installCallbacks()
     }
 
     private fun configurationBottomBar() {
         activity.apply {
-            bottomBar.setOnClickListener {
+            bottomBar.setNavigationOnClickListener {
                 onBackPressed()
             }
         }
@@ -199,68 +200,84 @@ class SettingsFragmentUpdate :
     }
 
     private fun otherConfigurations() {
-        if (!hasAccessStorage(activity)) autoBackup?.isChecked = false
+        if (!PermissionsStorageUpdate.hasAccessStorage(activity)) autoBackup?.isChecked = false
     }
+
+    private val hasAccessStorageRequest: Boolean
+        get() {
+            return PermissionsStorageUpdate.hasAccessStorageRequest(activity)
+        }
 
     override fun onPreferenceClick(preference: Preference?): Boolean {
         val key: String? = preference?.key
         selectedPreference = key.toString()
 
-        when (key) {
-            customizationKey -> {
-                activity.replaceFragment(SettingsAppFragment())
-                return true
-            }
+        activity.apply {
+            when (key) {
+                customizationKey -> {
+                    lifecycleScope.launch {
+                        delay(200L)
+                        replaceFragment(SettingsAppFragmentUpdate())
+                    }
+                    return true
+                }
 
-            typeFontKey -> {
-                activity.replaceFragment(FontsFragment())
-                //MyIntent.openFonts(activity)
-                return true
-            }
+                typeFontKey -> {
+                    lifecycleScope.launch {
+                        delay(200L)
+                        replaceFragment(FontsFragment())
+                    }
+                    return true
+                }
 
-            sortingKey -> {
-                SheetPrefSort(activity).show()
-                return true
-            }
+                sortingKey -> {
+                    SheetPrefSort(this).show()
+                    return true
+                }
 
-            backupKey -> {
-                MyIntent.openBackupActivity(activity)
-                return true
-            }
+                backupKey -> {
+                    lifecycleScope.launch {
+                        delay(200L)
+                        replaceFragment(BackupFragment())
+                    }
+                    return true
+                }
 
-            folderKey -> {
-                if (hasAccessStorageRequest(activity)) Result.launcherSelectingFolder(activity)
-                return true
-            }
+                folderKey -> {
+                    if (hasAccessStorageRequest) Result.launcherSelectingFolder(
+                        this
+                    )
+                    return true
+                }
 
-            numberBackupsKey -> {
-                SheetPrefSliderNumberBackups(activity).show()
-                return true
-            }
+                numberBackupsKey -> {
+                    SheetPrefSliderNumberBackups(this).show()
+                    return true
+                }
 
-            hyperlinksKey -> {
-                SheetPrefLinks(activity).show()
-                return true
-            }
+                hyperlinksKey -> {
+                    SheetPrefLinks(this).show()
+                    return true
+                }
 
-            retentionKey -> {
-                SheetPrefSliderRetention(activity).show()
-                return true
-            }
+                retentionKey -> {
+                    SheetPrefSliderRetention(this).show()
+                    return true
+                }
 
-            fontSizeKey -> {
-                SheetPrefNoteFontSize(activity).show()
-                return true
-            }
+                fontSizeKey -> {
+                    SheetPrefNoteFontSize(this).show()
+                    return true
+                }
 
-            communicationKey -> {
-                IntentUtil.launcherEmailClient(activity)
-                return true
-            }
+                communicationKey -> {
+                    IntentUtil.launcherEmailClient(this)
+                    return true
+                }
 
-            else -> return false
+                else -> return false
+            }
         }
-
     }
 
     override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
@@ -271,7 +288,7 @@ class SettingsFragmentUpdate :
             ColorUtil.setDarkTheme(newValue as Boolean)
             return true
         } else if (key == autoBackupKey) {
-            hasAccessStorageRequest(activity)
+            hasAccessStorageRequest
             return true
         }
 
@@ -288,7 +305,7 @@ class SettingsFragmentUpdate :
                 autoBackup?.isChecked = false
             }
 
-            activity.showSnackbar(SnackbarApp.MSG_NO_PERMISSION, false)
+            activity.showSnackbar(SnackbarApp.MSG_NO_PERMISSION)
         }
     }
 
@@ -296,10 +313,14 @@ class SettingsFragmentUpdate :
         if (isGranted) {
             if (requestCode == RequestCode.REQUEST_CODE_READ) {
                 if (data != null) {
-                    val backupPath: String = BackupPath.findFullPath(data.path)
-                    AppPref.setBackupPath(activity, backupPath)
+                    if (data.path?.contains("primary") == true) {
+                        val backupPath: String = BackupPath.findFullPath(data.path)
+                        AppPref.setBackupPath(activity, backupPath)
+                    } else {
+                        activity.showSnackbar(SnackbarApp.MSG_LOCAL_STORAGE)
+                    }
                 } else {
-                    activity.showSnackbar(SnackbarApp.MSG_UNABLE_SELECT_FOLDER, false)
+                    activity.showSnackbar(SnackbarApp.MSG_UNABLE_SELECT_FOLDER)
                 }
             }
         }

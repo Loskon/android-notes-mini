@@ -5,10 +5,7 @@ import android.content.res.ColorStateList
 import android.view.View
 import android.widget.CheckBox
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
-import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
+import com.loskon.noteminimalism3.sharedpref.PrefManager
 
 /**
  * Состояние активности ссылок в заметках
@@ -16,12 +13,12 @@ import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
 
 class SheetPrefLinks(private val context: Context) : View.OnClickListener {
 
-    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.sheet_pref_links, null)
+    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val sheetView = View.inflate(context, R.layout.sheet_pref_links, null)
 
-    private val checkBoxWeb: CheckBox = view.findViewById(R.id.check_box_web)
-    private val checkBoxMail: CheckBox = view.findViewById(R.id.check_box_mail)
-    private val checkBoxPhone: CheckBox = view.findViewById(R.id.check_box_phone)
+    private val checkBoxWeb: CheckBox = sheetView.findViewById(R.id.check_box_web)
+    private val checkBoxMail: CheckBox = sheetView.findViewById(R.id.check_box_mail)
+    private val checkBoxPhone: CheckBox = sheetView.findViewById(R.id.check_box_phone)
 
     init {
         setupColorViews()
@@ -31,23 +28,23 @@ class SheetPrefLinks(private val context: Context) : View.OnClickListener {
     }
 
     private fun setupColorViews() {
-        val color = MyColor.getMyColor(context)
+        val color = PrefManager.getAppColor(context)
         checkBoxWeb.buttonTintList = ColorStateList.valueOf(color)
         checkBoxMail.buttonTintList = ColorStateList.valueOf(color)
         checkBoxPhone.buttonTintList = ColorStateList.valueOf(color)
     }
 
     private fun configViews() {
-        sheetDialog.setInsertView(view)
-        sheetDialog.setBtnOkVisibility(false)
-        sheetDialog.setTextTitle(R.string.sheet_pref_links_title)
-        sheetDialog.setTextBtnCancel(R.string.to_close)
+        dialog.setInsertView(sheetView)
+        dialog.setBtnOkVisibility(false)
+        dialog.setTextTitle(R.string.sheet_pref_links_title)
+        dialog.setTextBtnCancel(R.string.to_close)
     }
 
     private fun setStateChecked() {
-        checkBoxWeb.isChecked = GetSharedPref.isWeb(context)
-        checkBoxMail.isChecked = GetSharedPref.isMail(context)
-        checkBoxPhone.isChecked = GetSharedPref.isPhone(context)
+        checkBoxWeb.isChecked = PrefManager.isWeb(context)
+        checkBoxMail.isChecked = PrefManager.isMail(context)
+        checkBoxPhone.isChecked = PrefManager.isPhone(context)
     }
 
     private fun installHandlers() {
@@ -59,22 +56,18 @@ class SheetPrefLinks(private val context: Context) : View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.check_box_web -> {
-                saveResult(MyPrefKey.KEY_WEB, checkBoxWeb)
+                PrefManager.setResultWeb(context, checkBoxWeb.isChecked)
             }
             R.id.check_box_mail -> {
-                saveResult(MyPrefKey.KEY_MAIL, checkBoxMail)
+                PrefManager.setResultMail(context, checkBoxMail.isChecked)
             }
             R.id.check_box_phone -> {
-                saveResult(MyPrefKey.KEY_PHONE, checkBoxPhone)
+                PrefManager.setResultPhone(context, checkBoxPhone.isChecked)
             }
         }
     }
 
-    private fun saveResult(key: String, checkBox: CheckBox) {
-        MySharedPref.setBoolean(context, key, checkBox.isChecked)
-    }
-
     fun show() {
-        sheetDialog.show()
+        dialog.show()
     }
 }

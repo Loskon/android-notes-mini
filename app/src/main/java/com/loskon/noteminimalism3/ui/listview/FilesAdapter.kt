@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.second.BackupSort
+import com.loskon.noteminimalism3.backup.BackupSort
 import com.loskon.noteminimalism3.ui.sheets.SheetRestoreDateBase
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.io.File
@@ -25,7 +25,7 @@ class FilesAdapter(private val sheetDialog: SheetRestoreDateBase) :
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = View.inflate(parent?.context, R.layout.item_file, null)
+        val view = View.inflate(parent?.context, R.layout.row_file, null)
         val file = list[position]
 
         val nameFiles: TextView = view.findViewById(R.id.tv_title_file)

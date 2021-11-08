@@ -21,7 +21,7 @@
 
     <ListView
         android:id="@+id/listView"
-        tools:listitem="@layout/item_note_old"
+        tools:listitem="@layout/row_note_for_receiving_data"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"

@@ -1,17 +1,13 @@
 package com.loskon.noteminimalism3.ui.sheets
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
-import com.loskon.noteminimalism3.auxiliary.sharedpref.GetSharedPref
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MyPrefKey
-import com.loskon.noteminimalism3.auxiliary.sharedpref.MySharedPref
+import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setSliderColor
 import com.loskon.noteminimalism3.utils.setTextSizeShort
@@ -22,13 +18,13 @@ import com.loskon.noteminimalism3.utils.setTextSizeShort
 
 class SheetPrefNoteFontSize(private val context: Context) {
 
-    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.sheet_note_font_size, null)
+    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val sheetView = View.inflate(context, R.layout.sheet_pref_note_font_size, null)
 
-    private val textView: TextView = view.findViewById(R.id.sheet_font_size_tv)
-    private val slider: Slider = view.findViewById(R.id.sheet_font_size_slider)
-    private val btnReset: MaterialButton = view.findViewById(R.id.sheet_font_size_reset_btn)
-    private val btnOk: Button = sheetDialog.buttonOk
+    private val textView: TextView = sheetView.findViewById(R.id.sheet_font_size_tv)
+    private val slider: Slider = sheetView.findViewById(R.id.sheet_font_size_slider)
+    private val btnReset: MaterialButton = sheetView.findViewById(R.id.sheet_font_size_reset_btn)
+    private val btnOk: Button = dialog.buttonOk
 
     private var fontSizeNote: Int = 0
 
@@ -40,19 +36,17 @@ class SheetPrefNoteFontSize(private val context: Context) {
     }
 
     private fun setupColorViews() {
-        val color = MyColor.getMyColor(context)
+        val color = PrefManager.getAppColor(context)
         slider.setSliderColor(color)
-        btnReset.strokeColor = ColorStateList.valueOf(color)
-        btnReset.setTextColor(color)
     }
 
     private fun configViews() {
-        sheetDialog.setInsertView(view)
-        sheetDialog.setTextTitle(R.string.sheet_font_size_title)
+        dialog.setInsertView(sheetView)
+        dialog.setTextTitle(R.string.sheet_font_size_title)
     }
 
     private fun setStateChecked() {
-        fontSizeNote = GetSharedPref.getFontSizeNote(context)
+        fontSizeNote = PrefManager.getFontSizeNote(context)
         slider.value = fontSizeNote.toFloat()
         setTextSize()
     }
@@ -70,7 +64,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
         }
 
         btnOk.setOnSingleClickListener {
-            sheetDialog.dismiss()
+            dialog.dismiss()
             saveResult()
         }
     }
@@ -80,10 +74,10 @@ class SheetPrefNoteFontSize(private val context: Context) {
     }
 
     private fun saveResult() {
-        MySharedPref.setInt(context, MyPrefKey.KEY_TITLE_FONT_SIZE_NOTE, fontSizeNote)
+        PrefManager.setFontSizeNote(context, fontSizeNote)
     }
 
     fun show() {
-        sheetDialog.show()
+        dialog.show()
     }
 }

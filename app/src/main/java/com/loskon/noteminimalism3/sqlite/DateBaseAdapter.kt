@@ -5,8 +5,8 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
-import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
-import com.loskon.noteminimalism3.model.Note2
+import com.loskon.noteminimalism3.model.Note
+import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -22,13 +22,13 @@ class DateBaseAdapter(context: Context) {
     private val database: SQLiteDatabase =
         try {
             dbHelper.writableDatabase
-        } catch (ex: SQLiteException) {
+        } catch (exception: SQLiteException) {
             dbHelper.readableDatabase
         }
 
     // Получение списка заметок
-    fun getNotes(searchTerm: String?, noteCategory: String, sortingWay: Int): List<Note2> {
-        val notes: ArrayList<Note2> = ArrayList<Note2>()
+    fun getNotes(searchTerm: String?, noteCategory: String, sortingWay: Int): List<Note> {
+        val notes: ArrayList<Note> = ArrayList<Note>()
         val whereClause: String = getWhereClause(noteCategory)
         val orderBy: String = getOrderBy(noteCategory, sortingWay)
 
@@ -52,7 +52,6 @@ class DateBaseAdapter(context: Context) {
             else -> throw Exception("Invalid category value")
         }
 
-
     // Выбор способа сортировки
     private fun getOrderBy(noteCategory: String, sort: Int): String {
         return if (noteCategory == CATEGORY_TRASH) {
@@ -67,7 +66,7 @@ class DateBaseAdapter(context: Context) {
     }
 
     // Получение заметки по id
-    fun getNote(id: Long): Note2? {
+    fun getNote(id: Long): Note? {
 
         queryNotes(
             null, NoteTable.COLUMN_ID + "=?",
@@ -88,7 +87,7 @@ class DateBaseAdapter(context: Context) {
         whereClause: String,
         orderBy: String?,
         whereArgs: Array<String>?
-    ): NoteCursorWrapperUpdate {
+    ): NoteCursorWrapper {
         val cursor: Cursor
 
         val where: String = if (searchTerm != null && searchTerm.isNotEmpty()) {
@@ -107,22 +106,22 @@ class DateBaseAdapter(context: Context) {
             orderBy
         )
 
-        return NoteCursorWrapperUpdate(cursor)
+        return NoteCursorWrapper(cursor)
     }
 
     // insert
-    fun insert(note: Note2) {
+    fun insert(note: Note) {
         val values = getContentValues(note)
         database.insert(NoteTable.NAME_TABLE, null, values)
     }
 
-    fun insertGetId(note: Note2): Long {
+    fun insertGetId(note: Note): Long {
         val values = getContentValues(note)
         return database.insert(NoteTable.NAME_TABLE, null, values)
     }
 
     // delete
-    fun delete(note: Note2) {
+    fun delete(note: Note) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + note.id, null)
     }
 
@@ -131,7 +130,7 @@ class DateBaseAdapter(context: Context) {
     }
 
     fun deleteByTime(context: Context) {
-        val rangeInDays: Int = AppPref.getRetentionRange(context)
+        val rangeInDays: Int = PrefManager.getRetentionRange(context)
         // Перевод дня в Unix-time для корректного сложения и сравнения
         val range = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
         database.delete(
@@ -143,13 +142,13 @@ class DateBaseAdapter(context: Context) {
     }
 
     // update
-    fun update(note: Note2) {
+    fun update(note: Note) {
         val values = getContentValues(note)
         database.update(NoteTable.NAME_TABLE, values, NoteTable.COLUMN_ID + "=" + note.id, null)
     }
 
     // Запись и обновление базы данных
-    private fun getContentValues(note: Note2): ContentValues {
+    private fun getContentValues(note: Note): ContentValues {
         val values = ContentValues()
         if (note.id != 0L) values.put(NoteTable.COLUMN_ID, note.id)
         values.put(NoteTable.COLUMN_TITLE, note.title)

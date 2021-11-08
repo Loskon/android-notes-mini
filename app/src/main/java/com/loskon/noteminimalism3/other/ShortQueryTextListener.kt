@@ -2,6 +2,10 @@ package com.loskon.noteminimalism3.other
 
 import androidx.appcompat.widget.SearchView
 
+/**
+ * OnQueryTextListener без onQueryTextSubmit
+ */
+
 abstract class ShortQueryTextListener : SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {

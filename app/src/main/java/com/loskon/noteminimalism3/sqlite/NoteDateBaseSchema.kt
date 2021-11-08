@@ -18,8 +18,5 @@ class NoteDateBaseSchema {
         const val COLUMN_DATE_DEL = "date_del"
         const val COLUMN_FAVORITES = "favorites"
         const val COLUMN_DEL_ITEMS = "del_items"
-
-        // Новые столбцы
-        const val COLUMN_CHECKED = "is_checked"
     }
 }

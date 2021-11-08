@@ -1,8 +1,9 @@
 package com.loskon.noteminimalism3.utils
 
 /**
- *
+ * Замена запрещенных символов в именах файлов
  */
+
 class StringUtil {
     companion object {
         fun replaceForbiddenCharacters(oldString: String): String {
@@ -17,18 +18,4 @@ class StringUtil {
             return newString
         }
     }
-}
-
-
-// Замена запрещенных символов в именах файлов
-fun String.replaceForbiddenCharacters(): String {
-    var string = this
-
-    string = string.replace("\\", "_")
-    string = string.replace("[|/*]".toRegex(), "_")
-    string = string.replace("[\"<>«»]".toRegex(), "\'")
-    string = string.replace("?", ".")
-    string = string.replace("\n", " ")
-
-    return string
 }

@@ -1,35 +1,24 @@
 package com.loskon.noteminimalism3.utils
 
 import android.content.Context
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
-import androidx.annotation.DrawableRes
-import androidx.annotation.FontRes
-import androidx.core.content.res.ResourcesCompat
 import com.loskon.noteminimalism3.R
 
-//
-fun Context.getRadiusLinLay(): Int {
-    return resources.getDimension(R.dimen.corner_radius).toInt()
-}
+/**
+ * Получение значений
+ */
 
-fun Context.getStrokeLinLay(): Int {
-    return resources.getDimension(R.dimen.border_stroke).toInt()
-}
+class ValueUtil {
+    companion object {
+        fun getRadiusLinLay(context: Context): Int {
+            return context.resources.getDimension(R.dimen.corner_radius).toInt()
+        }
 
-//
-fun Context.getBorderWidgetSwitch(): Int {
-    return resources.getDimension(R.dimen.border_width_switch).toInt()
-}
+        fun getStrokeLinLay(context: Context): Int {
+            return context.resources.getDimension(R.dimen.border_stroke).toInt()
+        }
 
-
-//
-fun Context.getShortDrawable(@DrawableRes icon: Int): Drawable? {
-    return ResourcesCompat.getDrawable(resources, icon, null)
-}
-
-
-//
-fun Context.getShortFont(@FontRes font: Int): Typeface? {
-    return ResourcesCompat.getFont(this, font)
+        fun getBorderWidgetSwitch(context: Context): Int {
+            return context.resources.getDimension(R.dimen.border_width_switch).toInt()
+        }
+    }
 }

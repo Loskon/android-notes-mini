@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/item_note_old"
+        layout="@layout/row_note_for_receiving_data"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"

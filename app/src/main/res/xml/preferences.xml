@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+    <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/settings_app_header">
 
@@ -20,16 +20,16 @@
             android:title="@string/sort_title"
             app:iconSpaceReserved="false" />
 
-        <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenSwitch
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             android:layout="@layout/custom_pref_layout"
             app:key="@string/dark_mode_title"
             app:title="@string/dark_mode_title" />
 
-    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+    </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
-    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+    <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         android:title="@string/data_header">
 
@@ -42,7 +42,7 @@
             app:iconSpaceReserved="false"
             app:key="@string/folder_title" />
 
-        <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenSwitch
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             android:layout="@layout/custom_pref_layout"
@@ -50,10 +50,10 @@
             app:summary="@string/auto_backup_summary"
             app:title="@string/auto_backup_title" />
 
-        <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenSwitch
-            app:allowDividerAbove="false"
-            app:defaultValue="true"
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
             android:layout="@layout/custom_pref_layout"
+            app:allowDividerAbove="false"
+            app:defaultValue="false"
             app:dependency="@string/auto_backup_title"
             app:iconSpaceReserved="false"
             app:key="@string/notification_title"
@@ -65,9 +65,9 @@
             app:iconSpaceReserved="false"
             app:key="@string/num_of_backup_title" />
 
-    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+    </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
-    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+    <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/notes_header">
 
@@ -81,9 +81,9 @@
             android:title="@string/font_size_notes_title"
             app:iconSpaceReserved="false" />
 
-    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+    </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
-    <com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory
+    <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/other_header">
 
@@ -97,6 +97,6 @@
             android:title="@string/communication_title"
             app:iconSpaceReserved="false" />
 
-    </com.loskon.noteminimalism3.ui.prefscreen.update.PrefScreenCategory>
+    </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
 </PreferenceScreen>

@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
+import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 class DialogWarning(private val context: Context) {
 
     private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
-    private val view = View.inflate(context, R.layout.dialog_warning, null)
+    private val dialogView = View.inflate(context, R.layout.dialog_warning, null)
 
     private val btnOk: Button = dialog.buttonOk
 
@@ -30,12 +30,12 @@ class DialogWarning(private val context: Context) {
 
     private fun installHandlers() {
         btnOk.setOnSingleClickListener {
-            AppPref.setStatusDialogShow(context)
+            PrefManager.setStatusDialogShow(context)
             dialog.dismiss()
         }
     }
 
     fun show() {
-        dialog.show(view)
+        dialog.show(dialogView)
     }
 }

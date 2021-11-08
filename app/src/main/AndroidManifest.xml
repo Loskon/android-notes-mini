@@ -21,80 +21,41 @@
         android:xlargeScreens="false" />
 
     <application
-        android:name=".sqlite.AppSqlite"
-        android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_descriptor"
+        android:name=".sqlite.App"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Noteminimalism3">
-        <activity
-            android:name=".ui.activities.update.SettingsActivityUpdate"
-            android:windowSoftInputMode="adjustPan" />
-
-        <receiver android:name=".ui.widgets.add.AppWidgetAddProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget_add" />
-        </receiver>
-        <receiver android:name=".ui.widgets.note.AppWidgetNoteProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget_note" />
-        </receiver>
-
-        <activity android:name=".ui.widgets.note.AppWidgetConfigure">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.activities.FontsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.BackupActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.SettingsAppActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.MainActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name=".ui.activities.update.NoteActivityUpdate"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.SettingsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.NoteActivity"
-            android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.update.ReceivingDataActivity"
-            android:screenOrientation="portrait"   >
-        </activity>
-        <activity
-            android:name=".ui.activities.update.MainActivityUpdate"
+            android:name=".ui.activities.ListActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.activities.NoteActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.ReceivingDataActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -103,6 +64,6 @@
             </intent-filter>
 
         </activity>
-    </application>
 
+    </application>
 </manifest>

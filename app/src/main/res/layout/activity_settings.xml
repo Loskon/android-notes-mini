@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_for_bottom_app_bar"
             android:layout_gravity="bottom"
-            app:menu="@menu/menu_for_bar_backup"
+            app:menu="@menu/menu_bottom_bar_backup"
             android:backgroundTint="?attr/colorAppBar"
             app:backgroundTint="?attr/colorAppBar"
             app:elevation="4dp"

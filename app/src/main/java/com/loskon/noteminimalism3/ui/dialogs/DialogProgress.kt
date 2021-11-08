@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.auxiliary.sharedpref.AppPref
+import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setColorProgressIndicator
 
 /**
@@ -35,7 +35,7 @@ class DialogProgress(private val context: Context) {
     }
 
     private fun setupColorViews() {
-        val color: Int = AppPref.getAppColor(context)
+        val color: Int = PrefManager.getAppColor(context)
         indicator.setColorProgressIndicator(color)
     }
 

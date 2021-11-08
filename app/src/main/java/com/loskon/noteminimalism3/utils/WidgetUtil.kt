@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 /**
- *
+ * Утилиты для виджетов
  */
 
 //
@@ -21,14 +19,6 @@ fun View.setVisibleView(isVisible: Boolean) {
     } else {
         this.visibility = View.GONE
     }
-}
-
-//
-fun View.settingsBehavior() {
-    val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(this.parent as View)
-    behavior.state = BottomSheetBehavior.STATE_EXPANDED
-    behavior.isDraggable = false
-    behavior.isHideable = false
 }
 
 //
@@ -59,11 +49,6 @@ fun View.setLayoutParams() {
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
     )
-}
-
-//
-fun Context.getShortColor(colorId: Int): Int {
-    return ContextCompat.getColor(this, colorId)
 }
 
 //

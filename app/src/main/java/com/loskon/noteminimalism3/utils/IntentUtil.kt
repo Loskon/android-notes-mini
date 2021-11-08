@@ -6,28 +6,31 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.EditText
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.model.Note2
-import com.loskon.noteminimalism3.ui.activities.update.NoteActivityUpdate
-import com.loskon.noteminimalism3.ui.activities.update.ReceivingDataActivity
-import com.loskon.noteminimalism3.ui.activities.update.SettingsActivityUpdate
+import com.loskon.noteminimalism3.model.Note
+import com.loskon.noteminimalism3.toast.ToastManager
+import com.loskon.noteminimalism3.ui.activities.NoteActivity
+import com.loskon.noteminimalism3.ui.activities.SettingsActivity
+
+/**
+ * Intents
+ */
 
 class IntentUtil {
     companion object {
         const val PUT_EXTRA_NOTE = "put_extra_note"
         const val PUT_EXTRA_CATEGORY = "put_extra_category"
-        const val PUT_EXTRA_RECEIVING_TEXT = "put_extra_receiving_text"
         const val PUT_EXTRA_HAS_RECEIVING_TEXT = "put_extra_has_receiving_text"
 
 
-        fun openNote(context: Context, note: Note2, notesCategory: String) {
-            val intent = Intent(context, NoteActivityUpdate::class.java)
+        fun openNote(context: Context, note: Note, notesCategory: String) {
+            val intent = Intent(context, NoteActivity::class.java)
             intent.putExtra(PUT_EXTRA_NOTE, note)
             intent.putExtra(PUT_EXTRA_CATEGORY, notesCategory)
             context.startActivity(intent)
         }
 
-        fun openNoteFromDialog(context: Context, note: Note2, notesCategory: String) {
-            val intent = Intent(context, NoteActivityUpdate::class.java)
+        fun openNoteFromDialog(context: Context, note: Note, notesCategory: String) {
+            val intent = Intent(context, NoteActivity::class.java)
             intent.putExtra(PUT_EXTRA_NOTE, note)
             intent.putExtra(PUT_EXTRA_CATEGORY, notesCategory)
             intent.putExtra(PUT_EXTRA_HAS_RECEIVING_TEXT, true)
@@ -35,13 +38,7 @@ class IntentUtil {
         }
 
         fun openSettings(context: Context) {
-            val intent = Intent(context, SettingsActivityUpdate::class.java)
-            context.startActivity(intent)
-        }
-
-        fun openListNotes(context: Context, receivingText: String) {
-            val intent = Intent(context, ReceivingDataActivity::class.java)
-            intent.putExtra(PUT_EXTRA_RECEIVING_TEXT, receivingText)
+            val intent = Intent(context, SettingsActivity::class.java)
             context.startActivity(intent)
         }
 
@@ -54,7 +51,7 @@ class IntentUtil {
                 intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback))
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                context.showToast(R.string.email_client_not_found)
+                ToastManager.show(context, ToastManager.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
             }
         }
 
@@ -66,7 +63,7 @@ class IntentUtil {
                 sendIntent.type = "text/plain"
                 context.startActivity(Intent.createChooser(sendIntent, "share"))
             } catch (exception: ActivityNotFoundException) {
-                context.showToast(R.string.sb_note_impossible_share)
+                ToastManager.show(context, ToastManager.MSG_TOAST_IMPOSSIBLE_SHARE)
             }
         }
     }

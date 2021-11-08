@@ -93,6 +93,7 @@
     <string name="sb_note_text_copied">Text copied</string>
     <string name="sb_note_hyperlinks_copied">Hyperlinks copied</string>
     <string name="sb_note_impossible_share">Error! Impossible to share!</string>
+    <string name="sb_note_text_inserted">Text inserted!</string>
 
     <!-- Settings -->
     <string name="sb_settings_file_manager_not_found">Error. File manager not found!</string>
@@ -124,10 +125,13 @@
     <string name="dg_bp_forbidden_text" translatable="false">ABCDEFGHIJKLMNOPQRSTUVWXYZ
         abcdefghijklmnopqrstuvwxyz0123456789()#№/_:.- </string>
 
+    <!-- sheet_pref_color_hex -->
+    <string name="sheet_pref_color_hex_title">Enter a hex code</string>
+
     <!-- sheet_restore -->
     <string name="sheet_list_files_title">Select file:</string>
     <string name="dg_restore_delete_all">Delete all</string>
-    <string name="dg_restore_empty">List is empty!</string>
+    <string name="dg_restore_list_empty">List is empty!</string>
 
     <!-- dialog_font_size -->
     <string name="sheet_font_size_title">Font size</string>
@@ -233,7 +237,8 @@
 
     <!-- Preference Titles -->
     <string name="reset_font_size_title">Reset font size</string>
-    <string name="seletct_color_app_title">Select color</string>
+    <string name="select_color_app_title">Select color</string>
+    <string name="select_color_app_hex_title">Set hex code</string>
     <string name="one_size_cards_title">Same cards size</string>
 
     <!-- Preference summary -->

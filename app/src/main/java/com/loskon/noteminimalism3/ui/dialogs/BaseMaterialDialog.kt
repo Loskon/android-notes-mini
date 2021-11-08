@@ -11,7 +11,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.MaterialAlertDialogBackground
-import com.loskon.noteminimalism3.auxiliary.other.MyColor
+import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setLayoutParams
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
@@ -25,10 +25,10 @@ class BaseMaterialDialog(private val context: Context) {
     private val dialogView: View = View.inflate(context, R.layout.dialog_base, null)
     private val alertDialog: AlertDialog = getAlertDialog(dialogView)
 
-    private val textTitle: TextView = dialogView.findViewById(R.id.tv_base_title)
-    private val linearLayout: LinearLayout = dialogView.findViewById(R.id.sheet_container)
-    private val btnOk: MaterialButton = dialogView.findViewById(R.id.btn_baset_ok)
-    private val btnCancel: MaterialButton = dialogView.findViewById(R.id.btn_base_cancel)
+    private val textTitle: TextView = dialogView.findViewById(R.id.tv_base_dialog_title)
+    private val linearLayout: LinearLayout = dialogView.findViewById(R.id.container_base_dialog)
+    private val btnOk: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_ok)
+    private val btnCancel: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_cancel)
 
     private fun getAlertDialog(view: View): AlertDialog {
         val alertDialog = MaterialAlertDialogBuilder(
@@ -63,7 +63,7 @@ class BaseMaterialDialog(private val context: Context) {
     }
 
     private fun setupColorViews() {
-        val color: Int = MyColor.getMyColor(context)
+        val color: Int = PrefManager.getAppColor(context)
         btnOk.setBackgroundColor(color)
         btnCancel.setTextColor(color)
     }

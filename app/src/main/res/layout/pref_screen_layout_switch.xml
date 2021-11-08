@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
-        android:id="@+id/segmentedB_buton_group"
+        android:id="@+id/segmented_buton_group"
         android:layout_width="72dp"
         android:layout_height="20dp"
         android:elevation="2dp"
@@ -21,7 +22,8 @@
         app:position="0"
         app:radius="4dp"
         app:ripple="true"
-        app:selectedBackground="@color/teal_700">
+        app:selectedBackground="@color/teal_700"
+        tools:ignore="TouchTargetSizeCheck">
 
 
         <com.addisonelliott.segmentedbutton.SegmentedButton
@@ -29,22 +31,28 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/colorSwitchBackground"
+            android:fontFamily="@font/roboto_light"
+            app:fontFamily="@font/roboto_light"
             android:padding="10dp"
             app:selectedTextColor="@color/white"
             app:text="@string/off"
             app:textColor="?attr/colorTitle"
-            app:textSize="10sp" />
+            app:textSize="10sp"
+            tools:ignore="SmallSp,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <com.addisonelliott.segmentedbutton.SegmentedButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/colorSwitchBackground"
+            android:fontFamily="@font/roboto_light"
+            app:fontFamily="@font/roboto_light"
             android:padding="5dp"
             app:selectedTextColor="@color/white"
             app:text="@string/on"
             app:textColor="?attr/colorTitle"
-            app:textSize="10sp" />
+            app:textSize="10sp"
+            tools:ignore="SmallSp,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

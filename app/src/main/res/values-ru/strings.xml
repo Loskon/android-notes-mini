@@ -70,6 +70,7 @@
     <string name="sb_note_text_copied">Текст скопирован</string>
     <string name="sb_note_hyperlinks_copied">Гипперсылка скопирована</string>
     <string name="sb_note_impossible_share">Error! Impossible to share!</string>
+    <string name="sb_note_text_inserted">Текст вставлен!</string>
 
     <!-- Settings -->
     <string name="sb_settings_file_manager_not_found">Ошибка. Файловый менеджер не найден!</string>
@@ -99,10 +100,13 @@
     <string name="sheet_backup_title">Введите название</string>
     <string name="dg_bp_error">Введите корректное название!</string>
 
+    <!-- sheet_pref_color_hex -->
+    <string name="sheet_pref_color_hex_title">Введите hex-код</string>
+
     <!-- sheet_restore -->
     <string name="sheet_list_files_title">Выберите файл:</string>
     <string name="dg_restore_delete_all">Удалить все</string>
-    <string name="dg_restore_empty">Список пуст!</string>
+    <string name="dg_restore_list_empty">Список пуст!</string>
 
     <!-- dialog_font_size -->
     <string name="sheet_font_size_title">Размер текста</string>
@@ -209,7 +213,8 @@
 
     <!-- Preference Titles -->
     <string name="reset_font_size_title">Сбросить размер текста</string>
-    <string name="seletct_color_app_title">Выбрать цвет</string>
+    <string name="select_color_app_title">Выбрать цвет</string>
+    <string name="select_color_app_hex_title">Указать hex-код</string>
     <string name="one_size_cards_title">Одинаковый размер плиток</string>
 
     <!-- Preference summary -->

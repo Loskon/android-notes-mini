@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.utils.getShortDrawable
 import com.loskon.noteminimalism3.utils.setColorStateMenuItem
 
 /**
- *
+ * Нижний лист для выбора категории заметок и открытия настроек
  */
 
 class BottomSheetCategory : BottomSheetDialogFragment() {

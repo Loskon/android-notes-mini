@@ -6,16 +6,16 @@ import android.widget.ListView
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.second.BackupFilter
-import com.loskon.noteminimalism3.backup.second.BackupPath
-import com.loskon.noteminimalism3.backup.update.DateBaseBackup
-import com.loskon.noteminimalism3.ui.activities.update.SettingsActivityUpdate
+import com.loskon.noteminimalism3.backup.BackupFilter
+import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.backup.DateBaseBackup
+import com.loskon.noteminimalism3.toast.ToastManager
+import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.listview.FilesAdapter
-import com.loskon.noteminimalism3.ui.snackbars.update.SnackbarApp
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 import com.loskon.noteminimalism3.utils.setMargins
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
-import com.loskon.noteminimalism3.utils.showToast
 import java.io.File
 
 /**
@@ -24,15 +24,15 @@ import java.io.File
 
 class SheetRestoreDateBase(private val context: Context) {
 
-    private val activity: SettingsActivityUpdate = context as SettingsActivityUpdate
+    private val activity: SettingsActivity = context as SettingsActivity
 
-    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.sheet_list_files, null)
+    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val sheetView = View.inflate(context, R.layout.sheet_list_files, null)
 
-    private val listView: ListView = view.findViewById(R.id.list_view_files)
-    private val tvEmptyList: TextView = view.findViewById(R.id.tv_restore_empty)
-    private val btnDeleteAll: MaterialButton = view.findViewById(R.id.btn_restore_delete)
-    private val btnCancel: MaterialButton = sheetDialog.buttonCancel
+    private val listView: ListView = sheetView.findViewById(R.id.list_view_files)
+    private val tvEmptyList: TextView = sheetView.findViewById(R.id.tv_restore_empty)
+    private val btnDeleteAll: MaterialButton = sheetView.findViewById(R.id.btn_restore_delete)
+    private val btnCancel: MaterialButton = dialog.buttonCancel
 
     private var adapter: FilesAdapter = FilesAdapter(this)
 
@@ -44,10 +44,10 @@ class SheetRestoreDateBase(private val context: Context) {
     }
 
     private fun configViews() {
-        sheetDialog.setInsertView(view)
-        sheetDialog.setTextTitle(R.string.sheet_list_files_title)
-        sheetDialog.setBtnOkVisibility(false)
-        sheetDialog.setTextBtnCancel(R.string.to_close)
+        dialog.setInsertView(sheetView)
+        dialog.setTextTitle(R.string.sheet_list_files_title)
+        dialog.setBtnOkVisibility(false)
+        dialog.setTextBtnCancel(R.string.to_close)
         btnCancel.setMargins(16, 0, 16, 16)
     }
 
@@ -74,10 +74,10 @@ class SheetRestoreDateBase(private val context: Context) {
     private fun installHandlers() {
         btnDeleteAll.setOnSingleClickListener {
             if (adapter.count == 0) {
-                context.showToast(R.string.dg_restore_empty)
+                ToastManager.show(context, ToastManager.MSG_TOAST_RESTORE_LIST_EMPTY)
             } else {
-                sheetDialog.dismiss()
-                SheetDeleteBackupsWarning(context, this).show()
+                dialog.dismiss()
+                SheetDeleteBackupsFiles(context, this).show()
             }
         }
     }
@@ -85,7 +85,7 @@ class SheetRestoreDateBase(private val context: Context) {
     fun deleteAll() {
         if (files != null) {
             adapter.removeAll(files)
-            activity.showSnackbar(SnackbarApp.MSG_BACKUP_FILES_DELETED)
+            activity.showSnackbar(SnackbarManager.MSG_BACKUP_FILES_DELETED)
         }
     }
 
@@ -100,17 +100,17 @@ class SheetRestoreDateBase(private val context: Context) {
     fun restoreDateBase(inFileName: String) {
         try {
             DateBaseBackup.performRestore(context, inFileName)
-            activity.showSnackbar(SnackbarApp.MSG_RESTORE_COMPLETED)
+            activity.showSnackbar(SnackbarManager.MSG_RESTORE_COMPLETED)
         } catch (exception: Exception) {
-            activity.showSnackbar(SnackbarApp.MSG_RESTORE_FAILED)
+            activity.showSnackbar(SnackbarManager.MSG_RESTORE_FAILED)
         }
 
         callback?.onRestoreNotes()
-        sheetDialog.dismiss()
+        dialog.dismiss()
     }
 
     fun show() {
-        sheetDialog.show()
+        dialog.show()
     }
 
     interface CallbackRestoreNote {

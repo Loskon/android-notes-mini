@@ -18,7 +18,8 @@
         android:gravity="center"
         android:text="@string/empty_list"
         android:textColor="?attr/colorDate"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:ignore="TextContrastCheck" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/btmAppBarReceivingData"
@@ -26,8 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_for_bottom_app_bar"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/white"
-        app:backgroundTint="@color/white"
+        android:backgroundTint="?attr/colorAppBar"
+        app:backgroundTint="?attr/colorAppBar"
         app:fabAlignmentMode="end"
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
@@ -41,9 +42,9 @@
         android:elevation="0dp"
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
-        android:visibility="gone"
         app:elevation="0dp"
         app:layout_anchor="@id/btmAppBarReceivingData"
-        app:tint="?attr/colorAppBar" />
+        app:tint="?attr/colorAppBar"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

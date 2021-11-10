@@ -45,7 +45,7 @@ class SheetRestoreDateBase(private val context: Context) {
 
     private fun configViews() {
         dialog.setInsertView(sheetView)
-        dialog.setTextTitle(R.string.sheet_list_files_title)
+        dialog.setTextTitle(R.string.sheet_restore_db_title)
         dialog.setBtnOkVisibility(false)
         dialog.setTextBtnCancel(R.string.to_close)
         btnCancel.setMargins(16, 0, 16, 16)
@@ -91,7 +91,7 @@ class SheetRestoreDateBase(private val context: Context) {
 
     fun checkEmptyFilesList() {
         if (files == null) {
-            tvEmptyList.text = context.getString(R.string.sb_bp_text_no_folder)
+            tvEmptyList.text = context.getString(R.string.sheet_restore_db_folder_not_found)
         } else {
             tvEmptyList.setVisibleView(adapter.count == 0)
         }

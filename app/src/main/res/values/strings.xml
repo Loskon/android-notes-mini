@@ -1,199 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Name my app -->
-    <string name="app_name" translatable="false">Notes Mini</string>
-    <string name="app_name_backup" translatable="false">Notes Mini Backup</string>
-
-
     <!-- Activity -->
-    <!-- activity_main -->
-    <string name="empty_list">Empty</string>
+    <!-- activity_list -->
     <string name="hint_search_text">Search</string>
 
-    <!-- activity_note -->
+    <!-- Fragment -->
+    <!-- fragment_note -->
     <string name="hint_note_text">Text</string>
-    <string name="note_deleted">Note deleted</string>
-    <string name="delete">Delete</string>
+    <!-- fragment_note_trash -->
+    <string name="delete_from_trash">Delete</string>
+    <!-- fragment_fonts -->
+    <string name="example_text_for_font" translatable="false">ABCDabcd\n12345678</string>
+    <string name="templars">The Templars are a spiritual and knightly order
+        founded in the HolyLand in 1119 by a small group of knights,
+        led by Hugh de Payens,after the First Crusade (1096-1099).</string>
 
-    <!-- activity_settings -->
-    <string name="feedback">Feedback</string>
-
-    <!-- activity_settings_app -->
+    <!-- Preferences Fragment -->
+    <!-- preferences_app -->
     <string name="title_card_view">Hello, Word!</string>
     <string name="date_card_view">01/21/96 12:00 AM</string>
 
-    <!-- activity_widget_configure -->
-    <string name="select_note">Select a note:</string>
-
-    <!-- activity_fonts -->
-    <string name="default_font" translatable="false">Default</string>
-    <string name="lato_light_font" translatable="false">Lato</string>
-    <string name="open_sans_light_font" translatable="false">Open Sans</string>
-    <string name="oswald_light_font" translatable="false">Oswald</string>
-    <string name="source_sans_pro_light_font" translatable="false">Source Sans Pro</string>
-    <string name="montserrat_light_font" translatable="false">Montserrat</string>
-    <string name="roboto_condensed_light_font" translatable="false">Roboto Condensed</string>
-    <string name="poppins_light_font" translatable="false">Poppins</string>
-    <string name="ubuntu_light_font" translatable="false">Ubuntu</string>
-    <string name="dosis_light_font" translatable="false">Dosis</string>
-    <string name="titillium_web_light_font" translatable="false">Titillium Web</string>
-    <string name="ibm_plex_serif_light_font" translatable="false">IBM Plex Serif</string>
-    <string name="karla_light_font" translatable="false">Karla</string>
-    <string name="marmelad_regular_font" translatable="false">Marmelad</string>
-    <string name="nunito_light_font" translatable="false">Nunito</string>
-    <string name="alice_regular_font" translatable="false">Alice</string>
-
+    <!-- Intent -->
+    <!-- intent ACTION_SENDTO  -->
+    <string name="feedback_by_email">Feedback</string>
 
     <!-- Menu -->
-    <!-- menu for bottom app bar Main -->
-    <string name="menu_main_switch">Switch view</string>
-    <string name="menu_main_search">Search go</string>
-    <string name="menu_main_select">Select notes</string>
-    <string name="menu_main_combine">Combine notes</string>
-
-    <!-- menu for nav drawer view -->
-    <string name="navigation_note">Note</string>
-    <string name="navigation_favorites">Favorites</string>
-    <string name="navigation_trash">Trash</string>
-    <string name="navigation_settings">Settings</string>
-
-    <!-- menu for bottom app bar Backup -->
-    <string name="menu_backup_settings">Settings account</string>
-
-    <!-- menu for bottom app bar Backup -->
-    <string name="menu_fonts_select_font">Select a font</string>
-
+    <!-- menu_bottom_bar_data_account -->
+    <string name="menu_backup_data">Settings account</string>
+    <!-- menu_bottom_bar_list -->
+    <string name="menu_list_switch">Switch view</string>
+    <string name="menu_list_search">Search go</string>
+    <string name="menu_list_select">Select notes</string>
+    <string name="menu_list_combine">Combine notes</string>
+    <!-- menu_navigation_view -->
+    <string name="menu_navigation_note">Note</string>
+    <string name="menu_navigation_favorites">Favorites</string>
+    <string name="menu_navigation_trash">Trash</string>
+    <string name="menu_navigation_settings">Settings</string>
 
     <!-- Toast -->
-    <!-- Main -->
-    <string name="toast_main_auto_backup_completed">Auto backup completed!</string>
-    <string name="toast_main_auto_backup_failed">Auto backup error!</string>
-    <string name="toast_main_auto_backup_not_possible">
-        Auto backup is not possible! No permission</string>
-    <string name="toast_main_auto_backup_unable_create">Error! Unable to create a file!</string>
+    <!-- activity_list -->
+    <string name="toast_auto_bp_completed">Auto backup completed!</string>
+    <string name="toast_auto_bp_failed">Auto backup error!</string>
+    <string name="toast_auto_bp_not_possible">Auto backup is not possible! No permission!</string>
+    <string name="toast_auto_bp_unable_create">Error! Unable to create a backup file!</string>
+    <!-- intent ACTION_OPEN_DOCUMENT_TREE -->
+    <string name="toast_file_manager_not_found">Error. File manager not found!</string>
+    <!-- sheet_list_files -->
+    <string name="toast_restore_list_empty">List is empty!</string>
+    <!-- intent ACTION_SENDTO  -->
+    <string name="toast_email_client_not_found">Email client not found!</string>
+    <!-- intent ACTION_SEND  -->
+    <string name="toast_impossible_share_note">Error! Impossible to share!</string>
 
     <!-- Snackbars -->
-    <!-- Main -->
-    <string name="sb_main_deleted">Note deleted!</string>
-    <string name="sb_main_add_trash">Note added to trash!</string>
-    <string name="sb_main_but_empty_trash">But it was empty…</string>
-    <string name="sb_main_restored">Note restored!</string>
-    <string name="sb_main_combined_note_added">Combined note added!</string>
-    <string name="sb_main_error_combining_notes">Error combining notes!</string>
-
-    <!-- Note -->
-    <string name="sb_note_in_trash">The note is in the trash!</string>
+    <!-- activity_list -->
+    <string name="sb_note_restored">Note restored!</string>
+    <string name="sb_combined_note_added">Combined note added!</string>
+    <string name="sb_error_combining_notes">Error combining notes!</string>
+    <string name="sb_but_empty_trash">But it was empty…</string>
+    <!-- fragment_note -->
     <string name="sb_note_is_empty">Error! The note is empty!</string>
-    <string name="sb_note_restore">Restore</string>
-    <string name="sb_note_save_txt_completed">Save text file: /Notes Mini Backup/Text Files </string>
-    <string name="sb_note_save_txt_failed">Failed to save text file!</string>
+    <string name="sb_note_create_text_files_completed">Save text file:
+        /Notes Mini Backup/Text Files </string>
+    <string name="sb_note_create_text_file_failed">Failed to save text file!</string>
     <string name="sb_note_invalid_link">Invalid link!</string>
     <string name="sb_note_need_copy_text">You need to copy text!</string>
     <string name="sb_note_invalid_format">Invalid format!</string>
-    <string name="sb_note_text_copied">Text copied</string>
+    <string name="sb_note_text_copied">Text copied!</string>
     <string name="sb_note_hyperlinks_copied">Hyperlinks copied</string>
-    <string name="sb_note_impossible_share">Error! Impossible to share!</string>
+    <string name="sb_unable_create_text_file">Error! Unable to create a text file!</string>
+    <!-- snackbar_undo -->
+    <string name="sb_undo_note_deleted">Note deleted!</string>
+    <string name="sb_undo_note_add_trash">Note added to trash!</string>
+    <!-- snackbar_note_restore -->
+    <string name="sb_note_restore_in_trash">The note is in the trash!</string>
+    <string name="sb_note_restore_action">Restore</string>
     <string name="sb_note_text_inserted">Text inserted!</string>
-
-    <!-- Settings -->
-    <string name="sb_settings_file_manager_not_found">Error. File manager not found!</string>
+    <!-- fragment_settings -->
     <string name="sb_settings_unable_select_folder">Unable to select folder!</string>
-
-
-    <!-- Backup -->
+    <string name="sb_bp_you_can_local_storage">You can select a folder only in the phone\'s
+        local storage!</string>
+    <!-- fragment_backup -->
     <string name="sb_bp_text_error">Error. Retry!</string>
-    <string name="sb_bp_text_no_folder">Notes Mini Backup folder was not found!</string>
     <string name="sb_bp_completed">Backup completed!</string>
     <string name="sb_bp_failed">Unable to backup database. Retry!</string>
     <string name="sb_bp_restore_completed">Restore completed!</string>
     <string name="sb_bp_restore_failed">Unable to restore. Retry!</string>
+    <string name="sb_bp_backup_files_deleted">Backup files have been deleted!</string>
+    <string name="sb_bp_sign_in_failed">Sign in failed</string>
     <string name="sb_bp_logged_account">You are logged out of account</string>
     <string name="sb_bp_no_internet">No internet connection</string>
-    <string name="sb_bp_sign_in_failed">Sign in failed</string>
-    <string name="sb_bp_del_acc">Data deleted from the cloud!</string>
-    <string name="sb_bp_problem_internet">Problems with the internet connection!</string>
-    <string name="sb_bp_backup_files_deleted">Backup files have been deleted!</string>
+    <string name="sb_bp_delete_data_from_cloud">Data deleted from the cloud!</string>
     <string name="sb_bp_backup_not_found">Backup file was not found. Maybe it
         hasn\'t been uploaded yet!</string>
-    <string name="sb_bp_you_can_local_storage">You can select a folder only in the phone\'s
-        local storage!</string>
+    <string name="sb_bp_problem_internet">Problems with the internet connection!</string>
 
-    <!-- Dialog -->
-    <!-- dialog_backup -->
+    <!-- Sheet -->
+    <!-- sheet_backup -->
     <string name="sheet_backup_title">Enter a name</string>
-    <string name="dg_bp_error">Enter the correct name!</string>
-    <string name="dg_bp_forbidden_text" translatable="false">ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        abcdefghijklmnopqrstuvwxyz0123456789()#№/_:.- </string>
-
+    <string name="sheet_backup_incorrect_name">Enter the correct name!</string>
+    <!-- sheet_restore_date_base -->
+    <string name="sheet_restore_db_title">Select file:</string>
+    <string name="sheet_restore_db_delete_all_backups">Delete all</string>
+    <string name="sheet_restore_db_folder_not_found">Notes Mini Backup folder was not found!</string>
     <!-- sheet_pref_color_hex -->
     <string name="sheet_pref_color_hex_title">Enter a hex code</string>
-
-    <!-- sheet_restore -->
-    <string name="sheet_list_files_title">Select file:</string>
-    <string name="dg_restore_delete_all">Delete all</string>
-    <string name="dg_restore_list_empty">List is empty!</string>
-
-    <!-- dialog_font_size -->
+    <!-- sheet_font_size -->
     <string name="sheet_font_size_title">Font size</string>
-    <string name="dg_font_size_reset">Reset</string>
-
-    <!-- dialog_pref_links -->
+    <string name="sheet_font_size_reset">Reset</string>
+    <!-- sheet_pref_links -->
     <string name="sheet_pref_links_title">Type of hyperlink</string>
-    <string name="dg_pref_links_web_url">Web URL</string>
-    <string name="dg_pref_links_email">Email</string>
-    <string name="dg_pref_links_phone_number">Phone Number</string>
-
-    <!-- dialog_trash -->
-    <string name="dg_trash_title">Empty trash?</string>
-
-    <!-- dialog_delete_forever -->
-    <string name="dg_delete_forever_title">Delete selected notes\n definitively?</string>
-
-    <!-- dialog_unification -->
-    <string name="dg_unification_title">Unification this notes?</string>
-
-    <!-- dialog_open_link -->
-    <string name="dg_open_link_open">Open</string>
-    <string name="dg_open_link_call">Call</string>
-    <string name="dg_open_link_send">Send</string>
-    <string name="dg_open_link_invalid">Invalid link</string>
-    <string name="dg_open_link_copy">Copy</string>
-
-    <!-- dialog_account -->
-    <string name="dg_data_title">Account management</string>
-    <string name="dg_data_delete">Delete all data</string>
-    <string name="dg_data_logout">Logout</string>
-    <string name="dg_account_warning">Warning! You will delete your data from the cloud
+    <string name="sheet_pref_links_web_url">Web URL</string>
+    <string name="sheet_pref_links_email">Email</string>
+    <string name="sheet_pref_links_phone_number">Phone Number</string>
+    <!-- sheet_google_account -->
+    <string name="sheet_account_title">Account management</string>
+    <string name="sheet_account_data_delete">Delete all data</string>
+    <string name="sheet_account_logout">Logout</string>
+    <!-- sheet_delete_account_warning -->
+    <string name="sheet_account_warning">Warning! You will delete your data from the cloud
         and will not be able to restore it. Continue?</string>
-
-    <!-- dialog_confirm -->
+    <!-- sheet_confirm -->
     <string name="sheet_confirm_action">Confirm action</string>
-
-    <!-- bottom_sheet_dialog -->
+    <!-- sheet_custom_note -->
     <string name="bs_last_modified">Last modified: %1$s</string>
     <string name="bs_paste_text">Paste text</string>
     <string name="bs_copy_text">Copy text note</string>
     <string name="bs_share">Share</string>
     <string name="bs_download">Download</string>
     <string name="to_close">To close</string>
+    <!-- sheet_pref_sorting -->
+    <string name="sheet_pref_sorting_title">Sort</string>
+    <string name="sheet_pref_sorting_time_creation">By time of creation</string>
+    <string name="sheet_pref_sorting_time_modification">By time of modification</string>
+    <!-- sheet_delete_warnings -->
+    <string name="sheet_delete_warnings">Confirm deletion?</string>
+    <!-- sheet_about_app -->
+    <string name="sheet_about_app_development">Development and support: Loskon</string>
+    <string name="sheet_about_version">Application version: %1$s</string>
 
-    <!-- dialog_pref_sorting -->
-    <string name="dg_sorting_title">Sort</string>
-    <string name="dg_sorting_time_creation">By time of creation</string>
-    <string name="dg_sorting_time_modification">By time of modification</string>
-    <string name="dg_sorting_alphabetical">By alphabetical order</string>
-
-    <!-- dialog_type_fonts -->
-    <string name="dg_type_font_title">Select this font?</string>
-
+    <!-- Dialog -->
+    <!-- dialog_trash -->
+    <string name="dg_trash_title">Empty trash?</string>
+    <!-- dialog_delete_forever -->
+    <string name="dg_delete_forever_title">Delete selected notes\n definitively?</string>
+    <!-- dialog_unification -->
+    <string name="dg_unification_title">Unification this notes?</string>
+    <!-- dialog_open_link -->
+    <string name="dg_open_link_open">Open</string>
+    <string name="dg_open_link_call">Call</string>
+    <string name="dg_open_link_send">Send</string>
+    <string name="dg_open_link_invalid">Invalid link</string>
+    <string name="dg_open_link_copy">Copy</string>
     <!-- dialog_warning -->
     <string name="dg_warning_title">Warning!</string>
     <string name="dg_warning_attention">Attention! The selected
         font may not support your language or some characters!</string>
-
-    <!-- dialog_delete_all_warnings -->
-    <string name="dg_delete_warnings">Confirm deletion?</string>
-
+    <!-- dialog_receiving_data -->
     <string name="dg_add_new_note">Add new note</string>
     <string name="dg_add_to_created_note">Add to created note</string>
 
@@ -220,6 +184,7 @@
     <string name="hyperlinks_title">Hyperlinks</string>
     <string name="retention_trash_title">Retention time of notes in trash</string>
     <string name="communication_title">Communication with developer</string>
+    <string name="about_app_title">About application</string>
 
     <!-- Preference summary -->
     <string name="auto_backup_summary">When creating several new notes</string>
@@ -245,26 +210,39 @@
     <string name="one_size_cards_summary">For multi-cards mode</string>
 
     <!-- Other -->
-    <string name="email_client_not_found">Email client not found!</string>
+    <!-- Name my app -->
+    <string name="app_name" translatable="false">Notes Mini</string>
+    <string name="app_name_backup" translatable="false">Notes Mini Backup</string>
+
+    <!-- other -->
+    <string name="empty_list">Empty</string>
     <string name="no_permissions">No permissions!</string>
     <string name="unknown_error">Unknown error!</string>
-    <string name="bad_idea">It is a bad idea :)</string>
     <string name="confirm">Confirm</string>
     <string name="continue_action">Continue</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <!-- other (no translatable) -->
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="my_email" translatable="false">andreyrochev23@gmail.com</string>
-    <string name="example_text" translatable="false">A B C D E F G H I J K L M N O
-        P Q R S T U V W X Y Z
-        \n\n
-        a b c d e f g h i j k l m n o p q r s t u v w x y z
-        \n\n
-        1 2 3 4 5 6 7 8 9 0</string>
 
-    <string name="example_text_for_font" translatable="false">ABCDabcd\n12345678</string>
-    <string name="templars">The Templars are a spiritual and knightly order
-        founded in the HolyLand in 1119 by a small group of knights,
-        led by Hugh de Payens,after the First Crusade (1096-1099).</string>
+    <!-- Fonts -->
+    <string name="default_font" translatable="false">Default</string>
+    <string name="lato_light_font" translatable="false">Lato</string>
+    <string name="open_sans_light_font" translatable="false">Open Sans</string>
+    <string name="oswald_light_font" translatable="false">Oswald</string>
+    <string name="source_sans_pro_light_font" translatable="false">Source Sans Pro</string>
+    <string name="montserrat_light_font" translatable="false">Montserrat</string>
+    <string name="roboto_condensed_light_font" translatable="false">Roboto Condensed</string>
+    <string name="poppins_light_font" translatable="false">Poppins</string>
+    <string name="ubuntu_light_font" translatable="false">Ubuntu</string>
+    <string name="dosis_light_font" translatable="false">Dosis</string>
+    <string name="titillium_web_light_font" translatable="false">Titillium Web</string>
+    <string name="ibm_plex_serif_light_font" translatable="false">IBM Plex Serif</string>
+    <string name="karla_light_font" translatable="false">Karla</string>
+    <string name="marmelad_regular_font" translatable="false">Marmelad</string>
+    <string name="nunito_light_font" translatable="false">Nunito</string>
+    <string name="alice_regular_font" translatable="false">Alice</string>
 </resources>

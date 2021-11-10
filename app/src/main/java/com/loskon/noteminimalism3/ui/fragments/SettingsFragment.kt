@@ -62,6 +62,7 @@ class SettingsFragment :
     // Other
     private var retentionKey: String = ""
     private var communicationKey: String = ""
+    private var aboutAppKey: String = ""
 
     // Preferences and SwitchPreferences
     // Appearance settings
@@ -84,6 +85,7 @@ class SettingsFragment :
     // Other
     private var retention: Preference? = null
     private var communication: Preference? = null
+    private var aboutApp: Preference? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -140,6 +142,7 @@ class SettingsFragment :
         // Other
         retentionKey = getString(R.string.retention_trash_title)
         communicationKey = getString(R.string.communication_title)
+        aboutAppKey = getString(R.string.about_app_title)
     }
 
     private fun findPreferences() {
@@ -160,6 +163,7 @@ class SettingsFragment :
         // Other
         retention = findPreference(retentionKey)
         communication = findPreference(communicationKey)
+        aboutApp = findPreference(aboutAppKey)
     }
 
     private fun installPreferencesListener() {
@@ -179,6 +183,7 @@ class SettingsFragment :
         // Other
         retention?.onPreferenceClickListener = this
         communication?.onPreferenceClickListener = this
+        aboutApp?.onPreferenceClickListener = this
     }
 
     override fun onResume() {
@@ -273,6 +278,11 @@ class SettingsFragment :
 
                 communicationKey -> {
                     IntentUtil.launcherEmailClient(this)
+                    return true
+                }
+
+                aboutAppKey -> {
+                    SheetPrefAboutApp(activity).show()
                     return true
                 }
 

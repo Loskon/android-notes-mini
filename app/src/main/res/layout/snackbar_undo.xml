@@ -46,7 +46,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="HardcodedText,RtlSymmetry" />
     </RelativeLayout>
 
     <TextView
@@ -61,7 +61,7 @@
         android:paddingTop="@dimen/design_snackbar_padding_vertical"
         android:paddingRight="@dimen/design_snackbar_padding_horizontal"
         android:paddingBottom="@dimen/design_snackbar_padding_vertical"
-        android:text="@string/sb_main_add_trash"
+        android:text="@string/sb_undo_note_add_trash"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
         android:textColor="@android:color/white" />
@@ -75,8 +75,10 @@
         android:fontFamily="@font/roboto_light"
         android:minWidth="48dp"
         android:text="@android:string/cancel"
+        android:textColor="@android:color/white"
         android:visibility="visible"
-        app:rippleColor="?attr/colorControlHighlight" />
+        app:rippleColor="?attr/colorControlHighlight"
+        tools:ignore="TextContrastCheck" />
 
 </LinearLayout>
 

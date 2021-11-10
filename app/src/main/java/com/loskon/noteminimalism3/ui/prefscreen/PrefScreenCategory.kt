@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.ui.prefscreen
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.widget.TextView
 import androidx.preference.PreferenceCategory
@@ -9,7 +10,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 
 /**
- * Позволяет установить свой цвет заголовка
+ * Позволяет изменить настройки заголовка
  */
 
 class PrefScreenCategory @JvmOverloads constructor(
@@ -23,5 +24,6 @@ class PrefScreenCategory @JvmOverloads constructor(
         super.onBindViewHolder(holder)
         val title: TextView = holder.findViewById(android.R.id.title) as TextView
         title.setTextColor(PrefManager.getAppColor(context))
+        title.typeface = Typeface.DEFAULT_BOLD
     }
 }

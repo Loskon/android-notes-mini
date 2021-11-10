@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_weight="1"
-        android:text="@string/dg_restore_delete_all"
+        android:text="@string/sheet_restore_db_delete_all_backups"
         android:textColor="?attr/colorDeleteIconRestore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         app:rippleColor="?attr/colorControlHighlight" />
 
     <LinearLayout
-        android:id="@+id/linLytRestore"
+        android:id="@+id/lin_layout_restore"
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:layout_marginTop="8dp"
@@ -51,7 +51,7 @@
         android:layout_margin="8dp"
         android:gravity="center"
         android:text="@string/empty_list"
-        app:layout_constraintBottom_toBottomOf="@+id/linLytRestore"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_layout_restore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_restore_delete" />

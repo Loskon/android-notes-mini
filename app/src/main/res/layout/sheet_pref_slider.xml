@@ -20,7 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:thumbRadius="@dimen/slider_thumb_radius"
-        app:tickVisible="false">
+        app:tickVisible="false"
+        tools:ignore="SpeakableTextPresentCheck">
 
     </com.google.android.material.slider.Slider>
 

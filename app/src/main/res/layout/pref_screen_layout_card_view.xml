@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/row_note_for_receiving_data"
+        layout="@layout/row_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -21,6 +21,7 @@
         android:id="@+id/tv_category_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
         android:paddingStart="@dimen/padding_for_title_pref"
         android:paddingTop="16dp"
         android:paddingEnd="@dimen/padding_for_title_pref"

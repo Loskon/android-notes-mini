@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,14 +18,14 @@
             android:id="@+id/rb_sort_creation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/dg_sorting_time_creation"
+            android:text="@string/sheet_pref_sorting_time_creation"
             android:textColor="?attr/colorTitle" />
 
         <RadioButton
             android:id="@+id/rb_sort_modification"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/dg_sorting_time_modification"
+            android:text="@string/sheet_pref_sorting_time_modification"
             android:textColor="?attr/colorTitle" />
 
     </RadioGroup>

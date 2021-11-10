@@ -2,7 +2,6 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nestedScrollViewSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorAppBar"
@@ -32,7 +31,7 @@
             android:paddingBottom="2dp"
             android:text="TextView"
             android:textColor="@color/color_text_date_mod"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sheet_paste"
@@ -63,7 +62,8 @@
             style="@style/ButtonFlat"
             android:layout_width="match_parent"
             android:text="@string/to_close"
-            android:textColor="@color/color_text_date_mod" />
+            android:textColor="@color/color_text_date_mod"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

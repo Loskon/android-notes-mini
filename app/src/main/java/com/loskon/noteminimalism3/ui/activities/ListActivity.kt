@@ -111,14 +111,14 @@ class ListActivity : BaseActivity(),
     }
 
     private fun initViews() {
-        coordLayout = findViewById(R.id.coord_layout_main)
+        coordLayout = findViewById(R.id.coord_layout_list)
         searchView = findViewById(R.id.search_view)
         recyclerView = findViewById(R.id.recycler_view_notes)
-        tvEmptyList = findViewById(R.id.tv_empty_list_up)
-        fab = findViewById(R.id.fab_main)
+        tvEmptyList = findViewById(R.id.tv_empty_list)
+        fab = findViewById(R.id.fab_list)
         cardView = findViewById(R.id.card_view_main)
         tvSelectedItemsCount = findViewById(R.id.tv_selected_items_count)
-        bottomBar = findViewById(R.id.bottom_bar_main)
+        bottomBar = findViewById(R.id.bottom_bar_list)
     }
 
     private fun installCallbacks() {

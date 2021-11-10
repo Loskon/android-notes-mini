@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cstLayoutB"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/linLytSd"
+        android:id="@+id/lin_layout_sd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linLytCloud"
+        app:layout_constraintBottom_toTopOf="@+id/lin_layout_cloud"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,11 +26,11 @@
             android:layout_weight="1"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:onClick="onClickBtnSd"
             app:icon="@drawable/round_drive_folder_upload_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
+            app:iconTint="?attr/colorAppBar"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_restore_sd"
@@ -41,15 +41,15 @@
             android:layout_weight="1"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:onClick="onClickBtnSd"
             app:icon="@drawable/round_download_for_offline_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
+            app:iconTint="?attr/colorAppBar"
+            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linLytCloud"
+        android:id="@+id/lin_layout_cloud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linLytSd">
+        app:layout_constraintTop_toBottomOf="@+id/lin_layout_sd">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_cloud"
@@ -68,11 +68,11 @@
             android:layout_weight="1"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:onClick="onClickBtnDrive"
             app:icon="@drawable/baseline_cloud_upload_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
+            app:iconTint="?attr/colorAppBar"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_restore_cloud"
@@ -83,11 +83,11 @@
             android:layout_weight="1"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:onClick="onClickBtnDrive"
             app:icon="@drawable/baseline_cloud_download_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar" />
+            app:iconTint="?attr/colorAppBar"
+            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

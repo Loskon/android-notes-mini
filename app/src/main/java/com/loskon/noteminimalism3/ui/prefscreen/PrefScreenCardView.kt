@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.ui.prefscreen
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
@@ -50,10 +51,10 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun initView(holder: PreferenceViewHolder) {
-        viewFavorite = holder.findViewById(R.id.view_favorite2)
+        viewFavorite = holder.findViewById(R.id.view_favorite)
         titleCategory = holder.findViewById(R.id.tv_category_title) as TextView
-        tvFontSize = holder.findViewById(R.id.tv_card_note_title2) as TextView
-        tvDateFontSize = holder.findViewById(R.id.tv_card_note_date2) as TextView
+        tvFontSize = holder.findViewById(R.id.tv_card_note_title) as TextView
+        tvDateFontSize = holder.findViewById(R.id.tv_card_note_date) as TextView
         slider = holder.findViewById(R.id.slider_font_size_card_note) as Slider
     }
 
@@ -67,13 +68,11 @@ class PrefScreenCardView @JvmOverloads constructor(
 
     private fun configureViews() {
         fontSizeTitle = PrefManager.getFontSize(context)
-
         tvFontSize.text = context.getString(R.string.title_card_view)
         tvDateFontSize.text = context.getString(R.string.date_card_view)
-
         setTextSizes(fontSizeTitle, getValueDateFontSize())
-
         slider.value = fontSizeTitle.toFloat()
+        titleCategory.typeface = Typeface.DEFAULT_BOLD
     }
 
     private fun setTextSizes(fontSizeTitle: Int, fontSizeDate: Int) {

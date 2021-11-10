@@ -2,18 +2,18 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coord_layout_main"
+    android:id="@+id/coord_layout_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activities.ListActivity">
 
     <include
         layout="@layout/inc_list_notes"
-        app:layout_anchor="@+id/tv_empty_list_up"
+        app:layout_anchor="@+id/tv_empty_list"
         app:layout_anchorGravity="center" />
 
     <TextView
-        android:id="@+id/tv_empty_list_up"
+        android:id="@+id/tv_empty_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -24,7 +24,7 @@
         android:visibility="gone" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_bar_main"
+        android:id="@+id/bottom_bar_list"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_for_bottom_app_bar"
@@ -39,37 +39,15 @@
         app:navigationIcon="@drawable/baseline_menu_black_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_main"
+        android:id="@+id/fab_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="0dp"
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
         app:elevation="0dp"
-        app:layout_anchor="@id/bottom_bar_main"
-        app:tint="?attr/colorAppBar" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="54dp"
-        android:visibility="gone"
-        app:cardCornerRadius="6dp">
-
-        <TextView
-            android:id="@+id/tv_selected_items_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="6"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-    </androidx.cardview.widget.CardView>
+        app:layout_anchor="@id/bottom_bar_list"
+        app:tint="?attr/colorAppBar"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

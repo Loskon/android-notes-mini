@@ -7,13 +7,13 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_data_warning"
+        android:id="@+id/tv_data_account_warning"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:animateLayoutChanges="true"
         android:gravity="center"
-        android:text="@string/dg_account_warning"
+        android:text="@string/sheet_account_warning"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +31,10 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_data_no"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_data_warning"
+        app:layout_constraintTop_toBottomOf="@+id/tv_data_account_warning"
         app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/darker_gray" />
+        app:strokeColor="@android:color/darker_gray"
+        tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/btn_data_no"
@@ -46,6 +47,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_data_yes"
-        app:layout_constraintTop_toBottomOf="@+id/tv_data_warning" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_data_account_warning" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

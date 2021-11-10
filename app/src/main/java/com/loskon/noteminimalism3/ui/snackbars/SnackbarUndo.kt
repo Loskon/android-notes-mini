@@ -69,16 +69,15 @@ class SnackbarUndo(
     }
 
     private fun configViews() {
-        btnSnackbar.setTextColor(activity.getColor())
         progressBar.progress = 0
         progressBar.max = 10000
         tvTitle.text = activity.getString(getMessage())
     }
 
     private fun getMessage(): Int = if (notesCategory == CATEGORY_TRASH) {
-        R.string.sb_main_deleted
+        R.string.sb_undo_note_deleted
     } else {
-        R.string.sb_main_add_trash
+        R.string.sb_undo_note_add_trash
     }
 
     private fun clickingSnackbarButton(note: Note, isFavorite: Boolean) {

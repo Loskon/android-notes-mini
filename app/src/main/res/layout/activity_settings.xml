@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cstLytSettings"
+    android:id="@+id/const_layout_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activities.SettingsActivity">
 
     <FrameLayout
-        android:id="@+id/fragment_settings"
+        android:id="@+id/fragment_container_settings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:animateLayoutChanges="true"
@@ -23,12 +23,12 @@
         layout="@layout/inc_shadow_imitation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/coordLytSettings"
+        app:layout_constraintBottom_toTopOf="@+id/coord_layout_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordLytSettings"
+        android:id="@+id/coord_layout_settings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,12 +36,12 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/btmAppBarSettings"
+            android:id="@+id/bottom_bar_settings"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_for_bottom_app_bar"
             android:layout_gravity="bottom"
-            app:menu="@menu/menu_bottom_bar_backup"
+            app:menu="@menu/menu_bottom_bar_data_account"
             android:backgroundTint="?attr/colorAppBar"
             app:backgroundTint="?attr/colorAppBar"
             app:elevation="4dp"

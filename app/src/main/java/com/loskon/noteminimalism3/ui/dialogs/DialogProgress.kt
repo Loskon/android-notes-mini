@@ -17,7 +17,7 @@ class DialogProgress(private val context: Context) {
     private val dialogView = View.inflate(context, R.layout.dialog_progress, null)
 
     private val indicator: CircularProgressIndicator =
-        dialogView.findViewById(R.id.circularProgressIndicator)
+        dialogView.findViewById(R.id.circular_progress_indicator)
 
     fun show() {
         configViews()

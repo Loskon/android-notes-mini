@@ -7,25 +7,25 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/btn_data_logout"
+        android:id="@+id/btn_data_account_logout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/dg_data_logout"
+        android:text="@string/sheet_account_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_data_delete"
+        android:id="@+id/btn_data_account_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:animateLayoutChanges="true"
-        android:text="@string/dg_data_delete"
+        android:text="@string/sheet_account_data_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_data_logout" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_data_account_logout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

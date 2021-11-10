@@ -51,9 +51,9 @@ class ReceivingDataActivity : BaseActivity(), NotesSelectedListAdapter.CallbackS
     }
 
     private fun initViews() {
-        recyclerView = findViewById(R.id.listViewNotes)
+        recyclerView = findViewById(R.id.recycler_view_note_reciving)
         tvEmpty = findViewById(R.id.tv_empty_list_receiving_data)
-        fab = findViewById(R.id.fabReceivingData2)
+        fab = findViewById(R.id.fabReceivingData)
         bottomBar = findViewById(R.id.btmAppBarReceivingData)
     }
 

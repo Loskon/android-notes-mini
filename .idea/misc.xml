@@ -3,21 +3,52 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_add_box_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_brightness_1_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_check_box_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_check_box_outline_blank_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_close_18.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_cloud_download_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_dashboard_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_done_outline_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_folder_open_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_menu_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_more_horiz_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_navigate_before_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_notes_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_stop_circle_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_view_agenda_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/baseline_view_module_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/bg_round_search.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/circle.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/circular_app_icon.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/custom_progress_drawable.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/outline_check_circle_outline_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/outline_dashboard_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/outline_save_24.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/outline_view_agenda_24.xml" value="0.10833333333333334" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/radio_burron_icon.xml" value="0.13148148148148148" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/round_download_for_offline_20.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/round_drive_folder_upload_20.xml" value="0.10833333333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/shape.xml" value="0.10833333333333334" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/sheet_round_corner.xml" value="0.1537037037037037" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/snackbar_background.xml" value="0.14814814814814814" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/drawable/view_round_corner.xml" value="0.10833333333333334" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_backup.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_fonts.xml" value="0.264" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_note.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_receiving_data.xml" value="0.264" />
-        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_settings.xml" value="0.13020833333333334" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_settings.xml" value="0.2" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_settings_update.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/activity_widget_configure.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/custom_pref_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/dialog_base.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/dialog_open_link.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/dialog_progress.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/dialog_receiving_data.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/dialog_warning.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/fonts_fragment.xml" value="0.25025641025641027" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/fragment_backup.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/fragment_bottomsheet.xml" value="0.1375" />
@@ -31,30 +62,47 @@
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_list_notes.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_list_notes_for_receiving_data.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_list_widget.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_note_scroll.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_note_scroll_update.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/inc_shadow_imitation.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/item_file.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/item_note.xml" value="0.264" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/item_note_old.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/note.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/note_trash.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/note_trash_update.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/note_update.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/pref_item_card_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/pref_screen_layout_about_app.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/pref_screen_layout_card_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/pref_screen_layout_number_lines.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/pref_screen_layout_switch.xml" value="0.6" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/pref_screen_number_lines.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/pref_screen_widget_color.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/row_file.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/row_fonts.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/row_note.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/row_note2.xml" value="0.4" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/row_note_for_receiving_data.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_backup.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_custom_note.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_data_account.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_data_account_delete_warning.xml" value="0.536" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_data_account_update.xml" value="0.2" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_delete_account_warning.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_google_account.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_list_files.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_note_font_size.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_pref_color_hex.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_pref_color_picker.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_pref_links.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_pref_note_font_size.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_pref_slider.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/sheet_pref_sorting.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/snackbar_note_reset.xml" value="0.2388888888888889" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/snackbar_reset.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/snackbar_swipe.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/layout/snackbar_undo.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/menu/menu_for_bar_backup.xml" value="0.25416666666666665" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/xml/preferences.xml" value="0.264" />
         <entry key="..\:/Android/AndroidProjects/MyProject/Java/noteminimalism3/app/src/main/res/xml/preferences_app.xml" value="0.2" />

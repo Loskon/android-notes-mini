@@ -22,7 +22,7 @@ class NotesListViewHolder(private val binding: RowNoteBinding) :
     // Getters
     val linearLayout: LinearLayout
         get() {
-            return binding.linearLayoutList
+            return binding.linearLayoutRowNote
         }
 
     val title: TextView

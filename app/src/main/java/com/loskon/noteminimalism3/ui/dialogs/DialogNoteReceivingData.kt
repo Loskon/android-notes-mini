@@ -18,7 +18,7 @@ class DialogNoteReceivingData(context: Context) :
     private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
     private val dialogView = View.inflate(context, R.layout.dialog_receiving_data, null)
 
-    private val btnOpen: Button = dialogView.findViewById(R.id.btn_add_new_note)
+    private val btnOpen: Button = dialogView.findViewById(R.id.btn_add_in_new_note)
     private val btnCopy: Button = dialogView.findViewById(R.id.btn_update_old_note)
 
     init {
@@ -39,7 +39,7 @@ class DialogNoteReceivingData(context: Context) :
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_add_new_note -> {
+            R.id.btn_add_in_new_note -> {
                 dialog.dismiss()
                 activity.addNewNote()
             }

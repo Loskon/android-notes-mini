@@ -37,8 +37,8 @@ class SettingsActivity : BaseActivity(),
     }
 
     private fun initViews() {
-        coordLayout = findViewById(R.id.cstLytSettings)
-        bottomAppBar = findViewById(R.id.btmAppBarSettings)
+        coordLayout = findViewById(R.id.const_layout_settings)
+        bottomAppBar = findViewById(R.id.bottom_bar_settings)
     }
 
     private fun establishColorViews() {
@@ -51,7 +51,7 @@ class SettingsActivity : BaseActivity(),
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_settings, SettingsFragment())
+                .replace(R.id.fragment_container_settings, SettingsFragment())
                 .commit()
         }
     }
@@ -68,7 +68,7 @@ class SettingsActivity : BaseActivity(),
     fun replaceFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_settings, fragment)
+            .replace(R.id.fragment_container_settings, fragment)
             .addToBackStack(null)
             .commit()
     }

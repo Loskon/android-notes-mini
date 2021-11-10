@@ -1,61 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnFavNote"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:id="@+id/btn_fav_note"
+        style="@style/ButtonIcon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:onClick="favoritesNoteClick"
+        android:layout_marginStart="16dp"
         app:icon="@drawable/baseline_star_border_black_24"
-        app:iconGravity="textStart"
-        app:iconPadding="-4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnDelNote"
+        app:layout_constraintEnd_toStartOf="@+id/btn_del_note"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/transparent" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnDelNote"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:id="@+id/btn_del_note"
+        style="@style/ButtonIcon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:onClick="deleteNoteClick"
         app:icon="@drawable/baseline_delete_outline_black_24"
-        app:iconGravity="textStart"
-        app:iconPadding="-6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnMoreNote"
+        app:layout_constraintEnd_toStartOf="@+id/btn_more_note"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnFavNote"
+        app:layout_constraintStart_toEndOf="@+id/btn_fav_note"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/transparent" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnMoreNote"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:id="@+id/btn_more_note"
+        style="@style/ButtonIcon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:onClick="moreClick"
         app:icon="@drawable/baseline_more_horiz_black_24"
-        app:iconGravity="textStart"
-        app:iconPadding="-6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnDelNote"
+        app:layout_constraintStart_toEndOf="@+id/btn_del_note"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/transparent" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

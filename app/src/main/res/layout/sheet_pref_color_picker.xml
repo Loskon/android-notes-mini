@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.larswerkman.holocolorpicker.SVBar
-        android:id="@+id/sv_bar"
+        android:id="@+id/sv_color_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

@@ -20,7 +20,7 @@ class SheetPrefSelectColor(private val context: Context) {
     private val sheetView = View.inflate(context, R.layout.sheet_pref_color_picker, null)
 
     private val colorPicker: ColorPicker = sheetView.findViewById(R.id.color_picker)
-    private val svBar: SVBar = sheetView.findViewById(R.id.sv_bar)
+    private val svBar: SVBar = sheetView.findViewById(R.id.sv_color_bar)
     private val btnReset: MaterialButton = sheetView.findViewById(R.id.btn_color_picker_reset)
     private val btnOk: Button = dialog.buttonOk
 

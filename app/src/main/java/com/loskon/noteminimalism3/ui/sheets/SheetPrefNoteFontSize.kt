@@ -21,9 +21,9 @@ class SheetPrefNoteFontSize(private val context: Context) {
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
     private val sheetView = View.inflate(context, R.layout.sheet_pref_note_font_size, null)
 
-    private val textView: TextView = sheetView.findViewById(R.id.sheet_font_size_tv)
-    private val slider: Slider = sheetView.findViewById(R.id.sheet_font_size_slider)
-    private val btnReset: MaterialButton = sheetView.findViewById(R.id.sheet_font_size_reset_btn)
+    private val textView: TextView = sheetView.findViewById(R.id.tv_sheet_font_size)
+    private val slider: Slider = sheetView.findViewById(R.id.slider_sheet_font_size)
+    private val btnReset: MaterialButton = sheetView.findViewById(R.id.btn_sheet_font_size_reset)
     private val btnOk: Button = dialog.buttonOk
 
     private var fontSizeNote: Int = 0

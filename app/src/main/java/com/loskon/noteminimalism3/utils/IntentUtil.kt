@@ -48,7 +48,7 @@ class IntentUtil {
                 val intent = Intent(Intent.ACTION_SENDTO)
                 intent.data = Uri.parse("mailto:")
                 intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-                intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback))
+                intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback_by_email))
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
                 ToastManager.show(context, ToastManager.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)

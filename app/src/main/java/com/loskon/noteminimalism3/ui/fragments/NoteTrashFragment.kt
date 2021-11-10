@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.command.ShortsCommandNote
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteReset
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteRestore
 import com.loskon.noteminimalism3.utils.setButtonIconColor
 import com.loskon.noteminimalism3.utils.setFabColor
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
@@ -50,12 +50,12 @@ class NoteTrashFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.note_trash_update, container, false)
-        constLayout = view.findViewById(R.id.const_layout_note_up)
-        editText = view.findViewById(R.id.edit_text_note_up)
-        linearLayout = view.findViewById(R.id.linear_layout_note_up)
-        fab = view.findViewById(R.id.fab_note_up)
-        btnDel = view.findViewById(R.id.btn_delete)
+        val view = inflater.inflate(R.layout.fragment_note_trash, container, false)
+        constLayout = view.findViewById(R.id.const_layout_note_trash)
+        editText = view.findViewById(R.id.edit_text_note)
+        linearLayout = view.findViewById(R.id.lin_layout_note)
+        fab = view.findViewById(R.id.fab_note)
+        btnDel = view.findViewById(R.id.btn_del_note_trash)
         return view
     }
 
@@ -110,7 +110,7 @@ class NoteTrashFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        SnackbarNoteReset(activity, this).show(color)
+        SnackbarNoteRestore(activity, this).show()
     }
 
     val getConstLayout: ConstraintLayout

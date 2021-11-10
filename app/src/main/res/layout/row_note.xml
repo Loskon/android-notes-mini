@@ -24,7 +24,7 @@
         app:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:id="@+id/linear_layout_list"
+            android:id="@+id/linear_layout_row_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -34,7 +34,7 @@
                 android:layout_width="16dp"
                 android:layout_height="10dp"
                 android:layout_gravity="end"
-                android:background="@drawable/view_round_corner"
+                android:background="@drawable/view_round_one_corner"
                 android:visibility="@{note.favorite ? View.VISIBLE: View.INVISIBLE}" />
 
             <TextView

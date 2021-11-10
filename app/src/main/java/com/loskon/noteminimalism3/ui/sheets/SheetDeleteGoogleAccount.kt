@@ -41,7 +41,7 @@ class SheetDeleteGoogleAccount(
         sheetDialog.setInsertView(view)
         sheetDialog.setBtnOkVisibility(false)
         sheetDialog.setBtnCancelVisibility(false)
-        sheetDialog.setTextTitle(R.string.dg_delete_warnings)
+        sheetDialog.setTextTitle(R.string.sheet_delete_warnings)
     }
 
     private fun installHandlers() {

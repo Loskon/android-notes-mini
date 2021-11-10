@@ -92,15 +92,15 @@ class NoteFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.note_update, container, false)
-        constLayout = view.findViewById(R.id.const_layout_note_up)
-        scrollView = view.findViewById(R.id.scroll_view_note_up)
-        linLayoutNote = view.findViewById(R.id.linear_layout_note_up)
-        editText = view.findViewById(R.id.edit_text_note_up)
-        fab = view.findViewById(R.id.fab_note_up)
-        btnFav = view.findViewById(R.id.btn_fav_note_up)
-        btnDel = view.findViewById(R.id.btn_del_note_up)
-        btnMore = view.findViewById(R.id.btn_more_note_up)
+        val view = inflater.inflate(R.layout.fragment_note, container, false)
+        constLayout = view.findViewById(R.id.const_layout_note_trash)
+        scrollView = view.findViewById(R.id.scroll_view_note)
+        linLayoutNote = view.findViewById(R.id.lin_layout_note)
+        editText = view.findViewById(R.id.edit_text_note)
+        fab = view.findViewById(R.id.fab_note)
+        btnFav = view.findViewById(R.id.btn_fav_note)
+        btnDel = view.findViewById(R.id.btn_del_note)
+        btnMore = view.findViewById(R.id.btn_more_note)
         return view
     }
 
@@ -248,13 +248,13 @@ class NoteFragment : Fragment(),
         BaseSnackbar.dismiss()
 
         when (v?.id) {
-            R.id.fab_note_up -> clickingFab()
+            R.id.fab_note -> clickingFab()
 
-            R.id.btn_fav_note_up -> clickingFavoriteButton()
+            R.id.btn_fav_note -> clickingFavoriteButton()
 
-            R.id.btn_del_note_up -> clickingFavoriteDelete()
+            R.id.btn_del_note -> clickingFavoriteDelete()
 
-            R.id.btn_more_note_up -> clickingFavoriteMore()
+            R.id.btn_more_note -> clickingFavoriteMore()
         }
     }
 

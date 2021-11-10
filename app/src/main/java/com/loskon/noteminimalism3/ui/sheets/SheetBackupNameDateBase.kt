@@ -84,7 +84,7 @@ class SheetBackupNameDateBase(private val context: Context) {
 
     private fun outErrorMessage() {
         inputEditText.editableText.clear()
-        inputLayout.error = context.getString(R.string.dg_bp_error)
+        inputLayout.error = context.getString(R.string.sheet_backup_incorrect_name)
         inputLayout.isErrorEnabled = true
     }
 

@@ -97,6 +97,11 @@
             android:title="@string/communication_title"
             app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="@string/about_app_title"
+            android:title="@string/about_app_title"
+            app:iconSpaceReserved="false" />
+
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
 </PreferenceScreen>

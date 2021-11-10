@@ -1,174 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Activity -->
-    <!-- activity_main -->
-    <string name="empty_list">Пусто</string>
+    <!-- activity_list -->
     <string name="hint_search_text">Искать</string>
 
-    <!-- activity_note -->
+    <!-- Fragment -->
+    <!-- fragment_note -->
     <string name="hint_note_text">Текст</string>
-    <string name="note_deleted">Заметка удалена</string>
-    <string name="delete">Удалить</string>
+    <!-- fragment_note_trash -->
+    <string name="delete_from_trash">Удалить</string>
+    <!-- fragment_fonts -->
+    <string name="templars">Тамплиеры – духовно-рыцарский орден, основанный
+        на Святой землев 1119 г. незначительной группой рыцарей, во главе с
+        Гуго де Пейном, послеПервого крестового похода (1096-1099).</string>
 
-    <!-- activity_settings -->
-    <string name="feedback">Обратная связь</string>
-
-    <!-- activity_settings_app -->
+    <!-- Preferences Fragment -->
+    <!-- preferences_app -->
     <string name="title_card_view">Привет, Мир!</string>
     <string name="date_card_view">21.01.96 12:00</string>
 
-    <!-- activity_widget_configure -->
-    <string name="select_note">Выберите замету:</string>
-
+    <!-- Intent -->
+    <!-- intent ACTION_SENDTO  -->
+    <string name="feedback_by_email">Обратная связь</string>
 
     <!-- Menu -->
-    <!-- menu for bottom app bar Main -->
-    <string name="menu_main_switch">Сменить вид</string>
-    <string name="menu_main_search">Искать</string>
-    <string name="menu_main_select">Выделить заметки</string>
-    <string name="menu_main_combine">Объединить заметки</string>
-
-    <!-- menu for nav drawer view -->
-    <string name="navigation_note">Заметки</string>
-    <string name="navigation_favorites">Избранное</string>
-    <string name="navigation_trash">Корзина</string>
-    <string name="navigation_settings">Настройки</string>
-
-    <!-- menu for bottom app bar Backup -->
-    <string name="menu_backup_settings">Настройки аккаунта</string>
-
-    <!-- menu for bottom app bar Backup -->
-    <string name="menu_fonts_select_font">Выбрать шрифт</string>
+    <!-- menu_bottom_bar_data_account -->
+    <string name="menu_backup_data">Настройки аккаунта</string>
+    <!-- menu_bottom_bar_list -->
+    <string name="menu_list_switch">Сменить вид</string>
+    <string name="menu_list_search">Искать</string>
+    <string name="menu_list_select">Выделить заметки</string>
+    <string name="menu_list_combine">Объединить заметки</string>
+    <!-- menu_navigation_view -->
+    <string name="menu_navigation_note">Заметки</string>
+    <string name="menu_navigation_favorites">Избранное</string>
+    <string name="menu_navigation_trash">Корзина</string>
+    <string name="menu_navigation_settings">Настройки</string>
 
 
     <!-- Toast -->
-    <!-- Main -->
-    <string name="toast_main_auto_backup_completed">Авторезервирование прошло успешно!</string>
-    <string name="toast_main_auto_backup_failed">Ошибка авторезервирования!</string>
-    <string name="toast_main_auto_backup_not_possible">
-        Авторезервирование невозможно! Нет разрешения</string>
-    <string name="toast_main_auto_backup_unable_create">Ошибка! Невозможно создать файо!</string>
+    <!-- activity_list  -->
+    <string name="toast_auto_bp_completed">Автобэкап прошел успешно!</string>
+    <string name="toast_auto_bp_failed">Ошибка автобэкапа!</string>
+    <string name="toast_auto_bp_not_possible">Автобэкап невозможен! Нет разрешения!</string>
+    <string name="toast_auto_bp_unable_create">Ошибка! Невозможно создать файл бэкапа!</string>
+    <!-- intent ACTION_OPEN_DOCUMENT_TREE -->
+    <string name="toast_file_manager_not_found">Ошибка. Файловый менеджер не найден!</string>
+    <!-- sheet_list_files -->
+    <string name="toast_restore_list_empty">Список пуст!</string>
+    <!-- intent ACTION_SENDTO  -->
+    <string name="toast_email_client_not_found">Почтовый клиент не найден!</string>
+    <!-- intent ACTION_SEND  -->
+    <string name="toast_impossible_share_note">Error! Impossible to share!</string>
 
     <!-- Snackbars -->
-    <!-- Main -->
-    <string name="sb_main_deleted">Заметка удалена!</string>
-    <string name="sb_main_add_trash">Заметка отправлена в корзину!</string>
-    <string name="sb_main_but_empty_trash">Но корзина же пустая…</string>
-    <string name="sb_main_restored">Заметка восстановлена!</string>
-    <string name="sb_main_combined_note_added">Объединенная заметка добавлена!</string>
-    <string name="sb_main_error_combining_notes">Ошибка объединения заметок!</string>
-
-    <!-- Note -->
-    <string name="sb_note_in_trash">Эта заметка находится в корзине!</string>
+    <!-- activity_list -->
+    <string name="sb_note_restored">Заметка восстановлена!</string>
+    <string name="sb_combined_note_added">Объединенная заметка добавлена!</string>
+    <string name="sb_error_combining_notes">Ошибка объединения заметок!</string>
+    <string name="sb_but_empty_trash">Но корзина же пустая…</string>
+    <!-- fragment_note -->
     <string name="sb_note_is_empty">Ошибка! Заметка пустая!</string>
-    <string name="sb_note_restore">Восстановить</string>
-    <string name="sb_note_save_txt_completed">Текстовый файл сохранен: /Notes Mini Backup/Text Files</string>
-    <string name="sb_note_save_txt_failed">Не удалось сохранить текстовый файл!</string>
+    <string name="sb_note_create_text_files_completed">Текстовый файл сохранен:
+        /Notes Mini Backup/Text Files</string>
+    <string name="sb_note_create_text_file_failed">Не удалось сохранить текстовый файл!</string>
     <string name="sb_note_invalid_link">Неверная ссылка!</string>
     <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
     <string name="sb_note_invalid_format">Неверный формат!</string>
-    <string name="sb_note_text_copied">Текст скопирован</string>
-    <string name="sb_note_hyperlinks_copied">Гипперсылка скопирована</string>
-    <string name="sb_note_impossible_share">Error! Impossible to share!</string>
+    <string name="sb_note_text_copied">Текст скопирован!</string>
+    <string name="sb_note_hyperlinks_copied">Гипперсылка скопирована!</string>
+    <string name="sb_unable_create_text_file">Ошибка! Невозможно создать текстовый файл!</string>
+    <!-- snackbar_undo -->
+    <string name="sb_undo_note_deleted">Заметка удалена!</string>
+    <string name="sb_undo_note_add_trash">Заметка отправлена в корзину!</string>
+    <!-- snackbar_note_restore -->
+    <string name="sb_note_restore_in_trash">Эта заметка находится в корзине!</string>
+    <string name="sb_note_restore_action">Восстановить</string>
     <string name="sb_note_text_inserted">Текст вставлен!</string>
-
-    <!-- Settings -->
-    <string name="sb_settings_file_manager_not_found">Ошибка. Файловый менеджер не найден!</string>
+    <!-- fragment_settings -->
     <string name="sb_settings_unable_select_folder">Невозможно выбрать папку!</string>
-
-    <!-- Backup -->
+    <string name="sb_bp_you_can_local_storage">Вы можете указать папку только в локальной
+        памяти телефона</string>
+    <!-- fragment_backup -->
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
-    <string name="sb_bp_text_no_folder">Папка Notes Mini Backup не найдена!</string>
     <string name="sb_bp_completed">Резервное копирование прошло успешно!</string>
     <string name="sb_bp_failed">Невозможно создать резервную копию базы данных.
         Повторите попытку!</string>
     <string name="sb_bp_restore_completed">Восстановление прошло успешно!</string>
     <string name="sb_bp_restore_failed">Ошибка восстановления. Повторите попытку!</string>
+    <string name="sb_bp_backup_files_deleted">Файлы бэкапов были удалены!</string>
+    <string name="sb_bp_sign_in_failed">Не удалось войти в учетную запись</string>
     <string name="sb_bp_logged_account">Вы вышли из учетной записи</string>
     <string name="sb_bp_no_internet">Нет интернет-соединения</string>
-    <string name="sb_bp_sign_in_failed">Не удалось войти в учетную запись</string>
-    <string name="sb_bp_del_acc">Данные удалены из облака!</string>
-    <string name="sb_bp_problem_internet">Проблемы с интернет-соединением!</string>
-    <string name="sb_bp_backup_files_deleted">Backup files have been deleted!</string>
+    <string name="sb_bp_delete_data_from_cloud">Данные удалены из облака!</string>
     <string name="sb_bp_backup_not_found">Файл бэкапа не найден.
         Возможно он не был еще загружен!</string>
-    <string name="sb_bp_you_can_local_storage">Вы можете указать папку только в локальной
-        памяти телефона</string>
+    <string name="sb_bp_problem_internet">Проблемы с интернет-соединением!</string>
 
-    <!-- Dialog -->
-    <!-- dialog_backup -->
+    <!-- Sheet -->
+    <!-- sheet_backup -->
     <string name="sheet_backup_title">Введите название</string>
-    <string name="dg_bp_error">Введите корректное название!</string>
-
+    <string name="sheet_backup_incorrect_name">Введите корректное название!</string>
+    <!-- sheet_restore_date_base -->
+    <string name="sheet_restore_db_title">Выберите файл:</string>
+    <string name="sheet_restore_db_delete_all_backups">Удалить все</string>
+    <string name="sheet_restore_db_folder_not_found">Папка Notes Mini Backup не найдена!</string>
     <!-- sheet_pref_color_hex -->
     <string name="sheet_pref_color_hex_title">Введите hex-код</string>
-
-    <!-- sheet_restore -->
-    <string name="sheet_list_files_title">Выберите файл:</string>
-    <string name="dg_restore_delete_all">Удалить все</string>
-    <string name="dg_restore_list_empty">Список пуст!</string>
-
-    <!-- dialog_font_size -->
+    <!-- sheet_font_size -->
     <string name="sheet_font_size_title">Размер текста</string>
-    <string name="dg_font_size_reset">Сбросить</string>
-
-    <!-- dialog_pref_links -->
+    <string name="sheet_font_size_reset">Сбросить</string>
+    <!-- sheet_pref_links -->
     <string name="sheet_pref_links_title">Тип гиперссылок</string>
-    <string name="dg_pref_links_web_url">Вэб URL</string>
-    <string name="dg_pref_links_email">Электронная почта</string>
-    <string name="dg_pref_links_phone_number">Номер телефона</string>
-
-    <!-- dialog_trash -->
-    <string name="dg_trash_title">Очистить корзину?</string>
-
-    <!-- dialog_delete_forever -->
-    <string name="dg_delete_forever_title">Удалить выбранные заметки\n навсегда?</string>
-
-    <!-- dialog_unification -->
-    <string name="dg_unification_title">Объединить заметки?</string>
-
-    <!-- dialog_open_link -->
-    <string name="dg_open_link_open">Открыть</string>
-    <string name="dg_open_link_call">Позвонить</string>
-    <string name="dg_open_link_send">Отправить эл.письмо</string>
-    <string name="dg_open_link_invalid">Неверная ссылка</string>
-    <string name="dg_open_link_copy">Копировать</string>
-
-    <!-- dialog_account -->
-    <string name="dg_data_title">Управление аккаунтом</string>
-    <string name="dg_data_delete">Удалить все данные</string>
-    <string name="dg_data_logout">Выйти из аккаунта</string>
-    <string name="dg_account_warning">Внимание! Вы удалите свои данные из облака
+    <string name="sheet_pref_links_web_url">Вэб URL</string>
+    <string name="sheet_pref_links_email">Электронная почта</string>
+    <string name="sheet_pref_links_phone_number">Номер телефона</string>
+    <!-- sheet_google_account -->
+    <string name="sheet_account_title">Управление аккаунтом</string>
+    <string name="sheet_account_data_delete">Удалить все данные</string>
+    <string name="sheet_account_logout">Выйти из аккаунта</string>
+    <!-- sheet_delete_account_warning -->
+    <string name="sheet_account_warning">Внимание! Вы удалите свои данные из облака
         и не сможете их восстановить. Продолжить?</string>
-
-    <!-- dialog_confirm -->
+    <!-- sheet_confirm -->
     <string name="sheet_confirm_action">Подтвердить действие</string>
-
-    <!-- bottom_sheet_dialog -->
+    <!-- sheet_custom_note -->
     <string name="bs_last_modified">Последнее изменение: %1$s</string>
     <string name="bs_paste_text">Вставить текст</string>
     <string name="bs_copy_text">Копировать текст заметки</string>
     <string name="bs_share">Поделиться</string>
     <string name="bs_download">Скачать</string>
     <string name="to_close">Закрыть</string>
+    <!-- sheet_pref_sorting -->
+    <string name="sheet_pref_sorting_title">Сортировка</string>
+    <string name="sheet_pref_sorting_time_creation">По дате создания</string>
+    <string name="sheet_pref_sorting_time_modification">По дате изменения</string>
+    <!-- sheet_delete_warnings -->
+    <string name="sheet_delete_warnings">Подтвердить удаление?</string>
+    <!-- sheet_about_app -->
+    <string name="sheet_about_app_development">Разработка и поддержка: Loskon</string>
+    <string name="sheet_about_version">Версия приложения: %1$s</string>
 
-    <!-- dialog_pref_sorting -->
-    <string name="dg_sorting_title">Сортировка</string>
-    <string name="dg_sorting_time_creation">По дате создания</string>
-    <string name="dg_sorting_time_modification">По дате изменения</string>
-    <string name="dg_sorting_alphabetical">По алфавиту</string>
-
-    <!-- dialog_type_fonts -->
-    <string name="dg_type_font_title">Выбрать данный шрифт?</string>
-
+    <!-- Dialog -->
+    <!-- dialog_trash -->
+    <string name="dg_trash_title">Очистить корзину?</string>
+    <!-- dialog_delete_forever -->
+    <string name="dg_delete_forever_title">Удалить выбранные заметки\n навсегда?</string>
+    <!-- dialog_unification -->
+    <string name="dg_unification_title">Объединить заметки?</string>
+    <!-- dialog_open_link -->
+    <string name="dg_open_link_open">Открыть</string>
+    <string name="dg_open_link_call">Позвонить</string>
+    <string name="dg_open_link_send">Отправить эл.письмо</string>
+    <string name="dg_open_link_invalid">Неверная ссылка</string>
+    <string name="dg_open_link_copy">Копировать</string>
     <!-- dialog_warning -->
     <string name="dg_warning_title">Предупреждение!</string>
     <string name="dg_warning_attention">Внимание! Выбранный
         шрифт может не поддерживать ваш язык или некоторые символы!</string>
-
-    <!-- dialog_delete_all_warnings -->
-    <string name="dg_delete_warnings">Подтвердить удаление?</string>
-
+    <!-- dialog_receiving_data -->
     <string name="dg_add_new_note">Добавить новую заметку</string>
     <string name="dg_add_to_created_note">Добавить к созданной заметке</string>
 
@@ -187,7 +177,7 @@
     <string name="dark_mode_title">Темная тема</string>
     <string name="backup_title">Резервное копирование</string>
     <string name="folder_title">Папка для данных</string>
-    <string name="auto_backup_title">Авторезервирование</string>
+    <string name="auto_backup_title">Автобэкап</string>
     <string name="notification_title">Уведомление</string>
     <string name="num_of_backup_title">Количество резервных копий</string>
     <string name="update_date_title">Обновлять дату</string>
@@ -195,13 +185,13 @@
     <string name="hyperlinks_title">Гиперссылки</string>
     <string name="retention_trash_title">Время хранения заметок в корзине</string>
     <string name="communication_title">Связь с разработчиком</string>
+    <string name="about_app_title">О приложении</string>
 
     <!-- Preference summary -->
     <string name="auto_backup_summary">При создании нескольких новых заметок</string>
     <string name="number_of_days_summary">Количество дней: %1$d</string>
     <string name="update_date_summary">При изменении содержимого заметки</string>
     <string name="notification_auto_backup_summary">Об успешном авторезервировании</string>
-
 
     <!-- preference_app -->
     <!-- Preference Category Header -->
@@ -220,17 +210,12 @@
     <!-- Preference summary -->
     <string name="one_size_cards_summary">Для режима нескольких плиток</string>
 
-    <!-- Other -->
-    <string name="email_client_not_found">Почтовый клиент не найден!</string>
+    <!-- other -->
+    <string name="empty_list">Пусто</string>
     <string name="no_permissions">Нет разрешения!</string>
     <string name="unknown_error">Неизввестная ошибка!</string>
-    <string name="bad_idea">Это плохая идея :)</string>
     <string name="confirm">Потвердить</string>
     <string name="continue_action">Продолжить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-
-    <string name="templars">Тамплиеры – духовно-рыцарский орден, основанный
-        на Святой землев 1119 г. незначительной группой рыцарей, во главе с
-        Гуго де Пейном, послеПервого крестового похода (1096-1099).</string>
 </resources>

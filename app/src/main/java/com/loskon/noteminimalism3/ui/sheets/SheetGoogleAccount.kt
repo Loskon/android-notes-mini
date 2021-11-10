@@ -20,8 +20,8 @@ class SheetGoogleAccount(
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
     private val sheetView = View.inflate(context, R.layout.sheet_google_account, null)
 
-    private val btnLogout: MaterialButton = sheetView.findViewById(R.id.btn_data_logout)
-    private val btnDelete: MaterialButton = sheetView.findViewById(R.id.btn_data_delete)
+    private val btnLogout: MaterialButton = sheetView.findViewById(R.id.btn_data_account_logout)
+    private val btnDelete: MaterialButton = sheetView.findViewById(R.id.btn_data_account_delete)
 
     init {
         setupColorViews()
@@ -38,7 +38,7 @@ class SheetGoogleAccount(
     private fun configViews() {
         dialog.setInsertView(sheetView)
         dialog.setBtnOkVisibility(false)
-        dialog.setTextTitle(R.string.dg_data_title)
+        dialog.setTextTitle(R.string.sheet_account_title)
         dialog.setTextBtnCancel(R.string.to_close)
     }
 
@@ -49,11 +49,11 @@ class SheetGoogleAccount(
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_data_logout -> {
+            R.id.btn_data_account_logout -> {
                 dialog.dismiss()
                 fragment.signOutFromGoogle()
             }
-            R.id.btn_data_delete -> {
+            R.id.btn_data_account_delete -> {
                 dialog.dismiss()
                 SheetDeleteGoogleAccount(context, fragment).show()
             }

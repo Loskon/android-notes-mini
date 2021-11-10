@@ -36,7 +36,7 @@
         app:navigationIcon="@drawable/baseline_close_black_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabReceivingData2"
+        android:id="@+id/fabReceivingData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="0dp"

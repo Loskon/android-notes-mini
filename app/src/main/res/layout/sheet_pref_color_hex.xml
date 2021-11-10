@@ -43,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/dg_font_size_reset"
+        android:text="@string/sheet_font_size_reset"
         android:textColor="?attr/colorDeleteIconRestore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

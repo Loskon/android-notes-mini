@@ -24,7 +24,7 @@ class SheetDeleteBackupsFiles(
     }
 
     private fun configViews() {
-        dialog.setTextTitle(R.string.dg_delete_warnings)
+        dialog.setTextTitle(R.string.sheet_delete_warnings)
         dialog.setContainerVisibility(false)
         dialog.setTextBtnOk(R.string.yes)
         dialog.setTextBtnCancel(R.string.no)

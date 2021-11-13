@@ -66,6 +66,11 @@ class WidgetListHelper(
         setVisibleMenuItem(R.id.action_select_item, isVisible)
     }
 
+    fun setVisibleFavorite(notesCategory: String, isVisible: Boolean) {
+        val isVis: Boolean = (notesCategory != CATEGORY_TRASH && isVisible)
+        setVisibleMenuItem(R.id.action_favorite, isVis)
+    }
+
     fun setVisibleSearchAndSwitch(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_switch_view, isVisible)
         setVisibleMenuItem(R.id.action_search, isVisible)
@@ -84,6 +89,17 @@ class WidgetListHelper(
         }
 
         setMenuIcon(R.id.action_select_item, menuIdSelect)
+        setMenuIconColor()
+    }
+
+    fun setFavorite(isSelectOne: Boolean) {
+        val menuIdSelect: Int = if (isSelectOne) {
+            R.drawable.baseline_star_black_24
+        } else {
+            R.drawable.baseline_star_border_black_24
+        }
+
+        setMenuIcon(R.id.action_favorite, menuIdSelect)
         setMenuIconColor()
     }
 

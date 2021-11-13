@@ -15,17 +15,17 @@ class BackupFilesLimiter {
 
         fun deleteExtraFiles(context: Context) {
 
-            val homeFolder: File = BackupPath.getFolderBackup(context)
+            val homeFolder: File? = BackupPath.getFolderBackup(context)
             val maxNumberFiles: Int = PrefManager.getNumberBackups(context)
-            var logFiles: Array<File> = BackupFilter.getListFile(homeFolder)
+            var logFiles: Array<File>? = BackupFilter.getListDateBaseFile(homeFolder)
 
-            if (logFiles.size > maxNumberFiles) {
+            if (logFiles != null && logFiles.size > maxNumberFiles) {
                 // Удалить все старые файлы после того, как есть более N файлов
                 do {
                     var oldestDate: Long = Long.MAX_VALUE
                     var oldestFile: File? = null
 
-                    for (file in logFiles) {
+                    for (file in logFiles!!) {
                         if (file.lastModified() < oldestDate) {
                             oldestDate = file.lastModified()
                             oldestFile = file
@@ -36,9 +36,9 @@ class BackupFilesLimiter {
                         SQLiteDatabase.deleteDatabase(File(oldestFile.path))
                     }
 
-                    logFiles = BackupFilter.getListFile(homeFolder)
+                    logFiles = BackupFilter.getListDateBaseFile(homeFolder)
 
-                } while (logFiles.size > maxNumberFiles)
+                } while (logFiles!!.size > maxNumberFiles)
             }
         }
     }

@@ -6,13 +6,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.other.FontManager
+import com.loskon.noteminimalism3.utils.setMenuIconColor
+import com.loskon.noteminimalism3.utils.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
+import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.setMenuIconColor
-import com.loskon.noteminimalism3.utils.setNavigationIconColor
 
 /**
  * Хост представления для фрагментов
@@ -20,7 +21,8 @@ import com.loskon.noteminimalism3.utils.setNavigationIconColor
 
 class SettingsActivity : BaseActivity(),
     SheetPrefSelectColor.CallbackColorNavIcon,
-    SheetPrefSelectColorHex.CallbackColorHexNavIcon {
+    SheetPrefSelectColorHex.CallbackColorHexNavIcon,
+    PrefScreenResetColor.CallbackColorResetNavIcon {
 
     private lateinit var coordLayout: ConstraintLayout
     private lateinit var bottomAppBar: BottomAppBar
@@ -59,6 +61,7 @@ class SettingsActivity : BaseActivity(),
     private fun installCallbacks() {
         SheetPrefSelectColor.listenerCallBackColorNavIcon(this)
         SheetPrefSelectColorHex.listenerCallBackColorNavIcon(this)
+        PrefScreenResetColor.listenerCallBackColorNavIcon(this)
     }
 
     private fun configureBottomBarMenu() {

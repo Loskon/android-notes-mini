@@ -22,7 +22,7 @@ import java.io.File
  * Список файлов резервного копирования
  */
 
-class SheetRestoreDateBase(private val context: Context) {
+class SheetListRestoreDateBase(private val context: Context) {
 
     private val activity: SettingsActivity = context as SettingsActivity
 
@@ -65,7 +65,7 @@ class SheetRestoreDateBase(private val context: Context) {
             val folder = BackupPath.getFolderBackup(context)
 
             return if (folder.exists()) {
-                BackupFilter.getListFile(folder)
+                BackupFilter.getListDateBaseFile(folder)
             } else {
                 null
             }
@@ -120,7 +120,6 @@ class SheetRestoreDateBase(private val context: Context) {
     companion object {
         private var callback: CallbackRestoreNote? = null
 
-        @JvmStatic
         fun listenerCallback(callback: CallbackRestoreNote) {
             this.callback = callback
         }

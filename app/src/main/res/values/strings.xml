@@ -32,6 +32,7 @@
     <string name="menu_list_search">Search go</string>
     <string name="menu_list_select">Select notes</string>
     <string name="menu_list_combine">Combine notes</string>
+    <string name="menu_list_favorite">Favorite</string>
     <!-- menu_navigation_view -->
     <string name="menu_navigation_note">Note</string>
     <string name="menu_navigation_favorites">Favorites</string>
@@ -204,6 +205,7 @@
     <string name="reset_font_size_title">Reset font size</string>
     <string name="select_color_app_title">Select color</string>
     <string name="select_color_app_hex_title">Set hex code</string>
+    <string name="reset_app_color">Reset app color</string>
     <string name="one_size_cards_title">Same cards size</string>
 
     <!-- Preference summary -->

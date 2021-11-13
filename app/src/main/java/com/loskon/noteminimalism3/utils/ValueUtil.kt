@@ -8,7 +8,9 @@ import com.loskon.noteminimalism3.R
  */
 
 class ValueUtil {
+
     companion object {
+
         fun getRadiusLinLay(context: Context): Int {
             return context.resources.getDimension(R.dimen.corner_radius).toInt()
         }

@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class SheetDeleteBackupsFiles(
     context: Context,
-    private val sheetRestoreDateBase: SheetRestoreDateBase
+    private val sheetListRestoreDateBase: SheetListRestoreDateBase
 ) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
@@ -32,7 +32,7 @@ class SheetDeleteBackupsFiles(
 
     private fun installHandlers() {
         btnOk.setOnSingleClickListener {
-            sheetRestoreDateBase.deleteAll()
+            sheetListRestoreDateBase.deleteAll()
             dialog.dismiss()
         }
     }

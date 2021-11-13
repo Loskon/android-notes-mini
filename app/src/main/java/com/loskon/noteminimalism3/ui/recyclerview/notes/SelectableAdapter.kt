@@ -65,6 +65,12 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
             return selectedItems.size
         }
 
+    // Вернуть первый элемент
+    val selectedItem: Note
+        get() {
+            return selectedItems[0]
+        }
+
     // Выбрать/снять выбор всех элементов списка
     fun selectAllItem(list: List<Note>, hasAllSelected: Boolean) {
         clearSelectionItems()
@@ -146,5 +152,12 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
         }
 
         return stringBuilder.toString()
+    }
+
+    // Отправить выбранные элементы в корзину
+    fun changeFavorite(shortsCommand: ShortsCommand) {
+        val note: Note = selectedItem
+        note.isFavorite = !note.isFavorite
+        shortsCommand.update(note)
     }
 }

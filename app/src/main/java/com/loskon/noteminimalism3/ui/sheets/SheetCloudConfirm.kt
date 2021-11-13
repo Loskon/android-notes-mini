@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Потверждение действия при облачном резервном копировании
  */
 
-class SheetCloudConfirmUpdate(context: Context, private val fragment: BackupFragment) {
+class SheetCloudConfirm(context: Context, private val fragment: BackupFragment) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
 

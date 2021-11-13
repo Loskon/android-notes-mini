@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
+import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
 
@@ -21,7 +22,8 @@ class SettingsAppFragment :
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     SheetPrefSelectColor.CallbackColorNotifyData,
-    SheetPrefSelectColorHex.CallbackColorHexNotifyData {
+    SheetPrefSelectColorHex.CallbackColorHexNotifyData,
+    PrefScreenResetColor.CallbackColorResetNotifyData {
 
     private lateinit var activity: SettingsActivity
 
@@ -60,6 +62,7 @@ class SettingsAppFragment :
     private fun installCallbacks() {
         SheetPrefSelectColor.listenerCallBackNotifyData(this)
         SheetPrefSelectColorHex.listenerCallBackNotifyData(this)
+        PrefScreenResetColor.listenerCallBackNotifyData(this)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.command.ShortsCommand
 import com.loskon.noteminimalism3.databinding.RowNoteBinding
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.utils.setBackgroundTintColor
@@ -93,6 +94,7 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
     private fun selectingItem(note: Note, position: Int) {
         toggleSelection(note, position)
         callback?.onSelectingNote(selectedItemsCount, hasAllSelected)
+        if (selectedItemsCount in 1..1) callback?.onVisibleFavorite(selectedItem)
     }
 
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
@@ -176,6 +178,12 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
         callback?.onSelectingNote(selectedItemsCount, hasAllSelected)
     }
 
+    fun changeFavoriteStatus(shortsCommand: ShortsCommand) {
+        changeFavorite(shortsCommand)
+        callback?.onVisibleFavorite(selectedItem)
+        itemsChanged()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun itemsChanged() {
         notifyDataSetChanged()
@@ -185,6 +193,7 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
         fun onClickingNote(note: Note)
         fun onActivatingSelectionMode(isSelMode: Boolean)
         fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
+        fun onVisibleFavorite(note: Note)
     }
 
     companion object {

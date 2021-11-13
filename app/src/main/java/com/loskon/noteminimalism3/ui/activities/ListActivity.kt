@@ -30,13 +30,14 @@ import com.loskon.noteminimalism3.ui.dialogs.DialogUnification
 import com.loskon.noteminimalism3.ui.fragments.*
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
+import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NotesListAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
+import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
-import com.loskon.noteminimalism3.ui.sheets.SheetRestoreDateBase
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
@@ -56,10 +57,11 @@ class ListActivity : BaseActivity(),
     NoteTrashFragment.CallbackNoteTrash,
     SheetPrefSelectColor.CallbackColorList,
     SheetPrefSelectColorHex.CallbackColorHexList,
+    PrefScreenResetColor.CallbackColorResetList,
     PrefScreenCardView.CallbackFontsSizes,
     PrefScreenNumberLines.CallbackNumberLines,
     SettingsAppFragment.CallbackOneSizeCards,
-    SheetRestoreDateBase.CallbackRestoreNote,
+    SheetListRestoreDateBase.CallbackRestoreNote,
     DateBaseCloudBackup.CallbackRestoreNoteCloud,
     SheetPrefSort.CallbackSort,
     FontsFragment.CallbackTypeFont {
@@ -131,10 +133,11 @@ class ListActivity : BaseActivity(),
         // Для изменения настроек
         SheetPrefSelectColor.listenerCallBackColorList(this)
         SheetPrefSelectColorHex.listenerCallBackColorList(this)
+        PrefScreenResetColor.listenerCallBackColorList(this)
         PrefScreenCardView.listenerCallback(this)
         PrefScreenNumberLines.listenerCallback(this)
         SettingsAppFragment.listenerCallbackSize(this)
-        SheetRestoreDateBase.listenerCallback(this)
+        SheetListRestoreDateBase.listenerCallback(this)
         DateBaseCloudBackup.listenerCallback(this)
         SheetPrefSort.listenerCallback(this)
         FontsFragment.listenerCallback(this)
@@ -248,6 +251,12 @@ class ListActivity : BaseActivity(),
                     DialogUnification(this).show()
                     true
                 }
+
+                R.id.action_favorite -> {
+                    adapter.changeFavoriteStatus(shortsCommand)
+                    true
+                }
+
                 else -> false
             }
         }
@@ -301,6 +310,7 @@ class ListActivity : BaseActivity(),
 
         } else {
             widgetsListHelper.setVisibleUnification(false)
+            widgetsListHelper.setVisibleFavorite(notesCategory,false)
 
             if (isSearchMode) {
                 widgetsListHelper.setVisibleSearchAndSwitch(false)
@@ -391,6 +401,11 @@ class ListActivity : BaseActivity(),
         tvSelectedItemsCount.text = selectedItemsCount.toString()
         widgetsListHelper.setSelectIcon(hasAllSelected)
         widgetsListHelper.changeVisibleUnification(notesCategory, selectedItemsCount >= 2)
+        widgetsListHelper.setVisibleFavorite(notesCategory, selectedItemsCount in 1..1)
+    }
+
+    override fun onVisibleFavorite(note: Note) {
+        widgetsListHelper.setFavorite(note.isFavorite)
     }
 
     // From note fragment
@@ -539,10 +554,6 @@ class ListActivity : BaseActivity(),
     private fun saveRecyclerStata() {
         val listState: Parcelable? = recyclerView.layoutManager?.onSaveInstanceState()
         bundleState?.putParcelable(RECYCLER_STATE_EXERCISE, listState)
-    }
-
-    fun getColor(): Int {
-        return color
     }
 
     fun getNotesCategory(): String {

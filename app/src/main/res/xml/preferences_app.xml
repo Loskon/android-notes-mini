@@ -26,6 +26,11 @@
             android:title="@string/select_color_app_hex_title"
             app:iconSpaceReserved="false" />
 
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
+            android:layout="@layout/custom_pref_layout"
+            android:title="@string/reset_app_color"
+            app:iconSpaceReserved="false" />
+
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory

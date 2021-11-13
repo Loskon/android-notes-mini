@@ -31,6 +31,7 @@
     <string name="menu_list_search">Искать</string>
     <string name="menu_list_select">Выделить заметки</string>
     <string name="menu_list_combine">Объединить заметки</string>
+    <string name="menu_list_favorite">Избранное</string>
     <!-- menu_navigation_view -->
     <string name="menu_navigation_note">Заметки</string>
     <string name="menu_navigation_favorites">Избранное</string>
@@ -205,6 +206,7 @@
     <string name="reset_font_size_title">Сбросить размер текста</string>
     <string name="select_color_app_title">Выбрать цвет</string>
     <string name="select_color_app_hex_title">Указать hex-код</string>
+    <string name="reset_app_color">Сбросить цвет приложения</string>
     <string name="one_size_cards_title">Одинаковый размер плиток</string>
 
     <!-- Preference summary -->

@@ -9,7 +9,7 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.BackupSort
-import com.loskon.noteminimalism3.ui.sheets.SheetRestoreDateBase
+import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.io.File
 import java.util.*
@@ -18,7 +18,7 @@ import java.util.*
  * Кастомный адаптер для вывода списка файлов резервных копий
  */
 
-class FilesAdapter(private val sheetDialog: SheetRestoreDateBase) :
+class FilesAdapter(private val sheetListDialog: SheetListRestoreDateBase) :
     BaseAdapter() {
 
     private var list: ArrayList<File> = arrayListOf()
@@ -35,7 +35,7 @@ class FilesAdapter(private val sheetDialog: SheetRestoreDateBase) :
         nameFiles.text = file.name.replace(".db", "")
 
         cardView.setOnSingleClickListener {
-            sheetDialog.restoreDateBase(file.path)
+            sheetListDialog.restoreDateBase(file.path)
         }
 
         delFile.setOnSingleClickListener {
@@ -49,7 +49,7 @@ class FilesAdapter(private val sheetDialog: SheetRestoreDateBase) :
         file.delete()
         list.remove(file)
         notifyDataSetChanged()
-        sheetDialog.checkEmptyFilesList()
+        sheetListDialog.checkEmptyFilesList()
     }
 
     fun removeAll(files: Array<File>?) {
@@ -60,7 +60,7 @@ class FilesAdapter(private val sheetDialog: SheetRestoreDateBase) :
 
             list.clear()
             notifyDataSetChanged()
-            sheetDialog.checkEmptyFilesList()
+            sheetListDialog.checkEmptyFilesList()
         }
     }
 

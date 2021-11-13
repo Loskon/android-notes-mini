@@ -16,7 +16,7 @@ import java.util.regex.Pattern
  * Работа с гиперссылками в заметке
  */
 
-class DialogNoteLinksUpdate(
+class DialogNoteLinks(
     private val context: Context,
     private val fragment: NoteFragment
 ) :
@@ -110,13 +110,13 @@ class DialogNoteLinksUpdate(
     }
 
     override fun onClick(v: View?) {
+        dialog.dismiss()
+
         when (v?.id) {
             R.id.btn_link_open -> openLink()
 
             R.id.btn_link_copy -> copyLink()
         }
-
-        dialog.dismiss()
     }
 
     private fun openLink() {

@@ -138,7 +138,7 @@ class PrefManager {
             return load(
                 context,
                 PREF_KEY_WEB,
-                false
+                true
             )
         }
 
@@ -146,7 +146,7 @@ class PrefManager {
             return load(
                 context,
                 PREF_KEY_MAIL,
-                false
+                true
             )
         }
 
@@ -154,7 +154,7 @@ class PrefManager {
             return load(
                 context,
                 PREF_KEY_PHONE,
-                false
+                true
             )
         }
 

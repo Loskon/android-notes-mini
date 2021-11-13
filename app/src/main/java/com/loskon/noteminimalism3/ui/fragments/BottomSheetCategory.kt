@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import com.loskon.noteminimalism3.R
@@ -32,6 +33,11 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
         category = arguments?.getString(ARG_CATEGORY).toString()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetStatusBar)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,13 +49,10 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
         return view
     }
 
-    override fun getTheme(): Int {
-        return R.style.BottomSheetStatusBar
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigationView.apply {
+
             menu.getItem(getNumSelectedItemMenu()).isChecked = true
 
             setColorStateMenuItem(mContext)

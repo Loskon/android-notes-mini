@@ -13,9 +13,9 @@ import com.loskon.noteminimalism3.request.permissions.ResultAccessStorageInterfa
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.SheetBackupNameDateBase
-import com.loskon.noteminimalism3.ui.sheets.SheetCloudConfirmUpdate
+import com.loskon.noteminimalism3.ui.sheets.SheetCloudConfirm
 import com.loskon.noteminimalism3.ui.sheets.SheetGoogleAccount
-import com.loskon.noteminimalism3.ui.sheets.SheetRestoreDateBase
+import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 
@@ -102,19 +102,19 @@ class BackupFragment : Fragment(),
 
             R.id.btn_restore_sd -> {
                 if (hasAccessStorageRequest) {
-                    SheetRestoreDateBase(activity).show()
+                    SheetListRestoreDateBase(activity).show()
                 }
             }
 
             R.id.btn_backup_cloud -> {
                 if (checkForInternet()) {
-                    SheetCloudConfirmUpdate(activity, this).show(true)
+                    SheetCloudConfirm(activity, this).show(true)
                 }
             }
 
             R.id.btn_restore_cloud -> {
                 if (checkForInternet()) {
-                    SheetCloudConfirmUpdate(activity, this).show(false)
+                    SheetCloudConfirm(activity, this).show(false)
                 }
 
             }
@@ -163,7 +163,7 @@ class BackupFragment : Fragment(),
             if (btnId == R.id.btn_backup_sd) {
                 SheetBackupNameDateBase(activity).show()
             } else if (btnId == R.id.btn_restore_sd) {
-                SheetRestoreDateBase(activity).show()
+                SheetListRestoreDateBase(activity).show()
             }
         } else {
             showSnackbar(SnackbarManager.MSG_NO_PERMISSION)

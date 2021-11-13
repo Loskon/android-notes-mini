@@ -20,12 +20,13 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DateBaseAutoBackup
 import com.loskon.noteminimalism3.command.ShortsCommandNote
 import com.loskon.noteminimalism3.model.Note
+import com.loskon.noteminimalism3.other.LinksManager
 import com.loskon.noteminimalism3.other.TextNoteAssistant
 import com.loskon.noteminimalism3.request.permissions.ResultAccessStorage
 import com.loskon.noteminimalism3.request.permissions.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
-import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinksUpdate
+import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks
 import com.loskon.noteminimalism3.ui.recyclerview.CustomMovementMethod
 import com.loskon.noteminimalism3.ui.sheets.SheetWorkingNote
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
@@ -64,6 +65,8 @@ class NoteFragment : Fragment(),
     private var isShowBackupToast: Boolean = false
     private var isTextEditingMod: Boolean = false
     private var isNewNote: Boolean = false
+    private var isSaveNewNote = true
+    private var isDeleteNote = false
     private var hasReceivingText: Boolean = false
     private var supportedLinks: Int = 0
     private var color: Int = 0
@@ -150,7 +153,7 @@ class NoteFragment : Fragment(),
 
     private fun includedLinks() {
         if (noteId != 0L) {
-            supportedLinks = LinksUtil.getActiveLinks(activity)
+            supportedLinks = LinksManager.getActiveLinks(activity)
             if (supportedLinks != 0) editText.configureMovementMethod()
         }
     }
@@ -163,7 +166,7 @@ class NoteFragment : Fragment(),
 
         movementMethod = object : CustomMovementMethod() {
             override fun onClickingLink(url: String) {
-                DialogNoteLinksUpdate(activity, this@NoteFragment).show(url)
+                DialogNoteLinks(activity, this@NoteFragment).show(url)
             }
 
             override fun onClickingText() {
@@ -270,11 +273,19 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteDelete() {
-        note.dateDelete = Date()
-        note.isDelete = true
-        note.isFavorite = false
-        shortsCommand.update(note)
-        callback?.onNoteDelete(note, isFavorite)
+        isDeleteNote = true
+
+        if (noteId == 0L) {
+            shortsCommand.delete(note)
+            isSaveNewNote = false
+        } else {
+            note.dateDelete = Date()
+            note.isDelete = true
+            note.isFavorite = false
+            shortsCommand.update(note)
+            callback?.onNoteDelete(note, isFavorite)
+        }
+
         activity.onBackPressed()
     }
 
@@ -303,7 +314,7 @@ class NoteFragment : Fragment(),
 
     override fun onPause() {
         super.onPause()
-        selectingMethodSavingNote()
+        if (isSaveNewNote && !isDeleteNote) selectingMethodSavingNote()
     }
 
     private fun selectingMethodSavingNote() {

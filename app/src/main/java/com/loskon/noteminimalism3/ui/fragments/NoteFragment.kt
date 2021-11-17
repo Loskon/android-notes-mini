@@ -22,13 +22,13 @@ import com.loskon.noteminimalism3.command.ShortsCommandNote
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.LinksManager
 import com.loskon.noteminimalism3.other.TextNoteAssistant
-import com.loskon.noteminimalism3.request.permissions.ResultAccessStorage
-import com.loskon.noteminimalism3.request.permissions.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks
 import com.loskon.noteminimalism3.ui.recyclerview.CustomMovementMethod
-import com.loskon.noteminimalism3.ui.sheets.SheetWorkingNote
+import com.loskon.noteminimalism3.ui.sheets.SheetTextAssistantNote
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 import com.loskon.noteminimalism3.utils.*
@@ -294,7 +294,7 @@ class NoteFragment : Fragment(),
         lifecycleScope.launch {
             delay(300L)
             val stringDate: String = DateUtil.getStringDate(note.dateModification)
-            SheetWorkingNote(activity, textAssistant).show(stringDate, noteId)
+            SheetTextAssistantNote(activity, textAssistant).show(stringDate, noteId)
         }
     }
 

@@ -1,15 +1,21 @@
 package com.loskon.noteminimalism3.ui.fragments
 
 import android.content.Context
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.backup.DateBaseBackup
 import com.loskon.noteminimalism3.backup.DateBaseCloudBackup
 import com.loskon.noteminimalism3.other.InternetCheck
-import com.loskon.noteminimalism3.request.permissions.ResultAccessStorage
-import com.loskon.noteminimalism3.request.permissions.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.request.RequestCode
+import com.loskon.noteminimalism3.request.activity.ResultActivity
+import com.loskon.noteminimalism3.request.activity.ResultActivityInterface
+import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.SheetBackupNameDateBase
@@ -18,6 +24,7 @@ import com.loskon.noteminimalism3.ui.sheets.SheetGoogleAccount
 import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
+import com.loskon.noteminimalism3.utils.showToast
 
 /**
  * Форма для бэкапа/восстановления базы данных
@@ -25,6 +32,7 @@ import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 
 class BackupFragment : Fragment(),
     ResultAccessStorageInterface,
+    ResultActivityInterface,
     View.OnClickListener {
 
     private lateinit var activity: SettingsActivity
@@ -41,6 +49,7 @@ class BackupFragment : Fragment(),
         super.onAttach(context)
         activity = context as SettingsActivity
         ResultAccessStorage.installingVerification(this, this)
+        ResultActivity.installing(this, this)
         cloudBackup = DateBaseCloudBackup(activity, this)
     }
 
@@ -101,8 +110,12 @@ class BackupFragment : Fragment(),
             }
 
             R.id.btn_restore_sd -> {
-                if (hasAccessStorageRequest) {
-                    SheetListRestoreDateBase(activity).show()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    ResultActivity.launcherSelectingDateBaseFile(activity)
+                } else {
+                    if (hasAccessStorageRequest) {
+                        SheetListRestoreDateBase(activity).show()
+                    }
                 }
             }
 
@@ -170,6 +183,23 @@ class BackupFragment : Fragment(),
         }
     }
 
+    override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
+        if (isGranted) {
+            if (requestCode == RequestCode.REQUEST_CODE_GET_BACKUP_FILE) {
+                try {
+                    data?.let { DateBaseBackup.performRestore(activity, it) }
+                    callback?.onRestoreNotes()
+                    showSnackbar(SnackbarManager.MSG_RESTORE_COMPLETED)
+                } catch (exception: Exception) {
+                    showSnackbar(SnackbarManager.MSG_RESTORE_FAILED)
+                }
+            }
+        } else {
+            activity.showToast("Файл не был выбран")
+        }
+    }
+
+
     fun showSnackbar(typeMessage: String) = activity.showSnackbar(typeMessage)
 
     fun visibilityMenuItemAccount(isVisible: Boolean) =
@@ -182,4 +212,16 @@ class BackupFragment : Fragment(),
     fun signOutFromGoogle() = cloudBackup.signOutFromGoogle()
 
     fun deleteUserAccount() = cloudBackup.deleteUserAccount()
+
+    interface CallbackRestoreNoteAndroidR {
+        fun onRestoreNotes()
+    }
+
+    companion object {
+        private var callback: CallbackRestoreNoteAndroidR? = null
+
+        fun listenerCallback(callback: CallbackRestoreNoteAndroidR) {
+            this.callback = callback
+        }
+    }
 }

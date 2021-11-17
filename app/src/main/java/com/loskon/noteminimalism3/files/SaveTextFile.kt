@@ -1,7 +1,7 @@
 package com.loskon.noteminimalism3.files
 
 import android.content.Context
-import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.backup.BackupPathManager
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 import com.loskon.noteminimalism3.utils.StringUtil
@@ -18,7 +18,7 @@ class SaveTextFile(
 ) {
 
     fun creationFolderTextFiles(text: String) {
-        val folderHome: File = BackupPath.getFolderBackup(context)
+        val folderHome: File = BackupPathManager.getBackupFolder(context)
         val folderTextFiles = File(folderHome, "Text Files")
 
         val hasCreatedFolder: Boolean = CheckCreatedFiles.checkCreatedFolder(folderTextFiles)

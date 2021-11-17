@@ -1,5 +1,7 @@
 package com.loskon.noteminimalism3.utils
 
+import java.util.*
+
 /**
  * Замена запрещенных символов в именах файлов
  */
@@ -18,6 +20,12 @@ class StringUtil {
             newString = newString.replace("\n", " ")
 
             return newString
+        }
+
+        fun replaceForbiddenCharactersForAuto(date: Date): String {
+            var name: String = DateUtil.getStringDate(date)
+            name = name.replace("[./:]".toRegex(), "_")
+            return "$name (A)"
         }
     }
 }

@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  * Действия с заметкой
  */
 
-class SheetWorkingNote(
+class SheetTextAssistantNote(
     private val context: Context,
     private val textAssistant: TextNoteAssistant
 ) :

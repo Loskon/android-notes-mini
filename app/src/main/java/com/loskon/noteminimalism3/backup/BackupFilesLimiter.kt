@@ -15,7 +15,7 @@ class BackupFilesLimiter {
 
         fun deleteExtraFiles(context: Context) {
 
-            val homeFolder: File? = BackupPath.getFolderBackup(context)
+            val homeFolder: File = BackupPathManager.getBackupFolder(context)
             val maxNumberFiles: Int = PrefManager.getNumberBackups(context)
             var logFiles: Array<File>? = BackupFilter.getListDateBaseFile(homeFolder)
 

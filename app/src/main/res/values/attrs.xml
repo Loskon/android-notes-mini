@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- color -->
     <attr name="colorAppBar" format="color" />
     <attr name="colorFabIcon" format="color" />
     <attr name="colorCardView" format="color" />
@@ -17,10 +16,4 @@
     <attr name="colorDialogBackground" format="color" />
     <attr name="colorDeleteIconRestore" format="color" />
     <attr name="colorBackgroundSearchView" format="color" />
-
-    <!-- reference -->
-    <declare-styleable name="AppWidgetAttrs">
-        <attr name="appWidgetBackgroundColor" format="color" />
-        <attr name="appWidgetTextColor" format="color" />
-    </declare-styleable>
 </resources>

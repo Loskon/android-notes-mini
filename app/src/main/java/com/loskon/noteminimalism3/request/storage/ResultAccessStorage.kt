@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.request.permissions
+package com.loskon.noteminimalism3.request.storage
 
 import android.Manifest
 import android.content.Context
@@ -64,7 +64,9 @@ class ResultAccessStorage {
                     ActivityResultContracts.StartActivityForResult()
                 ) {
                     val isGrantedAndroidR: Boolean = Environment.isExternalStorageManager()
-                    resultAccessStorageInterface?.onRequestPermissionsStorageResult(isGrantedAndroidR)
+                    resultAccessStorageInterface?.onRequestPermissionsStorageResult(
+                        isGrantedAndroidR
+                    )
                 }
         }
 
@@ -78,7 +80,9 @@ class ResultAccessStorage {
                     ActivityResultContracts.StartActivityForResult()
                 ) {
                     val isGrantedAndroidR: Boolean = Environment.isExternalStorageManager()
-                    resultAccessStorageInterface?.onRequestPermissionsStorageResult(isGrantedAndroidR)
+                    resultAccessStorageInterface?.onRequestPermissionsStorageResult(
+                        isGrantedAndroidR
+                    )
                 }
         }
 
@@ -116,11 +120,12 @@ class ResultAccessStorage {
             var isGrantedPermissions = false
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (Environment.isExternalStorageManager()) {
+/*                if (Environment.isExternalStorageManager()) {
                     isGrantedPermissions = true
                 } else {
                     requestPermissionsAndroidR(context)
-                }
+                }*/
+                isGrantedPermissions = true
             } else {
                 val read = ActivityCompat.checkSelfPermission(context, readPermissions)
                 val write = ActivityCompat.checkSelfPermission(context, writePermissions)
@@ -140,7 +145,8 @@ class ResultAccessStorage {
             var isGrantedPermissions = false
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (Environment.isExternalStorageManager()) isGrantedPermissions = true
+                //if (Environment.isExternalStorageManager())
+                isGrantedPermissions = true
             } else {
                 val read = ActivityCompat.checkSelfPermission(context, readPermissions)
                 val write = ActivityCompat.checkSelfPermission(context, writePermissions)

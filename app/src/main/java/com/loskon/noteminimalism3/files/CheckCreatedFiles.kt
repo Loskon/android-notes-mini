@@ -1,7 +1,7 @@
 package com.loskon.noteminimalism3.files
 
 import android.content.Context
-import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.backup.BackupPathManager
 import java.io.File
 
 /**
@@ -12,7 +12,7 @@ class CheckCreatedFiles {
     companion object {
 
         fun createBackupFolder(context: Context): Boolean {
-            val folder: File = BackupPath.getFolderBackup(context)
+            val folder: File = BackupPathManager.getBackupFolder(context)
 
             var isFolderCreated = true
 
@@ -27,7 +27,7 @@ class CheckCreatedFiles {
             var isFolderCreated = true
 
             if (!folderTextFiles.exists()) {
-                isFolderCreated = folderTextFiles.mkdir()
+                isFolderCreated = folderTextFiles.mkdirs()
             }
 
             return isFolderCreated

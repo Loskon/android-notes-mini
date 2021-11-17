@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.BackupFilter
-import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.backup.BackupPathManager
 import com.loskon.noteminimalism3.backup.DateBaseBackup
 import com.loskon.noteminimalism3.toast.ToastManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
@@ -17,6 +17,7 @@ import com.loskon.noteminimalism3.utils.setMargins
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 import java.io.File
+
 
 /**
  * Список файлов резервного копирования
@@ -62,7 +63,7 @@ class SheetListRestoreDateBase(private val context: Context) {
 
     private val files: Array<File>?
         get() {
-            val folder = BackupPath.getFolderBackup(context)
+            val folder = BackupPathManager.getBackupFolder(context)
 
             return if (folder.exists()) {
                 BackupFilter.getListDateBaseFile(folder)

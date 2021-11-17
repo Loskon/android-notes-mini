@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 
 /**
- * Разные утилиты
+ * Утилиты
  */
 
 // Тост 1

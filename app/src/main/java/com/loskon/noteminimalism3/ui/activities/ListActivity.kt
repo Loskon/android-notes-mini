@@ -63,11 +63,12 @@ class ListActivity : BaseActivity(),
     SettingsAppFragment.CallbackOneSizeCards,
     SheetListRestoreDateBase.CallbackRestoreNote,
     DateBaseCloudBackup.CallbackRestoreNoteCloud,
+    BackupFragment.CallbackRestoreNoteAndroidR,
     SheetPrefSort.CallbackSort,
     FontsFragment.CallbackTypeFont {
 
     companion object {
-        const val RECYCLER_STATE_EXERCISE = "recycler_state"
+        const val RECYCLER_STATE = "recycler_state"
     }
 
     private lateinit var shortsCommand: ShortsCommand
@@ -139,6 +140,7 @@ class ListActivity : BaseActivity(),
         SettingsAppFragment.listenerCallbackSize(this)
         SheetListRestoreDateBase.listenerCallback(this)
         DateBaseCloudBackup.listenerCallback(this)
+        BackupFragment.listenerCallback(this)
         SheetPrefSort.listenerCallback(this)
         FontsFragment.listenerCallback(this)
     }
@@ -399,13 +401,14 @@ class ListActivity : BaseActivity(),
     // From recycler adapter
     override fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean) {
         tvSelectedItemsCount.text = selectedItemsCount.toString()
-        widgetsListHelper.setSelectIcon(hasAllSelected)
+        widgetsListHelper.changeIconMenuSelect(hasAllSelected)
         widgetsListHelper.changeVisibleUnification(notesCategory, selectedItemsCount >= 2)
         widgetsListHelper.setVisibleFavorite(notesCategory, selectedItemsCount in 1..1)
     }
 
+    // From recycler adapter
     override fun onVisibleFavorite(note: Note) {
-        widgetsListHelper.setFavorite(note.isFavorite)
+        widgetsListHelper.changeIconMenuFavorite(note.isFavorite)
     }
 
     // From note fragment
@@ -485,6 +488,7 @@ class ListActivity : BaseActivity(),
 
     override fun onRestoreNotes() {
         notesCategory = CATEGORY_ALL_NOTES
+        widgetsListHelper.setIconFabCategory(notesCategory)
         updateQuicklyNotesListTop()
     }
 
@@ -535,13 +539,18 @@ class ListActivity : BaseActivity(),
         } else super.onKeyDown(keyCode, event)
     }
 
+    override fun onStart() {
+        //overridePendingTransition(0,0)
+        super.onStart()
+    }
+
     override fun onResume() {
         super.onResume()
         resetRecyclerState()
     }
 
     private fun resetRecyclerState() {
-        val state: Parcelable? = bundleState?.getParcelable(RECYCLER_STATE_EXERCISE)
+        val state: Parcelable? = bundleState?.getParcelable(RECYCLER_STATE)
         recyclerView.layoutManager?.onRestoreInstanceState(state)
     }
 
@@ -553,7 +562,7 @@ class ListActivity : BaseActivity(),
 
     private fun saveRecyclerStata() {
         val listState: Parcelable? = recyclerView.layoutManager?.onSaveInstanceState()
-        bundleState?.putParcelable(RECYCLER_STATE_EXERCISE, listState)
+        bundleState?.putParcelable(RECYCLER_STATE, listState)
     }
 
     fun getNotesCategory(): String {

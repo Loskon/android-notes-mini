@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.ui.fragments
 
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -9,12 +10,12 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.backup.BackupPathManager
 import com.loskon.noteminimalism3.request.RequestCode
 import com.loskon.noteminimalism3.request.activity.ResultActivity
 import com.loskon.noteminimalism3.request.activity.ResultActivityInterface
-import com.loskon.noteminimalism3.request.permissions.ResultAccessStorage
-import com.loskon.noteminimalism3.request.permissions.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.*
@@ -194,7 +195,7 @@ class SettingsFragment :
 
     private fun installSummaryPreferences() {
         // Data
-        folder?.summary = BackupPath.getNamePath(activity)
+        folder?.summary = BackupPathManager.getPathSummary(activity)
 
         val number: Int = PrefManager.getNumberBackups(activity)
         numberBackups?.summary = number.toString()
@@ -208,6 +209,10 @@ class SettingsFragment :
         if (!ResultAccessStorage.hasAccessStorage(activity)) {
             autoBackup?.isChecked = false
             autoBackupNotify?.isChecked = false
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            folder?.isEnabled = false
         }
     }
 
@@ -323,9 +328,9 @@ class SettingsFragment :
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
             if (requestCode == RequestCode.REQUEST_CODE_READ) {
-                if (data != null) {
-                    if (data.path?.contains("primary") == true) {
-                        val backupPath: String = BackupPath.findFullPath(data.path)
+                if (data != null && data.path != null) {
+                    if (data.path!!.contains("primary")) {
+                        val backupPath: String = BackupPathManager.findFullPath(data.path!!)
                         PrefManager.setBackupPath(activity, backupPath)
                     } else {
                         activity.showSnackbar(SnackbarManager.MSG_LOCAL_STORAGE)

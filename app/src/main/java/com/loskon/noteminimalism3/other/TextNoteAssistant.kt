@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.ScrollView
 import com.loskon.noteminimalism3.files.SaveTextFile
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.request.permissions.ResultAccessStorage
+import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 import com.loskon.noteminimalism3.utils.IntentUtil

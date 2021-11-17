@@ -36,7 +36,7 @@ class SheetPrefSelectColorHex(private val context: Context) {
     }
 
     private fun setupColorViews() {
-        val color: Int = PrefManager.getAppColor(context)
+        color = PrefManager.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }
 

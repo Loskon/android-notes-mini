@@ -206,10 +206,4 @@
     <style name="AliceRegularFont">
         <item name="android:fontFamily">@font/alice_regular</item>
     </style>
-
-    <!-- AppWidget -->
-    <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">
-        <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
-        <item name="appWidgetTextColor">@color/light_blue_50</item>
-    </style>
 </resources>

@@ -6,7 +6,7 @@ import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.backup.BackupPathManager
 import com.loskon.noteminimalism3.backup.DateBaseBackup
 import com.loskon.noteminimalism3.files.CheckCreatedFiles
 import com.loskon.noteminimalism3.sharedpref.PrefManager
@@ -16,7 +16,6 @@ import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
-import java.io.File
 import java.util.*
 
 /**
@@ -102,7 +101,8 @@ class SheetBackupNameDateBase(private val context: Context) {
 
     private fun creatingBackup(title: String) {
         val backupTitle: String = StringUtil.replaceForbiddenCharacters(title)
-        val backupPath: String = BackupPath.getPath(context) + File.separator
+        //val backupPath: String = BackupPath.getPath(context) + File.separator
+        val backupPath: String = BackupPathManager.getPathBackupFolder(context)
         val outFileName = "$backupPath$backupTitle.db"
 
         try {

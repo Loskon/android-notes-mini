@@ -16,6 +16,7 @@ import com.loskon.noteminimalism3.command.ShortsCommand
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.ListActivity
+import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
  * Кастомный Snackbar с таймером
@@ -54,8 +55,8 @@ class SnackbarUndo(
         initViews(view)
         configViews()
         clickingSnackbarButton(note, isFavorite)
-        setAnimation()
-        setTimer()
+        setupAnimation()
+        installTimer()
 
         layout.addView(view, 0)
         snackbar?.show()
@@ -81,7 +82,7 @@ class SnackbarUndo(
     }
 
     private fun clickingSnackbarButton(note: Note, isFavorite: Boolean) {
-        btnSnackbar.setOnClickListener {
+        btnSnackbar.setOnSingleClickListener {
             if (notesCategory == CATEGORY_TRASH) {
                 shortsCommand.insert(note)
             } else {
@@ -96,14 +97,14 @@ class SnackbarUndo(
         }
     }
 
-    private fun setAnimation() {
+    private fun setupAnimation() {
         val animation = ObjectAnimator.ofInt(progressBar, "progress", 10000)
         animation.duration = 3900 // 4 second
         animation.interpolator = DecelerateInterpolator()
         animation.start()
     }
 
-    private fun setTimer() {
+    private fun installTimer() {
         countDownTimer = object : CountDownTimer(4000, 100) {
             override fun onTick(leftTimeInMilliseconds: Long) {
                 val seconds: Long = leftTimeInMilliseconds / 1000

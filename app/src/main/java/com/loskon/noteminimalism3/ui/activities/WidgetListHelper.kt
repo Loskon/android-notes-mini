@@ -81,25 +81,25 @@ class WidgetListHelper(
         barMenu.findItem(menuId).isVisible = isVisible
     }
 
-    fun setSelectIcon(isSelectOne: Boolean) {
-        val menuIdSelect: Int = if (isSelectOne) {
+    fun changeIconMenuSelect(isSelectOne: Boolean) {
+        val menuId: Int = if (isSelectOne) {
             R.drawable.baseline_done_black_24
         } else {
             R.drawable.baseline_done_all_black_24
         }
 
-        setMenuIcon(R.id.action_select_item, menuIdSelect)
+        setMenuIcon(R.id.action_select_item, menuId)
         setMenuIconColor()
     }
 
-    fun setFavorite(isSelectOne: Boolean) {
-        val menuIdSelect: Int = if (isSelectOne) {
+    fun changeIconMenuFavorite(isFavorite: Boolean) {
+        val menuId: Int = if (isFavorite) {
             R.drawable.baseline_star_black_24
         } else {
             R.drawable.baseline_star_border_black_24
         }
 
-        setMenuIcon(R.id.action_favorite, menuIdSelect)
+        setMenuIcon(R.id.action_favorite, menuId)
         setMenuIconColor()
     }
 

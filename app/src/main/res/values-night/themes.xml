@@ -60,10 +60,4 @@
                 <item name="android:layout_margin">@dimen/mtrl_snackbar_margin</item>
                 <item name="actionTextColorAlpha">@dimen/mtrl_snackbar_action_text_color_alpha</item>-->
     </style>
-
-
-    <style name="ThemeOverlay.Noteminimalism3.AppWidgetContainer" parent="">
-        <item name="appWidgetBackgroundColor">@color/light_blue_900</item>
-        <item name="appWidgetTextColor">@color/light_blue_200</item>
-    </style>
 </resources>

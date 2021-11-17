@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="0123456789ABCDEFabcdef"
+            android:inputType="textFilter"
             android:hint="000000"
             android:lines="1"
             android:maxLength="6"

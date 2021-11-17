@@ -253,12 +253,12 @@ class PrefManager {
 
         // string
         @Suppress("DEPRECATION")
-        fun getSelectedDirectory(context: Context): String? {
+        fun getSelectedDirectory(context: Context): String {
             return load(
                 context,
                 PREF_KEY_SEL_DIRECTORY,
                 Environment.getExternalStorageDirectory().toString()
-            )
+            )!!
         }
     }
 }

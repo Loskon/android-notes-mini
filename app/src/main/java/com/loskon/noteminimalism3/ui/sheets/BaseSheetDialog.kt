@@ -16,7 +16,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
- * Единая форма для нижнего меню
+ * Единая форма для нижнего диалогового окна
  */
 
 class BaseSheetDialog(private val sheetContext: Context) :

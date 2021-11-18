@@ -63,7 +63,7 @@
     <!-- fragment_note -->
     <string name="sb_note_is_empty">Error! The note is empty!</string>
     <string name="sb_note_create_text_files_completed">Save text file:
-        /Notes Mini Backup/Text Files </string>
+        /Notes Mini Backup/Text Files/</string>
     <string name="sb_note_create_text_file_failed">Failed to save text file!</string>
     <string name="sb_note_invalid_link">Invalid link!</string>
     <string name="sb_note_need_copy_text">You need to copy text!</string>
@@ -80,7 +80,7 @@
     <string name="sb_note_text_inserted">Text inserted!</string>
     <!-- fragment_settings -->
     <string name="sb_settings_unable_select_folder">Unable to select folder!</string>
-    <string name="sb_bp_you_can_local_storage">You can select a folder only in the phone\'s
+    <string name="sb_settings_you_can_local_storage">You can select a folder only in the phone\'s
         local storage!</string>
     <!-- fragment_backup -->
     <string name="sb_bp_text_error">Error. Retry!</string>
@@ -96,6 +96,8 @@
     <string name="sb_bp_backup_not_found">Backup file was not found. Maybe it
         hasn\'t been uploaded yet!</string>
     <string name="sb_bp_problem_internet">Problems with the internet connection!</string>
+    <string name="sb_bp_backup_not_selected">A backup file was not selected!</string>
+    <string name="sb_bp_invalid_format_file">Invalid file format!</string>
 
     <!-- Sheet -->
     <!-- sheet_backup -->

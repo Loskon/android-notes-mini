@@ -50,6 +50,8 @@ class SnackbarManager(
         const val MSG_DEL_DATA = "msg_del_data"
         const val MSG_BACKUP_NOT_FOUND = "msg_backup_not_found"
         const val MSG_INTERNET_PROBLEM = "msg_internet_problem"
+        const val MSG_BACKUP_NOT_SELECTED = "msg_backup_not_selected"
+        const val MSG_INVALID_FORMAT_FILE = "msg_invalid_format_file"
 
         // other
         const val MSG_NO_PERMISSION = "msg_no_permission"
@@ -88,7 +90,7 @@ class SnackbarManager(
                 MSG_INSERTED_TEXT -> R.string.sb_note_text_inserted
                 // fragment_settings
                 MSG_UNABLE_SELECT_FOLDER -> R.string.sb_settings_unable_select_folder
-                MSG_LOCAL_STORAGE -> R.string.sb_bp_you_can_local_storage
+                MSG_LOCAL_STORAGE -> R.string.sb_settings_you_can_local_storage
                 // fragment_backup
                 MSG_TEXT_ERROR -> R.string.sb_bp_text_error
                 MSG_BACKUP_COMPLETED -> R.string.sb_bp_completed
@@ -102,6 +104,8 @@ class SnackbarManager(
                 MSG_DEL_DATA -> R.string.sb_bp_delete_data_from_cloud
                 MSG_BACKUP_NOT_FOUND -> R.string.sb_bp_backup_not_found
                 MSG_INTERNET_PROBLEM -> R.string.sb_bp_problem_internet
+                MSG_BACKUP_NOT_SELECTED -> R.string.sb_bp_backup_not_selected
+                MSG_INVALID_FORMAT_FILE -> R.string.sb_bp_invalid_format_file
                 // other
                 MSG_NO_PERMISSION -> R.string.no_permissions
                 else -> R.string.unknown_error

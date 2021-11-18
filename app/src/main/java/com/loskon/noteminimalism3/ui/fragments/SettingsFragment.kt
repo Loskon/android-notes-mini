@@ -327,7 +327,7 @@ class SettingsFragment :
 
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
-            if (requestCode == RequestCode.REQUEST_CODE_READ) {
+            if (requestCode == RequestCode.REQUEST_CODE_GET_FOLDER) {
                 if (data != null && data.path != null) {
                     if (data.path!!.contains("primary")) {
                         val backupPath: String = BackupPathManager.findFullPath(data.path!!)

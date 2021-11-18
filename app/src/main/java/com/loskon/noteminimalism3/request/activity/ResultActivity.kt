@@ -24,7 +24,7 @@ class ResultActivity {
 
         private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
-        private var request_code = 0
+        private var requestCode = 0
 
         fun installing(
             activity: ComponentActivity?,
@@ -37,7 +37,7 @@ class ResultActivity {
 
                 resultActivityInterface?.onRequestActivityResult(
                     isGranted,
-                    request_code,
+                    requestCode,
                     result.data?.data
                 )
             }
@@ -54,14 +54,14 @@ class ResultActivity {
 
                 resultActivityInterface?.onRequestActivityResult(
                     isGranted,
-                    request_code,
+                    requestCode,
                     result.data?.data
                 )
             }
         }
 
         fun launcherSelectingFolder(context: Context) {
-            request_code = RequestCode.REQUEST_CODE_READ
+            requestCode = RequestCode.REQUEST_CODE_GET_FOLDER
 
             try {
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
@@ -78,9 +78,9 @@ class ResultActivity {
         }
 
         fun launcherSelectingDateBaseFile(context: Context) {
-            request_code = RequestCode.REQUEST_CODE_GET_BACKUP_FILE
+            requestCode = RequestCode.REQUEST_CODE_GET_BACKUP_FILE
             val backupFolderUri: Uri = Uri.parse(BackupPathManager.getBackupFolder(context).path)
-            val mimetypes = arrayOf(
+            val mimetypes: Array<String> = arrayOf(
                 "application/x-sqlite3",
                 "application/vnd.sqlite3",
                 "application/octet-stream"

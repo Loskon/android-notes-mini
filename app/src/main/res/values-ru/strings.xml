@@ -63,7 +63,7 @@
     <!-- fragment_note -->
     <string name="sb_note_is_empty">Ошибка! Заметка пустая!</string>
     <string name="sb_note_create_text_files_completed">Текстовый файл сохранен:
-        /Notes Mini Backup/Text Files</string>
+        /Notes Mini Backup/Text Files/</string>
     <string name="sb_note_create_text_file_failed">Не удалось сохранить текстовый файл!</string>
     <string name="sb_note_invalid_link">Неверная ссылка!</string>
     <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
@@ -80,7 +80,7 @@
     <string name="sb_note_text_inserted">Текст вставлен!</string>
     <!-- fragment_settings -->
     <string name="sb_settings_unable_select_folder">Невозможно выбрать папку!</string>
-    <string name="sb_bp_you_can_local_storage">Вы можете указать папку только в локальной
+    <string name="sb_settings_you_can_local_storage">Вы можете указать папку только в локальной
         памяти телефона</string>
     <!-- fragment_backup -->
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
@@ -97,6 +97,8 @@
     <string name="sb_bp_backup_not_found">Файл бэкапа не найден.
         Возможно он не был еще загружен!</string>
     <string name="sb_bp_problem_internet">Проблемы с интернет-соединением!</string>
+    <string name="sb_bp_backup_not_selected">Файл бэкапа не был выбран!</string>
+    <string name="sb_bp_invalid_format_file">Неверный формат файла!</string>
 
     <!-- Sheet -->
     <!-- sheet_backup -->

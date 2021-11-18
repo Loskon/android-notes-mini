@@ -24,7 +24,7 @@ import com.loskon.noteminimalism3.ui.sheets.SheetGoogleAccount
 import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.showToast
+
 
 /**
  * Форма для бэкапа/восстановления базы данных
@@ -187,18 +187,28 @@ class BackupFragment : Fragment(),
         if (isGranted) {
             if (requestCode == RequestCode.REQUEST_CODE_GET_BACKUP_FILE) {
                 try {
-                    data?.let { DateBaseBackup.performRestore(activity, it) }
-                    callback?.onRestoreNotes()
-                    showSnackbar(SnackbarManager.MSG_RESTORE_COMPLETED)
+                    restoreDateBase(data)
                 } catch (exception: Exception) {
                     showSnackbar(SnackbarManager.MSG_RESTORE_FAILED)
                 }
             }
         } else {
-            activity.showToast("Файл не был выбран")
+            showSnackbar(SnackbarManager.MSG_BACKUP_NOT_SELECTED)
         }
     }
 
+    private fun restoreDateBase(data: Uri?) {
+        if (data != null) {
+            val isRestoreFailed: Boolean = DateBaseBackup.performRestore(activity, data)
+            callback?.onRestoreNotes()
+
+            if (isRestoreFailed) {
+                showSnackbar(SnackbarManager.MSG_RESTORE_COMPLETED)
+            } else {
+                showSnackbar(SnackbarManager.MSG_INVALID_FORMAT_FILE)
+            }
+        }
+    }
 
     fun showSnackbar(typeMessage: String) = activity.showSnackbar(typeMessage)
 

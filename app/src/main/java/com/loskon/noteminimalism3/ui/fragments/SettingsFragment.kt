@@ -119,7 +119,7 @@ class SettingsFragment :
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
+        setPreferencesFromResource(com.loskon.noteminimalism3.R.xml.preferences, rootKey)
         getPreferenceScreenKeys()
         findPreferences()
         installPreferencesListener()
@@ -127,7 +127,7 @@ class SettingsFragment :
 
     private fun getPreferenceScreenKeys() {
         // Appearance settings
-        customizationKey = getString(R.string.custom_app_title)
+        customizationKey = getString(com.loskon.noteminimalism3.R.string.custom_app_title)
         typeFontKey = getString(R.string.type_font_title)
         sortingKey = getString(R.string.sort_title)
         darkModeKey = getString(R.string.dark_mode_title)

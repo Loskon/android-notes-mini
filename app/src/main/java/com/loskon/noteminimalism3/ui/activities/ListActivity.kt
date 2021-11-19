@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.activities
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
@@ -312,7 +313,7 @@ class ListActivity : BaseActivity(),
 
         } else {
             widgetsListHelper.setVisibleUnification(false)
-            widgetsListHelper.setVisibleFavorite(notesCategory,false)
+            widgetsListHelper.setVisibleFavorite(notesCategory, false)
 
             if (isSearchMode) {
                 widgetsListHelper.setVisibleSearchAndSwitch(false)
@@ -497,9 +498,10 @@ class ListActivity : BaseActivity(),
         updateQuicklyNotesListTop()
     }
 
-    override fun onChangeTypeFont() {
+    override fun onChangeTypeFont(typeFace: Typeface?) {
         FontManager.setFont(this)
         recyclerView.adapter = adapter
+        typeFace?.let { tvEmptyList.typeface = it }
     }
 
     // Внешние методы
@@ -537,11 +539,6 @@ class ListActivity : BaseActivity(),
                 }
             }
         } else super.onKeyDown(keyCode, event)
-    }
-
-    override fun onStart() {
-        //overridePendingTransition(0,0)
-        super.onStart()
     }
 
     override fun onResume() {

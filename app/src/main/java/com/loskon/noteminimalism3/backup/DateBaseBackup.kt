@@ -10,7 +10,6 @@ import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.io.*
 import java.nio.channels.FileChannel
 
-
 /**
  * Создание файла бэкапа и восстановление
  */
@@ -20,19 +19,19 @@ class DateBaseBackup {
     companion object {
 
         fun performBackup(context: Context, outFileName: String) {
-            processCopyingFile(pathDateBase(context), outFileName)
+            processCopyingDateBaseFile(pathDateBase(context), outFileName)
             BackupFilesLimiter.deleteExtraFiles(context)
         }
 
         fun performRestore(context: Context, inFileName: String) {
-            processCopyingFile(inFileName, pathDateBase(context))
+            processCopyingDateBaseFile(inFileName, pathDateBase(context))
         }
 
         private fun pathDateBase(context: Context): String {
             return context.getDatabasePath(NoteTable.DATABASE_NAME).toString()
         }
 
-        private fun processCopyingFile(inFileName: String, outFileName: String) {
+        private fun processCopyingDateBaseFile(inFileName: String, outFileName: String) {
             val inFile = File(inFileName)
             val outFile = File(outFileName)
 
@@ -48,17 +47,11 @@ class DateBaseBackup {
         // For android R
         fun performRestore(context: Context, fileUri: Uri): Boolean {
             val resolver: ContentResolver = context.contentResolver
-            val descriptor: ParcelFileDescriptor? = resolver.openFileDescriptor(fileUri, "r", null)
-
-            return if (descriptor != null) {
-                val fileName: String = context.contentResolver.getFileName(fileUri)
-                val pathFile: String = context.cacheDir.path + File.separator + fileName
-
-                processCopyingFileInCacheDir(context, fileName, descriptor)
-                checkingFile(pathFile, pathDateBase(context))
-            } else {
-                false
-            }
+            val descriptor: ParcelFileDescriptor = resolver.openFileDescriptor(fileUri, "r", null)!!
+            val fileName: String = context.contentResolver.getFileName(fileUri)
+            val pathFile: String = context.cacheDir.path + File.separator + fileName
+            processCopyingFileInCacheDir(context, fileName, descriptor)
+            return checkingFile(pathFile, pathDateBase(context))
         }
 
         private fun ContentResolver.getFileName(fileUri: Uri): String {
@@ -98,7 +91,7 @@ class DateBaseBackup {
 
         private fun checkingFile(pathFile: String, pathDateBase: String): Boolean {
             return if (isValidSQLiteFile(pathFile)) {
-                processCopyingFile(pathFile, pathDateBase)
+                processCopyingDateBaseFile(pathFile, pathDateBase)
                 File(pathFile).delete()
                 true
             } else {

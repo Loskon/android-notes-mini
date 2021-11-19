@@ -101,7 +101,6 @@ class SheetBackupNameDateBase(private val context: Context) {
 
     private fun creatingBackup(title: String) {
         val backupTitle: String = StringUtil.replaceForbiddenCharacters(title)
-        //val backupPath: String = BackupPath.getPath(context) + File.separator
         val backupPath: String = BackupPathManager.getPathBackupFolder(context)
         val outFileName = "$backupPath$backupTitle.db"
 

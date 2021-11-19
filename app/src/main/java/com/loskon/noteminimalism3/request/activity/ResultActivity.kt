@@ -79,7 +79,7 @@ class ResultActivity {
 
         fun launcherSelectingDateBaseFile(context: Context) {
             requestCode = RequestCode.REQUEST_CODE_GET_BACKUP_FILE
-            val backupFolderUri: Uri = Uri.parse(BackupPathManager.getBackupFolder(context).path)
+            val backupFolderUri: Uri = Uri.parse(BackupPathManager.getPathBackupFolder(context))
             val mimetypes: Array<String> = arrayOf(
                 "application/x-sqlite3",
                 "application/vnd.sqlite3",

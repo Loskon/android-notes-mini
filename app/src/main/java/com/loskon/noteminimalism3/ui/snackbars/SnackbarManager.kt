@@ -30,7 +30,7 @@ class SnackbarManager(
         const val MSG_INVALID_FORMAT = "msg_invalid_format"
         const val MSG_NOTE_TEXT_COPIED = "msg_text_copied"
         const val MSG_NOTE_HYPERLINKS_COPIED = "msg_hyperlinks_copied"
-        const val MSG_UNABLE_CREATE_FILE = "msg__unable_create_text_file"
+        const val MSG_UNABLE_CREATE_TEXT_FILE = "msg__unable_create_text_file"
         const val MSG_INSERTED_TEXT = "msg_text_inserted"
 
         // fragment_settings
@@ -86,7 +86,7 @@ class SnackbarManager(
                 MSG_INVALID_FORMAT -> R.string.sb_note_invalid_format
                 MSG_NOTE_TEXT_COPIED -> R.string.sb_note_text_copied
                 MSG_NOTE_HYPERLINKS_COPIED -> R.string.sb_note_hyperlinks_copied
-                MSG_UNABLE_CREATE_FILE -> R.string.sb_unable_create_text_file
+                MSG_UNABLE_CREATE_TEXT_FILE -> R.string.sb_unable_create_text_file
                 MSG_INSERTED_TEXT -> R.string.sb_note_text_inserted
                 // fragment_settings
                 MSG_UNABLE_SELECT_FOLDER -> R.string.sb_settings_unable_select_folder

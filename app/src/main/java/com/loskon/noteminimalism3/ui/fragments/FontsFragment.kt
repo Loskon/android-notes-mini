@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.ui.fragments
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -216,11 +217,11 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
         tvExample.typeface = item.font_type_face
         PrefManager.setTypeFont(activity, item.id)
         activity.setAppFonts()
-        callback?.onChangeTypeFont()
+        callback?.onChangeTypeFont(item.font_type_face)
     }
 
     interface CallbackTypeFont {
-        fun onChangeTypeFont()
+        fun onChangeTypeFont(typeFace: Typeface?)
     }
 
     companion object {

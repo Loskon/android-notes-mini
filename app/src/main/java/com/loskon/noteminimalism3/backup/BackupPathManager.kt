@@ -65,7 +65,7 @@ class BackupPathManager {
                 PrefManager.getSelectedDirectory(context)
             }
 
-            val backupFolder = context.getString(R.string.app_name_backup)
+            val backupFolder = context.getString(R.string.app_name_folder_backup)
             fullPath = fullPath + File.separator + backupFolder + File.separator
             return fullPath
         }
@@ -82,6 +82,5 @@ class BackupPathManager {
             summary = summary.replace("storage/", "")
             return summary
         }
-
     }
 }

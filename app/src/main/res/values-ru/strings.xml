@@ -86,7 +86,7 @@
     <string name="sb_bp_text_error">Ошибка! Повторите!</string>
     <string name="sb_bp_completed">Резервное копирование прошло успешно!</string>
     <string name="sb_bp_failed">Невозможно создать резервную копию базы данных.
-        Повторите попытку!</string>
+        Возможно, файл с таким именем уже существует!</string>
     <string name="sb_bp_restore_completed">Восстановление прошло успешно!</string>
     <string name="sb_bp_restore_failed">Ошибка восстановления. Повторите попытку!</string>
     <string name="sb_bp_backup_files_deleted">Файлы бэкапов были удалены!</string>

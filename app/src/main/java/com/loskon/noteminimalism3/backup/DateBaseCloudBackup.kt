@@ -121,7 +121,7 @@ class DateBaseCloudBackup(
 
     private val cloudPath: String
         get() {
-            return context.getString(R.string.app_name_backup) + File.separator +
+            return context.getString(R.string.app_name_folder_backup) + File.separator +
                     user?.uid + File.separator + NoteTable.DATABASE_NAME
         }
 

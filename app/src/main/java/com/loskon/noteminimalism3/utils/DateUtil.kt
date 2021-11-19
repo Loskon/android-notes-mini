@@ -15,7 +15,7 @@ class DateUtil {
             val day: Int
             val month: Int
 
-            var dateString =
+            var dateString: String =
                 DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date)
 
             day = dateString.numberCharacters(0, 2)
@@ -40,6 +40,11 @@ class DateUtil {
             string = string.replace(".", "")
 
             return string.length
+        }
+
+        fun getTimeNow(): String {
+            val date = Date()
+            return "(" + DateFormat.getTimeInstance(DateFormat.SHORT).format(date) + ")"
         }
     }
 }

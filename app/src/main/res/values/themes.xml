@@ -51,14 +51,32 @@
 
         <!-- Snackbar -->
         <item name="snackbarStyle">@style/MaterialSnackbarTheme</item>
+
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
     </style>
 
     <!-- Snackbar -->
     <style name="MaterialSnackbarTheme" parent="@style/Widget.MaterialComponents.Snackbar">
         <item name="android:background">@drawable/snackbar_background</item>
-<!--        <item name="cornerRadius">@dimen/mtrl_snackbar_background_corner_radius</item>
-        <item name="android:layout_margin">@dimen/mtrl_snackbar_margin</item>
-        <item name="actionTextColorAlpha">@dimen/mtrl_snackbar_action_text_color_alpha</item>-->
+        <!--        <item name="cornerRadius">@dimen/mtrl_snackbar_background_corner_radius</item>
+                <item name="android:layout_margin">@dimen/mtrl_snackbar_margin</item>
+                <item name="actionTextColorAlpha">@dimen/mtrl_snackbar_action_text_color_alpha</item>-->
+    </style>
+
+    <style name="ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+<!--
+
+
+        <item name="android:fragmentFadeEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:fragmentFadeExitAnimation">@anim/activity_close_exit</item>
+        <item name="android:fragmentOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:fragmentOpenExitAnimation">@anim/activity_open_exit</item>
+-->
+
     </style>
 
 
@@ -107,7 +125,7 @@
     </style>
 
     <!-- BottomSheetBackground -->
-    <style name="BottomSheetBackground" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="BottomSheetRounded" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>

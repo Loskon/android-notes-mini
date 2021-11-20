@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.ui.activities
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.other.FontManager
@@ -26,6 +27,7 @@ class SettingsActivity : BaseActivity(),
 
     private lateinit var coordLayout: ConstraintLayout
     private lateinit var bottomAppBar: BottomAppBar
+    private lateinit var fragmentManager: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,7 @@ class SettingsActivity : BaseActivity(),
     private fun initViews() {
         coordLayout = findViewById(R.id.const_layout_settings)
         bottomAppBar = findViewById(R.id.bottom_bar_settings)
+        fragmentManager = supportFragmentManager
     }
 
     private fun establishColorViews() {
@@ -51,9 +54,9 @@ class SettingsActivity : BaseActivity(),
 
     private fun openSettingsFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            supportFragmentManager
+            fragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container_settings, SettingsFragment())
+                .add(R.id.fragment_container_settings, SettingsFragment())
                 .commit()
         }
     }
@@ -69,7 +72,7 @@ class SettingsActivity : BaseActivity(),
     }
 
     fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager
+        fragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container_settings, fragment)
             .addToBackStack(null)

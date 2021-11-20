@@ -43,7 +43,7 @@ class TextNoteAssistant(
         val pasteText: String
 
         try {
-            val textToPaste = clipboard.primaryClip?.getItemAt(0)?.text
+            val textToPaste: CharSequence? = clipboard.primaryClip?.getItemAt(0)?.text
 
             if (textToPaste.toString().trim().isNotEmpty()) {
 

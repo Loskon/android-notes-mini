@@ -72,7 +72,6 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
         activity.apply {
             bottomBar.setNavigationOnClickListener {
                 onBackPressed()
-                //parentFragmentManager.popBackStack()
             }
         }
     }

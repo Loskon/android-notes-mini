@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -203,6 +204,10 @@ class NoteFragment : Fragment(),
     private fun configureEditText() {
         editText.setTextSizeShort(activity.getFontSize())
         editText.setText(note.title)
+        if (noteId != 0L) {
+            editText.inputType =
+                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        }
     }
 
     private fun configureShowKeyboard() {

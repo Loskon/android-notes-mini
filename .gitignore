@@ -23,4 +23,4 @@ local.properties
 *.log
 
 # Release files
-/release
+release/

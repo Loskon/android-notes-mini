@@ -16,4 +16,5 @@
     <attr name="colorDialogBackground" format="color" />
     <attr name="colorDeleteIconRestore" format="color" />
     <attr name="colorBackgroundSearchView" format="color" />
+    <attr name="colorWindowBackground" format="color" />
 </resources>

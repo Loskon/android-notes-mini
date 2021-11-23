@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Noteminimalism3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -34,10 +34,10 @@
         <item name="colorDeleteIconRestore">@android:color/holo_red_light</item>
         <item name="colorBackgroundSearchView">@color/item_dark</item>
 
-
         <!-- Window background -->
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorWindowBackground">@color/background_dark</item>
 
         <!-- Cursor EditText color -->
         <item name="colorControlActivated">@android:color/darker_gray</item>

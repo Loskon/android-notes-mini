@@ -52,4 +52,3 @@
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-

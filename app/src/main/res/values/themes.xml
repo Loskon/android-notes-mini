@@ -108,14 +108,18 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <!-- BottomSheetStatusBar -->
-    <style name="BottomSheetStatusBar" parent="BaseBottomSheetDialog">
+    <!-- BottomSheetFragment -->
+    <style name="BottomSheetFragment" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
-    <!-- BottomSheetBackground -->
-    <style name="BottomSheetRounded" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/sheet_round_corner</item>
+    </style>
+
+    <!-- BottomSheetDialog -->
+    <style name="BottomSheetDialogRounded" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
@@ -123,8 +127,18 @@
         <item name="android:navigationBarColor">@color/black</item>
     </style>
 
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/sheet_round_corner</item>
+    <!-- BottomSheetStatusBar -->
+    <style name="BottomSheetStatusBar" parent="BaseBottomSheet">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="BaseBottomSheet" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheetBackground</item>
+    </style>
+
+    <style name="BottomSheetBackground" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <!-- ButtonIcon -->

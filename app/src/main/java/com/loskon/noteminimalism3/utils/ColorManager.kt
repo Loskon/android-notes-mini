@@ -33,6 +33,7 @@ import com.loskon.noteminimalism3.utils.ColorManager.Companion.ALPHA_COLOR
  */
 
 class ColorManager {
+
     companion object {
 
         const val ALPHA_COLOR = 70
@@ -123,23 +124,24 @@ class ColorManager {
     }
 }
 
-//
+// Цвет пунктов меню
 fun NavigationView.setColorStateMenuItem(context: Context) {
-    // Цвет MenuItem для NavigationView
-    val colorChecked = PrefManager.getAppColor(context)
+    // Цвет MenuItem
+    val color: Int = PrefManager.getAppColor(context)
 
-    var navDefaultTextColor = Color.BLACK
-    var navDefaultIconColor = Color.BLACK
+    val navDefaultTextColor: Int
+    val navDefaultIconColor: Int
 
     if (ColorManager.hasDarkMode(context)) {
         navDefaultTextColor = Color.WHITE
-        navDefaultIconColor =
-            context.getShortColor(R.color.color_icon_nav_menu_dark)
+        navDefaultIconColor = context.getShortColor(R.color.color_icon_nav_menu_dark)
+    } else {
+        navDefaultTextColor = Color.BLACK
+        navDefaultIconColor = Color.BLACK
     }
 
-
-    // ColorStateList для текста пункта меню
-    val navMenuTextList = ColorStateList(
+    // ColorStateList для текста
+    val navMenuTexColor = ColorStateList(
         arrayOf(
             intArrayOf(android.R.attr.state_checked),
             intArrayOf(android.R.attr.state_enabled),
@@ -147,7 +149,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
             intArrayOf(android.R.attr.state_focused),
             intArrayOf(android.R.attr.state_pressed)
         ), intArrayOf(
-            colorChecked,
+            color,
             navDefaultTextColor,
             navDefaultTextColor,
             navDefaultTextColor,
@@ -155,8 +157,8 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
         )
     )
 
-    // ColorStateList для иконки пункта меню
-    val navMenuIconList = ColorStateList(
+    // ColorStateList для иконок
+    val navMenuIconTintList = ColorStateList(
         arrayOf(
             intArrayOf(android.R.attr.state_checked),
             intArrayOf(android.R.attr.state_enabled),
@@ -164,7 +166,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
             intArrayOf(android.R.attr.state_focused),
             intArrayOf(android.R.attr.state_pressed)
         ), intArrayOf(
-            colorChecked,
+            color,
             navDefaultIconColor,
             navDefaultIconColor,
             navDefaultIconColor,
@@ -172,14 +174,13 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
         )
     )
 
-    itemTextColor = navMenuTextList
-    itemIconTintList = navMenuIconList
+    itemTextColor = navMenuTexColor
+    itemIconTintList = navMenuIconTintList
 }
 
-
-//
+// Цвет иконок меню
 fun Menu.setMenuIconColor(@ColorInt color: Int) {
-    if (size() != 0) {
+    if (this.size() != 0) {
         for (i in 0 until size()) {
             val drawable: Drawable = getItem(i).icon
             drawable.mutate()
@@ -191,8 +192,7 @@ fun Menu.setMenuIconColor(@ColorInt color: Int) {
     }
 }
 
-
-//
+// Цвет слайдера
 fun Slider.setSliderColor(@ColorInt color: Int) {
     thumbTintList = ColorStateList.valueOf(color)
     trackActiveTintList = ColorStateList.valueOf(color)
@@ -201,32 +201,28 @@ fun Slider.setSliderColor(@ColorInt color: Int) {
     trackInactiveTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, ALPHA_COLOR))
 }
 
-
-//
+// Цвет фона fab
 fun FloatingActionButton.setFabColor(@ColorInt color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 
-
-//
+// Цвет иконки навигации
 fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) {
     navigationIcon?.mutate()?.setTint(color)
 }
 
-//
+// Цвет иконки кнопки
 fun MaterialButton.setButtonIconColor(@ColorInt colorId: Int) {
     iconTint = ColorStateList.valueOf(colorId)
 }
 
-
-//
+// Цвет индикатора
 fun CircularProgressIndicator.setColorProgressIndicator(@ColorInt color: Int) {
     setIndicatorColor(color)
     trackColor = ColorUtils.setAlphaComponent(color, ALPHA_COLOR)
 }
 
-
-//
+// Цвет фона Snackbar
 fun View.setColorBackgroundSnackbar(context: Context, isSuccess: Boolean) {
     val colorId: Int = context.getShortColor(context.getSuccessColor(isSuccess))
     backgroundTintList = ColorStateList.valueOf(colorId)
@@ -248,14 +244,12 @@ fun Context.getSuccessColor(isSuccess: Boolean): Int {
     }
 }
 
-
-//
+// Цвет фона
 fun View.setBackgroundTintColor(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 
-
-//
+// Цвет пульсации
 fun View.ripple(): View {
     val value = TypedValue()
     context.theme.resolveAttribute(android.R.attr.colorControlHighlight, value, true)
@@ -264,8 +258,7 @@ fun View.ripple(): View {
     return this
 }
 
-
-//
+// Цвет переключателя
 fun RadioButton.setRadioButtonColor(color: Int) {
     buttonTintList = ColorStateList.valueOf(color)
 }

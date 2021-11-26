@@ -77,7 +77,6 @@
     <!-- snackbar_note_restore -->
     <string name="sb_note_restore_in_trash">The note is in the trash!</string>
     <string name="sb_note_restore_action">Restore</string>
-    <string name="sb_note_text_inserted">Text inserted!</string>
     <!-- fragment_settings -->
     <string name="sb_settings_unable_select_folder">Unable to select folder!</string>
     <string name="sb_settings_you_can_local_storage">You can select a folder only in the phone\'s

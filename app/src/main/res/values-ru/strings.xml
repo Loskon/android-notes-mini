@@ -77,7 +77,6 @@
     <!-- snackbar_note_restore -->
     <string name="sb_note_restore_in_trash">Эта заметка находится в корзине!</string>
     <string name="sb_note_restore_action">Восстановить</string>
-    <string name="sb_note_text_inserted">Текст вставлен!</string>
     <!-- fragment_settings -->
     <string name="sb_settings_unable_select_folder">Невозможно выбрать папку!</string>
     <string name="sb_settings_you_can_local_storage">Вы можете указать папку только в локальной

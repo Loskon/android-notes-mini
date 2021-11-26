@@ -31,7 +31,6 @@ class SnackbarManager(
         const val MSG_NOTE_TEXT_COPIED = "msg_text_copied"
         const val MSG_NOTE_HYPERLINKS_COPIED = "msg_hyperlinks_copied"
         const val MSG_UNABLE_CREATE_TEXT_FILE = "msg__unable_create_text_file"
-        const val MSG_INSERTED_TEXT = "msg_text_inserted"
 
         // fragment_settings
         const val MSG_UNABLE_SELECT_FOLDER = "msg_unable_select_folder"
@@ -87,7 +86,6 @@ class SnackbarManager(
                 MSG_NOTE_TEXT_COPIED -> R.string.sb_note_text_copied
                 MSG_NOTE_HYPERLINKS_COPIED -> R.string.sb_note_hyperlinks_copied
                 MSG_UNABLE_CREATE_TEXT_FILE -> R.string.sb_unable_create_text_file
-                MSG_INSERTED_TEXT -> R.string.sb_note_text_inserted
                 // fragment_settings
                 MSG_UNABLE_SELECT_FOLDER -> R.string.sb_settings_unable_select_folder
                 MSG_LOCAL_STORAGE -> R.string.sb_settings_you_can_local_storage
@@ -125,7 +123,6 @@ class SnackbarManager(
                 MSG_SAVE_TXT_COMPLETED -> true
                 MSG_NOTE_TEXT_COPIED -> true
                 MSG_NOTE_HYPERLINKS_COPIED -> true
-                MSG_INSERTED_TEXT -> true
                 // fragment_backup
                 MSG_BACKUP_COMPLETED -> true
                 MSG_RESTORE_COMPLETED -> true

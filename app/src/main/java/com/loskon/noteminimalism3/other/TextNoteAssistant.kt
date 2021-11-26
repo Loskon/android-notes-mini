@@ -11,6 +11,7 @@ import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 import com.loskon.noteminimalism3.utils.IntentUtil
+import com.loskon.noteminimalism3.utils.scrollBottom
 
 /**
  * Помощник для работы с текстом заметки
@@ -56,8 +57,7 @@ class TextNoteAssistant(
                 note.title = pasteText
                 editText.setText(pasteText)
                 editText.setSelection(pasteText.length)
-                editText.scrollBottom()
-                showSnackbar(SnackbarManager.MSG_INSERTED_TEXT)
+                editText.scrollBottom(scrollView)
             } else {
                 showSnackbar(SnackbarManager.MSG_NEED_COPY_TEXT)
             }
@@ -67,10 +67,6 @@ class TextNoteAssistant(
     }
 
     private val textTrim: String get() = editText.text.toString().trim()
-
-    private fun EditText.scrollBottom() {
-        scrollView.post { scrollView.scrollTo(0, bottom) }
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 

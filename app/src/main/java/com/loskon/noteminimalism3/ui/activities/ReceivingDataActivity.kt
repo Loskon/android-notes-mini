@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.command.ShortsCommand
+import com.loskon.noteminimalism3.command.ShortsCommandReceivingData
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
@@ -21,9 +21,11 @@ import com.loskon.noteminimalism3.utils.*
  * Список заметок для выбора вставки текста
  */
 
-class ReceivingDataActivity : BaseActivity(), NotesSelectedListAdapter.CallbackSendAdapter {
+class ReceivingDataActivity :
+    BaseActivity(),
+    NotesSelectedListAdapter.CallbackSendAdapter {
 
-    private val shortsCommand: ShortsCommand = ShortsCommand()
+    private val shortsCommand: ShortsCommandReceivingData = ShortsCommandReceivingData()
     private val adapterSelected: NotesSelectedListAdapter = NotesSelectedListAdapter()
 
     private lateinit var tvEmpty: TextView
@@ -108,13 +110,15 @@ class ReceivingDataActivity : BaseActivity(), NotesSelectedListAdapter.CallbackS
     fun addNewNote() {
         val note = Note()
         note.title = receivingText
-        IntentUtil.openNote(this, note, notesCategory)
+        callback?.onReceivingData()
+        IntentUtil.openNoteFromDialog(this, note, notesCategory)
         finish()
     }
 
     private fun updateCreatedNote(note: Note) {
-        val newTitle: String = note.title.plus("\n\n").plus(receivingText)
-        note.title = newTitle
+        val title: String = note.title.plus("\n\n").plus(receivingText)
+        note.title = title
+        callback?.onReceivingData()
         IntentUtil.openNoteFromDialog(this, note, notesCategory)
         finish()
     }
@@ -132,5 +136,17 @@ class ReceivingDataActivity : BaseActivity(), NotesSelectedListAdapter.CallbackS
 
     override fun onClickingNote(note: Note) {
         updateCreatedNote(note)
+    }
+
+    interface CallbackReceivingData {
+        fun onReceivingData()
+    }
+
+    companion object {
+        private var callback: CallbackReceivingData? = null
+
+        fun listenerCallback(callback: CallbackReceivingData) {
+            this.callback = callback
+        }
     }
 }

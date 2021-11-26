@@ -30,7 +30,7 @@
             android:paddingEnd="8dp"
             android:paddingBottom="2dp"
             android:text="TextView"
-            android:textColor="@color/color_text_date_mod"
+            android:textColor="?attr/colorDate"
             tools:ignore="HardcodedText,TextContrastCheck" />
 
         <com.google.android.material.button.MaterialButton
@@ -62,7 +62,7 @@
             style="@style/ButtonFlat"
             android:layout_width="match_parent"
             android:text="@string/to_close"
-            android:textColor="@color/color_text_date_mod"
+            android:textColor="?attr/colorDate"
             tools:ignore="TextContrastCheck" />
 
     </LinearLayout>

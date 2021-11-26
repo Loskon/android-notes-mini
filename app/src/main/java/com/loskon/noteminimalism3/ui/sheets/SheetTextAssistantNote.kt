@@ -8,6 +8,7 @@ import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.BottomSheetStatusBar
 import com.loskon.noteminimalism3.other.TextNoteAssistant
+import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
@@ -17,47 +18,41 @@ import com.loskon.noteminimalism3.utils.setVisibleView
 class SheetTextAssistantNote(
     private val context: Context,
     private val textAssistant: TextNoteAssistant
-) :
-    View.OnClickListener {
+) {
 
     private val dialog: BottomSheetDialog = BottomSheetDialog(context, BottomSheetStatusBar)
     private val sheetView = View.inflate(context, R.layout.sheet_custom_note, null)
 
     private val tvDateModification: TextView = sheetView.findViewById(R.id.tv_sheet_note_title)
-    private val tvPaste: MaterialButton = sheetView.findViewById(R.id.btn_sheet_paste)
-    private val tvCopyAll: MaterialButton = sheetView.findViewById(R.id.btn_sheet_copy_all_text)
-    private val tvSave: MaterialButton = sheetView.findViewById(R.id.btn_sheet_save_txt)
-    private val tvShare: MaterialButton = sheetView.findViewById(R.id.btn_sheet_share)
-    private val tvClose: MaterialButton = sheetView.findViewById(R.id.btn_sheet_close)
+    private val btnPaste: MaterialButton = sheetView.findViewById(R.id.btn_sheet_paste)
+    private val btnCopyAll: MaterialButton = sheetView.findViewById(R.id.btn_sheet_copy_all_text)
+    private val btnSave: MaterialButton = sheetView.findViewById(R.id.btn_sheet_save_txt)
+    private val btnShare: MaterialButton = sheetView.findViewById(R.id.btn_sheet_share)
+    private val btnClose: MaterialButton = sheetView.findViewById(R.id.btn_sheet_close)
 
     init {
         installHandlers()
     }
 
     private fun installHandlers() {
-        tvPaste.setOnClickListener(this)
-        tvCopyAll.setOnClickListener(this)
-        tvSave.setOnClickListener(this)
-        tvShare.setOnClickListener(this)
-        tvClose.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View?) {
-        dialog.dismiss()
-
-        when (v?.id) {
-            R.id.btn_sheet_paste -> {
-                textAssistant.pasteText()
+        textAssistant.apply {
+            btnPaste.setOnSingleClickListener {
+                dialog.dismiss()
+                pasteText()
             }
-            R.id.btn_sheet_copy_all_text -> {
-                textAssistant.copyText()
+            btnCopyAll.setOnSingleClickListener {
+                dialog.dismiss()
+                copyText()
             }
-            R.id.btn_sheet_save_txt -> {
-                textAssistant.saveTextFile()
+            btnSave.setOnSingleClickListener {
+                dialog.dismiss()
+                saveTextFile()
             }
-            R.id.btn_sheet_share -> {
-                textAssistant.shareText()
+            btnShare.setOnSingleClickListener {
+                dialog.dismiss()
+                shareText()
             }
+            btnClose.setOnSingleClickListener { dialog.dismiss() }
         }
     }
 

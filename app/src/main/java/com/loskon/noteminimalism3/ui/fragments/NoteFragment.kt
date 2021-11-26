@@ -27,6 +27,7 @@ import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
+import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks
 import com.loskon.noteminimalism3.ui.recyclerview.CustomMovementMethod
 import com.loskon.noteminimalism3.ui.sheets.SheetTextAssistantNote
@@ -42,7 +43,7 @@ import java.util.*
  */
 
 class NoteFragment : Fragment(),
-    View.OnClickListener,
+    ReceivingDataActivity.CallbackReceivingData,
     ResultAccessStorageInterface {
 
     private lateinit var activity: NoteActivity
@@ -113,6 +114,7 @@ class NoteFragment : Fragment(),
 
         initObjects()
         setupParameters()
+        installCallbacks()
         establishColorViews()
         installingSaveSettings()
         includedLinks()
@@ -132,6 +134,10 @@ class NoteFragment : Fragment(),
     private fun setupParameters() {
         noteId = note.id
         hasReceivingText = activity.hasReceivText
+    }
+
+    private fun installCallbacks() {
+        if (!hasReceivingText) ReceivingDataActivity.listenerCallback(this)
     }
 
     private fun establishColorViews() {
@@ -204,6 +210,7 @@ class NoteFragment : Fragment(),
     private fun configureEditText() {
         editText.setTextSizeShort(activity.getFontSize())
         editText.setText(note.title)
+
         if (noteId != 0L) {
             editText.inputType =
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or
@@ -212,8 +219,10 @@ class NoteFragment : Fragment(),
     }
 
     private fun configureShowKeyboard() {
-        if (noteId == 0L || hasReceivingText) {
+        if (noteId == 0L && !hasReceivingText) {
             editText.showKeyboard(activity)
+        } else if (noteId != 0L && hasReceivingText) {
+            editText.scrollBottom(scrollView)
         } else {
             removeFocusFromEditText()
         }
@@ -245,40 +254,32 @@ class NoteFragment : Fragment(),
     }
 
     private fun installNoteHandlers() {
-        fab.setOnClickListener(this)
-        btnFav.setOnClickListener(this)
-        btnDel.setOnClickListener(this)
-        btnMore.setOnClickListener(this)
+        fab.setOnSingleClickListener { clickingFab() }
+        btnFav.setOnClickListener { clickingFavoriteButton() }
+        btnDel.setOnSingleClickListener { clickingFavoriteDelete() }
+        btnMore.setOnSingleClickListener { clickingFavoriteMore() }
         linLayoutNote.handlerOutClick()
         editText.handlerClickListener()
     }
 
-    override fun onClick(v: View?) {
+    private fun clickingFab() {
         BaseSnackbar.dismiss()
 
-        when (v?.id) {
-            R.id.fab_note -> clickingFab()
-
-            R.id.btn_fav_note -> clickingFavoriteButton()
-
-            R.id.btn_del_note -> clickingFavoriteDelete()
-
-            R.id.btn_more_note -> clickingFavoriteMore()
-        }
-    }
-
-    private fun clickingFab() {
         isShowBackupToast = true
         editText.hideKeyboard(activity)
         activity.onBackPressed()
     }
 
     private fun clickingFavoriteButton() {
+        BaseSnackbar.dismiss()
+
         isFavorite = !isFavorite
         toggleFavoriteStatus()
     }
 
     private fun clickingFavoriteDelete() {
+        BaseSnackbar.dismiss()
+
         isDeleteNote = true
 
         if (noteId == 0L) {
@@ -296,6 +297,8 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteMore() {
+        BaseSnackbar.dismiss()
+
         editText.hideKeyboard(activity)
         lifecycleScope.launch {
             delay(300L)
@@ -428,5 +431,9 @@ class NoteFragment : Fragment(),
         fun newInstance(): NoteFragment {
             return NoteFragment()
         }
+    }
+
+    override fun onReceivingData() {
+        activity.finish()
     }
 }

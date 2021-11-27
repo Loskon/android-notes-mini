@@ -14,12 +14,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.command.ShortsCommandNote
 import com.loskon.noteminimalism3.model.Note
+import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteRestore
 import com.loskon.noteminimalism3.utils.setButtonIconColor
 import com.loskon.noteminimalism3.utils.setFabColor
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setTextSizeShort
+import java.util.*
 
 /**
  * Работа с заметкой, находящейся в корзине
@@ -38,11 +40,13 @@ class NoteTrashFragment : Fragment() {
 
     private lateinit var note: Note
 
+    private var hasUpdateDateTime: Boolean = true
     private var color: Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as NoteActivity
+        hasUpdateDateTime = PrefManager.hasUpdateDateTime(activity)
     }
 
     override fun onCreateView(
@@ -98,6 +102,7 @@ class NoteTrashFragment : Fragment() {
 
     fun restoreNote() {
         note.isDelete = false
+        if (hasUpdateDateTime) note.dateCreation = Date()
         shortsCommand.update(note)
         callback?.onNoteReset(note)
         activity.onBackPressed()

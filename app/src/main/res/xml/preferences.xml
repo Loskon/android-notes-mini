@@ -81,6 +81,15 @@
             android:title="@string/font_size_notes_title"
             app:iconSpaceReserved="false" />
 
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
+            android:layout="@layout/custom_pref_layout"
+            app:allowDividerAbove="false"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/update_date_title"
+            app:summary="@string/update_date_summary"
+            app:title="@string/update_date_title" />
+
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory

@@ -12,7 +12,6 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -23,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
-            android:id="@+id/snackbar_progress_bar"
+            android:id="@+id/progress_bar_snackbar_undo"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -33,10 +32,10 @@
 
 
         <TextView
-            android:id="@+id/snackbar_text_progress"
+            android:id="@+id/tv_snackbar_undo_progress"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/snackbar_progress_bar"
+            android:layout_alignBottom="@+id/progress_bar_snackbar_undo"
             android:layout_centerInParent="true"
             android:fontFamily="@font/roboto_light"
             android:gravity="center"
@@ -50,7 +49,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/snackbar_text_title"
+        android:id="@+id/tv_snackbar_undo_text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -67,8 +66,8 @@
         android:textColor="@android:color/white" />
 
     <Button
-        android:id="@+id/snackbar_btn"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/btn_snackbar_undo"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/design_snackbar_extra_spacing_horizontal"
@@ -78,7 +77,8 @@
         android:textColor="@android:color/white"
         android:visibility="visible"
         app:rippleColor="?attr/colorControlHighlight"
-        tools:ignore="TextContrastCheck" />
+        app:strokeColor="@android:color/white"
+        tools:ignore="ButtonOrder,TextContrastCheck" />
 
 </LinearLayout>
 

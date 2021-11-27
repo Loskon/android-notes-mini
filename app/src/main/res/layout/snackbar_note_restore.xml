@@ -31,7 +31,7 @@
 
     <Button
         android:id="@+id/btn_snackbar_note_reset"
-        style="?attr/borderlessButtonStyle"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
@@ -44,6 +44,7 @@
         app:layout_constraintStart_toEndOf="@+id/tv_snackbar_note_reset"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="?attr/colorControlHighlight"
+        app:strokeColor="@android:color/white"
         tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

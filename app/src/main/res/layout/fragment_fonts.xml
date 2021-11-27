@@ -7,8 +7,10 @@
 
     <TextView
         android:id="@+id/tv_example_font"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:gravity="center"
         android:padding="32dp"
         android:text="@string/templars"

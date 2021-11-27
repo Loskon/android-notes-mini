@@ -182,7 +182,7 @@
     <string name="auto_backup_title">Auto backup</string>
     <string name="notification_title">Notification</string>
     <string name="num_of_backup_title">Number of backups</string>
-    <string name="update_date_title">Update time</string>
+    <string name="update_date_title">Update datetime</string>
     <string name="font_size_notes_title">Font size</string>
     <string name="hyperlinks_title">Hyperlinks</string>
     <string name="retention_trash_title">Retention time of notes in trash</string>
@@ -192,7 +192,7 @@
     <!-- Preference summary -->
     <string name="auto_backup_summary">When creating several new notes</string>
     <string name="number_of_days_summary">Number of days: %1$d</string>
-    <string name="update_date_summary">When changing the content of a note</string>
+    <string name="update_date_summary">When restoring notes from trash</string>
     <string name="notification_auto_backup_summary">About successful auto backup</string>
 
     <!-- preference_app -->

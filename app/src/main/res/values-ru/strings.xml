@@ -177,11 +177,11 @@
     <string name="type_font_title">Шрифт</string>
     <string name="sort_title">Сортировка</string>
     <string name="dark_mode_title">Темная тема</string>
-    <string name="backup_title">Резервное копирование</string>
+    <string name="backup_title">Бэкап и восстановление</string>
     <string name="folder_title">Папка для данных</string>
     <string name="auto_backup_title">Автобэкап</string>
     <string name="notification_title">Уведомление</string>
-    <string name="num_of_backup_title">Количество резервных копий</string>
+    <string name="num_of_backup_title">Количество бэкапов</string>
     <string name="update_date_title">Обновлять дату</string>
     <string name="font_size_notes_title">Размер текста</string>
     <string name="hyperlinks_title">Гиперссылки</string>
@@ -192,8 +192,8 @@
     <!-- Preference summary -->
     <string name="auto_backup_summary">При создании нескольких новых заметок</string>
     <string name="number_of_days_summary">Количество дней: %1$d</string>
-    <string name="update_date_summary">При изменении содержимого заметки</string>
-    <string name="notification_auto_backup_summary">Об успешном авторезервировании</string>
+    <string name="update_date_summary">При восстановлении заметки из корзины</string>
+    <string name="notification_auto_backup_summary">Об успешном автобэкапе</string>
 
     <!-- preference_app -->
     <!-- Preference Category Header -->

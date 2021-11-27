@@ -29,6 +29,7 @@ class SnackbarNoteRestore(
         val view: View = View.inflate(context, R.layout.snackbar_note_restore, null)
         val btnSnackbar: Button = view.findViewById(R.id.btn_snackbar_note_reset)
 
+        view.setOnClickListener { snackbar.dismiss() }
         layout.addView(view, 0)
 
         btnSnackbar.setOnSingleClickListener {

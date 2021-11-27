@@ -51,6 +51,7 @@ class SnackbarUndo(
 
         val layout = snackbar?.view as SnackbarLayout
         val view: View = View.inflate(activity, R.layout.snackbar_undo, null)
+        view.setOnClickListener { snackbar?.dismiss() }
 
         initViews(view)
         configViews()
@@ -63,10 +64,10 @@ class SnackbarUndo(
     }
 
     private fun initViews(snackView: View) {
-        btnSnackbar = snackView.findViewById(R.id.snackbar_btn)
-        progressBar = snackView.findViewById(R.id.snackbar_progress_bar)
-        tvProgress = snackView.findViewById(R.id.snackbar_text_progress)
-        tvTitle = snackView.findViewById(R.id.snackbar_text_title)
+        btnSnackbar = snackView.findViewById(R.id.btn_snackbar_undo)
+        progressBar = snackView.findViewById(R.id.progress_bar_snackbar_undo)
+        tvProgress = snackView.findViewById(R.id.tv_snackbar_undo_progress)
+        tvTitle = snackView.findViewById(R.id.tv_snackbar_undo_text)
     }
 
     private fun configViews() {

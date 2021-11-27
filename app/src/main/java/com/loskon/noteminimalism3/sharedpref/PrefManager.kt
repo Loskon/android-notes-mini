@@ -24,7 +24,7 @@ class PrefManager {
         private const val PREF_KEY_WEB = "key_web"
         private const val PREF_KEY_MAIL = "key_mail"
         private const val PREF_KEY_PHONE = "key_phone"
-        const val PREF_KEY_SEL_DIRECTORY = "key_sel_directory"
+        private const val PREF_KEY_SEL_DIRECTORY = "key_sel_directory"
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // boolean
@@ -132,6 +132,11 @@ class PrefManager {
         fun hasNotificationAutoBackup(context: Context): Boolean {
             val key: String = context.getString(R.string.notification_title)
             return load(context, key, false)
+        }
+
+        fun hasUpdateDateTime(context: Context): Boolean {
+            val key: String = context.getString(R.string.update_date_title)
+            return load(context, key, true)
         }
 
         fun isWeb(context: Context): Boolean {

@@ -1,8 +1,10 @@
-package com.loskon.noteminimalism3.toast
+package com.loskon.noteminimalism3.ui.toast
 
 import android.content.Context
+import android.widget.Toast
+import androidx.annotation.StringRes
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.utils.showToast
+
 
 /**
  * Управление тостами
@@ -58,4 +60,22 @@ class ToastManager {
             }
         }
     }
+}
+
+// Тост 1
+fun Context.showToast(message: String) {
+    var toast: Toast? = null
+    toast?.cancel()
+
+    toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+    toast.show()
+}
+
+// Тост 2
+fun Context.showToast(@StringRes string: Int) {
+    var toast: Toast? = null
+    toast?.cancel()
+
+    toast = Toast.makeText(this, getString(string), Toast.LENGTH_SHORT)
+    toast.show()
 }

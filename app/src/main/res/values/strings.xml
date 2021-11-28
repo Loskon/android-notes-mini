@@ -3,6 +3,8 @@
     <!-- Activity -->
     <!-- activity_list -->
     <string name="hint_search_text">Search</string>
+    <!-- activity_receiving_data -->
+    <string name="select_note">Select note</string>
 
     <!-- Fragment -->
     <!-- fragment_note -->
@@ -73,7 +75,7 @@
     <string name="sb_unable_create_text_file">Error! Unable to create a text file!</string>
     <!-- snackbar_undo -->
     <string name="sb_undo_note_deleted">Note deleted!</string>
-    <string name="sb_undo_note_add_trash">Note added to trash!</string>
+    <string name="sb_undo_note_added_trash">Note added to trash!</string>
     <!-- snackbar_note_restore -->
     <string name="sb_note_restore_in_trash">The note is in the trash!</string>
     <string name="sb_note_restore_action">Restore</string>

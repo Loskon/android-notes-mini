@@ -3,6 +3,8 @@
     <!-- Activity -->
     <!-- activity_list -->
     <string name="hint_search_text">Искать</string>
+    <!-- activity_receiving_data -->
+    <string name="select_note">Выберите заметку</string>
 
     <!-- Fragment -->
     <!-- fragment_note -->
@@ -73,7 +75,7 @@
     <string name="sb_unable_create_text_file">Ошибка! Невозможно создать текстовый файл!</string>
     <!-- snackbar_undo -->
     <string name="sb_undo_note_deleted">Заметка удалена!</string>
-    <string name="sb_undo_note_add_trash">Заметка отправлена в корзину!</string>
+    <string name="sb_undo_note_added_trash">Заметка отправлена в корзину!</string>
     <!-- snackbar_note_restore -->
     <string name="sb_note_restore_in_trash">Эта заметка находится в корзине!</string>
     <string name="sb_note_restore_action">Восстановить</string>

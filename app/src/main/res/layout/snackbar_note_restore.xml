@@ -44,7 +44,7 @@
         app:layout_constraintStart_toEndOf="@+id/tv_snackbar_note_reset"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/white"
+        app:strokeColor="@android:color/darker_gray"
         tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -173,6 +173,7 @@ class NoteFragment : Fragment(),
 
         movementMethod = object : CustomMovementMethod() {
             override fun onClickingLink(url: String) {
+                removeFocusFromEditText()
                 DialogNoteLinks(activity, this@NoteFragment).show(url)
             }
 
@@ -185,6 +186,8 @@ class NoteFragment : Fragment(),
             if (!isTextEditingMod) activationTextEditingMode()
             false
         }
+
+        clearFocus()
     }
 
     private fun handlingClickOnEmptyArea() {

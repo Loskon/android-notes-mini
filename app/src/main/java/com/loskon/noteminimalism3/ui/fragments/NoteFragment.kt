@@ -223,6 +223,7 @@ class NoteFragment : Fragment(),
             editText.showKeyboard(activity)
         } else if (noteId != 0L && hasReceivingText) {
             editText.scrollBottom(scrollView)
+            removeFocusFromEditText()
         } else {
             removeFocusFromEditText()
         }

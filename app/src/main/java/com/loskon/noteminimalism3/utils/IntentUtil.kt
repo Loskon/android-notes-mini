@@ -7,7 +7,7 @@ import android.net.Uri
 import android.widget.EditText
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.toast.ToastManager
+import com.loskon.noteminimalism3.ui.toast.ToastManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 

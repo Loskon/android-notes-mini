@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.backup.BackupPathManager
 import com.loskon.noteminimalism3.request.RequestCode
-import com.loskon.noteminimalism3.toast.ToastManager
+import com.loskon.noteminimalism3.ui.toast.ToastManager
 
 
 

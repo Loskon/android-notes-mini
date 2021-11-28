@@ -4,7 +4,7 @@ import android.content.Context
 import com.loskon.noteminimalism3.files.CheckCreatedFiles
 import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.sharedpref.PrefManager
-import com.loskon.noteminimalism3.toast.ToastManager
+import com.loskon.noteminimalism3.ui.toast.ToastManager
 import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File

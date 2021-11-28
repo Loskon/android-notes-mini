@@ -48,7 +48,7 @@
         android:paddingTop="@dimen/design_snackbar_padding_vertical"
         android:paddingRight="@dimen/design_snackbar_padding_horizontal"
         android:paddingBottom="@dimen/design_snackbar_padding_vertical"
-        android:text="@string/sb_note_restore_in_trash"
+        android:text="@string/sb_undo_note_added_trash"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
         android:textColor="@android:color/white"
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:minWidth="48dp"
-        android:text="@string/sb_note_restore_action"
+        android:text="@android:string/cancel"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
         app:layout_constraintStart_toEndOf="@+id/tv_snackbar_undo_text"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/white"
+        app:strokeColor="@android:color/darker_gray"
         tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

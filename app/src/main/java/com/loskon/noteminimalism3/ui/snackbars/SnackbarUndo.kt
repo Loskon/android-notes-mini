@@ -79,7 +79,7 @@ class SnackbarUndo(
     private fun getMessage(): Int = if (notesCategory == CATEGORY_TRASH) {
         R.string.sb_undo_note_deleted
     } else {
-        R.string.sb_undo_note_add_trash
+        R.string.sb_undo_note_added_trash
     }
 
     private fun clickingSnackbarButton(note: Note, isFavorite: Boolean) {
@@ -100,13 +100,13 @@ class SnackbarUndo(
 
     private fun setupAnimation() {
         val animation = ObjectAnimator.ofInt(progressBar, "progress", 10000)
-        animation.duration = 3900 // 4 second
+        animation.duration = 4900 // 5 second
         animation.interpolator = DecelerateInterpolator()
         animation.start()
     }
 
     private fun installTimer() {
-        countDownTimer = object : CountDownTimer(4000, 100) {
+        countDownTimer = object : CountDownTimer(5000, 100) {
             override fun onTick(leftTimeInMilliseconds: Long) {
                 val seconds: Long = leftTimeInMilliseconds / 1000
                 tvProgress.text = seconds.toString()

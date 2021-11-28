@@ -1,57 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="?attr/colorSnackbar"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:background="?attr/colorSnackbar">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+    <ProgressBar
+        android:id="@+id/progress_bar_snackbar_undo"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/custom_progress_drawable"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar_snackbar_undo"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/custom_progress_drawable" />
-
-
-        <TextView
-            android:id="@+id/tv_snackbar_undo_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/progress_bar_snackbar_undo"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/roboto_light"
-            android:gravity="center"
-            android:paddingStart="1dp"
-            android:paddingBottom="2dp"
-            android:text="5"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            tools:ignore="HardcodedText,RtlSymmetry" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_snackbar_undo_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:fontFamily="@font/roboto_light"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:text="5"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_bar_snackbar_undo"
+        app:layout_constraintEnd_toEndOf="@+id/progress_bar_snackbar_undo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progress_bar_snackbar_undo"
+        tools:ignore="HardcodedText,RtlSymmetry" />
 
     <TextView
         android:id="@+id/tv_snackbar_undo_text"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ellipsize="end"
         android:fontFamily="@font/roboto_light"
@@ -60,25 +48,31 @@
         android:paddingTop="@dimen/design_snackbar_padding_vertical"
         android:paddingRight="@dimen/design_snackbar_padding_horizontal"
         android:paddingBottom="@dimen/design_snackbar_padding_vertical"
-        android:text="@string/sb_undo_note_add_trash"
+        android:text="@string/sb_note_restore_in_trash"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_snackbar_undo"
+        app:layout_constraintStart_toEndOf="@+id/progress_bar_snackbar_undo"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_snackbar_undo"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/design_snackbar_extra_spacing_horizontal"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:minWidth="48dp"
-        android:text="@android:string/cancel"
+        android:text="@string/sb_note_restore_action"
         android:textColor="@android:color/white"
-        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_snackbar_undo_text"
+        app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="?attr/colorControlHighlight"
         app:strokeColor="@android:color/white"
-        tools:ignore="ButtonOrder,TextContrastCheck" />
+        tools:ignore="TextContrastCheck" />
 
-</LinearLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

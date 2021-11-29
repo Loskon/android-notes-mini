@@ -3,13 +3,12 @@ package com.loskon.noteminimalism3.ui.dialogs
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
+import com.loskon.noteminimalism3.utils.IntentUtil
 import java.util.regex.Pattern
 
 /**
@@ -121,17 +120,9 @@ class DialogNoteLinks(
 
     private fun openLink() {
         when (typeLinks) {
-            URL_WEB -> context.startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(link))
-            )
-
-            URL_MAIL -> context.startActivity(
-                Intent(Intent.ACTION_SENDTO, Uri.parse(link))
-            )
-
-            URL_PHONE -> context.startActivity(
-                Intent(Intent.ACTION_DIAL, Uri.parse(link))
-            )
+            URL_WEB -> IntentUtil.launcherWebClient(context, link)
+            URL_MAIL -> IntentUtil.launcherEmailClient(context, link)
+            URL_PHONE -> IntentUtil.launcherPhoneClient(context, link)
 
             else -> showSnackbar(SnackbarManager.MSG_UNKNOWN_ERROR)
         }

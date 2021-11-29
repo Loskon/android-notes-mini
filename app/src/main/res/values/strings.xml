@@ -55,6 +55,10 @@
     <string name="toast_email_client_not_found">Email client not found!</string>
     <!-- intent ACTION_SEND  -->
     <string name="toast_impossible_share_note">Error! Impossible to share!</string>
+    <!-- intent ACTION_VIEW  -->
+    <string name="toast_web_client_not_found">Web client not found!</string>
+    <!-- intent ACTION_DIAL  -->
+    <string name="toast_phone_client_not_found">Phone client not found!</string>
 
     <!-- Snackbars -->
     <!-- activity_list -->

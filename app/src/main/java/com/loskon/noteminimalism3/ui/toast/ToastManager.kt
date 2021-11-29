@@ -32,6 +32,12 @@ class ToastManager {
         // intent ACTION_SEND
         const val MSG_TOAST_IMPOSSIBLE_SHARE = "msg_toast_impossible_share"
 
+        // intent ACTION_VIEW
+        const val MSG_TOAST_WEB_CLIENT_NOT_FOUND = "msg_toast_web_client_not_found"
+
+        // intent ACTION_DIAL
+        const val MSG_TOAST_PHONE_CLIENT_NOT_FOUND = "msg_toast_phone_client_not_found"
+
         fun show(context: Context, typeMessage: String) {
             val message: String = getMessage(context, typeMessage)
             context.showToast(message)
@@ -53,6 +59,10 @@ class ToastManager {
                     MSG_TOAST_EMAIL_CLIENT_NOT_FOUND -> R.string.toast_email_client_not_found
                     // intent ACTION_SEND
                     MSG_TOAST_IMPOSSIBLE_SHARE -> R.string.toast_impossible_share_note
+                    // intent ACTION_VIEW
+                    MSG_TOAST_WEB_CLIENT_NOT_FOUND -> R.string.toast_web_client_not_found
+                    // intent ACTION_DIAL
+                    MSG_TOAST_PHONE_CLIENT_NOT_FOUND -> R.string.toast_phone_client_not_found
                     else -> R.string.unknown_error
                 }
 

@@ -54,7 +54,11 @@
     <!-- intent ACTION_SENDTO  -->
     <string name="toast_email_client_not_found">Почтовый клиент не найден!</string>
     <!-- intent ACTION_SEND  -->
-    <string name="toast_impossible_share_note">Error! Impossible to share!</string>
+    <string name="toast_impossible_share_note">Ошибка! Невозможно поделиться!</string>
+    <!-- intent ACTION_VIEW  -->
+    <string name="toast_web_client_not_found">Веб клиент не найден!</string>
+    <!-- intent ACTION_DIAL  -->
+    <string name="toast_phone_client_not_found">Телефонный клиент не найден!</string>
 
     <!-- Snackbars -->
     <!-- activity_list -->

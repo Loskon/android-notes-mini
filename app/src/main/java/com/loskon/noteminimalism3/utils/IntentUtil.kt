@@ -7,9 +7,9 @@ import android.net.Uri
 import android.widget.EditText
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.ui.toast.ToastManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
+import com.loskon.noteminimalism3.ui.toast.ToastManager
 
 /**
  * Intents
@@ -55,6 +55,16 @@ class IntentUtil {
             }
         }
 
+        fun launcherEmailClient(context: Context, link: String) {
+            try {
+                val intent = Intent(Intent.ACTION_SENDTO)
+                intent.data = Uri.parse("mailto:$link")
+                context.startActivity(intent)
+            } catch (exception: ActivityNotFoundException) {
+                ToastManager.show(context, ToastManager.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
+            }
+        }
+
         fun launcherShareText(context: Context, editText: EditText) {
             try {
                 val sendIntent = Intent()
@@ -64,6 +74,26 @@ class IntentUtil {
                 context.startActivity(Intent.createChooser(sendIntent, "share"))
             } catch (exception: ActivityNotFoundException) {
                 ToastManager.show(context, ToastManager.MSG_TOAST_IMPOSSIBLE_SHARE)
+            }
+        }
+
+        fun launcherWebClient(context: Context, link: String) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(link)
+                context.startActivity(intent)
+            } catch (exception: ActivityNotFoundException) {
+                ToastManager.show(context, ToastManager.MSG_TOAST_WEB_CLIENT_NOT_FOUND)
+            }
+        }
+
+        fun launcherPhoneClient(context: Context, link: String) {
+            try {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:$link")
+                context.startActivity(intent)
+            } catch (exception: ActivityNotFoundException) {
+                ToastManager.show(context, ToastManager.MSG_TOAST_PHONE_CLIENT_NOT_FOUND)
             }
         }
     }

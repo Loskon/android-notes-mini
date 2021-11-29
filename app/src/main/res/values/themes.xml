@@ -104,8 +104,8 @@
 
     <!-- AuthenticationTheme -->
     <style name="AuthenticationTheme" parent="FirebaseUI">
-        <item name="colorControlActivated">@android:color/darker_gray</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="colorPrimaryDark">@android:color/darker_gray</item>
     </style>
 
     <!-- BottomSheetFragment -->

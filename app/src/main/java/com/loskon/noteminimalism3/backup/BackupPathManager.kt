@@ -76,7 +76,7 @@ class BackupPathManager {
         }
 
         // Путь для Summary в виде текста'
-        fun getPathSummary(context: Context): String {
+        fun getSummary(context: Context): String {
             var summary = getPathBackupFolder(context)
             summary = summary.replace("//", "/")
             summary = summary.replace("storage/", "")

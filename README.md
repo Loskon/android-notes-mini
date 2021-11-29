@@ -15,4 +15,4 @@ Notes Mini - представляет собой простое приложен
 
 ## Описание приложения <a name="paragraph1"></a>
 
-https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white
+![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)

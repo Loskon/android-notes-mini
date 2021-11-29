@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "216809560444-7kgg5uvq7ibpfcnqcfsb3sop02pfo03c.apps.googleusercontent.com",
+          "client_id": "216809560444-hn01ssog9tvg2tviod45kg8kdta4i4he.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.loskon.noteminimalism3",
-            "certificate_hash": "27949a9fa00fe93979538c2492a71c90dce43673"
+            "certificate_hash": "9cf285953206d7f95dc7119da4d5d6d2ead3ef9b"
           }
         },
         {

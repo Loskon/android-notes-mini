@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.IntentUtil
+import com.loskon.noteminimalism3.utils.IntentManager
 import com.loskon.noteminimalism3.utils.scrollBottom
 
 /**
@@ -124,7 +124,7 @@ class TextNoteAssistant(
 
     private fun performShareText() {
         try {
-            IntentUtil.launcherShareText(context, editText)
+            IntentManager.launcherShareText(context, editText)
         } catch (exception: Exception) {
             showSnackbar(SnackbarManager.MSG_UNKNOWN_ERROR)
         }

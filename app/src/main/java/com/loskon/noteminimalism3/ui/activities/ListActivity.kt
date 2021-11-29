@@ -279,7 +279,7 @@ class ListActivity : BaseActivity(),
                 if (notesCategory == CATEGORY_TRASH) {
                     DialogTrash(this).show(adapter.itemCount)
                 } else {
-                    IntentUtil.openNote(this, Note(), notesCategory)
+                    IntentManager.openNote(this, Note(), notesCategory)
                 }
             }
         }
@@ -396,7 +396,7 @@ class ListActivity : BaseActivity(),
 
     // From recycler adapter
     override fun onClickingNote(note: Note) {
-        IntentUtil.openNote(this, note, notesCategory)
+        IntentManager.openNote(this, note, notesCategory)
     }
 
     // From recycler adapter

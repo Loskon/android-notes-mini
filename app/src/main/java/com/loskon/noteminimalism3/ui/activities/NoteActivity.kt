@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVO
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
-import com.loskon.noteminimalism3.utils.IntentUtil
+import com.loskon.noteminimalism3.utils.IntentManager
 
 /**
  * Выбор фрагмента для работы с заметкой
@@ -39,11 +39,11 @@ class NoteActivity : BaseActivity() {
 
 
     private fun getArguments() {
-        intent.getParcelableExtra<Note>(IntentUtil.PUT_EXTRA_NOTE)
+        intent.getParcelableExtra<Note>(IntentManager.PUT_EXTRA_NOTE)
             ?.let { note = it }
-        intent.getStringExtra(IntentUtil.PUT_EXTRA_CATEGORY)
+        intent.getStringExtra(IntentManager.PUT_EXTRA_CATEGORY)
             ?.let { noteCategory = it }
-        intent.getBooleanExtra(IntentUtil.PUT_EXTRA_HAS_RECEIVING_TEXT, false)
+        intent.getBooleanExtra(IntentManager.PUT_EXTRA_HAS_RECEIVING_TEXT, false)
             .let { hasReceivingText = it }
     }
 

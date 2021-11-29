@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.ui.toast.ToastManager
  * Intents
  */
 
-class IntentUtil {
+class IntentManager {
     companion object {
         const val PUT_EXTRA_NOTE = "put_extra_note"
         const val PUT_EXTRA_CATEGORY = "put_extra_category"

@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.utils.IntentUtil
+import com.loskon.noteminimalism3.utils.IntentManager
 import com.loskon.noteminimalism3.utils.getShortDrawable
 import com.loskon.noteminimalism3.utils.setColorStateMenuItem
 
@@ -74,7 +74,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
                     }
 
                     R.id.nav_item_settings -> {
-                        IntentUtil.openSettings(mContext)
+                        IntentManager.openSettings(mContext)
                     }
                 }
 

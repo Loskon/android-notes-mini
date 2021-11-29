@@ -111,7 +111,7 @@ class ReceivingDataActivity :
         val note = Note()
         note.title = receivingText
         callback?.onReceivingData()
-        IntentUtil.openNoteFromDialog(this, note, notesCategory)
+        IntentManager.openNoteFromDialog(this, note, notesCategory)
         finish()
     }
 
@@ -119,7 +119,7 @@ class ReceivingDataActivity :
         val title: String = note.title.plus("\n\n").plus(receivingText)
         note.title = title
         callback?.onReceivingData()
-        IntentUtil.openNoteFromDialog(this, note, notesCategory)
+        IntentManager.openNoteFromDialog(this, note, notesCategory)
         finish()
     }
 

@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.*
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
 import com.loskon.noteminimalism3.utils.ColorManager
-import com.loskon.noteminimalism3.utils.IntentUtil
+import com.loskon.noteminimalism3.utils.IntentManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -282,7 +282,7 @@ class SettingsFragment :
                 }
 
                 communicationKey -> {
-                    IntentUtil.launcherEmailClient(this)
+                    IntentManager.launcherEmailClient(this)
                     return true
                 }
 

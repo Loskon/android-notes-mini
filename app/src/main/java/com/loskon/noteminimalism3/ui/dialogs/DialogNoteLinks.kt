@@ -8,7 +8,7 @@ import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.IntentUtil
+import com.loskon.noteminimalism3.utils.IntentManager
 import java.util.regex.Pattern
 
 /**
@@ -120,9 +120,9 @@ class DialogNoteLinks(
 
     private fun openLink() {
         when (typeLinks) {
-            URL_WEB -> IntentUtil.launcherWebClient(context, link)
-            URL_MAIL -> IntentUtil.launcherEmailClient(context, link)
-            URL_PHONE -> IntentUtil.launcherPhoneClient(context, link)
+            URL_WEB -> IntentManager.launcherWebClient(context, link)
+            URL_MAIL -> IntentManager.launcherEmailClient(context, link)
+            URL_PHONE -> IntentManager.launcherPhoneClient(context, link)
 
             else -> showSnackbar(SnackbarManager.MSG_UNKNOWN_ERROR)
         }

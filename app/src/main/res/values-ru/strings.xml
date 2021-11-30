@@ -177,47 +177,52 @@
     <string name="data_header">Данные</string>
     <string name="notes_header">Заметки</string>
     <string name="other_header">Прочее</string>
-
     <!-- Preference Titles -->
     <string name="custom_app_title">Настроить</string>
     <string name="type_font_title">Шрифт</string>
     <string name="sort_title">Сортировка</string>
-    <string name="dark_mode_title">Темная тема</string>
+    <string name="dark_mode_title_new">Темная тема</string>
     <string name="backup_title">Бэкап и восстановление</string>
     <string name="folder_title">Папка для данных</string>
-    <string name="auto_backup_title">Автобэкап</string>
-    <string name="notification_title">Уведомление</string>
-    <string name="num_of_backup_title">Количество бэкапов</string>
-    <string name="update_date_title">Обновлять дату</string>
+    <string name="auto_backup_title_new">Автобэкап</string>
+    <string name="notification_title_new">Уведомление</string>
+    <string name="num_of_backup_title_new">Количество бэкапов</string>
+    <string name="update_date_title_new">Обновлять дату</string>
     <string name="font_size_notes_title">Размер текста</string>
     <string name="hyperlinks_title">Гиперссылки</string>
-    <string name="retention_trash_title">Время хранения заметок в корзине</string>
+    <string name="retention_trash_title_new">Время хранения заметок в корзине</string>
     <string name="communication_title">Связь с разработчиком</string>
     <string name="about_app_title">О приложении</string>
-
     <!-- Preference summary -->
     <string name="auto_backup_summary">При создании нескольких новых заметок</string>
     <string name="number_of_days_summary">Количество дней: %1$d</string>
     <string name="update_date_summary">При восстановлении заметки из корзины</string>
     <string name="notification_auto_backup_summary">Об успешном автобэкапе</string>
-
+    <!-- Preference key -->
+    <string name="auto_backup_title">Авторезервирование</string>
+    <string name="dark_mode_title">Темная тема</string>
+    <string name="notification_title">Уведомление</string>
+    <string name="update_date_title">Обновлять дату</string>
+    <string name="num_of_backup_title">Количество резервных копий</string>
+    <string name="retention_trash_title">Время хранения заметок в корзине</string>
     <!-- preference_app -->
     <!-- Preference Category Header -->
     <string name="note_app_header">Внешний вид плиток</string>
     <string name="font_size_card_header">Размер текста</string>
     <string name="theme_color_header">Цвет темы</string>
-    <string name="num_of_lines_header">Число строк</string>
+    <string name="num_of_lines_header_new">Число строк</string>
     <string name="other_app_header">Прочее</string>
-
     <!-- Preference Titles -->
     <string name="reset_font_size_title">Сбросить размер текста</string>
     <string name="select_color_app_title">Выбрать цвет</string>
     <string name="select_color_app_hex_title">Указать hex-код</string>
     <string name="reset_app_color">Сбросить цвет приложения</string>
-    <string name="one_size_cards_title">Одинаковый размер плиток</string>
-
+    <string name="one_size_cards_title_new">Одинаковый размер плиток</string>
     <!-- Preference summary -->
     <string name="one_size_cards_summary">Для режима нескольких плиток</string>
+    <!-- Preference key -->
+    <string name="one_size_cards_title">Число строк</string>
+    <string name="num_of_lines_header">Одинаковый размер плиток</string>
 
     <!-- other -->
     <string name="empty_list">Пусто</string>

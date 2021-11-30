@@ -40,7 +40,6 @@
     <string name="menu_navigation_trash">Корзина</string>
     <string name="menu_navigation_settings">Настройки</string>
 
-
     <!-- Toast -->
     <!-- activity_list  -->
     <string name="toast_auto_bp_completed">Автобэкап прошел успешно!</string>
@@ -202,7 +201,7 @@
     <string name="auto_backup_key">Авторезервирование</string>
     <string name="dark_mode_key">Темная тема</string>
     <string name="notification_key">Уведомление</string>
-    <string name="update_date_key">update_date_key</string>
+    <string name="update_date_key">update date key</string>
     <string name="num_of_backup_key">Количество резервных копий</string>
     <string name="retention_trash_key">Время хранения заметок в корзине</string>
     <!-- preference_app -->

@@ -221,8 +221,8 @@
     <!-- Preference summary -->
     <string name="one_size_cards_summary">Для режима нескольких плиток</string>
     <!-- Preference key -->
-    <string name="one_size_cards_title">Число строк</string>
-    <string name="num_of_lines_header">Одинаковый размер плиток</string>
+    <string name="one_size_cards_title">Одинаковый размер плиток</string>
+    <string name="num_of_lines_header">Число строк</string>
 
     <!-- other -->
     <string name="empty_list">Пусто</string>

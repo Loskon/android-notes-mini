@@ -35,7 +35,7 @@
 
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
-        app:title="@string/num_of_lines_header">
+        app:title="@string/num_of_lines_header_new">
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
             app:allowDividerAbove="false" />
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
@@ -45,7 +45,7 @@
         app:iconSpaceReserved="false">
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
             android:key="@string/one_size_cards_title"
-            android:title="@string/one_size_cards_title"
+            android:title="@string/one_size_cards_title_new"
             android:layout="@layout/custom_pref_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"

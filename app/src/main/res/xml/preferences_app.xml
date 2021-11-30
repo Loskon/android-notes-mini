@@ -44,7 +44,7 @@
         android:title="@string/other_app_header"
         app:iconSpaceReserved="false">
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
-            android:key="@string/one_size_cards_title"
+            android:key="@string/one_size_cards_key"
             android:title="@string/one_size_cards_title"
             android:layout="@layout/custom_pref_layout"
             app:allowDividerAbove="false"

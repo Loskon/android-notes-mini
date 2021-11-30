@@ -30,7 +30,7 @@ class PrefScreenNumberLines @JvmOverloads constructor(
 
         context.apply {
 
-            val prefKey: String = getString(R.string.num_of_lines_header)
+            val prefKey: String = getString(R.string.num_of_lines_key)
             val slider: Slider = holder.findViewById(R.id.slider_number_of_lines) as Slider
 
             val color: Int = PrefManager.getAppColor(this)

@@ -177,7 +177,6 @@
     <string name="data_header">Data</string>
     <string name="notes_header">Notes</string>
     <string name="other_header">Other</string>
-
     <!-- Preference Titles -->
     <string name="custom_app_title">Customisation</string>
     <string name="type_font_title">Type of font</string>
@@ -194,13 +193,18 @@
     <string name="retention_trash_title">Retention time of notes in trash</string>
     <string name="communication_title">Communication with developer</string>
     <string name="about_app_title">About application</string>
-
     <!-- Preference summary -->
     <string name="auto_backup_summary">When creating several new notes</string>
     <string name="number_of_days_summary">Number of days: %1$d</string>
     <string name="update_date_summary">When restoring notes from trash</string>
     <string name="notification_auto_backup_summary">About successful auto backup</string>
-
+    <!-- Preference key -->
+    <string name="dark_mode_key">Dark mode</string>
+    <string name="auto_backup_key">Auto backup</string>
+    <string name="notification_key">Notification</string>
+    <string name="num_of_backup_key">Number of backups</string>
+    <string name="update_date_key">Update datetime</string>
+    <string name="retention_trash_key">Retention time of notes in trash</string>
     <!-- preference_app -->
     <!-- Preference Category Header -->
     <string name="note_app_header">Cards appearance</string>
@@ -208,16 +212,17 @@
     <string name="theme_color_header">Theme color</string>
     <string name="num_of_lines_header">Number of lines</string>
     <string name="other_app_header">Other</string>
-
     <!-- Preference Titles -->
     <string name="reset_font_size_title">Reset font size</string>
     <string name="select_color_app_title">Select color</string>
     <string name="select_color_app_hex_title">Set hex code</string>
     <string name="reset_app_color">Reset app color</string>
     <string name="one_size_cards_title">Same cards size</string>
-
     <!-- Preference summary -->
     <string name="one_size_cards_summary">For multi-cards mode</string>
+    <!-- Preference key -->
+    <string name="one_size_cards_key">Same cards size</string>
+    <string name="num_of_lines_key">Number of lines</string>
 
     <!-- Other -->
     <!-- Name my app -->

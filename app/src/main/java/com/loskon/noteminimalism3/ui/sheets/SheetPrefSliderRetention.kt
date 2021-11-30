@@ -36,7 +36,7 @@ class SheetPrefSliderRetention(private val context: Context) {
     }
 
     fun show() {
-        val preferenceKey: String = context.getString(R.string.retention_trash_title)
+        val preferenceKey: String = context.getString(R.string.retention_trash_key)
         val value: Int = PrefManager.getRetentionRange(context)
 
         sheetDialog.setTextTitle(preferenceKey)

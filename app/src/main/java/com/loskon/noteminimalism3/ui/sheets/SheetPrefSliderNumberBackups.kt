@@ -37,7 +37,7 @@ class SheetPrefSliderNumberBackups(private val context: Context) {
     }
 
     fun show() {
-        val preferenceKey: String = context.getString(R.string.num_of_backup_title)
+        val preferenceKey: String = context.getString(R.string.num_of_backup_key)
         val value: Int = PrefManager.getNumberBackups(context)
 
         dialog.setTextTitle(preferenceKey)

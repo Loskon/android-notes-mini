@@ -76,7 +76,7 @@ class SettingsAppFragment :
         resetFontSizeKey = getString(R.string.reset_font_size_title)
         selectColorKey = getString(R.string.select_color_app_title)
         selectColorHexKey = getString(R.string.select_color_app_hex_title)
-        oneSizeCardsKey = getString(R.string.one_size_cards_key)
+        oneSizeCardsKey = getString(R.string.one_size_cards_title)
     }
 
     private fun findPreferences() {

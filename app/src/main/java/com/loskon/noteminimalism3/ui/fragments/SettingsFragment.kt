@@ -130,18 +130,18 @@ class SettingsFragment :
         customizationKey = getString(R.string.custom_app_title)
         typeFontKey = getString(R.string.type_font_title)
         sortingKey = getString(R.string.sort_title)
-        darkModeKey = getString(R.string.dark_mode_key)
+        darkModeKey = getString(R.string.dark_mode_title)
         // Data
         backupKey = getString(R.string.backup_title)
         folderKey = getString(R.string.folder_title)
-        autoBackupKey = getString(R.string.auto_backup_key)
-        autoBackupNotifyKey = getString(R.string.notification_key)
-        numberBackupsKey = getString(R.string.num_of_backup_key)
+        autoBackupKey = getString(R.string.auto_backup_title)
+        autoBackupNotifyKey = getString(R.string.notification_title)
+        numberBackupsKey = getString(R.string.num_of_backup_title)
         // Notes
         hyperlinksKey = getString(R.string.hyperlinks_title)
         fontSizeKey = getString(R.string.font_size_notes_title)
         // Other
-        retentionKey = getString(R.string.retention_trash_key)
+        retentionKey = getString(R.string.retention_trash_title)
         communicationKey = getString(R.string.communication_title)
         aboutAppKey = getString(R.string.about_app_title)
     }

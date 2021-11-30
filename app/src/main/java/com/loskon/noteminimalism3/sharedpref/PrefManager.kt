@@ -116,27 +116,27 @@ class PrefManager {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // boolean
         fun getOneSizeCards(context: Context): Boolean {
-            val key: String = context.getString(R.string.one_size_cards_key)
+            val key: String = context.getString(R.string.one_size_cards_title)
             return load(context, key, false)
         }
 
         fun isAutoBackup(context: Context): Boolean {
-            val key = context.getString(R.string.auto_backup_key)
+            val key = context.getString(R.string.auto_backup_title)
             return load(context, key, false)
         }
 
         fun isDarkMode(context: Context): Boolean {
-            val key: String = context.getString(R.string.dark_mode_key)
+            val key: String = context.getString(R.string.dark_mode_title)
             return load(context, key, false)
         }
 
         fun hasNotificationAutoBackup(context: Context): Boolean {
-            val key: String = context.getString(R.string.notification_key)
+            val key: String = context.getString(R.string.notification_title)
             return load(context, key, false)
         }
 
         fun hasUpdateDateTime(context: Context): Boolean {
-            val key: String = context.getString(R.string.update_date_key)
+            val key: String = context.getString(R.string.update_date_title)
             return load(context, key, true)
         }
 
@@ -191,7 +191,7 @@ class PrefManager {
         }
 
         fun getNumberBackups(context: Context): Int {
-            val key = context.getString(R.string.num_of_backup_key)
+            val key = context.getString(R.string.num_of_backup_title)
             return load(
                 context,
                 key,
@@ -200,7 +200,7 @@ class PrefManager {
         }
 
         fun getRetentionRange(context: Context): Int {
-            val key = context.getString(R.string.retention_trash_key)
+            val key = context.getString(R.string.retention_trash_title)
             return load(
                 context,
                 key,
@@ -209,7 +209,7 @@ class PrefManager {
         }
 
         fun getNumberLines(context: Context): Int {
-            val key = context.getString(R.string.num_of_lines_key)
+            val key = context.getString(R.string.num_of_lines_header)
             return load(
                 context,
                 key,

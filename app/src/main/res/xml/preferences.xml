@@ -24,7 +24,7 @@
             android:layout="@layout/custom_pref_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
-            app:key="@string/dark_mode_key"
+            app:key="@string/dark_mode_title"
             app:title="@string/dark_mode_title" />
 
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
@@ -46,7 +46,7 @@
             android:layout="@layout/custom_pref_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
-            app:key="@string/auto_backup_key"
+            app:key="@string/auto_backup_title"
             app:summary="@string/auto_backup_summary"
             app:title="@string/auto_backup_title" />
 
@@ -54,16 +54,16 @@
             android:layout="@layout/custom_pref_layout"
             app:allowDividerAbove="false"
             app:defaultValue="false"
-            app:dependency="@string/auto_backup_key"
+            app:dependency="@string/auto_backup_title"
             app:iconSpaceReserved="false"
-            app:key="@string/notification_key"
+            app:key="@string/notification_title"
             app:summary="@string/notification_auto_backup_summary"
             app:title="@string/notification_title" />
 
         <Preference
             android:title="@string/num_of_backup_title"
             app:iconSpaceReserved="false"
-            app:key="@string/num_of_backup_key" />
+            app:key="@string/num_of_backup_title" />
 
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
@@ -86,7 +86,7 @@
             app:allowDividerAbove="false"
             app:defaultValue="true"
             app:iconSpaceReserved="false"
-            app:key="@string/update_date_key"
+            app:key="@string/update_date_title"
             app:summary="@string/update_date_summary"
             app:title="@string/update_date_title" />
 
@@ -97,7 +97,7 @@
         app:title="@string/other_header">
 
         <Preference
-            android:key="@string/retention_trash_key"
+            android:key="@string/retention_trash_title"
             android:title="@string/retention_trash_title"
             app:iconSpaceReserved="false" />
 

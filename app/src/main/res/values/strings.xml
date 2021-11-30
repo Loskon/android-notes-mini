@@ -202,7 +202,7 @@
     <string name="auto_backup_key">Auto backup</string>
     <string name="dark_mode_key">Dark mode</string>
     <string name="notification_key">Notification</string>
-    <string name="update_date_key">Update datetime</string>
+    <string name="update_date_key">update_date_key</string>
     <string name="num_of_backup_key">Number of backups</string>
     <string name="retention_trash_key">Retention time of notes in trash</string>
     <!-- preference_app -->

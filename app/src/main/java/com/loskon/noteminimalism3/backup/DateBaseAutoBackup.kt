@@ -5,7 +5,7 @@ import com.loskon.noteminimalism3.files.CheckCreatedFiles
 import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.toast.ToastManager
-import com.loskon.noteminimalism3.utils.DateUtil
+import com.loskon.noteminimalism3.utils.DateManager
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File
 import java.util.*
@@ -52,7 +52,7 @@ class DateBaseAutoBackup {
         }
 
         private fun replaceForbiddenCharacters(date: Date): String {
-            var name: String = DateUtil.getStringDate(date)
+            var name: String = DateManager.getStringDate(date)
             name = name.replace("[./:]".toRegex(), "_")
             return "$name (A)"
         }

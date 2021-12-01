@@ -5,7 +5,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.BackupPathManager
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.DateUtil
+import com.loskon.noteminimalism3.utils.DateManager
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File
 import java.io.FileWriter
@@ -50,7 +50,7 @@ class SaveTextFile(
 
     private fun getTitleTextFile(text: String): String {
         var title: String = text
-        title = title.substring(0, 14.coerceAtMost(title.length)) + " " + DateUtil.getTimeNow()
+        title = title.substring(0, 14.coerceAtMost(title.length)) + " " + DateManager.getTimeNow()
         title = StringUtil.replaceForbiddenCharacters(title)
         return title.trim()
     }

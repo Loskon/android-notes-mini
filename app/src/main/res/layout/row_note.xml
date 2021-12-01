@@ -5,7 +5,7 @@
     <data>
 
         <import type="android.view.View" />
-        <import type="com.loskon.noteminimalism3.utils.DateUtil" />
+        <import type="com.loskon.noteminimalism3.utils.DateManager" />
 
         <variable
             name="note"
@@ -59,7 +59,7 @@
                 android:layout_marginBottom="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{DateUtil.getStringDate(note.dateCreation)}"
+                android:text="@{DateManager.getStringDate(note.dateCreation)}"
                 android:textColor="?attr/colorDate" />
 
         </LinearLayout>

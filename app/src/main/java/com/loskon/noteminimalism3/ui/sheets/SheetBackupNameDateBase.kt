@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.files.CheckCreatedFiles
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.DateUtil
+import com.loskon.noteminimalism3.utils.DateManager
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
@@ -48,7 +48,7 @@ class SheetBackupNameDateBase(private val context: Context) {
 
     private fun configViews() {
         inputEditText.showKeyboard(context)
-        inputEditText.setText(DateUtil.getStringDate(Date()))
+        inputEditText.setText(DateManager.getStringDate(Date()))
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 

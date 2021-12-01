@@ -23,7 +23,7 @@ class StringUtil {
         }
 
         fun replaceForbiddenCharactersForAuto(date: Date): String {
-            var name: String = DateUtil.getStringDate(date)
+            var name: String = DateManager.getStringDate(date)
             name = name.replace("[./:]".toRegex(), "_")
             return "$name (A)"
         }

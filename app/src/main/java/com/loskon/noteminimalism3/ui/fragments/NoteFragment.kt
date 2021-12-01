@@ -306,7 +306,7 @@ class NoteFragment : Fragment(),
         editText.hideKeyboard(activity)
         lifecycleScope.launch {
             delay(300L)
-            val stringDate: String = DateUtil.getStringDate(note.dateModification)
+            val stringDate: String = DateManager.getStringDate(note.dateModification)
             SheetTextAssistantNote(activity, textAssistant).show(stringDate, noteId)
         }
     }

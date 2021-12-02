@@ -1,35 +1,31 @@
-## Notes Mini for Android  
+# Notes Mini for Android  
 
-Notes Mini - представляет собой приложение для создания и работы с заметками. 
+Notes Mini - представляет собой приложение для создания и работы с заметками.
 
-### Содержание <a name="paragraph0"></a>
+## Содержание <a name="paragraph0"></a>
 
-1. [Описание приложения](#paragraph1)
-    * [Скриншоты](#subparagraph1-1)
-    * [Стек технологий](#subparagraph1-2)
-    * [Библиотеки](#subparagraph1-3)
-2. [Контакты](#paragraph2)
+[Скриншоты](#paragraph1)
 
-## Описание приложения <a name="paragraph1"></a>
+[Стек технологий](#paragraph2)
 
-### Скриншоты <a name="subparagraph1-1"></a>
+[Google Play](#paragraph3)
 
-### Стек технологий <a name="subparagraph1-2"></a>
+[Контакты](#paragraph4)
+
+## Скриншоты <a name="paragraph1"></a>
+
+## Стек технологий <a name="paragraph2"></a>
 
 * MVP
 * DataBinding
 * Firebase (Authentication, Cloud Storage)
 * SQLite
 
-### Библиотеки <a name="subparagraph1-3"></a>
+## Google Play <a name="paragraph3"></a>
 
-* [HoloColorPicker]
-* [SegmentedButton]
+[![Play Store](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.loskon.noteminimalism3)
 
-[HoloColorPicker]: https://github.com/LarsWerkman/HoloColorPicker
-[SegmentedButton]: https://github.com/addisonElliott/SegmentedButton
-
-## Контакты <a name="paragraph2"></a>
+## Контакты <a name="paragraph4"></a>
 
 [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/loskon)
 [![Email](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:andreyrochev23@gmail.com)

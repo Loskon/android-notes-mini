@@ -8,39 +8,31 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupSort
-import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
+import com.loskon.noteminimalism3.backup.SortFileDatetime
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.io.File
 import java.util.*
 
 /**
- * Кастомный адаптер для вывода списка файлов резервных копий
+ * Адаптер для работы со списком файлов
  */
 
-class FilesAdapter(private val sheetListDialog: SheetListRestoreDateBase) :
-    BaseAdapter() {
+class FilesAdapter : BaseAdapter() {
 
     private var list: ArrayList<File> = arrayListOf()
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = View.inflate(parent?.context, R.layout.row_file, null)
-        val file = list[position]
-
         val nameFiles: TextView = view.findViewById(R.id.tv_title_file)
         val cardView: CardView = view.findViewById(R.id.card_view_file)
         val delFile: MaterialButton = view.findViewById(R.id.btn_del_file)
 
+        val file = list[position]
+
         nameFiles.text = file.name.replace(".db", "")
-
-        cardView.setOnSingleClickListener {
-            sheetListDialog.restoreDateBase(file.path)
-        }
-
-        delFile.setOnSingleClickListener {
-            remove(file)
-        }
+        cardView.setOnSingleClickListener { callback?.onClickingFile(file) }
+        delFile.setOnSingleClickListener { remove(file) }
 
         return view
     }
@@ -49,25 +41,14 @@ class FilesAdapter(private val sheetListDialog: SheetListRestoreDateBase) :
         file.delete()
         list.remove(file)
         notifyDataSetChanged()
-        sheetListDialog.checkEmptyFilesList()
-    }
 
-    fun removeAll(files: Array<File>?) {
-        if (files != null) {
-            for (file in files) {
-                file.delete()
-            }
-
-            list.clear()
-            notifyDataSetChanged()
-            sheetListDialog.checkEmptyFilesList()
-        }
+        callback?.onCheckEmpty()
     }
 
     fun setFilesList(newList: Array<File>?) {
         if (newList != null) {
             list = newList.toCollection(ArrayList())
-            Collections.sort(list, BackupSort.SortFileDate())
+            Collections.sort(list, SortFileDatetime())
             notifyDataSetChanged()
         }
     }
@@ -77,4 +58,17 @@ class FilesAdapter(private val sheetListDialog: SheetListRestoreDateBase) :
     override fun getItem(position: Int): File = list[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
+
+    interface CallbackFilesAdapter {
+        fun onClickingFile(file: File)
+        fun onCheckEmpty()
+    }
+
+    companion object {
+        private var callback: CallbackFilesAdapter? = null
+
+        fun listenerCallback(callback: CallbackFilesAdapter) {
+            this.callback = callback
+        }
+    }
 }

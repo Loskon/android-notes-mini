@@ -30,6 +30,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
 
     private var adapter: FontListAdapter = FontListAdapter()
 
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvExample: TextView
 
@@ -56,6 +57,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
 
         installCallbacks()
         configurationBottomBar()
+        configureLayoutManager()
         configureRecyclerView()
         configureRecyclerAdapter()
         updateFontsList()
@@ -69,16 +71,18 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
     }
 
     private fun configurationBottomBar() {
-        activity.apply {
-            bottomBar.setNavigationOnClickListener {
-                onBackPressed()
-            }
+        activity.bottomBar.setNavigationOnClickListener {
+            activity.onBackPressed()
         }
     }
 
+    private fun configureLayoutManager() {
+        val orientation: Int = RecyclerView.HORIZONTAL
+        layoutManager = LinearLayoutManager(activity, orientation, false)
+    }
+
     private fun configureRecyclerView() {
-        recyclerView.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = CustomItemAnimator()
     }
@@ -92,108 +96,33 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
     }
 
     private fun updateFontsList() {
-        val tweets: List<Font> = getListFonts()
-        adapter.setFontsList(tweets)
+        val fonts: List<Font> = getListFonts()
+        adapter.setFontsList(fonts)
     }
 
     private fun getListFonts(): List<Font> {
         return listOf(
-            Font(
-                0,
-                getString(R.string.default_font),
-                activity.getShortFont(R.font.roboto_light)
-            ),
-
-            Font(
-                1,
-                getString(R.string.lato_light_font),
-                activity.getShortFont(R.font.lato_light)
-            ),
-
-            Font(
-                2,
-                getString(R.string.open_sans_light_font),
-                activity.getShortFont(R.font.open_sans_light)
-            ),
-
-            Font(
-                3,
-                getString(R.string.oswald_light_font),
-                activity.getShortFont(R.font.oswald_light)
-            ),
-
-            Font(
-                4,
-                getString(R.string.source_sans_pro_light_font),
-                activity.getShortFont(R.font.source_sans_pro_light)
-            ),
-
-            Font(
-                5,
-                getString(R.string.montserrat_light_font),
-                activity.getShortFont(R.font.montserrat_light)
-            ),
-
-            Font(
-                6,
-                getString(R.string.roboto_condensed_light_font),
-                activity.getShortFont(R.font.roboto_condensed_light)
-            ),
-
-            Font(
-                7,
-                getString(R.string.poppins_light_font),
-                activity.getShortFont(R.font.poppins_light)
-            ),
-
-            Font(
-                8,
-                getString(R.string.ubuntu_light_font),
-                activity.getShortFont(R.font.ubuntu_light)
-            ),
-
-            Font(
-                9,
-                getString(R.string.dosis_light_font),
-                activity.getShortFont(R.font.dosis_light)
-            ),
-
-            Font(
-                10,
-                getString(R.string.titillium_web_light_font),
-                activity.getShortFont(R.font.titillium_web_light)
-            ),
-
-            Font(
-                11,
-                getString(R.string.ibm_plex_serif_light_font),
-                activity.getShortFont(R.font.ibm_plex_serif_light)
-            ),
-
-            Font(
-                12,
-                getString(R.string.karla_light_font),
-                activity.getShortFont(R.font.karla_light)
-            ),
-
-            Font(
-                13,
-                getString(R.string.marmelad_regular_font),
-                activity.getShortFont(R.font.marmelad_regular)
-            ),
-
-            Font(
-                14,
-                getString(R.string.nunito_light_font),
-                activity.getShortFont(R.font.nunito_light)
-            ),
-
-            Font(
-                15,
-                getString(R.string.alice_regular_font),
-                activity.getShortFont(R.font.alice_regular)
-            )
+            createFont(0, R.string.roboto_name, R.font.roboto_light),
+            createFont(1, R.string.lato_light_name, R.font.lato_light),
+            createFont(2, R.string.open_sans_light_name, R.font.open_sans_light),
+            createFont(3, R.string.oswald_light_name, R.font.oswald_light),
+            createFont(4, R.string.source_sans_pro_light_name, R.font.source_sans_pro_light),
+            createFont(5, R.string.montserrat_light_name, R.font.montserrat_light),
+            createFont(6, R.string.roboto_condensed_light_name, R.font.roboto_condensed_light),
+            createFont(7, R.string.poppins_light_name, R.font.poppins_light),
+            createFont(8, R.string.ubuntu_light_name, R.font.ubuntu_light),
+            createFont(9, R.string.dosis_light_name, R.font.dosis_light),
+            createFont(10, R.string.titillium_web_light_name, R.font.titillium_web_light),
+            createFont(11, R.string.ibm_plex_serif_light_name, R.font.ibm_plex_serif_light),
+            createFont(12, R.string.karla_light_name, R.font.karla_light),
+            createFont(13, R.string.marmelad_regular_name, R.font.marmelad_regular),
+            createFont(14, R.string.nunito_light_name, R.font.nunito_light),
+            createFont(15, R.string.alice_regular_name, R.font.alice_regular)
         )
+    }
+
+    private fun createFont(id: Int, stringId: Int, fontId: Int): Font {
+        return Font(id, getString(stringId), activity.getShortFont(fontId))
     }
 
     private fun installSnapHelper() {

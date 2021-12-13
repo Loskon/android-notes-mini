@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Кастомный Snap для установки элемента по центру RecyclerView
+ * Snap для установки элемента по центру RecyclerView
  */
 
 class CustomSnapHelper : LinearSnapHelper() {
@@ -19,6 +19,7 @@ class CustomSnapHelper : LinearSnapHelper() {
 
     fun setCenterPosition(position: Int) {
         recyclerView?.scrollToPosition(position)
+        recyclerView?.visibility = View.INVISIBLE // Костыль
 
         recyclerView?.post {
 
@@ -33,6 +34,7 @@ class CustomSnapHelper : LinearSnapHelper() {
 
                     if (snapDistance[0] != 0 || snapDistance[1] != 0) {
                         recyclerView?.scrollBy(snapDistance[0], snapDistance[1])
+                        recyclerView?.visibility = View.VISIBLE // Костыль
                     }
                 }
             }

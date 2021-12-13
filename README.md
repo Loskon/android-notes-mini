@@ -4,7 +4,7 @@ Notes Mini - представляет собой приложение для с�
 
 ## Стек технологий
 
-* MVP
+* MVC
 * DataBinding
 * Firebase (Authentication, Cloud Storage)
 * SQLite

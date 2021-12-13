@@ -10,12 +10,12 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.IntentManager
+import com.loskon.noteminimalism3.managers.setColorStateMenuItem
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.utils.IntentManager
 import com.loskon.noteminimalism3.utils.getShortDrawable
-import com.loskon.noteminimalism3.utils.setColorStateMenuItem
 
 /**
  * Нижний лист для выбора категории заметок и открытия настроек
@@ -23,13 +23,26 @@ import com.loskon.noteminimalism3.utils.setColorStateMenuItem
 
 class BottomSheetCategory : BottomSheetDialogFragment() {
 
+    private lateinit var callback: CallbackCategory
+
     private lateinit var mContext: Context
+
     private lateinit var navigationView: NavigationView
+
     private var category: String = CATEGORY_ALL_NOTES
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        listenerCallback(context)
+        getPassedArguments()
         mContext = context
+    }
+
+    private fun listenerCallback(context: Context) {
+        callback = context as CallbackCategory
+    }
+
+    private fun getPassedArguments() {
         category = arguments?.getString(ARG_CATEGORY).toString()
     }
 
@@ -79,7 +92,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
                 }
 
                 if (menuId != R.id.nav_item_settings) {
-                    callback?.onCallbackCategory(category)
+                    callback.onCallbackCategory(category)
                 }
 
                 dismiss()
@@ -103,12 +116,6 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "BottomSheetDialogFragment"
         private const val ARG_CATEGORY = "arg_category"
-
-        private var callback: CallbackCategory? = null
-
-        fun listenerCallback(callback: CallbackCategory) {
-            this.callback = callback
-        }
 
         @JvmStatic
         fun newInstance(category: String) = BottomSheetCategory().apply {

@@ -1,13 +1,14 @@
-package com.loskon.noteminimalism3.command
+package com.loskon.noteminimalism3.commands
 
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter
+import java.util.*
 
 /**
- * Быстрый доступ к методам работы с БД
+ * Доступ к методам работы с БД
  */
 
-class ShortsCommand {
+class CommandCenter {
 
     private val dateBaseAdapter = DateBaseAdapter.getDateBase()
 
@@ -15,6 +16,7 @@ class ShortsCommand {
         return dateBaseAdapter.getNotes(searchTerm, notesCategory, sortingWay)
     }
 
+    // primary
     fun insert(note: Note) {
         dateBaseAdapter.insert(note)
     }
@@ -25,6 +27,24 @@ class ShortsCommand {
 
     fun delete(note: Note) {
         dateBaseAdapter.delete(note)
+    }
+
+    // second
+    fun insertGetId(note: Note): Long {
+        return dateBaseAdapter.insertGetId(note)
+    }
+
+    fun sendToTrash(note: Note) {
+        note.dateDelete = Date()
+        note.isDelete = true
+        note.isFavorite = false
+        dateBaseAdapter.update(note)
+    }
+
+    fun resetFromTrash(note: Note, hasFavStatus: Boolean) {
+        note.isFavorite = hasFavStatus
+        note.isDelete = false
+        dateBaseAdapter.update(note)
     }
 
     fun cleanTrash() {

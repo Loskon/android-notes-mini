@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="number_of_backups">3</integer>
-    <integer name="number_retention_note_in_trash">2</integer>
-    <integer name="number_lines">3</integer>
-    <integer name="number_font_size_title">18</integer>
-    <integer name="number_font_size_date">14</integer>
+    <!-- preference -->
+    <integer name="number_of_backups_int">3</integer>
+    <integer name="retention_trash_int">2</integer>
+    <integer name="note_font_size_int">18</integer>
+    <!-- preference_app -->
+    <integer name="title_font_size_int">18</integer>
+    <integer name="date_font_size_int">14</integer>
+    <integer name="number_lines_int">3</integer>
 </resources>

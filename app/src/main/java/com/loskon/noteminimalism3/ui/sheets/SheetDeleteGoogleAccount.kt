@@ -1,15 +1,15 @@
 package com.loskon.noteminimalism3.ui.sheets
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.view.View
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setStrokeBtnColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 
 /**
- * Потверждение удаление гугл-аккаунта
+ * Подтверждение удаление гугл-аккаунта
  */
 
 class SheetDeleteGoogleAccount(
@@ -19,29 +19,29 @@ class SheetDeleteGoogleAccount(
     View.OnClickListener {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.sheet_delete_account_warning, null)
+    private val insertView = View.inflate(context, R.layout.sheet_delete_account_warning, null)
 
-    private val btnYes: MaterialButton = view.findViewById(R.id.btn_data_yes)
-    private val btnNo: MaterialButton = view.findViewById(R.id.btn_data_no)
+    private val btnYes: MaterialButton = insertView.findViewById(R.id.btn_data_yes)
+    private val btnNo: MaterialButton = insertView.findViewById(R.id.btn_data_no)
 
     init {
-        setupColorViews()
-        configViews()
-        installHandlers()
-    }
-
-    private fun setupColorViews() {
-        val color = PrefManager.getAppColor(context)
-        btnNo.setBackgroundColor(color)
-        btnYes.strokeColor = ColorStateList.valueOf(color)
-        btnYes.setTextColor(color)
-    }
-
-    private fun configViews() {
-        sheetDialog.setInsertView(view)
+        sheetDialog.setInsertView(insertView)
         sheetDialog.setBtnOkVisibility(false)
         sheetDialog.setBtnCancelVisibility(false)
         sheetDialog.setTextTitle(R.string.sheet_delete_warnings)
+    }
+
+    fun show() {
+        establishColorViews()
+        installHandlers()
+        sheetDialog.show()
+    }
+
+    private fun establishColorViews() {
+        val color = PrefManager.getAppColor(context)
+        btnNo.setBackgroundColor(color)
+        btnYes.setStrokeBtnColor(color)
+        btnYes.setTextColor(color)
     }
 
     private fun installHandlers() {
@@ -59,9 +59,5 @@ class SheetDeleteGoogleAccount(
                 sheetDialog.dismiss()
             }
         }
-    }
-
-    fun show() {
-        sheetDialog.show()
     }
 }

@@ -12,13 +12,13 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.command.ShortsCommandNote
+import com.loskon.noteminimalism3.commands.CommandCenter
+import com.loskon.noteminimalism3.managers.setButtonIconColor
+import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteRestore
-import com.loskon.noteminimalism3.utils.setButtonIconColor
-import com.loskon.noteminimalism3.utils.setFabColor
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setTextSizeShort
 import java.util.*
@@ -29,8 +29,9 @@ import java.util.*
 
 class NoteTrashFragment : Fragment() {
 
+    private val commandCenter: CommandCenter = CommandCenter()
+
     private lateinit var activity: NoteActivity
-    private lateinit var shortsCommand: ShortsCommandNote
 
     private lateinit var constLayout: ConstraintLayout
     private lateinit var linearLayout: LinearLayout
@@ -74,7 +75,6 @@ class NoteTrashFragment : Fragment() {
 
     private fun initObjects() {
         note = activity.getNote()
-        shortsCommand = activity.getShortsCommand()
     }
 
     private fun establishColorViews() {
@@ -88,7 +88,7 @@ class NoteTrashFragment : Fragment() {
             isClickable = true
             isCursorVisible = false
             isFocusable = false
-            setTextSizeShort(activity.getFontSize())
+            setTextSizeShort(activity.getNoteFontSize())
             setText(note.title)
         }
     }
@@ -103,33 +103,23 @@ class NoteTrashFragment : Fragment() {
     fun restoreNote() {
         note.isDelete = false
         if (hasUpdateDateTime) note.dateCreation = Date()
-        shortsCommand.update(note)
+        commandCenter.update(note)
         callback?.onNoteReset(note)
         activity.onBackPressed()
     }
 
     private fun deleteNote() {
-        shortsCommand.delete(note)
+        commandCenter.delete(note)
         callback?.onNoteDelete(note, false)
         activity.onBackPressed()
     }
 
     private fun showSnackbar() {
-        SnackbarNoteRestore(activity, this).show()
+        SnackbarNoteRestore(this, constLayout, fab).show()
     }
 
-    val getConstLayout: ConstraintLayout
-        get() {
-            return constLayout
-        }
-
-    val getFab: FloatingActionButton
-        get() {
-            return fab
-        }
-
     interface CallbackNoteTrash {
-        fun onNoteDelete(note: Note, isFavorite: Boolean)
+        fun onNoteDelete(note: Note, hasFavStatus: Boolean)
         fun onNoteReset(note: Note)
     }
 

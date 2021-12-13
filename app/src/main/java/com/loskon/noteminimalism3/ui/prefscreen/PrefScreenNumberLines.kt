@@ -6,11 +6,11 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
-import com.loskon.noteminimalism3.utils.setSliderColor
 
 /**
- * Кастомный элемент настроек со слайдером
+ * Preference со слайдером
  */
 
 class PrefScreenNumberLines @JvmOverloads constructor(
@@ -30,7 +30,7 @@ class PrefScreenNumberLines @JvmOverloads constructor(
 
         context.apply {
 
-            val prefKey: String = getString(R.string.num_of_lines_key)
+            val prefKey: String = getString(R.string.number_of_lines_key)
             val slider: Slider = holder.findViewById(R.id.slider_number_of_lines) as Slider
 
             val color: Int = PrefManager.getAppColor(this)

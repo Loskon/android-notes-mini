@@ -6,18 +6,17 @@ import com.loskon.noteminimalism3.sharedpref.PrefManager
 import java.io.File
 
 /**
- * Метод для ограничения файлов резервного копирования
+ * Метод для ограничения количества файлов бэкапов
  */
 
 class BackupFilesLimiter {
-
     companion object {
 
         fun deleteExtraFiles(context: Context) {
 
-            val homeFolder: File = BackupPathManager.getBackupFolder(context)
+            val homeFolder: File = BackupPath.getBackupFolder(context)
             val maxNumberFiles: Int = PrefManager.getNumberBackups(context)
-            var logFiles: Array<File>? = BackupFilter.getListDateBaseFile(homeFolder)
+            var logFiles: Array<File>? = BackupFilter.getListDateBaseFiles(homeFolder)
 
             if (logFiles != null && logFiles.size > maxNumberFiles) {
                 // Удалить все старые файлы после того, как есть более N файлов
@@ -36,7 +35,7 @@ class BackupFilesLimiter {
                         SQLiteDatabase.deleteDatabase(File(oldestFile.path))
                     }
 
-                    logFiles = BackupFilter.getListDateBaseFile(homeFolder)
+                    logFiles = BackupFilter.getListDateBaseFiles(homeFolder)
 
                 } while (logFiles!!.size > maxNumberFiles)
             }

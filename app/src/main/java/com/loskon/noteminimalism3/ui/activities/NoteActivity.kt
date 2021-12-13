@@ -3,14 +3,13 @@ package com.loskon.noteminimalism3.ui.activities
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.command.ShortsCommandNote
+import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
-import com.loskon.noteminimalism3.utils.IntentManager
 
 /**
  * Выбор фрагмента для работы с заметкой
@@ -18,12 +17,11 @@ import com.loskon.noteminimalism3.utils.IntentManager
 
 class NoteActivity : BaseActivity() {
 
-    private lateinit var shortsCommand: ShortsCommandNote
     private lateinit var note: Note
 
     private var color: Int = 0
-    private var fontSizeNote: Int = 0
-    private var noteCategory: String = ""
+    private var noteFontSize: Int = 0
+    private var category: String = ""
     private var hasReceivingText: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +29,6 @@ class NoteActivity : BaseActivity() {
         setContentView(R.layout.activity_note)
 
         getArguments()
-        initObjects()
         otherConfigurations()
         setStatusFavorite()
         selectFragmentOpen()
@@ -42,26 +39,22 @@ class NoteActivity : BaseActivity() {
         intent.getParcelableExtra<Note>(IntentManager.PUT_EXTRA_NOTE)
             ?.let { note = it }
         intent.getStringExtra(IntentManager.PUT_EXTRA_CATEGORY)
-            ?.let { noteCategory = it }
+            ?.let { category = it }
         intent.getBooleanExtra(IntentManager.PUT_EXTRA_HAS_RECEIVING_TEXT, false)
             .let { hasReceivingText = it }
     }
 
-    private fun initObjects() {
-        shortsCommand = ShortsCommandNote()
-    }
-
     private fun otherConfigurations() {
         color = PrefManager.getAppColor(this)
-        fontSizeNote = PrefManager.getFontSizeNote(this)
+        noteFontSize = PrefManager.getNoteFontSize(this)
     }
 
     private fun setStatusFavorite() {
-        if (noteCategory == CATEGORY_FAVORITES) note.isFavorite = true
+        if (category == CATEGORY_FAVORITES && note.id == 0L) note.isFavorite = true
     }
 
     private fun selectFragmentOpen() {
-        if (noteCategory == CATEGORY_TRASH) {
+        if (category == CATEGORY_TRASH) {
             startFragment(NoteTrashFragment.newInstance())
         } else {
             startFragment(NoteFragment.newInstance())
@@ -79,11 +72,6 @@ class NoteActivity : BaseActivity() {
         }
     }
 
-    // getters
-    fun getShortsCommand(): ShortsCommandNote {
-        return shortsCommand
-    }
-
     fun getColor(): Int {
         return color
     }
@@ -92,11 +80,11 @@ class NoteActivity : BaseActivity() {
         return note
     }
 
-    fun getFontSize(): Int {
-        return fontSizeNote
+    fun getNoteFontSize(): Int {
+        return noteFontSize
     }
 
-    val hasReceivText: Boolean
+    val hasRecText: Boolean
         get() {
             return hasReceivingText
         }

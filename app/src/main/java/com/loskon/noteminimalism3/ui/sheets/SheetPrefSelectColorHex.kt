@@ -18,24 +18,27 @@ import com.loskon.noteminimalism3.utils.showKeyboard
 class SheetPrefSelectColorHex(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val sheetView = View.inflate(context, R.layout.sheet_pref_color_hex, null)
+    private val insertView = View.inflate(context, R.layout.sheet_pref_color_hex, null)
 
-    private val inputLayout: TextInputLayout = sheetView.findViewById(R.id.input_layout_hex)
-    private val inputEditText: TextInputEditText = sheetView.findViewById(R.id.input_edit_text_hex)
-    private val btnReset: MaterialButton = sheetView.findViewById(R.id.reset_hex_color)
+    private val inputLayout: TextInputLayout = insertView.findViewById(R.id.input_layout_hex)
+    private val inputEditText: TextInputEditText = insertView.findViewById(R.id.input_edit_text_hex)
+    private val btnReset: MaterialButton = insertView.findViewById(R.id.reset_hex_color)
 
     private var color: Int = 0
 
     init {
-        dialog.setInsertView(sheetView)
+        dialog.setInsertView(insertView)
         dialog.setTextTitle(R.string.sheet_pref_color_hex_title)
-
-        setupColorViews()
-        configViews()
-        installHandlers()
     }
 
-    private fun setupColorViews() {
+    fun show() {
+        establishColorViews()
+        configViews()
+        installHandlers()
+        dialog.show()
+    }
+
+    private fun establishColorViews() {
         color = PrefManager.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }
@@ -98,10 +101,6 @@ class SheetPrefSelectColorHex(private val context: Context) {
         callbackColorNavIcon?.onChangeColor(color)
         callbackColorNotifyData?.onChangeColor()
         callbackColorList?.onChangeColor(color)
-    }
-
-    fun show() {
-        dialog.show()
     }
 
     // Callbacks

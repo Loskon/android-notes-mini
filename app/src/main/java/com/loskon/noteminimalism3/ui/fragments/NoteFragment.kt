@@ -19,20 +19,22 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DateBaseAutoBackup
-import com.loskon.noteminimalism3.command.ShortsCommandNote
+import com.loskon.noteminimalism3.commands.CommandCenter
+import com.loskon.noteminimalism3.managers.LinksManager
+import com.loskon.noteminimalism3.managers.setButtonIconColor
+import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.other.LinksManager
-import com.loskon.noteminimalism3.other.TextNoteAssistant
+import com.loskon.noteminimalism3.other.NoteAssistant
 import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
-import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinks
+import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinksNew
 import com.loskon.noteminimalism3.ui.recyclerview.CustomMovementMethod
 import com.loskon.noteminimalism3.ui.sheets.SheetTextAssistantNote
-import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
+import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.utils.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,10 +48,10 @@ class NoteFragment : Fragment(),
     ReceivingDataActivity.CallbackReceivingData,
     ResultAccessStorageInterface {
 
+    private val commandCenter: CommandCenter = CommandCenter()
+
     private lateinit var activity: NoteActivity
-    private lateinit var shortsCommand: ShortsCommandNote
-    private lateinit var snackbarManager: SnackbarManager
-    private lateinit var textAssistant: TextNoteAssistant
+    private lateinit var assistant: NoteAssistant
 
     private lateinit var constLayout: ConstraintLayout
     private lateinit var scrollView: ScrollView
@@ -126,14 +128,12 @@ class NoteFragment : Fragment(),
 
     private fun initObjects() {
         note = activity.getNote()
-        shortsCommand = activity.getShortsCommand()
-        snackbarManager = SnackbarManager(activity, constLayout, fab)
-        textAssistant = TextNoteAssistant(activity, this)
+        assistant = NoteAssistant(activity, this)
     }
 
     private fun setupParameters() {
         noteId = note.id
-        hasReceivingText = activity.hasReceivText
+        hasReceivingText = activity.hasRecText
     }
 
     private fun installCallbacks() {
@@ -174,7 +174,7 @@ class NoteFragment : Fragment(),
         movementMethod = object : CustomMovementMethod() {
             override fun onClickingLink(url: String) {
                 removeFocusFromEditText()
-                DialogNoteLinks(activity, this@NoteFragment).show(url)
+                DialogNoteLinksNew(activity, this@NoteFragment).show(url)
             }
 
             override fun onClickingText() {
@@ -191,7 +191,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun handlingClickOnEmptyArea() {
-        BaseSnackbar.dismiss()
+        BaseWarningSnackbar.dismiss()
         if (supportedLinks != 0 && !isTextEditingMod) activationTextEditingMode()
         editText.apply {
             showKeyboard(activity)
@@ -211,7 +211,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun configureEditText() {
-        editText.setTextSizeShort(activity.getFontSize())
+        editText.setTextSizeShort(activity.getNoteFontSize())
         editText.setText(note.title)
 
         if (noteId != 0L) {
@@ -267,7 +267,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFab() {
-        BaseSnackbar.dismiss()
+        BaseWarningSnackbar.dismiss()
 
         isShowBackupToast = true
         editText.hideKeyboard(activity)
@@ -275,25 +275,22 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteButton() {
-        BaseSnackbar.dismiss()
+        BaseWarningSnackbar.dismiss()
 
         isFavorite = !isFavorite
         toggleFavoriteStatus()
     }
 
     private fun clickingFavoriteDelete() {
-        BaseSnackbar.dismiss()
+        BaseWarningSnackbar.dismiss()
 
         isDeleteNote = true
 
         if (noteId == 0L) {
-            shortsCommand.delete(note)
+            commandCenter.delete(note)
             isSaveNewNote = false
         } else {
-            note.dateDelete = Date()
-            note.isDelete = true
-            note.isFavorite = false
-            shortsCommand.update(note)
+            commandCenter.sendToTrash(note)
             callback?.onNoteDelete(note, isFavorite)
         }
 
@@ -301,13 +298,13 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteMore() {
-        BaseSnackbar.dismiss()
+        BaseWarningSnackbar.dismiss()
 
         editText.hideKeyboard(activity)
         lifecycleScope.launch {
             delay(300L)
-            val stringDate: String = DateManager.getStringDate(note.dateModification)
-            SheetTextAssistantNote(activity, textAssistant).show(stringDate, noteId)
+            val stringDate: String = DateUtil.getStringDate(note.dateModification)
+            SheetTextAssistantNote(activity, assistant).show(stringDate, noteId)
         }
     }
 
@@ -321,7 +318,7 @@ class NoteFragment : Fragment(),
 
     private fun EditText.handlerClickListener() {
         setOnClickListener {
-            BaseSnackbar.dismiss()
+            BaseWarningSnackbar.dismiss()
         }
     }
 
@@ -358,7 +355,7 @@ class NoteFragment : Fragment(),
         note.dateModification = date
         note.dateCreation = date
 
-        note.id = shortsCommand.insertGetId(note)
+        note.id = commandCenter.insertGetId(note)
         noteId = note.id
 
         backupDate = date
@@ -370,17 +367,17 @@ class NoteFragment : Fragment(),
         if (newText.trim() != savedText.trim()) {
             note.isFavorite = isFavorite
             note.dateModification = date
-            shortsCommand.update(note)
+            commandCenter.update(note)
             callback?.onNoteUpdate()
         } else if (isFavorite != note.isFavorite) {
             note.isFavorite = isFavorite
-            shortsCommand.update(note)
+            commandCenter.update(note)
             callback?.onNoteUpdate()
         }
     }
 
     private fun performAutoBackup() {
-        val isAutoBackup: Boolean = PrefManager.isAutoBackup(activity)
+        val isAutoBackup: Boolean = PrefManager.hasAutoBackup(activity)
 
         if (isAutoBackup && isNewNote && noteId % 3 == 0L) {
             DateBaseAutoBackup.createBackupFile(activity, backupDate, isShowBackupToast)
@@ -388,20 +385,20 @@ class NoteFragment : Fragment(),
     }
 
     private fun deleteNote() {
-        shortsCommand.delete(note)
+        commandCenter.delete(note)
         callback?.onNoteUpdate()
     }
 
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
         if (isGranted) {
-            textAssistant.performSaveTextFile()
+            assistant.performSaveTextFile()
         } else {
-            showSnackbar(SnackbarManager.MSG_NO_PERMISSION)
+            showSnackbar(SnackbarControl.MSG_NO_PERMISSION)
         }
     }
 
     fun showSnackbar(typeMessage: String) {
-        snackbarManager.show(typeMessage)
+        SnackbarControl(activity, constLayout, fab).show(typeMessage)
     }
 
     val getScrollView: ScrollView
@@ -422,7 +419,7 @@ class NoteFragment : Fragment(),
     interface CallbackNote {
         fun onNoteAdd()
         fun onNoteUpdate()
-        fun onNoteDelete(note: Note, isFavorite: Boolean)
+        fun onNoteDelete(note: Note, hasFavStatus: Boolean)
     }
 
     companion object {

@@ -12,7 +12,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
- * Вспомогательный класс для работы с данными БД
+ * Работа с базой данных
  */
 
 class DateBaseAdapter(context: Context) {
@@ -26,13 +26,12 @@ class DateBaseAdapter(context: Context) {
             dbHelper.readableDatabase
         }
 
-    // Получение списка заметок
     fun getNotes(searchTerm: String?, noteCategory: String, sortingWay: Int): List<Note> {
         val notes: ArrayList<Note> = ArrayList<Note>()
         val whereClause: String = getWhereClause(noteCategory)
         val orderBy: String = getOrderBy(noteCategory, sortingWay)
 
-        queryNotes(searchTerm, whereClause, orderBy, null).use { cursor ->
+        queryNotes(searchTerm, whereClause, orderBy).use { cursor ->
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {
                 notes.add(cursor.getNotes())
@@ -43,54 +42,34 @@ class DateBaseAdapter(context: Context) {
         return notes
     }
 
-    // Выбор категории
     private fun getWhereClause(category: String): String =
         when (category) {
             CATEGORY_ALL_NOTES -> NoteTable.COLUMN_DEL_ITEMS + " = 0"
             CATEGORY_FAVORITES -> NoteTable.COLUMN_FAVORITES + " = 1"
             CATEGORY_TRASH -> NoteTable.COLUMN_DEL_ITEMS + " = 1"
-            else -> throw Exception("Invalid category value")
+            else -> NoteTable.COLUMN_DEL_ITEMS + " = 0"
         }
 
-    // Выбор способа сортировки
-    private fun getOrderBy(noteCategory: String, sort: Int): String {
-        return if (noteCategory == CATEGORY_TRASH) {
-            NoteTable.COLUMN_DATE_DEL + " DESC" // Date of deletion
+    private fun getOrderBy(category: String, sort: Int): String {
+        return if (category == CATEGORY_TRASH) {
+            NoteTable.COLUMN_DATE_DEL + " DESC" // По дате удаления
         } else {
             if (sort == 1) {
-                NoteTable.COLUMN_DATE_MOD + " DESC" // Modification
+                NoteTable.COLUMN_DATE_MOD + " DESC" // По дате модификации
             } else {
-                NoteTable.COLUMN_DATE + " DESC" // Create
+                NoteTable.COLUMN_DATE + " DESC" // По дате создания
             }
         }
     }
 
-    // Получение заметки по id
-    fun getNote(id: Long): Note? {
-
-        queryNotes(
-            null, NoteTable.COLUMN_ID + "=?",
-            null, arrayOf(id.toString())
-        ).use { cursor ->
-            if (cursor.count == 0) {
-                return null
-            }
-            cursor.moveToFirst()
-
-            return cursor.getNotes()
-        }
-    }
-
-    // Получение объектов Note
     private fun queryNotes(
         searchTerm: String?,
         whereClause: String,
-        orderBy: String?,
-        whereArgs: Array<String>?
+        orderBy: String?
     ): NoteCursorWrapper {
         val cursor: Cursor
 
-        val where: String = if (searchTerm != null && searchTerm.isNotEmpty()) {
+        val where: String = if (searchTerm != null) {
             NoteTable.COLUMN_TITLE + " LIKE '%$searchTerm%' AND " + whereClause
         } else {
             whereClause
@@ -100,7 +79,7 @@ class DateBaseAdapter(context: Context) {
             NoteTable.NAME_TABLE,
             null,
             where,
-            whereArgs,
+            null,
             null,
             null,
             orderBy
@@ -109,7 +88,6 @@ class DateBaseAdapter(context: Context) {
         return NoteCursorWrapper(cursor)
     }
 
-    // insert
     fun insert(note: Note) {
         val values = getContentValues(note)
         database.insert(NoteTable.NAME_TABLE, null, values)
@@ -120,9 +98,8 @@ class DateBaseAdapter(context: Context) {
         return database.insert(NoteTable.NAME_TABLE, null, values)
     }
 
-    // delete
     fun delete(note: Note) {
-        database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + "=" + note.id, null)
+        database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + " = " + note.id, null)
     }
 
     fun cleanTrash() {
@@ -132,25 +109,22 @@ class DateBaseAdapter(context: Context) {
     fun deleteByTime(context: Context) {
         val rangeInDays: Int = PrefManager.getRetentionRange(context)
         // Перевод дня в Unix-time для корректного сложения и сравнения
-        val range = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
-        database.delete(
-            NoteTable.NAME_TABLE,
-            NoteTable.COLUMN_DEL_ITEMS + " = " + 1
-                    + " and " + Date().time + " > (" +
-                    NoteTable.COLUMN_DATE_DEL + "+" + range + ")", null
-        )
+        val range: Long = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
+        database.delete(NoteTable.NAME_TABLE, getDelWhereClause(range), null)
     }
 
-    // update
+    private fun getDelWhereClause(range: Long): String {
+        return NoteTable.COLUMN_DEL_ITEMS + " = " + 1 + " and " +
+                Date().time + " > (" + NoteTable.COLUMN_DATE_DEL + "+" + range + ")"
+    }
+
     fun update(note: Note) {
         val values = getContentValues(note)
-        database.update(NoteTable.NAME_TABLE, values, NoteTable.COLUMN_ID + "=" + note.id, null)
+        database.update(NoteTable.NAME_TABLE, values, NoteTable.COLUMN_ID + " = " + note.id, null)
     }
 
-    // Запись и обновление базы данных
     private fun getContentValues(note: Note): ContentValues {
         val values = ContentValues()
-        if (note.id != 0L) values.put(NoteTable.COLUMN_ID, note.id)
         values.put(NoteTable.COLUMN_TITLE, note.title)
         values.put(NoteTable.COLUMN_DATE, note.dateCreation.time)
         values.put(NoteTable.COLUMN_DATE_MOD, note.dateModification.time)
@@ -163,19 +137,16 @@ class DateBaseAdapter(context: Context) {
     companion object {
         private var INSTANCE: DateBaseAdapter? = null
 
-        //
         fun initDateBase(context: Context) {
             if (INSTANCE == null) {
                 INSTANCE = DateBaseAdapter(context)
             }
         }
 
-        //
         fun getDateBase(): DateBaseAdapter {
             return INSTANCE ?: throw Exception("DateBase must be initialized")
         }
 
-        //
         fun deleteNotesByTime(context: Context) {
             INSTANCE?.deleteByTime(context)
         }

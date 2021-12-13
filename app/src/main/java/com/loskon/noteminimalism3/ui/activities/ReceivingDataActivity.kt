@@ -8,14 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.command.ShortsCommandReceivingData
+import com.loskon.noteminimalism3.commands.CommandCenter
+import com.loskon.noteminimalism3.managers.IntentManager
+import com.loskon.noteminimalism3.managers.setFabColor
+import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteReceivingData
 import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.share.NotesSelectedListAdapter
-import com.loskon.noteminimalism3.utils.*
+import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
  * Список заметок для выбора вставки текста
@@ -25,7 +29,7 @@ class ReceivingDataActivity :
     BaseActivity(),
     NotesSelectedListAdapter.CallbackSendAdapter {
 
-    private val shortsCommand: ShortsCommandReceivingData = ShortsCommandReceivingData()
+    private val commandCenter: CommandCenter = CommandCenter()
     private val adapterSelected: NotesSelectedListAdapter = NotesSelectedListAdapter()
 
     private lateinit var tvEmpty: TextView
@@ -74,7 +78,7 @@ class ReceivingDataActivity :
     private fun configureListAdapter() {
         adapterSelected.setViewColor(color)
 
-        val titleFontSize: Int = PrefManager.getFontSize(this)
+        val titleFontSize: Int = PrefManager.getTitleFontSize(this)
         val dateFontSize: Int = PrefManager.getDateFontSize(this)
         adapterSelected.setFontSizes(titleFontSize, dateFontSize)
 
@@ -90,7 +94,7 @@ class ReceivingDataActivity :
     private val notes: List<Note>
         get() {
             val sortingWay: Int = PrefManager.getSortingWay(this)
-            return shortsCommand.getNotes(null, notesCategory, sortingWay)
+            return commandCenter.getNotes(null, notesCategory, sortingWay)
         }
 
     private fun checkEmptyFilesList() {

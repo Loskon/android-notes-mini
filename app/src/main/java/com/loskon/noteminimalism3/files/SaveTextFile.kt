@@ -2,16 +2,16 @@ package com.loskon.noteminimalism3.files
 
 import android.content.Context
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPathManager
+import com.loskon.noteminimalism3.backup.BackupPath
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.DateManager
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File
 import java.io.FileWriter
 
 /**
- * Создание и сохранение текстового файла заметки
+ * Создание и сохранение текстового файла
  */
 
 class SaveTextFile(
@@ -20,16 +20,15 @@ class SaveTextFile(
 ) {
 
     fun creationFolderTextFiles(text: String) {
-        val folderHome: File = BackupPathManager.getBackupFolder(context)
-        val folderTextFiles =
-            File(folderHome, context.getString(R.string.app_name_folder_text_files))
+        val folderBackup: File = BackupPath.getBackupFolder(context)
+        val folderTextFiles = File(folderBackup, context.getString(R.string.folder_text_files_name))
 
-        val hasCreatedFolder: Boolean = CheckCreatedFiles.checkCreatedFolder(folderTextFiles)
+        val hasCreatedFolder: Boolean = CheckCreatedFile.hasCreated(folderTextFiles)
 
         if (hasCreatedFolder) {
             performCreationTextFile(folderTextFiles, text)
         } else {
-            showSnackbar(SnackbarManager.MSG_UNABLE_CREATE_TEXT_FILE)
+            showSnackbar(SnackbarControl.MSG_UNABLE_CREATE_FOLDER)
         }
     }
 
@@ -42,17 +41,18 @@ class SaveTextFile(
             writer.flush()
             writer.close()
 
-            showSnackbar(SnackbarManager.MSG_SAVE_TXT_COMPLETED)
+            showSnackbar(SnackbarControl.MSG_SAVE_TXT_COMPLETED)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarManager.MSG_SAVE_TXT_FAILED)
+            showSnackbar(SnackbarControl.MSG_SAVE_TXT_FAILED)
         }
     }
 
     private fun getTitleTextFile(text: String): String {
-        var title: String = text
-        title = title.substring(0, 14.coerceAtMost(title.length)) + " " + DateManager.getTimeNow()
-        title = StringUtil.replaceForbiddenCharacters(title)
-        return title.trim()
+        val primaryTitle: String = text.substring(0, 14.coerceAtMost(text.length))
+        val secondTitle: String = DateUtil.getTimeNow()
+        val commonTitle = "$primaryTitle$secondTitle".trim()
+        val finalTitle = StringUtil.replaceForbiddenCharacters(commonTitle)
+        return "$finalTitle.txt"
     }
 
     private fun showSnackbar(typeMessage: String) {

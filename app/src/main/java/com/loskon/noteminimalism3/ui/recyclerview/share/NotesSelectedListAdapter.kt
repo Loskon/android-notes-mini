@@ -7,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.databinding.RowNoteBinding
+import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NotesListViewHolder
-import com.loskon.noteminimalism3.utils.setBackgroundTintColor
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setTextSizeShort
 

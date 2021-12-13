@@ -7,7 +7,7 @@ import java.util.*
  * Получение текущей даты и преобразование в текстовый формат
  */
 
-class DateManager {
+class DateUtil {
     companion object {
 
         @JvmStatic
@@ -17,7 +17,7 @@ class DateManager {
 
         fun getTimeNow(): String {
             val date = Date()
-            return "(" + DateFormat.getTimeInstance(DateFormat.SHORT).format(date) + ")"
+            return " (" + DateFormat.getTimeInstance(DateFormat.SHORT).format(date) + ")"
         }
     }
 }

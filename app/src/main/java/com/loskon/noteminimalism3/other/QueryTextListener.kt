@@ -6,16 +6,16 @@ import androidx.appcompat.widget.SearchView
  * OnQueryTextListener без onQueryTextSubmit
  */
 
-abstract class ShortQueryTextListener : SearchView.OnQueryTextListener {
+abstract class QueryTextListener : SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        onShortQueryTextChange(newText?.trim())
+        queryTextChange(newText?.trim())
         return true
     }
 
-    abstract fun onShortQueryTextChange(query: String?)
+    abstract fun queryTextChange(query: String?)
 }

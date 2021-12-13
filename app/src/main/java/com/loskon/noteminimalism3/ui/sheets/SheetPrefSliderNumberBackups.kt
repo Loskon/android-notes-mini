@@ -2,13 +2,12 @@ package com.loskon.noteminimalism3.ui.sheets
 
 import android.content.Context
 import android.view.View
-import android.widget.Button
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.BackupFilesLimiter
+import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setSliderColor
 
 /**
  * Нижнее диалоговое меню со слайдером для выбора ограничения файлов бэкапов
@@ -17,40 +16,39 @@ import com.loskon.noteminimalism3.utils.setSliderColor
 class SheetPrefSliderNumberBackups(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val sheetView = View.inflate(context, R.layout.sheet_pref_slider, null)
+    private val insertView = View.inflate(context, R.layout.sheet_pref_slider, null)
 
-    private val slider: Slider = sheetView.findViewById(R.id.slider_range)
-    private val btnOk: Button = dialog.buttonOk
+    private val slider: Slider = insertView.findViewById(R.id.slider_range)
 
     init {
-        setupColorViews()
-        configViews()
+        dialog.setInsertView(insertView)
+        dialog.setTextTitle(R.string.number_of_backup_title)
     }
 
-    private fun setupColorViews() {
+    fun show() {
+        establishColorViews()
+        configViews()
+        dialog.show()
+    }
+
+    private fun establishColorViews() {
         val color = PrefManager.getAppColor(context)
         slider.setSliderColor(color)
     }
 
     private fun configViews() {
-        dialog.setInsertView(sheetView)
-    }
-
-    fun show() {
-        val preferenceKey: String = context.getString(R.string.num_of_backup_key)
+        val prefKey: String = context.getString(R.string.number_of_backup_key)
         val value: Int = PrefManager.getNumberBackups(context)
 
-        dialog.setTextTitle(preferenceKey)
         slider.value = value.toFloat()
 
-        installHandlers(preferenceKey)
-        dialog.show()
+        installHandlers(prefKey)
     }
 
-    private fun installHandlers(preferenceKey: String) {
-        btnOk.setOnSingleClickListener {
+    private fun installHandlers(prefKey: String) {
+        dialog.buttonOk.setOnSingleClickListener {
             val sliderValue: Int = slider.value.toInt()
-            PrefManager.save(context, preferenceKey, sliderValue)
+            PrefManager.save(context, prefKey, sliderValue)
 
             BackupFilesLimiter.deleteExtraFiles(context)
 

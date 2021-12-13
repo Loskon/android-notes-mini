@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.command.ShortsCommand
+import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.databinding.RowNoteBinding
+import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.utils.setBackgroundTintColor
+import com.loskon.noteminimalism3.ui.activities.ListActivity
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setTextSizeShort
 
@@ -24,7 +27,7 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
 
     private var hasLinearList: Boolean = true
     private var hasOneSizeCards: Boolean = false
-    private var isSelMode: Boolean = false
+    private var isSelectedMode: Boolean = false
     private var titleFontSize: Int = 0
     private var dateFontSize: Int = 0
     private var numberLines: Int = 0
@@ -43,20 +46,15 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: NotesListViewHolder, position: Int) {
-        val note = list[position]
+        val note: Note = list[position]
         val gradientDrawable = GradientDrawable()
 
         holder.apply {
             bind(note)
 
-            title.apply {
-                setTextSizeShort(titleFontSize)
-                maxLines = numberLines
-                minLines = getTitleMinLines()
-            }
-
-            date.setTextSizeShort(dateFontSize)
             viewFavorite.setBackgroundTintColor(color)
+            title.configureTitle()
+            date.setTextSizeShort(dateFontSize)
 
             itemView.apply {
                 setOnSingleClickListener {
@@ -69,22 +67,38 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
                 }
             }
 
-            if (note.isChecked) {
-                setVariablesGradDraw(radiusStrokeDp, boredStrokeDp, color)
-            } else {
-                setVariablesGradDraw(0, 0, 0)
-            }
-
-            gradientDrawable.apply {
-                cornerRadius = radiusStroke.toFloat()
-                setStroke(borderStroke, colorStroke)
-                linearLayout.background = this
-            }
+            setVariablesGradDraw(note.isChecked)
+            gradientDrawable.configureGradDraw(linearLayout)
         }
     }
 
+    private fun TextView.configureTitle() {
+        setTextSizeShort(titleFontSize)
+        maxLines = numberLines
+        minLines = titleMinLines
+    }
+
+    private fun GradientDrawable.configureGradDraw(linearLayout: LinearLayout) {
+        cornerRadius = radiusStroke.toFloat()
+        setStroke(borderStroke, colorStroke)
+        linearLayout.background = this
+    }
+
+    private val titleMinLines: Int
+        get() {
+            return if (hasLinearList) {
+                1
+            } else {
+                if (hasOneSizeCards) {
+                    numberLines
+                } else {
+                    1
+                }
+            }
+        }
+
     private fun clickingItem(note: Note, position: Int) {
-        if (isSelMode) {
+        if (isSelectedMode) {
             selectingItem(note, position)
         } else {
             callback?.onClickingNote(note)
@@ -100,26 +114,14 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
 
     private fun longClickingItem(note: Note, position: Int) {
-        if (!isSelMode) activationDeleteMode()
+        if (!isSelectedMode) activationDeleteMode()
         selectingItem(note, position)
     }
 
     private fun activationDeleteMode() {
-        isSelMode = true
+        isSelectedMode = true
         callback?.onActivatingSelectionMode(true)
         clearSelectionItems()
-    }
-
-    private fun getTitleMinLines(): Int {
-        return if (hasLinearList) {
-            1
-        } else {
-            if (hasOneSizeCards) {
-                numberLines
-            } else {
-                1
-            }
-        }
     }
 
     // Внешние методы
@@ -149,7 +151,6 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
         this.hasOneSizeCards = hasOneSizeCards
     }
 
-    // Обновление списка заметок
     fun setNotesList(newList: List<Note>) {
         val diffUtil = NoteDiffUtil(list, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil, false)
@@ -159,7 +160,7 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
 
     fun setQuicklyNotesList(newList: List<Note>) {
         list = newList
-        itemsChanged()
+        updateChangedList()
     }
 
     fun getNote(position: Int): Note {
@@ -167,29 +168,29 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
     }
 
     fun disableSelectionMode() {
-        isSelMode = false
+        isSelectedMode = false
         resetSelectedItems()
         clearSelectionItems()
     }
 
     fun selectAllNotes() {
         selectAllItem(list, hasAllSelected)
-        itemsChanged()
         callback?.onSelectingNote(selectedItemsCount, hasAllSelected)
+        updateChangedList()
     }
 
-    fun changeFavoriteStatus(shortsCommand: ShortsCommand) {
-        changeFavorite(shortsCommand)
+    fun changeFavoriteStatus(activity: ListActivity, commandCenter: CommandCenter) {
+        changeFavorite(activity, commandCenter)
         callback?.onVisibleFavorite(selectedItem)
-        itemsChanged()
+        updateChangedList()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun itemsChanged() {
+    fun updateChangedList() {
         notifyDataSetChanged()
     }
 
-    interface CallbackAdapter {
+    interface CallbackNoteAdapter {
         fun onClickingNote(note: Note)
         fun onActivatingSelectionMode(isSelMode: Boolean)
         fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
@@ -197,10 +198,10 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
     }
 
     companion object {
-        private var callback: CallbackAdapter? = null
+        private var callback: CallbackNoteAdapter? = null
 
-        fun listenerCallback(callback: CallbackAdapter) {
-            Companion.callback = callback
+        fun listenerCallback(callback: CallbackNoteAdapter) {
+            this.callback = callback
         }
     }
 }

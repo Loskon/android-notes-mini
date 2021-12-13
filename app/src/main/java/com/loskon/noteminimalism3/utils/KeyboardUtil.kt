@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.utils
 
-import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -10,14 +9,14 @@ import android.widget.EditText
  */
 
 fun EditText.showKeyboard(context: Context) {
-    val inputMethodManager: InputMethodManager =
-        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    val service: String = Context.INPUT_METHOD_SERVICE
+    val inputManager: InputMethodManager = context.getSystemService(service) as InputMethodManager
     requestFocus()
-    inputMethodManager.showSoftInput(this, 0)
+    inputManager.showSoftInput(this, 0)
 }
 
 fun EditText.hideKeyboard(context: Context) {
-    val inputMethodManager: InputMethodManager =
-        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    val service: String = Context.INPUT_METHOD_SERVICE
+    val inputManager: InputMethodManager = context.getSystemService(service) as InputMethodManager
+    inputManager.hideSoftInputFromWindow(windowToken, 0)
 }

@@ -2,13 +2,12 @@ package com.loskon.noteminimalism3.ui.sheets
 
 import android.content.Context
 import android.view.View
-import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setRadioButtonColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setRadioButtonColor
 
 /**
  * Выбор способа сортировки для списка заметок
@@ -17,34 +16,33 @@ import com.loskon.noteminimalism3.utils.setRadioButtonColor
 class SheetPrefSort(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val sheetView = View.inflate(context, R.layout.sheet_pref_sorting, null)
+    private val insertView = View.inflate(context, R.layout.sheet_pref_sorting, null)
 
-    private val radioGroup: RadioGroup = sheetView.findViewById(R.id.rg_sort)
-    private val radioButtonCreate: RadioButton = sheetView.findViewById(R.id.rb_sort_creation)
-    private val radioButtonMod: RadioButton = sheetView.findViewById(R.id.rb_sort_modification)
-    private val btnOk: Button = dialog.buttonOk
+    private val radioGroup: RadioGroup = insertView.findViewById(R.id.rg_sort)
+    private val radioButtonCreate: RadioButton = insertView.findViewById(R.id.rb_sort_creation)
+    private val radioButtonMod: RadioButton = insertView.findViewById(R.id.rb_sort_modification)
 
     private var checkedNumber: Int = 0
 
     init {
-        setupColorViews()
-        configViews()
-        setStateChecked()
-        installHandlers()
+        dialog.setInsertView(insertView)
+        dialog.setTextTitle(R.string.sort_title)
     }
 
-    private fun setupColorViews() {
+    fun show() {
+        establishColorViews()
+        configureStateChecked()
+        installHandlers()
+        dialog.show()
+    }
+
+    private fun establishColorViews() {
         val color: Int = PrefManager.getAppColor(context)
         radioButtonCreate.setRadioButtonColor(color)
         radioButtonMod.setRadioButtonColor(color)
     }
 
-    private fun configViews() {
-        dialog.setInsertView(sheetView)
-        dialog.setTextTitle(R.string.sort_title)
-    }
-
-    private fun setStateChecked() {
+    private fun configureStateChecked() {
         checkedNumber = PrefManager.getSortingWay(context)
 
         if (checkedNumber == 1) {
@@ -63,15 +61,11 @@ class SheetPrefSort(private val context: Context) {
             }
         }
 
-        btnOk.setOnSingleClickListener {
+        dialog.buttonOk.setOnSingleClickListener {
             PrefManager.setSortingWay(context, checkedNumber)
             callbackSort?.onChangeSortingWay(checkedNumber)
             dialog.dismiss()
         }
-    }
-
-    fun show() {
-        dialog.show()
     }
 
     interface CallbackSort {

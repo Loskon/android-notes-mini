@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
@@ -18,7 +17,7 @@ import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
  */
 
 class SettingsAppFragment :
-    PreferenceFragmentCompat(),
+    BaseSettingsFragment(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     SheetPrefSelectColor.CallbackColorNotifyData,
@@ -44,9 +43,6 @@ class SettingsAppFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDivider(null)
-        listView.isVerticalScrollBarEnabled = false
-
         configurationBottomBar()
         installCallbacks()
     }
@@ -94,9 +90,7 @@ class SettingsAppFragment :
     }
 
     override fun onPreferenceClick(preference: Preference?): Boolean {
-
         return when (preference?.key) {
-
             resetFontSizeKey -> {
                 callbackReset?.onResetFontSize()
                 true
@@ -121,12 +115,16 @@ class SettingsAppFragment :
         val key: String? = preference?.key
 
         if (key == oneSizeCardsKey) {
-            //oneSizeCards?.isChecked = newValue as Boolean
             callbackSize?.onChangeStatusSizeCards(newValue as Boolean)
             return true
         }
 
         return false
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onChangeColor() {
+        listView.adapter?.notifyDataSetChanged()
     }
 
     interface CallbackOneSizeCards {
@@ -148,10 +146,5 @@ class SettingsAppFragment :
         fun listenerCallbackReset(callback: CallbackResetFontSize) {
             callbackReset = callback
         }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onChangeColor() {
-        listView.adapter?.notifyDataSetChanged()
     }
 }

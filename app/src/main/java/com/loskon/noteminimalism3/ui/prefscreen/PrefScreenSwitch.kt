@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.ValueUtil
 
 /**
- * Кастомный switch
+ * SwitchPreference со своим switch
  */
 
 class PrefScreenSwitch @JvmOverloads constructor(
@@ -39,11 +39,9 @@ class PrefScreenSwitch @JvmOverloads constructor(
 
     private fun configureButtonGroup() {
         val borderGroup: Int = ValueUtil.getBorderWidgetSwitch(context)
-        buttonGroup.apply {
-            setSelectedBackgroundColor(color)
-            setBorder(borderGroup, color, 0, 0)
-            isClickable = false
-        }
+        buttonGroup.setSelectedBackgroundColor(color)
+        buttonGroup.setBorder(borderGroup, color, 0, 0)
+        buttonGroup.isClickable = false
     }
 
     private fun establishColorSwitch() {
@@ -55,7 +53,7 @@ class PrefScreenSwitch @JvmOverloads constructor(
     }
 
     private fun toggleSwitchPosition() {
-        val isChecked = PrefManager.load(context, key, false)
+        val isChecked: Boolean = PrefManager.load(context, key, false)
 
         val position: Int = if (isChecked) {
             1

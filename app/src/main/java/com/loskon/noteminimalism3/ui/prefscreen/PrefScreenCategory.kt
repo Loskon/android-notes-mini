@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 
 /**
- * Позволяет изменить настройки заголовка
+ * PreferenceCategory с измененным цветом и шрифтом
  */
 
 class PrefScreenCategory @JvmOverloads constructor(

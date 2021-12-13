@@ -1,10 +1,10 @@
 package com.loskon.noteminimalism3.ui.recyclerview.notes
 
 import androidx.recyclerview.widget.RecyclerView
-import com.loskon.noteminimalism3.command.ShortsCommand
+import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.activities.ListActivity
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import java.util.*
 
 /**
@@ -15,19 +15,25 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
 
     private val selectedItems: ArrayList<Note> = ArrayList<Note>()
 
-    var colorStroke: Int = 0
-    var borderStroke: Int = 0
     var radiusStroke: Int = 0
+    var borderStroke: Int = 0
+    var colorStroke: Int = 0
 
     var radiusStrokeDp = 0
     var boredStrokeDp: Int = 0
     var color: Int = 0
 
     // Установка параметров для цветной рамки на выбранных представлениях
-    fun setVariablesGradDraw(radius: Int, border: Int, color: Int) {
-        radiusStroke = radius
-        borderStroke = border
-        colorStroke = color
+    fun setVariablesGradDraw(isChecked: Boolean) {
+        if (isChecked) {
+            radiusStroke = radiusStrokeDp
+            borderStroke = boredStrokeDp
+            colorStroke = color
+        } else {
+            radiusStroke = 0
+            borderStroke = 0
+            colorStroke = 0
+        }
     }
 
     // Переключение статуса выбора элемента в заданной позиции
@@ -89,26 +95,26 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
     }
 
     // Отправить выбранные элементы в корзину
-    fun sendItemsToTrash(shortsCommand: ShortsCommand) {
+    fun sendItemsToTrash(commandCenter: CommandCenter) {
         for (item in selectedItems) {
             item.isDelete = true
-            shortsCommand.update(item)
+            commandCenter.update(item)
         }
 
         clearSelectionItems()
     }
 
     // Удалить навсегда выбранные элементы
-    fun deleteItems(shortsCommand: ShortsCommand) {
+    fun deleteItems(commandCenter: CommandCenter) {
         for (item in selectedItems) {
-            shortsCommand.delete(item)
+            commandCenter.delete(item)
         }
 
         clearSelectionItems()
     }
 
     // Объединить несколько заметок в одну новую
-    fun unification(activity: ListActivity, shortsCommand: ShortsCommand) {
+    fun unification(activity: ListActivity, commandCenter: CommandCenter) {
         val stringBuilder: StringBuilder = StringBuilder()
         val note = Note()
         var newTitle = ""
@@ -119,25 +125,25 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
             for (item in selectedItems) {
                 newTitle = uniteTitlesItems(item, stringBuilder)
                 if (item.isFavorite) isFavorite = true
-                shortsCommand.delete(item)
+                commandCenter.delete(item)
             }
 
             note.isFavorite = isFavorite
             note.title = newTitle
-            shortsCommand.insert(note)
+            commandCenter.insert(note)
 
-            activity.showSnackbar(SnackbarManager.MSG_COMBINED_NOTE_ADD, true)
+            activity.showSnackbar(SnackbarControl.MSG_COMBINED_NOTE_ADD)
 
         } catch (exception: Exception) {
 
-            shortsCommand.delete(note)
+            commandCenter.delete(note)
 
             for (item in selectedItems) {
-                shortsCommand.delete(item)
-                shortsCommand.insert(item)
+                commandCenter.delete(item)
+                commandCenter.insert(item)
             }
 
-            activity.showSnackbar(SnackbarManager.MSG_ERROR_COMBINING_NOTES, false)
+            activity.showSnackbar(SnackbarControl.MSG_ERROR_COMBINING_NOTES)
         }
     }
 
@@ -154,10 +160,14 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
         return stringBuilder.toString()
     }
 
-    // Отправить выбранные элементы в корзину
-    fun changeFavorite(shortsCommand: ShortsCommand) {
-        val note: Note = selectedItem
-        note.isFavorite = !note.isFavorite
-        shortsCommand.update(note)
+    // Изменить статус избранного
+    fun changeFavorite(activity: ListActivity, commandCenter: CommandCenter) {
+        try {
+            val note: Note = selectedItem
+            note.isFavorite = !note.isFavorite
+            commandCenter.update(note)
+        } catch (exception: Exception) {
+            activity.showSnackbar(SnackbarControl.MSG_SELECT_ONE_NOTE)
+        }
     }
 }

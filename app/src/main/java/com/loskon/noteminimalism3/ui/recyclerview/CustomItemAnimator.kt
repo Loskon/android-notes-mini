@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import java.util.*
 
 /**
- * Кастомный аниматор с избавлением от бага с ripple эффектом для CardView
+ * ItemAnimator с избавлением от бага с ripple эффектом для CardView
  */
 
 class CustomItemAnimator : SimpleItemAnimator() {

@@ -2,7 +2,6 @@ package com.loskon.noteminimalism3.ui.activities
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.widget.EditText
@@ -10,7 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,15 +17,18 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DateBaseCloudBackup
-import com.loskon.noteminimalism3.command.ShortsCommand
+import com.loskon.noteminimalism3.commands.CommandCenter
+import com.loskon.noteminimalism3.managers.FontManager
+import com.loskon.noteminimalism3.managers.IntentManager
+import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.other.FontManager
-import com.loskon.noteminimalism3.other.ShortQueryTextListener
+import com.loskon.noteminimalism3.other.ListActivityHelper
+import com.loskon.noteminimalism3.other.QueryTextListener
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.dialogs.DialogDeleteForever
-import com.loskon.noteminimalism3.ui.dialogs.DialogTrash
+import com.loskon.noteminimalism3.ui.dialogs.DialogForeverDeleteWarning
+import com.loskon.noteminimalism3.ui.dialogs.DialogSendToTrashWarning
 import com.loskon.noteminimalism3.ui.dialogs.DialogUnification
 import com.loskon.noteminimalism3.ui.fragments.*
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
@@ -39,19 +41,17 @@ import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
-import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
+import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.utils.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * Основное activity для работы со списком
  */
 
 class ListActivity : BaseActivity(),
-    NotesListAdapter.CallbackAdapter,
+    NotesListAdapter.CallbackNoteAdapter,
     SwipeCallback.CallbackSwipeUndo,
     BottomSheetCategory.CallbackCategory,
     NoteFragment.CallbackNote,
@@ -68,33 +68,28 @@ class ListActivity : BaseActivity(),
     SheetPrefSort.CallbackSort,
     FontsFragment.CallbackTypeFont {
 
-    companion object {
-        const val RECYCLER_STATE = "recycler_state"
-    }
+    private val commandCenter: CommandCenter = CommandCenter()
+    private val adapter: NotesListAdapter = NotesListAdapter()
 
-    private lateinit var shortsCommand: ShortsCommand
-    private lateinit var widgetsListHelper: WidgetListHelper
+    private lateinit var helper: ListActivityHelper
     private lateinit var swipeCallback: SwipeCallback
     private lateinit var snackbarUndo: SnackbarUndo
 
     private lateinit var coordLayout: CoordinatorLayout
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var tvEmptyList: TextView
+    private lateinit var tvEmpty: TextView
     private lateinit var fab: FloatingActionButton
     private lateinit var cardView: CardView
-    private lateinit var tvSelectedItemsCount: TextView
+    private lateinit var tvCountItems: TextView
     private lateinit var bottomBar: BottomAppBar
 
-    private val adapter: NotesListAdapter = NotesListAdapter()
-    private var bundleState: Bundle? = null
-
     private var hasLinearList: Boolean = true
-    private var isSelMode: Boolean = false
+    private var isSelectionMode: Boolean = false
     private var isSearchMode: Boolean = false
     private var color: Int = 0
     private var sortingWay: Int = 0
-    private var notesCategory: String = CATEGORY_ALL_NOTES
+    private var category: String = CATEGORY_ALL_NOTES
     private var searchText: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,10 +113,10 @@ class ListActivity : BaseActivity(),
         coordLayout = findViewById(R.id.coord_layout_list)
         searchView = findViewById(R.id.search_view)
         recyclerView = findViewById(R.id.recycler_view_notes)
-        tvEmptyList = findViewById(R.id.tv_empty_list)
+        tvEmpty = findViewById(R.id.tv_empty_list)
         fab = findViewById(R.id.fab_list)
         cardView = findViewById(R.id.card_view_main)
-        tvSelectedItemsCount = findViewById(R.id.tv_selected_items_count)
+        tvCountItems = findViewById(R.id.tv_selected_items_count)
         bottomBar = findViewById(R.id.bottom_bar_list)
     }
 
@@ -129,7 +124,6 @@ class ListActivity : BaseActivity(),
         // Для работы с заметками
         NotesListAdapter.listenerCallback(this)
         SwipeCallback.listenerCallback(this)
-        BottomSheetCategory.listenerCallback(this)
         NoteFragment.listenerCallback(this)
         NoteTrashFragment.listenerCallback(this)
         // Для изменения настроек
@@ -154,17 +148,17 @@ class ListActivity : BaseActivity(),
         color = PrefManager.getAppColor(this)
         adapter.setViewColor(color)
 
-        val titleFontSize: Int = PrefManager.getFontSize(this)
+        val titleFontSize: Int = PrefManager.getTitleFontSize(this)
         val dateFontSize: Int = PrefManager.getDateFontSize(this)
         adapter.setFontSizes(titleFontSize, dateFontSize)
 
         val numberLines: Int = PrefManager.getNumberLines(this)
         adapter.setNumberLines(numberLines)
 
-        hasLinearList = PrefManager.getLinearList(this)
+        hasLinearList = PrefManager.hasLinearList(this)
         adapter.setLinearList(hasLinearList)
 
-        val hasOneSizeCards: Boolean = PrefManager.getOneSizeCards(this)
+        val hasOneSizeCards: Boolean = PrefManager.hasOneSizeCards(this)
         adapter.setOneSizeCards(hasOneSizeCards)
     }
 
@@ -175,50 +169,50 @@ class ListActivity : BaseActivity(),
     }
 
     private fun configureSearchView() {
-        searchView.setOnQueryTextListener(object : ShortQueryTextListener() {
-            override fun onShortQueryTextChange(query: String?) {
+        searchView.setOnQueryTextListener(object : QueryTextListener() {
+            override fun queryTextChange(query: String?) {
                 handlingSearch(query)
                 updateQuicklyNotesList()
             }
         })
     }
 
-    private fun handlingSearch(newText: String?) {
-        searchText = if (TextUtils.isEmpty(newText)) {
+    private fun handlingSearch(query: String?) {
+        searchText = if (TextUtils.isEmpty(query)) {
             null
         } else {
-            newText
+            query
         }
     }
 
     private fun updateQuicklyNotesList() {
+        val notes: List<Note> = listNotes
         adapter.setQuicklyNotesList(notes)
-        tvEmptyList.setVisibleView(notes.isEmpty())
+        tvEmpty.setVisibleView(notes.isEmpty())
     }
 
-    private val notes: List<Note>
+    private val listNotes: List<Note>
         get() {
-            return shortsCommand.getNotes(searchText, notesCategory, sortingWay)
+            return commandCenter.getNotes(searchText, category, sortingWay)
         }
 
     private fun initObjects() {
-        shortsCommand = ShortsCommand()
-        widgetsListHelper = WidgetListHelper(this, fab, bottomBar)
-        snackbarUndo = SnackbarUndo(this, shortsCommand)
+        helper = ListActivityHelper(this, fab, bottomBar)
+        snackbarUndo = SnackbarUndo(this, commandCenter, coordLayout, fab)
     }
 
     private fun installSwipeCallback() {
-        swipeCallback = SwipeCallback(adapter, shortsCommand)
+        swipeCallback = SwipeCallback(adapter, commandCenter)
         ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
     }
 
     private fun otherConfigurations() {
         sortingWay = PrefManager.getSortingWay(this)
-        widgetsListHelper.setTypeNotes(recyclerView, hasLinearList)
+        helper.changeViewListNotes(recyclerView, hasLinearList)
     }
 
     private fun establishColorViews() {
-        widgetsListHelper.setColorViews(color)
+        helper.setColorViews(color)
         cardView.setBackgroundTintColor(color)
     }
 
@@ -246,7 +240,7 @@ class ListActivity : BaseActivity(),
                 }
 
                 R.id.action_search -> {
-                    activationSearchMode(true)
+                    transitionSearchMode(true)
                     true
                 }
 
@@ -256,7 +250,7 @@ class ListActivity : BaseActivity(),
                 }
 
                 R.id.action_favorite -> {
-                    adapter.changeFavoriteStatus(shortsCommand)
+                    adapter.changeFavoriteStatus(this, commandCenter)
                     true
                 }
 
@@ -266,64 +260,72 @@ class ListActivity : BaseActivity(),
     }
 
     private fun clickingFab() {
-        if (isSelMode) {
-            if (notesCategory == CATEGORY_TRASH) {
-                DialogDeleteForever(this).show()
-            } else {
-                sendItemsToTrash()
-            }
+        if (isSelectionMode) {
+            pressingInDeleteMode()
         } else {
-            if (isSearchMode) {
-                activationSearchMode(false)
+            pressingInNormally()
+        }
+    }
+
+    private fun pressingInDeleteMode() {
+        if (category == CATEGORY_TRASH) {
+            DialogForeverDeleteWarning(this).show()
+        } else {
+            sendItemsToTrash()
+        }
+    }
+
+    private fun pressingInNormally() {
+        if (isSearchMode) {
+            transitionSearchMode(false)
+        } else {
+            if (category == CATEGORY_TRASH) {
+                DialogSendToTrashWarning(this).show(adapter.itemCount)
             } else {
-                if (notesCategory == CATEGORY_TRASH) {
-                    DialogTrash(this).show(adapter.itemCount)
-                } else {
-                    IntentManager.openNote(this, Note(), notesCategory)
-                }
+                IntentManager.openNote(this, Note(), category)
             }
         }
     }
 
     private fun sendItemsToTrash() {
-        adapter.sendItemsToTrash(shortsCommand)
+        adapter.sendItemsToTrash(commandCenter)
         onActivatingSelectionMode(false)
         updateListNotes()
     }
 
     override fun onActivatingSelectionMode(isSelMode: Boolean) {
-        this.isSelMode = isSelMode
+        this.isSelectionMode = isSelMode
         dismissSnackbars(isSelMode)
         selectionModeStatus()
     }
 
     private fun selectionModeStatus() {
-        cardView.setVisibleView(isSelMode)
-        swipeCallback.blockSwiped(isSelMode)
-        widgetsListHelper.setVisibleSelect(isSelMode)
+        cardView.setVisibleView(isSelectionMode)
+        swipeCallback.blockSwiped(isSelectionMode)
+        helper.setVisibleSelect(isSelectionMode)
 
-        if (isSelMode) {
-            widgetsListHelper.setVisibleSearchAndSwitch(false)
-            widgetsListHelper.setNavigationIcon(false)
-            widgetsListHelper.setDeleteIconFab(notesCategory)
+        if (isSelectionMode) {
+            helper.setVisibleSearchAndSwitch(false)
+            helper.setNavigationIcon(false)
+            helper.setDeleteIconFab(category)
 
             if (isSearchMode) {
-                widgetsListHelper.bottomBarVisible(true)
+                helper.bottomBarVisible(true)
             }
 
         } else {
-            widgetsListHelper.setVisibleUnification(false)
-            widgetsListHelper.setVisibleFavorite(notesCategory, false)
+            helper.setVisibleUnification(false)
+            helper.setVisibleFavorite(category, false)
 
             if (isSearchMode) {
-                widgetsListHelper.setVisibleSearchAndSwitch(false)
-                widgetsListHelper.hideNavigationIcon()
-                widgetsListHelper.bottomBarVisible(false)
-                widgetsListHelper.setIconFab(WidgetListHelper.ICON_FAB_SEARCH_CLOSE)
+                helper.setVisibleSearchAndSwitch(false)
+                helper.hideNavigationIcon()
+                helper.bottomBarVisible(false)
+                helper.setIconFab(ListActivityHelper.ICON_FAB_SEARCH_CLOSE)
             } else {
-                widgetsListHelper.setVisibleSearchAndSwitch(true)
-                widgetsListHelper.setNavigationIcon(true)
-                widgetsListHelper.setIconFabCategory(notesCategory)
+                helper.setVisibleSearchAndSwitch(true)
+                helper.setNavigationIcon(true)
+                helper.setIconFabCategory(category)
             }
 
             adapter.disableSelectionMode()
@@ -331,19 +333,20 @@ class ListActivity : BaseActivity(),
     }
 
     fun updateListNotes() {
+        val notes: List<Note> = listNotes
         adapter.setNotesList(notes)
-        tvEmptyList.setVisibleView(notes.isEmpty())
+        tvEmpty.setVisibleView(notes.isEmpty())
     }
 
     private fun dismissSnackbars(isDisSnackMessage: Boolean) {
-        if (isDisSnackMessage) BaseSnackbar.dismiss()
+        if (isDisSnackMessage) BaseWarningSnackbar.dismiss()
         snackbarUndo.dismiss()
     }
 
     private fun clickingNavigationButton() {
         dismissSnackbars(true)
 
-        if (isSelMode) {
+        if (isSelectionMode) {
             cancelSelectionMode()
         } else {
             openBottomSheetCategory()
@@ -352,40 +355,37 @@ class ListActivity : BaseActivity(),
 
     private fun cancelSelectionMode() {
         onActivatingSelectionMode(false)
-        adapter.itemsChanged()
+        adapter.updateChangedList()
     }
 
     private fun openBottomSheetCategory() {
-        val bottomSheet = BottomSheetCategory.newInstance(notesCategory)
-        // Защита от двойного открытия
-        if (supportFragmentManager.findFragmentByTag(BottomSheetCategory.TAG) == null) {
-            bottomSheet.show(supportFragmentManager, BottomSheetCategory.TAG)
-        }
+        val bottomSheet: DialogFragment = BottomSheetCategory.newInstance(category)
+        bottomSheet.onlyShow(supportFragmentManager, BottomSheetCategory.TAG)
     }
 
     private fun clickingMenuSwitch() {
         hasLinearList = !hasLinearList
         adapter.setLinearList(hasLinearList)
-        widgetsListHelper.setTypeNotes(recyclerView, hasLinearList)
+        helper.changeViewListNotes(recyclerView, hasLinearList)
         PrefManager.setStateLinearList(this, hasLinearList)
     }
 
-    private fun activationSearchMode(isSearchMode: Boolean) {
+    private fun transitionSearchMode(isSearchMode: Boolean) {
         this.isSearchMode = isSearchMode
         searchView.setQuery("", false)
 
         if (isSearchMode) {
             searchView.setVisibleView(true)
-            widgetsListHelper.bottomBarVisible(false)
+            helper.bottomBarVisible(false)
             val searchEditText: EditText = searchView.findViewById(R.id.search_src_text)
             searchEditText.showKeyboard(this)
-            widgetsListHelper.setIconFab(WidgetListHelper.ICON_FAB_SEARCH_CLOSE)
+            helper.setIconFab(ListActivityHelper.ICON_FAB_SEARCH_CLOSE)
         } else {
             searchView.setVisibleView(false)
-            widgetsListHelper.bottomBarVisible(true)
-            widgetsListHelper.setNavigationIcon(true)
-            widgetsListHelper.setVisibleSearchAndSwitch(true)
-            widgetsListHelper.setIconFabCategory(notesCategory)
+            helper.bottomBarVisible(true)
+            helper.setNavigationIcon(true)
+            helper.setVisibleSearchAndSwitch(true)
+            helper.setIconFabCategory(category)
         }
     }
 
@@ -396,20 +396,20 @@ class ListActivity : BaseActivity(),
 
     // From recycler adapter
     override fun onClickingNote(note: Note) {
-        IntentManager.openNote(this, note, notesCategory)
+        IntentManager.openNote(this, note, category)
     }
 
     // From recycler adapter
     override fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean) {
-        tvSelectedItemsCount.text = selectedItemsCount.toString()
-        widgetsListHelper.changeIconMenuSelect(hasAllSelected)
-        widgetsListHelper.changeVisibleUnification(notesCategory, selectedItemsCount >= 2)
-        widgetsListHelper.setVisibleFavorite(notesCategory, selectedItemsCount in 1..1)
+        tvCountItems.text = selectedItemsCount.toString()
+        helper.changeIconMenuSelect(hasAllSelected)
+        helper.changeVisibleUnification(category, selectedItemsCount >= 2)
+        helper.setVisibleFavorite(category, selectedItemsCount in 1..1)
     }
 
     // From recycler adapter
     override fun onVisibleFavorite(note: Note) {
-        widgetsListHelper.changeIconMenuFavorite(note.isFavorite)
+        helper.changeMenuIconFavorite(note.isFavorite)
     }
 
     // From note fragment
@@ -418,35 +418,33 @@ class ListActivity : BaseActivity(),
     // From note fragment
     override fun onNoteUpdate() = updateQuicklyNotesList()
 
-    // From swipe
-    override fun onSwipe(note: Note, isFavorite: Boolean) {
-        updateListNotes()
-        snackbarUndo.show(note, isFavorite)
+    // From note trash fragment and note fragment
+    override fun onNoteDelete(note: Note, hasFavStatus: Boolean) {
+        updateQuicklyNotesList()
+        showSnackbarUndo(note, hasFavStatus)
     }
 
-    // From note trash fragment and note fragment
-    override fun onNoteDelete(note: Note, isFavorite: Boolean) {
-        lifecycleScope.launch {
-            delay(200L)
-            updateListNotes()
-            snackbarUndo.show(note, isFavorite)
-        }
+    // From swipe
+    override fun onSwipeDelete(note: Note, hasFavStatus: Boolean) {
+        updateListNotes()
+        showSnackbarUndo(note, hasFavStatus)
+    }
+
+    private fun showSnackbarUndo(note: Note, hasFavStatus: Boolean) {
+        snackbarUndo.show(note, hasFavStatus, category)
     }
 
     // From note trash fragment
     override fun onNoteReset(note: Note) {
-        lifecycleScope.launch {
-            delay(200L)
-            updateListNotes()
-            showSnackbar(SnackbarManager.MSG_NOTE_RESTORED, true)
-        }
+        updateQuicklyNotesList()
+        showSnackbar(SnackbarControl.MSG_NOTE_RESTORED)
     }
 
     // From sheet category
     override fun onCallbackCategory(notesCategory: String) {
-        this.notesCategory = notesCategory
+        this.category = notesCategory
         swipeCallback.setCategory(notesCategory)
-        widgetsListHelper.setIconFabCategory(notesCategory)
+        helper.setIconFabCategory(notesCategory)
 
         updateQuicklyNotesList()
         scrollUpWithProtection()
@@ -455,13 +453,13 @@ class ListActivity : BaseActivity(),
     private fun scrollUpWithProtection() {
         // Защита от создания пустого пространства над списком
         // при использовании StaggeredGridLayoutManager
-        if (notes.isNotEmpty()) {
+        if (listNotes.isNotEmpty()) {
             recyclerView.scrollToPosition(0)
         }
     }
 
-    fun showSnackbar(message: String, isSuccess: Boolean) {
-        SnackbarManager(this, coordLayout, fab).show(message, isSuccess)
+    fun showSnackbar(message: String) {
+        SnackbarControl(this, coordLayout, fab).show(message)
     }
 
     // From Settings
@@ -488,8 +486,8 @@ class ListActivity : BaseActivity(),
     }
 
     override fun onRestoreNotes() {
-        notesCategory = CATEGORY_ALL_NOTES
-        widgetsListHelper.setIconFabCategory(notesCategory)
+        category = CATEGORY_ALL_NOTES
+        helper.setIconFabCategory(category)
         updateQuicklyNotesListTop()
     }
 
@@ -501,23 +499,23 @@ class ListActivity : BaseActivity(),
     override fun onChangeTypeFont(typeFace: Typeface?) {
         FontManager.setFont(this)
         recyclerView.adapter = adapter
-        typeFace?.let { tvEmptyList.typeface = it }
+        typeFace?.let { tvEmpty.typeface = it }
     }
 
     // Внешние методы
     fun cleanTrash() {
-        shortsCommand.cleanTrash()
+        commandCenter.cleanTrash()
         updateQuicklyNotesList()
     }
 
     fun deleteItemsForever() {
-        adapter.deleteItems(shortsCommand)
+        adapter.deleteItems(commandCenter)
         onActivatingSelectionMode(false)
         updateListNotes()
     }
 
     fun performUnificationNotes() {
-        adapter.unification(this, shortsCommand)
+        adapter.unification(this, commandCenter)
         onActivatingSelectionMode(false)
         updateQuicklyNotesListTop()
     }
@@ -525,12 +523,12 @@ class ListActivity : BaseActivity(),
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return if (keyCode == KeyEvent.KEYCODE_BACK) {
             when {
-                isSelMode -> {
+                isSelectionMode -> {
                     cancelSelectionMode()
                     false
                 }
                 isSearchMode -> {
-                    activationSearchMode(false)
+                    transitionSearchMode(false)
                     false
                 }
                 else -> {
@@ -541,38 +539,8 @@ class ListActivity : BaseActivity(),
         } else super.onKeyDown(keyCode, event)
     }
 
-    override fun onResume() {
-        super.onResume()
-        resetRecyclerState()
-    }
-
-    private fun resetRecyclerState() {
-        val state: Parcelable? = bundleState?.getParcelable(RECYCLER_STATE)
-        recyclerView.layoutManager?.onRestoreInstanceState(state)
-    }
-
     override fun onPause() {
         super.onPause()
         dismissSnackbars(true)
-        saveRecyclerStata()
     }
-
-    private fun saveRecyclerStata() {
-        val listState: Parcelable? = recyclerView.layoutManager?.onSaveInstanceState()
-        bundleState?.putParcelable(RECYCLER_STATE, listState)
-    }
-
-    fun getNotesCategory(): String {
-        return notesCategory
-    }
-
-    val getCoordLayout: CoordinatorLayout
-        get() {
-            return coordLayout
-        }
-
-    val getFab: FloatingActionButton
-        get() {
-            return fab
-        }
 }

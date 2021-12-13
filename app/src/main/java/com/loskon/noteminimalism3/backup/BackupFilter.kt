@@ -7,10 +7,9 @@ import java.io.File
  */
 
 class BackupFilter {
-
     companion object {
 
-        fun getListDateBaseFile(folder: File?): Array<File>? {
+        fun getListDateBaseFiles(folder: File?): Array<File>? {
             return folder?.listFiles { _, name: String ->
                 name.lowercase().endsWith(".db")
             }

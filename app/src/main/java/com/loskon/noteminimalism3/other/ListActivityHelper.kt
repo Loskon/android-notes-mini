@@ -1,6 +1,5 @@
-package com.loskon.noteminimalism3.ui.activities
+package com.loskon.noteminimalism3.other
 
-import android.content.Context
 import android.view.Menu
 import android.widget.GridLayout.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,28 +8,31 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setFabColor
+import com.loskon.noteminimalism3.managers.setMenuIconsColor
+import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.ui.activities.ListActivity
 import com.loskon.noteminimalism3.utils.getShortDrawable
-import com.loskon.noteminimalism3.utils.setFabColor
-import com.loskon.noteminimalism3.utils.setMenuIconColor
-import com.loskon.noteminimalism3.utils.setNavigationIconColor
 
 /**
  * Помощник для управления вьюшками
  */
 
-class WidgetListHelper(
-    private val context: Context,
+class ListActivityHelper(
+    private val activity: ListActivity,
     private val fab: FloatingActionButton,
     private val bottomBar: BottomAppBar
 ) {
 
     companion object {
         const val ICON_FAB_ADD = "fab_icon_add"
-        const val ICON_FAB_SEARCH_CLOSE = "fab_icon_search_close"
+        const val ICON_FAB_STAR = "fab_icon_star"
         const val ICON_FAB_DELETE = "fab_icon_delete"
+        const val ICON_FAB_DELETE_FOREVER = "fab_icon_delete_forever"
+        const val ICON_FAB_SEARCH_CLOSE = "fab_icon_search_close"
     }
 
     private val barMenu: Menu = bottomBar.menu
@@ -39,20 +41,21 @@ class WidgetListHelper(
 
     fun setColorViews(color: Int) {
         this.color = color
-        setColorWidgets()
-        setMenuIconColor()
+        establishColorViews()
+        establishMenuIconsColor()
     }
 
-    private fun setColorWidgets() {
-        bottomBar.setNavigationIconColor(color)
+    private fun establishColorViews() {
         fab.setFabColor(color)
+        bottomBar.setNavigationIconColor(color)
     }
 
+    private fun establishMenuIconsColor() {
+        barMenu.setMenuIconsColor(color)
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Menu
-    private fun setMenuIconColor() {
-        barMenu.setMenuIconColor(color)
-    }
-
     fun changeVisibleUnification(notesCategory: String, hasRequiredRange: Boolean) {
         val isVisible: Boolean = (notesCategory != CATEGORY_TRASH && hasRequiredRange)
         setVisibleUnification(isVisible)
@@ -72,9 +75,8 @@ class WidgetListHelper(
     }
 
     fun setVisibleSearchAndSwitch(isVisible: Boolean) {
-        setVisibleMenuItem(R.id.action_switch_view, isVisible)
         setVisibleMenuItem(R.id.action_search, isVisible)
-        setMenuIconColor()
+        setVisibleMenuItem(R.id.action_switch_view, isVisible)
     }
 
     private fun setVisibleMenuItem(menuId: Int, isVisible: Boolean) {
@@ -88,42 +90,40 @@ class WidgetListHelper(
             R.drawable.baseline_done_all_black_24
         }
 
-        setMenuIcon(R.id.action_select_item, menuId)
-        setMenuIconColor()
+        replaceMenuIcon(R.id.action_select_item, menuId)
     }
 
-    fun changeIconMenuFavorite(isFavorite: Boolean) {
+    fun changeMenuIconFavorite(isFavorite: Boolean) {
         val menuId: Int = if (isFavorite) {
             R.drawable.baseline_star_black_24
         } else {
             R.drawable.baseline_star_border_black_24
         }
 
-        setMenuIcon(R.id.action_favorite, menuId)
-        setMenuIconColor()
+        replaceMenuIcon(R.id.action_favorite, menuId)
     }
 
-    fun setTypeNotes(recyclerView: RecyclerView, isTypeNotesSingle: Boolean) {
-        val menuIdType: Int
+    fun changeViewListNotes(recyclerView: RecyclerView, hasLinearList: Boolean) {
+        val menuId: Int
 
-        if (isTypeNotesSingle) {
-            menuIdType = R.drawable.outline_dashboard_black_24
-            recyclerView.layoutManager = LinearLayoutManager(context)
+        if (hasLinearList) {
+            menuId = R.drawable.outline_dashboard_black_24
+            recyclerView.layoutManager = LinearLayoutManager(activity)
         } else {
-            menuIdType = R.drawable.outline_view_agenda_black_24
+            menuId = R.drawable.outline_view_agenda_black_24
             recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
         }
 
-        setMenuIcon(R.id.action_switch_view, menuIdType)
-        setMenuIconColor()
+        replaceMenuIcon(R.id.action_switch_view, menuId)
     }
 
-    private fun setMenuIcon(menuItem: Int, icon: Int) {
-        barMenu.findItem(menuItem).icon = context.getShortDrawable(icon)
+    private fun replaceMenuIcon(menuItem: Int, icon: Int) {
+        barMenu.findItem(menuItem).icon = activity.getShortDrawable(icon)
+        establishMenuIconsColor()
     }
 
-
-    // Bottom Bar
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Bottom bar
     fun setNavigationIcon(isIconClose: Boolean) {
         val navIconId: Int = if (isIconClose) {
             R.drawable.baseline_menu_black_24
@@ -139,37 +139,36 @@ class WidgetListHelper(
         bottomBar.navigationIcon = null
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Fab
-    fun setIconFabCategory(notesCategory: String) {
-        val iconIdFab: Int = when (notesCategory) {
-            CATEGORY_ALL_NOTES -> R.drawable.baseline_add_black_24
-            CATEGORY_FAVORITES -> R.drawable.baseline_star_black_24
-            CATEGORY_TRASH -> R.drawable.baseline_delete_black_24
-            else -> throw Exception("Invalid icon")
+    fun setIconFabCategory(category: String) {
+        when (category) {
+            CATEGORY_ALL_NOTES -> setIconFab(ICON_FAB_ADD)
+            CATEGORY_FAVORITES -> setIconFab(ICON_FAB_STAR)
+            CATEGORY_TRASH -> setIconFab(ICON_FAB_DELETE)
+            else -> throw RuntimeException("Invalid icon")
         }
-
-        fab.setImageDrawable(context.getShortDrawable(iconIdFab))
     }
 
-    fun setDeleteIconFab(notesCategory: String) {
-        val iconIdFab = if (notesCategory == CATEGORY_TRASH) {
-            R.drawable.baseline_delete_forever_black_24
+    fun setDeleteIconFab(category: String) {
+        if (category == CATEGORY_TRASH) {
+            setIconFab(ICON_FAB_DELETE_FOREVER)
         } else {
-            R.drawable.baseline_delete_black_24
+            setIconFab(ICON_FAB_DELETE)
         }
-
-        fab.setImageDrawable(context.getShortDrawable(iconIdFab))
     }
 
     fun setIconFab(iconName: String) {
-        val iconIdFab: Int = when (iconName) {
+        val drawableId: Int = when (iconName) {
             ICON_FAB_ADD -> R.drawable.baseline_add_black_24
-            ICON_FAB_SEARCH_CLOSE -> R.drawable.baseline_search_off_black_24
+            ICON_FAB_STAR -> R.drawable.baseline_star_black_24
             ICON_FAB_DELETE -> R.drawable.baseline_delete_black_24
-            else -> throw Exception("Invalid icon")
+            ICON_FAB_DELETE_FOREVER -> R.drawable.baseline_delete_forever_black_24
+            ICON_FAB_SEARCH_CLOSE -> R.drawable.baseline_search_off_black_24
+            else -> throw RuntimeException("Invalid icon")
         }
 
-        fab.setImageDrawable(context.getShortDrawable(iconIdFab))
+        fab.setImageDrawable(activity.getShortDrawable(drawableId))
     }
 
     fun bottomBarVisible(isVisible: Boolean) {

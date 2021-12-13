@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.sqlite
 import android.app.Application
 
 /**
- * Инициализации базы данных и очистка корзины
+ * Инициализации базы данных
  */
 
 internal class App : Application() {

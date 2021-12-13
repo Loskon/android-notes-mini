@@ -9,8 +9,9 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        <!-- Status bar color -->
         <item name="android:statusBarColor">@color/black</item>
+        <!-- Navigation bar color -->
         <item name="android:navigationBarColor">@color/black</item>
 
         <!-- Customize your theme here. -->
@@ -19,25 +20,25 @@
         <!-- My custom colors for items -->
         <item name="colorTitle">@color/white</item>
         <item name="colorDate">@android:color/darker_gray</item>
-        <item name="colorAppBar">@color/item_dark</item>
-        <item name="colorFabIcon">@color/item_dark</item>
-        <item name="colorCardView">@color/item_dark</item>
-        <item name="colorBottomSheet">@color/item_dark</item>
+        <item name="colorAppBar">@color/black_light</item>
+        <item name="colorFabIcon">@color/black_light</item>
+        <item name="colorCardView">@color/black_light</item>
+        <item name="colorBottomSheet">@color/black_light</item>
         <item name="colorBorderStroke">@color/white</item>
         <item name="colorTitleReverse">@color/black</item>
-        <item name="colorSnackbar">@color/snackbar_background_dark</item>
-        <item name="colorOkDialog">@color/item_dark</item>
+        <item name="colorSnackbar">@color/dark_slate_color</item>
+        <item name="colorOkDialog">@color/black_light</item>
         <item name="colorShadow">@android:color/transparent</item>
-        <item name="colorButtonIcon">@color/background_dark</item>
-        <item name="colorSwitchBackground">@color/background_dark</item>
-        <item name="colorDialogBackground">@color/item_dark</item>
+        <item name="colorButtonIcon">@color/black_dark</item>
+        <item name="colorSwitchBackground">@color/black_dark</item>
+        <item name="colorDialogBackground">@color/black_light</item>
         <item name="colorDeleteIconRestore">@android:color/holo_red_light</item>
-        <item name="colorBackgroundSearchView">@color/item_dark</item>
+        <item name="colorBackgroundSearchView">@color/black_light</item>
 
         <!-- Window background -->
-        <item name="android:windowBackground">@color/background_dark</item>
-        <item name="android:colorBackground">@color/background_dark</item>
-        <item name="colorWindowBackground">@color/background_dark</item>
+        <item name="android:windowBackground">@color/black_dark</item>
+        <item name="android:colorBackground">@color/black_dark</item>
+        <item name="colorWindowBackground">@color/black_dark</item>
 
         <!-- Cursor EditText color -->
         <item name="colorControlActivated">@android:color/darker_gray</item>

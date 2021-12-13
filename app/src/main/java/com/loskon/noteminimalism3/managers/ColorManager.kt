@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.utils
+package com.loskon.noteminimalism3.managers
 
 import android.app.Activity
 import android.app.ActivityManager.TaskDescription
@@ -8,10 +8,10 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.WindowInsetsController
+import android.widget.CheckBox
 import android.widget.RadioButton
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
@@ -25,15 +25,15 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.ColorManager.Companion.ALPHA_COLOR
 import com.loskon.noteminimalism3.sharedpref.PrefManager
-import com.loskon.noteminimalism3.utils.ColorManager.Companion.ALPHA_COLOR
+import com.loskon.noteminimalism3.utils.getShortColor
 
 /**
  * Управление цветом
  */
 
 class ColorManager {
-
     companion object {
 
         const val ALPHA_COLOR = 70
@@ -47,20 +47,22 @@ class ColorManager {
         }
 
         fun hasDarkMode(context: Context): Boolean {
-            val currentNightMode = context
-                .resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            val constUi: Int = context.resources.configuration.uiMode
+            val constUiMask: Int = Configuration.UI_MODE_NIGHT_MASK
+            val currentNightMode: Int = constUi and constUiMask
+
             return currentNightMode != Configuration.UI_MODE_NIGHT_NO
         }
 
-        fun setColorApp(activity: Activity) {
-            setDarkTheme(activity)
-            setLightStatusBar(activity)
-            setColorStatusBar(activity)
-            setColorTask(activity)
+        fun installAppColor(activity: Activity) {
+            installDarkTheme(activity)
+            installColorTask(activity)
+            installIconsColorStatusBar(activity)
+            installBackgroundColorStatusBar(activity)
         }
 
-        private fun setDarkTheme(activity: Activity) {
-            if (PrefManager.isDarkMode(activity)) {
+        private fun installDarkTheme(activity: Activity) {
+            if (PrefManager.hasDarkMode(activity)) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -68,10 +70,22 @@ class ColorManager {
         }
 
         @Suppress("DEPRECATION")
-        private fun setLightStatusBar(activity: Activity) {
-            activity.window.apply {
-                navigationBarColor = Color.BLACK
+        private fun installColorTask(activity: Activity) {
+            activity.apply {
 
+                val color: Int = if (PrefManager.hasDarkMode(this)) {
+                    getShortColor(R.color.black_dark)
+                } else {
+                    Color.WHITE
+                }
+
+                setTaskDescription(TaskDescription(null, null, color))
+            }
+        }
+
+        @Suppress("DEPRECATION")
+        private fun installIconsColorStatusBar(activity: Activity) {
+            activity.window.apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     if (hasDarkMode(activity)) {
                         insetsController?.setSystemBarsAppearance(
@@ -94,31 +108,15 @@ class ColorManager {
             }
         }
 
-
-        private fun setColorStatusBar(activity: Activity) {
+        private fun installBackgroundColorStatusBar(activity: Activity) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
                 val color: Int = if (hasDarkMode(activity)) {
-                    activity.getColor(R.color.background_dark)
+                    activity.getColor(R.color.black_dark)
                 } else {
                     Color.WHITE
                 }
 
                 activity.window.statusBarColor = color
-            }
-        }
-
-        @Suppress("DEPRECATION")
-        private fun setColorTask(activity: Activity) {
-            activity.apply {
-
-                val color: Int = if (PrefManager.isDarkMode(this)) {
-                    getShortColor(R.color.background_dark)
-                } else {
-                    Color.WHITE
-                }
-
-                setTaskDescription(TaskDescription(null, null, color))
             }
         }
     }
@@ -134,7 +132,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
 
     if (ColorManager.hasDarkMode(context)) {
         navDefaultTextColor = Color.WHITE
-        navDefaultIconColor = context.getShortColor(R.color.color_icon_nav_menu_dark)
+        navDefaultIconColor = context.getShortColor(R.color.dark_gray_light)
     } else {
         navDefaultTextColor = Color.BLACK
         navDefaultIconColor = Color.BLACK
@@ -179,7 +177,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
 }
 
 // Цвет иконок меню
-fun Menu.setMenuIconColor(@ColorInt color: Int) {
+fun Menu.setMenuIconsColor(@ColorInt color: Int) {
     if (this.size() != 0) {
         for (i in 0 until size()) {
             val drawable: Drawable = getItem(i).icon
@@ -224,24 +222,26 @@ fun CircularProgressIndicator.setColorProgressIndicator(@ColorInt color: Int) {
 
 // Цвет фона Snackbar
 fun View.setColorBackgroundSnackbar(context: Context, isSuccess: Boolean) {
-    val colorId: Int = context.getShortColor(context.getSuccessColor(isSuccess))
+    val colorId: Int = context.getSuccessColor(isSuccess)
     backgroundTintList = ColorStateList.valueOf(colorId)
 }
 
 fun Context.getSuccessColor(isSuccess: Boolean): Int {
-    return if (ColorManager.hasDarkMode(this)) {
+    val color: Int = if (ColorManager.hasDarkMode(this)) {
         if (isSuccess) {
-            R.color.snackbar_completed_dark
+            R.color.dark_green
         } else {
-            R.color.snackbar_no_completed_dark
+            R.color.dark_red
         }
     } else {
         if (isSuccess) {
-            R.color.snackbar_completed_light
+            R.color.light_green
         } else {
-            R.color.snackbar_no_completed_light
+            R.color.light_red
         }
     }
+
+    return this.getShortColor(color)
 }
 
 // Цвет фона
@@ -249,16 +249,17 @@ fun View.setBackgroundTintColor(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 
-// Цвет пульсации
-fun View.ripple(): View {
-    val value = TypedValue()
-    context.theme.resolveAttribute(android.R.attr.colorControlHighlight, value, true)
-    setBackgroundResource(value.resourceId)
-    isFocusable = true // Required for some view types
-    return this
-}
-
 // Цвет переключателя
 fun RadioButton.setRadioButtonColor(color: Int) {
     buttonTintList = ColorStateList.valueOf(color)
+}
+
+// Цвет обводки кнопки
+fun MaterialButton.setStrokeBtnColor(color: Int) {
+    this.strokeColor = ColorStateList.valueOf(color)
+}
+
+// Цвет чекбоксов
+fun CheckBox.setStrokeCheckBoxColor(color: Int) {
+    this.buttonTintList = ColorStateList.valueOf(color)
 }

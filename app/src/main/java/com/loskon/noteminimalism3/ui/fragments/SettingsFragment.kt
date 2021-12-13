@@ -7,10 +7,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPathManager
+import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.managers.ColorManager
+import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.request.RequestCode
 import com.loskon.noteminimalism3.request.activity.ResultActivity
 import com.loskon.noteminimalism3.request.activity.ResultActivityInterface
@@ -19,9 +20,7 @@ import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.*
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.ColorManager
-import com.loskon.noteminimalism3.utils.IntentManager
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
  */
 
 class SettingsFragment :
-    PreferenceFragmentCompat(),
+    BaseSettingsFragment(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     SheetPrefSliderNumberBackups.CallbackNumberBackups,
@@ -97,10 +96,6 @@ class SettingsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDivider(null)
-        setDividerHeight(0)
-        listView.isVerticalScrollBarEnabled = false
-
         configurationBottomBar()
         installCallbacks()
     }
@@ -136,7 +131,7 @@ class SettingsFragment :
         folderKey = getString(R.string.folder_title)
         autoBackupKey = getString(R.string.auto_backup_key)
         autoBackupNotifyKey = getString(R.string.notification_key)
-        numberBackupsKey = getString(R.string.num_of_backup_key)
+        numberBackupsKey = getString(R.string.number_of_backup_key)
         // Notes
         hyperlinksKey = getString(R.string.hyperlinks_title)
         fontSizeKey = getString(R.string.font_size_notes_title)
@@ -195,7 +190,7 @@ class SettingsFragment :
 
     private fun installSummaryPreferences() {
         // Data
-        folder?.summary = BackupPathManager.getSummary(activity)
+        folder?.summary = BackupPath.getSummary(activity)
 
         val number: Int = PrefManager.getNumberBackups(activity)
         numberBackups?.summary = number.toString()
@@ -282,7 +277,7 @@ class SettingsFragment :
                 }
 
                 communicationKey -> {
-                    IntentManager.launcherEmailClient(this)
+                    IntentManager.launchEmailClient(this)
                     return true
                 }
 
@@ -321,22 +316,22 @@ class SettingsFragment :
                 autoBackup?.isChecked = false
             }
 
-            activity.showSnackbar(SnackbarManager.MSG_NO_PERMISSION)
+            activity.showSnackbar(SnackbarControl.MSG_NO_PERMISSION)
         }
     }
 
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
-            if (requestCode == RequestCode.REQUEST_CODE_GET_FOLDER) {
+            if (requestCode == RequestCode.REQUEST_CODE_FOLDER_FOR_BACKUP) {
                 if (data != null && data.path != null) {
                     if (data.path!!.contains("primary")) {
-                        val backupPath: String = BackupPathManager.findFullPath(data.path!!)
+                        val backupPath: String = BackupPath.findFullPath(data.path!!)
                         PrefManager.setBackupPath(activity, backupPath)
                     } else {
-                        activity.showSnackbar(SnackbarManager.MSG_LOCAL_STORAGE)
+                        activity.showSnackbar(SnackbarControl.MSG_LOCAL_STORAGE)
                     }
                 } else {
-                    activity.showSnackbar(SnackbarManager.MSG_UNABLE_SELECT_FOLDER)
+                    activity.showSnackbar(SnackbarControl.MSG_UNABLE_SELECT_FOLDER)
                 }
             }
         }

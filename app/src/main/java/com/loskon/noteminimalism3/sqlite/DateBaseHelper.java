@@ -26,7 +26,6 @@ public class DateBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        // Table Create Statement
         database.execSQL("CREATE TABLE " + NAME_TABLE + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
@@ -41,7 +40,6 @@ public class DateBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-        // Повторная инициализация базы данных
         database.execSQL("DROP TABLE IF EXISTS " + NAME_TABLE);
         onCreate(database);
     }

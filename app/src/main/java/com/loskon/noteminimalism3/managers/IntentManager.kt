@@ -1,15 +1,14 @@
-package com.loskon.noteminimalism3.utils
+package com.loskon.noteminimalism3.managers
 
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.widget.EditText
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.toast.ToastManager
+import com.loskon.noteminimalism3.ui.toast.ToastControl
 
 /**
  * Intents
@@ -21,18 +20,17 @@ class IntentManager {
         const val PUT_EXTRA_CATEGORY = "put_extra_category"
         const val PUT_EXTRA_HAS_RECEIVING_TEXT = "put_extra_has_receiving_text"
 
-
-        fun openNote(context: Context, note: Note, notesCategory: String) {
+        fun openNote(context: Context, note: Note, category: String) {
             val intent = Intent(context, NoteActivity::class.java)
             intent.putExtra(PUT_EXTRA_NOTE, note)
-            intent.putExtra(PUT_EXTRA_CATEGORY, notesCategory)
+            intent.putExtra(PUT_EXTRA_CATEGORY, category)
             context.startActivity(intent)
         }
 
-        fun openNoteFromDialog(context: Context, note: Note, notesCategory: String) {
+        fun openNoteFromDialog(context: Context, note: Note, category: String) {
             val intent = Intent(context, NoteActivity::class.java)
             intent.putExtra(PUT_EXTRA_NOTE, note)
-            intent.putExtra(PUT_EXTRA_CATEGORY, notesCategory)
+            intent.putExtra(PUT_EXTRA_CATEGORY, category)
             intent.putExtra(PUT_EXTRA_HAS_RECEIVING_TEXT, true)
             context.startActivity(intent)
         }
@@ -42,7 +40,7 @@ class IntentManager {
             context.startActivity(intent)
         }
 
-        fun launcherEmailClient(context: Context) {
+        fun launchEmailClient(context: Context) {
             try {
                 val email = context.getString(R.string.my_email)
                 val intent = Intent(Intent.ACTION_SENDTO)
@@ -51,49 +49,49 @@ class IntentManager {
                 intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback_by_email))
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastManager.show(context, ToastManager.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
+                ToastControl.show(context, ToastControl.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
             }
         }
 
-        fun launcherEmailClient(context: Context, link: String) {
+        fun launchEmailClient(context: Context, link: String) {
             try {
                 val intent = Intent(Intent.ACTION_SENDTO)
-                intent.data = Uri.parse("mailto:$link")
+                intent.data = Uri.parse(link)
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastManager.show(context, ToastManager.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
+                ToastControl.show(context, ToastControl.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
             }
         }
 
-        fun launcherShareText(context: Context, editText: EditText) {
+        fun launchShareText(context: Context, shareText: String) {
             try {
                 val sendIntent = Intent()
                 sendIntent.action = Intent.ACTION_SEND
-                sendIntent.putExtra(Intent.EXTRA_TEXT, editText.text.toString().trim())
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareText)
                 sendIntent.type = "text/plain"
                 context.startActivity(Intent.createChooser(sendIntent, "share"))
             } catch (exception: ActivityNotFoundException) {
-                ToastManager.show(context, ToastManager.MSG_TOAST_IMPOSSIBLE_SHARE)
+                ToastControl.show(context, ToastControl.MSG_TOAST_IMPOSSIBLE_SHARE)
             }
         }
 
-        fun launcherWebClient(context: Context, link: String) {
+        fun launchWebClient(context: Context, link: String) {
             try {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(link)
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastManager.show(context, ToastManager.MSG_TOAST_WEB_CLIENT_NOT_FOUND)
+                ToastControl.show(context, ToastControl.MSG_TOAST_WEB_CLIENT_NOT_FOUND)
             }
         }
 
-        fun launcherPhoneClient(context: Context, link: String) {
+        fun launchPhoneClient(context: Context, link: String) {
             try {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:$link")
+                intent.data = Uri.parse(link)
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastManager.show(context, ToastManager.MSG_TOAST_PHONE_CLIENT_NOT_FOUND)
+                ToastControl.show(context, ToastControl.MSG_TOAST_PHONE_CLIENT_NOT_FOUND)
             }
         }
     }

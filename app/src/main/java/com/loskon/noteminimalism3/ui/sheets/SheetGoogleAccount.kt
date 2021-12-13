@@ -18,28 +18,28 @@ class SheetGoogleAccount(
     View.OnClickListener {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val sheetView = View.inflate(context, R.layout.sheet_google_account, null)
+    private val insertView = View.inflate(context, R.layout.sheet_google_account, null)
 
-    private val btnLogout: MaterialButton = sheetView.findViewById(R.id.btn_data_account_logout)
-    private val btnDelete: MaterialButton = sheetView.findViewById(R.id.btn_data_account_delete)
+    private val btnLogout: MaterialButton = insertView.findViewById(R.id.btn_data_account_logout)
+    private val btnDelete: MaterialButton = insertView.findViewById(R.id.btn_data_account_delete)
 
     init {
-        setupColorViews()
-        configViews()
-        installHandlers()
-    }
-
-    private fun setupColorViews() {
-        val color = PrefManager.getAppColor(context)
-        btnLogout.setBackgroundColor(color)
-        btnDelete.setBackgroundColor(color)
-    }
-
-    private fun configViews() {
-        dialog.setInsertView(sheetView)
+        dialog.setInsertView(insertView)
         dialog.setBtnOkVisibility(false)
         dialog.setTextTitle(R.string.sheet_account_title)
         dialog.setTextBtnCancel(R.string.to_close)
+    }
+
+    fun show() {
+        establishColorViews()
+        installHandlers()
+        dialog.show()
+    }
+
+    private fun establishColorViews() {
+        val color = PrefManager.getAppColor(context)
+        btnLogout.setBackgroundColor(color)
+        btnDelete.setBackgroundColor(color)
     }
 
     private fun installHandlers() {
@@ -58,9 +58,5 @@ class SheetGoogleAccount(
                 SheetDeleteGoogleAccount(context, fragment).show()
             }
         }
-    }
-
-    fun show() {
-        dialog.show()
     }
 }

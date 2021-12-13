@@ -1,15 +1,14 @@
-package com.loskon.noteminimalism3.other
+package com.loskon.noteminimalism3.managers
 
 import android.content.Context
 import android.text.util.Linkify
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 
 /**
- * Получение активного типа ссылок
+ * Получение активных гиперссылок
  */
 
 class LinksManager {
-
     companion object {
 
         fun getActiveLinks(context: Context): Int {

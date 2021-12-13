@@ -8,15 +8,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.loskon.noteminimalism3.backup.BackupPathManager
+import com.loskon.noteminimalism3.backup.BackupPath
 import com.loskon.noteminimalism3.request.RequestCode
-import com.loskon.noteminimalism3.ui.toast.ToastManager
-
-
-
+import com.loskon.noteminimalism3.ui.toast.ToastControl
 
 /**
- * Различные запросы
+ * Регистрация, получение и обработка результатов контракта
  */
 
 class ResultActivity {
@@ -24,7 +21,7 @@ class ResultActivity {
 
         private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
-        private var requestCode = 0
+        private var REQUEST_CODE = -1
 
         fun installing(
             activity: ComponentActivity?,
@@ -37,7 +34,7 @@ class ResultActivity {
 
                 resultActivityInterface?.onRequestActivityResult(
                     isGranted,
-                    requestCode,
+                    REQUEST_CODE,
                     result.data?.data
                 )
             }
@@ -54,14 +51,14 @@ class ResultActivity {
 
                 resultActivityInterface?.onRequestActivityResult(
                     isGranted,
-                    requestCode,
+                    REQUEST_CODE,
                     result.data?.data
                 )
             }
         }
 
         fun launcherSelectingFolder(context: Context) {
-            requestCode = RequestCode.REQUEST_CODE_GET_FOLDER
+            REQUEST_CODE = RequestCode.REQUEST_CODE_FOLDER_FOR_BACKUP
 
             try {
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
@@ -73,13 +70,13 @@ class ResultActivity {
                 resultLauncher?.launch(intentChooser)
 
             } catch (exception: Exception) {
-                ToastManager.show(context, ToastManager.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
+                ToastControl.show(context, ToastControl.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
             }
         }
 
         fun launcherSelectingDateBaseFile(context: Context) {
-            requestCode = RequestCode.REQUEST_CODE_GET_BACKUP_FILE
-            val backupFolderUri: Uri = Uri.parse(BackupPathManager.getPathBackupFolder(context))
+            REQUEST_CODE = RequestCode.REQUEST_CODE_BACKUP_FILE
+            val backupFolderUri: Uri = Uri.parse(BackupPath.getPathBackupFolder(context))
             val mimetypes: Array<String> = arrayOf(
                 "application/x-sqlite3",
                 "application/vnd.sqlite3",
@@ -98,7 +95,7 @@ class ResultActivity {
                 resultLauncher?.launch(intentChooser)
 
             } catch (exception: Exception) {
-                ToastManager.show(context, ToastManager.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
+                ToastControl.show(context, ToastControl.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
             }
         }
     }

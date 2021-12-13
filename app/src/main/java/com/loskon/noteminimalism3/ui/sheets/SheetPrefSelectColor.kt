@@ -17,31 +17,35 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 class SheetPrefSelectColor(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val sheetView = View.inflate(context, R.layout.sheet_pref_color_picker, null)
+    private val insertView = View.inflate(context, R.layout.sheet_pref_color_picker, null)
 
-    private val colorPicker: ColorPicker = sheetView.findViewById(R.id.color_picker)
-    private val svBar: SVBar = sheetView.findViewById(R.id.sv_color_bar)
-    private val btnReset: MaterialButton = sheetView.findViewById(R.id.btn_color_picker_reset)
+    private val colorPicker: ColorPicker = insertView.findViewById(R.id.color_picker)
+    private val svBar: SVBar = insertView.findViewById(R.id.sv_color_bar)
+    private val btnReset: MaterialButton = insertView.findViewById(R.id.btn_color_picker_reset)
     private val btnOk: Button = dialog.buttonOk
 
     private var color: Int = 0
 
     init {
+        dialog.setInsertView(insertView)
+        dialog.setTextTitle(R.string.select_color_app_title)
+    }
+
+    fun show() {
+        establishColorViews()
         configViews()
-        setupColorViews()
         installHandlers()
+        dialog.show()
+    }
+
+    private fun establishColorViews() {
+        val color: Int = PrefManager.getAppColor(context)
+        colorPicker.color = color
     }
 
     private fun configViews() {
-        dialog.setInsertView(sheetView)
-        dialog.setTextTitle(R.string.select_color_app_title)
         colorPicker.addSVBar(svBar)
         colorPicker.showOldCenterColor = false
-    }
-
-    private fun setupColorViews() {
-        val color: Int = PrefManager.getAppColor(context)
-        colorPicker.color = color
     }
 
     private fun installHandlers() {
@@ -67,9 +71,6 @@ class SheetPrefSelectColor(private val context: Context) {
         callbackColorList?.onChangeColor(color)
     }
 
-    fun show() {
-        dialog.show()
-    }
 
 
     // Callbacks

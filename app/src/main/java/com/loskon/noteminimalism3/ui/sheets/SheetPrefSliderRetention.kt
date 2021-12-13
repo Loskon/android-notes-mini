@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.Button
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setSliderColor
 
 /**
  * Нижнее диалоговое меню со слайдером для выбора ограничения времени хранения заметок в корзине
@@ -16,48 +16,47 @@ import com.loskon.noteminimalism3.utils.setSliderColor
 class SheetPrefSliderRetention(private val context: Context) {
 
     private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val view = View.inflate(context, R.layout.sheet_pref_slider, null)
+    private val insertView = View.inflate(context, R.layout.sheet_pref_slider, null)
 
-    private val slider: Slider = view.findViewById(R.id.slider_range)
+    private val slider: Slider = insertView.findViewById(R.id.slider_range)
     private val btnOk: Button = sheetDialog.buttonOk
 
     init {
-        setupColorViews()
-        configViews()
+        sheetDialog.setInsertView(insertView)
+        sheetDialog.setTextTitle(R.string.retention_trash_title)
     }
 
-    private fun setupColorViews() {
+    fun show() {
+        establishColorViews()
+        configViews()
+        sheetDialog.show()
+    }
+
+    private fun establishColorViews() {
         val color = PrefManager.getAppColor(context)
         slider.setSliderColor(color)
     }
 
     private fun configViews() {
-        sheetDialog.setInsertView(view)
-    }
-
-    fun show() {
-        val preferenceKey: String = context.getString(R.string.retention_trash_key)
+        val preKey: String = context.getString(R.string.retention_trash_key)
         val value: Int = PrefManager.getRetentionRange(context)
 
-        sheetDialog.setTextTitle(preferenceKey)
         slider.value = value.toFloat()
 
-        installHandlers(preferenceKey)
-
-        sheetDialog.show()
+        installHandlers(preKey)
     }
 
-    private fun installHandlers(preferenceKey: String) {
+    private fun installHandlers(prefKey: String) {
         btnOk.setOnSingleClickListener {
             val sliderValue: Int = slider.value.toInt()
-            PrefManager.save(context, preferenceKey, sliderValue)
+            PrefManager.save(context, prefKey, sliderValue)
 
             callback?.onChangeRetention(sliderValue)
             sheetDialog.dismiss()
         }
     }
 
-    interface CallbackRetention{
+    interface CallbackRetention {
         fun onChangeRetention(range: Int)
     }
 

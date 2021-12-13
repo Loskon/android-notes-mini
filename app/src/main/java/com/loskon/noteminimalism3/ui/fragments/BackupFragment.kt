@@ -22,8 +22,8 @@ import com.loskon.noteminimalism3.ui.sheets.SheetBackupNameDateBase
 import com.loskon.noteminimalism3.ui.sheets.SheetCloudConfirm
 import com.loskon.noteminimalism3.ui.sheets.SheetGoogleAccount
 import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
-import com.loskon.noteminimalism3.ui.snackbars.BaseSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
+import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 
 
 /**
@@ -99,7 +99,7 @@ class BackupFragment : Fragment(),
     }
 
     override fun onClick(view: View?) {
-        BaseSnackbar.dismiss()
+        BaseWarningSnackbar.dismiss()
         btnId = view?.id
 
         when (btnId) {
@@ -143,7 +143,7 @@ class BackupFragment : Fragment(),
         return if (hasInternetConnection) {
             true
         } else {
-            showSnackbar(SnackbarManager.MSG_TEXT_NO_INTERNET)
+            showSnackbar(SnackbarControl.MSG_TEXT_NO_INTERNET)
             false
         }
     }
@@ -167,7 +167,7 @@ class BackupFragment : Fragment(),
 
     override fun onDetach() {
         super.onDetach()
-        BaseSnackbar.dismiss()
+        BaseWarningSnackbar.dismiss()
         visibilityMenuItemAccount(false)
     }
 
@@ -179,33 +179,33 @@ class BackupFragment : Fragment(),
                 SheetListRestoreDateBase(activity).show()
             }
         } else {
-            showSnackbar(SnackbarManager.MSG_NO_PERMISSION)
+            showSnackbar(SnackbarControl.MSG_NO_PERMISSION)
         }
     }
 
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
-            if (requestCode == RequestCode.REQUEST_CODE_GET_BACKUP_FILE) {
+            if (requestCode == RequestCode.REQUEST_CODE_BACKUP_FILE) {
                 try {
                     restoreDateBase(data)
                 } catch (exception: Exception) {
-                    showSnackbar(SnackbarManager.MSG_RESTORE_FAILED)
+                    showSnackbar(SnackbarControl.MSG_RESTORE_FAILED)
                 }
             }
         } else {
-            showSnackbar(SnackbarManager.MSG_BACKUP_NOT_SELECTED)
+            showSnackbar(SnackbarControl.MSG_BACKUP_NOT_SELECTED)
         }
     }
 
     private fun restoreDateBase(data: Uri?) {
         if (data != null) {
             val isRestoreFailed: Boolean = DateBaseBackup.performRestore(activity, data)
-            callback?.onRestoreNotes()
 
             if (isRestoreFailed) {
-                showSnackbar(SnackbarManager.MSG_RESTORE_COMPLETED)
+                callback?.onRestoreNotes()
+                showSnackbar(SnackbarControl.MSG_RESTORE_COMPLETED)
             } else {
-                showSnackbar(SnackbarManager.MSG_INVALID_FORMAT_FILE)
+                showSnackbar(SnackbarControl.MSG_INVALID_FORMAT_FILE)
             }
         }
     }

@@ -46,7 +46,6 @@
     <string name="toast_auto_bp_completed">Auto backup completed!</string>
     <string name="toast_auto_bp_failed">Auto backup error!</string>
     <string name="toast_auto_bp_not_possible">Auto backup is not possible! No permission!</string>
-    <string name="toast_auto_bp_unable_create">Error! Unable to create a backup file!</string>
     <!-- intent ACTION_OPEN_DOCUMENT_TREE -->
     <string name="toast_file_manager_not_found">Error. File manager not found!</string>
     <!-- sheet_list_files -->
@@ -66,6 +65,7 @@
     <string name="sb_combined_note_added">Combined note added!</string>
     <string name="sb_error_combining_notes">Error combining notes!</string>
     <string name="sb_but_empty_trash">But it was empty…</string>
+    <string name="sb_select_one_note">You only need to select one note!</string>
     <!-- fragment_note -->
     <string name="sb_note_is_empty">Error! The note is empty!</string>
     <string name="sb_note_create_text_files_completed">Save text file:
@@ -88,7 +88,7 @@
     <string name="sb_settings_you_can_local_storage">You can select a folder only in the phone\'s
         local storage!</string>
     <!-- fragment_backup -->
-    <string name="sb_bp_text_error">Error. Retry!</string>
+    <string name="sb_bp_unable_created_folder">Unable to create a folder!</string>
     <string name="sb_bp_completed">Backup completed!</string>
     <string name="sb_bp_failed">Unable to backup database.
         Maybe a file with that name already exists!</string>
@@ -186,7 +186,7 @@
     <string name="folder_title">Folder for data</string>
     <string name="auto_backup_title">Auto backup</string>
     <string name="notification_title">Notification</string>
-    <string name="num_of_backup_title">Number of backups</string>
+    <string name="number_of_backup_title">Number of backups</string>
     <string name="update_date_title">Update datetime</string>
     <string name="font_size_notes_title">Font size</string>
     <string name="hyperlinks_title">Hyperlinks</string>
@@ -203,7 +203,7 @@
     <string name="dark_mode_key">Dark mode</string>
     <string name="notification_key">Notification</string>
     <string name="update_date_key">update date key</string>
-    <string name="num_of_backup_key">Number of backups</string>
+    <string name="number_of_backup_key">Number of backups</string>
     <string name="retention_trash_key">Retention time of notes in trash</string>
     <!-- preference_app -->
     <!-- Preference Category Header -->
@@ -222,13 +222,13 @@
     <string name="one_size_cards_summary">For multi-cards mode</string>
     <!-- Preference key -->
     <string name="one_size_cards_key">Same cards size</string>
-    <string name="num_of_lines_key">Number of lines</string>
+    <string name="number_of_lines_key">Number of lines</string>
 
     <!-- Other -->
     <!-- Name my app -->
     <string name="app_name" translatable="false">Notes Mini</string>
-    <string name="app_name_folder_backup" translatable="false">Notes Mini Backup</string>
-    <string name="app_name_folder_text_files" translatable="false">Text Files</string>
+    <string name="folder_backups_name" translatable="false">Notes Mini Backup</string>
+    <string name="folder_text_files_name" translatable="false">Text Files</string>
 
     <!-- other -->
     <string name="empty_list">Empty</string>
@@ -245,20 +245,20 @@
     <string name="my_email" translatable="false">andreyrochev23@gmail.com</string>
 
     <!-- Fonts -->
-    <string name="default_font" translatable="false">Default</string>
-    <string name="lato_light_font" translatable="false">Lato</string>
-    <string name="open_sans_light_font" translatable="false">Open Sans</string>
-    <string name="oswald_light_font" translatable="false">Oswald</string>
-    <string name="source_sans_pro_light_font" translatable="false">Source Sans Pro</string>
-    <string name="montserrat_light_font" translatable="false">Montserrat</string>
-    <string name="roboto_condensed_light_font" translatable="false">Roboto Condensed</string>
-    <string name="poppins_light_font" translatable="false">Poppins</string>
-    <string name="ubuntu_light_font" translatable="false">Ubuntu</string>
-    <string name="dosis_light_font" translatable="false">Dosis</string>
-    <string name="titillium_web_light_font" translatable="false">Titillium Web</string>
-    <string name="ibm_plex_serif_light_font" translatable="false">IBM Plex Serif</string>
-    <string name="karla_light_font" translatable="false">Karla</string>
-    <string name="marmelad_regular_font" translatable="false">Marmelad</string>
-    <string name="nunito_light_font" translatable="false">Nunito</string>
-    <string name="alice_regular_font" translatable="false">Alice</string>
+    <string name="roboto_name" translatable="false">Default</string>
+    <string name="lato_light_name" translatable="false">Lato</string>
+    <string name="open_sans_light_name" translatable="false">Open Sans</string>
+    <string name="oswald_light_name" translatable="false">Oswald</string>
+    <string name="source_sans_pro_light_name" translatable="false">Source Sans Pro</string>
+    <string name="montserrat_light_name" translatable="false">Montserrat</string>
+    <string name="roboto_condensed_light_name" translatable="false">Roboto Condensed</string>
+    <string name="poppins_light_name" translatable="false">Poppins</string>
+    <string name="ubuntu_light_name" translatable="false">Ubuntu</string>
+    <string name="dosis_light_name" translatable="false">Dosis</string>
+    <string name="titillium_web_light_name" translatable="false">Titillium Web</string>
+    <string name="ibm_plex_serif_light_name" translatable="false">IBM Plex Serif</string>
+    <string name="karla_light_name" translatable="false">Karla</string>
+    <string name="marmelad_regular_name" translatable="false">Marmelad</string>
+    <string name="nunito_light_name" translatable="false">Nunito</string>
+    <string name="alice_regular_name" translatable="false">Alice</string>
 </resources>

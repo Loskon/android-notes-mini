@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.getShortColor
 
 /**
- * Кастомный Preference с добавленным элементом imageView
+ * Preference с callbacks
  */
 
 class PrefScreenResetColor @JvmOverloads constructor(

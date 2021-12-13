@@ -9,14 +9,14 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setBackgroundTintColor
+import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
-import com.loskon.noteminimalism3.utils.setBackgroundTintColor
-import com.loskon.noteminimalism3.utils.setSliderColor
 import com.loskon.noteminimalism3.utils.setTextSizeShort
 
 /**
- * Кастомный элемент настроек для изменения размера текста в списке заметок
+ * Preference для изменения размера текста в карточках
  */
 
 class PrefScreenCardView @JvmOverloads constructor(
@@ -33,15 +33,15 @@ class PrefScreenCardView @JvmOverloads constructor(
 
     private lateinit var viewFavorite: View
     private lateinit var titleCategory: TextView
-    private lateinit var tvFontSize: TextView
+    private lateinit var tvTitleFontSize: TextView
     private lateinit var tvDateFontSize: TextView
     private lateinit var slider: Slider
-    private var fontSizeTitle: Int = 0
+
+    private var titleFontSize: Int = 0
     private var fontSizeDate: Int = 0
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-
         initView(holder)
         configurePreferenceView(holder)
         installCallbacks()
@@ -53,7 +53,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     private fun initView(holder: PreferenceViewHolder) {
         viewFavorite = holder.findViewById(R.id.view_favorite)
         titleCategory = holder.findViewById(R.id.tv_category_title) as TextView
-        tvFontSize = holder.findViewById(R.id.tv_card_note_title) as TextView
+        tvTitleFontSize = holder.findViewById(R.id.tv_card_note_title) as TextView
         tvDateFontSize = holder.findViewById(R.id.tv_card_note_date) as TextView
         slider = holder.findViewById(R.id.slider_font_size_card_note) as Slider
     }
@@ -67,38 +67,34 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun configureViews() {
-        fontSizeTitle = PrefManager.getFontSize(context)
-        tvFontSize.text = context.getString(R.string.title_card_view)
+        titleFontSize = PrefManager.getTitleFontSize(context)
+        tvTitleFontSize.text = context.getString(R.string.title_card_view)
         tvDateFontSize.text = context.getString(R.string.date_card_view)
-        setTextSizes(fontSizeTitle, getValueDateFontSize())
-        slider.value = fontSizeTitle.toFloat()
+        setTextSizes(titleFontSize, getValueDateFontSize())
+        slider.value = titleFontSize.toFloat()
         titleCategory.typeface = Typeface.DEFAULT_BOLD
     }
 
     private fun setTextSizes(fontSizeTitle: Int, fontSizeDate: Int) {
-        tvFontSize.setTextSizeShort(fontSizeTitle)
+        tvTitleFontSize.setTextSizeShort(fontSizeTitle)
         tvDateFontSize.setTextSizeShort(fontSizeDate)
     }
 
     private fun getValueDateFontSize(): Int {
         return when {
-            fontSizeTitle < 18 -> 12
-            fontSizeTitle <= 22 -> 14
-            fontSizeTitle <= 26 -> 16
-            fontSizeTitle <= 30 -> 18
-            fontSizeTitle <= 34 -> 20
-            fontSizeTitle <= 38 -> 22
-            fontSizeTitle <= 42 -> 24
+            titleFontSize < 18 -> 12
+            titleFontSize <= 22 -> 14
+            titleFontSize <= 26 -> 16
+            titleFontSize <= 30 -> 18
+            titleFontSize <= 34 -> 20
+            titleFontSize <= 38 -> 22
+            titleFontSize <= 42 -> 24
             else -> 14
         }
     }
 
     private fun establishColorViews() {
-        val color = PrefManager.getAppColor(context)
-        establishColorViews(color)
-    }
-
-    private fun establishColorViews(color: Int) {
+        val color: Int = PrefManager.getAppColor(context)
         viewFavorite.setBackgroundTintColor(color)
         titleCategory.setTextColor(color)
         slider.setSliderColor(color)
@@ -106,27 +102,27 @@ class PrefScreenCardView @JvmOverloads constructor(
 
     private fun installHandlers() {
         slider.addOnChangeListener(Slider.OnChangeListener { _, value: Float, _ ->
-            fontSizeTitle = value.toInt()
+            titleFontSize = value.toInt()
             fontSizeDate = getValueDateFontSize()
             performChangeTextSizes()
         })
     }
 
     private fun performChangeTextSizes() {
-        setTextSizes(fontSizeTitle, fontSizeDate)
+        setTextSizes(titleFontSize, fontSizeDate)
         saveAppearanceSettings()
-        callback?.onChangeFontSizes(fontSizeTitle, fontSizeDate)
+        callback?.onChangeFontSizes(titleFontSize, fontSizeDate)
     }
 
     private fun saveAppearanceSettings() {
-        PrefManager.setFontSizeTitle(context, fontSizeTitle)
-        PrefManager.setFontSizeDate(context, fontSizeDate)
+        PrefManager.setTitleFontSize(context, titleFontSize)
+        PrefManager.setDateFontSize(context, fontSizeDate)
     }
 
     override fun onResetFontSize() {
-        fontSizeTitle = context.resources.getInteger(R.integer.number_font_size_title)
-        fontSizeDate = context.resources.getInteger(R.integer.number_font_size_date)
-        slider.value = fontSizeTitle.toFloat()
+        titleFontSize = context.resources.getInteger(R.integer.title_font_size_int)
+        fontSizeDate = context.resources.getInteger(R.integer.date_font_size_int)
+        slider.value = titleFontSize.toFloat()
         performChangeTextSizes()
     }
 

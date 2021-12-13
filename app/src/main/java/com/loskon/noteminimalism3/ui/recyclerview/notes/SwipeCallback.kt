@@ -2,26 +2,25 @@ package com.loskon.noteminimalism3.ui.recyclerview.notes
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.loskon.noteminimalism3.command.ShortsCommand
+import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
-import java.util.*
 
 /**
- * Обработка свайпа для списка Program
+ * Свайп и удаление
  */
 
 class SwipeCallback(
     private val adapter: NotesListAdapter,
-    private val shortsCommand: ShortsCommand
+    private val commandCenter: CommandCenter
 ) :
     ItemTouchHelper.SimpleCallback(
         0,
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ) {
 
-    private var notesCategory: String = CATEGORY_ALL_NOTES
+    private var category: String = CATEGORY_ALL_NOTES
     private var isDeleteMode: Boolean = false
 
     override fun getSwipeDirs(
@@ -43,21 +42,18 @@ class SwipeCallback(
         val note: Note = adapter.getNote(position)
         val isFavorite: Boolean = note.isFavorite
 
-        if (notesCategory == CATEGORY_TRASH) {
-            shortsCommand.delete(note)
+        if (category == CATEGORY_TRASH) {
+            commandCenter.delete(note)
         } else {
-            note.dateDelete = Date()
-            note.isDelete = true
-            note.isFavorite = false
-            shortsCommand.update(note)
+            commandCenter.sendToTrash(note)
         }
 
-        callback?.onSwipe(note, isFavorite)
+        callback?.onSwipeDelete(note, isFavorite)
     }
 
     // Внешние методы
-    fun setCategory(notesCategory: String) {
-        this.notesCategory = notesCategory
+    fun setCategory(category: String) {
+        this.category = category
     }
 
     fun blockSwiped(isDeleteMode: Boolean) {
@@ -65,7 +61,7 @@ class SwipeCallback(
     }
 
     interface CallbackSwipeUndo {
-        fun onSwipe(note: Note, isFavorite: Boolean)
+        fun onSwipeDelete(note: Note, hasFavStatus: Boolean)
     }
 
     companion object {

@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.request.google.ResultGoogleInterface
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import com.loskon.noteminimalism3.ui.dialogs.DialogProgress
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import java.io.File
 
 /**
@@ -87,9 +87,9 @@ class DateBaseCloudBackup(
         uploadTask = storageRef.child(cloudPath).putFile(dateBaseUri)
 
         uploadTask?.addOnSuccessListener {
-            showSnackbar(SnackbarManager.MSG_BACKUP_COMPLETED)
+            showSnackbar(SnackbarControl.MSG_BACKUP_COMPLETED)
         }?.addOnFailureListener {
-            showSnackbar(SnackbarManager.MSG_BACKUP_FAILED)
+            showSnackbar(SnackbarControl.MSG_BACKUP_FAILED)
         }
     }
 
@@ -111,7 +111,7 @@ class DateBaseCloudBackup(
     private fun onFinishTimer() {
         uploadTask?.cancel()
         downloadTask?.cancel()
-        showSnackbar(SnackbarManager.MSG_INTERNET_PROBLEM)
+        showSnackbar(SnackbarControl.MSG_INTERNET_PROBLEM)
     }
 
     private fun showSnackbar(typeMessage: String) {
@@ -122,7 +122,7 @@ class DateBaseCloudBackup(
 
     private val cloudPath: String
         get() {
-            return context.getString(R.string.app_name_folder_backup) + File.separator +
+            return context.getString(R.string.folder_backups_name) + File.separator +
                     user?.uid + File.separator + NoteTable.DATABASE_NAME
         }
 
@@ -147,7 +147,7 @@ class DateBaseCloudBackup(
         storageRef.child(cloudPath).metadata.addOnSuccessListener {
             downloadCopyDateBaseFromCloud()
         }.addOnFailureListener {
-            showSnackbar(SnackbarManager.MSG_BACKUP_NOT_FOUND)
+            showSnackbar(SnackbarControl.MSG_BACKUP_NOT_FOUND)
         }
     }
 
@@ -155,10 +155,10 @@ class DateBaseCloudBackup(
         downloadTask = storageRef.child(cloudPath).getFile(File(dateBasePath))
 
         (downloadTask as FileDownloadTask).addOnSuccessListener {
-            showSnackbar(SnackbarManager.MSG_RESTORE_COMPLETED)
+            showSnackbar(SnackbarControl.MSG_RESTORE_COMPLETED)
             callback?.onRestoreNotes()
         }.addOnFailureListener {
-            showSnackbar(SnackbarManager.MSG_RESTORE_FAILED)
+            showSnackbar(SnackbarControl.MSG_RESTORE_FAILED)
         }
     }
 
@@ -170,7 +170,7 @@ class DateBaseCloudBackup(
                 checkingPresenceFile()
             }
         } else {
-            fragment.showSnackbar(SnackbarManager.MSG_TEXT_SIGN_IN_FAILED)
+            fragment.showSnackbar(SnackbarControl.MSG_TEXT_SIGN_IN_FAILED)
         }
 
         changeVisibilityMenuItemAccount()
@@ -184,7 +184,7 @@ class DateBaseCloudBackup(
             .addOnCompleteListener {
                 countDownTimer?.cancel()
                 changeVisibilityMenuItemAccount()
-                fragment.showSnackbar(SnackbarManager.MSG_TEXT_OUT)
+                fragment.showSnackbar(SnackbarControl.MSG_TEXT_OUT)
             }
     }
 
@@ -199,7 +199,7 @@ class DateBaseCloudBackup(
             .addOnCompleteListener {
                 countDownTimer?.cancel()
                 changeVisibilityMenuItemAccount()
-                fragment.showSnackbar(SnackbarManager.MSG_DEL_DATA)
+                fragment.showSnackbar(SnackbarControl.MSG_DEL_DATA)
             }
     }
 

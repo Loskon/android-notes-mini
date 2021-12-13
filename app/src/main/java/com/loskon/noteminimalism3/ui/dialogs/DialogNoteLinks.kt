@@ -6,143 +6,140 @@ import android.content.Context
 import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.IntentManager
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.regex.Pattern
 
 /**
  * Работа с гиперссылками в заметке
  */
 
-class DialogNoteLinks(
-    private val context: Context,
-    private val fragment: NoteFragment
-) :
-    View.OnClickListener {
+const val URL_WEB = "WEB"
+const val URL_MAIL = "MAIL"
+const val URL_PHONE = "PHONE"
+const val URL_ERROR = "ERROR"
 
-    companion object {
-        const val URL_WEB = "WEB"
-        const val URL_MAIL = "MAIL"
-        const val URL_PHONE = "PHONE"
-        const val URL_ERROR = "ERROR"
-    }
+class DialogNoteLinksNew(private val context: Context, private val fragment: NoteFragment) {
 
     private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
-    private val dialogView = View.inflate(context, R.layout.dialog_open_link, null)
+    private val insertView = View.inflate(context, R.layout.dialog_open_link, null)
 
-    private val btnOpen: Button = dialogView.findViewById(R.id.btn_link_open)
-    private val btnCopy: Button = dialogView.findViewById(R.id.btn_link_copy)
+    private val btnOpen: Button = insertView.findViewById(R.id.btn_link_open)
+    private val btnCopy: Button = insertView.findViewById(R.id.btn_link_copy)
 
-    private var link: String = ""
-    private var typeLinks: String = ""
+    private var receivedLink: String = ""
+    private var linkToOpen: String = ""
+    private var typeLink: String = ""
 
     init {
         dialog.setBtnOkVisibility(false)
         dialog.setBtnCancelVisibility(false)
     }
 
-    fun show(linkUrl: String) {
-        this.link = linkUrl
+    fun show(receivedLink: String) {
+        this.receivedLink = receivedLink
+        this.linkToOpen = receivedLink
 
-        setDialogTitle()
+        configInsertedViews()
         installHandlers()
-
-        dialog.show(dialogView)
+        dialog.show(insertView)
     }
 
-    private fun setDialogTitle() {
-        typeLinks = getTypeURL(link)
+    private fun configInsertedViews() {
+        typeLink = getTypeLink(receivedLink)
 
-        when (typeLinks) {
+        when (typeLink) {
             URL_MAIL -> {
-                replaceText("mailto:")
-                setTextBtn(R.string.dg_open_link_send)
+                replaceTitleText("mailto:")
+                setTextButton(R.string.dg_open_link_send)
             }
             URL_PHONE -> {
-                replaceText("tel:")
-                setTextBtn(R.string.dg_open_link_call)
+                replaceTitleText("tel:")
+                setTextButton(R.string.dg_open_link_call)
             }
             URL_WEB -> {
-                setTextBtn(R.string.dg_open_link_open)
+                replaceTitleText("http://")
+                replaceTitleText("https://")
+                setTextButton(R.string.dg_open_link_open)
             }
 
             URL_ERROR -> {
-                setTextBtn(R.string.dg_open_link_invalid)
+                setTextButton(R.string.dg_open_link_invalid)
             }
         }
 
-        dialog.setTextTitle(link)
+        dialog.setTextTitle(receivedLink)
     }
 
-    private fun getTypeURL(titleLinks: String): String {
-        var typeLinks = URL_ERROR
+    private fun getTypeLink(receivedLink: String): String {
+        var foundLinkType: String = URL_ERROR
 
         val regexWebS = ".*https://.*"
         val regexWeb = ".*http://.*"
         val regexMail = ".*mailto:.*"
         val regexPhone = ".*tel:.*"
 
-        val matchesWebS = Pattern.matches(regexWebS, titleLinks)
-        val matchesWeb = Pattern.matches(regexWeb, titleLinks)
-        val matchesMail = Pattern.matches(regexMail, titleLinks)
-        val matchesPhone = Pattern.matches(regexPhone, titleLinks)
+        val matchesWebS: Boolean = Pattern.matches(regexWebS, receivedLink)
+        val matchesWeb: Boolean = Pattern.matches(regexWeb, receivedLink)
+        val matchesMail: Boolean = Pattern.matches(regexMail, receivedLink)
+        val matchesPhone: Boolean = Pattern.matches(regexPhone, receivedLink)
 
-        if (matchesWeb || matchesWebS) typeLinks = URL_WEB
-        if (matchesMail) typeLinks = URL_MAIL
-        if (matchesPhone) typeLinks = URL_PHONE
+        if (matchesWeb || matchesWebS) {
+            foundLinkType = URL_WEB
+        } else if (matchesMail) {
+            foundLinkType = URL_MAIL
+        } else if (matchesPhone) {
+            foundLinkType = URL_PHONE
+        }
 
-        return typeLinks
+        return foundLinkType
     }
 
-    private fun replaceText(title: String) {
-        link = link.replace(title, "")
+    private fun replaceTitleText(replacedText: String) {
+        receivedLink = receivedLink.replace(replacedText, "")
     }
 
-    private fun setTextBtn(textId: Int) {
-        btnOpen.text = context.getString(textId)
+    private fun setTextButton(stringId: Int) {
+        btnOpen.text = context.getString(stringId)
     }
 
     private fun installHandlers() {
-        btnOpen.setOnClickListener(this)
-        btnCopy.setOnClickListener(this)
+        btnOpen.setOnSingleClickListener { clickingOpenButton() }
+        btnCopy.setOnSingleClickListener { clickingCopyButton() }
     }
 
-    override fun onClick(v: View?) {
+    private fun clickingOpenButton() {
         dialog.dismiss()
+        launchClient()
+    }
 
-        when (v?.id) {
-            R.id.btn_link_open -> openLink()
-
-            R.id.btn_link_copy -> copyLink()
+    private fun launchClient() {
+        when (typeLink) {
+            URL_WEB -> IntentManager.launchWebClient(context, linkToOpen)
+            URL_MAIL -> IntentManager.launchEmailClient(context, linkToOpen)
+            URL_PHONE -> IntentManager.launchPhoneClient(context, linkToOpen)
+            else -> showSnackbar(SnackbarControl.MSG_UNKNOWN_ERROR)
         }
     }
 
-    private fun openLink() {
-        when (typeLinks) {
-            URL_WEB -> IntentManager.launcherWebClient(context, link)
-            URL_MAIL -> IntentManager.launcherEmailClient(context, link)
-            URL_PHONE -> IntentManager.launcherPhoneClient(context, link)
+    private fun showSnackbar(typeMessage: String) = fragment.showSnackbar(typeMessage)
 
-            else -> showSnackbar(SnackbarManager.MSG_UNKNOWN_ERROR)
-        }
+    private fun clickingCopyButton() {
+        dialog.dismiss()
+        performCopyLink()
     }
 
-    private fun copyLink() {
-        replaceText("http://")
-        replaceText("https://")
-
+    private fun performCopyLink() {
         try {
-            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("copy_links", link)
-            clipboard.setPrimaryClip(clip)
-            showSnackbar(SnackbarManager.MSG_NOTE_HYPERLINKS_COPIED)
+            val service: String = Context.CLIPBOARD_SERVICE
+            val clipboard: ClipboardManager = context.getSystemService(service) as ClipboardManager
+            val clipData: ClipData = ClipData.newPlainText("copy_links", receivedLink)
+            clipboard.setPrimaryClip(clipData)
+            showSnackbar(SnackbarControl.MSG_NOTE_HYPERLINKS_COPIED)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarManager.MSG_INVALID_LINK)
+            showSnackbar(SnackbarControl.MSG_INVALID_LINK)
         }
-    }
-
-    private fun showSnackbar(typeMessage: String) {
-        fragment.showSnackbar(typeMessage)
     }
 }

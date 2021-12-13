@@ -1,43 +1,41 @@
 package com.loskon.noteminimalism3.ui.snackbars
 
-import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
- * Восстановление заметки из корзины
+ * Snackbar с текстом и кнопкой
+ * для восстановления заметки из корзины
  */
 
 class SnackbarNoteRestore(
-    private val context: Context,
     private val fragment: NoteTrashFragment,
+    private val layout: ViewGroup,
+    private val fab: View
 ) {
 
-    private val snackbar = Snackbar.make(
-        fragment.getConstLayout,
-        "",
-        Snackbar.LENGTH_LONG
-    )
+    private lateinit var snackbar: BaseDefaultSnackbar
 
     fun show() {
-        val layout: SnackbarLayout = snackbar.view as SnackbarLayout
-        val view: View = View.inflate(context, R.layout.snackbar_note_restore, null)
+        snackbar = BaseDefaultSnackbar.make(R.layout.snackbar_note_restore, layout, fab, false)
+        snackbar.settingSnackbarView()
+
+        snackbar.show()
+    }
+
+    private fun BaseDefaultSnackbar.settingSnackbarView() {
+        val view: View = this.view
         val btnSnackbar: Button = view.findViewById(R.id.btn_snackbar_note_reset)
 
-        view.setOnClickListener { snackbar.dismiss() }
-        layout.addView(view, 0)
+        btnSnackbar.setOnSingleClickListener { restoreNoteFromTrash() }
+    }
 
-        btnSnackbar.setOnSingleClickListener {
-            snackbar.dismiss()
-            fragment.restoreNote()
-        }
-
-        snackbar.anchorView = fragment.getFab
-        snackbar.show()
+    private fun restoreNoteFromTrash() {
+        snackbar.dismiss()
+        fragment.restoreNote()
     }
 }

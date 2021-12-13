@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setColorProgressIndicator
 import com.loskon.noteminimalism3.sharedpref.PrefManager
-import com.loskon.noteminimalism3.utils.setColorProgressIndicator
 
 /**
  * Прогресс соединения с Firebase
@@ -14,27 +14,25 @@ import com.loskon.noteminimalism3.utils.setColorProgressIndicator
 class DialogProgress(private val context: Context) {
 
     private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
-    private val dialogView = View.inflate(context, R.layout.dialog_progress, null)
+    private val insertView = View.inflate(context, R.layout.dialog_progress, null)
 
     private val indicator: CircularProgressIndicator =
-        dialogView.findViewById(R.id.circular_progress_indicator)
+        insertView.findViewById(R.id.circular_progress_indicator)
 
-    fun show() {
-        configViews()
-        setupColorViews()
-
-        dialog.show(dialogView)
-    }
-
-    private fun configViews() {
-        dialog.setCancelable(false)
+    init {
         dialog.setTextTitleVisibility(false)
         dialog.setBtnOkVisibility(false)
         dialog.setBtnCancelVisibility(false)
-        dialog.setWidthForProgress()
+        dialog.setCancelable(false)
+        dialog.setProgressLayoutParametrs()
     }
 
-    private fun setupColorViews() {
+    fun show() {
+        establishColorViews()
+        dialog.show(insertView)
+    }
+
+    private fun establishColorViews() {
         val color: Int = PrefManager.getAppColor(context)
         indicator.setColorProgressIndicator(color)
     }

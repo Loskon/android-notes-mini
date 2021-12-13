@@ -1,16 +1,14 @@
 package com.loskon.noteminimalism3.sqlite
 
 /**
- * Схема базы данных, в которой хранятся имя таблицы и описание ее столбцов
+ * Описание таблицы
  */
 
 class NoteDateBaseSchema {
-
     companion object NoteTable {
-        const val DATABASE_NAME = "notes.db" // название бд
-        const val NAME_TABLE = "notes" // имя таблицы
+        const val DATABASE_NAME = "notes.db"
+        const val NAME_TABLE = "notes"
 
-        // Столбцы
         const val COLUMN_ID = "_id"
         const val COLUMN_TITLE = "title"
         const val COLUMN_DATE = "date"

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.model.Note
 
 /**
- * Вычисление обновления адаптера RecyclerView для Note
+ * Вычисление обновления списка
  */
 
 class NoteDiffUtil(

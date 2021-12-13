@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 
 /**
- * Кастомный Preference с добавленным элементом imageView
+ * Preference с imageView
  */
 
 class PrefScreenColor @JvmOverloads constructor(

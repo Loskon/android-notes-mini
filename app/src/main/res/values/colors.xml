@@ -9,43 +9,22 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- My color -->
-    <color name="background_search_view_light">#15000000</color>
-    <color name="gray_for_surface">#45474A</color>
-    <color name="background_dark">#121212</color>
-    <color name="item_dark">#272727</color>
+    <!-- Custom color -->
+    <!-- App -->
     <color name="material_blue">#4285F4</color>
-
-    <!-- Snackbar -->
-    <!-- default -->
-    <color name="snackbar_background_light">#FF333333</color>
-    <color name="snackbar_background_dark">#383838</color>
-
-
-    <!-- custom -->
-    <color name="snackbar_completed_light">#2e7d32</color>
-    <color name="snackbar_completed_dark">#005005</color>
-    <color name="snackbar_no_completed_light">#b71c1c</color>
-    <color name="snackbar_no_completed_dark">#8e0000</color>
-
-
-    <!-- EditText -->
-    <color name="color_highlight">#a9a9a9</color>
-
-
     <!-- TextView -->
-    <color name="color_text_date_mod">#808080</color>
-
-
-    <!-- Divider -->
-    <color name="color_divider_light">#33A9A9A9</color>
-    <color name="color_divider_dark">#FF000000</color>
-
-
+    <color name="dark_gray">#A5A4A4</color>
     <!-- Menu -->
-    <color name="color_icon_nav_menu_dark">#33A9A9A9</color>
-    <color name="light_blue_50">#FFE1F5FE</color>
-    <color name="light_blue_200">#FF81D4FA</color>
-    <color name="light_blue_600">#FF039BE5</color>
-    <color name="light_blue_900">#FF01579B</color>
+    <color name="dark_gray_light">#33A9A9A9</color>
+    <!-- Snackbar -->
+    <color name="dark_slate_gray_light">#FF333333</color>
+    <color name="dark_slate_color">#383838</color>
+    <color name="light_green">#2e7d32</color>
+    <color name="dark_green">#005005</color>
+    <color name="light_red">#b71c1c</color>
+    <color name="dark_red">#8e0000</color>
+    <!-- Background -->
+    <color name="black_super_light">#15000000</color>
+    <color name="black_dark">#121212</color>
+    <color name="black_light">#272727</color>
 </resources>

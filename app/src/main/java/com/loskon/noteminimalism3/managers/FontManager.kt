@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.other
+package com.loskon.noteminimalism3.managers
 
 import android.content.Context
 import android.graphics.Typeface
@@ -56,7 +56,7 @@ class FontManager {
             }
         }
 
-        fun setFontText(context: Context): Typeface? {
+        fun getAppFont(context: Context): Typeface? {
             context.apply {
                 val font: Int = when (PrefManager.getTypeFont(this)) {
 

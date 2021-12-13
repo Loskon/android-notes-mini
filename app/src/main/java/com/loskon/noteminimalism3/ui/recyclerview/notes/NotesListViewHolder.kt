@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.databinding.RowNoteBinding
 import com.loskon.noteminimalism3.model.Note
 
 /**
- * Вспомогательный класс, который предоставляет доступ к View-компонентам
+ * Доступ к View-компонентам
  */
 
 class NotesListViewHolder(private val binding: RowNoteBinding) :
@@ -25,6 +25,11 @@ class NotesListViewHolder(private val binding: RowNoteBinding) :
             return binding.linearLayoutRowNote
         }
 
+    val viewFavorite: View
+        get() {
+            return binding.viewFavorite
+        }
+
     val title: TextView
         get() {
             return binding.tvCardNoteTitle
@@ -33,10 +38,5 @@ class NotesListViewHolder(private val binding: RowNoteBinding) :
     val date: TextView
         get() {
             return binding.tvCardNoteDate
-        }
-
-    val viewFavorite: View
-        get() {
-            return binding.viewFavorite
         }
 }

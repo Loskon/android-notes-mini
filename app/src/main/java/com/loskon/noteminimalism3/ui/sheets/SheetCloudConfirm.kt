@@ -1,20 +1,17 @@
 package com.loskon.noteminimalism3.ui.sheets
 
 import android.content.Context
-import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
- * Потверждение действия при облачном резервном копировании
+ * Подтверждение действия при облачном резервном копировании
  */
 
 class SheetCloudConfirm(context: Context, private val fragment: BackupFragment) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-
-    private val btnOk: Button = dialog.buttonOk
 
     init {
         dialog.setTextTitle(R.string.sheet_confirm_action)
@@ -24,7 +21,7 @@ class SheetCloudConfirm(context: Context, private val fragment: BackupFragment) 
     }
 
     fun show(isBackup: Boolean) {
-        btnOk.setOnSingleClickListener {
+        dialog.buttonOk.setOnSingleClickListener {
             dialog.dismiss()
 
             if (isBackup) {

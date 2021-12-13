@@ -11,27 +11,26 @@ import java.io.*
 import java.nio.channels.FileChannel
 
 /**
- * Создание файла бэкапа и восстановление
+ * Создание локальных файлов бэкапа и восстановление базы данных
  */
 
 class DateBaseBackup {
-
     companion object {
 
         fun performBackup(context: Context, outFileName: String) {
-            processCopyingDateBaseFile(pathDateBase(context), outFileName)
+            copyFile(pathDateBase(context), outFileName)
             BackupFilesLimiter.deleteExtraFiles(context)
         }
 
         fun performRestore(context: Context, inFileName: String) {
-            processCopyingDateBaseFile(inFileName, pathDateBase(context))
+            copyFile(inFileName, pathDateBase(context))
         }
 
         private fun pathDateBase(context: Context): String {
             return context.getDatabasePath(NoteTable.DATABASE_NAME).toString()
         }
 
-        private fun processCopyingDateBaseFile(inFileName: String, outFileName: String) {
+        private fun copyFile(inFileName: String, outFileName: String) {
             val inFile = File(inFileName)
             val outFile = File(outFileName)
 
@@ -91,7 +90,7 @@ class DateBaseBackup {
 
         private fun checkingFile(pathFile: String, pathDateBase: String): Boolean {
             return if (isValidSQLiteFile(pathFile)) {
-                processCopyingDateBaseFile(pathFile, pathDateBase)
+                copyFile(pathFile, pathDateBase)
                 File(pathFile).delete()
                 true
             } else {

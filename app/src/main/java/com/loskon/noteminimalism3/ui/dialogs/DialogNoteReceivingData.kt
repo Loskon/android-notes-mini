@@ -10,16 +10,15 @@ import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
  * Работа с гиперссылками в заметке
  */
 
-class DialogNoteReceivingData(context: Context) :
-    View.OnClickListener {
+class DialogNoteReceivingData(context: Context) : View.OnClickListener {
 
     private val activity: ReceivingDataActivity = context as ReceivingDataActivity
 
     private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
-    private val dialogView = View.inflate(context, R.layout.dialog_receiving_data, null)
+    private val insertView = View.inflate(context, R.layout.dialog_receiving_data, null)
 
-    private val btnOpen: Button = dialogView.findViewById(R.id.btn_add_in_new_note)
-    private val btnCopy: Button = dialogView.findViewById(R.id.btn_update_old_note)
+    private val btnOpen: Button = insertView.findViewById(R.id.btn_add_in_new_note)
+    private val btnCopy: Button = insertView.findViewById(R.id.btn_update_old_note)
 
     init {
         dialog.setTextTitleVisibility(false)
@@ -29,7 +28,7 @@ class DialogNoteReceivingData(context: Context) :
 
     fun show() {
         installHandlers()
-        dialog.show(dialogView)
+        dialog.show(insertView)
     }
 
     private fun installHandlers() {

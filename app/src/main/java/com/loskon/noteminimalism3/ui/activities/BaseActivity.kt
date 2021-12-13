@@ -2,11 +2,11 @@ package com.loskon.noteminimalism3.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.loskon.noteminimalism3.other.FontManager
-import com.loskon.noteminimalism3.utils.ColorManager
+import com.loskon.noteminimalism3.managers.ColorManager
+import com.loskon.noteminimalism3.managers.FontManager
 
 /**
- * Переопределение activity для установки шрифта и цветов
+ * Переопределение activity для изменения шрифта и цвета приложения
  */
 
 open class BaseActivity : AppCompatActivity() {
@@ -18,6 +18,6 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
-        ColorManager.setColorApp(this)
+        ColorManager.installAppColor(this)
     }
 }

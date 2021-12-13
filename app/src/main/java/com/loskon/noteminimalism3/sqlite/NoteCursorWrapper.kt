@@ -7,10 +7,10 @@ import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.util.*
 
 /**
- * Обертка для курсора
+ * Извлечение данных столбцов
  */
 
-class NoteCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
+class NoteCursorWrapper(cursor: Cursor) : CursorWrapper(cursor) {
 
     fun getNotes(): Note {
         val id: Long = getLong(getColumnIndex(NoteTable.COLUMN_ID))

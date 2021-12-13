@@ -4,10 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,21 +14,21 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 
 /**
- * Запроса доступа к внутренней памяти
+ * Регистрация, получение и обработка результатов контракта
  */
 
 class ResultAccessStorage {
     companion object {
-        private const val readPermissions = Manifest.permission.READ_EXTERNAL_STORAGE
-        private const val writePermissions = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+        private const val read = Manifest.permission.READ_EXTERNAL_STORAGE
+        private const val write = Manifest.permission.WRITE_EXTERNAL_STORAGE
         private const val GRANTED = PackageManager.PERMISSION_GRANTED
 
-        private val PERMISSIONS_STORAGE = arrayOf(readPermissions, writePermissions)
+        private val PERMISSIONS_STORAGE = arrayOf(read, write)
 
         private var resultLauncherAndroidR: ActivityResultLauncher<Intent>? = null
         private var resultLauncher: ActivityResultLauncher<Array<out String>>? = null
 
-        @JvmStatic
         fun installingVerification(
             activity: ComponentActivity?,
             resultAccessStorageInterface: ResultAccessStorageInterface?
@@ -42,7 +40,6 @@ class ResultAccessStorage {
             }
         }
 
-        @JvmStatic
         fun installingVerification(
             fragment: Fragment?,
             resultAccessStorageInterface: ResultAccessStorageInterface?
@@ -108,27 +105,21 @@ class ResultAccessStorage {
             permissions: Map<String, Boolean>,
             resultAccessStorageInterface: ResultAccessStorageInterface?
         ) {
-            val read = permissions[readPermissions]
-            val write = permissions[writePermissions]
+            val read = permissions[read]
+            val write = permissions[write]
 
             val isGranted: Boolean = (read == true && write == true)
             resultAccessStorageInterface?.onRequestPermissionsStorageResult(isGranted)
         }
 
-        @JvmStatic
         fun hasAccessStorageRequest(context: Context): Boolean {
             var isGrantedPermissions = false
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-/*                if (Environment.isExternalStorageManager()) {
-                    isGrantedPermissions = true
-                } else {
-                    requestPermissionsAndroidR(context)
-                }*/
                 isGrantedPermissions = true
             } else {
-                val read = ActivityCompat.checkSelfPermission(context, readPermissions)
-                val write = ActivityCompat.checkSelfPermission(context, writePermissions)
+                val read = ActivityCompat.checkSelfPermission(context, read)
+                val write = ActivityCompat.checkSelfPermission(context, write)
 
                 if (read == GRANTED && write == GRANTED) {
                     isGrantedPermissions = true
@@ -140,7 +131,6 @@ class ResultAccessStorage {
             return isGrantedPermissions
         }
 
-        @JvmStatic
         fun hasAccessStorage(context: Context): Boolean {
             var isGrantedPermissions = false
 
@@ -148,22 +138,13 @@ class ResultAccessStorage {
                 //if (Environment.isExternalStorageManager())
                 isGrantedPermissions = true
             } else {
-                val read = ActivityCompat.checkSelfPermission(context, readPermissions)
-                val write = ActivityCompat.checkSelfPermission(context, writePermissions)
+                val read = ActivityCompat.checkSelfPermission(context, read)
+                val write = ActivityCompat.checkSelfPermission(context, write)
 
                 if (read == GRANTED && write == GRANTED) isGrantedPermissions = true
             }
 
             return isGrantedPermissions
-        }
-
-        @RequiresApi(Build.VERSION_CODES.R)
-        private fun requestPermissionsAndroidR(context: Context) {
-            val packageApp: String = context.applicationContext?.packageName.toString()
-            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            intent.addCategory("android.intent.category.DEFAULT")
-            intent.data = Uri.parse(String.format("package:%s", packageApp))
-            resultLauncherAndroidR?.launch(intent)
         }
 
         private fun requestPermissions() {

@@ -6,15 +6,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.other.FontManager
+import com.loskon.noteminimalism3.managers.FontManager
+import com.loskon.noteminimalism3.managers.setMenuIconsColor
+import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.setMenuIconColor
-import com.loskon.noteminimalism3.utils.setNavigationIconColor
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 
 /**
  * Хост представления для фрагментов
@@ -49,7 +49,7 @@ class SettingsActivity : BaseActivity(),
     private fun establishColorViews() {
         val color = PrefManager.getAppColor(this)
         bottomAppBar.setNavigationIconColor(color)
-        bottomAppBar.menu.setMenuIconColor(color)
+        bottomAppBar.menu.setMenuIconsColor(color)
     }
 
     private fun openSettingsFragment(savedInstanceState: Bundle?) {
@@ -80,12 +80,12 @@ class SettingsActivity : BaseActivity(),
     }
 
     fun showSnackbar(typeMessage: String) {
-        SnackbarManager(this, coordLayout, bottomAppBar).show(typeMessage)
+        SnackbarControl(this, coordLayout, bottomAppBar).show(typeMessage)
     }
 
     override fun onChangeColor(color: Int) {
         bottomAppBar.setNavigationIconColor(color)
-        bottomAppBar.menu.setMenuIconColor(color)
+        bottomAppBar.menu.setMenuIconsColor(color)
     }
 
     fun visibilityMenuItemAccount(isVisible: Boolean) {

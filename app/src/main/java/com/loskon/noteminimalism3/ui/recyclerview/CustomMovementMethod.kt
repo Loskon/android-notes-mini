@@ -9,8 +9,7 @@ import android.view.MotionEvent
 import android.widget.TextView
 
 /**
- * Кастомный класс LinkMovementMethod с защитой от неправильного определения
- * ссылки
+ * LinkMovementMethod с защитой от неправильного определения гиперссылки
  */
 
 abstract class CustomMovementMethod : LinkMovementMethod() {

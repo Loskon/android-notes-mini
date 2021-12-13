@@ -6,16 +6,17 @@ import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPathManager
+import com.loskon.noteminimalism3.backup.BackupPath
 import com.loskon.noteminimalism3.backup.DateBaseBackup
-import com.loskon.noteminimalism3.files.CheckCreatedFiles
+import com.loskon.noteminimalism3.files.CheckCreatedFile
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.DateManager
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
+import java.io.File
 import java.util.*
 
 /**
@@ -27,28 +28,31 @@ class SheetBackupNameDateBase(private val context: Context) {
     private val activity: SettingsActivity = context as SettingsActivity
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val sheetView = View.inflate(context, R.layout.sheet_backup, null)
+    private val insertView = View.inflate(context, R.layout.sheet_backup, null)
 
-    private val inputLayout: TextInputLayout = sheetView.findViewById(R.id.input_layout_backup)
-    private val inputEditText: TextInputEditText = sheetView.findViewById(R.id.input_edit_text_backup)
+    private val inputLayout: TextInputLayout = insertView.findViewById(R.id.input_layout_backup)
+    private val inputEditText: TextInputEditText = insertView.findViewById(R.id.input_edit_text_backup)
 
     init {
-        dialog.setInsertView(sheetView)
+        dialog.setInsertView(insertView)
         dialog.setTextTitle(R.string.sheet_backup_title)
-
-        setupColorViews()
-        configViews()
-        installHandlers()
     }
 
-    private fun setupColorViews() {
+    fun show() {
+        establishColorViews()
+        configInsertedViews()
+        installHandlers()
+        dialog.show()
+    }
+
+    private fun establishColorViews() {
         val color: Int = PrefManager.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }
 
-    private fun configViews() {
+    private fun configInsertedViews() {
         inputEditText.showKeyboard(context)
-        inputEditText.setText(DateManager.getStringDate(Date()))
+        inputEditText.setText(DateUtil.getStringDate(Date()))
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 
@@ -88,31 +92,28 @@ class SheetBackupNameDateBase(private val context: Context) {
     }
 
     private fun createBackupFile(title: String) {
-        val hasCreatedFolder = CheckCreatedFiles.createBackupFolder(context)
+        val backupFolder: File = BackupPath.getBackupFolder(context)
+        val hasCreatedFolder = CheckCreatedFile.hasCreated(backupFolder)
 
         if (hasCreatedFolder) {
             creatingBackup(title)
         } else {
-            activity.showSnackbar(SnackbarManager.MSG_TEXT_ERROR)
+            activity.showSnackbar(SnackbarControl.MSG_UNABLE_CREATE_FOLDER)
         }
 
         dialog.dismiss()
     }
 
     private fun creatingBackup(title: String) {
+        val backupPath: String = BackupPath.getPathBackupFolder(context)
         val backupTitle: String = StringUtil.replaceForbiddenCharacters(title)
-        val backupPath: String = BackupPathManager.getPathBackupFolder(context)
         val outFileName = "$backupPath$backupTitle.db"
 
         try {
             DateBaseBackup.performBackup(context, outFileName)
-            activity.showSnackbar(SnackbarManager.MSG_BACKUP_COMPLETED)
+            activity.showSnackbar(SnackbarControl.MSG_BACKUP_COMPLETED)
         } catch (exception: Exception) {
-            activity.showSnackbar(SnackbarManager.MSG_BACKUP_FAILED)
+            activity.showSnackbar(SnackbarControl.MSG_BACKUP_FAILED)
         }
-    }
-
-    fun show() {
-        dialog.show()
     }
 }

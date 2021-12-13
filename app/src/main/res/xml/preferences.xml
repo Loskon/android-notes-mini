@@ -61,9 +61,9 @@
             app:title="@string/notification_title" />
 
         <Preference
-            android:title="@string/num_of_backup_title"
+            android:title="@string/number_of_backup_title"
             app:iconSpaceReserved="false"
-            app:key="@string/num_of_backup_key" />
+            app:key="@string/number_of_backup_key" />
 
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 

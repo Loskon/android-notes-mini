@@ -8,9 +8,9 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setRadioButtonColor
 import com.loskon.noteminimalism3.model.Font
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setRadioButtonColor
 
 /**
  * Адаптер для работы со списком шрифтов
@@ -61,7 +61,7 @@ class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontViewHolder>() {
 
     fun setFontsList(newList: List<Font>) {
         list = newList
-        itemsChanged()
+        updateChangedList()
     }
 
     fun setCheckedPosition(newCheckedPosition: Int) {
@@ -73,7 +73,7 @@ class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun itemsChanged() {
+    fun updateChangedList() {
         notifyDataSetChanged()
     }
 

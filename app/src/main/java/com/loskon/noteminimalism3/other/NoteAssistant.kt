@@ -9,15 +9,15 @@ import com.loskon.noteminimalism3.files.SaveTextFile
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarManager
-import com.loskon.noteminimalism3.utils.IntentManager
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.utils.scrollBottom
 
 /**
  * Помощник для работы с текстом заметки
  */
 
-class TextNoteAssistant(
+class NoteAssistant(
     private val context: Context,
     private val fragment: NoteFragment
 ) {
@@ -26,14 +26,14 @@ class TextNoteAssistant(
     private val editText: EditText = fragment.getEditText
     private val scrollView: ScrollView = fragment.getScrollView
 
-    private val clipboard: ClipboardManager =
-        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    private val clipboard: ClipboardManager = context
+        .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
     fun pasteText() {
         if (clipboard.hasPrimaryClip()) {
             performPasteText()
         } else {
-            showSnackbar(SnackbarManager.MSG_NEED_COPY_TEXT)
+            showSnackbar(SnackbarControl.MSG_NEED_COPY_TEXT)
         }
     }
 
@@ -59,10 +59,10 @@ class TextNoteAssistant(
                 editText.setSelection(pasteText.length)
                 editText.scrollBottom(scrollView)
             } else {
-                showSnackbar(SnackbarManager.MSG_NEED_COPY_TEXT)
+                showSnackbar(SnackbarControl.MSG_NEED_COPY_TEXT)
             }
         } catch (exception: Exception) {
-            showSnackbar(SnackbarManager.MSG_INVALID_FORMAT)
+            showSnackbar(SnackbarControl.MSG_INVALID_FORMAT)
         }
     }
 
@@ -77,7 +77,7 @@ class TextNoteAssistant(
         if (text.isNotEmpty()) {
             performCopyText()
         } else {
-            showSnackbar(SnackbarManager.MSG_NOTE_IS_EMPTY)
+            showSnackbar(SnackbarControl.MSG_NOTE_IS_EMPTY)
         }
     }
 
@@ -85,9 +85,9 @@ class TextNoteAssistant(
         try {
             val clipData = ClipData.newPlainText("label_copy_text", editText.text.toString())
             clipboard.setPrimaryClip(clipData)
-            showSnackbar(SnackbarManager.MSG_NOTE_TEXT_COPIED)
+            showSnackbar(SnackbarControl.MSG_NOTE_TEXT_COPIED)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarManager.MSG_UNKNOWN_ERROR)
+            showSnackbar(SnackbarControl.MSG_UNKNOWN_ERROR)
         }
     }
 
@@ -105,7 +105,7 @@ class TextNoteAssistant(
         if (text.isNotEmpty()) {
             SaveTextFile(context, fragment).creationFolderTextFiles(text)
         } else {
-            showSnackbar(SnackbarManager.MSG_NOTE_IS_EMPTY)
+            showSnackbar(SnackbarControl.MSG_NOTE_IS_EMPTY)
         }
     }
 
@@ -118,15 +118,11 @@ class TextNoteAssistant(
         if (text.isNotEmpty()) {
             performShareText()
         } else {
-            showSnackbar(SnackbarManager.MSG_NOTE_IS_EMPTY)
+            showSnackbar(SnackbarControl.MSG_NOTE_IS_EMPTY)
         }
     }
 
     private fun performShareText() {
-        try {
-            IntentManager.launcherShareText(context, editText)
-        } catch (exception: Exception) {
-            showSnackbar(SnackbarManager.MSG_UNKNOWN_ERROR)
-        }
+        IntentManager.launchShareText(context, textTrim)
     }
 }

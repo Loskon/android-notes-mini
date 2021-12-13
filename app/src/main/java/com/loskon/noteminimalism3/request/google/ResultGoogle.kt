@@ -7,19 +7,19 @@ import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 
 /**
- * Запрос на доступ к Google-аккаунту
+ * Регистрация, получение и обработка результатов контракта
  */
 
 class ResultGoogle {
     companion object {
 
-        private var signInLauncher: ActivityResultLauncher<Intent>? = null
+        private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
         fun installing(
             fragment: Fragment?,
             resultGoogleInterface: ResultGoogleInterface?
         ) {
-            signInLauncher = fragment?.registerForActivityResult(
+            resultLauncher = fragment?.registerForActivityResult(
                 FirebaseAuthUIActivityResultContract()
             ) { result ->
                 val isGranted: Boolean = result.resultCode == Activity.RESULT_OK
@@ -28,7 +28,7 @@ class ResultGoogle {
         }
 
         fun launcher(signInIntent: Intent) {
-            signInLauncher?.launch(signInIntent)
+            resultLauncher?.launch(signInIntent)
         }
     }
 }

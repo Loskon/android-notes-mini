@@ -8,11 +8,10 @@ import com.loskon.noteminimalism3.sharedpref.PrefManager
 import java.io.File
 
 /**
- *
+ * Получение пути папки для хранения данных
  */
 
-class BackupPathManager {
-
+class BackupPath {
     companion object {
 
         // Дает абсолютный путь от дерева uri
@@ -56,26 +55,27 @@ class BackupPathManager {
             return actualPAth
         }
 
-        @Suppress("DEPRECATION")
         fun getPathBackupFolder(context: Context): String {
-            var fullPath: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-                    .toString()
-            } else {
-                PrefManager.getSelectedDirectory(context)
-            }
-
-            val backupFolder = context.getString(R.string.app_name_folder_backup)
-            fullPath = fullPath + File.separator + backupFolder + File.separator
+            var fullPath: String = getPathSelectedDirectory(context)
+            val titleBackupFolder: String = context.getString(R.string.folder_backups_name)
+            fullPath = fullPath + File.separator + titleBackupFolder + File.separator
             return fullPath
         }
 
-        // Получение файлов из папки
+        @Suppress("DEPRECATION")
+        fun getPathSelectedDirectory(context: Context): String {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val documents: String = Environment.DIRECTORY_DOCUMENTS
+                Environment.getExternalStoragePublicDirectory(documents).toString()
+            } else {
+                PrefManager.getSelectedDirectory(context)
+            }
+        }
+
         fun getBackupFolder(context: Context): File {
             return File(getPathBackupFolder(context))
         }
 
-        // Путь для Summary в виде текста'
         fun getSummary(context: Context): String {
             var summary = getPathBackupFolder(context)
             summary = summary.replace("//", "/")

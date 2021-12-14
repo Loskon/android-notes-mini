@@ -1,10 +1,10 @@
 # Notes Mini for Android  
 
-Notes Mini - представляет собой приложение для создания и работы с заметками.
+Notes Mini - представляет собой приложение для заметок.
 
 ## Стек технологий
 
-* MVP
+* MVC
 * DataBinding
 * Firebase (Authentication, Cloud Storage)
 * SQLite

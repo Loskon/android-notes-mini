@@ -16,10 +16,10 @@ import java.util.regex.Pattern
  * Работа с гиперссылками в заметке
  */
 
-const val URL_WEB = "WEB"
-const val URL_MAIL = "MAIL"
-const val URL_PHONE = "PHONE"
-const val URL_ERROR = "ERROR"
+private const val URL_WEB = "WEB"
+private const val URL_MAIL = "MAIL"
+private const val URL_PHONE = "PHONE"
+private const val URL_ERROR = "ERROR"
 
 class DialogNoteLinksNew(private val context: Context, private val fragment: NoteFragment) {
 
@@ -48,7 +48,7 @@ class DialogNoteLinksNew(private val context: Context, private val fragment: Not
     }
 
     private fun configInsertedViews() {
-        typeLink = getTypeLink(receivedLink)
+        typeLink = getTypeLink()
 
         when (typeLink) {
             URL_MAIL -> {
@@ -60,8 +60,6 @@ class DialogNoteLinksNew(private val context: Context, private val fragment: Not
                 setTextButton(R.string.dg_open_link_call)
             }
             URL_WEB -> {
-                replaceTitleText("http://")
-                replaceTitleText("https://")
                 setTextButton(R.string.dg_open_link_open)
             }
 
@@ -73,7 +71,7 @@ class DialogNoteLinksNew(private val context: Context, private val fragment: Not
         dialog.setTextTitle(receivedLink)
     }
 
-    private fun getTypeLink(receivedLink: String): String {
+    private fun getTypeLink(): String {
         var foundLinkType: String = URL_ERROR
 
         val regexWebS = ".*https://.*"

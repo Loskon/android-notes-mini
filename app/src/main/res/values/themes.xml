@@ -164,6 +164,29 @@
         <item name="rippleColor">?attr/colorControlHighlight</item>
     </style>
 
+    <!-- ButtonSnack -->
+    <style name="ButtonSnack" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="strokeColor">@android:color/darker_gray</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+    </style>
+
+    <!-- TextViewSnack -->
+    <style name="TextViewSnack" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:maxLines">@integer/design_snackbar_text_max_lines</item>
+        <item name="android:paddingLeft">@dimen/design_snackbar_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/design_snackbar_padding_vertical</item>
+        <item name="android:paddingRight">@dimen/design_snackbar_padding_horizontal</item>
+        <item name="android:paddingBottom">@dimen/design_snackbar_padding_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textAppearance">@style/TextAppearance.Design.Snackbar.Message</item>
+    </style>
+
 
     <!-- Fonts -->
     <style name="RobotoLightFont">

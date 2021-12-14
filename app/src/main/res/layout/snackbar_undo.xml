@@ -38,20 +38,11 @@
 
     <TextView
         android:id="@+id/tv_snackbar_undo_text"
+        style="@style/TextViewSnack"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:ellipsize="end"
-        android:fontFamily="@font/roboto_light"
-        android:maxLines="@integer/design_snackbar_text_max_lines"
-        android:paddingLeft="@dimen/design_snackbar_padding_horizontal"
-        android:paddingTop="@dimen/design_snackbar_padding_vertical"
-        android:paddingRight="@dimen/design_snackbar_padding_horizontal"
-        android:paddingBottom="@dimen/design_snackbar_padding_vertical"
         android:text="@string/sb_undo_note_added_trash"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
-        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_snackbar_undo"
         app:layout_constraintStart_toEndOf="@+id/progress_bar_snackbar_undo"
@@ -59,20 +50,15 @@
 
     <Button
         android:id="@+id/btn_snackbar_undo"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/ButtonSnack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_light"
-        android:minWidth="48dp"
         android:text="@android:string/cancel"
-        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_snackbar_undo_text"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/darker_gray"
         tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -184,25 +184,28 @@
     <string name="dark_mode_title">Dark mode</string>
     <string name="backup_title">Backup and Restore</string>
     <string name="folder_title">Folder for data</string>
-    <string name="auto_backup_title">Auto backup</string>
+    <string name="auto_backup_title">Autobackup</string>
     <string name="notification_title">Notification</string>
     <string name="number_of_backup_title">Number of backups</string>
     <string name="update_date_title">Update datetime</string>
     <string name="font_size_notes_title">Font size</string>
     <string name="hyperlinks_title">Hyperlinks</string>
     <string name="retention_trash_title">Retention time of notes in trash</string>
+    <string name="show_bottom_widget_title">Show the bottom widget</string>
     <string name="communication_title">Communication with developer</string>
     <string name="about_app_title">About application</string>
     <!-- Preference summary -->
     <string name="auto_backup_summary">When creating several new notes</string>
-    <string name="number_of_days_summary">Number of days: %1$d</string>
+    <string name="notification_auto_backup_summary">About successful autobackup</string>
     <string name="update_date_summary">When restoring notes from trash</string>
-    <string name="notification_auto_backup_summary">About successful auto backup</string>
+    <string name="show_bottom_widget_summary">When sending a note to the trash</string>
+    <string name="number_of_days_summary">Number of days: %1$d</string>
     <!-- Preference key -->
     <string name="auto_backup_key">Auto backup</string>
     <string name="dark_mode_key">Dark mode</string>
     <string name="notification_key">Notification</string>
     <string name="update_date_key">update date key</string>
+    <string name="show_bottom_widget_key">show bottom widget key</string>
     <string name="number_of_backup_key">Number of backups</string>
     <string name="retention_trash_key">Retention time of notes in trash</string>
     <!-- preference_app -->

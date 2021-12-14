@@ -190,18 +190,21 @@
     <string name="font_size_notes_title">Размер текста</string>
     <string name="hyperlinks_title">Гиперссылки</string>
     <string name="retention_trash_title">Время хранения заметок в корзине</string>
+    <string name="show_bottom_widget_title">Показывать нижний виджет</string>
     <string name="communication_title">Связь с разработчиком</string>
     <string name="about_app_title">О приложении</string>
     <!-- Preference summary -->
     <string name="auto_backup_summary">При создании нескольких новых заметок</string>
-    <string name="number_of_days_summary">Количество дней: %1$d</string>
-    <string name="update_date_summary">При восстановлении заметки из корзины</string>
     <string name="notification_auto_backup_summary">Об успешном автобэкапе</string>
+    <string name="update_date_summary">При восстановлении заметки из корзины</string>
+    <string name="show_bottom_widget_summary">При отправке заметки в корзину</string>
+    <string name="number_of_days_summary">Количество дней: %1$d</string>
     <!-- Preference key -->
     <string name="auto_backup_key">Авторезервирование</string>
     <string name="dark_mode_key">Темная тема</string>
     <string name="notification_key">Уведомление</string>
     <string name="update_date_key">update date key</string>
+    <string name="show_bottom_widget_key">show bottom widget key</string>
     <string name="number_of_backup_key">Количество резервных копий</string>
     <string name="retention_trash_key">Время хранения заметок в корзине</string>
     <!-- preference_app -->

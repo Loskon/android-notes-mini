@@ -90,6 +90,15 @@
             app:summary="@string/update_date_summary"
             app:title="@string/update_date_title" />
 
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
+            android:layout="@layout/custom_pref_layout"
+            app:allowDividerAbove="false"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/show_bottom_widget_key"
+            app:summary="@string/show_bottom_widget_summary"
+            app:title="@string/show_bottom_widget_title" />
+
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory

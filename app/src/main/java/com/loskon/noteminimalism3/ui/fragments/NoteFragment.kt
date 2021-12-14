@@ -72,6 +72,7 @@ class NoteFragment : Fragment(),
     private var isSaveNewNote = true
     private var isDeleteNote = false
     private var hasReceivingText: Boolean = false
+    private var isBottomWidgetShow: Boolean = true
     private var supportedLinks: Int = 0
     private var color: Int = 0
     private var noteId: Long = 0L
@@ -80,6 +81,7 @@ class NoteFragment : Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as NoteActivity
+        isBottomWidgetShow = PrefManager.isBottomWidgetShow(activity)
         ResultAccessStorage.installingVerification(activity, this)
         overrideBackPressed()
     }
@@ -291,7 +293,7 @@ class NoteFragment : Fragment(),
             isSaveNewNote = false
         } else {
             commandCenter.sendToTrash(note)
-            callback?.onNoteDelete(note, isFavorite)
+            if (isBottomWidgetShow) callback?.onNoteDelete(note, isFavorite)
         }
 
         activity.onBackPressed()
@@ -359,7 +361,6 @@ class NoteFragment : Fragment(),
         noteId = note.id
 
         backupDate = date
-
         callback?.onNoteAdd()
     }
 

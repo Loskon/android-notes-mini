@@ -144,6 +144,11 @@ class PrefManager {
             return load(context, PREF_KEY_STATE_LINEAR_LIST, true)
         }
 
+        fun isBottomWidgetShow(context: Context): Boolean {
+            val key: String = context.getString(R.string.show_bottom_widget_key)
+            return load(context, key, true)
+        }
+
         fun isDialogShow(context: Context): Boolean {
             return load(context, PREF_KEY_DIALOG_WARNING_SHOW, true)
         }

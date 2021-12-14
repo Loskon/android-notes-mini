@@ -418,7 +418,13 @@ class ListActivity : BaseActivity(),
     // From note fragment
     override fun onNoteUpdate() = updateQuicklyNotesList()
 
-    // From note trash fragment and note fragment
+    // From note fragment
+    override fun onSendToTrash(note: Note, hasFavStatus: Boolean, isBottomWidgetShow: Boolean) {
+        updateQuicklyNotesList()
+        if (isBottomWidgetShow) showSnackbarUndo(note, hasFavStatus)
+    }
+
+    // From note trash fragment
     override fun onNoteDelete(note: Note, hasFavStatus: Boolean) {
         updateQuicklyNotesList()
         showSnackbarUndo(note, hasFavStatus)

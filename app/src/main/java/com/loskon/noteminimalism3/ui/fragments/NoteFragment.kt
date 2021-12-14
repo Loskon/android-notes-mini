@@ -293,7 +293,7 @@ class NoteFragment : Fragment(),
             isSaveNewNote = false
         } else {
             commandCenter.sendToTrash(note)
-            if (isBottomWidgetShow) callback?.onNoteDelete(note, isFavorite)
+            callback?.onSendToTrash(note, isFavorite, isBottomWidgetShow)
         }
 
         activity.onBackPressed()
@@ -420,7 +420,7 @@ class NoteFragment : Fragment(),
     interface CallbackNote {
         fun onNoteAdd()
         fun onNoteUpdate()
-        fun onNoteDelete(note: Note, hasFavStatus: Boolean)
+        fun onSendToTrash(note: Note, hasFavStatus: Boolean, isBottomWidgetShow: Boolean)
     }
 
     companion object {

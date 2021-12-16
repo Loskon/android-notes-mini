@@ -13,7 +13,6 @@ import android.widget.TextView
  * Утилиты для вьюшек
  */
 
-// Видимость
 fun View.setVisibleView(isVisible: Boolean) {
     if (isVisible) {
         this.visibility = View.VISIBLE
@@ -22,7 +21,7 @@ fun View.setVisibleView(isVisible: Boolean) {
     }
 }
 
-// Внешний отступ
+
 fun View.setMargins(
     leftMarginDp: Int? = null,
     topMarginDp: Int? = null,
@@ -44,7 +43,7 @@ fun Int.dpToPx(context: Context): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
 }
 
-// Изменение ширины и высоты вьюшки
+
 fun View.setLayoutParams() {
     this.layoutParams = LinearLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -52,17 +51,17 @@ fun View.setLayoutParams() {
     )
 }
 
-// Получение длины строки
+
 fun EditText.getLength(): Int {
     return text.toString().length
 }
 
-// Установка размера текста
+
 fun TextView.setTextSizeShort(fontSize: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
 }
 
-// Скролл вниз
+
 fun EditText.scrollBottom(scrollView: ScrollView) {
     scrollView.post { scrollView.scrollTo(0, bottom) }
 }

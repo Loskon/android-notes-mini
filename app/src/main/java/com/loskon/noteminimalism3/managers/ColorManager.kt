@@ -122,7 +122,7 @@ class ColorManager {
     }
 }
 
-// Цвет пунктов меню
+
 fun NavigationView.setColorStateMenuItem(context: Context) {
     // Цвет MenuItem
     val color: Int = PrefManager.getAppColor(context)
@@ -176,7 +176,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
     itemIconTintList = navMenuIconTintList
 }
 
-// Цвет иконок меню
+
 fun Menu.setMenuIconsColor(@ColorInt color: Int) {
     if (this.size() != 0) {
         for (i in 0 until size()) {
@@ -190,7 +190,7 @@ fun Menu.setMenuIconsColor(@ColorInt color: Int) {
     }
 }
 
-// Цвет слайдера
+
 fun Slider.setSliderColor(@ColorInt color: Int) {
     thumbTintList = ColorStateList.valueOf(color)
     trackActiveTintList = ColorStateList.valueOf(color)
@@ -199,28 +199,28 @@ fun Slider.setSliderColor(@ColorInt color: Int) {
     trackInactiveTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, ALPHA_COLOR))
 }
 
-// Цвет фона fab
+
 fun FloatingActionButton.setFabColor(@ColorInt color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 
-// Цвет иконки навигации
+
 fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) {
     navigationIcon?.mutate()?.setTint(color)
 }
 
-// Цвет иконки кнопки
+
 fun MaterialButton.setButtonIconColor(@ColorInt colorId: Int) {
     iconTint = ColorStateList.valueOf(colorId)
 }
 
-// Цвет индикатора
+
 fun CircularProgressIndicator.setColorProgressIndicator(@ColorInt color: Int) {
     setIndicatorColor(color)
     trackColor = ColorUtils.setAlphaComponent(color, ALPHA_COLOR)
 }
 
-// Цвет фона Snackbar
+
 fun View.setColorBackgroundSnackbar(context: Context, isSuccess: Boolean) {
     val colorId: Int = context.getSuccessColor(isSuccess)
     backgroundTintList = ColorStateList.valueOf(colorId)
@@ -244,22 +244,22 @@ fun Context.getSuccessColor(isSuccess: Boolean): Int {
     return this.getShortColor(color)
 }
 
-// Цвет фона
+
 fun View.setBackgroundTintColor(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 
-// Цвет переключателя
+
 fun RadioButton.setRadioButtonColor(color: Int) {
     buttonTintList = ColorStateList.valueOf(color)
 }
 
-// Цвет обводки кнопки
+
 fun MaterialButton.setStrokeBtnColor(color: Int) {
     this.strokeColor = ColorStateList.valueOf(color)
 }
 
-// Цвет чекбоксов
+
 fun CheckBox.setStrokeCheckBoxColor(color: Int) {
     this.buttonTintList = ColorStateList.valueOf(color)
 }

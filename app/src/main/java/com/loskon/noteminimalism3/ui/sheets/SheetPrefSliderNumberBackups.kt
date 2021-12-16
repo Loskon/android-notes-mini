@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupFilesLimiter
+import com.loskon.noteminimalism3.files.BackupFilesLimiter
 import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener

@@ -6,7 +6,7 @@ import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.backup.DateBaseBackup
 import com.loskon.noteminimalism3.files.CheckCreatedFile
 import com.loskon.noteminimalism3.sharedpref.PrefManager

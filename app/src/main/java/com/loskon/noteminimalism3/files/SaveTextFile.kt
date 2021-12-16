@@ -2,7 +2,6 @@ package com.loskon.noteminimalism3.files
 
 import android.content.Context
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPath
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.utils.DateUtil

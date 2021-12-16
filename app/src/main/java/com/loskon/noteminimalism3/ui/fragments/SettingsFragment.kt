@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupPath
+import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.ColorManager
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.request.RequestCode

@@ -6,7 +6,7 @@ import android.widget.ListView
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.BackupFiles
+import com.loskon.noteminimalism3.files.BackupFiles
 import com.loskon.noteminimalism3.backup.DateBaseBackup
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.listview.FilesAdapter

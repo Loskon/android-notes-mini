@@ -325,8 +325,8 @@ class NoteFragment : Fragment(),
     }
 
     override fun onPause() {
-        super.onPause()
         if (isSaveNewNote && !isDeleteNote) selectingMethodSavingNote()
+        super.onPause()
     }
 
     private fun selectingMethodSavingNote() {

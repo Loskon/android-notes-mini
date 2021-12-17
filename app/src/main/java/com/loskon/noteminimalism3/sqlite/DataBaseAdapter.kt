@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteException
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
@@ -17,20 +16,14 @@ import java.util.concurrent.TimeUnit
 
 class DataBaseAdapter(context: Context) {
 
-    private val dbHelper: DataBaseHelper =
-        DataBaseHelper(context.applicationContext)
+    private val dbHelper: DataBaseHelper = DataBaseHelper(context.applicationContext)
 
-    private val database: SQLiteDatabase =
-        try {
-            dbHelper.writableDatabase
-        } catch (exception: SQLiteException) {
-            dbHelper.readableDatabase
-        }
+    private val database: SQLiteDatabase = dbHelper.writableDatabase
 
-    fun getNotes(searchTerm: String?, noteCategory: String, sortingWay: Int): List<Note> {
+    fun getNotes(searchTerm: String?, category: String, sortingWay: Int): List<Note> {
         val notes: ArrayList<Note> = ArrayList<Note>()
-        val whereClause: String = getWhereClause(noteCategory)
-        val orderBy: String = getOrderBy(noteCategory, sortingWay)
+        val whereClause: String = getWhereClause(category)
+        val orderBy: String = getOrderBy(category, sortingWay)
 
         queryNotes(searchTerm, whereClause, orderBy).use { cursor ->
             cursor.moveToFirst()
@@ -107,6 +100,11 @@ class DataBaseAdapter(context: Context) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_DEL_ITEMS + " = " + 1, null)
     }
 
+    fun deleteAll() {
+        database.delete(NoteTable.NAME_TABLE, null, null)
+    }
+
+
     fun deleteByTime(context: Context) {
         val rangeInDays: Int = PrefManager.getRetentionRange(context)
         // Перевод дня в Unix-time для корректного сложения и сравнения
@@ -145,7 +143,7 @@ class DataBaseAdapter(context: Context) {
         }
 
         fun getDateBase(): DataBaseAdapter {
-            return INSTANCE ?: throw Exception("DateBase must be initialized")
+            return INSTANCE ?: throw Exception("Database must be initialized")
         }
 
         fun deleteNotesByTime(context: Context) {

@@ -10,7 +10,7 @@ import java.util.*
 
 class CommandCenter {
 
-    private val dateBaseAdapter = DataBaseAdapter.getDateBase()
+    private val dateBaseAdapter: DataBaseAdapter = DataBaseAdapter.getDateBase()
 
     fun getNotes(searchTerm: String?, notesCategory: String, sortingWay: Int): List<Note> {
         return dateBaseAdapter.getNotes(searchTerm, notesCategory, sortingWay)
@@ -49,5 +49,9 @@ class CommandCenter {
 
     fun cleanTrash() {
         dateBaseAdapter.cleanTrash()
+    }
+
+    fun deleteAll() {
+        dateBaseAdapter.deleteAll()
     }
 }

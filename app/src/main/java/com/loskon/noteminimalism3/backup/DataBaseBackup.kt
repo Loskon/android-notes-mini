@@ -15,7 +15,7 @@ import java.nio.channels.FileChannel
  * Создание локальных файлов бэкапа и восстановление базы данных
  */
 
-class DateBaseBackup {
+class DataBaseBackup {
     companion object {
 
         fun performBackup(context: Context, outFileName: String) {

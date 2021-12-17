@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.DateBaseCloudBackup
+import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.FontManager
 import com.loskon.noteminimalism3.managers.IntentManager
@@ -25,8 +25,8 @@ import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.ListActivityHelper
 import com.loskon.noteminimalism3.other.QueryTextListener
 import com.loskon.noteminimalism3.sharedpref.PrefManager
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.dialogs.DialogForeverDeleteWarning
 import com.loskon.noteminimalism3.ui.dialogs.DialogSendToTrashWarning
 import com.loskon.noteminimalism3.ui.dialogs.DialogUnification
@@ -63,7 +63,7 @@ class ListActivity : BaseActivity(),
     PrefScreenNumberLines.CallbackNumberLines,
     SettingsAppFragment.CallbackOneSizeCards,
     SheetListRestoreDateBase.CallbackRestoreNote,
-    DateBaseCloudBackup.CallbackRestoreNoteCloud,
+    DataBaseCloudBackup.CallbackRestoreNoteCloud,
     BackupFragment.CallbackRestoreNoteAndroidR,
     SheetPrefSort.CallbackSort,
     FontsFragment.CallbackTypeFont {
@@ -134,7 +134,7 @@ class ListActivity : BaseActivity(),
         PrefScreenNumberLines.listenerCallback(this)
         SettingsAppFragment.listenerCallbackSize(this)
         SheetListRestoreDateBase.listenerCallback(this)
-        DateBaseCloudBackup.listenerCallback(this)
+        DataBaseCloudBackup.listenerCallback(this)
         BackupFragment.listenerCallback(this)
         SheetPrefSort.listenerCallback(this)
         FontsFragment.listenerCallback(this)

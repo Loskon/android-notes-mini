@@ -24,7 +24,7 @@ import java.io.File
  * Работа с FirebaseStorage и Google аккаунтом
  */
 
-class DateBaseCloudBackup(
+class DataBaseCloudBackup(
     private val context: Context,
     private val fragment: BackupFragment
 ) :

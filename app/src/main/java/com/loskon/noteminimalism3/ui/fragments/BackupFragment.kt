@@ -8,8 +8,8 @@ import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.DateBaseBackup
-import com.loskon.noteminimalism3.backup.DateBaseCloudBackup
+import com.loskon.noteminimalism3.backup.DataBaseBackup
+import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.other.InternetCheck
 import com.loskon.noteminimalism3.request.RequestCode
 import com.loskon.noteminimalism3.request.activity.ResultActivity
@@ -36,7 +36,7 @@ class BackupFragment : Fragment(),
     View.OnClickListener {
 
     private lateinit var activity: SettingsActivity
-    private lateinit var cloudBackup: DateBaseCloudBackup
+    private lateinit var cloudBackup: DataBaseCloudBackup
 
     private lateinit var btnBackupSD: Button
     private lateinit var btnRestoreSD: Button
@@ -50,7 +50,7 @@ class BackupFragment : Fragment(),
         activity = context as SettingsActivity
         ResultAccessStorage.installingVerification(this, this)
         ResultActivity.installing(this, this)
-        cloudBackup = DateBaseCloudBackup(activity, this)
+        cloudBackup = DataBaseCloudBackup(activity, this)
     }
 
     override fun onCreateView(
@@ -199,7 +199,7 @@ class BackupFragment : Fragment(),
 
     private fun restoreDateBase(data: Uri?) {
         if (data != null) {
-            val isRestoreFailed: Boolean = DateBaseBackup.performRestore(activity, data)
+            val isRestoreFailed: Boolean = DataBaseBackup.performRestore(activity, data)
 
             if (isRestoreFailed) {
                 callback?.onRestoreNotes()

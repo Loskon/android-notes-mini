@@ -12,9 +12,9 @@ import com.google.android.material.navigation.NavigationView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.setColorStateMenuItem
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_FAVORITES
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
+import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.utils.getShortDrawable
 
 /**

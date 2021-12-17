@@ -7,7 +7,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupPath
-import com.loskon.noteminimalism3.backup.DateBaseBackup
+import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.files.CheckCreatedFile
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
@@ -110,7 +110,7 @@ class SheetBackupNameDateBase(private val context: Context) {
         val outFileName = "$backupPath$backupTitle.db"
 
         try {
-            DateBaseBackup.performBackup(context, outFileName)
+            DataBaseBackup.performBackup(context, outFileName)
             activity.showSnackbar(SnackbarControl.MSG_BACKUP_COMPLETED)
         } catch (exception: Exception) {
             activity.showSnackbar(SnackbarControl.MSG_BACKUP_FAILED)

@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.ListActivity
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 

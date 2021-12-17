@@ -15,7 +15,7 @@ import java.util.*
  * Автоматическое создание файла бэкапа
  */
 
-class DateBaseAutoBackup {
+class DataBaseAutoBackup {
 
     companion object {
 
@@ -44,7 +44,7 @@ class DateBaseAutoBackup {
             val outFileName = "$backupPath$backupName.db"
 
             try {
-                DateBaseBackup.performBackup(context, outFileName)
+                DataBaseBackup.performBackup(context, outFileName)
                 showToastNotification(context, isShowToast)
             } catch (exception: Exception) {
                 showToast(context, ToastControl.MSG_TOAST_AUTO_BACKUP_FAILED, isShowToast)

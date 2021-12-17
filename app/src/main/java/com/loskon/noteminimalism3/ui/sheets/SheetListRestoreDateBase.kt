@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupFiles
-import com.loskon.noteminimalism3.backup.DateBaseBackup
+import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.listview.FilesAdapter
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
@@ -89,7 +89,7 @@ class SheetListRestoreDateBase(private val context: Context) : FilesAdapter.Call
 
     override fun onClickingFile(file: File) {
         try {
-            DateBaseBackup.performRestore(context, file.path)
+            DataBaseBackup.performRestore(context, file.path)
             activity.showSnackbar(SnackbarControl.MSG_RESTORE_COMPLETED)
         } catch (exception: Exception) {
             activity.showSnackbar(SnackbarControl.MSG_RESTORE_FAILED)

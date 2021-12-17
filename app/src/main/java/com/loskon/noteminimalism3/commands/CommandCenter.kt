@@ -1,7 +1,7 @@
 package com.loskon.noteminimalism3.commands
 
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sqlite.DateBaseAdapter
+import com.loskon.noteminimalism3.sqlite.DataBaseAdapter
 import java.util.*
 
 /**
@@ -10,7 +10,7 @@ import java.util.*
 
 class CommandCenter {
 
-    private val dateBaseAdapter = DateBaseAdapter.getDateBase()
+    private val dateBaseAdapter = DataBaseAdapter.getDateBase()
 
     fun getNotes(searchTerm: String?, notesCategory: String, sortingWay: Int): List<Note> {
         return dateBaseAdapter.getNotes(searchTerm, notesCategory, sortingWay)

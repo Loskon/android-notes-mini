@@ -10,7 +10,7 @@ internal class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DateBaseAdapter.initDateBase(this)
-        DateBaseAdapter.deleteNotesByTime(this)
+        DataBaseAdapter.initDateBase(this)
+        DataBaseAdapter.deleteNotesByTime(this)
     }
 }

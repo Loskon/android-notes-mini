@@ -18,9 +18,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Помощник SQLite для настройки базы данных и ее обработки
  */
 
-public class DateBaseHelper extends SQLiteOpenHelper {
+public class DataBaseHelper extends SQLiteOpenHelper {
 
-    public DateBaseHelper(Context context) {
+    public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 

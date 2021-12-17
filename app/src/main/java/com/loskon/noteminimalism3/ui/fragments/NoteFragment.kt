@@ -18,7 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.backup.DateBaseAutoBackup
+import com.loskon.noteminimalism3.backup.DataBaseAutoBackup
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.LinksManager
 import com.loskon.noteminimalism3.managers.setButtonIconColor
@@ -381,7 +381,7 @@ class NoteFragment : Fragment(),
         val isAutoBackup: Boolean = PrefManager.hasAutoBackup(activity)
 
         if (isAutoBackup && isNewNote && noteId % 3 == 0L) {
-            DateBaseAutoBackup.createBackupFile(activity, backupDate, isShowBackupToast)
+            DataBaseAutoBackup.createBackupFile(activity, backupDate, isShowBackupToast)
         }
     }
 

@@ -15,9 +15,10 @@ import java.util.concurrent.TimeUnit
  * Работа с базой данных
  */
 
-class DateBaseAdapter(context: Context) {
+class DataBaseAdapter(context: Context) {
 
-    private val dbHelper: DateBaseHelper = DateBaseHelper(context.applicationContext)
+    private val dbHelper: DataBaseHelper =
+        DataBaseHelper(context.applicationContext)
 
     private val database: SQLiteDatabase =
         try {
@@ -135,15 +136,15 @@ class DateBaseAdapter(context: Context) {
     }
 
     companion object {
-        private var INSTANCE: DateBaseAdapter? = null
+        private var INSTANCE: DataBaseAdapter? = null
 
         fun initDateBase(context: Context) {
             if (INSTANCE == null) {
-                INSTANCE = DateBaseAdapter(context)
+                INSTANCE = DataBaseAdapter(context)
             }
         }
 
-        fun getDateBase(): DateBaseAdapter {
+        fun getDateBase(): DataBaseAdapter {
             return INSTANCE ?: throw Exception("DateBase must be initialized")
         }
 

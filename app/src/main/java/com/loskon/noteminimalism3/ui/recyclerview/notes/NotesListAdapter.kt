@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.databinding.RowNoteBinding
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.ui.activities.ListActivity
+import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setTextSizeShort
 
@@ -179,7 +179,7 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
         updateChangedList()
     }
 
-    fun changeFavoriteStatus(activity: ListActivity, commandCenter: CommandCenter) {
+    fun changeFavoriteStatus(activity: MainActivity, commandCenter: CommandCenter) {
         changeFavorite(activity, commandCenter)
         callback?.onVisibleFavorite(selectedItem)
         updateChangedList()

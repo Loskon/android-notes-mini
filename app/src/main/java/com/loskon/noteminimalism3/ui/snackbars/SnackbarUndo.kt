@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.activities.ListActivity
+import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  */
 
 class SnackbarUndo(
-    private val activity: ListActivity,
+    private val activity: MainActivity,
     private val commandCenter: CommandCenter,
     private val layout: ViewGroup,
     private val fab: View

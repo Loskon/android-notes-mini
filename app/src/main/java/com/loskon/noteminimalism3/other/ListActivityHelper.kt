@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.activities.ListActivity
+import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.getShortDrawable
 
 /**
@@ -22,7 +22,7 @@ import com.loskon.noteminimalism3.utils.getShortDrawable
  */
 
 class ListActivityHelper(
-    private val activity: ListActivity,
+    private val activity: MainActivity,
     private val fab: FloatingActionButton,
     private val bottomBar: BottomAppBar
 ) {

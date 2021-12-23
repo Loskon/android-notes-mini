@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.ui.dialogs
 
 import android.content.Context
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.ui.activities.ListActivity
+import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -11,8 +11,8 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class DialogUnification(context: Context) {
 
-    private val activity: ListActivity = context as ListActivity
-    private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
+    private val activity: MainActivity = context as MainActivity
+    private val dialog: BaseMaterialDialogs = BaseMaterialDialogs(context)
 
     init {
         dialog.setTextTitle(context.getString(R.string.dg_unification_title))

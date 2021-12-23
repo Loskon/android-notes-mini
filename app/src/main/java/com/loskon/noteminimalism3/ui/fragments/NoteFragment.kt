@@ -25,15 +25,15 @@ import com.loskon.noteminimalism3.managers.setButtonIconColor
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.NoteAssistant
-import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
-import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinksNew
 import com.loskon.noteminimalism3.ui.recyclerview.CustomMovementMethod
 import com.loskon.noteminimalism3.ui.sheets.SheetTextAssistantNote
-import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.utils.*
 import kotlinx.coroutines.delay
@@ -193,7 +193,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun handlingClickOnEmptyArea() {
-        BaseWarningSnackbar.dismiss()
+        BaseWarningSnackbars.dismiss()
         if (supportedLinks != 0 && !isTextEditingMod) activationTextEditingMode()
         editText.apply {
             showKeyboard(activity)
@@ -269,7 +269,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFab() {
-        BaseWarningSnackbar.dismiss()
+        BaseWarningSnackbars.dismiss()
 
         isShowBackupToast = true
         editText.hideKeyboard(activity)
@@ -277,14 +277,14 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteButton() {
-        BaseWarningSnackbar.dismiss()
+        BaseWarningSnackbars.dismiss()
 
         isFavorite = !isFavorite
         toggleFavoriteStatus()
     }
 
     private fun clickingFavoriteDelete() {
-        BaseWarningSnackbar.dismiss()
+        BaseWarningSnackbars.dismiss()
 
         isDeleteNote = true
 
@@ -300,7 +300,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteMore() {
-        BaseWarningSnackbar.dismiss()
+        BaseWarningSnackbars.dismiss()
 
         editText.hideKeyboard(activity)
         lifecycleScope.launch {
@@ -320,7 +320,7 @@ class NoteFragment : Fragment(),
 
     private fun EditText.handlerClickListener() {
         setOnClickListener {
-            BaseWarningSnackbar.dismiss()
+            BaseWarningSnackbars.dismiss()
         }
     }
 

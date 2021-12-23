@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
  */
 
 class SettingsAppFragment :
-    BaseSettingsFragment(),
+    BaseSettingsFragments(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     SheetPrefSelectColor.CallbackColorNotifyData,

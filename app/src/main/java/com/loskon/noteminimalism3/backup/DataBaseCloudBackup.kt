@@ -12,8 +12,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.*
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.request.google.ResultGoogle
-import com.loskon.noteminimalism3.request.google.ResultGoogleInterface
+import com.loskon.noteminimalism3.requests.google.ResultGoogle
+import com.loskon.noteminimalism3.requests.google.ResultGoogleInterface
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import com.loskon.noteminimalism3.ui.dialogs.DialogProgress
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment

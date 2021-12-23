@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.request.google
+package com.loskon.noteminimalism3.requests.google
 
 import android.app.Activity
 import android.content.Intent

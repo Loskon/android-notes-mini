@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  * Единая форма для диалога
  */
 
-class BaseMaterialDialog(private val context: Context) {
+class BaseMaterialDialogs(private val context: Context) {
 
     private val dialogView: View = View.inflate(context, R.layout.base_dialog, null)
     private val alertDialog: AlertDialog = builderAlertDialog(dialogView)

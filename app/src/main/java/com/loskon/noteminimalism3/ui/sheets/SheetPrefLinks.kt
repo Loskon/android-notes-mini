@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.sharedpref.PrefManager
 
 class SheetPrefLinks(private val context: Context) : View.OnClickListener {
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_pref_links, null)
 
     private val checkBoxWeb: CheckBox = insertView.findViewById(R.id.check_box_web)

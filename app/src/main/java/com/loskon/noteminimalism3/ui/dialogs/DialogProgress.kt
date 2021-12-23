@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.sharedpref.PrefManager
 
 class DialogProgress(private val context: Context) {
 
-    private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
+    private val dialog: BaseMaterialDialogs = BaseMaterialDialogs(context)
     private val insertView = View.inflate(context, R.layout.dialog_progress, null)
 
     private val indicator: CircularProgressIndicator =

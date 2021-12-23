@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.request.storage
+package com.loskon.noteminimalism3.requests.storage
 
 interface ResultAccessStorageInterface {
     fun onRequestPermissionsStorageResult(isGranted: Boolean)

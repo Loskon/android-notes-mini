@@ -18,7 +18,7 @@ class SheetDeleteGoogleAccount(
 ) :
     View.OnClickListener {
 
-    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val sheetDialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_delete_account_warning, null)
 
     private val btnYes: MaterialButton = insertView.findViewById(R.id.btn_data_yes)

@@ -12,7 +12,7 @@ import java.io.File
 
 class SheetDeleteBackupsFiles(private val context: Context) {
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
 
     init {
         dialog.setTextTitle(R.string.sheet_delete_warnings)

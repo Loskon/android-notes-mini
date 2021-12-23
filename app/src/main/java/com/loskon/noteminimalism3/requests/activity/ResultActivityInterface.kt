@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.request.activity
+package com.loskon.noteminimalism3.requests.activity
 
 import android.net.Uri
 

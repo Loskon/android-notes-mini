@@ -16,7 +16,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class SheetPrefSelectColor(private val context: Context) {
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_pref_color_picker, null)
 
     private val colorPicker: ColorPicker = insertView.findViewById(R.id.color_picker)

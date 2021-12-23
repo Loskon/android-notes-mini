@@ -17,7 +17,7 @@ class SheetGoogleAccount(
 ) :
     View.OnClickListener {
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_google_account, null)
 
     private val btnLogout: MaterialButton = insertView.findViewById(R.id.btn_data_account_logout)

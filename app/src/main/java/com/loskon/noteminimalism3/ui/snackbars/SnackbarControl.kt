@@ -61,7 +61,7 @@ class SnackbarControl(
     fun show(typeMessage: String) {
         val message: String = getMessage(typeMessage)
         val isSuccess: Boolean = getSuccess(typeMessage)
-        BaseWarningSnackbar.make(layout, anchorView, message, isSuccess)
+        BaseWarningSnackbars.make(layout, anchorView, message, isSuccess)
     }
 
     private fun getMessage(typeMessage: String): String {

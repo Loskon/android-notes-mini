@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
  * Хост представления для фрагментов
  */
 
-class SettingsActivity : BaseActivity(),
+class SettingsActivity : BaseActivities(),
     SheetPrefSelectColor.CallbackColorNavIcon,
     SheetPrefSelectColorHex.CallbackColorHexNavIcon,
     PrefScreenResetColor.CallbackColorResetNavIcon {

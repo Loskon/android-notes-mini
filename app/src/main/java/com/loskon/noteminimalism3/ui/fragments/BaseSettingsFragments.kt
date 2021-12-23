@@ -8,7 +8,7 @@ import androidx.preference.PreferenceFragmentCompat
  * Переопределение PreferenceFragmentCompat для изменения параметров списка
  */
 
-open class BaseSettingsFragment : PreferenceFragmentCompat() {
+open class BaseSettingsFragments : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreate(savedInstanceState)

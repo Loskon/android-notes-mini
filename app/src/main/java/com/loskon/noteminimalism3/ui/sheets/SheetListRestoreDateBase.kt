@@ -25,7 +25,7 @@ class SheetListRestoreDateBase(private val context: Context) : FilesAdapter.Call
 
     private val activity: SettingsActivity = context as SettingsActivity
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_list_files, null)
 
     private val listView: ListView = insertView.findViewById(R.id.list_view_files)

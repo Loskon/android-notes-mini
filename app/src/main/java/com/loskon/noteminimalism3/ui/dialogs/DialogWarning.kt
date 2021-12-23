@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class DialogWarning(private val context: Context) {
 
-    private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
+    private val dialog: BaseMaterialDialogs = BaseMaterialDialogs(context)
     private val insertView = View.inflate(context, R.layout.dialog_warning, null)
 
     init {

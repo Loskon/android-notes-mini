@@ -23,7 +23,7 @@ private const val URL_ERROR = "ERROR"
 
 class DialogNoteLinksNew(private val context: Context, private val fragment: NoteFragment) {
 
-    private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
+    private val dialog: BaseMaterialDialogs = BaseMaterialDialogs(context)
     private val insertView = View.inflate(context, R.layout.dialog_open_link, null)
 
     private val btnOpen: Button = insertView.findViewById(R.id.btn_link_open)

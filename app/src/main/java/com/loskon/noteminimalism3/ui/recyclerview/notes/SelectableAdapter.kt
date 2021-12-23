@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.recyclerview.notes
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.ui.activities.ListActivity
+import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import java.util.*
 
@@ -115,7 +115,7 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
     }
 
     // Объединить несколько заметок в одну новую
-    fun unification(activity: ListActivity, commandCenter: CommandCenter) {
+    fun unification(activity: MainActivity, commandCenter: CommandCenter) {
         val stringBuilder: StringBuilder = StringBuilder()
         val note = Note()
         var newTitle = ""
@@ -162,7 +162,7 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.A
     }
 
     // Изменить статус избранного
-    fun changeFavorite(activity: ListActivity, commandCenter: CommandCenter) {
+    fun changeFavorite(activity: MainActivity, commandCenter: CommandCenter) {
         try {
             val note: Note = selectedItem
             note.isFavorite = !note.isFavorite

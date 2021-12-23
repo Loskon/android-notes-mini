@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class SheetPrefSliderRetention(private val context: Context) {
 
-    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val sheetDialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_pref_slider, null)
 
     private val slider: Slider = insertView.findViewById(R.id.slider_range)

@@ -19,7 +19,7 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  * Единая форма для нижнего диалогового окна
  */
 
-class BaseSheetDialog(private val sheetContext: Context) :
+class BaseSheetDialogs(private val sheetContext: Context) :
     BottomSheetDialog(sheetContext, R.style.SheetDialogRounded) {
 
     private val sheetBehavior: BottomSheetBehavior<FrameLayout> = behavior

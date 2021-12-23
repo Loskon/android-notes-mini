@@ -12,11 +12,11 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.ColorManager
 import com.loskon.noteminimalism3.managers.IntentManager
-import com.loskon.noteminimalism3.request.RequestCode
-import com.loskon.noteminimalism3.request.activity.ResultActivity
-import com.loskon.noteminimalism3.request.activity.ResultActivityInterface
-import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
-import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.requests.RequestCode
+import com.loskon.noteminimalism3.requests.activity.ResultActivity
+import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
+import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.*
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
  */
 
 class SettingsFragment :
-    BaseSettingsFragment(),
+    BaseSettingsFragments(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     SheetPrefSliderNumberBackups.CallbackNumberBackups,

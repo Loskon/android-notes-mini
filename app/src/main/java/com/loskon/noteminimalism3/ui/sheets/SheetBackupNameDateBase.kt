@@ -27,7 +27,7 @@ class SheetBackupNameDateBase(private val context: Context) {
 
     private val activity: SettingsActivity = context as SettingsActivity
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_backup, null)
 
     private val inputLayout: TextInputLayout = insertView.findViewById(R.id.input_layout_backup)

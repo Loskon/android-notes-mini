@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.managers.FontManager
  * Переопределение activity для изменения шрифта и цвета приложения
  */
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivities : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         FontManager.setFont(this)

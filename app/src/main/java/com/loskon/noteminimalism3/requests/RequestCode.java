@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.request;
+package com.loskon.noteminimalism3.requests;
 
 /**
  * Коды для запросов

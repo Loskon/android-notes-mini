@@ -41,7 +41,7 @@ import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
-import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.utils.*
@@ -50,7 +50,7 @@ import com.loskon.noteminimalism3.utils.*
  * Основное activity для работы со списком
  */
 
-class ListActivity : BaseActivity(),
+class MainActivity : BaseActivities(),
     NotesListAdapter.CallbackNoteAdapter,
     SwipeCallback.CallbackSwipeUndo,
     BottomSheetCategory.CallbackCategory,
@@ -94,7 +94,7 @@ class ListActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        setContentView(R.layout.activity_main)
 
         initViews()
         installCallbacks()
@@ -339,7 +339,7 @@ class ListActivity : BaseActivity(),
     }
 
     private fun dismissSnackbars(isDisSnackMessage: Boolean) {
-        if (isDisSnackMessage) BaseWarningSnackbar.dismiss()
+        if (isDisSnackMessage) BaseWarningSnackbars.dismiss()
         snackbarUndo.dismiss()
     }
 

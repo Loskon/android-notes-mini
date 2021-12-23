@@ -11,18 +11,18 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.other.InternetCheck
-import com.loskon.noteminimalism3.request.RequestCode
-import com.loskon.noteminimalism3.request.activity.ResultActivity
-import com.loskon.noteminimalism3.request.activity.ResultActivityInterface
-import com.loskon.noteminimalism3.request.storage.ResultAccessStorage
-import com.loskon.noteminimalism3.request.storage.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.requests.RequestCode
+import com.loskon.noteminimalism3.requests.activity.ResultActivity
+import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
+import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefManager
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.SheetBackupNameDateBase
 import com.loskon.noteminimalism3.ui.sheets.SheetCloudConfirm
 import com.loskon.noteminimalism3.ui.sheets.SheetGoogleAccount
 import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
-import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 
 
@@ -99,7 +99,7 @@ class BackupFragment : Fragment(),
     }
 
     override fun onClick(view: View?) {
-        BaseWarningSnackbar.dismiss()
+        BaseWarningSnackbars.dismiss()
         btnId = view?.id
 
         when (btnId) {
@@ -167,7 +167,7 @@ class BackupFragment : Fragment(),
 
     override fun onDetach() {
         super.onDetach()
-        BaseWarningSnackbar.dismiss()
+        BaseWarningSnackbars.dismiss()
         visibilityMenuItemAccount(false)
     }
 

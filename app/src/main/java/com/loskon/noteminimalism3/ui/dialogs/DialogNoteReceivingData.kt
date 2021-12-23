@@ -14,7 +14,7 @@ class DialogNoteReceivingData(context: Context) : View.OnClickListener {
 
     private val activity: ReceivingDataActivity = context as ReceivingDataActivity
 
-    private val dialog: BaseMaterialDialog = BaseMaterialDialog(context)
+    private val dialog: BaseMaterialDialogs = BaseMaterialDialogs(context)
     private val insertView = View.inflate(context, R.layout.dialog_receiving_data, null)
 
     private val btnOpen: Button = insertView.findViewById(R.id.btn_add_in_new_note)

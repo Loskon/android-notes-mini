@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class SheetCloudConfirm(context: Context, private val fragment: BackupFragment) {
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
 
     init {
         dialog.setTextTitle(R.string.sheet_confirm_action)

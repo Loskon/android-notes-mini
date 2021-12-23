@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.request.storage
+package com.loskon.noteminimalism3.requests.storage
 
 import android.Manifest
 import android.content.Context
@@ -105,8 +105,8 @@ class ResultAccessStorage {
             permissions: Map<String, Boolean>,
             resultAccessStorageInterface: ResultAccessStorageInterface?
         ) {
-            val read = permissions[read]
-            val write = permissions[write]
+            val read: Boolean? = permissions[read]
+            val write: Boolean? = permissions[write]
 
             val isGranted: Boolean = (read == true && write == true)
             resultAccessStorageInterface?.onRequestPermissionsStorageResult(isGranted)

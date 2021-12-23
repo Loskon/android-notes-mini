@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.utils.getShortFont
  * Основа для Snackbar с текстом
  */
 
-object BaseWarningSnackbar {
+object BaseWarningSnackbars {
 
     private var snackbar: Snackbar? = null
 

@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.dialogs
 import android.content.Context
 import android.view.View
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -27,7 +27,7 @@ class DialogWarning(private val context: Context) {
 
     private fun installHandlers() {
         dialog.buttonOk.setOnSingleClickListener {
-            PrefManager.setStatusDialogShow(context)
+            PrefHelper.setStatusDialogShow(context)
             dialog.dismiss()
         }
     }

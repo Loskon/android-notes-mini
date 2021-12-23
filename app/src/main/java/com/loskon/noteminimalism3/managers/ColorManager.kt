@@ -26,7 +26,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.ColorManager.Companion.ALPHA_COLOR
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.getShortColor
 
 /**
@@ -62,7 +62,7 @@ class ColorManager {
         }
 
         private fun installDarkTheme(activity: Activity) {
-            if (PrefManager.hasDarkMode(activity)) {
+            if (PrefHelper.hasDarkMode(activity)) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -73,7 +73,7 @@ class ColorManager {
         private fun installColorTask(activity: Activity) {
             activity.apply {
 
-                val color: Int = if (PrefManager.hasDarkMode(this)) {
+                val color: Int = if (PrefHelper.hasDarkMode(this)) {
                     getShortColor(R.color.black_dark)
                 } else {
                     Color.WHITE
@@ -125,7 +125,7 @@ class ColorManager {
 
 fun NavigationView.setColorStateMenuItem(context: Context) {
     // Цвет MenuItem
-    val color: Int = PrefManager.getAppColor(context)
+    val color: Int = PrefHelper.getAppColor(context)
 
     val navDefaultTextColor: Int
     val navDefaultIconColor: Int

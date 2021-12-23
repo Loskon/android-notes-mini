@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.files.CheckCreatedFile
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.utils.DateUtil
@@ -46,7 +46,7 @@ class SheetBackupNameDateBase(private val context: Context) {
     }
 
     private fun establishColorViews() {
-        val color: Int = PrefManager.getAppColor(context)
+        val color: Int = PrefHelper.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }
 

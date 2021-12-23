@@ -24,7 +24,7 @@ import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.ListActivityHelper
 import com.loskon.noteminimalism3.other.QueryTextListener
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.dialogs.DialogForeverDeleteWarning
@@ -145,20 +145,20 @@ class MainActivity : BaseActivities(),
         val boredStrokeDp: Int = ValueUtil.getStrokeLinLay(this)
         adapter.setViewSizes(radiusStrokeDp, boredStrokeDp)
 
-        color = PrefManager.getAppColor(this)
+        color = PrefHelper.getAppColor(this)
         adapter.setViewColor(color)
 
-        val titleFontSize: Int = PrefManager.getTitleFontSize(this)
-        val dateFontSize: Int = PrefManager.getDateFontSize(this)
+        val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
+        val dateFontSize: Int = PrefHelper.getDateFontSize(this)
         adapter.setFontSizes(titleFontSize, dateFontSize)
 
-        val numberLines: Int = PrefManager.getNumberLines(this)
+        val numberLines: Int = PrefHelper.getNumberLines(this)
         adapter.setNumberLines(numberLines)
 
-        hasLinearList = PrefManager.hasLinearList(this)
+        hasLinearList = PrefHelper.hasLinearList(this)
         adapter.setLinearList(hasLinearList)
 
-        val hasOneSizeCards: Boolean = PrefManager.hasOneSizeCards(this)
+        val hasOneSizeCards: Boolean = PrefHelper.hasOneSizeCards(this)
         adapter.setOneSizeCards(hasOneSizeCards)
     }
 
@@ -207,7 +207,7 @@ class MainActivity : BaseActivities(),
     }
 
     private fun otherConfigurations() {
-        sortingWay = PrefManager.getSortingWay(this)
+        sortingWay = PrefHelper.getSortingWay(this)
         helper.changeViewListNotes(recyclerView, hasLinearList)
     }
 
@@ -367,7 +367,7 @@ class MainActivity : BaseActivities(),
         hasLinearList = !hasLinearList
         adapter.setLinearList(hasLinearList)
         helper.changeViewListNotes(recyclerView, hasLinearList)
-        PrefManager.setStateLinearList(this, hasLinearList)
+        PrefHelper.setStateLinearList(this, hasLinearList)
     }
 
     private fun transitionSearchMode(isSearchMode: Boolean) {

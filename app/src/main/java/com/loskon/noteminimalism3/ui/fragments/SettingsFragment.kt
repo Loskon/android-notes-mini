@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.*
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
@@ -192,11 +192,11 @@ class SettingsFragment :
         // Data
         folder?.summary = BackupPath.getSummary(activity)
 
-        val number: Int = PrefManager.getNumberBackups(activity)
+        val number: Int = PrefHelper.getNumberBackups(activity)
         numberBackups?.summary = number.toString()
 
         // Other
-        val range: Int = PrefManager.getRetentionRange(activity)
+        val range: Int = PrefHelper.getRetentionRange(activity)
         retention?.summary = activity.getString(R.string.number_of_days_summary, range)
     }
 
@@ -326,7 +326,7 @@ class SettingsFragment :
                 if (data != null && data.path != null) {
                     if (data.path!!.contains("primary")) {
                         val backupPath: String = BackupPath.findFullPath(data.path!!)
-                        PrefManager.setBackupPath(activity, backupPath)
+                        PrefHelper.setBackupPath(activity, backupPath)
                     } else {
                         activity.showSnackbar(SnackbarControl.MSG_LOCAL_STORAGE)
                     }

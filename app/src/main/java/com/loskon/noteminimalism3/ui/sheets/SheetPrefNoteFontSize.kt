@@ -8,7 +8,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setSliderColor
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setTextSizeShort
 
@@ -36,7 +36,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
     }
 
     private fun setupColorViews() {
-        val color = PrefManager.getAppColor(context)
+        val color = PrefHelper.getAppColor(context)
         slider.setSliderColor(color)
     }
 
@@ -46,7 +46,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
     }
 
     private fun setStateChecked() {
-        fontSizeNote = PrefManager.getNoteFontSize(context)
+        fontSizeNote = PrefHelper.getNoteFontSize(context)
         slider.value = fontSizeNote.toFloat()
         setTextSize()
     }
@@ -74,7 +74,7 @@ class SheetPrefNoteFontSize(private val context: Context) {
     }
 
     private fun saveResult() {
-        PrefManager.setNoteFontSize(context, fontSizeNote)
+        PrefHelper.setNoteFontSize(context, fontSizeNote)
     }
 
     fun show() {

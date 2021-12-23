@@ -16,7 +16,7 @@ import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.SheetBackupNameDateBase
 import com.loskon.noteminimalism3.ui.sheets.SheetCloudConfirm
@@ -84,7 +84,7 @@ class BackupFragment : Fragment(),
     }
 
     private fun establishColorViews() {
-        val color = PrefManager.getAppColor(activity)
+        val color = PrefHelper.getAppColor(activity)
         btnBackupSD.setBackgroundColor(color)
         btnRestoreSD.setBackgroundColor(color)
         btnBackupCloud.setBackgroundColor(color)

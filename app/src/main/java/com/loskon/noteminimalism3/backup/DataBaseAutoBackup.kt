@@ -4,7 +4,7 @@ import android.content.Context
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.files.CheckCreatedFile
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.toast.ToastControl
 import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
@@ -62,7 +62,7 @@ class DataBaseAutoBackup {
         }
 
         private fun showToastNotification(context: Context, isShowToast: Boolean) {
-            val hasNotification: Boolean = PrefManager.hasNotificationAutoBackup(context)
+            val hasNotification: Boolean = PrefHelper.hasNotificationAutoBackup(context)
 
             if (hasNotification) {
                 showToast(context, ToastControl.MSG_TOAST_AUTO_BACKUP_COMPLETED, isShowToast)

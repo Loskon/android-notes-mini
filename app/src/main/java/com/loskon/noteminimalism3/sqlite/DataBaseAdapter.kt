@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -106,7 +106,7 @@ class DataBaseAdapter(context: Context) {
 
 
     fun deleteByTime(context: Context) {
-        val rangeInDays: Int = PrefManager.getRetentionRange(context)
+        val rangeInDays: Int = PrefHelper.getRetentionRange(context)
         // Перевод дня в Unix-time для корректного сложения и сравнения
         val range: Long = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
         database.delete(NoteTable.NAME_TABLE, getDelWhereClause(range), null)

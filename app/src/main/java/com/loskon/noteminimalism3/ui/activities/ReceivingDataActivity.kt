@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteReceivingData
 import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
@@ -64,7 +64,7 @@ class ReceivingDataActivity :
     }
 
     private fun establishColorViews() {
-        color = PrefManager.getAppColor(this)
+        color = PrefHelper.getAppColor(this)
         bottomBar.setNavigationIconColor(color)
         fab.setFabColor(color)
     }
@@ -78,11 +78,11 @@ class ReceivingDataActivity :
     private fun configureListAdapter() {
         adapterSelected.setViewColor(color)
 
-        val titleFontSize: Int = PrefManager.getTitleFontSize(this)
-        val dateFontSize: Int = PrefManager.getDateFontSize(this)
+        val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
+        val dateFontSize: Int = PrefHelper.getDateFontSize(this)
         adapterSelected.setFontSizes(titleFontSize, dateFontSize)
 
-        val numberLines: Int = PrefManager.getNumberLines(this)
+        val numberLines: Int = PrefHelper.getNumberLines(this)
         adapterSelected.setNumberLines(numberLines)
     }
 
@@ -93,7 +93,7 @@ class ReceivingDataActivity :
 
     private val notes: List<Note>
         get() {
-            val sortingWay: Int = PrefManager.getSortingWay(this)
+            val sortingWay: Int = PrefHelper.getSortingWay(this)
             return commandCenter.getNotes(null, notesCategory, sortingWay)
         }
 

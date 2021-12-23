@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.utils.getShortInt
  * Менеджер для работы с SharedPreferences
  */
 
-class PrefManager {
+class PrefHelper {
     companion object {
 
         private const val PREF_KEY_STATE_LINEAR_LIST = "key_type_notes"

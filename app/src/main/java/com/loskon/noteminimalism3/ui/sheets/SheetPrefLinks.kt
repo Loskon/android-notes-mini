@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.CheckBox
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setStrokeCheckBoxColor
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 
 /**
  * Состояние активности ссылок в заметках
@@ -35,16 +35,16 @@ class SheetPrefLinks(private val context: Context) : View.OnClickListener {
     }
 
     private fun establishColorViews() {
-        val color = PrefManager.getAppColor(context)
+        val color = PrefHelper.getAppColor(context)
         checkBoxWeb.setStrokeCheckBoxColor(color)
         checkBoxMail.setStrokeCheckBoxColor(color)
         checkBoxPhone.setStrokeCheckBoxColor(color)
     }
 
     private fun configureStateChecked() {
-        checkBoxWeb.isChecked = PrefManager.isWeb(context)
-        checkBoxMail.isChecked = PrefManager.isMail(context)
-        checkBoxPhone.isChecked = PrefManager.isPhone(context)
+        checkBoxWeb.isChecked = PrefHelper.isWeb(context)
+        checkBoxMail.isChecked = PrefHelper.isMail(context)
+        checkBoxPhone.isChecked = PrefHelper.isPhone(context)
     }
 
     private fun installHandlers() {
@@ -56,15 +56,15 @@ class SheetPrefLinks(private val context: Context) : View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.check_box_web -> {
-                PrefManager.setResultWeb(context, checkBoxWeb.isChecked)
+                PrefHelper.setResultWeb(context, checkBoxWeb.isChecked)
             }
 
             R.id.check_box_mail -> {
-                PrefManager.setResultMail(context, checkBoxMail.isChecked)
+                PrefHelper.setResultMail(context, checkBoxMail.isChecked)
             }
 
             R.id.check_box_phone -> {
-                PrefManager.setResultPhone(context, checkBoxPhone.isChecked)
+                PrefHelper.setResultPhone(context, checkBoxPhone.isChecked)
             }
         }
     }

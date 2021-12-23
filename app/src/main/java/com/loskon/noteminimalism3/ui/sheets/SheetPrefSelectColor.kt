@@ -7,7 +7,7 @@ import com.google.android.material.button.MaterialButton
 import com.larswerkman.holocolorpicker.ColorPicker
 import com.larswerkman.holocolorpicker.SVBar
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -39,7 +39,7 @@ class SheetPrefSelectColor(private val context: Context) {
     }
 
     private fun establishColorViews() {
-        val color: Int = PrefManager.getAppColor(context)
+        val color: Int = PrefHelper.getAppColor(context)
         colorPicker.color = color
     }
 
@@ -55,13 +55,13 @@ class SheetPrefSelectColor(private val context: Context) {
             }
 
         btnOk.setOnSingleClickListener {
-            PrefManager.setAppColor(context, color)
+            PrefHelper.setAppColor(context, color)
             callingCallbacks()
             dialog.dismiss()
         }
 
         btnReset.setOnSingleClickListener {
-            colorPicker.color = PrefManager.getAppColor(context)
+            colorPicker.color = PrefHelper.getAppColor(context)
         }
     }
 

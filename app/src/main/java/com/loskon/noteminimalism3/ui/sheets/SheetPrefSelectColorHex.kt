@@ -7,7 +7,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 
@@ -39,7 +39,7 @@ class SheetPrefSelectColorHex(private val context: Context) {
     }
 
     private fun establishColorViews() {
-        color = PrefManager.getAppColor(context)
+        color = PrefHelper.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }
 
@@ -49,7 +49,7 @@ class SheetPrefSelectColorHex(private val context: Context) {
     }
 
     private fun setHexString() {
-        inputEditText.setText(convertIntInHex(PrefManager.getAppColor(context)))
+        inputEditText.setText(convertIntInHex(PrefHelper.getAppColor(context)))
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 
@@ -71,11 +71,11 @@ class SheetPrefSelectColorHex(private val context: Context) {
 
         btnReset.setOnSingleClickListener {
             setHexString()
-            inputLayout.boxStrokeColor = PrefManager.getAppColor(context)
+            inputLayout.boxStrokeColor = PrefHelper.getAppColor(context)
         }
 
         dialog.buttonOk.setOnSingleClickListener {
-            PrefManager.setAppColor(context, color)
+            PrefHelper.setAppColor(context, color)
             callingCallbacks()
             dialog.dismiss()
         }

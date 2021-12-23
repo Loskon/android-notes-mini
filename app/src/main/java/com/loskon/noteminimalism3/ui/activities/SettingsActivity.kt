@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.FontManager
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
@@ -47,7 +47,7 @@ class SettingsActivity : BaseActivities(),
     }
 
     private fun establishColorViews() {
-        val color = PrefManager.getAppColor(this)
+        val color = PrefHelper.getAppColor(this)
         bottomAppBar.setNavigationIconColor(color)
         bottomAppBar.menu.setMenuIconsColor(color)
     }

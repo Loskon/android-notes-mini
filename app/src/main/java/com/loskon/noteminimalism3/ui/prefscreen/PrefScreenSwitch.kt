@@ -7,7 +7,7 @@ import androidx.preference.PreferenceViewHolder
 import androidx.preference.SwitchPreference
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.ValueUtil
 
 /**
@@ -46,14 +46,14 @@ class PrefScreenSwitch @JvmOverloads constructor(
 
     private fun establishColorSwitch() {
         color = if (isEnabled) {
-            PrefManager.getAppColor(context)
+            PrefHelper.getAppColor(context)
         } else {
             Color.GRAY
         }
     }
 
     private fun toggleSwitchPosition() {
-        val isChecked: Boolean = PrefManager.load(context, key, false)
+        val isChecked: Boolean = PrefHelper.load(context, key, false)
 
         val position: Int = if (isChecked) {
             1

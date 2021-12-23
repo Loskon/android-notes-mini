@@ -27,7 +27,7 @@ import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.NoteAssistant
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinksNew
@@ -81,7 +81,7 @@ class NoteFragment : Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as NoteActivity
-        isBottomWidgetShow = PrefManager.isBottomWidgetShow(activity)
+        isBottomWidgetShow = PrefHelper.isBottomWidgetShow(activity)
         ResultAccessStorage.installingVerification(activity, this)
         overrideBackPressed()
     }
@@ -378,7 +378,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun performAutoBackup() {
-        val isAutoBackup: Boolean = PrefManager.hasAutoBackup(activity)
+        val isAutoBackup: Boolean = PrefHelper.hasAutoBackup(activity)
 
         if (isAutoBackup && isNewNote && noteId % 3 == 0L) {
             DataBaseAutoBackup.createBackupFile(activity, backupDate, isShowBackupToast)

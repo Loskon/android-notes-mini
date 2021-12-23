@@ -5,7 +5,7 @@ import android.view.View
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setStrokeBtnColor
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 
 /**
@@ -38,7 +38,7 @@ class SheetDeleteGoogleAccount(
     }
 
     private fun establishColorViews() {
-        val color = PrefManager.getAppColor(context)
+        val color = PrefHelper.getAppColor(context)
         btnNo.setBackgroundColor(color)
         btnYes.setStrokeBtnColor(color)
         btnYes.setTextColor(color)

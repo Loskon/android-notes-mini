@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceViewHolder
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 
 /**
  * PreferenceCategory с измененным цветом и шрифтом
@@ -23,7 +23,7 @@ class PrefScreenCategory @JvmOverloads constructor(
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
         val title: TextView = holder.findViewById(android.R.id.title) as TextView
-        title.setTextColor(PrefManager.getAppColor(context))
+        title.setTextColor(PrefHelper.getAppColor(context))
         title.typeface = Typeface.DEFAULT_BOLD
     }
 }

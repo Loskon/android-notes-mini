@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
@@ -45,8 +45,8 @@ class NoteActivity : BaseActivities() {
     }
 
     private fun otherConfigurations() {
-        color = PrefManager.getAppColor(this)
-        noteFontSize = PrefManager.getNoteFontSize(this)
+        color = PrefHelper.getAppColor(this)
+        noteFontSize = PrefHelper.getNoteFontSize(this)
     }
 
     private fun setStatusFavorite() {

@@ -11,7 +11,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.DialogBackground
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setLayoutParams
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
@@ -59,7 +59,7 @@ class BaseMaterialDialogs(private val context: Context) {
     }
 
     private fun establishColorViews() {
-        val color: Int = PrefManager.getAppColor(context)
+        val color: Int = PrefHelper.getAppColor(context)
         btnOk.setBackgroundColor(color)
         btnCancel.setTextColor(color)
     }

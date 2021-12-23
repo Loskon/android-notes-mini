@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 
 /**
  * Preference с imageView
@@ -25,6 +25,6 @@ class PrefScreenColor @JvmOverloads constructor(
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
         val imageView = holder.findViewById(R.id.image_view_color) as ImageView
-        imageView.setColorFilter(PrefManager.getAppColor(context))
+        imageView.setColorFilter(PrefHelper.getAppColor(context))
     }
 }

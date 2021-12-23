@@ -6,7 +6,7 @@ import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupFilesLimiter
 import com.loskon.noteminimalism3.managers.setSliderColor
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -32,13 +32,13 @@ class SheetPrefSliderNumberBackups(private val context: Context) {
     }
 
     private fun establishColorViews() {
-        val color = PrefManager.getAppColor(context)
+        val color = PrefHelper.getAppColor(context)
         slider.setSliderColor(color)
     }
 
     private fun configViews() {
         val prefKey: String = context.getString(R.string.number_of_backup_key)
-        val value: Int = PrefManager.getNumberBackups(context)
+        val value: Int = PrefHelper.getNumberBackups(context)
 
         slider.value = value.toFloat()
 
@@ -48,7 +48,7 @@ class SheetPrefSliderNumberBackups(private val context: Context) {
     private fun installHandlers(prefKey: String) {
         dialog.buttonOk.setOnSingleClickListener {
             val sliderValue: Int = slider.value.toInt()
-            PrefManager.save(context, prefKey, sliderValue)
+            PrefHelper.save(context, prefKey, sliderValue)
 
             BackupFilesLimiter.deleteExtraFiles(context)
 

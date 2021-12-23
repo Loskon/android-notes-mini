@@ -7,7 +7,7 @@ import androidx.preference.PreferenceViewHolder
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setSliderColor
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 
 /**
  * Preference со слайдером
@@ -33,15 +33,15 @@ class PrefScreenNumberLines @JvmOverloads constructor(
             val prefKey: String = getString(R.string.number_of_lines_key)
             val slider: Slider = holder.findViewById(R.id.slider_number_of_lines) as Slider
 
-            val color: Int = PrefManager.getAppColor(this)
+            val color: Int = PrefHelper.getAppColor(this)
             slider.setSliderColor(color)
 
-            val numberLines: Int = PrefManager.getNumberLines(this)
+            val numberLines: Int = PrefHelper.getNumberLines(this)
             slider.value = numberLines.toFloat()
 
             slider.addOnChangeListener(Slider.OnChangeListener { _, value: Float, _ ->
                 val number: Int = value.toInt()
-                PrefManager.save(this, prefKey, number)
+                PrefHelper.save(this, prefKey, number)
                 callback?.onChangeNumberLines(number)
             })
         }

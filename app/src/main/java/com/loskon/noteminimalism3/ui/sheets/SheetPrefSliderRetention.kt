@@ -6,7 +6,7 @@ import android.widget.Button
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setSliderColor
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -33,13 +33,13 @@ class SheetPrefSliderRetention(private val context: Context) {
     }
 
     private fun establishColorViews() {
-        val color = PrefManager.getAppColor(context)
+        val color = PrefHelper.getAppColor(context)
         slider.setSliderColor(color)
     }
 
     private fun configViews() {
         val preKey: String = context.getString(R.string.retention_trash_key)
-        val value: Int = PrefManager.getRetentionRange(context)
+        val value: Int = PrefHelper.getRetentionRange(context)
 
         slider.value = value.toFloat()
 
@@ -49,7 +49,7 @@ class SheetPrefSliderRetention(private val context: Context) {
     private fun installHandlers(prefKey: String) {
         btnOk.setOnSingleClickListener {
             val sliderValue: Int = slider.value.toInt()
-            PrefManager.save(context, prefKey, sliderValue)
+            PrefHelper.save(context, prefKey, sliderValue)
 
             callback?.onChangeRetention(sliderValue)
             sheetDialog.dismiss()

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.Preference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.getShortColor
 
 /**
@@ -20,7 +20,7 @@ class PrefScreenResetColor @JvmOverloads constructor(
     override fun onClick() {
         super.onClick()
         val color: Int = context.getShortColor(R.color.material_blue)
-        PrefManager.setAppColor(context, color)
+        PrefHelper.setAppColor(context, color)
         callbackColorNavIcon?.onChangeColor(color)
         callbackColorNotifyData?.onChangeColor()
         callbackColorList?.onChangeColor(color)

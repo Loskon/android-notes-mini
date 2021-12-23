@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefManager
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setLayoutParams
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
@@ -43,7 +43,7 @@ class BaseSheetDialogs(private val sheetContext: Context) :
     }
 
     private fun establishColorViews() {
-        val color: Int = PrefManager.getAppColor(sheetContext)
+        val color: Int = PrefHelper.getAppColor(sheetContext)
         btnOk.setBackgroundColor(color)
         btnCancel.setTextColor(color)
     }

@@ -1,6 +1,6 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="Theme.Noteminimalism3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="@style/BaseAppTheme">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -9,247 +9,25 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color -->
-        <item name="android:statusBarColor">@color/black</item>
-        <!-- Navigation bar color -->
-        <item name="android:navigationBarColor">@color/black</item>
 
         <!-- Customize your theme here. -->
-        <item name="android:overScrollMode">never</item>
+        <!-- Window background color.-->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:colorBackground">@android:color/white</item>
 
-        <!-- My custom colors for items -->
-        <item name="colorTitle">@color/black</item>
-        <item name="colorDate">@color/dark_gray</item>
-        <item name="colorAppBar">@color/white</item>
-        <item name="colorFabIcon">@color/white</item>
+        <!-- Customize colors of items. -->
+        <item name="colorPrimaryText">@android:color/black</item>
+        <item name="colorSecondText">@color/little_darker_gray</item>
+        <item name="colorBottomBar">@android:color/white</item>
+        <item name="colorFabIcon">@android:color/white</item>
         <item name="colorCardView">@color/white</item>
-        <item name="colorBottomSheet">@color/white</item>
-        <item name="colorBorderStroke">@color/black</item>
-        <item name="colorTitleReverse">@color/white</item>
         <item name="colorSnackbar">@color/dark_slate_gray_light</item>
-        <item name="colorOkDialog">@color/white</item>
-        <item name="colorShadow">@android:color/darker_gray</item>
-        <item name="colorButtonIcon">@android:color/white</item>
+        <item name="colorButtonOk">@android:color/white</item>
+        <item name="colorShadowImitation">@android:color/darker_gray</item>
         <item name="colorSwitchBackground">@android:color/white</item>
         <item name="colorDialogBackground">@android:color/white</item>
-        <item name="colorDeleteIconRestore">@android:color/holo_red_dark</item>
-        <item name="colorBackgroundSearchView">@color/black_super_light</item>
-        <item name="colorWindowBackground">@color/white</item>
-
-        <!-- Window background -->
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:colorBackground">@color/white</item>
-
-        <!-- Cursor EditText color -->
-        <item name="colorControlActivated">@android:color/darker_gray</item>
-        <!-- EditText highlight color -->
-        <item name="android:textColorHighlight">#80A9A9A9</item>
-
-        <!-- Disable Multi-touch -->
-        <item name="android:windowEnableSplitTouch">false</item>
-        <item name="android:splitMotionEvents">false</item>
-
-        <!-- Snackbar -->
-        <item name="snackbarStyle">@style/MaterialSnackbarTheme</item>
-
-        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
-    </style>
-
-    <!-- Snackbar -->
-    <style name="MaterialSnackbarTheme" parent="@style/Widget.MaterialComponents.Snackbar">
-        <item name="android:background">@drawable/snackbar_background</item>
-        <!--        <item name="cornerRadius">@dimen/mtrl_snackbar_background_corner_radius</item>
-                <item name="android:layout_margin">@dimen/mtrl_snackbar_margin</item>
-                <item name="actionTextColorAlpha">@dimen/mtrl_snackbar_action_text_color_alpha</item>-->
-    </style>
-
-    <!-- Animations between activities -->
-    <style name="ActivityAnimation" parent="@android:style/Animation.Activity">
-        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
-        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
-        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
-        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
-    </style>
-
-    <!-- MaterialAlertDialog -->
-    <style name="DialogBackground" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="shapeAppearanceOverlay">
-            @style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded
-        </item>
-        <item name="android:background">?attr/colorDialogBackground</item>
-        <item name="android:backgroundTint">?attr/colorDialogBackground</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">
-        <item name="cornerSize">6dp</item>
-    </style>
-
-
-    <!-- TextInputLayout -->
-    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlActivated">@android:color/darker_gray</item>
-        <item name="colorOnSurface">@android:color/darker_gray</item>
-    </style>
-
-
-    <!-- Style -->
-    <!-- set the rounded drawable as background to your bottom sheet -->
-    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/transparent</item>
-    </style>
-
-    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheet</item>
-    </style>
-
-    <!-- AuthenticationTheme -->
-    <style name="AuthenticationTheme" parent="FirebaseUI">
-        <item name="colorPrimary">@android:color/darker_gray</item>
-        <item name="colorPrimaryDark">@android:color/darker_gray</item>
-    </style>
-
-    <!-- BottomSheetFragment -->
-    <style name="BottomSheetFragment" parent="BaseBottomSheetDialog">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
-    </style>
-
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/sheet_round_corner</item>
-    </style>
-
-    <!-- BottomSheetDialog -->
-    <style name="SheetDialogRounded" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/black</item>
-    </style>
-
-    <!-- BottomSheetStatusBar -->
-    <style name="BottomSheetStatusBar" parent="BaseBottomSheet">
-        <item name="android:statusBarColor">@android:color/transparent</item>
-    </style>
-
-    <style name="BaseBottomSheet" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="bottomSheetStyle">@style/BottomSheetBackground</item>
-    </style>
-
-    <style name="BottomSheetBackground" parent="@style/Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/transparent</item>
-    </style>
-
-    <!-- ButtonIcon -->
-    <style name="ButtonIcon" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
-        <item name="cornerRadius">4dp</item>
-        <item name="iconGravity">textStart</item>
-        <item name="iconPadding">-6dp</item>
-        <item name="strokeColor">@android:color/transparent</item>
-        <item name="rippleColor">?attr/colorControlHighlight</item>
-    </style>
-
-    <!-- ButtonFlat -->
-    <style name="ButtonFlat" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:letterSpacing">0</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">?attr/colorTitle</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:layout_height">@dimen/height_item</item>
-        <item name="cornerRadius">0dp</item>
-        <item name="rippleColor">?attr/colorControlHighlight</item>
-    </style>
-
-    <!-- ButtonSnack -->
-    <style name="ButtonSnack" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:fontFamily">@font/roboto_light</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="strokeColor">@android:color/darker_gray</item>
-        <item name="rippleColor">?attr/colorControlHighlight</item>
-    </style>
-
-    <!-- TextViewSnack -->
-    <style name="TextViewSnack" parent="Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@font/roboto_light</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:maxLines">@integer/design_snackbar_text_max_lines</item>
-        <item name="android:paddingLeft">@dimen/design_snackbar_padding_horizontal</item>
-        <item name="android:paddingTop">@dimen/design_snackbar_padding_vertical</item>
-        <item name="android:paddingRight">@dimen/design_snackbar_padding_horizontal</item>
-        <item name="android:paddingBottom">@dimen/design_snackbar_padding_vertical</item>
-        <item name="android:textAlignment">viewStart</item>
-        <item name="android:textAppearance">@style/TextAppearance.Design.Snackbar.Message</item>
-    </style>
-
-
-    <!-- Fonts -->
-    <style name="RobotoLightFont">
-        <item name="android:fontFamily">@font/roboto_light</item>
-    </style>
-
-    <style name="LatoLightFont">
-        <item name="android:fontFamily">@font/lato_light</item>
-    </style>
-
-    <style name="OpenSansLightFont">
-        <item name="android:fontFamily">@font/open_sans_light</item>
-    </style>
-
-    <style name="OswaldLightFont">
-        <item name="android:fontFamily">@font/oswald_light</item>
-    </style>
-
-    <style name="SourceSansProLightFont">
-        <item name="android:fontFamily">@font/source_sans_pro_light</item>
-    </style>
-
-    <style name="MontserratLightFont">
-        <item name="android:fontFamily">@font/montserrat_light</item>
-    </style>
-
-    <style name="RobotoCondensedLightFont">
-        <item name="android:fontFamily">@font/roboto_condensed_light</item>
-    </style>
-
-    <style name="PoppinsLightFont">
-        <item name="android:fontFamily">@font/poppins_light</item>
-    </style>
-
-    <style name="UbuntuLightFont">
-        <item name="android:fontFamily">@font/ubuntu_light</item>
-    </style>
-
-    <style name="DosisLightFont">
-        <item name="android:fontFamily">@font/dosis_light</item>
-    </style>
-
-    <style name="TitilliumWebLightFont">
-        <item name="android:fontFamily">@font/titillium_web_light</item>
-    </style>
-
-    <style name="IBMPlexSerifLightFont">
-        <item name="android:fontFamily">@font/ibm_plex_serif_light</item>
-    </style>
-
-    <style name="KarlaLightFont">
-        <item name="android:fontFamily">@font/karla_light</item>
-    </style>
-
-    <style name="MarmeladRegularFont">
-        <item name="android:fontFamily">@font/marmelad_regular</item>
-    </style>
-
-    <style name="NunitoLightFont">
-        <item name="android:fontFamily">@font/nunito_light</item>
-    </style>
-
-    <style name="AliceRegularFont">
-        <item name="android:fontFamily">@font/alice_regular</item>
+        <item name="colorWarning">@android:color/holo_red_dark</item>
+        <item name="colorSearchViewBackground">@color/black_super_light</item>
+        <item name="colorWindowBackground">@android:color/white</item>
     </style>
 </resources>

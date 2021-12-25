@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="BaseAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/black</item>
+        <!-- Navigation bar color. -->
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <!-- EditText cursor and selection color -->
+        <item name="colorControlActivated">@android:color/darker_gray</item>
+        <item name="android:textColorHighlight">@color/light_dark_gray</item>
+        <!-- Disable Multi-touch -->
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+        <!-- Disable overScrollMode.  -->
+        <item name="android:overScrollMode">never</item>
+        <!-- Snackbar style -->
+        <item name="snackbarStyle">@style/Style.MaterialSnackbar</item>
+        <!-- Change window animation style -->
+        <item name="android:windowAnimationStyle">@style/Style.ActivityAnimation</item>
+    </style>
+
+    <!-- Snackbar background style -->
+    <style name="Style.MaterialSnackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:background">@drawable/snackbar_background</item>
+    </style>
+
+    <!-- Animations between activities -->
+    <style name="Style.ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+    </style>
+
+    <!-- Dialog -->
+    <style name="DialogBackground" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="cornerSize">@dimen/dialog_corner_radius</item>
+        <item name="android:background">?attr/colorDialogBackground</item>
+        <item name="android:backgroundTint">?attr/colorDialogBackground</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <!-- SheetDialog -->
+    <style name="SheetDialogRounded" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Style.AppModal</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/black</item>
+    </style>
+
+    <style name="Style.AppModal" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/sheet_round_corner</item>
+    </style>
+
+    <!-- SheetDialogStatusBar -->
+    <style name="SheetDialogStatusBar" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Style.DefaultBackground</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Style.DefaultBackground" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- TextInputLayout -->
+    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlActivated">@android:color/darker_gray</item>
+        <item name="colorOnSurface">@android:color/darker_gray</item>
+    </style>
+
+    <!-- AuthenticationTheme -->
+    <style name="Authentication" parent="FirebaseUI">
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="colorPrimaryDark">@android:color/darker_gray</item>
+    </style>
+
+    <!-- ButtonIcon -->
+    <style name="ButtonIconStyle" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="cornerRadius">4dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">-6dp</item>
+        <item name="strokeColor">@android:color/transparent</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+    </style>
+
+    <!-- ButtonFlat -->
+    <style name="ButtonFlatStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">?attr/colorPrimaryText</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_height">@dimen/height_item</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+    </style>
+
+    <!-- ButtonSnack -->
+    <style name="ButtonSnackStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="strokeColor">@android:color/darker_gray</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+    </style>
+
+    <!-- TextViewSnack -->
+    <style name="TextViewSnackStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:maxLines">@integer/design_snackbar_text_max_lines</item>
+        <item name="android:paddingLeft">@dimen/design_snackbar_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/design_snackbar_padding_vertical</item>
+        <item name="android:paddingRight">@dimen/design_snackbar_padding_horizontal</item>
+        <item name="android:paddingBottom">@dimen/design_snackbar_padding_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textAppearance">@style/TextAppearance.Design.Snackbar.Message</item>
+    </style>
+
+    <!-- Fonts -->
+    <style name="RobotoLightFont">
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="LatoLightFont">
+        <item name="android:fontFamily">@font/lato_light</item>
+    </style>
+
+    <style name="OpenSansLightFont">
+        <item name="android:fontFamily">@font/open_sans_light</item>
+    </style>
+
+    <style name="OswaldLightFont">
+        <item name="android:fontFamily">@font/oswald_light</item>
+    </style>
+
+    <style name="SourceSansProLightFont">
+        <item name="android:fontFamily">@font/source_sans_pro_light</item>
+    </style>
+
+    <style name="MontserratLightFont">
+        <item name="android:fontFamily">@font/montserrat_light</item>
+    </style>
+
+    <style name="RobotoCondensedLightFont">
+        <item name="android:fontFamily">@font/roboto_condensed_light</item>
+    </style>
+
+    <style name="PoppinsLightFont">
+        <item name="android:fontFamily">@font/poppins_light</item>
+    </style>
+
+    <style name="UbuntuLightFont">
+        <item name="android:fontFamily">@font/ubuntu_light</item>
+    </style>
+
+    <style name="DosisLightFont">
+        <item name="android:fontFamily">@font/dosis_light</item>
+    </style>
+
+    <style name="TitilliumWebLightFont">
+        <item name="android:fontFamily">@font/titillium_web_light</item>
+    </style>
+
+    <style name="IBMPlexSerifLightFont">
+        <item name="android:fontFamily">@font/ibm_plex_serif_light</item>
+    </style>
+
+    <style name="KarlaLightFont">
+        <item name="android:fontFamily">@font/karla_light</item>
+    </style>
+
+    <style name="MarmeladRegularFont">
+        <item name="android:fontFamily">@font/marmelad_regular</item>
+    </style>
+
+    <style name="NunitoLightFont">
+        <item name="android:fontFamily">@font/nunito_light</item>
+    </style>
+
+    <style name="AliceRegularFont">
+        <item name="android:fontFamily">@font/alice_regular</item>
+    </style>
+</resources>

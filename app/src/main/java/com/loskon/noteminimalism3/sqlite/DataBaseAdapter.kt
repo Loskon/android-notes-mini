@@ -11,7 +11,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
- * Работа с базой данных
+ * Синглтон БД
  */
 
 class DataBaseAdapter(context: Context) {
@@ -83,12 +83,12 @@ class DataBaseAdapter(context: Context) {
     }
 
     fun insert(note: Note) {
-        val values = getContentValues(note)
+        val values: ContentValues = getContentValues(note)
         database.insert(NoteTable.NAME_TABLE, null, values)
     }
 
     fun insertGetId(note: Note): Long {
-        val values = getContentValues(note)
+        val values: ContentValues = getContentValues(note)
         return database.insert(NoteTable.NAME_TABLE, null, values)
     }
 
@@ -104,7 +104,6 @@ class DataBaseAdapter(context: Context) {
         database.delete(NoteTable.NAME_TABLE, null, null)
     }
 
-
     fun deleteByTime(context: Context) {
         val rangeInDays: Int = PrefHelper.getRetentionRange(context)
         // Перевод дня в Unix-time для корректного сложения и сравнения
@@ -118,7 +117,7 @@ class DataBaseAdapter(context: Context) {
     }
 
     fun update(note: Note) {
-        val values = getContentValues(note)
+        val values: ContentValues = getContentValues(note)
         database.update(NoteTable.NAME_TABLE, values, NoteTable.COLUMN_ID + " = " + note.id, null)
     }
 
@@ -142,12 +141,12 @@ class DataBaseAdapter(context: Context) {
             }
         }
 
-        fun getDateBase(): DataBaseAdapter {
-            return INSTANCE ?: throw Exception("Database must be initialized")
-        }
-
         fun deleteNotesByTime(context: Context) {
             INSTANCE?.deleteByTime(context)
+        }
+
+        fun getDateBase(): DataBaseAdapter {
+            return INSTANCE ?: throw Exception("Database must be initialized")
         }
 
         const val CATEGORY_ALL_NOTES = "category_all_notes"

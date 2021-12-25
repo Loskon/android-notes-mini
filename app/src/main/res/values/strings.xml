@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Activity -->
-    <!-- activity_list -->
+    <!-- activity_main -->
     <string name="hint_search_text">Search</string>
     <!-- activity_receiving_data -->
     <string name="select_note">Select note</string>

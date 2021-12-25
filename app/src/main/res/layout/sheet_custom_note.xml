@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorAppBar"
+    android:background="?attr/colorBottomBar"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
@@ -25,39 +25,39 @@
             android:paddingEnd="8dp"
             android:paddingBottom="2dp"
             android:text="TextView"
-            android:textColor="?attr/colorDate"
+            android:textColor="?attr/colorSecondText"
             tools:ignore="HardcodedText,TextContrastCheck" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sheet_paste"
-            style="@style/ButtonFlat"
+            style="@style/ButtonFlatStyle"
             android:layout_width="match_parent"
             android:text="@string/bs_paste_text" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sheet_copy_all_text"
-            style="@style/ButtonFlat"
+            style="@style/ButtonFlatStyle"
             android:layout_width="match_parent"
             android:text="@string/bs_copy_text" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sheet_share"
-            style="@style/ButtonFlat"
+            style="@style/ButtonFlatStyle"
             android:layout_width="match_parent"
             android:text="@string/bs_share" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sheet_save_txt"
-            style="@style/ButtonFlat"
+            style="@style/ButtonFlatStyle"
             android:layout_width="match_parent"
             android:text="@string/bs_download" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sheet_close"
-            style="@style/ButtonFlat"
+            style="@style/ButtonFlatStyle"
             android:layout_width="match_parent"
             android:text="@string/to_close"
-            android:textColor="?attr/colorDate"
+            android:textColor="?attr/colorSecondText"
             tools:ignore="TextContrastCheck" />
 
     </LinearLayout>

@@ -10,33 +10,33 @@
 
     <include
         layout="@layout/inc_list_notes"
-        app:layout_anchor="@+id/tv_empty_list"
+        app:layout_anchor="@+id/tv_empty_main"
         app:layout_anchorGravity="center" />
 
     <TextView
-        android:id="@+id/tv_empty_list"
+        android:id="@+id/tv_empty_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/height_for_bottom_app_bar"
+        android:layout_marginBottom="@dimen/height_bottom_bar"
         android:text="@string/empty_list"
-        android:textColor="?attr/colorDate"
+        android:textColor="?attr/colorSecondText"
         android:textSize="16sp"
         android:visibility="gone" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_bar_list"
+        android:id="@+id/bottom_bar_main"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_for_bottom_app_bar"
+        android:layout_height="@dimen/height_bottom_bar"
         android:layout_gravity="bottom"
-        android:backgroundTint="?attr/colorAppBar"
-        app:backgroundTint="?attr/colorAppBar"
+        android:backgroundTint="?attr/colorBottomBar"
+        app:backgroundTint="?attr/colorBottomBar"
         app:fabAlignmentMode="end"
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
         app:fabCradleRoundedCornerRadius="6dp"
-        app:menu="@menu/menu_bottom_bar_list"
+        app:menu="@menu/menu_bottom_bar_main"
         app:navigationIcon="@drawable/baseline_menu_black_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,8 +47,8 @@
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
         app:elevation="0dp"
-        app:layout_anchor="@id/bottom_bar_list"
-        app:tint="?attr/colorAppBar"
+        app:layout_anchor="@id/bottom_bar_main"
+        app:tint="?attr/colorBottomBar"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

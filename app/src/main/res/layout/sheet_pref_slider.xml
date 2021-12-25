@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:thumbRadius="@dimen/slider_thumb_radius"
+        app:thumbRadius="@dimen/thumb_radius_slider"
         app:tickVisible="false"
         tools:ignore="SpeakableTextPresentCheck">
 

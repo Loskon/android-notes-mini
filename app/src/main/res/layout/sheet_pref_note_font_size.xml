@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guide_line_bottom"
-        app:thumbRadius="@dimen/slider_thumb_radius"
+        app:thumbRadius="@dimen/thumb_radius_slider"
         app:tickVisible="false"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/sheet_font_size_reset"
-        android:textColor="?attr/colorDeleteIconRestore"
+        android:textColor="?attr/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slider_sheet_font_size"

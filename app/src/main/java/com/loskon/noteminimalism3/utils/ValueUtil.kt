@@ -12,11 +12,11 @@ class ValueUtil {
     companion object {
 
         fun getRadiusLinLay(context: Context): Int {
-            return context.resources.getDimension(R.dimen.corner_radius).toInt()
+            return context.resources.getDimension(R.dimen.corner_radius_lin_layout).toInt()
         }
 
         fun getStrokeLinLay(context: Context): Int {
-            return context.resources.getDimension(R.dimen.border_stroke).toInt()
+            return context.resources.getDimension(R.dimen.border_stroke_lin_layout).toInt()
         }
 
         fun getBorderWidgetSwitch(context: Context): Int {

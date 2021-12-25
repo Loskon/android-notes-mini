@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:theme="@style/TextInputLayoutAppearance"
+        android:theme="@style/TextInputLayoutStyle"
         app:counterEnabled="false"
         app:endIconMode="clear_text"
         app:hintAnimationEnabled="false"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:prefixText="#"
-        app:prefixTextColor="?attr/colorTitle">
+        app:prefixTextColor="?attr/colorPrimaryText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_edit_text_hex"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/sheet_font_size_reset"
-        android:textColor="?attr/colorDeleteIconRestore"
+        android:textColor="?attr/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_layout_hex"

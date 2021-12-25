@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/height_for_bottom_app_bar"
+        android:layout_marginBottom="@dimen/height_bottom_bar"
         android:gravity="center"
         android:text="@string/empty_list"
-        android:textColor="?attr/colorDate"
+        android:textColor="?attr/colorSecondText"
         android:textSize="16sp"
         tools:ignore="TextContrastCheck" />
 
@@ -25,10 +25,10 @@
         android:id="@+id/btmAppBarReceivingData"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_for_bottom_app_bar"
+        android:layout_height="@dimen/height_bottom_bar"
         android:layout_gravity="bottom"
-        android:backgroundTint="?attr/colorAppBar"
-        app:backgroundTint="?attr/colorAppBar"
+        android:backgroundTint="?attr/colorBottomBar"
+        app:backgroundTint="?attr/colorBottomBar"
         app:fabAlignmentMode="end"
         app:fabAnimationMode="scale"
         app:fabCradleMargin="4dp"
@@ -44,7 +44,7 @@
         android:src="@drawable/baseline_add_black_24"
         app:elevation="0dp"
         app:layout_anchor="@id/btmAppBarReceivingData"
-        app:tint="?attr/colorAppBar"
+        app:tint="?attr/colorBottomBar"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

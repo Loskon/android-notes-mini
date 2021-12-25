@@ -70,7 +70,7 @@ class DataBaseCloudBackup(
         val signInIntent: Intent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            .setTheme(R.style.AuthenticationTheme)
+            .setTheme(R.style.Authentication)
             .build()
 
         ResultGoogle.launcher(signInIntent)

@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_navigate_next_black_24"
-        app:tint="?attr/colorAppBar"
+        app:tint="?attr/colorBottomBar"
         tools:ignore="ContentDescription,ImageContrastCheck,ImageContrastCheck,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

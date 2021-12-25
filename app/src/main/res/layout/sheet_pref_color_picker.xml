@@ -26,12 +26,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_color_picker_reset"
-        style="@style/ButtonIcon"
+        style="@style/ButtonIconStyle"
         android:layout_width="50dp"
         android:layout_height="44dp"
         android:layout_margin="8dp"
         app:icon="@drawable/baseline_refresh_black_24"
-        app:iconTint="?attr/colorDeleteIconRestore"
+        app:iconTint="?attr/colorWarning"
         app:layout_constraintBottom_toBottomOf="@+id/color_picker"
         app:layout_constraintEnd_toEndOf="@+id/color_picker"
         app:rippleColor="?attr/colorControlHighlight"

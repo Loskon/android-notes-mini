@@ -36,7 +36,7 @@
             app:fontFamily="@font/roboto_light"
             app:selectedTextColor="@color/white"
             app:text="@string/off"
-            app:textColor="?attr/colorTitle"
+            app:textColor="?attr/colorPrimaryText"
             app:textSize="10sp"
             tools:ignore="SmallSp,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -50,7 +50,7 @@
             app:fontFamily="@font/roboto_light"
             app:selectedTextColor="@color/white"
             app:text="@string/on"
-            app:textColor="?attr/colorTitle"
+            app:textColor="?attr/colorPrimaryText"
             app:textSize="10sp"
             tools:ignore="SmallSp,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>

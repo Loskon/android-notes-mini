@@ -17,7 +17,7 @@
         android:paddingEnd="12dp"
         android:paddingBottom="32dp"
         android:text="@string/templars"
-        android:textColor="?attr/colorTitle"
+        android:textColor="?attr/colorPrimaryText"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view_fonts"
         app:layout_constraintEnd_toEndOf="parent"

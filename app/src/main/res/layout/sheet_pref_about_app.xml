@@ -15,7 +15,7 @@
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
         android:text="@string/sheet_about_app_development"
-        android:textColor="?attr/colorTitle"
+        android:textColor="?attr/colorPrimaryText"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -7,18 +7,19 @@
 
     <Button
         android:id="@+id/btn_link_open"
-        style="@style/ButtonFlat"
+        style="@style/ButtonFlatStyle"
         android:layout_width="0dp"
         android:layout_marginTop="16dp"
         android:text="Open"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/btn_link_copy"
-        style="@style/ButtonFlat"
+        style="@style/ButtonFlatStyle"
         android:layout_width="0dp"
         android:layout_marginBottom="16dp"
         android:text="@string/dg_open_link_copy"

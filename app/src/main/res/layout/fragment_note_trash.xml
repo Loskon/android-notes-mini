@@ -28,7 +28,7 @@
         android:layout_marginEnd="32dp"
         android:layout_weight="1"
         android:text="@string/delete_from_trash"
-        android:textColor="?attr/colorDeleteIconRestore"
+        android:textColor="?attr/colorWarning"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fab_note"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_restore_from_trash_black_24"
-        app:tint="?attr/colorAppBar"
+        app:tint="?attr/colorBottomBar"
         tools:ignore="ContentDescription,ImageContrastCheck,ImageContrastCheck,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

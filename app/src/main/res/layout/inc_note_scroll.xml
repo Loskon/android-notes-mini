@@ -35,7 +35,7 @@
                 android:hint="@string/hint_note_text"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine|textNoSuggestions|textCapSentences"
-                android:textColor="?attr/colorTitle"
+                android:textColor="?attr/colorPrimaryText"
                 android:textColorHint="@android:color/darker_gray"
                 tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck,TouchTargetSizeCheck" />
         </LinearLayout>

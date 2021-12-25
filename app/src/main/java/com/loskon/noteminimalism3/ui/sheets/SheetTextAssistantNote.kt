@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.R.style.BottomSheetStatusBar
+import com.loskon.noteminimalism3.R.style.SheetDialogStatusBar
 import com.loskon.noteminimalism3.other.NoteAssistant
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
@@ -20,7 +20,7 @@ class SheetTextAssistantNote(
     private val assistant: NoteAssistant
 ) {
 
-    private val dialog: BottomSheetDialog = BottomSheetDialog(context, BottomSheetStatusBar)
+    private val dialog: BottomSheetDialog = BottomSheetDialog(context, SheetDialogStatusBar)
     private val insertView = View.inflate(context, R.layout.sheet_custom_note, null)
 
     private val tvDateModification: TextView = insertView.findViewById(R.id.tv_sheet_note_title)

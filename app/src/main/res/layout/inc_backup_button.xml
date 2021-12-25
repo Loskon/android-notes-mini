@@ -19,8 +19,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_sd"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
+            android:layout_width="@dimen/square_button"
+            android:layout_height="@dimen/square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -29,13 +29,13 @@
             app:icon="@drawable/round_drive_folder_upload_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar"
+            app:iconTint="?attr/colorBottomBar"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_restore_sd"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
+            android:layout_width="@dimen/square_button"
+            android:layout_height="@dimen/square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -44,7 +44,7 @@
             app:icon="@drawable/round_download_for_offline_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar"
+            app:iconTint="?attr/colorBottomBar"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
@@ -61,8 +61,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_cloud"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
+            android:layout_width="@dimen/square_button"
+            android:layout_height="@dimen/square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -71,13 +71,13 @@
             app:icon="@drawable/baseline_cloud_upload_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar"
+            app:iconTint="?attr/colorBottomBar"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_restore_cloud"
-            android:layout_width="@dimen/size_for_square_button"
-            android:layout_height="@dimen/size_for_square_button"
+            android:layout_width="@dimen/square_button"
+            android:layout_height="@dimen/square_button"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
@@ -86,7 +86,7 @@
             app:icon="@drawable/baseline_cloud_download_black_48"
             app:iconGravity="textStart"
             app:iconPadding="-4dp"
-            app:iconTint="?attr/colorAppBar"
+            app:iconTint="?attr/colorBottomBar"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 

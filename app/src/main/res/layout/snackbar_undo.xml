@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/tv_snackbar_undo_text"
-        style="@style/TextViewSnack"
+        style="@style/TextViewSnackStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -50,7 +50,7 @@
 
     <Button
         android:id="@+id/btn_snackbar_undo"
-        style="@style/ButtonSnack"
+        style="@style/ButtonSnackStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@android:string/cancel"

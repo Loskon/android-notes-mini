@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Parameters for stroke constraintLayout -->
-    <dimen name="corner_radius">5dp</dimen>
-    <dimen name="border_stroke">2dp</dimen>
-
-
-    <!-- The height -->
-    <dimen name="height_for_bottom_app_bar">48dp</dimen>
-    <dimen name="height_item">52dp</dimen>
-    <dimen name="height_refresh_layout">30dp</dimen>
-
-
-    <!-- The slider size -->
-    <dimen name="slider_thumb_radius">6dp</dimen>
+    <!-- Heights. -->
+    <dimen name="height_bottom_bar">48dp</dimen>
+    <dimen name="height_button_flat">52dp</dimen>
+    <!-- Slider. -->
+    <dimen name="thumb_radius_slider">6dp</dimen>
     <dimen name="slider_halo_radius">14dp</dimen>
-
-
-    <!-- Value for preferences -->
-    <dimen name="padding_for_title_pref">16dp</dimen>
-    <dimen name="margin_for_slider_pref">4dp</dimen>
-
-
-    <!-- Other -->
-    <dimen name="size_for_square_button">160dp</dimen>
+    <!-- App preferences. -->
+    <dimen name="padding_title_preference">16dp</dimen>
+    <dimen name="margin_slider_preference">4dp</dimen>
+    <!-- Dialog. -->
+    <dimen name="corner_radius_dialog">6dp</dimen>
+    <!-- Parameters for a stroke linearLayout. -->
+    <dimen name="corner_radius_lin_layout">5dp</dimen>
+    <dimen name="border_stroke_lin_layout">2dp</dimen>
+    <!-- Border switch. -->
     <dimen name="border_width_switch">2dp</dimen>
-    <dimen name="widget_margin">8dp</dimen>
-    <dimen name="popup_width">60dp</dimen>
-    <dimen name="popup_height">60dp</dimen>
+    <!-- Square buttons. -->
+    <dimen name="square_button">160dp</dimen>
 </resources>

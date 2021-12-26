@@ -357,7 +357,7 @@ class NoteFragment : Fragment(),
         note.dateModification = date
         note.dateCreation = date
 
-        note.id = commandCenter.insertGetId(note)
+        note.id = commandCenter.insertWithIdReturn(note)
         noteId = note.id
 
         backupDate = date

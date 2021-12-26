@@ -17,9 +17,9 @@ import java.util.concurrent.TimeUnit
 class DataBaseAdapter(context: Context) {
 
     private val dbHelper: DataBaseHelper = DataBaseHelper(context.applicationContext)
-
     private val database: SQLiteDatabase = dbHelper.writableDatabase
 
+    //----------------------------------------------------------------------------------------------
     fun getNotes(searchTerm: String?, category: String, sortingWay: Int): List<Note> {
         val notes: ArrayList<Note> = ArrayList<Note>()
         val whereClause: String = getWhereClause(category)
@@ -82,12 +82,13 @@ class DataBaseAdapter(context: Context) {
         return NoteCursorWrapper(cursor)
     }
 
+    //----------------------------------------------------------------------------------------------
     fun insert(note: Note) {
         val values: ContentValues = getContentValues(note)
         database.insert(NoteTable.NAME_TABLE, null, values)
     }
 
-    fun insertGetId(note: Note): Long {
+    fun insertWithIdReturn(note: Note): Long {
         val values: ContentValues = getContentValues(note)
         return database.insert(NoteTable.NAME_TABLE, null, values)
     }
@@ -132,6 +133,7 @@ class DataBaseAdapter(context: Context) {
         return values
     }
 
+    //----------------------------------------------------------------------------------------------
     companion object {
         private var INSTANCE: DataBaseAdapter? = null
 

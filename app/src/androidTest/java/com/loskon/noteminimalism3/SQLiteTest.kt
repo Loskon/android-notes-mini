@@ -36,7 +36,7 @@ class SQLiteTest {
     private fun createAndInsertNote(): Note {
         val note = Note()
         note.title = "Test Title"
-        note.id = commandCenter.insertGetId(note)
+        note.id = commandCenter.insertWithIdReturn(note)
         return note
     }
 

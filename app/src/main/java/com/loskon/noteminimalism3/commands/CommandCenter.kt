@@ -5,7 +5,7 @@ import com.loskon.noteminimalism3.sqlite.DataBaseAdapter
 import java.util.*
 
 /**
- * Доступ к методам работы с БД
+ * Быстрый доступ к методам БД
  */
 
 class CommandCenter {
@@ -30,8 +30,8 @@ class CommandCenter {
     }
 
     // second
-    fun insertGetId(note: Note): Long {
-        return dateBaseAdapter.insertGetId(note)
+    fun insertWithIdReturn(note: Note): Long {
+        return dateBaseAdapter.insertWithIdReturn(note)
     }
 
     fun sendToTrash(note: Note) {

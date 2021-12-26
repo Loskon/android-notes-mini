@@ -69,10 +69,4 @@ class ToastControl {
     }
 }
 
-fun Context.showToast(message: String) {
-    var toast: Toast? = null
-    toast?.cancel()
-
-    toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-    toast.show()
-}
+fun Context.showToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

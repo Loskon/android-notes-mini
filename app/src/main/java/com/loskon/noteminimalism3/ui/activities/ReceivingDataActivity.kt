@@ -59,8 +59,8 @@ class ReceivingDataActivity :
     private fun initViews() {
         recyclerView = findViewById(R.id.recycler_view_note_reciving)
         tvEmpty = findViewById(R.id.tv_empty_list_receiving_data)
-        fab = findViewById(R.id.fabReceivingData)
-        bottomBar = findViewById(R.id.btmAppBarReceivingData)
+        fab = findViewById(R.id.fab_receiving_data)
+        bottomBar = findViewById(R.id.bottom_bar_receiving_data)
     }
 
     private fun establishColorViews() {

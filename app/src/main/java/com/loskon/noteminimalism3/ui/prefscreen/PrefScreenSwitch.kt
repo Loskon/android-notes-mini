@@ -25,7 +25,7 @@ class PrefScreenSwitch @JvmOverloads constructor(
     private var color: Int = 0
 
     init {
-        widgetLayoutResource = R.layout.pref_screen_layout_switch
+        widgetLayoutResource = R.layout.pref_layout_switch
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {

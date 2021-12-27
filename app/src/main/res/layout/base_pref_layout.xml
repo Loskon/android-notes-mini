@@ -29,7 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxHeight="48dp"
-            android:maxWidth="48dp" />
+            android:maxWidth="48dp"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
     <RelativeLayout

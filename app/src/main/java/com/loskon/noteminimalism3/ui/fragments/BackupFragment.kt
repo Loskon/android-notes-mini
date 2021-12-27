@@ -25,7 +25,6 @@ import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
 import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 
-
 /**
  * Форма для бэкапа/восстановления базы данных
  */

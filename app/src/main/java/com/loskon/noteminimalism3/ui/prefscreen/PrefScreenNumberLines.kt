@@ -21,7 +21,7 @@ class PrefScreenNumberLines @JvmOverloads constructor(
 ) : Preference(context, attrs, defStyleAttr, defStyleRes) {
 
     init {
-        layoutResource = R.layout.pref_screen_layout_number_lines
+        layoutResource = R.layout.pref_layout_number_lines
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {

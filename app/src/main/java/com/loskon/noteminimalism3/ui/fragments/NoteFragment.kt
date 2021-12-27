@@ -102,7 +102,7 @@ class NoteFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_note, container, false)
-        constLayout = view.findViewById(R.id.const_layout_note_trash)
+        constLayout = view.findViewById(R.id.const_layout_note)
         scrollView = view.findViewById(R.id.scroll_view_note)
         linLayoutNote = view.findViewById(R.id.lin_layout_note)
         editText = view.findViewById(R.id.edit_text_note)

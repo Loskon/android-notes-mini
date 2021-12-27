@@ -22,8 +22,7 @@
         tools:ignore="TextContrastCheck" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/btmAppBarReceivingData"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        android:id="@+id/bottom_bar_receiving_data"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_bottom_bar"
         android:layout_gravity="bottom"
@@ -36,14 +35,14 @@
         app:navigationIcon="@drawable/baseline_close_black_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabReceivingData"
+        android:id="@+id/fab_receiving_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="0dp"
         android:overScrollMode="ifContentScrolls"
         android:src="@drawable/baseline_add_black_24"
         app:elevation="0dp"
-        app:layout_anchor="@id/btmAppBarReceivingData"
+        app:layout_anchor="@id/bottom_bar_receiving_data"
         app:tint="?attr/colorBottomBar"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 

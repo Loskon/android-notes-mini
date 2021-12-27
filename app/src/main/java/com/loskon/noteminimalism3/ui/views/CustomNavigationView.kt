@@ -9,7 +9,7 @@ import com.google.android.material.navigation.NavigationView
 import com.loskon.noteminimalism3.managers.FontManager
 
 /**
- * Смена шрифта для элементов меню NavigationView
+ * NavigationView с измененным шрифтом
  */
 
 class CustomNavigationView constructor(

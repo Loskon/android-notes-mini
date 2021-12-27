@@ -5,7 +5,8 @@
     android:id="@+id/coord_layout_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorWindowBackground"
+    android:background="@android:color/transparent"
+    android:backgroundTint="@android:color/transparent"
     tools:context=".ui.activities.MainActivity">
 
     <include
@@ -26,7 +27,6 @@
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_bar_main"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_bottom_bar"
         android:layout_gravity="bottom"
@@ -40,7 +40,7 @@
         app:navigationIcon="@drawable/baseline_menu_black_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_list"
+        android:id="@+id/fab_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="0dp"
@@ -48,7 +48,7 @@
         android:src="@drawable/baseline_add_black_24"
         app:elevation="0dp"
         app:layout_anchor="@id/bottom_bar_main"
-        app:tint="?attr/colorBottomBar"
+        app:tint="?attr/colorFabIcon"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -114,7 +114,7 @@ class MainActivity : BaseActivities(),
         searchView = findViewById(R.id.search_view)
         recyclerView = findViewById(R.id.recycler_view_notes)
         tvEmpty = findViewById(R.id.tv_empty_main)
-        fab = findViewById(R.id.fab_list)
+        fab = findViewById(R.id.fab_main)
         cardView = findViewById(R.id.card_view_main)
         tvCountItems = findViewById(R.id.tv_selected_items_count)
         bottomBar = findViewById(R.id.bottom_bar_main)

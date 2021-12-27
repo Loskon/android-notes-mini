@@ -59,7 +59,7 @@ class NoteTrashFragment : Fragment() {
         constLayout = view.findViewById(R.id.const_layout_note_trash)
         editText = view.findViewById(R.id.edit_text_note)
         linearLayout = view.findViewById(R.id.lin_layout_note)
-        fab = view.findViewById(R.id.fab_note)
+        fab = view.findViewById(R.id.fab_note_trash)
         btnDel = view.findViewById(R.id.btn_del_note_trash)
         return view
     }

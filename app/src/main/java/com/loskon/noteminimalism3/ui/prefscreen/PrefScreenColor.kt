@@ -19,7 +19,7 @@ class PrefScreenColor @JvmOverloads constructor(
 ) : Preference(context, attrs, defStyleAttr) {
 
     init {
-        widgetLayoutResource = R.layout.pref_screen_widget_color
+        widgetLayoutResource = R.layout.pref_widget_color
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {

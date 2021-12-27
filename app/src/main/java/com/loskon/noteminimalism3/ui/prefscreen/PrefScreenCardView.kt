@@ -28,7 +28,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     SettingsAppFragment.CallbackResetFontSize {
 
     init {
-        layoutResource = R.layout.pref_screen_layout_card_view
+        layoutResource = R.layout.pref_layout_card_view
     }
 
     private lateinit var viewFavorite: View

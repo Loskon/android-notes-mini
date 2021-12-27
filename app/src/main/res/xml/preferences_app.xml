@@ -16,7 +16,7 @@
         app:iconSpaceReserved="false"
         app:title="@string/theme_color_header">
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenColor
-            android:layout="@layout/custom_pref_layout"
+            android:layout="@layout/base_pref_layout"
             android:title="@string/select_color_app_title"
             app:key="@string/select_color_app_title"
             app:allowDividerAbove="false" />
@@ -27,7 +27,7 @@
             app:iconSpaceReserved="false" />
 
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-            android:layout="@layout/custom_pref_layout"
+            android:layout="@layout/base_pref_layout"
             android:title="@string/reset_app_color"
             app:iconSpaceReserved="false" />
 
@@ -46,7 +46,7 @@
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
             android:key="@string/one_size_cards_key"
             android:title="@string/one_size_cards_title"
-            android:layout="@layout/custom_pref_layout"
+            android:layout="@layout/base_pref_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             app:summary="@string/one_size_cards_summary" />

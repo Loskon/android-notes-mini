@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_about_app2"
+        android:id="@+id/tv_about_app_developer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -23,7 +23,7 @@
         tools:ignore="HardcodedText,TextContrastCheck" />
 
     <TextView
-        android:id="@+id/tv_about_app"
+        android:id="@+id/tv_about_app_version"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_about_app2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_about_app_developer"
         tools:ignore="HardcodedText,TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

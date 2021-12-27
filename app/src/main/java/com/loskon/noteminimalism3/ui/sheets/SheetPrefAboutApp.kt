@@ -15,7 +15,7 @@ class SheetPrefAboutApp(private val context: Context) {
     private val dialog: BaseSheetDialogs = BaseSheetDialogs(context)
     private val insertView = View.inflate(context, R.layout.sheet_pref_about_app, null)
 
-    private val tvVersion: TextView = insertView.findViewById(R.id.tv_about_app)
+    private val tvVersion: TextView = insertView.findViewById(R.id.tv_about_app_version)
 
     init {
         dialog.setInsertView(insertView)

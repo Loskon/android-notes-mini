@@ -40,17 +40,14 @@
 
     <Button
         android:id="@+id/reset_hex_color"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/ButtonStrokeStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/sheet_font_size_reset"
-        android:textColor="?attr/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_layout_hex"
-        app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/darker_gray"
         tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

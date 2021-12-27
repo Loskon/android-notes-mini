@@ -52,17 +52,14 @@
 
     <Button
         android:id="@+id/btn_sheet_font_size_reset"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/ButtonStrokeStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/sheet_font_size_reset"
-        android:textColor="?attr/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slider_sheet_font_size"
-        app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/darker_gray"
         tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

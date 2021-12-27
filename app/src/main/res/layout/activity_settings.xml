@@ -36,15 +36,13 @@
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_bar_settings"
-            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_bottom_bar"
             android:layout_gravity="bottom"
-            app:menu="@menu/menu_bottom_bar_data_account"
             android:backgroundTint="?attr/colorBottomBar"
             app:backgroundTint="?attr/colorBottomBar"
-            app:elevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/menu_bottom_bar_data_account"
             app:navigationIcon="@drawable/baseline_navigate_before_black_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

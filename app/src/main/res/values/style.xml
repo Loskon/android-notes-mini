@@ -99,6 +99,13 @@
         <item name="rippleColor">?attr/colorControlHighlight</item>
     </style>
 
+    <!-- ButtonStroke -->
+    <style name="ButtonStrokeStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">?attr/colorWarning</item>
+        <item name="strokeColor">@color/light_dark_gray</item>
+        <item name="rippleColor">?attr/colorControlHighlight</item>
+    </style>
+
     <!-- ButtonSnack -->
     <style name="ButtonSnackStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:fontFamily">@font/roboto_light</item>

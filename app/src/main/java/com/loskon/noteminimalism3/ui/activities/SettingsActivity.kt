@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.ui.activities
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -26,30 +27,40 @@ class SettingsActivity : BaseActivities(),
     PrefScreenResetColor.CallbackColorResetNavIcon {
 
     private lateinit var coordLayout: ConstraintLayout
-    private lateinit var bottomAppBar: BottomAppBar
+    private lateinit var bottomBar: BottomAppBar
     private lateinit var fragmentManager: FragmentManager
+    private lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
         initViews()
+        initObjects()
         establishColorViews()
         openSettingsFragment(savedInstanceState)
         installCallbacks()
+        installHandlers()
         configureBottomBarMenu()
     }
 
     private fun initViews() {
         coordLayout = findViewById(R.id.const_layout_settings)
-        bottomAppBar = findViewById(R.id.bottom_bar_settings)
+        bottomBar = findViewById(R.id.bottom_bar_settings)
+    }
+
+    private fun initObjects() {
         fragmentManager = supportFragmentManager
+        menu = bottomBar.menu
     }
 
     private fun establishColorViews() {
-        val color = PrefHelper.getAppColor(this)
-        bottomAppBar.setNavigationIconColor(color)
-        bottomAppBar.menu.setMenuIconsColor(color)
+        val color: Int = PrefHelper.getAppColor(this)
+        establishColorViews(color)
+    }
+
+    private fun establishColorViews(color: Int) {
+        bottomBar.setNavigationIconColor(color)
+        menu.setMenuIconsColor(color)
     }
 
     private fun openSettingsFragment(savedInstanceState: Bundle?) {
@@ -67,9 +78,13 @@ class SettingsActivity : BaseActivities(),
         PrefScreenResetColor.listenerCallBackColorNavIcon(this)
     }
 
-    private fun configureBottomBarMenu() {
-        visibilityMenuItemAccount(false)
+    private fun installHandlers() {
+        bottomBar.setNavigationOnClickListener {
+            onBackPressed()
+        }
     }
+
+    private fun configureBottomBarMenu() = changeVisibilityMenuItem(false)
 
     fun replaceFragment(fragment: Fragment) {
         fragmentManager
@@ -80,24 +95,21 @@ class SettingsActivity : BaseActivities(),
     }
 
     fun showSnackbar(typeMessage: String) {
-        SnackbarControl(this, coordLayout, bottomAppBar).show(typeMessage)
+        SnackbarControl(coordLayout, bottomBar).show(typeMessage)
     }
 
-    override fun onChangeColor(color: Int) {
-        bottomAppBar.setNavigationIconColor(color)
-        bottomAppBar.menu.setMenuIconsColor(color)
-    }
+    override fun onChangeColor(color: Int) = establishColorViews(color)
 
-    fun visibilityMenuItemAccount(isVisible: Boolean) {
-        bottomAppBar.menu.findItem(R.id.action_account).isVisible = isVisible
+    fun changeVisibilityMenuItem(isVisible: Boolean) {
+        menu.findItem(R.id.action_account).isVisible = isVisible
     }
 
     fun setAppFonts() {
         FontManager.setFont(this)
     }
 
-    val bottomBar: BottomAppBar
+    val bottomAppBar: BottomAppBar
         get() {
-            return bottomAppBar
+            return bottomBar
         }
 }

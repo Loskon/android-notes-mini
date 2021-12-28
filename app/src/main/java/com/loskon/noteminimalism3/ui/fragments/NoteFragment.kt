@@ -82,7 +82,7 @@ class NoteFragment : Fragment(),
         super.onAttach(context)
         activity = context as NoteActivity
         isBottomWidgetShow = PrefHelper.isBottomWidgetShow(activity)
-        ResultAccessStorage.installingVerification(activity, this)
+        ResultAccessStorage.installing(activity, this)
         overrideBackPressed()
     }
 
@@ -399,7 +399,7 @@ class NoteFragment : Fragment(),
     }
 
     fun showSnackbar(typeMessage: String) {
-        SnackbarControl(activity, constLayout, fab).show(typeMessage)
+        SnackbarControl(constLayout, fab).show(typeMessage)
     }
 
     val getScrollView: ScrollView

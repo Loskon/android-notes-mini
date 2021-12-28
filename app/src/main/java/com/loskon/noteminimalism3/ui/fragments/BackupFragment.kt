@@ -4,7 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.R
@@ -26,7 +29,7 @@ import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 
 /**
- * Форма для бэкапа/восстановления базы данных
+ * Бэкап/восстановление базы данных
  */
 
 class BackupFragment : Fragment(),
@@ -40,16 +43,16 @@ class BackupFragment : Fragment(),
     private lateinit var btnBackupSD: Button
     private lateinit var btnRestoreSD: Button
     private lateinit var btnBackupCloud: Button
-    private lateinit var btnResetCloud: Button
+    private lateinit var btnRestoreCloud: Button
 
     private var btnId: Int? = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as SettingsActivity
-        ResultAccessStorage.installingVerification(this, this)
-        ResultActivity.installing(this, this)
         cloudBackup = DataBaseCloudBackup(activity, this)
+        ResultAccessStorage.installing(this, this)
+        ResultActivity.installing(this, this)
     }
 
     override fun onCreateView(
@@ -61,40 +64,22 @@ class BackupFragment : Fragment(),
         btnBackupSD = view.findViewById(R.id.btn_backup_sd)
         btnRestoreSD = view.findViewById(R.id.btn_restore_sd)
         btnBackupCloud = view.findViewById(R.id.btn_backup_cloud)
-        btnResetCloud = view.findViewById(R.id.btn_restore_cloud)
+        btnRestoreCloud = view.findViewById(R.id.btn_restore_cloud)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        configurationBottomBar()
         establishColorViews()
-        clickListener()
         installHandlers()
     }
 
-    private fun configurationBottomBar() {
-        activity.apply {
-            bottomBar.setNavigationOnClickListener {
-                onBackPressed()
-            }
-        }
-    }
-
     private fun establishColorViews() {
-        val color = PrefHelper.getAppColor(activity)
+        val color: Int = PrefHelper.getAppColor(activity)
         btnBackupSD.setBackgroundColor(color)
         btnRestoreSD.setBackgroundColor(color)
         btnBackupCloud.setBackgroundColor(color)
-        btnResetCloud.setBackgroundColor(color)
-    }
-
-    private fun clickListener() {
-        btnBackupSD.setOnClickListener(this)
-        btnRestoreSD.setOnClickListener(this)
-        btnBackupCloud.setOnClickListener(this)
-        btnResetCloud.setOnClickListener(this)
+        btnRestoreCloud.setBackgroundColor(color)
     }
 
     override fun onClick(view: View?) {
@@ -153,21 +138,30 @@ class BackupFragment : Fragment(),
         }
 
     private fun installHandlers() {
-        activity.bottomBar.setOnMenuItemClickListener { item: MenuItem ->
-            if (item.itemId == R.id.action_account) {
-                if (checkForInternet()) {
-                    SheetGoogleAccount(activity, this).show()
-                }
-                return@setOnMenuItemClickListener true
-            }
-            false
+        btnBackupSD.setOnClickListener(this)
+        btnRestoreSD.setOnClickListener(this)
+        btnBackupCloud.setOnClickListener(this)
+        btnRestoreCloud.setOnClickListener(this)
+        activity.bottomAppBar.setOnMenuItemClickListener { item: MenuItem ->
+            performClickMenuItemAccount(item)
         }
+    }
+
+    private fun performClickMenuItemAccount(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_account) {
+            if (checkForInternet()) {
+                SheetGoogleAccount(activity, this).show()
+            }
+            return true
+        }
+
+        return false
     }
 
     override fun onDetach() {
         super.onDetach()
         BaseWarningSnackbars.dismiss()
-        visibilityMenuItemAccount(false)
+        changeVisibilityMenuItem(false)
     }
 
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
@@ -211,8 +205,7 @@ class BackupFragment : Fragment(),
 
     fun showSnackbar(typeMessage: String) = activity.showSnackbar(typeMessage)
 
-    fun visibilityMenuItemAccount(isVisible: Boolean) =
-        activity.visibilityMenuItemAccount(isVisible)
+    fun changeVisibilityMenuItem(isVisible: Boolean) = activity.changeVisibilityMenuItem(isVisible)
 
     fun performBackupCloud() = cloudBackup.performBackupCloud()
 

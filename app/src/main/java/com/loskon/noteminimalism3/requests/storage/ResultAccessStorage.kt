@@ -29,7 +29,7 @@ class ResultAccessStorage {
         private var resultLauncherAndroidR: ActivityResultLauncher<Intent>? = null
         private var resultLauncher: ActivityResultLauncher<Array<out String>>? = null
 
-        fun installingVerification(
+        fun installing(
             activity: ComponentActivity?,
             resultAccessStorageInterface: ResultAccessStorageInterface?
         ) {
@@ -40,7 +40,7 @@ class ResultAccessStorage {
             }
         }
 
-        fun installingVerification(
+        fun installing(
             fragment: Fragment?,
             resultAccessStorageInterface: ResultAccessStorageInterface?
         ) {

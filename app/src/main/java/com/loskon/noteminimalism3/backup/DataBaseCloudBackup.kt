@@ -77,7 +77,7 @@ class DataBaseCloudBackup(
     }
 
     private fun changeVisibilityMenuItemAccount() {
-        fragment.visibilityMenuItemAccount(user != null)
+        fragment.changeVisibilityMenuItem(user != null)
     }
 
     private fun uploadCopyDateBaseToCloud() {

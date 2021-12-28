@@ -53,7 +53,7 @@ import com.loskon.noteminimalism3.utils.*
 class MainActivity : BaseActivities(),
     NotesListAdapter.CallbackNoteAdapter,
     SwipeCallback.CallbackSwipeUndo,
-    BottomSheetCategory.CallbackCategory,
+    SheetCategoryFragment.CallbackCategory,
     NoteFragment.CallbackNote,
     NoteTrashFragment.CallbackNoteTrash,
     SheetPrefSelectColor.CallbackColorList,
@@ -95,7 +95,6 @@ class MainActivity : BaseActivities(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         initViews()
         installCallbacks()
         configureRecyclerAdapter()
@@ -359,8 +358,8 @@ class MainActivity : BaseActivities(),
     }
 
     private fun openBottomSheetCategory() {
-        val bottomSheet: DialogFragment = BottomSheetCategory.newInstance(category)
-        bottomSheet.onlyShow(supportFragmentManager, BottomSheetCategory.TAG)
+        val bottomSheet: DialogFragment = SheetCategoryFragment.newInstance(category)
+        bottomSheet.onlyShow(supportFragmentManager, SheetCategoryFragment.TAG)
     }
 
     private fun clickingMenuSwitch() {
@@ -447,10 +446,10 @@ class MainActivity : BaseActivities(),
     }
 
     // From sheet category
-    override fun onCallbackCategory(notesCategory: String) {
-        this.category = notesCategory
-        swipeCallback.setCategory(notesCategory)
-        helper.setIconFabCategory(notesCategory)
+    override fun onCallbackCategory(category: String) {
+        this.category = category
+        swipeCallback.setCategory(category)
+        helper.setIconFabCategory(category)
 
         updateQuicklyNotesList()
         scrollUpWithProtection()
@@ -465,7 +464,7 @@ class MainActivity : BaseActivities(),
     }
 
     fun showSnackbar(message: String) {
-        SnackbarControl(this, coordLayout, fab).show(message)
+        SnackbarControl(coordLayout, fab).show(message)
     }
 
     // From Settings

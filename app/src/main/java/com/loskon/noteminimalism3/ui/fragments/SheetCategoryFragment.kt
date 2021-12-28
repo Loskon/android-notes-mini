@@ -18,12 +18,12 @@ import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRAS
 import com.loskon.noteminimalism3.utils.getShortDrawable
 
 /**
- * Нижний лист для выбора категории заметок и открытия настроек
+ * Выбор категории заметок и открытие окна настроек
  */
 
-class BottomSheetCategory : BottomSheetDialogFragment() {
+class SheetCategoryFragment : BottomSheetDialogFragment() {
 
-    private lateinit var callback: CallbackCategory
+    private var callback: CallbackCategory? = null
 
     private lateinit var mContext: Context
 
@@ -39,7 +39,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
     }
 
     private fun listenerCallback(context: Context) {
-        callback = context as CallbackCategory
+        callback = context as CallbackCategory?
     }
 
     private fun getPassedArguments() {
@@ -92,7 +92,7 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
                 }
 
                 if (menuId != R.id.nav_item_settings) {
-                    callback.onCallbackCategory(category)
+                    callback?.onCallbackCategory(category)
                 }
 
                 dismiss()
@@ -109,16 +109,20 @@ class BottomSheetCategory : BottomSheetDialogFragment() {
             else -> 0
         }
 
+    override fun onDetach() {
+        super.onDetach()
+        callback = null
+    }
+
     interface CallbackCategory {
-        fun onCallbackCategory(notesCategory: String)
+        fun onCallbackCategory(category: String)
     }
 
     companion object {
         const val TAG = "BottomSheetDialogFragment"
         private const val ARG_CATEGORY = "arg_category"
 
-        @JvmStatic
-        fun newInstance(category: String) = BottomSheetCategory().apply {
+        fun newInstance(category: String) = SheetCategoryFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_CATEGORY, category)
             }

@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.snackbars
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.loskon.noteminimalism3.R
@@ -10,7 +9,6 @@ import com.loskon.noteminimalism3.R
  */
 
 class SnackbarControl(
-    private val context: Context,
     private val layout: ViewGroup,
     private val anchorView: View
 ) {
@@ -65,7 +63,7 @@ class SnackbarControl(
     }
 
     private fun getMessage(typeMessage: String): String {
-        context.apply {
+        layout.context.apply {
             val message: Int = when (typeMessage) {
                 // activity_list
                 MSG_NOTE_RESTORED -> R.string.sb_note_restored
@@ -111,7 +109,7 @@ class SnackbarControl(
     }
 
     private fun getSuccess(typeMessage: String): Boolean {
-        context.apply {
+        layout.context.apply {
             val message: Boolean = when (typeMessage) {
                 // activity_list
                 MSG_NOTE_RESTORED -> true

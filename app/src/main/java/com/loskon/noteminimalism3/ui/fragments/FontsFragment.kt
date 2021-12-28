@@ -54,9 +54,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         installCallbacks()
-        configurationBottomBar()
         configureLayoutManager()
         configureRecyclerView()
         configureRecyclerAdapter()
@@ -68,12 +66,6 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
 
     private fun installCallbacks() {
         FontListAdapter.listenerCallback(this)
-    }
-
-    private fun configurationBottomBar() {
-        activity.bottomBar.setNavigationOnClickListener {
-            activity.onBackPressed()
-        }
     }
 
     private fun configureLayoutManager() {

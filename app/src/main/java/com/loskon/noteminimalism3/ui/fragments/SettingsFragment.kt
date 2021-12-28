@@ -90,22 +90,13 @@ class SettingsFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as SettingsActivity
-        ResultAccessStorage.installingVerification(this, this)
+        ResultAccessStorage.installing(this, this)
         ResultActivity.installing(activity, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configurationBottomBar()
         installCallbacks()
-    }
-
-    private fun configurationBottomBar() {
-        activity.apply {
-            bottomBar.setNavigationOnClickListener {
-                onBackPressed()
-            }
-        }
     }
 
     private fun installCallbacks() {

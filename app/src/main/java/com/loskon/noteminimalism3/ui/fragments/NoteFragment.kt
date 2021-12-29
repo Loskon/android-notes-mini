@@ -30,9 +30,9 @@ import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
-import com.loskon.noteminimalism3.ui.dialogs.DialogNoteLinksNew
-import com.loskon.noteminimalism3.ui.recyclerview.CustomMovementMethod
-import com.loskon.noteminimalism3.ui.sheets.SheetTextAssistantNote
+import com.loskon.noteminimalism3.ui.dialogs.NoteLinksDialog
+import com.loskon.noteminimalism3.ui.recyclerview.AppMovementMethod
+import com.loskon.noteminimalism3.ui.sheets.NoteAssistantSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.utils.*
@@ -45,7 +45,7 @@ import java.util.*
  */
 
 class NoteFragment : Fragment(),
-    ReceivingDataActivity.CallbackReceivingData,
+    ReceivingDataActivity.ReceivingDataCallback,
     ResultAccessStorageInterface {
 
     private val commandCenter: CommandCenter = CommandCenter()
@@ -115,7 +115,6 @@ class NoteFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initObjects()
         setupParameters()
         installCallbacks()
@@ -139,7 +138,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun installCallbacks() {
-        if (!hasReceivingText) ReceivingDataActivity.listenerCallback(this)
+        if (!hasReceivingText) ReceivingDataActivity.registerCallbackReceivingData(this)
     }
 
     private fun establishColorViews() {
@@ -173,10 +172,10 @@ class NoteFragment : Fragment(),
         showSoftInputOnFocus = false
         setLinkTextColor(color)
 
-        movementMethod = object : CustomMovementMethod() {
+        movementMethod = object : AppMovementMethod() {
             override fun onClickingLink(url: String) {
                 removeFocusFromEditText()
-                DialogNoteLinksNew(activity, this@NoteFragment).show(url)
+                NoteLinksDialog(activity, this@NoteFragment).show(url)
             }
 
             override fun onClickingText() {
@@ -306,7 +305,7 @@ class NoteFragment : Fragment(),
         lifecycleScope.launch {
             delay(300L)
             val stringDate: String = DateUtil.getStringDate(note.dateModification)
-            SheetTextAssistantNote(activity, assistant).show(stringDate, noteId)
+            NoteAssistantSheetDialog(activity, assistant).show(stringDate, noteId)
         }
     }
 
@@ -417,16 +416,16 @@ class NoteFragment : Fragment(),
             return note
         }
 
-    interface CallbackNote {
+    interface NoteCallback {
         fun onNoteAdd()
         fun onNoteUpdate()
         fun onSendToTrash(note: Note, hasFavStatus: Boolean, isBottomWidgetShow: Boolean)
     }
 
     companion object {
-        private var callback: CallbackNote? = null
+        private var callback: NoteCallback? = null
 
-        fun listenerCallback(callback: CallbackNote) {
+        fun registerCallbackNote(callback: NoteCallback) {
             this.callback = callback
         }
 

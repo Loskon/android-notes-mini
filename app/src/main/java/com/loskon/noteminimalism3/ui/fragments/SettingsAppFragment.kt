@@ -9,20 +9,20 @@ import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
+import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
 
 /**
  * Форма настроек внешнего вида
  */
 
 class SettingsAppFragment :
-    BaseSettingsFragments(),
+    AppBaseSettingsFragment(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
-    SheetPrefSelectColor.CallbackColorNotifyData,
-    SheetPrefSelectColorHex.CallbackColorHexNotifyData,
-    PrefScreenResetColor.CallbackColorResetNotifyData {
+    SelectColorPickerSheetDialog.ColorNotifyDataCallback,
+    SelectColorHexSheetDialog.ColorHexNotifyDataCallback,
+    PrefScreenResetColor.ColorResetNotifyDataCallback {
 
     private lateinit var activity: SettingsActivity
 
@@ -47,9 +47,9 @@ class SettingsAppFragment :
     }
 
     private fun installCallbacks() {
-        SheetPrefSelectColor.listenerCallBackNotifyData(this)
-        SheetPrefSelectColorHex.listenerCallBackNotifyData(this)
-        PrefScreenResetColor.listenerCallBackNotifyData(this)
+        SelectColorPickerSheetDialog.registerCallbackNotifyData(this)
+        SelectColorHexSheetDialog.registerCallbackNotifyData(this)
+        PrefScreenResetColor.registerCallbackNotifyData(this)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -88,12 +88,12 @@ class SettingsAppFragment :
             }
 
             selectColorKey -> {
-                SheetPrefSelectColor(activity).show()
+                SelectColorPickerSheetDialog(activity).show()
                 true
             }
 
             selectColorHexKey -> {
-                SheetPrefSelectColorHex(activity).show()
+                SelectColorHexSheetDialog(activity).show()
                 true
             }
 
@@ -118,23 +118,23 @@ class SettingsAppFragment :
         listView.adapter?.notifyDataSetChanged()
     }
 
-    interface CallbackOneSizeCards {
+    interface OneSizeCardsCallback {
         fun onChangeStatusSizeCards(hasOneSizeCards: Boolean)
     }
 
-    interface CallbackResetFontSize {
+    interface ResetFontSizeCallback {
         fun onResetFontSize()
     }
 
     companion object {
-        private var callbackSize: CallbackOneSizeCards? = null
-        private var callbackReset: CallbackResetFontSize? = null
+        private var callbackSize: OneSizeCardsCallback? = null
+        private var callbackReset: ResetFontSizeCallback? = null
 
-        fun listenerCallbackSize(callback: CallbackOneSizeCards) {
+        fun registerCallbackOneSizeCards(callback: OneSizeCardsCallback) {
             callbackSize = callback
         }
 
-        fun listenerCallbackReset(callback: CallbackResetFontSize) {
+        fun registerCallbackResetFontSize(callback: ResetFontSizeCallback) {
             callbackReset = callback
         }
     }

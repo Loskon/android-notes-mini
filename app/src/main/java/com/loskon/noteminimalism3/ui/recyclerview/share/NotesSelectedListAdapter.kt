@@ -78,14 +78,14 @@ class NotesSelectedListAdapter : RecyclerView.Adapter<NotesListViewHolder>() {
         notifyDataSetChanged()
     }
 
-    interface CallbackSendAdapter {
+    interface SendAdapterCallback {
         fun onClickingNote(note: Note)
     }
 
     companion object {
-        private var callback: CallbackSendAdapter? = null
+        private var callback: SendAdapterCallback? = null
 
-        fun listenerCallback(callback: CallbackSendAdapter) {
+        fun registerCallbackSendAdapter(callback: SendAdapterCallback) {
             this.callback = callback
         }
     }

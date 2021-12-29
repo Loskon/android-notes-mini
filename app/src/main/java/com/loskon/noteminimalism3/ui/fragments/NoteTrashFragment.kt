@@ -66,7 +66,6 @@ class NoteTrashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initObjects()
         establishColorViews()
         configureEditText()
@@ -118,15 +117,15 @@ class NoteTrashFragment : Fragment() {
         SnackbarNoteRestore(this, constLayout, fab).show()
     }
 
-    interface CallbackNoteTrash {
+    interface NoteTrashCallback {
         fun onNoteDelete(note: Note, hasFavStatus: Boolean)
         fun onNoteReset(note: Note)
     }
 
     companion object {
-        private var callback: CallbackNoteTrash? = null
+        private var callback: NoteTrashCallback? = null
 
-        fun listenerCallback(callback: CallbackNoteTrash) {
+        fun registerCallbackNoteTrash(callback: NoteTrashCallback) {
             Companion.callback = callback
         }
 

@@ -15,8 +15,8 @@ import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.ui.dialogs.DialogNoteReceivingData
-import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
+import com.loskon.noteminimalism3.ui.dialogs.NoteReceivingDataDialog
+import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.share.NotesSelectedListAdapter
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
@@ -26,8 +26,8 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  */
 
 class ReceivingDataActivity :
-    BaseActivities(),
-    NotesSelectedListAdapter.CallbackSendAdapter {
+    AppBaseActivity(),
+    NotesSelectedListAdapter.SendAdapterCallback {
 
     private val commandCenter: CommandCenter = CommandCenter()
     private val adapterSelected: NotesSelectedListAdapter = NotesSelectedListAdapter()
@@ -44,19 +44,21 @@ class ReceivingDataActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_receiving_data)
-
-        NotesSelectedListAdapter.listenerCallback(this)
-
-        initViews()
+        installCallbacks()
+        setupViewDeclaration()
         establishColorViews()
-        configureListView()
-        configureListAdapter()
+        configureRecyclerAdapter()
+        configureRecyclerView()
         updateNotesList()
         installHandlers()
         receivingTextData()
     }
 
-    private fun initViews() {
+    private fun installCallbacks() {
+        NotesSelectedListAdapter.registerCallbackSendAdapter(this)
+    }
+
+    private fun setupViewDeclaration() {
         recyclerView = findViewById(R.id.recycler_view_note_reciving)
         tvEmpty = findViewById(R.id.tv_empty_list_receiving_data)
         fab = findViewById(R.id.fab_receiving_data)
@@ -69,13 +71,7 @@ class ReceivingDataActivity :
         fab.setFabColor(color)
     }
 
-    private fun configureListView() {
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapterSelected
-        recyclerView.itemAnimator = CustomItemAnimator()
-    }
-
-    private fun configureListAdapter() {
+    private fun configureRecyclerAdapter() {
         adapterSelected.setViewColor(color)
 
         val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
@@ -84,6 +80,12 @@ class ReceivingDataActivity :
 
         val numberLines: Int = PrefHelper.getNumberLines(this)
         adapterSelected.setNumberLines(numberLines)
+    }
+
+    private fun configureRecyclerView() {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapterSelected
+        recyclerView.itemAnimator = AppItemAnimator()
     }
 
     private fun updateNotesList() {
@@ -132,7 +134,7 @@ class ReceivingDataActivity :
             if ("text/plain" == intent.type) {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                     receivingText = it
-                    DialogNoteReceivingData(this).show()
+                    NoteReceivingDataDialog(this).show()
                 }
             }
         }
@@ -142,14 +144,14 @@ class ReceivingDataActivity :
         updateCreatedNote(note)
     }
 
-    interface CallbackReceivingData {
+    interface ReceivingDataCallback {
         fun onReceivingData()
     }
 
     companion object {
-        private var callback: CallbackReceivingData? = null
+        private var callback: ReceivingDataCallback? = null
 
-        fun listenerCallback(callback: CallbackReceivingData) {
+        fun registerCallbackReceivingData(callback: ReceivingDataCallback) {
             this.callback = callback
         }
     }

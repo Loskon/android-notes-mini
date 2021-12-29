@@ -21,10 +21,10 @@ import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.sheets.SheetBackupNameDateBase
-import com.loskon.noteminimalism3.ui.sheets.SheetCloudConfirm
-import com.loskon.noteminimalism3.ui.sheets.SheetGoogleAccount
-import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
+import com.loskon.noteminimalism3.ui.sheets.CloudConfirmSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.GoogleAccountSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.NameBackupSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 
@@ -89,7 +89,7 @@ class BackupFragment : Fragment(),
         when (btnId) {
             R.id.btn_backup_sd -> {
                 if (hasAccessStorageRequest) {
-                    SheetBackupNameDateBase(activity).show()
+                    NameBackupSheetDialog(activity).show()
                 }
             }
 
@@ -98,20 +98,20 @@ class BackupFragment : Fragment(),
                     ResultActivity.launcherSelectingDateBaseFile(activity)
                 } else {
                     if (hasAccessStorageRequest) {
-                        SheetListRestoreDateBase(activity).show()
+                        ListRestoreSheetDialog(activity).show()
                     }
                 }
             }
 
             R.id.btn_backup_cloud -> {
                 if (checkForInternet()) {
-                    SheetCloudConfirm(activity, this).show(true)
+                    CloudConfirmSheetDialog(activity, this).show(true)
                 }
             }
 
             R.id.btn_restore_cloud -> {
                 if (checkForInternet()) {
-                    SheetCloudConfirm(activity, this).show(false)
+                    CloudConfirmSheetDialog(activity, this).show(false)
                 }
 
             }
@@ -150,7 +150,7 @@ class BackupFragment : Fragment(),
     private fun performClickMenuItemAccount(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_account) {
             if (checkForInternet()) {
-                SheetGoogleAccount(activity, this).show()
+                GoogleAccountSheetDialog(activity, this).show()
             }
             return true
         }
@@ -167,9 +167,9 @@ class BackupFragment : Fragment(),
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
         if (isGranted) {
             if (btnId == R.id.btn_backup_sd) {
-                SheetBackupNameDateBase(activity).show()
+                NameBackupSheetDialog(activity).show()
             } else if (btnId == R.id.btn_restore_sd) {
-                SheetListRestoreDateBase(activity).show()
+                ListRestoreSheetDialog(activity).show()
             }
         } else {
             showSnackbar(SnackbarControl.MSG_NO_PERMISSION)
@@ -215,14 +215,14 @@ class BackupFragment : Fragment(),
 
     fun deleteUserAccount() = cloudBackup.deleteUserAccount()
 
-    interface CallbackRestoreNoteAndroidR {
+    interface RestoreNoteAndroidRCallback {
         fun onRestoreNotes()
     }
 
     companion object {
-        private var callback: CallbackRestoreNoteAndroidR? = null
+        private var callback: RestoreNoteAndroidRCallback? = null
 
-        fun listenerCallback(callback: CallbackRestoreNoteAndroidR) {
+        fun registerCallbackRestoreNoteAndroidR(callback: RestoreNoteAndroidRCallback) {
             this.callback = callback
         }
     }

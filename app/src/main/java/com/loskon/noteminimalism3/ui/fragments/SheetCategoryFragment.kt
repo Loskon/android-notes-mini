@@ -33,12 +33,12 @@ class SheetCategoryFragment : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listenerCallback(context)
+        registerCallback(context)
         getPassedArguments()
         mContext = context
     }
 
-    private fun listenerCallback(context: Context) {
+    private fun registerCallback(context: Context) {
         callback = context as CallbackCategory?
     }
 

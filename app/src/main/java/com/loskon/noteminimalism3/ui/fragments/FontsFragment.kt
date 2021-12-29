@@ -14,17 +14,17 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Font
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.dialogs.DialogWarning
-import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
-import com.loskon.noteminimalism3.ui.recyclerview.fonts.CustomSnapHelper
+import com.loskon.noteminimalism3.ui.dialogs.WarningAboutFontDialog
+import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.fonts.FontListAdapter
+import com.loskon.noteminimalism3.ui.recyclerview.fonts.FontSnapHelper
 import com.loskon.noteminimalism3.utils.getShortFont
 
 /**
  * Форма для выбора шрифта в приложении
  */
 
-class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
+class FontsFragment : Fragment(), FontListAdapter.FontAdapterCallback {
 
     private lateinit var activity: SettingsActivity
 
@@ -65,7 +65,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
     }
 
     private fun installCallbacks() {
-        FontListAdapter.listenerCallback(this)
+        FontListAdapter.registerCallbackFontAdapter(this)
     }
 
     private fun configureLayoutManager() {
@@ -76,7 +76,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
     private fun configureRecyclerView() {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        recyclerView.itemAnimator = CustomItemAnimator()
+        recyclerView.itemAnimator = AppItemAnimator()
     }
 
     private fun configureRecyclerAdapter() {
@@ -118,7 +118,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
     }
 
     private fun installSnapHelper() {
-        val snapHelper = CustomSnapHelper()
+        val snapHelper = FontSnapHelper()
         snapHelper.attachToRecyclerView(recyclerView)
         snapHelper.setCenterPosition(savedPosition)
     }
@@ -129,7 +129,7 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
 
     private fun showWarningDialog() {
         if (PrefHelper.isDialogShow(activity)) {
-            DialogWarning(activity).show()
+            WarningAboutFontDialog(activity).show()
         }
     }
 
@@ -140,14 +140,14 @@ class FontsFragment : Fragment(), FontListAdapter.CallbackFontAdapter {
         callback?.onChangeTypeFont(item.font_type_face)
     }
 
-    interface CallbackTypeFont {
+    interface TypeFontCallback {
         fun onChangeTypeFont(typeFace: Typeface?)
     }
 
     companion object {
-        private var callback: CallbackTypeFont? = null
+        private var callback: TypeFontCallback? = null
 
-        fun listenerCallback(callback: CallbackTypeFont) {
+        fun registerCallbackTypeFont(callback: TypeFontCallback) {
             this.callback = callback
         }
     }

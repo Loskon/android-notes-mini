@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.utils.setTextSizeShort
  * Адаптер для работы со списком заметок
  */
 
-class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
+class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private var list: List<Note> = emptyList()
 
@@ -190,7 +190,7 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
         notifyDataSetChanged()
     }
 
-    interface CallbackNoteAdapter {
+    interface NoteListAdapterCallback {
         fun onClickingNote(note: Note)
         fun onActivatingSelectionMode(isSelMode: Boolean)
         fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
@@ -198,9 +198,9 @@ class NotesListAdapter : SelectableAdapter<NotesListViewHolder>() {
     }
 
     companion object {
-        private var callback: CallbackNoteAdapter? = null
+        private var callback: NoteListAdapterCallback? = null
 
-        fun listenerCallback(callback: CallbackNoteAdapter) {
+        fun registerCallbackNoteListAdapter(callback: NoteListAdapterCallback) {
             this.callback = callback
         }
     }

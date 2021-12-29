@@ -27,32 +27,32 @@ class PrefScreenResetColor @JvmOverloads constructor(
     }
 
     // Callbacks
-    interface CallbackColorResetNavIcon {
+    interface ColorResetNavIconCallback {
         fun onChangeColor(color: Int)
     }
 
-    interface CallbackColorResetNotifyData {
+    interface ColorResetNotifyDataCallback {
         fun onChangeColor()
     }
 
-    interface CallbackColorResetList {
+    interface ColorResetListCallback {
         fun onChangeColor(color: Int)
     }
 
     companion object {
-        private var callbackColorNavIcon: CallbackColorResetNavIcon? = null
-        private var callbackColorNotifyData: CallbackColorResetNotifyData? = null
-        private var callbackColorList: CallbackColorResetList? = null
+        private var callbackColorNavIcon: ColorResetNavIconCallback? = null
+        private var callbackColorNotifyData: ColorResetNotifyDataCallback? = null
+        private var callbackColorList: ColorResetListCallback? = null
 
-        fun listenerCallBackColorNavIcon(callbackColorNavIcon: CallbackColorResetNavIcon) {
+        fun registerCallbackColorNavIcon(callbackColorNavIcon: ColorResetNavIconCallback) {
             this.callbackColorNavIcon = callbackColorNavIcon
         }
 
-        fun listenerCallBackNotifyData(callbackColorNotifyData: CallbackColorResetNotifyData) {
+        fun registerCallbackNotifyData(callbackColorNotifyData: ColorResetNotifyDataCallback) {
             this.callbackColorNotifyData = callbackColorNotifyData
         }
 
-        fun listenerCallBackColorList(callbackColorList: CallbackColorResetList) {
+        fun registerCallbackColorList(callbackColorList: ColorResetListCallback) {
             this.callbackColorList = callbackColorList
         }
     }

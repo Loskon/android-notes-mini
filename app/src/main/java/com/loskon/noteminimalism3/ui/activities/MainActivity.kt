@@ -27,20 +27,20 @@ import com.loskon.noteminimalism3.other.QueryTextListener
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.dialogs.DialogForeverDeleteWarning
-import com.loskon.noteminimalism3.ui.dialogs.DialogSendToTrashWarning
-import com.loskon.noteminimalism3.ui.dialogs.DialogUnification
+import com.loskon.noteminimalism3.ui.dialogs.DeleteForeverWarningDialog
+import com.loskon.noteminimalism3.ui.dialogs.SendToTrashWarningDialog
+import com.loskon.noteminimalism3.ui.dialogs.UnificationDialog
 import com.loskon.noteminimalism3.ui.fragments.*
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-import com.loskon.noteminimalism3.ui.recyclerview.CustomItemAnimator
+import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
+import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteSwipeCallback
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NotesListAdapter
-import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
-import com.loskon.noteminimalism3.ui.sheets.SheetListRestoreDateBase
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColor
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefSelectColorHex
-import com.loskon.noteminimalism3.ui.sheets.SheetPrefSort
+import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
@@ -50,29 +50,29 @@ import com.loskon.noteminimalism3.utils.*
  * Основное activity для работы со списком
  */
 
-class MainActivity : BaseActivities(),
-    NotesListAdapter.CallbackNoteAdapter,
-    SwipeCallback.CallbackSwipeUndo,
+class MainActivity : AppBaseActivity(),
+    NotesListAdapter.NoteListAdapterCallback,
+    NoteSwipeCallback.NoteSwipeCallback,
     SheetCategoryFragment.CallbackCategory,
-    NoteFragment.CallbackNote,
-    NoteTrashFragment.CallbackNoteTrash,
-    SheetPrefSelectColor.CallbackColorList,
-    SheetPrefSelectColorHex.CallbackColorHexList,
-    PrefScreenResetColor.CallbackColorResetList,
-    PrefScreenCardView.CallbackFontsSizes,
-    PrefScreenNumberLines.CallbackNumberLines,
-    SettingsAppFragment.CallbackOneSizeCards,
-    SheetListRestoreDateBase.CallbackRestoreNote,
-    DataBaseCloudBackup.CallbackRestoreNoteCloud,
-    BackupFragment.CallbackRestoreNoteAndroidR,
-    SheetPrefSort.CallbackSort,
-    FontsFragment.CallbackTypeFont {
+    NoteFragment.NoteCallback,
+    NoteTrashFragment.NoteTrashCallback,
+    SelectColorPickerSheetDialog.ColorListCallback,
+    SelectColorHexSheetDialog.ColorHexListCallback,
+    PrefScreenResetColor.ColorResetListCallback,
+    PrefScreenCardView.FontsSizesCallback,
+    PrefScreenNumberLines.NumberLinesCallback,
+    SettingsAppFragment.OneSizeCardsCallback,
+    ListRestoreSheetDialog.RestoreNoteCallback,
+    DataBaseCloudBackup.RestoreNoteCloudCallback,
+    BackupFragment.RestoreNoteAndroidRCallback,
+    SortWaySheetDialog.SortWayCallback,
+    FontsFragment.TypeFontCallback {
 
     private val commandCenter: CommandCenter = CommandCenter()
     private val adapter: NotesListAdapter = NotesListAdapter()
 
     private lateinit var helper: ListActivityHelper
-    private lateinit var swipeCallback: SwipeCallback
+    private lateinit var swipeCallback: NoteSwipeCallback
     private lateinit var snackbarUndo: SnackbarUndo
 
     private lateinit var coordLayout: CoordinatorLayout
@@ -95,8 +95,8 @@ class MainActivity : BaseActivities(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initViews()
         installCallbacks()
+        setupViewDeclaration()
         configureRecyclerAdapter()
         configureRecyclerView()
         configureSearchView()
@@ -108,35 +108,35 @@ class MainActivity : BaseActivities(),
         updateQuicklyNotesList()
     }
 
-    private fun initViews() {
-        coordLayout = findViewById(R.id.coord_layout_list)
+    private fun installCallbacks() {
+        // Для работы с заметками
+        NotesListAdapter.registerCallbackNoteListAdapter(this)
+        NoteSwipeCallback.registerCallbackNoteSwipe(this)
+        NoteFragment.registerCallbackNote(this)
+        NoteTrashFragment.registerCallbackNoteTrash(this)
+        // Для изменения настроек
+        SelectColorPickerSheetDialog.registerCallbackColorList(this)
+        SelectColorHexSheetDialog.registerCallbackColorList(this)
+        PrefScreenResetColor.registerCallbackColorList(this)
+        PrefScreenCardView.registerCallbackFontSizes(this)
+        PrefScreenNumberLines.registerCallbackNumberLines(this)
+        SettingsAppFragment.registerCallbackOneSizeCards(this)
+        ListRestoreSheetDialog.registerCallbackRestoreNote(this)
+        DataBaseCloudBackup.registerCallbackRestoreNoteCloud(this)
+        BackupFragment.registerCallbackRestoreNoteAndroidR(this)
+        SortWaySheetDialog.registerCallbackSortWay(this)
+        FontsFragment.registerCallbackTypeFont(this)
+    }
+
+    private fun setupViewDeclaration() {
+        coordLayout = findViewById(R.id.coord_layout_main)
         searchView = findViewById(R.id.search_view)
-        recyclerView = findViewById(R.id.recycler_view_notes)
+        recyclerView = findViewById(R.id.recycler_view_main)
         tvEmpty = findViewById(R.id.tv_empty_main)
         fab = findViewById(R.id.fab_main)
         cardView = findViewById(R.id.card_view_main)
         tvCountItems = findViewById(R.id.tv_selected_items_count)
         bottomBar = findViewById(R.id.bottom_bar_main)
-    }
-
-    private fun installCallbacks() {
-        // Для работы с заметками
-        NotesListAdapter.listenerCallback(this)
-        SwipeCallback.listenerCallback(this)
-        NoteFragment.listenerCallback(this)
-        NoteTrashFragment.listenerCallback(this)
-        // Для изменения настроек
-        SheetPrefSelectColor.listenerCallBackColorList(this)
-        SheetPrefSelectColorHex.listenerCallBackColorList(this)
-        PrefScreenResetColor.listenerCallBackColorList(this)
-        PrefScreenCardView.listenerCallback(this)
-        PrefScreenNumberLines.listenerCallback(this)
-        SettingsAppFragment.listenerCallbackSize(this)
-        SheetListRestoreDateBase.listenerCallback(this)
-        DataBaseCloudBackup.listenerCallback(this)
-        BackupFragment.listenerCallback(this)
-        SheetPrefSort.listenerCallback(this)
-        FontsFragment.listenerCallback(this)
     }
 
     private fun configureRecyclerAdapter() {
@@ -164,7 +164,7 @@ class MainActivity : BaseActivities(),
     private fun configureRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-        recyclerView.itemAnimator = CustomItemAnimator()
+        recyclerView.itemAnimator = AppItemAnimator()
     }
 
     private fun configureSearchView() {
@@ -201,7 +201,7 @@ class MainActivity : BaseActivities(),
     }
 
     private fun installSwipeCallback() {
-        swipeCallback = SwipeCallback(adapter, commandCenter)
+        swipeCallback = NoteSwipeCallback(adapter, commandCenter)
         ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
     }
 
@@ -216,9 +216,7 @@ class MainActivity : BaseActivities(),
     }
 
     private fun installHandlers() {
-        fab.setOnSingleClickListener {
-            clickingFab()
-        }
+        fab.setOnSingleClickListener { clickingFab() }
 
         bottomBar.setNavigationOnClickListener {
             dismissSnackbars(true)
@@ -244,7 +242,7 @@ class MainActivity : BaseActivities(),
                 }
 
                 R.id.action_unification -> {
-                    DialogUnification(this).show()
+                    UnificationDialog(this).show()
                     true
                 }
 
@@ -268,7 +266,7 @@ class MainActivity : BaseActivities(),
 
     private fun pressingInDeleteMode() {
         if (category == CATEGORY_TRASH) {
-            DialogForeverDeleteWarning(this).show()
+            DeleteForeverWarningDialog(this).show()
         } else {
             sendItemsToTrash()
         }
@@ -279,7 +277,7 @@ class MainActivity : BaseActivities(),
             transitionSearchMode(false)
         } else {
             if (category == CATEGORY_TRASH) {
-                DialogSendToTrashWarning(this).show(adapter.itemCount)
+                SendToTrashWarningDialog(this).show(adapter.itemCount)
             } else {
                 IntentManager.openNote(this, Note(), category)
             }
@@ -450,7 +448,6 @@ class MainActivity : BaseActivities(),
         this.category = category
         swipeCallback.setCategory(category)
         helper.setIconFabCategory(category)
-
         updateQuicklyNotesList()
         scrollUpWithProtection()
     }

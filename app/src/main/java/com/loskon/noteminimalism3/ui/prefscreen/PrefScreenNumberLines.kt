@@ -47,14 +47,14 @@ class PrefScreenNumberLines @JvmOverloads constructor(
         }
     }
 
-    interface CallbackNumberLines {
+    interface NumberLinesCallback {
         fun onChangeNumberLines(numberLines: Int)
     }
 
     companion object {
-        private var callback: CallbackNumberLines? = null
+        private var callback: NumberLinesCallback? = null
 
-        fun listenerCallback(callback: CallbackNumberLines) {
+        fun registerCallbackNumberLines(callback: NumberLinesCallback) {
             Companion.callback = callback
         }
     }

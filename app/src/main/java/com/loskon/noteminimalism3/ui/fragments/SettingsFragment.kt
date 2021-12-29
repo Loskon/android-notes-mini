@@ -29,11 +29,11 @@ import kotlinx.coroutines.launch
  */
 
 class SettingsFragment :
-    BaseSettingsFragments(),
+    AppBaseSettingsFragment(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
-    SheetPrefSliderNumberBackups.CallbackNumberBackups,
-    SheetPrefSliderRetention.CallbackRetention,
+    NumberBackupsSheetDialog.NumberBackupsCallback,
+    RetentionTimeSheetDialog.RetentionTimeCallback,
     ResultAccessStorageInterface,
     ResultActivityInterface {
 
@@ -100,8 +100,8 @@ class SettingsFragment :
     }
 
     private fun installCallbacks() {
-        SheetPrefSliderNumberBackups.listenerCallback(this)
-        SheetPrefSliderRetention.listenerCallback(this)
+        NumberBackupsSheetDialog.registerCallbackNumberBackups(this)
+        RetentionTimeSheetDialog.registerCallbackRetentionTime(this)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -230,7 +230,7 @@ class SettingsFragment :
                 }
 
                 sortingKey -> {
-                    SheetPrefSort(this).show()
+                    SortWaySheetDialog(this).show()
                     return true
                 }
 
@@ -248,22 +248,22 @@ class SettingsFragment :
                 }
 
                 numberBackupsKey -> {
-                    SheetPrefSliderNumberBackups(this).show()
+                    NumberBackupsSheetDialog(this).show()
                     return true
                 }
 
                 hyperlinksKey -> {
-                    SheetPrefLinks(this).show()
+                    LinksSheetDialog(this).show()
                     return true
                 }
 
                 retentionKey -> {
-                    SheetPrefSliderRetention(this).show()
+                    RetentionTimeSheetDialog(this).show()
                     return true
                 }
 
                 fontSizeKey -> {
-                    SheetPrefNoteFontSize(this).show()
+                    NoteFontSizeSheetDialog(this).show()
                     return true
                 }
 
@@ -273,7 +273,7 @@ class SettingsFragment :
                 }
 
                 aboutAppKey -> {
-                    SheetPrefAboutApp(activity).show()
+                    AboutAppSheetDialog(activity).show()
                     return true
                 }
 

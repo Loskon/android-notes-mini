@@ -83,14 +83,14 @@ class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontViewHolder>() {
         var radioButton: RadioButton = itemView.findViewById(R.id.radio_button_font)
     }
 
-    interface CallbackFontAdapter {
+    interface FontAdapterCallback {
         fun onClickingItem(item: Font)
     }
 
     companion object {
-        private var callback: CallbackFontAdapter? = null
+        private var callback: FontAdapterCallback? = null
 
-        fun listenerCallback(callback: CallbackFontAdapter) {
+        fun registerCallbackFontAdapter(callback: FontAdapterCallback) {
             this.callback = callback
         }
     }

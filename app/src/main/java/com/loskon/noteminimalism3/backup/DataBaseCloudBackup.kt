@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.requests.google.ResultGoogle
 import com.loskon.noteminimalism3.requests.google.ResultGoogleInterface
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
-import com.loskon.noteminimalism3.ui.dialogs.DialogProgress
+import com.loskon.noteminimalism3.ui.dialogs.ProgressDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import java.io.File
@@ -30,7 +30,7 @@ class DataBaseCloudBackup(
 ) :
     ResultGoogleInterface {
 
-    private val dialogProgress: DialogProgress = DialogProgress(context)
+    private val progressDialog: ProgressDialog = ProgressDialog(context)
 
     private var firebaseAuth: FirebaseAuth = Firebase.auth
 
@@ -94,7 +94,7 @@ class DataBaseCloudBackup(
     }
 
     private fun showDialog() {
-        dialogProgress.show()
+        progressDialog.show()
         startCountDownTimer()
     }
 
@@ -116,7 +116,7 @@ class DataBaseCloudBackup(
 
     private fun showSnackbar(typeMessage: String) {
         countDownTimer?.cancel()
-        dialogProgress.close()
+        progressDialog.close()
         fragment.showSnackbar(typeMessage)
     }
 
@@ -203,14 +203,14 @@ class DataBaseCloudBackup(
             }
     }
 
-    interface CallbackRestoreNoteCloud {
+    interface RestoreNoteCloudCallback {
         fun onRestoreNotes()
     }
 
     companion object {
-        private var callback: CallbackRestoreNoteCloud? = null
+        private var callback: RestoreNoteCloudCallback? = null
 
-        fun listenerCallback(callback: CallbackRestoreNoteCloud) {
+        fun registerCallbackRestoreNoteCloud(callback: RestoreNoteCloudCallback) {
             this.callback = callback
         }
     }

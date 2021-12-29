@@ -25,7 +25,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.preferenceStyle,
     defStyleRes: Int = 0
 ) : Preference(context, attrs, defStyleAttr, defStyleRes),
-    SettingsAppFragment.CallbackResetFontSize {
+    SettingsAppFragment.ResetFontSizeCallback {
 
     init {
         layoutResource = R.layout.pref_layout_card_view
@@ -63,7 +63,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun installCallbacks() {
-        SettingsAppFragment.listenerCallbackReset(this)
+        SettingsAppFragment.registerCallbackResetFontSize(this)
     }
 
     private fun configureViews() {
@@ -126,14 +126,14 @@ class PrefScreenCardView @JvmOverloads constructor(
         performChangeTextSizes()
     }
 
-    interface CallbackFontsSizes {
+    interface FontsSizesCallback {
         fun onChangeFontSizes(fontSizeTitle: Int, fontSizeDate: Int)
     }
 
     companion object {
-        private var callback: CallbackFontsSizes? = null
+        private var callback: FontsSizesCallback? = null
 
-        fun listenerCallback(callback: CallbackFontsSizes) {
+        fun registerCallbackFontSizes(callback: FontsSizesCallback) {
             Companion.callback = callback
         }
     }

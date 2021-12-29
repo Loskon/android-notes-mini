@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
  * Выбор фрагмента для работы с заметкой
  */
 
-class NoteActivity : BaseActivities() {
+class NoteActivity : AppBaseActivity() {
 
     private lateinit var note: Note
 
@@ -27,13 +27,11 @@ class NoteActivity : BaseActivities() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
-
         getArguments()
         otherConfigurations()
         setStatusFavorite()
         selectFragmentOpen()
     }
-
 
     private fun getArguments() {
         intent.getParcelableExtra<Note>(IntentManager.PUT_EXTRA_NOTE)

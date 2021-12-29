@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.loskon.noteminimalism3.ui.views.CustomNavigationView
+    <com.loskon.noteminimalism3.ui.views.AppNavigationView
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

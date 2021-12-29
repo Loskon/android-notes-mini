@@ -59,15 +59,15 @@ class FilesAdapter : BaseAdapter() {
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    interface CallbackFilesAdapter {
+    interface FilesAdapterCallback {
         fun onClickingFile(file: File)
         fun onCheckEmpty()
     }
 
     companion object {
-        private var callback: CallbackFilesAdapter? = null
+        private var callback: FilesAdapterCallback? = null
 
-        fun listenerCallback(callback: CallbackFilesAdapter) {
+        fun registerCallbackFilesAdapter(callback: FilesAdapterCallback) {
             this.callback = callback
         }
     }

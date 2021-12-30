@@ -19,7 +19,7 @@ import com.loskon.noteminimalism3.utils.setTextSizeShort
 class NoteFontSizeSheetDialog(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val sheetView = View.inflate(context, R.layout.sheet_pref_note_font_size, null)
+    private val sheetView = View.inflate(context, R.layout.sheet_note_font_size, null)
 
     private val textView: TextView = sheetView.findViewById(R.id.tv_sheet_font_size)
     private val slider: Slider = sheetView.findViewById(R.id.slider_sheet_font_size)

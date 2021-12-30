@@ -18,7 +18,7 @@ import com.loskon.noteminimalism3.utils.showKeyboard
 class SelectColorHexSheetDialog(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val insertView = View.inflate(context, R.layout.sheet_pref_color_hex, null)
+    private val insertView = View.inflate(context, R.layout.sheet_color_hex, null)
 
     private val inputLayout: TextInputLayout = insertView.findViewById(R.id.input_layout_hex)
     private val inputEditText: TextInputEditText = insertView.findViewById(R.id.input_edit_text_hex)

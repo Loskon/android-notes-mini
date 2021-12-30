@@ -16,7 +16,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 class SortWaySheetDialog(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val insertView = View.inflate(context, R.layout.sheet_pref_sorting, null)
+    private val insertView = View.inflate(context, R.layout.sheet_sort_way, null)
 
     private val radioGroup: RadioGroup = insertView.findViewById(R.id.rg_sort)
     private val radioButtonCreate: RadioButton = insertView.findViewById(R.id.rb_sort_creation)

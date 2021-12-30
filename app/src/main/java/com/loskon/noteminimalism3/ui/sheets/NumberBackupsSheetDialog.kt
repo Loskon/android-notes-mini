@@ -16,7 +16,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 class NumberBackupsSheetDialog(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val insertView = View.inflate(context, R.layout.sheet_pref_slider, null)
+    private val insertView = View.inflate(context, R.layout.sheet_slider, null)
 
     private val slider: Slider = insertView.findViewById(R.id.slider_range)
 

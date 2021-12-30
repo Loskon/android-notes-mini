@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.R
 class AboutAppSheetDialog(private val context: Context) {
 
     private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val insertView = View.inflate(context, R.layout.sheet_pref_about_app, null)
+    private val insertView = View.inflate(context, R.layout.sheet_about_app, null)
 
     private val tvVersion: TextView = insertView.findViewById(R.id.tv_about_app_version)
 

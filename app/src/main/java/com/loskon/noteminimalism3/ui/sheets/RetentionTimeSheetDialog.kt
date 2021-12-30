@@ -15,21 +15,21 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class RetentionTimeSheetDialog(private val context: Context) {
 
-    private val sheetDialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val insertView = View.inflate(context, R.layout.sheet_pref_slider, null)
+    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+    private val insertView = View.inflate(context, R.layout.sheet_slider, null)
 
     private val slider: Slider = insertView.findViewById(R.id.slider_range)
-    private val btnOk: Button = sheetDialog.buttonOk
+    private val btnOk: Button = dialog.buttonOk
 
     init {
-        sheetDialog.setInsertView(insertView)
-        sheetDialog.setTextTitle(R.string.retention_trash_title)
+        dialog.setInsertView(insertView)
+        dialog.setTextTitle(R.string.retention_trash_title)
     }
 
     fun show() {
         establishColorViews()
         configViews()
-        sheetDialog.show()
+        dialog.show()
     }
 
     private fun establishColorViews() {
@@ -52,7 +52,7 @@ class RetentionTimeSheetDialog(private val context: Context) {
             PrefHelper.save(context, prefKey, sliderValue)
 
             callback?.onChangeRetention(sliderValue)
-            sheetDialog.dismiss()
+            dialog.dismiss()
         }
     }
 

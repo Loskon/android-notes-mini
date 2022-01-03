@@ -107,8 +107,8 @@
 
     <!-- Sheet -->
     <!-- sheet_backup -->
-    <string name="sheet_backup_title">Enter a name</string>
-    <string name="sheet_backup_incorrect_name">Enter the correct name!</string>
+    <string name="sheet_backup_title">Enter a title</string>
+    <string name="sheet_backup_incorrect_name">Enter the correct title!</string>
     <!-- sheet_restore_date_base -->
     <string name="sheet_restore_db_title">Select file:</string>
     <string name="sheet_restore_db_delete_all_backups">Delete all</string>

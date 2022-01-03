@@ -69,7 +69,7 @@ class NoteTrashFragment : Fragment() {
         initObjects()
         establishColorViews()
         configureEditText()
-        installHandlers()
+        installHandlersForViews()
     }
 
     private fun initObjects() {
@@ -92,7 +92,7 @@ class NoteTrashFragment : Fragment() {
         }
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         fab.setOnSingleClickListener { restoreNote() }
         btnDel.setOnSingleClickListener { deleteNote() }
         linearLayout.setOnClickListener { showSnackbar() }

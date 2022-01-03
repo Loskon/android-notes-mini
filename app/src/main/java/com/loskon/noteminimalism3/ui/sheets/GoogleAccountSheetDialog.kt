@@ -24,7 +24,7 @@ class GoogleAccountSheetDialog(
     private val btnDelete: MaterialButton = insertView.findViewById(R.id.btn_data_account_delete)
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setBtnOkVisibility(false)
         dialog.setTextTitle(R.string.sheet_account_title)
         dialog.setTextBtnCancel(R.string.to_close)
@@ -32,7 +32,7 @@ class GoogleAccountSheetDialog(
 
     fun show() {
         establishColorViews()
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -42,7 +42,7 @@ class GoogleAccountSheetDialog(
         btnDelete.setBackgroundColor(color)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         btnLogout.setOnClickListener(this)
         btnDelete.setOnClickListener(this)
     }

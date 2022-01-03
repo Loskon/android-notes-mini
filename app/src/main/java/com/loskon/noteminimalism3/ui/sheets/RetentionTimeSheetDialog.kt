@@ -22,7 +22,7 @@ class RetentionTimeSheetDialog(private val context: Context) {
     private val btnOk: Button = dialog.buttonOk
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setTextTitle(R.string.retention_trash_title)
     }
 
@@ -43,10 +43,10 @@ class RetentionTimeSheetDialog(private val context: Context) {
 
         slider.value = value.toFloat()
 
-        installHandlers(preKey)
+        installHandlersForViews(preKey)
     }
 
-    private fun installHandlers(prefKey: String) {
+    private fun installHandlersForViews(prefKey: String) {
         btnOk.setOnSingleClickListener {
             val sliderValue: Int = slider.value.toInt()
             PrefHelper.save(context, prefKey, sliderValue)

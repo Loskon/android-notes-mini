@@ -71,7 +71,7 @@ class BackupFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         establishColorViews()
-        installHandlers()
+        installHandlersForViews()
     }
 
     private fun establishColorViews() {
@@ -137,7 +137,7 @@ class BackupFragment : Fragment(),
             return InternetCheck.isConnected(activity)
         }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         btnBackupSD.setOnClickListener(this)
         btnRestoreSD.setOnClickListener(this)
         btnBackupCloud.setOnClickListener(this)

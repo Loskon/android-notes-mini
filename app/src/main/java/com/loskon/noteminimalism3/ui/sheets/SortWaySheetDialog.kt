@@ -25,14 +25,14 @@ class SortWaySheetDialog(private val context: Context) {
     private var checkedNumber: Int = 0
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setTextTitle(R.string.sort_title)
     }
 
     fun show() {
         establishColorViews()
         configureStateChecked()
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -52,7 +52,7 @@ class SortWaySheetDialog(private val context: Context) {
         }
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         radioGroup.setOnCheckedChangeListener { _, radioButtonId: Int ->
             checkedNumber = if (radioButtonId == R.id.rb_sort_modification) {
                 1

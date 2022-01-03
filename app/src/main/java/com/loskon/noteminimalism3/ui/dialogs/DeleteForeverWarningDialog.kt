@@ -19,11 +19,11 @@ class DeleteForeverWarningDialog(context: Context) {
     }
 
     fun show() {
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         dialog.buttonOk.setOnSingleClickListener {
             activity.deleteItemsForever()
             dialog.dismiss()

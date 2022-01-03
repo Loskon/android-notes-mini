@@ -47,7 +47,7 @@ class PrefScreenCardView @JvmOverloads constructor(
         installCallbacks()
         configureViews()
         establishColorViews()
-        installHandlers()
+        installHandlersForViews()
     }
 
     private fun initView(holder: PreferenceViewHolder) {
@@ -100,7 +100,7 @@ class PrefScreenCardView @JvmOverloads constructor(
         slider.setSliderColor(color)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         slider.addOnChangeListener(Slider.OnChangeListener { _, value: Float, _ ->
             titleFontSize = value.toInt()
             fontSizeDate = getValueDateFontSize()

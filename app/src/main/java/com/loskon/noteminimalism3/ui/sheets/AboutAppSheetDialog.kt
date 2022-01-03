@@ -18,7 +18,7 @@ class AboutAppSheetDialog(private val context: Context) {
     private val tvVersion: TextView = insertView.findViewById(R.id.tv_about_app_version)
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setBtnOkVisibility(false)
         dialog.setTextTitle(R.string.app_name)
         dialog.setTextBtnCancel(R.string.to_close)

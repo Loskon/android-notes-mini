@@ -37,7 +37,7 @@ class NoteAssistantSheetDialog(
     fun show(dateModification: String?, noteId: Long) {
         setTextDateModification(dateModification)
         hideDateModification(noteId)
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -49,7 +49,7 @@ class NoteAssistantSheetDialog(
         tvDateModification.text = context.getString(R.string.bs_last_modified, dateModification)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         assistant.apply {
             btnPaste.setOnSingleClickListener {
                 dialog.dismiss()

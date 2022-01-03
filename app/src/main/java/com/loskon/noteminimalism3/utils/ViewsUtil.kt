@@ -44,7 +44,7 @@ fun Int.dpToPx(context: Context): Int {
 }
 
 
-fun View.setLayoutParams() {
+fun View.setLayoutParamsForInsertedView() {
     this.layoutParams = LinearLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT

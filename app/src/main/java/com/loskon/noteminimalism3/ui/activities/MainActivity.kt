@@ -53,7 +53,7 @@ import com.loskon.noteminimalism3.utils.*
 class MainActivity : AppBaseActivity(),
     NotesListAdapter.NoteListAdapterCallback,
     NoteSwipeCallback.NoteSwipeCallback,
-    SheetCategoryFragment.CallbackCategory,
+    CategorySheetFragment.CallbackCategory,
     NoteFragment.NoteCallback,
     NoteTrashFragment.NoteTrashCallback,
     SelectColorPickerSheetDialog.ColorListCallback,
@@ -104,7 +104,7 @@ class MainActivity : AppBaseActivity(),
         installSwipeCallback()
         otherConfigurations()
         establishColorViews()
-        installHandlers()
+        installHandlersForViews()
         updateQuicklyNotesList()
     }
 
@@ -215,7 +215,7 @@ class MainActivity : AppBaseActivity(),
         cardView.setBackgroundTintColor(color)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         fab.setOnSingleClickListener { clickingFab() }
 
         bottomBar.setNavigationOnClickListener {
@@ -356,8 +356,8 @@ class MainActivity : AppBaseActivity(),
     }
 
     private fun openBottomSheetCategory() {
-        val bottomSheet: DialogFragment = SheetCategoryFragment.newInstance(category)
-        bottomSheet.onlyShow(supportFragmentManager, SheetCategoryFragment.TAG)
+        val bottomSheet: DialogFragment = CategorySheetFragment.newInstance(category)
+        bottomSheet.onlyShow(supportFragmentManager, CategorySheetFragment.TAG)
     }
 
     private fun clickingMenuSwitch() {

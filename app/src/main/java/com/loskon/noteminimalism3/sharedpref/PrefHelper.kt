@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.utils.getShortColor
 import com.loskon.noteminimalism3.utils.getShortInt
 
 /**
- * Менеджер для работы с SharedPreferences
+ * Помощник для работы с SharedPreferences
  */
 
 class PrefHelper {
@@ -27,7 +27,7 @@ class PrefHelper {
         private const val PREF_KEY_PHONE = "key_phone"
         private const val PREF_KEY_SEL_DIRECTORY = "key_sel_directory"
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        //--- Save and load methods for shared preferences -----------------------------------------
         // boolean
         fun save(context: Context, key: String, value: Boolean) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -61,7 +61,7 @@ class PrefHelper {
                 .getString(key, defValue)
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        //--- Set shared preferences ---------------------------------------------------------------
         // boolean
         fun setStateLinearList(context: Context, hasLinearList: Boolean) {
             save(context, PREF_KEY_STATE_LINEAR_LIST, hasLinearList)
@@ -113,7 +113,7 @@ class PrefHelper {
             save(context, PREF_KEY_SEL_DIRECTORY, path)
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        //--- Get shared preferences ---------------------------------------------------------------
         // boolean
         fun hasAutoBackup(context: Context): Boolean {
             val key = context.getString(R.string.auto_backup_key)

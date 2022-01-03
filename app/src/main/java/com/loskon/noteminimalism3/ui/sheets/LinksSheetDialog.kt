@@ -21,7 +21,7 @@ class LinksSheetDialog(private val context: Context) : View.OnClickListener {
     private val checkBoxPhone: CheckBox = insertView.findViewById(R.id.check_box_phone)
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setBtnOkVisibility(false)
         dialog.setTextTitle(R.string.sheet_pref_links_title)
         dialog.setTextBtnCancel(R.string.to_close)
@@ -30,7 +30,7 @@ class LinksSheetDialog(private val context: Context) : View.OnClickListener {
     fun show() {
         establishColorViews()
         configureStateChecked()
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -47,7 +47,7 @@ class LinksSheetDialog(private val context: Context) : View.OnClickListener {
         checkBoxPhone.isChecked = PrefHelper.isPhone(context)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         checkBoxWeb.setOnClickListener(this)
         checkBoxMail.setOnClickListener(this)
         checkBoxPhone.setOnClickListener(this)

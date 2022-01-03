@@ -34,14 +34,14 @@ class NameBackupSheetDialog(private val context: Context) {
     private val inputEditText: TextInputEditText = insertView.findViewById(R.id.input_edit_text_backup)
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setTextTitle(R.string.sheet_backup_title)
     }
 
     fun show() {
         establishColorViews()
         configInsertedViews()
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -56,7 +56,7 @@ class NameBackupSheetDialog(private val context: Context) {
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         inputEditText.doOnTextChanged { _, _, _, _ ->
             run {
                 errorManagement()

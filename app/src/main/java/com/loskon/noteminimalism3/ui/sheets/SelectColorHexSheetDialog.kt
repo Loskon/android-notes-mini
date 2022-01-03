@@ -27,14 +27,14 @@ class SelectColorHexSheetDialog(private val context: Context) {
     private var color: Int = 0
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setTextTitle(R.string.sheet_pref_color_hex_title)
     }
 
     fun show() {
         establishColorViews()
         configViews()
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -57,7 +57,7 @@ class SelectColorHexSheetDialog(private val context: Context) {
         return Integer.toHexString((colorInt - 4278190080L).toInt())
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         inputEditText.doOnTextChanged { text: CharSequence?, _, _, _ ->
             run {
                 changeColorBoxInputLayout(text)

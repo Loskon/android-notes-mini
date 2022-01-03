@@ -24,7 +24,7 @@ class ProgressDialog(private val context: Context) {
         dialog.setBtnOkVisibility(false)
         dialog.setBtnCancelVisibility(false)
         dialog.setCancelable(false)
-        dialog.setProgressLayoutParametrs()
+        dialog.setProgressLayoutParameters()
     }
 
     fun show() {

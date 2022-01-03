@@ -35,7 +35,7 @@ class ListRestoreSheetDialog(private val context: Context) : FilesAdapter.FilesA
     private var adapter: FilesAdapter = FilesAdapter()
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setTextTitle(R.string.sheet_restore_db_title)
         dialog.setBtnOkVisibility(false)
         dialog.setTextBtnCancel(R.string.to_close)
@@ -46,7 +46,7 @@ class ListRestoreSheetDialog(private val context: Context) : FilesAdapter.FilesA
         installCallbacks()
         configureListView()
         updateFilesList()
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -68,7 +68,7 @@ class ListRestoreSheetDialog(private val context: Context) : FilesAdapter.FilesA
             return BackupFiles.getList(context)
         }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         btnDeleteAll.setOnSingleClickListener {
             if (adapter.count == 0) {
                 ToastControl.show(context, ToastControl.MSG_TOAST_RESTORE_LIST_EMPTY)

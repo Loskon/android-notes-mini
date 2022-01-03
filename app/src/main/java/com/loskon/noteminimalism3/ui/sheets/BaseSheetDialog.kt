@@ -11,7 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
-import com.loskon.noteminimalism3.utils.setLayoutParams
+import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
@@ -33,7 +33,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
     init {
         settingsBehavior()
         establishColorViews()
-        installHandlers()
+        installHandlersForViews()
     }
 
     private fun settingsBehavior() {
@@ -48,7 +48,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
         btnCancel.setTextColor(color)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         btnCancel.setOnSingleClickListener { dismiss() }
     }
 
@@ -57,13 +57,13 @@ class BaseSheetDialog(private val sheetContext: Context) :
         setContentView(contentView)
     }
 
-    fun setInsertView(insertView: View) {
-        insertView.setLayoutParams()
+    fun addInsertedView(insertView: View) {
+        insertView.setLayoutParamsForInsertedView()
         if (insertView.parent != null) linLayout.removeView(insertView)
         linLayout.addView(insertView)
     }
 
-    // Внешние методы
+    //----------------------------------------------------------------------------------------------
     fun setTextTitle(stringId: Int) {
         tvTitle.text = sheetContext.getString(stringId)
     }
@@ -96,6 +96,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
         btnCancel.setVisibleView(isVisible)
     }
 
+    //----------------------------------------------------------------------------------------------
     val buttonOk: MaterialButton
         get() {
             return btnOk

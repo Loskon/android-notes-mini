@@ -21,11 +21,11 @@ class WarningAboutFontDialog(private val context: Context) {
     }
 
     fun show() {
-        installHandlers()
+        installHandlersForViews()
         dialog.show(insertView)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         dialog.buttonOk.setOnSingleClickListener {
             PrefHelper.setStatusDialogShow(context)
             dialog.dismiss()

@@ -22,11 +22,11 @@ class DeleteBackupsFilesSheetDialog(private val context: Context) {
     }
 
     fun show() {
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         dialog.buttonOk.setOnSingleClickListener {
             deleteAllBackupFiles(files)
             dialog.dismiss()

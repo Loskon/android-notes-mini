@@ -20,11 +20,11 @@ class SendToTrashWarningDialog(context: Context) {
     }
 
     fun show(itemCount: Int) {
-        installHandlers(itemCount)
+        installHandlersForViews(itemCount)
         dialog.show()
     }
 
-    private fun installHandlers(itemCount: Int) {
+    private fun installHandlersForViews(itemCount: Int) {
         dialog.buttonOk.setOnSingleClickListener {
 
             if (itemCount != 0) {

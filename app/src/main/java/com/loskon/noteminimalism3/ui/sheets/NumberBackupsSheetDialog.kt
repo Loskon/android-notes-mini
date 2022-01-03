@@ -21,7 +21,7 @@ class NumberBackupsSheetDialog(private val context: Context) {
     private val slider: Slider = insertView.findViewById(R.id.slider_range)
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setTextTitle(R.string.number_of_backup_title)
     }
 
@@ -42,10 +42,10 @@ class NumberBackupsSheetDialog(private val context: Context) {
 
         slider.value = value.toFloat()
 
-        installHandlers(prefKey)
+        installHandlersForViews(prefKey)
     }
 
-    private fun installHandlers(prefKey: String) {
+    private fun installHandlersForViews(prefKey: String) {
         dialog.buttonOk.setOnSingleClickListener {
             val sliderValue: Int = slider.value.toInt()
             PrefHelper.save(context, prefKey, sliderValue)

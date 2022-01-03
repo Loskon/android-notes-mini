@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.utils.getShortDrawable
  * Выбор категории заметок и открытие окна настроек
  */
 
-class SheetCategoryFragment : BottomSheetDialogFragment() {
+class CategorySheetFragment : BottomSheetDialogFragment() {
 
     private var callback: CallbackCategory? = null
 
@@ -122,7 +122,7 @@ class SheetCategoryFragment : BottomSheetDialogFragment() {
         const val TAG = "BottomSheetDialogFragment"
         private const val ARG_CATEGORY = "arg_category"
 
-        fun newInstance(category: String) = SheetCategoryFragment().apply {
+        fun newInstance(category: String) = CategorySheetFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_CATEGORY, category)
             }

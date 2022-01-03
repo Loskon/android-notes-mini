@@ -27,14 +27,14 @@ class SelectColorPickerSheetDialog(private val context: Context) {
     private var color: Int = 0
 
     init {
-        dialog.setInsertView(insertView)
+        dialog.addInsertedView(insertView)
         dialog.setTextTitle(R.string.select_color_app_title)
     }
 
     fun show() {
         establishColorViews()
         configViews()
-        installHandlers()
+        installHandlersForViews()
         dialog.show()
     }
 
@@ -48,7 +48,7 @@ class SelectColorPickerSheetDialog(private val context: Context) {
         colorPicker.showOldCenterColor = false
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         colorPicker.onColorChangedListener =
             ColorPicker.OnColorChangedListener { color: Int ->
                 this.color = color

@@ -43,7 +43,7 @@ class NoteLinksDialog(private val context: Context, private val fragment: NoteFr
         this.linkToOpen = receivedLink
 
         configInsertedViews()
-        installHandlers()
+        installHandlersForViews()
         dialog.show(insertView)
     }
 
@@ -103,7 +103,7 @@ class NoteLinksDialog(private val context: Context, private val fragment: NoteFr
         btnOpen.text = context.getString(stringId)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         btnOpen.setOnSingleClickListener { clickingOpenButton() }
         btnCopy.setOnSingleClickListener { clickingCopyButton() }
     }

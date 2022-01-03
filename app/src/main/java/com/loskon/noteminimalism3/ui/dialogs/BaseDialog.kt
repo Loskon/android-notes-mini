@@ -12,7 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.DialogBackground
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
-import com.loskon.noteminimalism3.utils.setLayoutParams
+import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
@@ -46,15 +46,15 @@ class BaseDialog(private val context: Context) {
 
     fun show() {
         establishColorViews()
-        installHandlers()
+        installHandlersForViews()
         hideContainer()
         alertDialog.show()
     }
 
     fun show(insertView: View) {
         establishColorViews()
-        installHandlers()
-        setInsertView(insertView)
+        installHandlersForViews()
+        addInsertedView(insertView)
         alertDialog.show()
     }
 
@@ -64,7 +64,7 @@ class BaseDialog(private val context: Context) {
         btnCancel.setTextColor(color)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         btnCancel.setOnSingleClickListener { alertDialog.dismiss() }
     }
 
@@ -72,8 +72,8 @@ class BaseDialog(private val context: Context) {
         linLayout.setVisibleView(false)
     }
 
-    private fun setInsertView(insertView: View) {
-        insertView.setLayoutParams()
+    private fun addInsertedView(insertView: View) {
+        insertView.setLayoutParamsForInsertedView()
         if (insertView.parent != null) linLayout.removeView(insertView)
         linLayout.addView(insertView)
     }
@@ -103,7 +103,7 @@ class BaseDialog(private val context: Context) {
         btnCancel.setVisibleView(isVisible)
     }
 
-    fun setProgressLayoutParametrs() {
+    fun setProgressLayoutParameters() {
         val width: Int = (context.resources.displayMetrics.widthPixels * 0.38).toInt()
         val height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
         alertDialog.window?.setLayout(width, height)

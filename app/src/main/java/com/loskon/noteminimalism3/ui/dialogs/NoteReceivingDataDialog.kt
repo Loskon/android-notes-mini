@@ -27,11 +27,11 @@ class NoteReceivingDataDialog(context: Context) : View.OnClickListener {
     }
 
     fun show() {
-        installHandlers()
+        installHandlersForViews()
         dialog.show(insertView)
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         btnOpen.setOnClickListener(this)
         btnCopy.setOnClickListener(this)
     }

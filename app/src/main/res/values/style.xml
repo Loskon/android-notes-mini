@@ -6,17 +6,17 @@
         <item name="android:statusBarColor">@android:color/black</item>
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@android:color/black</item>
-        <!-- EditText cursor and selection color -->
+        <!-- EditText cursor and selection color. -->
         <item name="colorControlActivated">@android:color/darker_gray</item>
         <item name="android:textColorHighlight">@color/light_dark_gray</item>
-        <!-- Disable Multi-touch -->
+        <!-- Disable Multi-touch. -->
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
         <!-- Disable overScrollMode.  -->
         <item name="android:overScrollMode">never</item>
-        <!-- Snackbar style -->
+        <!-- Snackbar style. -->
         <item name="snackbarStyle">@style/Style.MaterialSnackbar</item>
-        <!-- Change window animation style -->
+        <!-- Change window animation style. -->
         <item name="android:windowAnimationStyle">@style/Style.ActivityAnimation</item>
     </style>
 

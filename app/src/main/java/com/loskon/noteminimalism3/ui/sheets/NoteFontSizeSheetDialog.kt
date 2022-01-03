@@ -32,7 +32,7 @@ class NoteFontSizeSheetDialog(private val context: Context) {
         setupColorViews()
         configViews()
         setStateChecked()
-        installHandlers()
+        installHandlersForViews()
     }
 
     private fun setupColorViews() {
@@ -41,7 +41,7 @@ class NoteFontSizeSheetDialog(private val context: Context) {
     }
 
     private fun configViews() {
-        dialog.setInsertView(sheetView)
+        dialog.addInsertedView(sheetView)
         dialog.setTextTitle(R.string.sheet_font_size_title)
     }
 
@@ -51,7 +51,7 @@ class NoteFontSizeSheetDialog(private val context: Context) {
         setTextSize()
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         slider.addOnChangeListener(Slider.OnChangeListener { _, value: Float, _ ->
             fontSizeNote = value.toInt()
             setTextSize()

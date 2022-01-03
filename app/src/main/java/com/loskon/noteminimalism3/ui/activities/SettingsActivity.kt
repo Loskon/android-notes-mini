@@ -13,8 +13,8 @@ import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
+import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 
 /**
@@ -39,7 +39,7 @@ class SettingsActivity : AppBaseActivity(),
         initObjects()
         establishColorViews()
         openSettingsFragment(savedInstanceState)
-        installHandlers()
+        installHandlersForViews()
         configureBottomBarMenu()
     }
 
@@ -78,7 +78,7 @@ class SettingsActivity : AppBaseActivity(),
         }
     }
 
-    private fun installHandlers() {
+    private fun installHandlersForViews() {
         bottomBar.setNavigationOnClickListener {
             onBackPressed()
         }

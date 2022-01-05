@@ -45,7 +45,7 @@
     <!-- activity_list -->
     <string name="toast_auto_bp_completed">Auto backup completed!</string>
     <string name="toast_auto_bp_failed">Auto backup error!</string>
-    <string name="toast_auto_bp_not_possible">Auto backup is not possible! No permission!</string>
+    <string name="toast_auto_bp_no_permissions">Auto backup is not possible! No permission!</string>
     <!-- intent ACTION_OPEN_DOCUMENT_TREE -->
     <string name="toast_file_manager_not_found">Error. File manager not found!</string>
     <!-- sheet_list_files -->

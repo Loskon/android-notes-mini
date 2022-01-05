@@ -44,7 +44,7 @@
     <!-- activity_list  -->
     <string name="toast_auto_bp_completed">Автобэкап прошел успешно!</string>
     <string name="toast_auto_bp_failed">Ошибка автобэкапа!</string>
-    <string name="toast_auto_bp_not_possible">Автобэкап невозможен! Нет разрешения!</string>
+    <string name="toast_auto_bp_no_permissions">Автобэкап невозможен! Нет разрешения!</string>
     <!-- intent ACTION_OPEN_DOCUMENT_TREE -->
     <string name="toast_file_manager_not_found">Ошибка. Файловый менеджер не найден!</string>
     <!-- sheet_list_files -->

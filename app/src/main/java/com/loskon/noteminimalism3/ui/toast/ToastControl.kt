@@ -14,8 +14,8 @@ class ToastControl {
         // activity_list
         const val MSG_TOAST_AUTO_BACKUP_COMPLETED = "auto_backup_completed_msg_toast"
         const val MSG_TOAST_AUTO_BACKUP_FAILED = "auto_backup_failed_msg_toast"
-        const val MSG_TOAST_AUTO_BACKUP_NOT_POSSIBLE = "auto_backup_not_possible_msg_toast"
-        const val MSG_UNABLE_CREATE_FOLDER = "unable_create_folder_msg_toast"
+        const val MSG_TOAST_AUTO_BACKUP_NO_PERMISSIONS = "auto_backup_no_permissions_msg_toast"
+        const val MSG_TOAST_UNABLE_CREATE_FOLDER = "unable_create_folder_msg_toast"
 
         // intent ACTION_OPEN_DOCUMENT_TREE
         const val MSG_TOAST_FILE_MANAGER_NOT_FOUND = "file_manager_not_found_msg_toast"
@@ -46,8 +46,8 @@ class ToastControl {
                     // activity_list
                     MSG_TOAST_AUTO_BACKUP_COMPLETED -> R.string.toast_auto_bp_completed
                     MSG_TOAST_AUTO_BACKUP_FAILED -> R.string.toast_auto_bp_failed
-                    MSG_TOAST_AUTO_BACKUP_NOT_POSSIBLE -> R.string.toast_auto_bp_not_possible
-                    MSG_UNABLE_CREATE_FOLDER -> R.string.sb_bp_unable_created_folder
+                    MSG_TOAST_AUTO_BACKUP_NO_PERMISSIONS -> R.string.toast_auto_bp_no_permissions
+                    MSG_TOAST_UNABLE_CREATE_FOLDER -> R.string.sb_bp_unable_created_folder
                     // intent ACTION_OPEN_DOCUMENT_TREE
                     MSG_TOAST_FILE_MANAGER_NOT_FOUND -> R.string.toast_file_manager_not_found
                     // sheet_list_files

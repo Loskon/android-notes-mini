@@ -2,9 +2,9 @@ package com.loskon.noteminimalism3.ui.activities
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.KeyEvent
 import android.widget.EditText
+import android.widget.GridLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
@@ -35,8 +36,8 @@ import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
-import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteSwipeCallback
-import com.loskon.noteminimalism3.ui.recyclerview.notes.NotesListAdapter
+import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteListAdapter
+import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
 import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
@@ -51,8 +52,8 @@ import com.loskon.noteminimalism3.utils.*
  */
 
 class MainActivity : AppBaseActivity(),
-    NotesListAdapter.NoteListAdapterCallback,
-    NoteSwipeCallback.NoteSwipeCallback,
+    NoteListAdapter.NoteListAdapterCallback,
+    SwipeCallback.NoteSwipeCallback,
     CategorySheetFragment.CallbackCategory,
     NoteFragment.NoteCallback,
     NoteTrashFragment.NoteTrashCallback,
@@ -69,10 +70,10 @@ class MainActivity : AppBaseActivity(),
     FontsFragment.TypeFontCallback {
 
     private val commandCenter: CommandCenter = CommandCenter()
-    private val adapter: NotesListAdapter = NotesListAdapter()
+    private val adapter: NoteListAdapter = NoteListAdapter()
 
     private lateinit var helper: ListActivityHelper
-    private lateinit var swipeCallback: NoteSwipeCallback
+    private lateinit var swipeCallback: SwipeCallback
     private lateinit var snackbarUndo: SnackbarUndo
 
     private lateinit var coordLayout: CoordinatorLayout
@@ -97,21 +98,22 @@ class MainActivity : AppBaseActivity(),
         setContentView(R.layout.activity_main)
         installCallbacks()
         setupViewDeclaration()
+        initializingObjects()
+        getSomeSharedPreferences()
+        establishColorViews()
         configureRecyclerAdapter()
         configureRecyclerView()
-        configureSearchView()
-        initObjects()
+        differentConfigurations()
         installSwipeCallback()
-        otherConfigurations()
-        establishColorViews()
+        configureSearchView()
         installHandlersForViews()
         updateQuicklyNotesList()
     }
 
     private fun installCallbacks() {
         // Для работы с заметками
-        NotesListAdapter.registerCallbackNoteListAdapter(this)
-        NoteSwipeCallback.registerCallbackNoteSwipe(this)
+        NoteListAdapter.registerCallbackNoteListAdapter(this)
+        SwipeCallback.registerCallbackNoteSwipe(this)
         NoteFragment.registerCallbackNote(this)
         NoteTrashFragment.registerCallbackNoteTrash(this)
         // Для изменения настроек
@@ -135,17 +137,33 @@ class MainActivity : AppBaseActivity(),
         tvEmpty = findViewById(R.id.tv_empty_main)
         fab = findViewById(R.id.fab_main)
         cardView = findViewById(R.id.card_view_main)
-        tvCountItems = findViewById(R.id.tv_selected_items_count)
+        tvCountItems = findViewById(R.id.tv_count_items)
         bottomBar = findViewById(R.id.bottom_bar_main)
     }
 
+    private fun initializingObjects() {
+        helper = ListActivityHelper(this, fab, bottomBar)
+        snackbarUndo = SnackbarUndo(this, commandCenter, coordLayout, fab)
+    }
+
+    private fun getSomeSharedPreferences() {
+        color = PrefHelper.getAppColor(this)
+        sortingWay = PrefHelper.getSortingWay(this)
+        hasLinearList = PrefHelper.hasLinearList(this)
+    }
+
+    private fun establishColorViews() {
+        helper.setColorViews(color)
+        cardView.setBackgroundTintColor(color)
+    }
+
     private fun configureRecyclerAdapter() {
+        adapter.setViewColor(color)
+        adapter.setLinearList(hasLinearList)
+
         val radiusStrokeDp: Int = ValueUtil.getRadiusLinLay(this)
         val boredStrokeDp: Int = ValueUtil.getStrokeLinLay(this)
         adapter.setViewSizes(radiusStrokeDp, boredStrokeDp)
-
-        color = PrefHelper.getAppColor(this)
-        adapter.setViewColor(color)
 
         val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
         val dateFontSize: Int = PrefHelper.getDateFontSize(this)
@@ -154,66 +172,52 @@ class MainActivity : AppBaseActivity(),
         val numberLines: Int = PrefHelper.getNumberLines(this)
         adapter.setNumberLines(numberLines)
 
-        hasLinearList = PrefHelper.hasLinearList(this)
-        adapter.setLinearList(hasLinearList)
-
         val hasOneSizeCards: Boolean = PrefHelper.hasOneSizeCards(this)
         adapter.setOneSizeCards(hasOneSizeCards)
     }
 
     private fun configureRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.changeLayoutManager(hasLinearList)
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = AppItemAnimator()
+    }
+
+    private fun RecyclerView.changeLayoutManager(hasLinearList: Boolean) {
+        layoutManager = if (hasLinearList) {
+            LinearLayoutManager(context)
+        } else {
+            StaggeredGridLayoutManager(2, GridLayout.VERTICAL)
+        }
+    }
+
+    private fun differentConfigurations() {
+        helper.changeMenuItemForLinearList(hasLinearList)
+    }
+
+    private fun installSwipeCallback() {
+        swipeCallback = SwipeCallback(adapter, commandCenter)
+        ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
     }
 
     private fun configureSearchView() {
         searchView.setOnQueryTextListener(object : QueryTextListener() {
             override fun queryTextChange(query: String?) {
-                handlingSearch(query)
+                searchText = query
                 updateQuicklyNotesList()
             }
         })
     }
 
-    private fun handlingSearch(query: String?) {
-        searchText = if (TextUtils.isEmpty(query)) {
-            null
-        } else {
-            query
-        }
-    }
-
     private fun updateQuicklyNotesList() {
-        val notes: List<Note> = listNotes
+        val notes: List<Note> = noteList
         adapter.setQuicklyNotesList(notes)
         tvEmpty.setVisibleView(notes.isEmpty())
     }
 
-    private val listNotes: List<Note>
+    private val noteList: List<Note>
         get() {
             return commandCenter.getNotes(searchText, category, sortingWay)
         }
-
-    private fun initObjects() {
-        helper = ListActivityHelper(this, fab, bottomBar)
-        snackbarUndo = SnackbarUndo(this, commandCenter, coordLayout, fab)
-    }
-
-    private fun installSwipeCallback() {
-        swipeCallback = NoteSwipeCallback(adapter, commandCenter)
-        ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
-    }
-
-    private fun otherConfigurations() {
-        sortingWay = PrefHelper.getSortingWay(this)
-        helper.changeViewListNotes(recyclerView, hasLinearList)
-    }
-
-    private fun establishColorViews() {
-        helper.setColorViews(color)
-        cardView.setBackgroundTintColor(color)
-    }
 
     private fun installHandlersForViews() {
         fab.setOnSingleClickListener { clickingFab() }
@@ -330,7 +334,7 @@ class MainActivity : AppBaseActivity(),
     }
 
     fun updateListNotes() {
-        val notes: List<Note> = listNotes
+        val notes: List<Note> = noteList
         adapter.setNotesList(notes)
         tvEmpty.setVisibleView(notes.isEmpty())
     }
@@ -363,7 +367,8 @@ class MainActivity : AppBaseActivity(),
     private fun clickingMenuSwitch() {
         hasLinearList = !hasLinearList
         adapter.setLinearList(hasLinearList)
-        helper.changeViewListNotes(recyclerView, hasLinearList)
+        helper.changeMenuItemForLinearList(hasLinearList)
+        recyclerView.changeLayoutManager(hasLinearList)
         PrefHelper.setStateLinearList(this, hasLinearList)
     }
 
@@ -455,7 +460,7 @@ class MainActivity : AppBaseActivity(),
     private fun scrollUpWithProtection() {
         // Защита от создания пустого пространства над списком
         // при использовании StaggeredGridLayoutManager
-        if (listNotes.isNotEmpty()) {
+        if (noteList.isNotEmpty()) {
             recyclerView.scrollToPosition(0)
         }
     }

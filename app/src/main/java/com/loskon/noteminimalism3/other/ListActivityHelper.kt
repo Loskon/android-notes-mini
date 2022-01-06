@@ -1,10 +1,6 @@
 package com.loskon.noteminimalism3.other
 
 import android.view.Menu
-import android.widget.GridLayout.VERTICAL
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
@@ -103,15 +99,11 @@ class ListActivityHelper(
         replaceMenuIcon(R.id.action_favorite, menuId)
     }
 
-    fun changeViewListNotes(recyclerView: RecyclerView, hasLinearList: Boolean) {
-        val menuId: Int
-
-        if (hasLinearList) {
-            menuId = R.drawable.outline_dashboard_black_24
-            recyclerView.layoutManager = LinearLayoutManager(activity)
+    fun changeMenuItemForLinearList(hasLinearList: Boolean) {
+        val menuId: Int = if (hasLinearList) {
+            R.drawable.outline_dashboard_black_24
         } else {
-            menuId = R.drawable.outline_view_agenda_black_24
-            recyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+            R.drawable.outline_view_agenda_black_24
         }
 
         replaceMenuIcon(R.id.action_switch_view, menuId)

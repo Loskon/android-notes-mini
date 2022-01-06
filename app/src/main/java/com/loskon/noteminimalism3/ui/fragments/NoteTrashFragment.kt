@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteRestore
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setTextSizeShort
+import com.loskon.noteminimalism3.utils.changeTextSize
 import java.util.*
 
 /**
@@ -87,7 +87,7 @@ class NoteTrashFragment : Fragment() {
             isClickable = true
             isCursorVisible = false
             isFocusable = false
-            setTextSizeShort(activity.getNoteFontSize())
+            changeTextSize(activity.getNoteFontSize())
             setText(note.title)
         }
     }

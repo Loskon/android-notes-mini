@@ -11,8 +11,8 @@ import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRAS
  * Свайп и удаление
  */
 
-class NoteSwipeCallback(
-    private val adapter: NotesListAdapter,
+class SwipeCallback(
+    private val adapter: NoteListAdapter,
     private val commandCenter: CommandCenter
 ) :
     ItemTouchHelper.SimpleCallback(

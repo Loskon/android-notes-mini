@@ -124,7 +124,6 @@ class ColorManager {
 
 
 fun NavigationView.setColorStateMenuItem(context: Context) {
-    // Цвет MenuItem
     val color: Int = PrefHelper.getAppColor(context)
 
     val navDefaultTextColor: Int
@@ -138,7 +137,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
         navDefaultIconColor = Color.BLACK
     }
 
-    // ColorStateList для текста
+    // Text
     val navMenuTexColor = ColorStateList(
         arrayOf(
             intArrayOf(android.R.attr.state_checked),
@@ -155,7 +154,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
         )
     )
 
-    // ColorStateList для иконок
+    // Icon
     val navMenuIconTintList = ColorStateList(
         arrayOf(
             intArrayOf(android.R.attr.state_checked),

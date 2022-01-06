@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setTextSizeShort
+import com.loskon.noteminimalism3.utils.changeTextSize
 
 /**
  * Изменение размер текста заметок
@@ -70,7 +70,7 @@ class NoteFontSizeSheetDialog(private val context: Context) {
     }
 
     private fun setTextSize() {
-        textView.setTextSizeShort(fontSizeNote)
+        textView.changeTextSize(fontSizeNote)
     }
 
     private fun saveResult() {

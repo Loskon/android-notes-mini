@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/tv_selected_items_count"
+            android:id="@+id/tv_count_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

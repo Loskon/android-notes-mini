@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
-import com.loskon.noteminimalism3.utils.setTextSizeShort
+import com.loskon.noteminimalism3.utils.changeTextSize
 
 /**
  * Preference для изменения размера текста в карточках
@@ -76,8 +76,8 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun setTextSizes(fontSizeTitle: Int, fontSizeDate: Int) {
-        tvTitleFontSize.setTextSizeShort(fontSizeTitle)
-        tvDateFontSize.setTextSizeShort(fontSizeDate)
+        tvTitleFontSize.changeTextSize(fontSizeTitle)
+        tvDateFontSize.changeTextSize(fontSizeDate)
     }
 
     private fun getValueDateFontSize(): Int {

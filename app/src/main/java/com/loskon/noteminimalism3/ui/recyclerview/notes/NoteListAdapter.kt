@@ -14,14 +14,14 @@ import com.loskon.noteminimalism3.databinding.RowNoteBinding
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.activities.MainActivity
+import com.loskon.noteminimalism3.utils.changeTextSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setTextSizeShort
 
 /**
  * Адаптер для работы со списком заметок
  */
 
-class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
+class NoteListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private var list: List<Note> = emptyList()
 
@@ -53,38 +53,24 @@ class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
             bind(note)
 
             viewFavorite.setBackgroundTintColor(color)
-            title.configureTitle()
-            date.setTextSizeShort(dateFontSize)
+            title.configureFontSizeAndNumberLines()
+            date.changeTextSize(dateFontSize)
 
-            itemView.apply {
-                setOnSingleClickListener {
-                    clickingItem(note, position)
-                }
-
-                setOnLongClickListener {
-                    longClickingItem(note, position)
-                    true
-                }
-            }
+            itemView.setOnSingleClickListener { onItemClick(note, position) }
+            itemView.setOnLongClickListener { onItemLongClick(note, position) }
 
             setVariablesGradDraw(note.isChecked)
             gradientDrawable.configureGradDraw(linearLayout)
         }
     }
 
-    private fun TextView.configureTitle() {
-        setTextSizeShort(titleFontSize)
+    private fun TextView.configureFontSizeAndNumberLines() {
+        changeTextSize(titleFontSize)
         maxLines = numberLines
-        minLines = titleMinLines
+        minLines = lines
     }
 
-    private fun GradientDrawable.configureGradDraw(linearLayout: LinearLayout) {
-        cornerRadius = radiusStroke.toFloat()
-        setStroke(borderStroke, colorStroke)
-        linearLayout.background = this
-    }
-
-    private val titleMinLines: Int
+    private val lines: Int
         get() {
             return if (hasLinearList) {
                 1
@@ -97,7 +83,13 @@ class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
             }
         }
 
-    private fun clickingItem(note: Note, position: Int) {
+    private fun GradientDrawable.configureGradDraw(linLayout: LinearLayout) {
+        cornerRadius = radiusStroke.toFloat()
+        setStroke(borderStroke, colorStroke)
+        linLayout.background = this
+    }
+
+    private fun onItemClick(note: Note, position: Int) {
         if (isSelectedMode) {
             selectingItem(note, position)
         } else {
@@ -113,9 +105,10 @@ class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
 
-    private fun longClickingItem(note: Note, position: Int) {
+    private fun onItemLongClick(note: Note, position: Int): Boolean {
         if (!isSelectedMode) activationDeleteMode()
         selectingItem(note, position)
+        return true
     }
 
     private fun activationDeleteMode() {
@@ -124,14 +117,18 @@ class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         clearSelectionItems()
     }
 
-    // Внешние методы
+    //----------------------------------------------------------------------------------------------
+    fun setViewColor(color: Int) {
+        this.color = color
+    }
+
+    fun setLinearList(hasLinearList: Boolean) {
+        this.hasLinearList = hasLinearList
+    }
+
     fun setViewSizes(radiusStrokeDp: Int, boredStrokeDp: Int) {
         this.radiusStrokeDp = radiusStrokeDp
         this.boredStrokeDp = boredStrokeDp
-    }
-
-    fun setViewColor(color: Int) {
-        this.color = color
     }
 
     fun setFontSizes(titleFontSize: Int, dateFontSize: Int) {
@@ -141,10 +138,6 @@ class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     fun setNumberLines(numberLines: Int) {
         this.numberLines = numberLines
-    }
-
-    fun setLinearList(hasLinearList: Boolean) {
-        this.hasLinearList = hasLinearList
     }
 
     fun setOneSizeCards(hasOneSizeCards: Boolean) {
@@ -190,6 +183,7 @@ class NotesListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         notifyDataSetChanged()
     }
 
+    //----------------------------------------------------------------------------------------------
     interface NoteListAdapterCallback {
         fun onClickingNote(note: Note)
         fun onActivatingSelectionMode(isSelMode: Boolean)

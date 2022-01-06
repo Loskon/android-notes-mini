@@ -21,7 +21,7 @@
             app:iconSpaceReserved="false" />
 
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
-            android:layout="@layout/base_pref_layout"
+            android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             app:key="@string/dark_mode_key"
@@ -43,7 +43,7 @@
             app:key="@string/folder_title" />
 
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
-            android:layout="@layout/base_pref_layout"
+            android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             app:key="@string/auto_backup_key"
@@ -51,7 +51,7 @@
             app:title="@string/auto_backup_title" />
 
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
-            android:layout="@layout/base_pref_layout"
+            android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:defaultValue="false"
             app:dependency="@string/auto_backup_key"
@@ -82,7 +82,7 @@
             app:iconSpaceReserved="false" />
 
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
-            android:layout="@layout/base_pref_layout"
+            android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:defaultValue="true"
             app:iconSpaceReserved="false"
@@ -91,7 +91,7 @@
             app:title="@string/update_date_title" />
 
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
-            android:layout="@layout/base_pref_layout"
+            android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:defaultValue="true"
             app:iconSpaceReserved="false"

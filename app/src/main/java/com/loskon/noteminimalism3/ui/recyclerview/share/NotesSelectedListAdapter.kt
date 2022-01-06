@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NotesListViewHolder
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setTextSizeShort
+import com.loskon.noteminimalism3.utils.changeTextSize
 
 /**
  * Адаптер для работы со списком заметок (для Share)
@@ -46,11 +46,11 @@ class NotesSelectedListAdapter : RecyclerView.Adapter<NotesListViewHolder>() {
             bind(note)
 
             title.apply {
-                setTextSizeShort(titleFontSize)
+                changeTextSize(titleFontSize)
                 maxLines = numberLines
             }
 
-            date.setTextSizeShort(dateFontSize)
+            date.changeTextSize(dateFontSize)
             viewFavorite.setBackgroundTintColor(color)
 
             itemView.setOnSingleClickListener{

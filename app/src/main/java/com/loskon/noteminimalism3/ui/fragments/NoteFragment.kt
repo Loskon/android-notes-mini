@@ -212,7 +212,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun configureEditText() {
-        editText.setTextSizeShort(activity.getNoteFontSize())
+        editText.changeTextSize(activity.getNoteFontSize())
         editText.setText(note.title)
 
         if (noteId != 0L) {

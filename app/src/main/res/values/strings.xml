@@ -242,10 +242,12 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <!-- other (no translatable) -->
+    <!-- Other (no translatable) -->
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="my_email" translatable="false">andreyrochev23@gmail.com</string>
+
+    <string name="allowed_chracters" translatable="false">0123456789ABCDEFabcdef</string>
 
     <!-- Fonts -->
     <string name="roboto_name" translatable="false">Default</string>

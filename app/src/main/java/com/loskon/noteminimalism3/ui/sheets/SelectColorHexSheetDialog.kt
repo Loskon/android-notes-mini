@@ -8,6 +8,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.utils.setFilterAllowedCharacters
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 
@@ -51,6 +52,7 @@ class SelectColorHexSheetDialog(private val context: Context) {
     private fun setHexString() {
         inputEditText.setText(convertIntInHex(PrefHelper.getAppColor(context)))
         inputEditText.setSelection(inputEditText.editableText.length)
+        inputEditText.setFilterAllowedCharacters(context, R.string.allowed_chracters)
     }
 
     private fun convertIntInHex(colorInt: Int): String {

@@ -95,7 +95,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
     }
 
     // Отправить выбранные элементы в корзину
-    fun sendItemsToTrash(commandCenter: CommandCenter) {
+    fun sendSelectedItemsToTrash(commandCenter: CommandCenter) {
         for (item in selectedItems) {
             item.isFavorite = false
             item.isDelete = true

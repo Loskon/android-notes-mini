@@ -92,7 +92,7 @@ class CategorySheetFragment : BottomSheetDialogFragment() {
                 }
 
                 if (menuId != R.id.nav_item_settings) {
-                    callback?.onCallbackCategory(category)
+                    callback?.onChangeCategory(category)
                 }
 
                 dismiss()
@@ -115,7 +115,7 @@ class CategorySheetFragment : BottomSheetDialogFragment() {
     }
 
     interface CallbackCategory {
-        fun onCallbackCategory(category: String)
+        fun onChangeCategory(category: String)
     }
 
     companion object {

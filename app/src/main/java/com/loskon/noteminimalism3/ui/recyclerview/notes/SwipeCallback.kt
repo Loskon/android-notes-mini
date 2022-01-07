@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRAS
  */
 
 class SwipeCallback(
-    private val adapter: NoteListAdapter,
+    private val adapter: NoteRecyclerAdapter,
     private val commandCenter: CommandCenter
 ) :
     ItemTouchHelper.SimpleCallback(
@@ -48,7 +48,7 @@ class SwipeCallback(
             commandCenter.sendToTrash(note)
         }
 
-        callback?.onSwipeDelete(note, isFavorite)
+        callback?.onNoteSwipe(note, isFavorite)
     }
 
     // Внешние методы
@@ -61,7 +61,7 @@ class SwipeCallback(
     }
 
     interface NoteSwipeCallback {
-        fun onSwipeDelete(note: Note, hasFavStatus: Boolean)
+        fun onNoteSwipe(note: Note, hasFavStatus: Boolean)
     }
 
     companion object {

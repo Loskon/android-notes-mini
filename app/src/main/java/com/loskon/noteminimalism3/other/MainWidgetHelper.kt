@@ -1,41 +1,49 @@
 package com.loskon.noteminimalism3.other
 
+import android.content.Context
 import android.view.Menu
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.widget.SearchView
+import androidx.cardview.widget.CardView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.getShortDrawable
+import com.loskon.noteminimalism3.utils.setVisibleView
+import com.loskon.noteminimalism3.utils.showKeyboard
 
 /**
  * Помощник для управления вьюшками
  */
 
+private const val ICON_FAB_ADD = "fab_icon_add"
+private const val ICON_FAB_STAR = "fab_icon_star"
+private const val ICON_FAB_DELETE = "fab_icon_delete"
+private const val ICON_FAB_DELETE_FOREVER = "fab_icon_delete_forever"
+private const val ICON_FAB_SEARCH_CLOSE = "fab_icon_search_close"
+
 class MainWidgetHelper(
-    private val activity: MainActivity,
+    private val context: Context,
+    private val searchView: SearchView,
     private val fab: FloatingActionButton,
+    private val cardView: CardView,
+    private val tvCountItems: TextView,
     private val bottomBar: BottomAppBar
 ) {
-
-    companion object {
-        const val ICON_FAB_ADD = "fab_icon_add"
-        const val ICON_FAB_STAR = "fab_icon_star"
-        const val ICON_FAB_DELETE = "fab_icon_delete"
-        const val ICON_FAB_DELETE_FOREVER = "fab_icon_delete_forever"
-        const val ICON_FAB_SEARCH_CLOSE = "fab_icon_search_close"
-    }
 
     private val barMenu: Menu = bottomBar.menu
 
     private var color: Int = 0
 
-    fun setColorViews(color: Int) {
+    fun setColorsViews(color: Int) {
         this.color = color
         establishViewsColor()
         establishMenuIconsColor()
@@ -43,6 +51,7 @@ class MainWidgetHelper(
 
     private fun establishViewsColor() {
         fab.setFabColor(color)
+        cardView.setBackgroundTintColor(color)
         bottomBar.setNavigationIconColor(color)
     }
 
@@ -50,27 +59,85 @@ class MainWidgetHelper(
         barMenu.setMenuIconsColor(color)
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Menu
-    fun changeVisibleUnification(notesCategory: String, hasRequiredRange: Boolean) {
-        val isVisible: Boolean = (notesCategory != CATEGORY_TRASH && hasRequiredRange)
-        setVisibleUnification(isVisible)
+    //--- Different actions ------------------------------------------------------------------------
+    fun changingViewsForSelectionMode(
+        category: String,
+        isSelectionMode: Boolean,
+        isSearchMode: Boolean
+    ) {
+        setVisibleSelectMenuItem(isSelectionMode)
+        cardViewVisible(isSelectionMode)
+
+        if (isSelectionMode) {
+            setVisibleSearchAndSwitchMenuItems(false)
+            setNavigationIcon(false)
+            setDeleteIconFab(category)
+
+            if (isSearchMode) bottomBarVisible(true)
+        } else {
+            setVisibleUnificationMenuItem(false)
+            setVisibleFavoriteMenuItem(category, false)
+
+            if (isSearchMode) {
+                setVisibleSearchAndSwitchMenuItems(false)
+                hideNavigationIcon()
+                bottomBarVisible(false)
+                setIconFab(ICON_FAB_SEARCH_CLOSE)
+            } else {
+                setVisibleSearchAndSwitchMenuItems(true)
+                setNavigationIcon(true)
+                setIconFabCategory(category)
+            }
+        }
     }
 
-    fun setVisibleUnification(isVisible: Boolean) {
+    fun selectingNote(
+        category: String,
+        selectedItemsCount: Int,
+        hasAllSelected: Boolean
+    ) {
+        setCountItemsText(selectedItemsCount)
+        changeIconMenuSelect(hasAllSelected)
+        changeVisibleUnification(category, selectedItemsCount >= 2)
+        setVisibleFavoriteMenuItem(category, selectedItemsCount in 1..1)
+    }
+
+    fun activatingSearchMode(category: String, isSearchMode: Boolean) {
+        searchView.setQuery("", false)
+        searchView.setVisibleView(isSearchMode)
+        bottomBarVisible(!isSearchMode)
+
+        if (isSearchMode) {
+            val searchEditText: EditText = searchView.findViewById(R.id.search_src_text)
+            searchEditText.showKeyboard(context)
+            setIconFab(ICON_FAB_SEARCH_CLOSE)
+        } else {
+            setNavigationIcon(true)
+            setVisibleSearchAndSwitchMenuItems(true)
+            setIconFabCategory(category)
+        }
+    }
+
+    //--- Menu -------------------------------------------------------------------------------------
+    private fun changeVisibleUnification(category: String, hasRequiredRange: Boolean) {
+        val isVisible: Boolean = (category != CATEGORY_TRASH && hasRequiredRange)
+        setVisibleUnificationMenuItem(isVisible)
+    }
+
+    private fun setVisibleUnificationMenuItem(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_unification, isVisible)
     }
 
-    fun setVisibleSelect(isVisible: Boolean) {
+    private fun setVisibleSelectMenuItem(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_select_item, isVisible)
     }
 
-    fun setVisibleFavorite(notesCategory: String, isVisible: Boolean) {
-        val isVis: Boolean = (notesCategory != CATEGORY_TRASH && isVisible)
+    private fun setVisibleFavoriteMenuItem(category: String, isVisible: Boolean) {
+        val isVis: Boolean = (category != CATEGORY_TRASH && isVisible)
         setVisibleMenuItem(R.id.action_favorite, isVis)
     }
 
-    fun setVisibleSearchAndSwitch(isVisible: Boolean) {
+    private fun setVisibleSearchAndSwitchMenuItems(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_search, isVisible)
         setVisibleMenuItem(R.id.action_switch_view, isVisible)
     }
@@ -79,7 +146,7 @@ class MainWidgetHelper(
         barMenu.findItem(menuId).isVisible = isVisible
     }
 
-    fun changeIconMenuSelect(isSelectOne: Boolean) {
+    private fun changeIconMenuSelect(isSelectOne: Boolean) {
         val menuId: Int = if (isSelectOne) {
             R.drawable.baseline_done_black_24
         } else {
@@ -110,13 +177,12 @@ class MainWidgetHelper(
     }
 
     private fun replaceMenuIcon(menuItem: Int, icon: Int) {
-        barMenu.findItem(menuItem).icon = activity.getShortDrawable(icon)
+        barMenu.findItem(menuItem).icon = context.getShortDrawable(icon)
         establishMenuIconsColor()
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Bottom bar
-    fun setNavigationIcon(isIconClose: Boolean) {
+    //--- Bottom Bar -------------------------------------------------------------------------------
+    private fun setNavigationIcon(isIconClose: Boolean) {
         val navIconId: Int = if (isIconClose) {
             R.drawable.baseline_menu_black_24
         } else {
@@ -127,12 +193,11 @@ class MainWidgetHelper(
         bottomBar.setNavigationIconColor(color)
     }
 
-    fun hideNavigationIcon() {
+    private fun hideNavigationIcon() {
         bottomBar.navigationIcon = null
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Fab
+    //--- Fab --------------------------------------------------------------------------------------
     fun setIconFabCategory(category: String) {
         when (category) {
             CATEGORY_ALL_NOTES -> setIconFab(ICON_FAB_ADD)
@@ -142,7 +207,7 @@ class MainWidgetHelper(
         }
     }
 
-    fun setDeleteIconFab(category: String) {
+    private fun setDeleteIconFab(category: String) {
         if (category == CATEGORY_TRASH) {
             setIconFab(ICON_FAB_DELETE_FOREVER)
         } else {
@@ -150,7 +215,7 @@ class MainWidgetHelper(
         }
     }
 
-    fun setIconFab(iconName: String) {
+    private fun setIconFab(iconName: String) {
         val drawableId: Int = when (iconName) {
             ICON_FAB_ADD -> R.drawable.baseline_add_black_24
             ICON_FAB_STAR -> R.drawable.baseline_star_black_24
@@ -160,14 +225,24 @@ class MainWidgetHelper(
             else -> throw RuntimeException("Invalid icon")
         }
 
-        fab.setImageDrawable(activity.getShortDrawable(drawableId))
+        fab.setImageDrawable(context.getShortDrawable(drawableId))
     }
 
-    fun bottomBarVisible(isVisible: Boolean) {
+    private fun bottomBarVisible(isVisible: Boolean) {
         if (isVisible) {
             bottomBar.performShow()
         } else {
             bottomBar.performHide()
         }
+    }
+
+    //--- CardView ---------------------------------------------------------------------------------
+    private fun cardViewVisible(isVisible: Boolean) {
+        cardView.setVisibleView(isVisible)
+    }
+
+    //--- TextView ---------------------------------------------------------------------------------
+    private fun setCountItemsText(selectedItemsCount: Int) {
+        tvCountItems.text = selectedItemsCount.toString()
     }
 }

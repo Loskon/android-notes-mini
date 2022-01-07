@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Адаптер для работы со списком заметок
  */
 
-class NoteListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
+class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private var list: List<Note> = emptyList()
 
@@ -93,14 +93,14 @@ class NoteListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         if (isSelectedMode) {
             selectingItem(note, position)
         } else {
-            callback?.onClickingNote(note)
+            callback?.onNoteClick(note)
         }
     }
 
     private fun selectingItem(note: Note, position: Int) {
         toggleSelection(note, position)
-        callback?.onSelectingNote(selectedItemsCount, hasAllSelected)
-        if (selectedItemsCount in 1..1) callback?.onVisibleFavorite(selectedItem)
+        callback?.selectingNote(selectedItemsCount, hasAllSelected)
+        if (selectedItemsCount in 1..1) callback?.changeStatusOfFavorite(selectedItem)
     }
 
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
@@ -113,7 +113,7 @@ class NoteListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private fun activationDeleteMode() {
         isSelectedMode = true
-        callback?.onActivatingSelectionMode(true)
+        callback?.activatingSelectionMode()
         clearSelectionItems()
     }
 
@@ -144,14 +144,14 @@ class NoteListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         this.hasOneSizeCards = hasOneSizeCards
     }
 
-    fun setNotesList(newList: List<Note>) {
+    fun setNoteList(newList: List<Note>) {
         val diffUtil = NoteDiffUtil(list, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil, false)
         list = newList
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun setQuicklyNotesList(newList: List<Note>) {
+    fun setQuicklyNoteList(newList: List<Note>) {
         list = newList
         updateChangedList()
     }
@@ -168,13 +168,13 @@ class NoteListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     fun selectAllNotes() {
         selectAllItem(list, hasAllSelected)
-        callback?.onSelectingNote(selectedItemsCount, hasAllSelected)
+        callback?.selectingNote(selectedItemsCount, hasAllSelected)
         updateChangedList()
     }
 
     fun changeFavoriteStatus(activity: MainActivity, commandCenter: CommandCenter) {
         changeFavorite(activity, commandCenter)
-        callback?.onVisibleFavorite(selectedItem)
+        callback?.changeStatusOfFavorite(selectedItem)
         updateChangedList()
     }
 
@@ -185,10 +185,10 @@ class NoteListAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     //----------------------------------------------------------------------------------------------
     interface NoteListAdapterCallback {
-        fun onClickingNote(note: Note)
-        fun onActivatingSelectionMode(isSelMode: Boolean)
-        fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
-        fun onVisibleFavorite(note: Note)
+        fun onNoteClick(note: Note)
+        fun activatingSelectionMode()
+        fun selectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
+        fun changeStatusOfFavorite(note: Note)
     }
 
     companion object {

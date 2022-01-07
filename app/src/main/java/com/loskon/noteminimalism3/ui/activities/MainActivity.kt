@@ -23,7 +23,7 @@ import com.loskon.noteminimalism3.managers.FontManager
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.other.ListActivityHelper
+import com.loskon.noteminimalism3.other.MainWidgetHelper
 import com.loskon.noteminimalism3.other.QueryTextListener
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
@@ -72,7 +72,7 @@ class MainActivity : AppBaseActivity(),
     private val commandCenter: CommandCenter = CommandCenter()
     private val adapter: NoteListAdapter = NoteListAdapter()
 
-    private lateinit var helper: ListActivityHelper
+    private lateinit var widgetHelper: MainWidgetHelper
     private lateinit var swipeCallback: SwipeCallback
     private lateinit var snackbarUndo: SnackbarUndo
 
@@ -100,7 +100,7 @@ class MainActivity : AppBaseActivity(),
         setupViewDeclaration()
         initializingObjects()
         getSomeSharedPreferences()
-        establishColorViews()
+        establishViewsColor()
         configureRecyclerAdapter()
         configureRecyclerView()
         differentConfigurations()
@@ -142,7 +142,7 @@ class MainActivity : AppBaseActivity(),
     }
 
     private fun initializingObjects() {
-        helper = ListActivityHelper(this, fab, bottomBar)
+        widgetHelper = MainWidgetHelper(this, fab, bottomBar)
         snackbarUndo = SnackbarUndo(this, commandCenter, coordLayout, fab)
     }
 
@@ -152,8 +152,8 @@ class MainActivity : AppBaseActivity(),
         hasLinearList = PrefHelper.hasLinearList(this)
     }
 
-    private fun establishColorViews() {
-        helper.setColorViews(color)
+    private fun establishViewsColor() {
+        widgetHelper.setColorViews(color)
         cardView.setBackgroundTintColor(color)
     }
 
@@ -191,7 +191,7 @@ class MainActivity : AppBaseActivity(),
     }
 
     private fun differentConfigurations() {
-        helper.changeMenuItemForLinearList(hasLinearList)
+        widgetHelper.changeMenuItemForLinearList(hasLinearList)
     }
 
     private fun installSwipeCallback() {
@@ -303,30 +303,30 @@ class MainActivity : AppBaseActivity(),
     private fun selectionModeStatus() {
         cardView.setVisibleView(isSelectionMode)
         swipeCallback.blockSwiped(isSelectionMode)
-        helper.setVisibleSelect(isSelectionMode)
+        widgetHelper.setVisibleSelect(isSelectionMode)
 
         if (isSelectionMode) {
-            helper.setVisibleSearchAndSwitch(false)
-            helper.setNavigationIcon(false)
-            helper.setDeleteIconFab(category)
+            widgetHelper.setVisibleSearchAndSwitch(false)
+            widgetHelper.setNavigationIcon(false)
+            widgetHelper.setDeleteIconFab(category)
 
             if (isSearchMode) {
-                helper.bottomBarVisible(true)
+                widgetHelper.bottomBarVisible(true)
             }
 
         } else {
-            helper.setVisibleUnification(false)
-            helper.setVisibleFavorite(category, false)
+            widgetHelper.setVisibleUnification(false)
+            widgetHelper.setVisibleFavorite(category, false)
 
             if (isSearchMode) {
-                helper.setVisibleSearchAndSwitch(false)
-                helper.hideNavigationIcon()
-                helper.bottomBarVisible(false)
-                helper.setIconFab(ListActivityHelper.ICON_FAB_SEARCH_CLOSE)
+                widgetHelper.setVisibleSearchAndSwitch(false)
+                widgetHelper.hideNavigationIcon()
+                widgetHelper.bottomBarVisible(false)
+                widgetHelper.setIconFab(MainWidgetHelper.ICON_FAB_SEARCH_CLOSE)
             } else {
-                helper.setVisibleSearchAndSwitch(true)
-                helper.setNavigationIcon(true)
-                helper.setIconFabCategory(category)
+                widgetHelper.setVisibleSearchAndSwitch(true)
+                widgetHelper.setNavigationIcon(true)
+                widgetHelper.setIconFabCategory(category)
             }
 
             adapter.disableSelectionMode()
@@ -367,7 +367,7 @@ class MainActivity : AppBaseActivity(),
     private fun clickingMenuSwitch() {
         hasLinearList = !hasLinearList
         adapter.setLinearList(hasLinearList)
-        helper.changeMenuItemForLinearList(hasLinearList)
+        widgetHelper.changeMenuItemForLinearList(hasLinearList)
         recyclerView.changeLayoutManager(hasLinearList)
         PrefHelper.setStateLinearList(this, hasLinearList)
     }
@@ -378,16 +378,16 @@ class MainActivity : AppBaseActivity(),
 
         if (isSearchMode) {
             searchView.setVisibleView(true)
-            helper.bottomBarVisible(false)
+            widgetHelper.bottomBarVisible(false)
             val searchEditText: EditText = searchView.findViewById(R.id.search_src_text)
             searchEditText.showKeyboard(this)
-            helper.setIconFab(ListActivityHelper.ICON_FAB_SEARCH_CLOSE)
+            widgetHelper.setIconFab(MainWidgetHelper.ICON_FAB_SEARCH_CLOSE)
         } else {
             searchView.setVisibleView(false)
-            helper.bottomBarVisible(true)
-            helper.setNavigationIcon(true)
-            helper.setVisibleSearchAndSwitch(true)
-            helper.setIconFabCategory(category)
+            widgetHelper.bottomBarVisible(true)
+            widgetHelper.setNavigationIcon(true)
+            widgetHelper.setVisibleSearchAndSwitch(true)
+            widgetHelper.setIconFabCategory(category)
         }
     }
 
@@ -404,14 +404,14 @@ class MainActivity : AppBaseActivity(),
     // From recycler adapter
     override fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean) {
         tvCountItems.text = selectedItemsCount.toString()
-        helper.changeIconMenuSelect(hasAllSelected)
-        helper.changeVisibleUnification(category, selectedItemsCount >= 2)
-        helper.setVisibleFavorite(category, selectedItemsCount in 1..1)
+        widgetHelper.changeIconMenuSelect(hasAllSelected)
+        widgetHelper.changeVisibleUnification(category, selectedItemsCount >= 2)
+        widgetHelper.setVisibleFavorite(category, selectedItemsCount in 1..1)
     }
 
     // From recycler adapter
     override fun onVisibleFavorite(note: Note) {
-        helper.changeMenuIconFavorite(note.isFavorite)
+        widgetHelper.changeMenuIconFavorite(note.isFavorite)
     }
 
     // From note fragment
@@ -452,7 +452,7 @@ class MainActivity : AppBaseActivity(),
     override fun onCallbackCategory(category: String) {
         this.category = category
         swipeCallback.setCategory(category)
-        helper.setIconFabCategory(category)
+        widgetHelper.setIconFabCategory(category)
         updateQuicklyNotesList()
         scrollUpWithProtection()
     }
@@ -474,7 +474,7 @@ class MainActivity : AppBaseActivity(),
         this.color = color
         adapter.setViewColor(color)
         updateQuicklyNotesListTop()
-        establishColorViews()
+        establishViewsColor()
     }
 
     override fun onChangeFontSizes(fontSizeTitle: Int, fontSizeDate: Int) {
@@ -494,7 +494,7 @@ class MainActivity : AppBaseActivity(),
 
     override fun onRestoreNotes() {
         category = CATEGORY_ALL_NOTES
-        helper.setIconFabCategory(category)
+        widgetHelper.setIconFabCategory(category)
         updateQuicklyNotesListTop()
     }
 

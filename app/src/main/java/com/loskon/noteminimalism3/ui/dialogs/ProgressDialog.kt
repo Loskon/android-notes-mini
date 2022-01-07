@@ -28,11 +28,11 @@ class ProgressDialog(private val context: Context) {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         dialog.show(insertView)
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(context)
         indicator.setColorProgressIndicator(color)
     }

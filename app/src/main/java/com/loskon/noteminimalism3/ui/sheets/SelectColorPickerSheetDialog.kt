@@ -32,13 +32,13 @@ class SelectColorPickerSheetDialog(private val context: Context) {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         configViews()
         installHandlersForViews()
         dialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(context)
         colorPicker.color = color
     }

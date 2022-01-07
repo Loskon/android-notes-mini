@@ -46,7 +46,7 @@ class PrefScreenCardView @JvmOverloads constructor(
         configurePreferenceView(holder)
         installCallbacks()
         configureViews()
-        establishColorViews()
+        establishViewsColor()
         installHandlersForViews()
     }
 
@@ -93,7 +93,7 @@ class PrefScreenCardView @JvmOverloads constructor(
         }
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(context)
         viewFavorite.setBackgroundTintColor(color)
         titleCategory.setTextColor(color)

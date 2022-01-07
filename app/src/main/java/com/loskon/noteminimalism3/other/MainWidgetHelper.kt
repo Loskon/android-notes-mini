@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.utils.getShortDrawable
  * Помощник для управления вьюшками
  */
 
-class ListActivityHelper(
+class MainWidgetHelper(
     private val activity: MainActivity,
     private val fab: FloatingActionButton,
     private val bottomBar: BottomAppBar
@@ -37,11 +37,11 @@ class ListActivityHelper(
 
     fun setColorViews(color: Int) {
         this.color = color
-        establishColorViews()
+        establishViewsColor()
         establishMenuIconsColor()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         fab.setFabColor(color)
         bottomBar.setNavigationIconColor(color)
     }

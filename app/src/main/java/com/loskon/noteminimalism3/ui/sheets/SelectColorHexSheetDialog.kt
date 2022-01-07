@@ -33,13 +33,13 @@ class SelectColorHexSheetDialog(private val context: Context) {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         configViews()
         installHandlersForViews()
         dialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         color = PrefHelper.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }

@@ -32,12 +32,12 @@ class DeleteGoogleAccountSheetDialog(
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         installHandlersForViews()
         sheetDialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color = PrefHelper.getAppColor(context)
         btnNo.setBackgroundColor(color)
         btnYes.setStrokeBtnColor(color)

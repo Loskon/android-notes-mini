@@ -70,11 +70,11 @@ class BackupFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        establishColorViews()
+        establishViewsColor()
         installHandlersForViews()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(activity)
         btnBackupSD.setBackgroundColor(color)
         btnRestoreSD.setBackgroundColor(color)

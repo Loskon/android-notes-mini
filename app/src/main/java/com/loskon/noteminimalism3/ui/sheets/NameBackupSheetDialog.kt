@@ -39,13 +39,13 @@ class NameBackupSheetDialog(private val context: Context) {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         configInsertedViews()
         installHandlersForViews()
         dialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }

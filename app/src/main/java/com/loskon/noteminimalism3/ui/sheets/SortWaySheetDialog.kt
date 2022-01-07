@@ -30,13 +30,13 @@ class SortWaySheetDialog(private val context: Context) {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         configureStateChecked()
         installHandlersForViews()
         dialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(context)
         radioButtonCreate.setRadioButtonColor(color)
         radioButtonMod.setRadioButtonColor(color)

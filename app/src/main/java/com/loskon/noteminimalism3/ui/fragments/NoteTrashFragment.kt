@@ -19,8 +19,8 @@ import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteRestore
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.changeTextSize
+import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.*
 
 /**
@@ -67,7 +67,7 @@ class NoteTrashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObjects()
-        establishColorViews()
+        establishViewsColor()
         configureEditText()
         installHandlersForViews()
     }
@@ -76,7 +76,7 @@ class NoteTrashFragment : Fragment() {
         note = activity.getNote()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         color = activity.getColor()
         fab.setFabColor(color)
         btnDel.setButtonIconColor(color)

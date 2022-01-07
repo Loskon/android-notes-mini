@@ -32,7 +32,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
 
     init {
         settingsBehavior()
-        establishColorViews()
+        establishViewsColor()
         installHandlersForViews()
     }
 
@@ -42,7 +42,7 @@ class BaseSheetDialog(private val sheetContext: Context) :
         sheetBehavior.isHideable = false
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(sheetContext)
         btnOk.setBackgroundColor(color)
         btnCancel.setTextColor(color)

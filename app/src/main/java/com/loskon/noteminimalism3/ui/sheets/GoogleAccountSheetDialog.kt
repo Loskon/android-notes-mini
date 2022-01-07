@@ -31,12 +31,12 @@ class GoogleAccountSheetDialog(
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         installHandlersForViews()
         dialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color = PrefHelper.getAppColor(context)
         btnLogout.setBackgroundColor(color)
         btnDelete.setBackgroundColor(color)

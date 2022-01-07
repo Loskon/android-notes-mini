@@ -27,12 +27,12 @@ class RetentionTimeSheetDialog(private val context: Context) {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         configViews()
         dialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color = PrefHelper.getAppColor(context)
         slider.setSliderColor(color)
     }

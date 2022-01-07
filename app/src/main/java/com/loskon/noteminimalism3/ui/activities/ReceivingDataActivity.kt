@@ -46,7 +46,7 @@ class ReceivingDataActivity :
         setContentView(R.layout.activity_receiving_data)
         installCallbacks()
         setupViewDeclaration()
-        establishColorViews()
+        establishViewsColor()
         configureRecyclerAdapter()
         configureRecyclerView()
         updateNotesList()
@@ -65,7 +65,7 @@ class ReceivingDataActivity :
         bottomBar = findViewById(R.id.bottom_bar_receiving_data)
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         color = PrefHelper.getAppColor(this)
         bottomBar.setNavigationIconColor(color)
         fab.setFabColor(color)

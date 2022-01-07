@@ -45,20 +45,20 @@ class BaseDialog(private val context: Context) {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         installHandlersForViews()
         hideContainer()
         alertDialog.show()
     }
 
     fun show(insertView: View) {
-        establishColorViews()
+        establishViewsColor()
         installHandlersForViews()
         addInsertedView(insertView)
         alertDialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(context)
         btnOk.setBackgroundColor(color)
         btnCancel.setTextColor(color)

@@ -28,13 +28,13 @@ class LinksSheetDialog(private val context: Context) : View.OnClickListener {
     }
 
     fun show() {
-        establishColorViews()
+        establishViewsColor()
         configureStateChecked()
         installHandlersForViews()
         dialog.show()
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color = PrefHelper.getAppColor(context)
         checkBoxWeb.setStrokeCheckBoxColor(color)
         checkBoxMail.setStrokeCheckBoxColor(color)

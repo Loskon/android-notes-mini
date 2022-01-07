@@ -37,7 +37,7 @@ class SettingsActivity : AppBaseActivity(),
         installCallbacks()
         setupViewDeclaration()
         initObjects()
-        establishColorViews()
+        establishViewsColor()
         openSettingsFragment(savedInstanceState)
         installHandlersForViews()
         configureBottomBarMenu()
@@ -59,12 +59,12 @@ class SettingsActivity : AppBaseActivity(),
         menu = bottomBar.menu
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(this)
-        establishColorViews(color)
+        establishViewsColor(color)
     }
 
-    private fun establishColorViews(color: Int) {
+    private fun establishViewsColor(color: Int) {
         bottomBar.setNavigationIconColor(color)
         menu.setMenuIconsColor(color)
     }
@@ -98,7 +98,7 @@ class SettingsActivity : AppBaseActivity(),
         SnackbarControl(constLayout, bottomBar).show(typeMessage)
     }
 
-    override fun onChangeColor(color: Int) = establishColorViews(color)
+    override fun onChangeColor(color: Int) = establishViewsColor(color)
 
     fun changeVisibilityMenuItem(isVisible: Boolean) {
         menu.findItem(R.id.action_account).isVisible = isVisible

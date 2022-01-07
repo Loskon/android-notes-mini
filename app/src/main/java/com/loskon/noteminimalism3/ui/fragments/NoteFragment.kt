@@ -118,7 +118,7 @@ class NoteFragment : Fragment(),
         initObjects()
         setupParameters()
         installCallbacks()
-        establishColorViews()
+        establishViewsColor()
         installingSaveSettings()
         includedLinks()
         configureEditText()
@@ -141,7 +141,7 @@ class NoteFragment : Fragment(),
         if (!hasReceivingText) ReceivingDataActivity.registerCallbackReceivingData(this)
     }
 
-    private fun establishColorViews() {
+    private fun establishViewsColor() {
         color = activity.getColor()
         fab.setFabColor(color)
         btnFav.setButtonIconColor(color)

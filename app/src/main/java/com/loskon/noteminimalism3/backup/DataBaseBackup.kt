@@ -44,14 +44,15 @@ class DataBaseBackup {
             inputStreamChannel.close()
         }
 
-        // For android R
+        //--- Android R ----------------------------------------------------------------------------
         fun performRestore(context: Context, fileUri: Uri): Boolean {
             val resolver: ContentResolver = context.contentResolver
             val descriptor: ParcelFileDescriptor = resolver.openFileDescriptor(fileUri, "r", null)!!
             val fileName: String = context.contentResolver.getFileName(fileUri)
             val pathFile: String = context.cacheDir.path + File.separator + fileName
-            processCopyingFileInCacheDir(context, fileName, descriptor)
-            return checkingFile(pathFile, pathDateBase(context))
+
+            copyFileInCacheDir(context, fileName, descriptor)
+            return checkingAndCopyingDataBaseFile(pathFile, pathDateBase(context))
         }
 
         private fun ContentResolver.getFileName(fileUri: Uri): String {
@@ -69,17 +70,17 @@ class DataBaseBackup {
             return name
         }
 
-        private fun processCopyingFileInCacheDir(
+        private fun copyFileInCacheDir(
             context: Context,
             fileName: String,
             fileDescriptor: ParcelFileDescriptor
         ) {
             val inputStream: InputStream = FileInputStream(fileDescriptor.fileDescriptor)
-            val file = File(context.cacheDir, fileName)
-            val outputStream: OutputStream = FileOutputStream(file)
+            val outputStream: OutputStream = FileOutputStream(File(context.cacheDir, fileName))
 
             val buffer = ByteArray(1024)
             var length: Int
+
             while (inputStream.read(buffer).also { length = it } > 0) {
                 outputStream.write(buffer, 0, length)
             }
@@ -89,7 +90,10 @@ class DataBaseBackup {
             inputStream.close()
         }
 
-        private fun checkingFile(pathFile: String, pathDateBase: String): Boolean {
+        private fun checkingAndCopyingDataBaseFile(
+            pathFile: String,
+            pathDateBase: String
+        ): Boolean {
             return if (isValidSQLiteFile(pathFile)) {
                 copyFile(pathFile, pathDateBase)
                 File(pathFile).delete()

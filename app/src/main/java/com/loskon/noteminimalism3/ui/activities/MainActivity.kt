@@ -191,7 +191,7 @@ class MainActivity : AppBaseActivity(),
     }
 
     private fun differentConfigurations() {
-        widgetHelper.changeMenuItemForLinearList(hasLinearList)
+        widgetHelper.changeIconToggleViewMenuItem(hasLinearList)
     }
 
     private fun installSwipeCallback() {
@@ -223,10 +223,10 @@ class MainActivity : AppBaseActivity(),
         fab.setOnSingleClickListener { onFabClick() }
         bottomBar.setNavigationOnClickListener { onNavigationBtnClick() }
         bottomBar.setOnMenuItemClickListener { item ->
-            dismissSnackbars(true)
+            dismissSnackbars()
 
             when (item.itemId) {
-                R.id.action_switch_view -> {
+                R.id.action_toggle_view -> {
                     onMenuSwitchClick()
                     true
                 }
@@ -236,7 +236,7 @@ class MainActivity : AppBaseActivity(),
                 }
 
                 R.id.action_search -> {
-                    activatingSearchMode(true)
+                    togglingSearchMode(true)
                     true
                 }
 
@@ -280,14 +280,13 @@ class MainActivity : AppBaseActivity(),
     private fun disableSelectionMode() {
         isSelectionMode = false
         swipeCallback.blockSwiped(isSelectionMode)
-        dismissSnackbars(isSelectionMode)
         changingViewsForSelectionMode()
         adapter.disableSelectionMode()
     }
 
     private fun pressingInNormalMode() {
         if (isSearchMode) {
-            activatingSearchMode(false)
+            togglingSearchMode(false)
         } else {
             if (category == CATEGORY_TRASH) {
                 SendToTrashWarningDialog(this).show(adapter.itemCount)
@@ -307,18 +306,22 @@ class MainActivity : AppBaseActivity(),
         tvEmpty.setVisibleView(notes.isEmpty())
     }
 
-    private fun dismissSnackbars(isDisSnackMessage: Boolean) {
-        if (isDisSnackMessage) BaseWarningSnackbars.dismiss()
+    private fun dismissSnackbars() {
+        BaseWarningSnackbars.dismiss()
         snackbarUndo.dismiss()
     }
 
     private fun onNavigationBtnClick() {
-        dismissSnackbars(true)
+        dismissSnackbars()
 
         if (isSelectionMode) {
             cancelSelectionMode()
         } else {
-            openBottomSheetCategory()
+            if (isSearchMode) {
+                togglingSearchMode(false)
+            } else {
+                openBottomSheetCategory()
+            }
         }
     }
 
@@ -335,14 +338,14 @@ class MainActivity : AppBaseActivity(),
     private fun onMenuSwitchClick() {
         hasLinearList = !hasLinearList
         adapter.setLinearList(hasLinearList)
-        widgetHelper.changeMenuItemForLinearList(hasLinearList)
         recyclerView.changeLayoutManager(hasLinearList)
+        widgetHelper.changeIconToggleViewMenuItem(hasLinearList)
         PrefHelper.setStateLinearList(this, hasLinearList)
     }
 
-    private fun activatingSearchMode(isActivation: Boolean) {
+    private fun togglingSearchMode(isActivation: Boolean) {
         this.isSearchMode = isActivation
-        widgetHelper.activatingSearchMode(category, isActivation)
+        widgetHelper.togglingSearchMode(category, isActivation)
     }
 
     private fun updateQuicklyNotesListTop() {
@@ -360,13 +363,13 @@ class MainActivity : AppBaseActivity(),
     }
 
     override fun changeStatusOfFavorite(note: Note) {
-        widgetHelper.changeMenuIconFavorite(note.isFavorite)
+        widgetHelper.changeIconFavoriteMenuItem(note.isFavorite)
     }
 
     override fun activatingSelectionMode() {
         isSelectionMode = true
         swipeCallback.blockSwiped(isSelectionMode)
-        dismissSnackbars(isSelectionMode)
+        dismissSnackbars()
         changingViewsForSelectionMode()
     }
 
@@ -407,7 +410,7 @@ class MainActivity : AppBaseActivity(),
     override fun onChangeCategory(category: String) {
         this.category = category
         swipeCallback.setCategory(category)
-        widgetHelper.setIconFabCategory(category)
+        widgetHelper.changeFabIcon(category)
         updateQuicklyNotesList()
         scrollUpWithProtection()
     }
@@ -443,7 +446,7 @@ class MainActivity : AppBaseActivity(),
 
     override fun onRestoreNotes() {
         category = CATEGORY_ALL_NOTES
-        widgetHelper.setIconFabCategory(category)
+        widgetHelper.changeFabIcon(category)
         updateQuicklyNotesListTop()
     }
 
@@ -488,7 +491,7 @@ class MainActivity : AppBaseActivity(),
                     false
                 }
                 isSearchMode -> {
-                    activatingSearchMode(false)
+                    togglingSearchMode(false)
                     false
                 }
                 else -> {
@@ -500,6 +503,6 @@ class MainActivity : AppBaseActivity(),
 
     override fun onPause() {
         super.onPause()
-        dismissSnackbars(true)
+        dismissSnackbars()
     }
 }

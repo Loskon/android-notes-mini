@@ -65,3 +65,15 @@ fun TextView.changeTextSize(fontSize: Int) {
 fun EditText.scrollBottom(scrollView: ScrollView) {
     scrollView.post { scrollView.scrollTo(0, bottom) }
 }
+
+
+fun View.enableSearchView(enabled: Boolean) {
+    this.isEnabled = enabled
+    if (this is ViewGroup) {
+        val viewGroup = this
+        for (i in 0 until viewGroup.childCount) {
+            val child = viewGroup.getChildAt(i)
+            child.enableSearchView(enabled)
+        }
+    }
+}

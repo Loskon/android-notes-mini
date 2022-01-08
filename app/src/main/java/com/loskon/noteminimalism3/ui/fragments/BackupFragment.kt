@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.other.InternetCheck
-import com.loskon.noteminimalism3.requests.RequestCode
+import com.loskon.noteminimalism3.requests.AppRequestCodes
 import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
@@ -178,7 +178,7 @@ class BackupFragment : Fragment(),
 
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
-            if (requestCode == RequestCode.REQUEST_CODE_BACKUP_FILE) {
+            if (requestCode == AppRequestCodes.REQUEST_CODE_BACKUP_FILE) {
                 try {
                     restoreDateBase(data)
                 } catch (exception: Exception) {

@@ -9,7 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.files.BackupPath
-import com.loskon.noteminimalism3.requests.RequestCode
+import com.loskon.noteminimalism3.requests.AppRequestCodes
 import com.loskon.noteminimalism3.ui.toast.WarningToast
 
 /**
@@ -58,7 +58,7 @@ class ResultActivity {
         }
 
         fun launcherSelectingFolder(context: Context) {
-            REQUEST_CODE = RequestCode.REQUEST_CODE_FOLDER_FOR_BACKUP
+            REQUEST_CODE = AppRequestCodes.REQUEST_CODE_FOLDER_FOR_BACKUP
 
             try {
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
@@ -75,7 +75,7 @@ class ResultActivity {
         }
 
         fun launcherSelectingDateBaseFile(context: Context) {
-            REQUEST_CODE = RequestCode.REQUEST_CODE_BACKUP_FILE
+            REQUEST_CODE = AppRequestCodes.REQUEST_CODE_BACKUP_FILE
             val backupFolderUri: Uri = Uri.parse(BackupPath.getPathBackupFolder(context))
             val mimetypes: Array<String> = arrayOf(
                 "application/x-sqlite3",

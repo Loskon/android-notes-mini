@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.ColorManager
 import com.loskon.noteminimalism3.managers.IntentManager
-import com.loskon.noteminimalism3.requests.RequestCode
+import com.loskon.noteminimalism3.requests.AppRequestCodes
 import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
@@ -313,18 +313,34 @@ class SettingsFragment :
 
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
-            if (requestCode == RequestCode.REQUEST_CODE_FOLDER_FOR_BACKUP) {
-                if (data != null && data.path != null) {
-                    if (data.path!!.contains("primary")) {
-                        val backupPath: String = BackupPath.findFullPath(data.path!!)
-                        PrefHelper.setBackupPath(activity, backupPath)
-                    } else {
-                        activity.showSnackbar(WarningSnackbar.MSG_LOCAL_STORAGE)
-                    }
+            if (requestCode == AppRequestCodes.REQUEST_CODE_FOLDER_FOR_BACKUP) {
+                val path: String? = data?.path
+
+                if (data != null && path != null) {
+                    savingSelectedPath(path)
                 } else {
                     activity.showSnackbar(WarningSnackbar.MSG_UNABLE_SELECT_FOLDER)
                 }
             }
+        }
+    }
+
+    private fun savingSelectedPath(noNullPath: String) {
+        var path: String = noNullPath
+
+        if (path.contains("/tree/home")) {
+            path = path.replace("/tree/home:", "/tree/primary:Documents/")
+        }
+
+        if (path.contains("/tree/primary")) {
+            try {
+                val backupPath: String = BackupPath.findFullPath(path)
+                PrefHelper.setBackupPath(activity, backupPath)
+            } catch (exception: Exception) {
+                activity.showSnackbar(WarningSnackbar.MSG_UNKNOWN_ERROR)
+            }
+        } else {
+            activity.showSnackbar(WarningSnackbar.MSG_LOCAL_STORAGE)
         }
     }
 

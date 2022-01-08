@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.files
 import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File
@@ -27,7 +27,7 @@ class SaveTextFile(
         if (hasCreatedFolder) {
             performCreationTextFile(folderTextFiles, text)
         } else {
-            showSnackbar(SnackbarControl.MSG_UNABLE_CREATE_FOLDER)
+            showSnackbar(WarningSnackbar.MSG_UNABLE_CREATE_FOLDER)
         }
     }
 
@@ -40,9 +40,9 @@ class SaveTextFile(
             writer.flush()
             writer.close()
 
-            showSnackbar(SnackbarControl.MSG_SAVE_TXT_COMPLETED)
+            showSnackbar(WarningSnackbar.MSG_SAVE_TXT_COMPLETED)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarControl.MSG_SAVE_TXT_FAILED)
+            showSnackbar(WarningSnackbar.MSG_SAVE_TXT_FAILED)
         }
     }
 

@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.requests.RequestCode
-import com.loskon.noteminimalism3.ui.toast.ToastControl
+import com.loskon.noteminimalism3.ui.toast.WarningToast
 
 /**
  * Регистрация, получение и обработка результатов контракта
@@ -70,7 +70,7 @@ class ResultActivity {
                 resultLauncher?.launch(intentChooser)
 
             } catch (exception: Exception) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
+                WarningToast.show(context, WarningToast.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
             }
         }
 
@@ -95,7 +95,7 @@ class ResultActivity {
                 resultLauncher?.launch(intentChooser)
 
             } catch (exception: Exception) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
+                WarningToast.show(context, WarningToast.MSG_TOAST_FILE_MANAGER_NOT_FOUND)
             }
         }
     }

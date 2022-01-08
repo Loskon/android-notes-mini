@@ -10,8 +10,8 @@ import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.files.BackupFiles
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.listview.FilesAdapter
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
-import com.loskon.noteminimalism3.ui.toast.ToastControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
+import com.loskon.noteminimalism3.ui.toast.WarningToast
 import com.loskon.noteminimalism3.utils.setMargins
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
@@ -71,7 +71,7 @@ class ListRestoreSheetDialog(private val context: Context) : FilesAdapter.FilesA
     private fun installHandlersForViews() {
         btnDeleteAll.setOnSingleClickListener {
             if (adapter.count == 0) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_RESTORE_LIST_EMPTY)
+                WarningToast.show(context, WarningToast.MSG_TOAST_RESTORE_LIST_EMPTY)
             } else {
                 dialog.dismiss()
                 DeleteBackupsFilesSheetDialog(context).show()
@@ -90,9 +90,9 @@ class ListRestoreSheetDialog(private val context: Context) : FilesAdapter.FilesA
     override fun onClickingFile(file: File) {
         try {
             DataBaseBackup.performRestore(context, file.path)
-            activity.showSnackbar(SnackbarControl.MSG_RESTORE_COMPLETED)
+            activity.showSnackbar(WarningSnackbar.MSG_RESTORE_COMPLETED)
         } catch (exception: Exception) {
-            activity.showSnackbar(SnackbarControl.MSG_RESTORE_FAILED)
+            activity.showSnackbar(WarningSnackbar.MSG_RESTORE_FAILED)
         }
 
         callback?.onRestoreNotes()

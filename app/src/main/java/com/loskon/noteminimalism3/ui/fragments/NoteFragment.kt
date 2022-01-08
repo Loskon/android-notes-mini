@@ -33,8 +33,8 @@ import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.dialogs.NoteLinksDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppMovementMethod
 import com.loskon.noteminimalism3.ui.sheets.NoteAssistantSheetDialog
-import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -192,7 +192,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun handlingClickOnEmptyArea() {
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
         if (supportedLinks != 0 && !isTextEditingMod) activationTextEditingMode()
         editText.apply {
             showKeyboard(activity)
@@ -268,7 +268,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFab() {
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
 
         isShowBackupToast = true
         editText.hideKeyboard(activity)
@@ -276,14 +276,14 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteButton() {
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
 
         isFavorite = !isFavorite
         toggleFavoriteStatus()
     }
 
     private fun clickingFavoriteDelete() {
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
 
         isDeleteNote = true
 
@@ -299,7 +299,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun clickingFavoriteMore() {
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
 
         editText.hideKeyboard(activity)
         lifecycleScope.launch {
@@ -319,7 +319,7 @@ class NoteFragment : Fragment(),
 
     private fun EditText.handlerClickListener() {
         setOnClickListener {
-            BaseWarningSnackbars.dismiss()
+            WarningBaseSnackbar.dismiss()
         }
     }
 
@@ -393,13 +393,11 @@ class NoteFragment : Fragment(),
         if (isGranted) {
             assistant.performSaveTextFile()
         } else {
-            showSnackbar(SnackbarControl.MSG_NO_PERMISSION)
+            showSnackbar(WarningSnackbar.MSG_NO_PERMISSION)
         }
     }
 
-    fun showSnackbar(typeMessage: String) {
-        SnackbarControl(constLayout, fab).show(typeMessage)
-    }
+    fun showSnackbar(typeMessage: String) = WarningSnackbar.show(constLayout, fab, typeMessage)
 
     val getScrollView: ScrollView
         get() {

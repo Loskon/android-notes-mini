@@ -8,7 +8,7 @@ import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.regex.Pattern
 
@@ -118,7 +118,7 @@ class NoteLinksDialog(private val context: Context, private val fragment: NoteFr
             URL_WEB -> IntentManager.launchWebClient(context, linkToOpen)
             URL_MAIL -> IntentManager.launchEmailClient(context, linkToOpen)
             URL_PHONE -> IntentManager.launchPhoneClient(context, linkToOpen)
-            else -> showSnackbar(SnackbarControl.MSG_UNKNOWN_ERROR)
+            else -> showSnackbar(WarningSnackbar.MSG_UNKNOWN_ERROR)
         }
     }
 
@@ -135,9 +135,9 @@ class NoteLinksDialog(private val context: Context, private val fragment: NoteFr
             val clipboard: ClipboardManager = context.getSystemService(service) as ClipboardManager
             val clipData: ClipData = ClipData.newPlainText("copy_links", receivedLink)
             clipboard.setPrimaryClip(clipData)
-            showSnackbar(SnackbarControl.MSG_NOTE_HYPERLINKS_COPIED)
+            showSnackbar(WarningSnackbar.MSG_NOTE_HYPERLINKS_COPIED)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarControl.MSG_INVALID_LINK)
+            showSnackbar(WarningSnackbar.MSG_INVALID_LINK)
         }
     }
 }

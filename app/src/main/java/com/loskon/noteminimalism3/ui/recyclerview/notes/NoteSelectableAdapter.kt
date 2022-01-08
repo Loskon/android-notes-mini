@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.activities.MainActivity
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import java.util.*
 
 /**
@@ -133,7 +133,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
             note.title = newTitle
             commandCenter.insert(note)
 
-            activity.showSnackbar(SnackbarControl.MSG_COMBINED_NOTE_ADD)
+            activity.showSnackbar(WarningSnackbar.MSG_COMBINED_NOTE_ADD)
 
         } catch (exception: Exception) {
 
@@ -144,7 +144,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
                 commandCenter.insert(item)
             }
 
-            activity.showSnackbar(SnackbarControl.MSG_ERROR_COMBINING_NOTES)
+            activity.showSnackbar(WarningSnackbar.MSG_ERROR_COMBINING_NOTES)
         }
     }
 
@@ -168,7 +168,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
             note.isFavorite = !note.isFavorite
             commandCenter.update(note)
         } catch (exception: Exception) {
-            activity.showSnackbar(SnackbarControl.MSG_SELECT_ONE_NOTE)
+            activity.showSnackbar(WarningSnackbar.MSG_SELECT_ONE_NOTE)
         }
     }
 }

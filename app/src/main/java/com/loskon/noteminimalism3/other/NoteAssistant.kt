@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.scrollBottom
 
 /**
@@ -33,7 +33,7 @@ class NoteAssistant(
         if (clipboard.hasPrimaryClip()) {
             performPasteText()
         } else {
-            showSnackbar(SnackbarControl.MSG_NEED_COPY_TEXT)
+            showSnackbar(WarningSnackbar.MSG_NEED_COPY_TEXT)
         }
     }
 
@@ -59,10 +59,10 @@ class NoteAssistant(
                 editText.setSelection(pasteText.length)
                 editText.scrollBottom(scrollView)
             } else {
-                showSnackbar(SnackbarControl.MSG_NEED_COPY_TEXT)
+                showSnackbar(WarningSnackbar.MSG_NEED_COPY_TEXT)
             }
         } catch (exception: Exception) {
-            showSnackbar(SnackbarControl.MSG_INVALID_FORMAT)
+            showSnackbar(WarningSnackbar.MSG_INVALID_FORMAT)
         }
     }
 
@@ -77,7 +77,7 @@ class NoteAssistant(
         if (text.isNotEmpty()) {
             performCopyText()
         } else {
-            showSnackbar(SnackbarControl.MSG_NOTE_IS_EMPTY)
+            showSnackbar(WarningSnackbar.MSG_NOTE_IS_EMPTY)
         }
     }
 
@@ -85,9 +85,9 @@ class NoteAssistant(
         try {
             val clipData = ClipData.newPlainText("label_copy_text", editText.text.toString())
             clipboard.setPrimaryClip(clipData)
-            showSnackbar(SnackbarControl.MSG_NOTE_TEXT_COPIED)
+            showSnackbar(WarningSnackbar.MSG_NOTE_TEXT_COPIED)
         } catch (exception: Exception) {
-            showSnackbar(SnackbarControl.MSG_UNKNOWN_ERROR)
+            showSnackbar(WarningSnackbar.MSG_UNKNOWN_ERROR)
         }
     }
 
@@ -105,7 +105,7 @@ class NoteAssistant(
         if (text.isNotEmpty()) {
             SaveTextFile(context, fragment).creationFolderTextFiles(text)
         } else {
-            showSnackbar(SnackbarControl.MSG_NOTE_IS_EMPTY)
+            showSnackbar(WarningSnackbar.MSG_NOTE_IS_EMPTY)
         }
     }
 
@@ -118,7 +118,7 @@ class NoteAssistant(
         if (text.isNotEmpty()) {
             performShareText()
         } else {
-            showSnackbar(SnackbarControl.MSG_NOTE_IS_EMPTY)
+            showSnackbar(WarningSnackbar.MSG_NOTE_IS_EMPTY)
         }
     }
 

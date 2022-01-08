@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.dialogs
 import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.MainActivity
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
@@ -30,7 +30,7 @@ class SendToTrashWarningDialog(context: Context) {
             if (itemCount != 0) {
                 activity.cleanTrash()
             } else {
-                activity.showSnackbar(SnackbarControl.MSG_BUT_EMPTY_TRASH)
+                activity.showSnackbar(WarningSnackbar.MSG_BUT_EMPTY_TRASH)
             }
 
             dialog.dismiss()

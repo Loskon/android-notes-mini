@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.toast.ToastControl
+import com.loskon.noteminimalism3.ui.toast.WarningToast
 
 /**
  * Intents
@@ -49,7 +49,7 @@ class IntentManager {
                 intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback_by_email))
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
+                WarningToast.show(context, WarningToast.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
             }
         }
 
@@ -59,7 +59,7 @@ class IntentManager {
                 intent.data = Uri.parse(link)
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
+                WarningToast.show(context, WarningToast.MSG_TOAST_EMAIL_CLIENT_NOT_FOUND)
             }
         }
 
@@ -71,7 +71,7 @@ class IntentManager {
                 sendIntent.type = "text/plain"
                 context.startActivity(Intent.createChooser(sendIntent, "share"))
             } catch (exception: ActivityNotFoundException) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_IMPOSSIBLE_SHARE)
+                WarningToast.show(context, WarningToast.MSG_TOAST_IMPOSSIBLE_SHARE)
             }
         }
 
@@ -81,7 +81,7 @@ class IntentManager {
                 intent.data = Uri.parse(link)
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_WEB_CLIENT_NOT_FOUND)
+                WarningToast.show(context, WarningToast.MSG_TOAST_WEB_CLIENT_NOT_FOUND)
             }
         }
 
@@ -91,7 +91,7 @@ class IntentManager {
                 intent.data = Uri.parse(link)
                 context.startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                ToastControl.show(context, ToastControl.MSG_TOAST_PHONE_CLIENT_NOT_FOUND)
+                WarningToast.show(context, WarningToast.MSG_TOAST_PHONE_CLIENT_NOT_FOUND)
             }
         }
     }

@@ -37,8 +37,8 @@ import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SortWaySheetDialog
-import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.utils.*
 
@@ -293,7 +293,7 @@ class MainActivity : AppBaseActivity(),
     }
 
     private fun dismissSnackbars() {
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
         snackbarUndo.dismiss()
     }
 
@@ -377,10 +377,10 @@ class MainActivity : AppBaseActivity(),
 
     override fun onNoteReset(note: Note) {
         updateQuicklyNotesList()
-        showSnackbar(SnackbarControl.MSG_NOTE_RESTORED)
+        showSnackbar(WarningSnackbar.MSG_NOTE_RESTORED)
     }
 
-    fun showSnackbar(message: String) = SnackbarControl(coordLayout, fab).show(message)
+    fun showSnackbar(message: String) = WarningSnackbar.show(coordLayout, fab, message)
 
     //--- SwipeCallback ----------------------------------------------------------------------------
     override fun onNoteSwipe(note: Note, hasFavStatus: Boolean) {

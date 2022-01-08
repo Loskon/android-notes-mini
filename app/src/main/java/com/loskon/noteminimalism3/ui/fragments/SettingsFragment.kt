@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.*
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -307,7 +307,7 @@ class SettingsFragment :
                 autoBackup?.isChecked = false
             }
 
-            activity.showSnackbar(SnackbarControl.MSG_NO_PERMISSION)
+            activity.showSnackbar(WarningSnackbar.MSG_NO_PERMISSION)
         }
     }
 
@@ -319,10 +319,10 @@ class SettingsFragment :
                         val backupPath: String = BackupPath.findFullPath(data.path!!)
                         PrefHelper.setBackupPath(activity, backupPath)
                     } else {
-                        activity.showSnackbar(SnackbarControl.MSG_LOCAL_STORAGE)
+                        activity.showSnackbar(WarningSnackbar.MSG_LOCAL_STORAGE)
                     }
                 } else {
-                    activity.showSnackbar(SnackbarControl.MSG_UNABLE_SELECT_FOLDER)
+                    activity.showSnackbar(WarningSnackbar.MSG_UNABLE_SELECT_FOLDER)
                 }
             }
         }
@@ -335,6 +335,4 @@ class SettingsFragment :
     override fun onChangeRetention(range: Int) {
         retention?.summary = activity.getString(R.string.number_of_days_summary, range)
     }
-
-
 }

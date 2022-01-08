@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 /**
  * Хост представления для фрагментов
@@ -94,9 +94,8 @@ class SettingsActivity : AppBaseActivity(),
             .commit()
     }
 
-    fun showSnackbar(typeMessage: String) {
-        SnackbarControl(constLayout, bottomBar).show(typeMessage)
-    }
+    fun showSnackbar(typeMessage: String) =
+        WarningSnackbar.show(constLayout, bottomBar, typeMessage)
 
     override fun onChangeColor(color: Int) = establishViewsColor(color)
 

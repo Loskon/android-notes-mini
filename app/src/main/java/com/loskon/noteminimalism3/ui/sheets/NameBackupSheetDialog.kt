@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.files.CheckCreatedFile
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
@@ -98,7 +98,7 @@ class NameBackupSheetDialog(private val context: Context) {
         if (hasCreatedFolder) {
             creatingBackup(title)
         } else {
-            activity.showSnackbar(SnackbarControl.MSG_UNABLE_CREATE_FOLDER)
+            activity.showSnackbar(WarningSnackbar.MSG_UNABLE_CREATE_FOLDER)
         }
 
         dialog.dismiss()
@@ -111,9 +111,9 @@ class NameBackupSheetDialog(private val context: Context) {
 
         try {
             DataBaseBackup.performBackup(context, outFileName)
-            activity.showSnackbar(SnackbarControl.MSG_BACKUP_COMPLETED)
+            activity.showSnackbar(WarningSnackbar.MSG_BACKUP_COMPLETED)
         } catch (exception: Exception) {
-            activity.showSnackbar(SnackbarControl.MSG_BACKUP_FAILED)
+            activity.showSnackbar(WarningSnackbar.MSG_BACKUP_FAILED)
         }
     }
 }

@@ -25,8 +25,8 @@ import com.loskon.noteminimalism3.ui.sheets.CloudConfirmSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.GoogleAccountSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.NameBackupSheetDialog
-import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 /**
  * Бэкап/восстановление базы данных
@@ -83,7 +83,7 @@ class BackupFragment : Fragment(),
     }
 
     override fun onClick(view: View?) {
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
         btnId = view?.id
 
         when (btnId) {
@@ -127,7 +127,7 @@ class BackupFragment : Fragment(),
         return if (hasInternetConnection) {
             true
         } else {
-            showSnackbar(SnackbarControl.MSG_TEXT_NO_INTERNET)
+            showSnackbar(WarningSnackbar.MSG_TEXT_NO_INTERNET)
             false
         }
     }
@@ -160,7 +160,7 @@ class BackupFragment : Fragment(),
 
     override fun onDetach() {
         super.onDetach()
-        BaseWarningSnackbars.dismiss()
+        WarningBaseSnackbar.dismiss()
         changeVisibilityMenuItem(false)
     }
 
@@ -172,7 +172,7 @@ class BackupFragment : Fragment(),
                 ListRestoreSheetDialog(activity).show()
             }
         } else {
-            showSnackbar(SnackbarControl.MSG_NO_PERMISSION)
+            showSnackbar(WarningSnackbar.MSG_NO_PERMISSION)
         }
     }
 
@@ -182,11 +182,11 @@ class BackupFragment : Fragment(),
                 try {
                     restoreDateBase(data)
                 } catch (exception: Exception) {
-                    showSnackbar(SnackbarControl.MSG_RESTORE_FAILED)
+                    showSnackbar(WarningSnackbar.MSG_RESTORE_FAILED)
                 }
             }
         } else {
-            showSnackbar(SnackbarControl.MSG_BACKUP_NOT_SELECTED)
+            showSnackbar(WarningSnackbar.MSG_BACKUP_NOT_SELECTED)
         }
     }
 
@@ -196,9 +196,9 @@ class BackupFragment : Fragment(),
 
             if (isRestoreFailed) {
                 callback?.onRestoreNotes()
-                showSnackbar(SnackbarControl.MSG_RESTORE_COMPLETED)
+                showSnackbar(WarningSnackbar.MSG_RESTORE_COMPLETED)
             } else {
-                showSnackbar(SnackbarControl.MSG_INVALID_FORMAT_FILE)
+                showSnackbar(WarningSnackbar.MSG_INVALID_FORMAT_FILE)
             }
         }
     }

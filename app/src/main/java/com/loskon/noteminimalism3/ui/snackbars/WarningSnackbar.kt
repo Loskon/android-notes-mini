@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.snackbars
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.loskon.noteminimalism3.R
@@ -8,62 +9,59 @@ import com.loskon.noteminimalism3.R
  * Управление Snackbar
  */
 
-class SnackbarControl(
-    private val layout: ViewGroup,
-    private val anchorView: View
-) {
-    companion object {
-        // activity_list
-        const val MSG_NOTE_RESTORED = "note_restored_msg_snack"
-        const val MSG_COMBINED_NOTE_ADD = "combined_note_added_msg_snack"
-        const val MSG_ERROR_COMBINING_NOTES = "error_combining_notes_msg_snack"
-        const val MSG_BUT_EMPTY_TRASH = "but_empty_trash_msg_snack"
-        const val MSG_SELECT_ONE_NOTE = "select_one_note_msg_snack"
+object WarningSnackbar {
 
-        // fragment_note
-        const val MSG_NOTE_IS_EMPTY = "note_is_empty_msg_snack"
-        const val MSG_SAVE_TXT_COMPLETED = "save_txt_completed_msg_snack"
-        const val MSG_SAVE_TXT_FAILED = "save_txt_failed_msg_snack"
-        const val MSG_INVALID_LINK = "invalid_link_msg_snack"
-        const val MSG_NEED_COPY_TEXT = "need_copy_text_msg_snack"
-        const val MSG_INVALID_FORMAT = "invalid_format_msg_snack"
-        const val MSG_NOTE_TEXT_COPIED = "text_copied_msg_snack"
-        const val MSG_NOTE_HYPERLINKS_COPIED = "hyperlinks_copied_msg_snack"
-        const val MSG_UNABLE_CREATE_TEXT_FILE = "unable_create_text_file_msg_snack"
+    // activity_list
+    const val MSG_NOTE_RESTORED = "note_restored_msg_snack"
+    const val MSG_COMBINED_NOTE_ADD = "combined_note_added_msg_snack"
+    const val MSG_ERROR_COMBINING_NOTES = "error_combining_notes_msg_snack"
+    const val MSG_BUT_EMPTY_TRASH = "but_empty_trash_msg_snack"
+    const val MSG_SELECT_ONE_NOTE = "select_one_note_msg_snack"
 
-        // fragment_settings
-        const val MSG_UNABLE_SELECT_FOLDER = "unable_select_folder_msg_snack"
-        const val MSG_LOCAL_STORAGE = "you_can_local_storage_msg_snack"
+    // fragment_note
+    const val MSG_NOTE_IS_EMPTY = "note_is_empty_msg_snack"
+    const val MSG_SAVE_TXT_COMPLETED = "save_txt_completed_msg_snack"
+    const val MSG_SAVE_TXT_FAILED = "save_txt_failed_msg_snack"
+    const val MSG_INVALID_LINK = "invalid_link_msg_snack"
+    const val MSG_NEED_COPY_TEXT = "need_copy_text_msg_snack"
+    const val MSG_INVALID_FORMAT = "invalid_format_msg_snack"
+    const val MSG_NOTE_TEXT_COPIED = "text_copied_msg_snack"
+    const val MSG_NOTE_HYPERLINKS_COPIED = "hyperlinks_copied_msg_snack"
 
-        // fragment_backup
-        const val MSG_UNABLE_CREATE_FOLDER = "unable_create_folder_msg_snack"
-        const val MSG_BACKUP_COMPLETED = "backup_completed_msg_snack"
-        const val MSG_BACKUP_FAILED = "backup_failed_msg_snack"
-        const val MSG_RESTORE_COMPLETED = "restore_completed_msg_snack"
-        const val MSG_RESTORE_FAILED = "restore_failed_msg_snack"
-        const val MSG_BACKUP_FILES_DELETED = "backup_files_deleted_msg_snack"
-        const val MSG_TEXT_SIGN_IN_FAILED = "sign_in_failed_msg_snack"
-        const val MSG_TEXT_OUT = "out_msg_snack"
-        const val MSG_TEXT_NO_INTERNET = "no_internet_msg_snack"
-        const val MSG_DEL_DATA = "del_data_msg_snack"
-        const val MSG_BACKUP_NOT_FOUND = "backup_not_found_msg_snack"
-        const val MSG_INTERNET_PROBLEM = "internet_problem_msg_snack"
-        const val MSG_BACKUP_NOT_SELECTED = "backup_not_selected_msg_snack"
-        const val MSG_INVALID_FORMAT_FILE = "invalid_format_file_msg_snack"
+    // fragment_settings
+    const val MSG_UNABLE_SELECT_FOLDER = "unable_select_folder_msg_snack"
+    const val MSG_LOCAL_STORAGE = "you_can_local_storage_msg_snack"
 
-        // other
-        const val MSG_NO_PERMISSION = "no_permission_msg_snack"
-        const val MSG_UNKNOWN_ERROR = "unknown_error_msg_snack"
+    // fragment_backup
+    const val MSG_UNABLE_CREATE_FOLDER = "unable_create_folder_msg_snack"
+    const val MSG_BACKUP_COMPLETED = "backup_completed_msg_snack"
+    const val MSG_BACKUP_FAILED = "backup_failed_msg_snack"
+    const val MSG_RESTORE_COMPLETED = "restore_completed_msg_snack"
+    const val MSG_RESTORE_FAILED = "restore_failed_msg_snack"
+    const val MSG_BACKUP_FILES_DELETED = "backup_files_deleted_msg_snack"
+    const val MSG_TEXT_SIGN_IN_FAILED = "sign_in_failed_msg_snack"
+    const val MSG_TEXT_OUT = "out_msg_snack"
+    const val MSG_TEXT_NO_INTERNET = "no_internet_msg_snack"
+    const val MSG_DEL_DATA = "del_data_msg_snack"
+    const val MSG_BACKUP_NOT_FOUND = "backup_not_found_msg_snack"
+    const val MSG_INTERNET_PROBLEM = "internet_problem_msg_snack"
+    const val MSG_BACKUP_NOT_SELECTED = "backup_not_selected_msg_snack"
+    const val MSG_INVALID_FORMAT_FILE = "invalid_format_file_msg_snack"
+
+    // other
+    const val MSG_NO_PERMISSION = "no_permission_msg_snack"
+    const val MSG_UNKNOWN_ERROR = "unknown_error_msg_snack"
+
+    fun show(layout: ViewGroup, anchorView: View, typeMessage: String) {
+        val context: Context = layout.context
+        val message: String = getMessage(context, typeMessage)
+        val isSuccess: Boolean = getSuccess(context, typeMessage)
+
+        WarningBaseSnackbar.make(layout, anchorView, message, isSuccess)
     }
 
-    fun show(typeMessage: String) {
-        val message: String = getMessage(typeMessage)
-        val isSuccess: Boolean = getSuccess(typeMessage)
-        BaseWarningSnackbars.make(layout, anchorView, message, isSuccess)
-    }
-
-    private fun getMessage(typeMessage: String): String {
-        layout.context.apply {
+    private fun getMessage(context: Context, typeMessage: String): String {
+        context.apply {
             val message: Int = when (typeMessage) {
                 // activity_list
                 MSG_NOTE_RESTORED -> R.string.sb_note_restored
@@ -80,7 +78,6 @@ class SnackbarControl(
                 MSG_INVALID_FORMAT -> R.string.sb_note_invalid_format
                 MSG_NOTE_TEXT_COPIED -> R.string.sb_note_text_copied
                 MSG_NOTE_HYPERLINKS_COPIED -> R.string.sb_note_hyperlinks_copied
-                MSG_UNABLE_CREATE_TEXT_FILE -> R.string.sb_unable_create_text_file
                 // fragment_settings
                 MSG_UNABLE_SELECT_FOLDER -> R.string.sb_settings_unable_select_folder
                 MSG_LOCAL_STORAGE -> R.string.sb_settings_you_can_local_storage
@@ -108,8 +105,8 @@ class SnackbarControl(
         }
     }
 
-    private fun getSuccess(typeMessage: String): Boolean {
-        layout.context.apply {
+    private fun getSuccess(context: Context, typeMessage: String): Boolean {
+        context.apply {
             val message: Boolean = when (typeMessage) {
                 // activity_list
                 MSG_NOTE_RESTORED -> true
@@ -130,4 +127,6 @@ class SnackbarControl(
             return message
         }
     }
+
+
 }

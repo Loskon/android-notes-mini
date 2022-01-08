@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.requests.google.ResultGoogleInterface
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import com.loskon.noteminimalism3.ui.dialogs.ProgressDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
+import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import java.io.File
 
 /**
@@ -87,9 +87,9 @@ class DataBaseCloudBackup(
         uploadTask = storageRef.child(cloudPath).putFile(dateBaseUri)
 
         uploadTask?.addOnSuccessListener {
-            showSnackbar(SnackbarControl.MSG_BACKUP_COMPLETED)
+            showSnackbar(WarningSnackbar.MSG_BACKUP_COMPLETED)
         }?.addOnFailureListener {
-            showSnackbar(SnackbarControl.MSG_BACKUP_FAILED)
+            showSnackbar(WarningSnackbar.MSG_BACKUP_FAILED)
         }
     }
 
@@ -111,7 +111,7 @@ class DataBaseCloudBackup(
     private fun onFinishTimer() {
         uploadTask?.cancel()
         downloadTask?.cancel()
-        showSnackbar(SnackbarControl.MSG_INTERNET_PROBLEM)
+        showSnackbar(WarningSnackbar.MSG_INTERNET_PROBLEM)
     }
 
     private fun showSnackbar(typeMessage: String) {
@@ -147,7 +147,7 @@ class DataBaseCloudBackup(
         storageRef.child(cloudPath).metadata.addOnSuccessListener {
             downloadCopyDateBaseFromCloud()
         }.addOnFailureListener {
-            showSnackbar(SnackbarControl.MSG_BACKUP_NOT_FOUND)
+            showSnackbar(WarningSnackbar.MSG_BACKUP_NOT_FOUND)
         }
     }
 
@@ -155,10 +155,10 @@ class DataBaseCloudBackup(
         downloadTask = storageRef.child(cloudPath).getFile(File(dateBasePath))
 
         (downloadTask as FileDownloadTask).addOnSuccessListener {
-            showSnackbar(SnackbarControl.MSG_RESTORE_COMPLETED)
+            showSnackbar(WarningSnackbar.MSG_RESTORE_COMPLETED)
             callback?.onRestoreNotes()
         }.addOnFailureListener {
-            showSnackbar(SnackbarControl.MSG_RESTORE_FAILED)
+            showSnackbar(WarningSnackbar.MSG_RESTORE_FAILED)
         }
     }
 
@@ -170,7 +170,7 @@ class DataBaseCloudBackup(
                 checkingPresenceFile()
             }
         } else {
-            fragment.showSnackbar(SnackbarControl.MSG_TEXT_SIGN_IN_FAILED)
+            fragment.showSnackbar(WarningSnackbar.MSG_TEXT_SIGN_IN_FAILED)
         }
 
         changeVisibilityMenuItemAccount()
@@ -184,7 +184,7 @@ class DataBaseCloudBackup(
             .addOnCompleteListener {
                 countDownTimer?.cancel()
                 changeVisibilityMenuItemAccount()
-                fragment.showSnackbar(SnackbarControl.MSG_TEXT_OUT)
+                fragment.showSnackbar(WarningSnackbar.MSG_TEXT_OUT)
             }
     }
 
@@ -199,7 +199,7 @@ class DataBaseCloudBackup(
             .addOnCompleteListener {
                 countDownTimer?.cancel()
                 changeVisibilityMenuItemAccount()
-                fragment.showSnackbar(SnackbarControl.MSG_DEL_DATA)
+                fragment.showSnackbar(WarningSnackbar.MSG_DEL_DATA)
             }
     }
 

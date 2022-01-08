@@ -30,7 +30,7 @@
     <!-- menu_bottom_bar_data_account -->
     <string name="menu_backup_data">Settings account</string>
     <!-- menu_bottom_bar_list -->
-    <string name="menu_list_switch">Switch view</string>
+    <string name="menu_list_switch">Toggle view</string>
     <string name="menu_list_search">Search go</string>
     <string name="menu_list_select">Select notes</string>
     <string name="menu_list_combine">Combine notes</string>

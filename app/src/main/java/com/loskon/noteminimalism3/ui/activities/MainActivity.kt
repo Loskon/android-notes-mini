@@ -3,16 +3,13 @@ package com.loskon.noteminimalism3.ui.activities
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.KeyEvent
-import android.widget.GridLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
@@ -43,13 +40,10 @@ import com.loskon.noteminimalism3.ui.sheets.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.BaseWarningSnackbars
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarControl
 import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
-import com.loskon.noteminimalism3.utils.ValueUtil
-import com.loskon.noteminimalism3.utils.onlyShow
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setVisibleView
+import com.loskon.noteminimalism3.utils.*
 
 /**
- * Основное activity для работы со списком
+ * Главный экран для работы со списком заметок
  */
 
 class MainActivity : AppBaseActivity(),
@@ -180,14 +174,6 @@ class MainActivity : AppBaseActivity(),
         recyclerView.changeLayoutManager(hasLinearList)
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = AppItemAnimator()
-    }
-
-    private fun RecyclerView.changeLayoutManager(hasLinearList: Boolean) {
-        layoutManager = if (hasLinearList) {
-            LinearLayoutManager(context)
-        } else {
-            StaggeredGridLayoutManager(2, GridLayout.VERTICAL)
-        }
     }
 
     private fun differentConfigurations() {

@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 /**
  * Утилиты для вьюшек
@@ -75,5 +75,13 @@ fun View.enableSearchView(enabled: Boolean) {
             val child = viewGroup.getChildAt(i)
             child.enableSearchView(enabled)
         }
+    }
+}
+
+fun RecyclerView.changeLayoutManager(isLinear: Boolean) {
+    layoutManager = if (isLinear) {
+        LinearLayoutManager(context)
+    } else {
+        StaggeredGridLayoutManager(2, GridLayout.VERTICAL)
     }
 }

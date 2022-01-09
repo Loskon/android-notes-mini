@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
  */
 
 class SettingsFragment :
-    AppBaseSettingsFragment(),
+    BaseSettingsFragment(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     NumberBackupsSheetDialog.NumberBackupsCallback,

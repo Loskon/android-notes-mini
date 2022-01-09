@@ -5,10 +5,10 @@ import android.view.View
 import androidx.preference.PreferenceFragmentCompat
 
 /**
- * Переопределение PreferenceFragmentCompat для изменения параметров списка
+ * Изменение параметров списка
  */
 
-open class AppBaseSettingsFragment : PreferenceFragmentCompat() {
+open class BaseSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreate(savedInstanceState)

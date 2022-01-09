@@ -26,7 +26,7 @@ class WarningAboutFontDialog(private val context: Context) {
     }
 
     private fun installHandlersForViews() {
-        dialog.buttonOk.setOnSingleClickListener {
+        dialog.btnOk.setOnSingleClickListener {
             PrefHelper.setStatusDialogShow(context)
             dialog.dismiss()
         }

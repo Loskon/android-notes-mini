@@ -27,7 +27,7 @@ class BaseDialog(private val context: Context) {
 
     private val tvTitle: TextView = dialogView.findViewById(R.id.tv_base_dialog_title)
     private val linLayout: LinearLayout = dialogView.findViewById(R.id.container_base_dialog)
-    private val btnOk: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_ok)
+    private val buttonOk: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_ok)
     private val btnCancel: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_cancel)
 
     private fun builderAlertDialog(view: View): AlertDialog {
@@ -60,7 +60,7 @@ class BaseDialog(private val context: Context) {
 
     private fun establishViewsColor() {
         val color: Int = PrefHelper.getAppColor(context)
-        btnOk.setBackgroundColor(color)
+        buttonOk.setBackgroundColor(color)
         btnCancel.setTextColor(color)
     }
 
@@ -96,7 +96,7 @@ class BaseDialog(private val context: Context) {
     }
 
     fun setBtnOkVisibility(isVisible: Boolean) {
-        btnOk.setVisibleView(isVisible)
+        buttonOk.setVisibleView(isVisible)
     }
 
     fun setBtnCancelVisibility(isVisible: Boolean) {
@@ -113,8 +113,8 @@ class BaseDialog(private val context: Context) {
         alertDialog.setCancelable(isCancel)
     }
 
-    val buttonOk: MaterialButton
+    val btnOk: MaterialButton
         get() {
-            return btnOk
+            return buttonOk
         }
 }

@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.ui.activities
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
@@ -37,16 +38,16 @@ import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SortWaySheetDialog
+import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
 import com.loskon.noteminimalism3.utils.*
 
 /**
  * Главный экран для работы со списком заметок
  */
 
-class MainActivity : AppBaseActivity(),
+class MainActivity : BaseActivity(),
     NoteRecyclerAdapter.NoteListAdapterCallback,
     SwipeCallback.NoteSwipeCallback,
     CategorySheetFragment.CallbackCategory,
@@ -102,7 +103,7 @@ class MainActivity : AppBaseActivity(),
         installSwipeCallback()
         configureSearchWithSearchView()
         installHandlersForViews()
-        updateQuicklyNotesList()
+        updateQuicklyNoteList(true)
     }
 
     private fun installCallbacks() {
@@ -185,10 +186,20 @@ class MainActivity : AppBaseActivity(),
         ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
     }
 
-    private fun updateQuicklyNotesList() {
-        val notes: List<Note> = noteList
-        adapter.setQuicklyNoteList(notes)
-        tvEmpty.setVisibleView(notes.isEmpty())
+    private fun configureSearchWithSearchView() {
+        searchView.setOnQueryTextListener(object : QueryTextListener() {
+            override fun queryTextChange(query: String?) {
+                searchText = query
+                updateQuicklyNoteList(true)
+            }
+        })
+    }
+
+    private fun updateQuicklyNoteList(hasScrollToTop: Boolean) {
+        val list: List<Note> = noteList
+        tvEmpty.setVisibleView(list.isEmpty())
+        adapter.setQuicklyNoteList(list)
+        recyclerView.scrollToTop(list, hasScrollToTop)
     }
 
     private val noteList: List<Note>
@@ -196,49 +207,14 @@ class MainActivity : AppBaseActivity(),
             return commandCenter.getNotes(searchText, category, sortingWay)
         }
 
-    private fun configureSearchWithSearchView() {
-        searchView.setOnQueryTextListener(object : QueryTextListener() {
-            override fun queryTextChange(query: String?) {
-                searchText = query
-                updateQuicklyNotesList()
-            }
-        })
+    private fun RecyclerView.scrollToTop(list: List<Note>, hasScrollToTop: Boolean) {
+        if (list.isNotEmpty() && hasScrollToTop) scrollToPosition(0)
     }
 
     private fun installHandlersForViews() {
         fab.setOnSingleClickListener { onFabClick() }
         bottomBar.setNavigationOnClickListener { onNavigationBtnClick() }
-        bottomBar.setOnMenuItemClickListener { item ->
-            dismissSnackbars()
-
-            when (item.itemId) {
-                R.id.action_toggle_view -> {
-                    onMenuSwitchClick()
-                    true
-                }
-                R.id.action_select_item -> {
-                    adapter.selectAllNotes()
-                    true
-                }
-
-                R.id.action_search -> {
-                    togglingSearchMode(true)
-                    true
-                }
-
-                R.id.action_unification -> {
-                    UnificationDialog(this).show()
-                    true
-                }
-
-                R.id.action_favorite -> {
-                    adapter.changeFavoriteStatus(this, commandCenter)
-                    true
-                }
-
-                else -> false
-            }
-        }
+        bottomBar.setOnMenuItemClickListener { onMenuItemsClick(it) }
     }
 
     private fun onFabClick() {
@@ -260,14 +236,24 @@ class MainActivity : AppBaseActivity(),
     private fun sendSelectedNotesToTrash() {
         adapter.sendSelectedItemsToTrash(commandCenter)
         disableSelectionMode()
-        updateListNotes()
+        updateNoteList()
     }
 
     private fun disableSelectionMode() {
         isSelectionMode = false
         swipeCallback.blockSwiped(isSelectionMode)
-        changingViewsForSelectionMode()
         adapter.disableSelectionMode()
+        changingViewsForSelectionMode()
+    }
+
+    fun updateNoteList() {
+        val notes: List<Note> = noteList
+        tvEmpty.setVisibleView(notes.isEmpty())
+        adapter.setNoteList(notes)
+    }
+
+    private fun changingViewsForSelectionMode() {
+        widgetHelper.changingViewsForSelectionMode(category, isSelectionMode, isSearchMode)
     }
 
     private fun pressingInNormalMode() {
@@ -282,19 +268,9 @@ class MainActivity : AppBaseActivity(),
         }
     }
 
-    private fun changingViewsForSelectionMode() {
-        widgetHelper.changingViewsForSelectionMode(category, isSelectionMode, isSearchMode)
-    }
-
-    fun updateListNotes() {
-        val notes: List<Note> = noteList
-        adapter.setNoteList(notes)
-        tvEmpty.setVisibleView(notes.isEmpty())
-    }
-
-    private fun dismissSnackbars() {
-        WarningBaseSnackbar.dismiss()
-        snackbarUndo.dismiss()
+    private fun togglingSearchMode(hasActivation: Boolean) {
+        this.isSearchMode = hasActivation
+        widgetHelper.togglingSearchMode(category, hasActivation)
     }
 
     private fun onNavigationBtnClick() {
@@ -311,6 +287,11 @@ class MainActivity : AppBaseActivity(),
         }
     }
 
+    private fun dismissSnackbars() {
+        WarningBaseSnackbar.dismiss()
+        snackbarUndo.dismiss()
+    }
+
     private fun cancelSelectionMode() {
         disableSelectionMode()
         adapter.updateChangedList()
@@ -321,22 +302,44 @@ class MainActivity : AppBaseActivity(),
         bottomSheet.onlyShow(supportFragmentManager, CategorySheetFragment.TAG)
     }
 
-    private fun onMenuSwitchClick() {
+    private fun onMenuItemsClick(item: MenuItem): Boolean {
+        dismissSnackbars()
+
+        return when (item.itemId) {
+            R.id.action_toggle_view -> {
+                menuItemSwitchClick()
+                true
+            }
+            R.id.action_select_item -> {
+                adapter.selectAllNotes()
+                true
+            }
+
+            R.id.action_search -> {
+                togglingSearchMode(true)
+                true
+            }
+
+            R.id.action_unification -> {
+                UnificationDialog(this).show()
+                true
+            }
+
+            R.id.action_favorite -> {
+                adapter.changeFavoriteStatus(this, commandCenter)
+                true
+            }
+
+            else -> false
+        }
+    }
+
+    private fun menuItemSwitchClick() {
         hasLinearList = !hasLinearList
         adapter.setLinearList(hasLinearList)
         recyclerView.changeLayoutManager(hasLinearList)
         widgetHelper.changeIconToggleViewMenuItem(hasLinearList)
         PrefHelper.setStateLinearList(this, hasLinearList)
-    }
-
-    private fun togglingSearchMode(isActivation: Boolean) {
-        this.isSearchMode = isActivation
-        widgetHelper.togglingSearchMode(category, isActivation)
-    }
-
-    private fun updateQuicklyNotesListTop() {
-        updateQuicklyNotesList()
-        recyclerView.scrollToPosition(0)
     }
 
     //--- NoteRecyclerAdapter ----------------------------------------------------------------------
@@ -360,23 +363,23 @@ class MainActivity : AppBaseActivity(),
     }
 
     //--- NoteFragment -----------------------------------------------------------------------------
-    override fun onNoteAdd() = updateQuicklyNotesListTop()
+    override fun onNoteAdd() = updateQuicklyNoteList(true)
 
-    override fun onNoteUpdate() = updateQuicklyNotesList()
+    override fun onNoteUpdate() = updateQuicklyNoteList(false)
 
     override fun onSendToTrash(note: Note, hasFavStatus: Boolean, isBottomWidgetShow: Boolean) {
-        updateQuicklyNotesList()
+        updateQuicklyNoteList(false)
         if (isBottomWidgetShow) showSnackbarUndo(note, hasFavStatus)
     }
 
     //--- NoteTrashFragment ------------------------------------------------------------------------
     override fun onNoteDelete(note: Note, hasFavStatus: Boolean) {
-        updateQuicklyNotesList()
+        updateQuicklyNoteList(false)
         showSnackbarUndo(note, hasFavStatus)
     }
 
     override fun onNoteReset(note: Note) {
-        updateQuicklyNotesList()
+        updateQuicklyNoteList(false)
         showSnackbar(WarningSnackbar.MSG_NOTE_RESTORED)
     }
 
@@ -384,7 +387,7 @@ class MainActivity : AppBaseActivity(),
 
     //--- SwipeCallback ----------------------------------------------------------------------------
     override fun onNoteSwipe(note: Note, hasFavStatus: Boolean) {
-        updateListNotes()
+        updateNoteList()
         showSnackbarUndo(note, hasFavStatus)
     }
 
@@ -397,48 +400,41 @@ class MainActivity : AppBaseActivity(),
         this.category = category
         swipeCallback.setCategory(category)
         widgetHelper.changeFabIcon(category)
-        updateQuicklyNotesList()
-        scrollUpWithProtection()
-    }
-
-    private fun scrollUpWithProtection() {
-        // Защита от создания пустого пространства над списком
-        // при использовании StaggeredGridLayoutManager
-        if (noteList.isNotEmpty()) recyclerView.scrollToPosition(0)
+        updateQuicklyNoteList(true)
     }
 
     //--- SettingsActivity -------------------------------------------------------------------------
     override fun onChangeColor(color: Int) {
         this.color = color
         adapter.setViewColor(color)
-        updateQuicklyNotesListTop()
+        updateQuicklyNoteList(true)
         establishViewsColor()
     }
 
     override fun onChangeFontSizes(fontSizeTitle: Int, fontSizeDate: Int) {
         adapter.setFontSizes(fontSizeTitle, fontSizeDate)
-        updateQuicklyNotesListTop()
+        updateQuicklyNoteList(true)
     }
 
     override fun onChangeNumberLines(numberLines: Int) {
         adapter.setNumberLines(numberLines)
-        updateQuicklyNotesListTop()
+        updateQuicklyNoteList(true)
     }
 
     override fun onChangeStatusSizeCards(hasOneSizeCards: Boolean) {
         adapter.setOneSizeCards(hasOneSizeCards)
-        updateQuicklyNotesListTop()
+        updateQuicklyNoteList(true)
     }
 
     override fun onRestoreNotes() {
         category = CATEGORY_ALL_NOTES
         widgetHelper.changeFabIcon(category)
-        updateQuicklyNotesListTop()
+        updateQuicklyNoteList(true)
     }
 
     override fun onChangeSortingWay(sortingWay: Int) {
         this.sortingWay = sortingWay
-        updateQuicklyNotesListTop()
+        updateQuicklyNoteList(true)
     }
 
     override fun onChangeTypeFont(typeFace: Typeface?) {
@@ -451,21 +447,21 @@ class MainActivity : AppBaseActivity(),
     // SendToTrashWarningDialog
     fun cleanTrash() {
         commandCenter.cleanTrash()
-        updateQuicklyNotesList()
+        updateQuicklyNoteList(false)
     }
 
     // DeleteForeverWarningDialog
     fun deleteItemsForever() {
         adapter.deleteItems(commandCenter)
         disableSelectionMode()
-        updateListNotes()
+        updateNoteList()
     }
 
     // UnificationDialog
     fun performUnificationNotes() {
         adapter.unification(this, commandCenter)
         disableSelectionMode()
-        updateQuicklyNotesListTop()
+        updateQuicklyNoteList(true)
     }
 
     //--- Прочее -----------------------------------------------------------------------------------

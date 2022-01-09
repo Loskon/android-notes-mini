@@ -142,12 +142,10 @@ class BackupFragment : Fragment(),
         btnRestoreSD.setOnClickListener(this)
         btnBackupCloud.setOnClickListener(this)
         btnRestoreCloud.setOnClickListener(this)
-        activity.bottomAppBar.setOnMenuItemClickListener { item: MenuItem ->
-            performClickMenuItemAccount(item)
-        }
+        activity.bottomAppBar.setOnMenuItemClickListener { onMenuItemClick(it) }
     }
 
-    private fun performClickMenuItemAccount(item: MenuItem): Boolean {
+    private fun onMenuItemClick(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_account) {
             if (checkForInternet()) {
                 GoogleAccountSheetDialog(activity, this).show()

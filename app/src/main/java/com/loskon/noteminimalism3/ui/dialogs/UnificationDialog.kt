@@ -24,7 +24,7 @@ class UnificationDialog(context: Context) {
     }
 
     private fun installHandlersForViews() {
-        dialog.buttonOk.setOnSingleClickListener {
+        dialog.btnOk.setOnSingleClickListener {
             activity.performUnificationNotes()
             dialog.dismiss()
         }

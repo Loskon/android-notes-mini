@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
  * Хост представления для фрагментов
  */
 
-class SettingsActivity : AppBaseActivity(),
+class SettingsActivity : BaseActivity(),
     SelectColorPickerSheetDialog.ColorNavIconCallback,
     SelectColorHexSheetDialog.ColorHexNavIconCallback,
     PrefScreenResetColor.ColorResetNavIconCallback {

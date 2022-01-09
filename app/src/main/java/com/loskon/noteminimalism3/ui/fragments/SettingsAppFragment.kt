@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
  */
 
 class SettingsAppFragment :
-    AppBaseSettingsFragment(),
+    BaseSettingsFragment(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     SelectColorPickerSheetDialog.ColorNotifyDataCallback,

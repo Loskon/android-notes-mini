@@ -24,7 +24,7 @@ class DeleteForeverWarningDialog(context: Context) {
     }
 
     private fun installHandlersForViews() {
-        dialog.buttonOk.setOnSingleClickListener {
+        dialog.btnOk.setOnSingleClickListener {
             activity.deleteItemsForever()
             dialog.dismiss()
         }

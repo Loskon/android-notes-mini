@@ -25,7 +25,7 @@ class SendToTrashWarningDialog(context: Context) {
     }
 
     private fun installHandlersForViews(itemCount: Int) {
-        dialog.buttonOk.setOnSingleClickListener {
+        dialog.btnOk.setOnSingleClickListener {
 
             if (itemCount != 0) {
                 activity.cleanTrash()

@@ -67,7 +67,7 @@ class SnackbarUndo(
             commandCenter.resetFromTrash(note, hasFavStatus)
         }
 
-        activity.updateListNotes()
+        activity.updateNoteList()
 
         dismiss()
     }

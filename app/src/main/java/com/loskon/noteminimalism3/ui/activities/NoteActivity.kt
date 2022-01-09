@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
  * Выбор фрагмента для работы с заметкой
  */
 
-class NoteActivity : AppBaseActivity() {
+class NoteActivity : BaseActivity() {
 
     private lateinit var note: Note
 

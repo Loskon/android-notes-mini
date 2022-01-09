@@ -26,7 +26,7 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  */
 
 class ReceivingDataActivity :
-    AppBaseActivity(),
+    BaseActivity(),
     NotesSelectedListAdapter.SendAdapterCallback {
 
     private val commandCenter: CommandCenter = CommandCenter()

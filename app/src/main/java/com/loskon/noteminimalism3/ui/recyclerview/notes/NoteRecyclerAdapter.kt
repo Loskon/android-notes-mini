@@ -118,7 +118,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
     }
 
     //----------------------------------------------------------------------------------------------
-    fun setViewColor(color: Int) {
+    fun setViewsColor(color: Int) {
         this.color = color
     }
 

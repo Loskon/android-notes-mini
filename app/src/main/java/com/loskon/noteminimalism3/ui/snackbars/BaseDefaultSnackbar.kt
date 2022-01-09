@@ -25,7 +25,7 @@ class BaseDefaultSnackbar constructor(
             @LayoutRes layoutId: Int,
             parent: ViewGroup,
             anchorView: View,
-            isiIndefinite: Boolean
+            hasIndefinite: Boolean
         ): BaseDefaultSnackbar {
 
             val content: View = View.inflate(parent.context, layoutId, null)
@@ -34,7 +34,7 @@ class BaseDefaultSnackbar constructor(
             val snackbar = BaseDefaultSnackbar(parent, content, viewCallback)
 
             snackbar.anchorView = anchorView
-            snackbar.setSnackDuration(isiIndefinite)
+            snackbar.setSnackDuration(hasIndefinite)
             snackbar.getView().setGravityBottom(parent)
             snackbar.getView().setOnClickListener { snackbar.dismiss() }
 
@@ -43,8 +43,8 @@ class BaseDefaultSnackbar constructor(
     }
 }
 
-private fun BaseDefaultSnackbar.setSnackDuration(isiIndefinite: Boolean) {
-    duration = if (isiIndefinite) {
+private fun BaseDefaultSnackbar.setSnackDuration(hasIndefinite: Boolean) {
+    duration = if (hasIndefinite) {
         Snackbar.LENGTH_INDEFINITE
     } else {
         Snackbar.LENGTH_LONG

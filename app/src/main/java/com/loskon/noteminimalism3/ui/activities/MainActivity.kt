@@ -38,7 +38,7 @@ import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.sheets.SortWaySheetDialog
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarUndo
+import com.loskon.noteminimalism3.ui.snackbars.UndoSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.*
@@ -70,7 +70,7 @@ class MainActivity : BaseActivity(),
 
     private lateinit var widgetHelper: MainWidgetHelper
     private lateinit var swipeCallback: SwipeCallback
-    private lateinit var snackbarUndo: SnackbarUndo
+    private lateinit var undoSnackbar: UndoSnackbar
 
     private lateinit var coordLayout: CoordinatorLayout
     private lateinit var searchView: SearchView
@@ -139,7 +139,7 @@ class MainActivity : BaseActivity(),
 
     private fun initializingObjects() {
         widgetHelper = MainWidgetHelper(this, searchView, fab, cardView, tvCountItems, bottomBar)
-        snackbarUndo = SnackbarUndo(this, commandCenter, coordLayout, fab)
+        undoSnackbar = UndoSnackbar(this, commandCenter, coordLayout, fab)
     }
 
     private fun getSomeSharedPreferences() {
@@ -153,7 +153,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun configureRecyclerAdapter() {
-        adapter.setViewColor(color)
+        adapter.setViewsColor(color)
         adapter.setLinearList(hasLinearList)
 
         val radiusStrokeDp: Int = ValueUtil.getRadiusLinLay(this)
@@ -182,7 +182,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun installSwipeCallback() {
-        swipeCallback = SwipeCallback(adapter, commandCenter)
+        swipeCallback = SwipeCallback(adapter)
         ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
     }
 
@@ -289,7 +289,7 @@ class MainActivity : BaseActivity(),
 
     private fun dismissSnackbars() {
         WarningBaseSnackbar.dismiss()
-        snackbarUndo.dismiss()
+        undoSnackbar.dismiss()
     }
 
     private fun cancelSelectionMode() {
@@ -387,18 +387,18 @@ class MainActivity : BaseActivity(),
 
     //--- SwipeCallback ----------------------------------------------------------------------------
     override fun onNoteSwipe(note: Note, hasFavStatus: Boolean) {
+        commandCenter.selectDeleteOption(category, note)
         updateNoteList()
         showSnackbarUndo(note, hasFavStatus)
     }
 
     private fun showSnackbarUndo(note: Note, hasFavStatus: Boolean) {
-        snackbarUndo.show(note, hasFavStatus, category)
+        undoSnackbar.show(note, hasFavStatus, category)
     }
 
     //--- CategorySheetFragment --------------------------------------------------------------------
     override fun onChangeCategory(category: String) {
         this.category = category
-        swipeCallback.setCategory(category)
         widgetHelper.changeFabIcon(category)
         updateQuicklyNoteList(true)
     }
@@ -406,7 +406,7 @@ class MainActivity : BaseActivity(),
     //--- SettingsActivity -------------------------------------------------------------------------
     override fun onChangeColor(color: Int) {
         this.color = color
-        adapter.setViewColor(color)
+        adapter.setViewsColor(color)
         updateQuicklyNoteList(true)
         establishViewsColor()
     }

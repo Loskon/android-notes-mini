@@ -85,3 +85,10 @@ fun RecyclerView.changeLayoutManager(isLinear: Boolean) {
         StaggeredGridLayoutManager(2, GridLayout.VERTICAL)
     }
 }
+
+
+fun EditText.disableFocus() {
+    isClickable = true
+    isCursorVisible = false
+    isFocusable = false
+}

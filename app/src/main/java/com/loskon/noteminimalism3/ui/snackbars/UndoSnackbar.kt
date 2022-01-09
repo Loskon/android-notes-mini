@@ -16,11 +16,10 @@ import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
- * Snackbar с таймером
- * для восстановления удаленной заметки
+ * Snackbar с таймером для восстановления удаленной заметки
  */
 
-class SnackbarUndo(
+class UndoSnackbar(
     private val activity: MainActivity,
     private val commandCenter: CommandCenter,
     private val layout: ViewGroup,
@@ -32,6 +31,7 @@ class SnackbarUndo(
     private var anim: ObjectAnimator? = null
 
     fun show(note: Note, hasFavStatus: Boolean, category: String) {
+        anim?.cancel()
         countDownTimer?.cancel()
 
         snackbar = BaseDefaultSnackbar.make(R.layout.snackbar_undo, layout, fab, true)

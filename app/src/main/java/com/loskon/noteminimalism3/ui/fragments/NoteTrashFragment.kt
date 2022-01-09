@@ -18,8 +18,9 @@ import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
-import com.loskon.noteminimalism3.ui.snackbars.SnackbarNoteRestore
+import com.loskon.noteminimalism3.ui.snackbars.RestoreNoteSnackbar
 import com.loskon.noteminimalism3.utils.changeTextSize
+import com.loskon.noteminimalism3.utils.disableFocus
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.*
 
@@ -32,6 +33,7 @@ class NoteTrashFragment : Fragment() {
     private val commandCenter: CommandCenter = CommandCenter()
 
     private lateinit var activity: NoteActivity
+    private lateinit var restoreNoteSnackbar: RestoreNoteSnackbar
 
     private lateinit var constLayout: ConstraintLayout
     private lateinit var linearLayout: LinearLayout
@@ -74,6 +76,7 @@ class NoteTrashFragment : Fragment() {
 
     private fun initObjects() {
         note = activity.getNote()
+        restoreNoteSnackbar = RestoreNoteSnackbar(this, constLayout, fab)
     }
 
     private fun establishViewsColor() {
@@ -83,13 +86,10 @@ class NoteTrashFragment : Fragment() {
     }
 
     private fun configureEditText() {
-        editText.apply {
-            isClickable = true
-            isCursorVisible = false
-            isFocusable = false
-            changeTextSize(activity.getNoteFontSize())
-            setText(note.title)
-        }
+        editText.disableFocus()
+        editText.changeTextSize(activity.getNoteFontSize())
+        editText.setText(note.title)
+
     }
 
     private fun installHandlersForViews() {
@@ -114,7 +114,7 @@ class NoteTrashFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        SnackbarNoteRestore(this, constLayout, fab).show()
+        restoreNoteSnackbar.show()
     }
 
     interface NoteTrashCallback {

@@ -10,48 +10,56 @@ import java.util.*
 
 class CommandCenter {
 
-    private val dateBaseAdapter: DataBaseAdapter = DataBaseAdapter.getDateBase()
+    private val dateBase: DataBaseAdapter = DataBaseAdapter.getDateBase()
 
     fun getNotes(searchTerm: String?, notesCategory: String, sortingWay: Int): List<Note> {
-        return dateBaseAdapter.getNotes(searchTerm, notesCategory, sortingWay)
+        return dateBase.getNotes(searchTerm, notesCategory, sortingWay)
     }
 
-    // primary
+    //--- Primary methods --------------------------------------------------------------------------
     fun insert(note: Note) {
-        dateBaseAdapter.insert(note)
+        dateBase.insert(note)
     }
 
     fun update(note: Note) {
-        dateBaseAdapter.update(note)
+        dateBase.update(note)
     }
 
     fun delete(note: Note) {
-        dateBaseAdapter.delete(note)
+        dateBase.delete(note)
     }
 
-    // second
+    //--- Second methods ---------------------------------------------------------------------------
     fun insertWithIdReturn(note: Note): Long {
-        return dateBaseAdapter.insertWithIdReturn(note)
+        return dateBase.insertWithIdReturn(note)
+    }
+
+    fun selectDeleteOption(category: String, note: Note) {
+        if (category == DataBaseAdapter.CATEGORY_TRASH) {
+            delete(note)
+        } else {
+            sendToTrash(note)
+        }
     }
 
     fun sendToTrash(note: Note) {
         note.dateDelete = Date()
         note.isDelete = true
         note.isFavorite = false
-        dateBaseAdapter.update(note)
+        dateBase.update(note)
     }
 
-    fun resetFromTrash(note: Note, hasFavStatus: Boolean) {
-        note.isFavorite = hasFavStatus
+    fun resetFromTrash(note: Note, hasFavoriteStatus: Boolean) {
+        note.isFavorite = hasFavoriteStatus
         note.isDelete = false
-        dateBaseAdapter.update(note)
+        dateBase.update(note)
     }
 
     fun cleanTrash() {
-        dateBaseAdapter.cleanTrash()
+        dateBase.cleanTrash()
     }
 
     fun deleteAll() {
-        dateBaseAdapter.deleteAll()
+        dateBase.deleteAll()
     }
 }

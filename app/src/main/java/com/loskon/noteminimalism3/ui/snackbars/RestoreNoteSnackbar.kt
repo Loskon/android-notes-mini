@@ -12,30 +12,28 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * для восстановления заметки из корзины
  */
 
-class SnackbarNoteRestore(
+class RestoreNoteSnackbar(
     private val fragment: NoteTrashFragment,
     private val layout: ViewGroup,
     private val fab: View
 ) {
 
-    private lateinit var snackbar: BaseDefaultSnackbar
+    private var snackbar: BaseDefaultSnackbar? = null
 
     fun show() {
         snackbar = BaseDefaultSnackbar.make(R.layout.snackbar_note_restore, layout, fab, false)
-        snackbar.settingSnackbarView()
-
-        snackbar.show()
+        snackbar?.settingSnackbarView()
+        snackbar?.show()
     }
 
-    private fun BaseDefaultSnackbar.settingSnackbarView() {
-        val view: View = this.view
-        val btnSnackbar: Button = view.findViewById(R.id.btn_snackbar_note_reset)
-
-        btnSnackbar.setOnSingleClickListener { restoreNoteFromTrash() }
+    private fun BaseDefaultSnackbar?.settingSnackbarView() {
+        val view: View? = this?.view
+        val btnSnackbar: Button? = view?.findViewById(R.id.btn_snackbar_note_reset)
+        btnSnackbar?.setOnSingleClickListener { restoreNoteFromTrash() }
     }
 
     private fun restoreNoteFromTrash() {
-        snackbar.dismiss()
-        fragment.restoreNote()
+        snackbar?.dismiss()
+        if (snackbar != null) fragment.restoreNote()
     }
 }

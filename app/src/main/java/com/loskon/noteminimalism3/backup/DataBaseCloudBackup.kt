@@ -114,10 +114,10 @@ class DataBaseCloudBackup(
         showSnackbar(WarningSnackbar.MSG_INTERNET_PROBLEM)
     }
 
-    private fun showSnackbar(typeMessage: String) {
+    private fun showSnackbar(messageType: String) {
         countDownTimer?.cancel()
         progressDialog.close()
-        fragment.showSnackbar(typeMessage)
+        fragment.showSnackbar(messageType)
     }
 
     private val cloudPath: String

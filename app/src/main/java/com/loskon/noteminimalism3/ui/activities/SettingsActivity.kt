@@ -94,8 +94,8 @@ class SettingsActivity : BaseActivity(),
             .commit()
     }
 
-    fun showSnackbar(typeMessage: String) =
-        WarningSnackbar.show(constLayout, bottomBar, typeMessage)
+    fun showSnackbar(messageType: String) =
+        WarningSnackbar.show(constLayout, bottomBar, messageType)
 
     override fun onChangeColor(color: Int) = establishViewsColor(color)
 

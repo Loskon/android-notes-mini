@@ -4,13 +4,16 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.widget.GridLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
@@ -41,7 +44,10 @@ import com.loskon.noteminimalism3.ui.sheets.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.UndoSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.utils.*
+import com.loskon.noteminimalism3.utils.ValueUtil
+import com.loskon.noteminimalism3.utils.onlyShow
+import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
  * Главный экран для работы со списком заметок
@@ -486,5 +492,14 @@ class MainActivity : BaseActivity(),
     override fun onPause() {
         super.onPause()
         dismissSnackbars()
+    }
+}
+
+// Extension functions
+private fun RecyclerView.changeLayoutManager(isLinear: Boolean) {
+    layoutManager = if (isLinear) {
+        LinearLayoutManager(context)
+    } else {
+        StaggeredGridLayoutManager(2, GridLayout.VERTICAL)
     }
 }

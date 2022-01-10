@@ -52,17 +52,17 @@ object WarningSnackbar {
     const val MSG_NO_PERMISSION = "no_permission_msg_snack"
     const val MSG_UNKNOWN_ERROR = "unknown_error_msg_snack"
 
-    fun show(layout: ViewGroup, anchorView: View, typeMessage: String) {
+    fun show(layout: ViewGroup, anchorView: View, messageType: String) {
         val context: Context = layout.context
-        val message: String = getMessage(context, typeMessage)
-        val isSuccess: Boolean = getSuccess(context, typeMessage)
+        val message: String = getMessage(context, messageType)
+        val isSuccess: Boolean = getSuccess(context, messageType)
 
         WarningBaseSnackbar.make(layout, anchorView, message, isSuccess)
     }
 
-    private fun getMessage(context: Context, typeMessage: String): String {
+    private fun getMessage(context: Context, messageType: String): String {
         context.apply {
-            val message: Int = when (typeMessage) {
+            val message: Int = when (messageType) {
                 // activity_list
                 MSG_NOTE_RESTORED -> R.string.sb_note_restored
                 MSG_COMBINED_NOTE_ADD -> R.string.sb_combined_note_added
@@ -105,9 +105,9 @@ object WarningSnackbar {
         }
     }
 
-    private fun getSuccess(context: Context, typeMessage: String): Boolean {
+    private fun getSuccess(context: Context, messageType: String): Boolean {
         context.apply {
-            val message: Boolean = when (typeMessage) {
+            val message: Boolean = when (messageType) {
                 // activity_list
                 MSG_NOTE_RESTORED -> true
                 MSG_COMBINED_NOTE_ADD -> true

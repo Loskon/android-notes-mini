@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -41,17 +40,17 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 /**
- * Форма для работы с текстом заметки
+ * Экран для работы с заметкой
  */
 
-class NoteFragment : Fragment(),
+open class NoteFragment : Fragment(),
     ReceivingDataActivity.ReceivingDataCallback,
     ResultAccessStorageInterface {
 
-    private val commandCenter: CommandCenter = CommandCenter()
-
     private lateinit var activity: NoteActivity
     private lateinit var assistant: NoteAssistant
+
+    private val commandCenter: CommandCenter = CommandCenter()
 
     private lateinit var constLayout: ConstraintLayout
     private lateinit var scrollView: ScrollView
@@ -66,13 +65,16 @@ class NoteFragment : Fragment(),
     private lateinit var backupDate: Date
 
     private var isFavorite: Boolean = false
+    private var isNewNote: Boolean = true
+    private var isSaveNewNote: Boolean = true
+    private var isDeleteNote: Boolean = false
+
     private var isShowBackupToast: Boolean = false
-    private var isTextEditingMod: Boolean = false
-    private var isNewNote: Boolean = false
-    private var isSaveNewNote = true
-    private var isDeleteNote = false
+    private var hasShowUndoSnackbar: Boolean = true
+
+    private var hasTextEditingMode: Boolean = false
     private var hasReceivingText: Boolean = false
-    private var isBottomWidgetShow: Boolean = true
+
     private var supportedLinks: Int = 0
     private var color: Int = 0
     private var noteId: Long = 0L
@@ -81,8 +83,12 @@ class NoteFragment : Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as NoteActivity
-        isBottomWidgetShow = PrefHelper.isBottomWidgetShow(activity)
         ResultAccessStorage.installing(activity, this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        hasShowUndoSnackbar = PrefHelper.isBottomWidgetShow(activity)
         overrideBackPressed()
     }
 
@@ -115,30 +121,16 @@ class NoteFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initObjects()
-        setupParameters()
-        installCallbacks()
         establishViewsColor()
-        installingSaveSettings()
-        includedLinks()
+        initializingObjects()
+        getNecessaryParameters()
+        installCallbacks()
+        configureParametersForSavingNote()
+        checkingForIncludedLinks()
         configureEditText()
         configureShowKeyboard()
         configureOtherViews()
         installNoteHandlers()
-    }
-
-    private fun initObjects() {
-        note = activity.getNote()
-        assistant = NoteAssistant(activity, this)
-    }
-
-    private fun setupParameters() {
-        noteId = note.id
-        hasReceivingText = activity.hasRecText
-    }
-
-    private fun installCallbacks() {
-        if (!hasReceivingText) ReceivingDataActivity.registerCallbackReceivingData(this)
     }
 
     private fun establishViewsColor() {
@@ -149,17 +141,28 @@ class NoteFragment : Fragment(),
         btnMore.setButtonIconColor(color)
     }
 
-    private fun installingSaveSettings() {
-        if (noteId == 0L) {
-            isNewNote = true
-        } else {
-            if (!hasReceivingText) {
-                savedText = note.title
-            }
+    private fun initializingObjects() {
+        note = activity.getNote()
+        assistant = NoteAssistant(activity, this, editText, scrollView)
+    }
+
+    private fun getNecessaryParameters() {
+        noteId = note.id
+        hasReceivingText = activity.hasRecText
+    }
+
+    private fun installCallbacks() {
+        if (!hasReceivingText) ReceivingDataActivity.registerCallbackReceivingData(this)
+    }
+
+    private fun configureParametersForSavingNote() {
+        if (noteId != 0L) {
+            isNewNote = false
+            if (!hasReceivingText) savedText = note.title
         }
     }
 
-    private fun includedLinks() {
+    private fun checkingForIncludedLinks() {
         if (noteId != 0L) {
             supportedLinks = LinksManager.getActiveLinks(activity)
             if (supportedLinks != 0) editText.configureMovementMethod()
@@ -184,7 +187,7 @@ class NoteFragment : Fragment(),
         }
 
         setOnLongClickListener {
-            if (!isTextEditingMod) activationTextEditingMode()
+            if (!hasTextEditingMode) activationTextEditingMode()
             false
         }
 
@@ -193,33 +196,21 @@ class NoteFragment : Fragment(),
 
     private fun handlingClickOnEmptyArea() {
         WarningBaseSnackbar.dismiss()
-        if (supportedLinks != 0 && !isTextEditingMod) activationTextEditingMode()
-        editText.apply {
-            showKeyboard(activity)
-            setSelection(editText.getLength())
-        }
+        if (supportedLinks != 0 && !hasTextEditingMode) activationTextEditingMode()
+        editText.showKeyboard(activity)
+        editText.setSelection(editText.getLength())
     }
 
     private fun activationTextEditingMode() {
-        isTextEditingMod = true
-        editText.apply {
-            note.title = text.toString()
-            autoLinkMask = 0
-            showSoftInputOnFocus = true
-            isCursorVisible = true
-            setText(note.title)
-        }
+        hasTextEditingMode = true
+
+        editText.disableLinks()
+        editText.setText(editText.text.toString())
     }
 
     private fun configureEditText() {
         editText.changeTextSize(activity.getNoteFontSize())
         editText.setText(note.title)
-
-        if (noteId != 0L) {
-            editText.inputType =
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or
-                        InputType.TYPE_TEXT_FLAG_MULTI_LINE
-        }
     }
 
     private fun configureShowKeyboard() {
@@ -234,12 +225,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun removeFocusFromEditText() {
-        linLayoutNote.apply {
-            isFocusable = true
-            isFocusableInTouchMode = true
-            requestFocus()
-        }
-
+        linLayoutNote.turnFocusOnYourself()
         editText.clearFocus()
     }
 
@@ -259,15 +245,15 @@ class NoteFragment : Fragment(),
     }
 
     private fun installNoteHandlers() {
-        fab.setOnSingleClickListener { clickingFab() }
-        btnFav.setOnClickListener { clickingFavoriteButton() }
-        btnDel.setOnSingleClickListener { clickingFavoriteDelete() }
-        btnMore.setOnSingleClickListener { clickingFavoriteMore() }
+        fab.setOnSingleClickListener { onFabClick() }
+        btnFav.setOnClickListener { onFavoriteBtnClick() }
+        btnDel.setOnSingleClickListener { onDeleteBtnClick() }
+        btnMore.setOnSingleClickListener { onMoreBtnClick() }
         linLayoutNote.handlerOutClick()
         editText.handlerClickListener()
     }
 
-    private fun clickingFab() {
+    private fun onFabClick() {
         WarningBaseSnackbar.dismiss()
 
         isShowBackupToast = true
@@ -275,14 +261,14 @@ class NoteFragment : Fragment(),
         activity.onBackPressed()
     }
 
-    private fun clickingFavoriteButton() {
+    private fun onFavoriteBtnClick() {
         WarningBaseSnackbar.dismiss()
 
         isFavorite = !isFavorite
         toggleFavoriteStatus()
     }
 
-    private fun clickingFavoriteDelete() {
+    private fun onDeleteBtnClick() {
         WarningBaseSnackbar.dismiss()
 
         isDeleteNote = true
@@ -292,13 +278,13 @@ class NoteFragment : Fragment(),
             isSaveNewNote = false
         } else {
             commandCenter.sendToTrash(note)
-            callback?.onSendToTrash(note, isFavorite, isBottomWidgetShow)
+            callback?.onSendToTrash(note, isFavorite, hasShowUndoSnackbar)
         }
 
         activity.onBackPressed()
     }
 
-    private fun clickingFavoriteMore() {
+    private fun onMoreBtnClick() {
         WarningBaseSnackbar.dismiss()
 
         editText.hideKeyboard(activity)
@@ -311,7 +297,7 @@ class NoteFragment : Fragment(),
 
     @SuppressLint("ClickableViewAccessibility")
     private fun LinearLayout.handlerOutClick() {
-        setOnTouchListener { _: View?, event: MotionEvent ->
+        setOnTouchListener { _, event: MotionEvent ->
             if (event.action == MotionEvent.ACTION_DOWN) handlingClickOnEmptyArea()
             false
         }
@@ -397,22 +383,7 @@ class NoteFragment : Fragment(),
         }
     }
 
-    fun showSnackbar(typeMessage: String) = WarningSnackbar.show(constLayout, fab, typeMessage)
-
-    val getScrollView: ScrollView
-        get() {
-            return scrollView
-        }
-
-    val getEditText: EditText
-        get() {
-            return editText
-        }
-
-    val getNote: Note
-        get() {
-            return note
-        }
+    fun showSnackbar(messageType: String) = WarningSnackbar.show(constLayout, fab, messageType)
 
     interface NoteCallback {
         fun onNoteAdd()
@@ -435,4 +406,21 @@ class NoteFragment : Fragment(),
     override fun onReceivingData() {
         activity.finish()
     }
+}
+
+// Extension functions
+private fun EditText.getLength(): Int {
+    return text.toString().length
+}
+
+private fun EditText.disableLinks() {
+    autoLinkMask = 0
+    showSoftInputOnFocus = true
+    isCursorVisible = true
+}
+
+private fun View.turnFocusOnYourself() {
+    isFocusable = true
+    isFocusableInTouchMode = true
+    requestFocus()
 }

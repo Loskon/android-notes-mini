@@ -20,7 +20,6 @@ import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.RestoreNoteSnackbar
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.utils.disableFocus
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.*
 
@@ -133,4 +132,11 @@ class NoteTrashFragment : Fragment() {
             return NoteTrashFragment()
         }
     }
+}
+
+// Extension functions
+private fun EditText.disableFocus() {
+    isClickable = true
+    isCursorVisible = false
+    isFocusable = false
 }

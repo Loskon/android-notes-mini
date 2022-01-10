@@ -54,7 +54,5 @@ class SaveTextFile(
         return "$finalTitle.txt"
     }
 
-    private fun showSnackbar(typeMessage: String) {
-        fragment.showSnackbar(typeMessage)
-    }
+    private fun showSnackbar(messageType: String) = fragment.showSnackbar(messageType)
 }

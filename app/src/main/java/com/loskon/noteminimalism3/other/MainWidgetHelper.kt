@@ -2,6 +2,8 @@ package com.loskon.noteminimalism3.other
 
 import android.content.Context
 import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
@@ -16,7 +18,6 @@ import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.utils.enableSearchView
 import com.loskon.noteminimalism3.utils.getShortDrawable
 import com.loskon.noteminimalism3.utils.setVisibleView
 import com.loskon.noteminimalism3.utils.showKeyboard
@@ -247,5 +248,17 @@ class MainWidgetHelper(
     //--- TextView ---------------------------------------------------------------------------------
     private fun setCountItemsText(selectedItemsCount: Int) {
         tvCountItems.text = selectedItemsCount.toString()
+    }
+}
+
+// Extension functions
+fun View.enableSearchView(enabled: Boolean) {
+    this.isEnabled = enabled
+    if (this is ViewGroup) {
+        val viewGroup = this
+        for (i in 0 until viewGroup.childCount) {
+            val child = viewGroup.getChildAt(i)
+            child.enableSearchView(enabled)
+        }
     }
 }

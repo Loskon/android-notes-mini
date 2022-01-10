@@ -201,7 +201,7 @@ class BackupFragment : Fragment(),
         }
     }
 
-    fun showSnackbar(typeMessage: String) = activity.showSnackbar(typeMessage)
+    fun showSnackbar(messageType: String) = activity.showSnackbar(messageType)
 
     fun changeVisibilityMenuItem(isVisible: Boolean) = activity.changeVisibilityMenuItem(isVisible)
 

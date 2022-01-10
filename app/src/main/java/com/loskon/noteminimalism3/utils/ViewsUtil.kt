@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TextView
 
 /**
  * Утилиты для вьюшек
@@ -52,11 +52,6 @@ fun View.setLayoutParamsForInsertedView() {
 }
 
 
-fun EditText.getLength(): Int {
-    return text.toString().length
-}
-
-
 fun TextView.changeTextSize(fontSize: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
 }
@@ -64,31 +59,4 @@ fun TextView.changeTextSize(fontSize: Int) {
 
 fun EditText.scrollBottom(scrollView: ScrollView) {
     scrollView.post { scrollView.scrollTo(0, bottom) }
-}
-
-
-fun View.enableSearchView(enabled: Boolean) {
-    this.isEnabled = enabled
-    if (this is ViewGroup) {
-        val viewGroup = this
-        for (i in 0 until viewGroup.childCount) {
-            val child = viewGroup.getChildAt(i)
-            child.enableSearchView(enabled)
-        }
-    }
-}
-
-fun RecyclerView.changeLayoutManager(isLinear: Boolean) {
-    layoutManager = if (isLinear) {
-        LinearLayoutManager(context)
-    } else {
-        StaggeredGridLayoutManager(2, GridLayout.VERTICAL)
-    }
-}
-
-
-fun EditText.disableFocus() {
-    isClickable = true
-    isCursorVisible = false
-    isFocusable = false
 }

@@ -122,7 +122,7 @@ class NoteLinksDialog(private val context: Context, private val fragment: NoteFr
         }
     }
 
-    private fun showSnackbar(typeMessage: String) = fragment.showSnackbar(typeMessage)
+    private fun showSnackbar(messageType: String) = fragment.showSnackbar(messageType)
 
     private fun clickingCopyButton() {
         dialog.dismiss()

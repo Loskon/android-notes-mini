@@ -34,14 +34,14 @@ object WarningToast {
     // intent ACTION_DIAL
     const val MSG_TOAST_PHONE_CLIENT_NOT_FOUND = "phone_client_not_found_msg_toast"
 
-    fun show(context: Context, typeMessage: String) {
-        val message: String = getMessage(context, typeMessage)
+    fun show(context: Context, messageType: String) {
+        val message: String = getMessage(context, messageType)
         context.showToast(message)
     }
 
-    private fun getMessage(context: Context, typeMessage: String): String {
+    private fun getMessage(context: Context, messageType: String): String {
         context.apply {
-            val message: Int = when (typeMessage) {
+            val message: Int = when (messageType) {
                 // activity_list
                 MSG_TOAST_AUTO_BACKUP_COMPLETED -> R.string.toast_auto_bp_completed
                 MSG_TOAST_AUTO_BACKUP_FAILED -> R.string.toast_auto_bp_failed

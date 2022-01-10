@@ -51,8 +51,8 @@ class DataBaseAutoBackup {
             }
         }
 
-        private fun showToast(context: Context, typeMessage: String, isShowToast: Boolean) {
-            if (isShowToast) WarningToast.show(context, typeMessage)
+        private fun showToast(context: Context, messageType: String, isShowToast: Boolean) {
+            if (isShowToast) WarningToast.show(context, messageType)
         }
 
         private fun showSuccessNotification(context: Context) {

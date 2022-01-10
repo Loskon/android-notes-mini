@@ -7,7 +7,6 @@ import android.widget.EditText
 import android.widget.ScrollView
 import com.loskon.noteminimalism3.files.SaveTextFile
 import com.loskon.noteminimalism3.managers.IntentManager
-import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
@@ -19,16 +18,14 @@ import com.loskon.noteminimalism3.utils.scrollBottom
 
 class NoteAssistant(
     private val context: Context,
-    private val fragment: NoteFragment
+    private val fragment: NoteFragment,
+    private val editText: EditText,
+    private val scrollView: ScrollView
 ) {
 
-    private val note: Note = fragment.getNote
-    private val editText: EditText = fragment.getEditText
-    private val scrollView: ScrollView = fragment.getScrollView
+    private val clipboard: ClipboardManager = context.getClipboardManager()
 
-    private val clipboard: ClipboardManager = context
-        .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
+    //--- Вставить текст ---------------------------------------------------------------------------
     fun pasteText() {
         if (clipboard.hasPrimaryClip()) {
             performPasteText()
@@ -41,22 +38,21 @@ class NoteAssistant(
 
     private fun performPasteText() {
         val text: String = textTrim
-        val pasteText: String
+        val pastedText: String
 
         try {
-            val textToPaste: CharSequence? = clipboard.primaryClip?.getItemAt(0)?.text
+            val pasteData: CharSequence? = clipboard.primaryClip?.getItemAt(0)?.text
 
-            if (textToPaste.toString().trim().isNotEmpty()) {
+            if (pasteData.toString().trim().isNotEmpty()) {
 
-                pasteText = if (text.isEmpty()) {
-                    textToPaste as String
+                pastedText = if (text.isEmpty()) {
+                    pasteData as String
                 } else {
-                    text + "\n\n" + textToPaste
+                    text + "\n\n" + pasteData
                 }
 
-                note.title = pasteText
-                editText.setText(pasteText)
-                editText.setSelection(pasteText.length)
+                editText.setText(pastedText)
+                editText.setSelection(pastedText.length)
                 editText.scrollBottom(scrollView)
             } else {
                 showSnackbar(WarningSnackbar.MSG_NEED_COPY_TEXT)
@@ -68,9 +64,7 @@ class NoteAssistant(
 
     private val textTrim: String get() = editText.text.toString().trim()
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //--- Копировать текст -------------------------------------------------------------------------
     fun copyText() {
         val text: String = textTrim
 
@@ -91,9 +85,7 @@ class NoteAssistant(
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //--- Сохранить текст в текстовом файле --------------------------------------------------------
     fun saveTextFile() {
         val hasAccess: Boolean = ResultAccessStorage.hasAccessStorageRequest(context)
         if (hasAccess) performSaveTextFile()
@@ -109,9 +101,7 @@ class NoteAssistant(
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //--- Поделиться текстом -----------------------------------------------------------------------
     fun shareText() {
         val text: String = textTrim
 
@@ -125,4 +115,9 @@ class NoteAssistant(
     private fun performShareText() {
         IntentManager.launchShareText(context, textTrim)
     }
+}
+
+// Extension functions
+private fun Context.getClipboardManager(): ClipboardManager {
+    return getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 }

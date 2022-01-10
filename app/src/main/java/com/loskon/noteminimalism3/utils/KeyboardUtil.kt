@@ -9,14 +9,14 @@ import android.widget.EditText
  */
 
 fun EditText.showKeyboard(context: Context) {
-    val service: String = Context.INPUT_METHOD_SERVICE
-    val inputManager: InputMethodManager = context.getSystemService(service) as InputMethodManager
     requestFocus()
-    inputManager.showSoftInput(this, 0)
+    context.getInputManager().showSoftInput(this, 0)
 }
 
 fun EditText.hideKeyboard(context: Context) {
-    val service: String = Context.INPUT_METHOD_SERVICE
-    val inputManager: InputMethodManager = context.getSystemService(service) as InputMethodManager
-    inputManager.hideSoftInputFromWindow(windowToken, 0)
+    context.getInputManager().hideSoftInputFromWindow(windowToken, 0)
+}
+
+private fun Context.getInputManager(): InputMethodManager {
+    return getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 }

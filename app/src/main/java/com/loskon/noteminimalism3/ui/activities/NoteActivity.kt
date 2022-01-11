@@ -27,13 +27,13 @@ class NoteActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
-        getArguments()
-        otherConfigurations()
+        getPassedArguments()
+        getSomeSharedPreferences()
         setStatusFavorite()
         selectFragmentOpen()
     }
 
-    private fun getArguments() {
+    private fun getPassedArguments() {
         intent.getParcelableExtra<Note>(IntentManager.PUT_EXTRA_NOTE)
             ?.let { note = it }
         intent.getStringExtra(IntentManager.PUT_EXTRA_CATEGORY)
@@ -42,7 +42,7 @@ class NoteActivity : BaseActivity() {
             .let { hasReceivingText = it }
     }
 
-    private fun otherConfigurations() {
+    private fun getSomeSharedPreferences() {
         color = PrefHelper.getAppColor(this)
         noteFontSize = PrefHelper.getNoteFontSize(this)
     }
@@ -82,8 +82,7 @@ class NoteActivity : BaseActivity() {
         return noteFontSize
     }
 
-    val hasRecText: Boolean
-        get() {
-            return hasReceivingText
-        }
+    fun hasReceivingText(): Boolean {
+        return hasReceivingText
+    }
 }

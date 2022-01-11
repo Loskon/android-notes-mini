@@ -369,22 +369,23 @@ class MainActivity : BaseActivity(),
     }
 
     //--- NoteFragment -----------------------------------------------------------------------------
-    override fun onNoteAdd() = updateQuicklyNoteList(true)
+    override fun onAddNote() = updateQuicklyNoteList(true)
 
-    override fun onNoteUpdate() = updateQuicklyNoteList(false)
+    override fun onUpdateNote() = updateQuicklyNoteList(false)
 
-    override fun onSendToTrash(note: Note, hasFavStatus: Boolean, isBottomWidgetShow: Boolean) {
+    override fun onSendNoteToTrash(note: Note, hasFavStatus: Boolean) {
         updateQuicklyNoteList(false)
-        if (isBottomWidgetShow) showSnackbarUndo(note, hasFavStatus)
+        val hasShowUndoSnackbar: Boolean = PrefHelper.isBottomWidgetShow(this)
+        if (hasShowUndoSnackbar) showSnackbarUndo(note, hasFavStatus)
     }
 
     //--- NoteTrashFragment ------------------------------------------------------------------------
-    override fun onNoteDelete(note: Note, hasFavStatus: Boolean) {
+    override fun onDeleteNote(note: Note, hasFavStatus: Boolean) {
         updateQuicklyNoteList(false)
         showSnackbarUndo(note, hasFavStatus)
     }
 
-    override fun onNoteReset(note: Note) {
+    override fun onRestoreNote(note: Note) {
         updateQuicklyNoteList(false)
         showSnackbar(WarningSnackbar.MSG_NOTE_RESTORED)
     }

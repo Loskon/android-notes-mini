@@ -102,13 +102,13 @@ class NoteTrashFragment : Fragment() {
         note.isDelete = false
         if (hasUpdateDateTime) note.dateCreation = Date()
         commandCenter.update(note)
-        callback?.onNoteReset(note)
+        callback?.onRestoreNote(note)
         activity.onBackPressed()
     }
 
     private fun deleteNote() {
         commandCenter.delete(note)
-        callback?.onNoteDelete(note, false)
+        callback?.onDeleteNote(note, false)
         activity.onBackPressed()
     }
 
@@ -117,8 +117,8 @@ class NoteTrashFragment : Fragment() {
     }
 
     interface NoteTrashCallback {
-        fun onNoteDelete(note: Note, hasFavStatus: Boolean)
-        fun onNoteReset(note: Note)
+        fun onDeleteNote(note: Note, hasFavStatus: Boolean)
+        fun onRestoreNote(note: Note)
     }
 
     companion object {

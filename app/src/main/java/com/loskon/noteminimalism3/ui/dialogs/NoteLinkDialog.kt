@@ -21,7 +21,7 @@ private const val URL_MAIL = "MAIL"
 private const val URL_PHONE = "PHONE"
 private const val URL_ERROR = "ERROR"
 
-class NoteLinksDialog(private val context: Context, private val fragment: NoteFragment) {
+class NoteLinkDialog(private val context: Context, private val fragment: NoteFragment) {
 
     private val dialog: BaseDialog = BaseDialog(context)
     private val insertView = View.inflate(context, R.layout.dialog_open_link, null)

@@ -9,7 +9,7 @@ import android.view.MotionEvent
 import android.widget.TextView
 
 /**
- * LinkMovementMethod с защитой от неправильного определения гиперссылки
+ * Обработка нажатий по ссылке и определение области, в которой она находится
  */
 
 abstract class AppMovementMethod : LinkMovementMethod() {
@@ -40,13 +40,13 @@ abstract class AppMovementMethod : LinkMovementMethod() {
                 val link: Array<URLSpan> = buffer.getSpans(offset, offset, URLSpan::class.java)
 
                 if (link.isNotEmpty()) {
-                    onClickingLink(link[0].url)
+                    onLinkClick(link[0].url)
                 } else {
-                    onClickingText()
+                    onTextClick()
                 }
 
             } else {
-                onClickingText()
+                onTextClick()
             }
 
             return true
@@ -58,10 +58,10 @@ abstract class AppMovementMethod : LinkMovementMethod() {
     private fun RectF.getCoordinatesInTouchArea(layout: Layout, line: Int) {
         left = layout.getLineLeft(line)
         top = layout.getLineTop(line).toFloat()
-        right = layout.getLineWidth(line) + left
+        right = layout.getLineRight(line)
         bottom = layout.getLineBottom(line).toFloat()
     }
 
-    abstract fun onClickingLink(url: String)
-    abstract fun onClickingText()
+    abstract fun onLinkClick(url: String)
+    abstract fun onTextClick()
 }

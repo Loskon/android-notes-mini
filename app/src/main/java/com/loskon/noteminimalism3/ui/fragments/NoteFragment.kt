@@ -24,8 +24,8 @@ import com.loskon.noteminimalism3.managers.setButtonIconColor
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.NoteAssistant
-import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
@@ -48,6 +48,7 @@ open class NoteFragment : Fragment(),
     ResultAccessStorageInterface {
 
     private lateinit var activity: NoteActivity
+    private lateinit var storageAccess: ResultStorageAccess
     private lateinit var assistant: NoteAssistant
 
     private val commandCenter: CommandCenter = CommandCenter()
@@ -79,7 +80,12 @@ open class NoteFragment : Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as NoteActivity
-        ResultAccessStorage.installing(activity, this)
+        configureRequestPermissions()
+    }
+
+    private fun configureRequestPermissions() {
+        storageAccess = ResultStorageAccess(activity, this, this)
+        storageAccess.installingContracts()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,7 +169,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun initializingObjects() {
-        assistant = NoteAssistant(activity, this, editText, scrollView)
+        assistant = NoteAssistant(activity, this, storageAccess, editText, scrollView)
     }
 
     private fun configureEditText() {
@@ -371,7 +377,10 @@ open class NoteFragment : Fragment(),
         val hasAutoBackup: Boolean = PrefHelper.hasAutoBackup(activity)
 
         if (hasAutoBackup && isNewNote && noteId % 3 == 0L) {
-            DataBaseAutoBackup.startCreatingBackup(activity, backupDate, hasShowToast)
+            DataBaseAutoBackup.startCreatingBackup(
+                activity, backupDate,
+                hasShowToast, storageAccess
+            )
         }
     }
 

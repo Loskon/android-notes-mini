@@ -109,7 +109,6 @@ class MainWidgetHelper(
     fun togglingSearchMode(category: String, isSearchMode: Boolean) {
         searchView.setQuery("", false)
         searchView.setVisibleView(isSearchMode)
-        visibleBottomBar(!isSearchMode)
 
         if (isSearchMode) {
             showKeyboardInSearchView()
@@ -119,6 +118,8 @@ class MainWidgetHelper(
             visibleHomeMenuItems(true)
             changeFabIcon(category)
         }
+
+        visibleBottomBar(!isSearchMode)
     }
 
     private fun showKeyboardInSearchView() {

@@ -15,17 +15,18 @@ import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.requests.AppRequestCodes
 import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
-import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.*
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
+import com.loskon.noteminimalism3.ui.toast.showToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
- * Форма общих настроек
+ * Экран общих настроек
  */
 
 class SettingsFragment :
@@ -38,21 +39,21 @@ class SettingsFragment :
     ResultActivityInterface {
 
     private lateinit var activity: SettingsActivity
-
-    private var selectedPreference: String = ""
+    private lateinit var storageAccess: ResultStorageAccess
+    private lateinit var resultActivity: ResultActivity
 
     // PreferenceScreen Keys
     // Appearance settings
     private var customizationKey: String = ""
     private var typeFontKey: String = ""
     private var sortingKey: String = ""
-    private var darkModeKey: String = ""
+    private var darkModeSwitchKey: String = ""
 
     // Data
     private var backupKey: String = ""
     private var folderKey: String = ""
     private var autoBackupKey: String = ""
-    private var autoBackupNotifyKey: String = ""
+    private var autoBackupNotifySwitchKey: String = ""
     private var numberBackupsKey: String = ""
 
     // Notes
@@ -69,13 +70,13 @@ class SettingsFragment :
     private var customization: Preference? = null
     private var typeFont: Preference? = null
     private var sorting: Preference? = null
-    private var darkMode: SwitchPreference? = null
+    private var darkModeSwitch: SwitchPreference? = null
 
     // Data
     private var backup: Preference? = null
     private var folder: Preference? = null
     private var autoBackup: SwitchPreference? = null
-    private var autoBackupNotify: SwitchPreference? = null
+    private var autoBackupNotifySwitch: SwitchPreference? = null
     private var numberBackups: Preference? = null
 
     // Notes
@@ -87,11 +88,21 @@ class SettingsFragment :
     private var communication: Preference? = null
     private var aboutApp: Preference? = null
 
+    private var selectedPreference: String = ""
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as SettingsActivity
-        ResultAccessStorage.installing(this, this)
-        ResultActivity.installing(activity, this)
+        configureRequestPermissions()
+    }
+
+    private fun configureRequestPermissions() {
+        // storage
+        storageAccess = ResultStorageAccess(activity, this, this)
+        storageAccess.installingContracts()
+        // activity
+        resultActivity = ResultActivity(activity, this, this)
+        resultActivity.installingContracts()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,12 +127,12 @@ class SettingsFragment :
         customizationKey = getString(R.string.custom_app_title)
         typeFontKey = getString(R.string.type_font_title)
         sortingKey = getString(R.string.sort_title)
-        darkModeKey = getString(R.string.dark_mode_key)
+        darkModeSwitchKey = getString(R.string.dark_mode_key)
         // Data
         backupKey = getString(R.string.backup_title)
         folderKey = getString(R.string.folder_title)
         autoBackupKey = getString(R.string.auto_backup_key)
-        autoBackupNotifyKey = getString(R.string.notification_key)
+        autoBackupNotifySwitchKey = getString(R.string.notification_key)
         numberBackupsKey = getString(R.string.number_of_backup_key)
         // Notes
         hyperlinksKey = getString(R.string.hyperlinks_title)
@@ -137,12 +148,12 @@ class SettingsFragment :
         customization = findPreference(customizationKey)
         typeFont = findPreference(typeFontKey)
         sorting = findPreference(sortingKey)
-        darkMode = findPreference(darkModeKey)
+        darkModeSwitch = findPreference(darkModeSwitchKey)
         // Data
         backup = findPreference(backupKey)
         folder = findPreference(folderKey)
         autoBackup = findPreference(autoBackupKey)
-        autoBackupNotify = findPreference(autoBackupNotifyKey)
+        autoBackupNotifySwitch = findPreference(autoBackupNotifySwitchKey)
         numberBackups = findPreference(numberBackupsKey)
         // Notes
         hyperlinks = findPreference(hyperlinksKey)
@@ -158,7 +169,7 @@ class SettingsFragment :
         customization?.onPreferenceClickListener = this
         typeFont?.onPreferenceClickListener = this
         sorting?.onPreferenceClickListener = this
-        darkMode?.onPreferenceChangeListener = this // Change
+        darkModeSwitch?.onPreferenceChangeListener = this // Change
         // Data
         backup?.onPreferenceClickListener = this
         folder?.onPreferenceClickListener = this
@@ -192,9 +203,9 @@ class SettingsFragment :
     }
 
     private fun otherConfigurations() {
-        if (!ResultAccessStorage.hasAccessStorage(activity)) {
+        if (!storageAccess.hasAccessStorage()) {
             autoBackup?.isChecked = false
-            autoBackupNotify?.isChecked = false
+            autoBackupNotifySwitch?.isChecked = false
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -204,7 +215,7 @@ class SettingsFragment :
 
     private val hasAccessStorageRequest: Boolean
         get() {
-            return ResultAccessStorage.hasAccessStorageRequest(activity)
+            return storageAccess.hasAccessStorageRequest()
         }
 
     override fun onPreferenceClick(preference: Preference?): Boolean {
@@ -243,7 +254,7 @@ class SettingsFragment :
                 }
 
                 folderKey -> {
-                    if (hasAccessStorageRequest) ResultActivity.launcherSelectingFolder(this)
+                    if (hasAccessStorageRequest) resultActivity.launcherSelectingFolder()
                     return true
                 }
 
@@ -286,7 +297,7 @@ class SettingsFragment :
         val key: String? = preference?.key
         selectedPreference = key.toString()
 
-        if (key == darkModeKey) {
+        if (key == darkModeSwitchKey) {
             ColorManager.setDarkTheme(newValue as Boolean)
             return true
         } else if (key == autoBackupKey) {
@@ -300,7 +311,7 @@ class SettingsFragment :
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
         if (isGranted) {
             if (selectedPreference == folderKey) {
-                ResultActivity.launcherSelectingFolder(activity)
+                resultActivity.launcherSelectingFolder()
             }
         } else {
             if (selectedPreference == autoBackupKey) {
@@ -318,18 +329,27 @@ class SettingsFragment :
 
                 if (data != null && path != null) {
                     savingSelectedPath(path)
+                    activity.showToast("" + path)
                 } else {
                     activity.showSnackbar(WarningSnackbar.MSG_UNABLE_SELECT_FOLDER)
                 }
+            } else {
+                activity.showToast("no2")
             }
+        } else {
+            activity.showToast("no")
         }
     }
 
     private fun savingSelectedPath(noNullPath: String) {
         var path: String = noNullPath
 
-        if (path.contains("/tree/home")) {
+        if (path.contains("/tree/home:")) {
             path = path.replace("/tree/home:", "/tree/primary:Documents/")
+        }
+
+        if (path.contains("/tree/downloads")) {
+            path = path.replace("/tree/downloads", "/tree/primary:Downloads/")
         }
 
         if (path.contains("/tree/primary")) {

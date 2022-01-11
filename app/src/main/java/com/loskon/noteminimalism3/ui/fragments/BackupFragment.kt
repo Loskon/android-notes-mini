@@ -17,8 +17,10 @@ import com.loskon.noteminimalism3.other.InternetCheck
 import com.loskon.noteminimalism3.requests.AppRequestCodes
 import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
-import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.requests.google.ResultGoogle
+import com.loskon.noteminimalism3.requests.google.ResultGoogleInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
+import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheets.CloudConfirmSheetDialog
@@ -29,15 +31,19 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 /**
- * Бэкап/восстановление базы данных
+ * Экран для бэкапа/восстановления БД
  */
 
 class BackupFragment : Fragment(),
     ResultAccessStorageInterface,
     ResultActivityInterface,
+    ResultGoogleInterface,
     View.OnClickListener {
 
     private lateinit var activity: SettingsActivity
+    private lateinit var resultActivity: ResultActivity
+    private lateinit var storageAccess: ResultStorageAccess
+    private lateinit var resultGoogle: ResultGoogle
     private lateinit var cloudBackup: DataBaseCloudBackup
 
     private lateinit var btnBackupSD: Button
@@ -50,9 +56,19 @@ class BackupFragment : Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as SettingsActivity
-        cloudBackup = DataBaseCloudBackup(activity, this)
-        ResultAccessStorage.installing(this, this)
-        ResultActivity.installing(this, this)
+        configureRequestPermissions()
+    }
+
+    private fun configureRequestPermissions() {
+        // storage
+        storageAccess = ResultStorageAccess(activity, this, this)
+        storageAccess.installingContracts()
+        // activity
+        resultActivity = ResultActivity(activity, this, this)
+        resultActivity.installingContracts()
+        // google
+        resultGoogle = ResultGoogle(activity, this, this)
+        resultGoogle.installingContracts()
     }
 
     override fun onCreateView(
@@ -70,6 +86,7 @@ class BackupFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        cloudBackup = DataBaseCloudBackup(activity, this, resultGoogle)
         establishViewsColor()
         installHandlersForViews()
     }
@@ -95,7 +112,7 @@ class BackupFragment : Fragment(),
 
             R.id.btn_restore_sd -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    ResultActivity.launcherSelectingDateBaseFile(activity)
+                    resultActivity.launcherSelectingDateBaseFile()
                 } else {
                     if (hasAccessStorageRequest) {
                         ListRestoreSheetDialog(activity).show()
@@ -120,7 +137,7 @@ class BackupFragment : Fragment(),
 
     private val hasAccessStorageRequest: Boolean
         get() {
-            return ResultAccessStorage.hasAccessStorageRequest(activity)
+            return storageAccess.hasAccessStorageRequest()
         }
 
     private fun checkForInternet(): Boolean {
@@ -198,6 +215,22 @@ class BackupFragment : Fragment(),
             } else {
                 showSnackbar(WarningSnackbar.MSG_INVALID_FORMAT_FILE)
             }
+        }
+    }
+
+    override fun onRequestGoogleResult(isGranted: Boolean) {
+        cloudBackup.apply {
+            if (isGranted) {
+                if (isBackup()) {
+                    uploadCopyDateBaseToCloud()
+                } else {
+                    checkingPresenceFile()
+                }
+            } else {
+                showSnackbar(WarningSnackbar.MSG_TEXT_SIGN_IN_FAILED)
+            }
+
+            changeVisibilityMenuItemAccount()
         }
     }
 

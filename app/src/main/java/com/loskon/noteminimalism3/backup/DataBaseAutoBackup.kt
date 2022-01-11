@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.backup
 import android.content.Context
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.files.CheckCreatedFile
-import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.toast.WarningToast
 import com.loskon.noteminimalism3.utils.StringUtil
@@ -17,10 +17,15 @@ import java.util.*
 class DataBaseAutoBackup {
     companion object {
 
-        fun startCreatingBackup(context: Context, date: Date, isShowToast: Boolean) {
-            val isAccess: Boolean = ResultAccessStorage.hasAccessStorage(context)
+        fun startCreatingBackup(
+            context: Context,
+            date: Date,
+            isShowToast: Boolean,
+            storageAccess: ResultStorageAccess
+        ) {
+            val hasAccessStorage: Boolean = storageAccess.hasAccessStorage()
 
-            if (isAccess) {
+            if (hasAccessStorage) {
                 creatingBackupFolder(context, date, isShowToast)
             } else {
                 showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_NO_PERMISSIONS, isShowToast)

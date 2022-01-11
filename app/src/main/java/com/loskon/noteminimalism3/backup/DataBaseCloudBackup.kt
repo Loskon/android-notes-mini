@@ -1,11 +1,9 @@
 package com.loskon.noteminimalism3.backup
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.CountDownTimer
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.AuthUI.IdpConfig.GoogleBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -13,7 +11,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.*
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.requests.google.ResultGoogle
-import com.loskon.noteminimalism3.requests.google.ResultGoogleInterface
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import com.loskon.noteminimalism3.ui.dialogs.ProgressDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
@@ -26,9 +23,9 @@ import java.io.File
 
 class DataBaseCloudBackup(
     private val context: Context,
-    private val fragment: BackupFragment
-) :
-    ResultGoogleInterface {
+    private val fragment: BackupFragment,
+    private val resultGoogle: ResultGoogle
+) {
 
     private val progressDialog: ProgressDialog = ProgressDialog(context)
 
@@ -45,7 +42,6 @@ class DataBaseCloudBackup(
     private var isBackup: Boolean = false
 
     init {
-        ResultGoogle.installing(fragment, this)
         changeVisibilityMenuItemAccount()
     }
 
@@ -65,22 +61,14 @@ class DataBaseCloudBackup(
         }
 
     private fun signInToGoogle() {
-        val providers: List<AuthUI.IdpConfig> = listOf(GoogleBuilder().build())
-
-        val signInIntent: Intent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setTheme(R.style.Authentication)
-            .build()
-
-        ResultGoogle.launcher(signInIntent)
+        resultGoogle.launcher()
     }
 
-    private fun changeVisibilityMenuItemAccount() {
+    fun changeVisibilityMenuItemAccount() {
         fragment.changeVisibilityMenuItem(user != null)
     }
 
-    private fun uploadCopyDateBaseToCloud() {
+    fun uploadCopyDateBaseToCloud() {
         showDialog()
 
         val dateBaseUri: Uri = Uri.fromFile(File(dateBasePath))
@@ -141,7 +129,7 @@ class DataBaseCloudBackup(
         }
     }
 
-    private fun checkingPresenceFile() {
+    fun checkingPresenceFile() {
         showDialog()
 
         storageRef.child(cloudPath).metadata.addOnSuccessListener {
@@ -160,20 +148,6 @@ class DataBaseCloudBackup(
         }.addOnFailureListener {
             showSnackbar(WarningSnackbar.MSG_RESTORE_FAILED)
         }
-    }
-
-    override fun onRequestGoogleResult(isGranted: Boolean) {
-        if (isGranted) {
-            if (isBackup) {
-                uploadCopyDateBaseToCloud()
-            } else {
-                checkingPresenceFile()
-            }
-        } else {
-            fragment.showSnackbar(WarningSnackbar.MSG_TEXT_SIGN_IN_FAILED)
-        }
-
-        changeVisibilityMenuItemAccount()
     }
 
     fun signOutFromGoogle() {
@@ -201,6 +175,10 @@ class DataBaseCloudBackup(
                 changeVisibilityMenuItemAccount()
                 fragment.showSnackbar(WarningSnackbar.MSG_DEL_DATA)
             }
+    }
+
+    fun isBackup(): Boolean {
+        return isBackup
     }
 
     interface RestoreNoteCloudCallback {

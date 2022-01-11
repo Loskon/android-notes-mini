@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.ScrollView
 import com.loskon.noteminimalism3.files.SaveTextFile
 import com.loskon.noteminimalism3.managers.IntentManager
-import com.loskon.noteminimalism3.requests.storage.ResultAccessStorage
+import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.scrollBottom
@@ -19,6 +19,7 @@ import com.loskon.noteminimalism3.utils.scrollBottom
 class NoteAssistant(
     private val context: Context,
     private val fragment: NoteFragment,
+    private val storageAccess: ResultStorageAccess,
     private val editText: EditText,
     private val scrollView: ScrollView
 ) {
@@ -87,8 +88,8 @@ class NoteAssistant(
 
     //--- Сохранить текст в текстовом файле --------------------------------------------------------
     fun saveTextFile() {
-        val hasAccess: Boolean = ResultAccessStorage.hasAccessStorageRequest(context)
-        if (hasAccess) performSaveTextFile()
+        val hasAccessStorage: Boolean = storageAccess.hasAccessStorageRequest()
+        if (hasAccessStorage) performSaveTextFile()
     }
 
     fun performSaveTextFile() {

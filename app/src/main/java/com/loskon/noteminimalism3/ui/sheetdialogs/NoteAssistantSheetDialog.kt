@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.sheets
+package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import android.content.Context
 import android.view.View
@@ -16,11 +16,10 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  */
 
 class NoteAssistantSheetDialog(
-    private val context: Context,
+    sheetContext: Context,
     private val assistant: NoteAssistant
-) {
+) : BottomSheetDialog(sheetContext, SheetDialogStatusBar) {
 
-    private val dialog: BottomSheetDialog = BottomSheetDialog(context, SheetDialogStatusBar)
     private val insertView = View.inflate(context, R.layout.sheet_note_assistant, null)
 
     private val tvDateModification: TextView = insertView.findViewById(R.id.tv_sheet_note_title)
@@ -31,14 +30,14 @@ class NoteAssistantSheetDialog(
     private val btnClose: MaterialButton = insertView.findViewById(R.id.btn_sheet_close)
 
     init {
-        dialog.setContentView(insertView)
+        setContentView(insertView)
     }
 
     fun show(dateModification: String?, noteId: Long) {
         setTextDateModification(dateModification)
         hideDateModification(noteId)
         installHandlersForViews()
-        dialog.show()
+        super.show()
     }
 
     private fun hideDateModification(noteId: Long) {
@@ -52,22 +51,22 @@ class NoteAssistantSheetDialog(
     private fun installHandlersForViews() {
         assistant.apply {
             btnPaste.setOnSingleClickListener {
-                dialog.dismiss()
+                dismiss()
                 pasteText()
             }
             btnCopyAll.setOnSingleClickListener {
-                dialog.dismiss()
+                dismiss()
                 copyText()
             }
             btnSave.setOnSingleClickListener {
-                dialog.dismiss()
+                dismiss()
                 saveTextFile()
             }
             btnShare.setOnSingleClickListener {
-                dialog.dismiss()
+                dismiss()
                 shareText()
             }
-            btnClose.setOnSingleClickListener { dialog.dismiss() }
+            btnClose.setOnSingleClickListener { dismiss() }
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.ui.basedialogs.BaseDialog
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**

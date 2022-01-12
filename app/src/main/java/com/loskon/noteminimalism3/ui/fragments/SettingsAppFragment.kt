@@ -9,8 +9,8 @@ import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorHexSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorPickerSheetDialog
 
 /**
  * Форма настроек внешнего вида

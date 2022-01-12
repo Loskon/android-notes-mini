@@ -37,10 +37,10 @@ import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteRecyclerAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
-import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.SortWaySheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.ListRestoreSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorHexSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorPickerSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.UndoSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar

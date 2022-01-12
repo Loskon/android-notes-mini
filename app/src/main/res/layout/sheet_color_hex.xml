@@ -32,6 +32,7 @@
             android:lines="1"
             android:maxLines="1"
             android:singleLine="true"
+            android:textColor="?attr/colorPrimaryText"
             tools:ignore="HardcodedText,TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -13,8 +13,8 @@ import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-import com.loskon.noteminimalism3.ui.sheets.SelectColorHexSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.SelectColorPickerSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorHexSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 /**

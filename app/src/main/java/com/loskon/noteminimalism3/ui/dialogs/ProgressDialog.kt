@@ -6,6 +6,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setColorProgressIndicator
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.ui.basedialogs.BaseDialog
 
 /**
  * Прогресс соединения с Firebase

@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
@@ -19,11 +18,9 @@ import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.sheets.*
+import com.loskon.noteminimalism3.ui.sheetdialogs.*
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.ui.toast.showToast
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * Экран общих настроек
@@ -225,18 +222,12 @@ class SettingsFragment :
         activity.apply {
             when (key) {
                 customizationKey -> {
-                    lifecycleScope.launch {
-                        delay(200L)
-                        replaceFragment(SettingsAppFragment())
-                    }
+                    replaceFragment(SettingsAppFragment())
                     return true
                 }
 
                 typeFontKey -> {
-                    lifecycleScope.launch {
-                        delay(200L)
-                        replaceFragment(FontsFragment())
-                    }
+                    replaceFragment(FontsFragment())
                     return true
                 }
 
@@ -246,10 +237,7 @@ class SettingsFragment :
                 }
 
                 backupKey -> {
-                    lifecycleScope.launch {
-                        delay(200L)
-                        replaceFragment(BackupFragment())
-                    }
+                    replaceFragment(BackupFragment())
                     return true
                 }
 

@@ -31,7 +31,7 @@ import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.dialogs.NoteLinkDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppMovementMethod
-import com.loskon.noteminimalism3.ui.sheets.NoteAssistantSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.NoteAssistantSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.*
@@ -248,7 +248,6 @@ open class NoteFragment : Fragment(),
     }
 
     private fun onFabClick() {
-        WarningBaseSnackbar.dismiss()
         completeWorkWithNote()
     }
 

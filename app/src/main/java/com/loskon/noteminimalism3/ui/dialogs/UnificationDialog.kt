@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.ui.dialogs
 import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.MainActivity
+import com.loskon.noteminimalism3.ui.basedialogs.BaseDialog
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**

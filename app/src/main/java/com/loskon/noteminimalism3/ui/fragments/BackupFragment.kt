@@ -23,10 +23,10 @@ import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.sheets.CloudConfirmSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.GoogleAccountSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.ListRestoreSheetDialog
-import com.loskon.noteminimalism3.ui.sheets.NameBackupSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.CloudConfirmSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.GoogleAccountSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.ListRestoreSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.NameBackupSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
@@ -106,7 +106,7 @@ class BackupFragment : Fragment(),
         when (btnId) {
             R.id.btn_backup_sd -> {
                 if (hasAccessStorageRequest) {
-                    NameBackupSheetDialog(activity).show()
+                    showNameBackupSheetDialog()
                 }
             }
 
@@ -115,7 +115,7 @@ class BackupFragment : Fragment(),
                     resultActivity.launcherSelectingDateBaseFile()
                 } else {
                     if (hasAccessStorageRequest) {
-                        ListRestoreSheetDialog(activity).show()
+                        showListRestoreSheetDialog()
                     }
                 }
             }
@@ -154,6 +154,14 @@ class BackupFragment : Fragment(),
             return InternetCheck.isConnected(activity)
         }
 
+    private fun showNameBackupSheetDialog() {
+        NameBackupSheetDialog(requireContext(), activity).show()
+    }
+
+    private fun showListRestoreSheetDialog() {
+        ListRestoreSheetDialog(requireContext(), activity).show()
+    }
+
     private fun installHandlersForViews() {
         btnBackupSD.setOnClickListener(this)
         btnRestoreSD.setOnClickListener(this)
@@ -182,9 +190,9 @@ class BackupFragment : Fragment(),
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
         if (isGranted) {
             if (btnId == R.id.btn_backup_sd) {
-                NameBackupSheetDialog(activity).show()
+                showNameBackupSheetDialog()
             } else if (btnId == R.id.btn_restore_sd) {
-                ListRestoreSheetDialog(activity).show()
+                showListRestoreSheetDialog()
             }
         } else {
             showSnackbar(WarningSnackbar.MSG_NO_PERMISSION)

@@ -1,7 +1,6 @@
-package com.loskon.noteminimalism3.ui.sheets
+package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import android.content.Context
-import android.view.View
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -9,8 +8,8 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.files.CheckCreatedFile
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
+import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
@@ -20,33 +19,30 @@ import java.io.File
 import java.util.*
 
 /**
- * Создание резервной копии базы данных
+ * Окно для создание бэкапа с определенным названием
  */
 
-class NameBackupSheetDialog(private val context: Context) {
+class NameBackupSheetDialog(
+    sheetContext: Context,
+    private val activity: SettingsActivity
+) :
+    BaseSheetDialog(sheetContext, R.layout.sheet_backup) {
 
-    private val activity: SettingsActivity = context as SettingsActivity
-
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val insertView = View.inflate(context, R.layout.sheet_backup, null)
-
-    private val inputLayout: TextInputLayout = insertView.findViewById(R.id.input_layout_backup)
-    private val inputEditText: TextInputEditText = insertView.findViewById(R.id.input_edit_text_backup)
+    private val inputLayout: TextInputLayout = view.findViewById(R.id.input_layout_backup)
+    private val inputEditText: TextInputEditText = view.findViewById(R.id.input_edit_text_backup)
 
     init {
-        dialog.addInsertedView(insertView)
-        dialog.setTextTitle(R.string.sheet_backup_title)
-    }
-
-    fun show() {
+        configureDialogParameters()
         establishViewsColor()
         configInsertedViews()
         installHandlersForViews()
-        dialog.show()
+    }
+
+    private fun configureDialogParameters() {
+        setTitleDialog(R.string.sheet_backup_title)
     }
 
     private fun establishViewsColor() {
-        val color: Int = PrefHelper.getAppColor(context)
         inputLayout.boxStrokeColor = color
     }
 
@@ -57,35 +53,26 @@ class NameBackupSheetDialog(private val context: Context) {
     }
 
     private fun installHandlersForViews() {
-        inputEditText.doOnTextChanged { _, _, _, _ ->
-            run {
-                errorManagement()
-            }
-        }
-
-        dialog.buttonOk.setOnSingleClickListener {
-            clickingButtonOk()
-        }
+        inputEditText.doOnTextChanged { _, _, _, _ -> run { disableErrorNotification() } }
+        btnOk.setOnSingleClickListener { onOkBtnClick() }
     }
 
-    private fun errorManagement() {
-        if (inputLayout.error != null) {
-            inputLayout.isErrorEnabled = false
-        }
+    private fun disableErrorNotification() {
+        if (inputLayout.error != null) inputLayout.isErrorEnabled = false
     }
 
-    private fun clickingButtonOk() {
-        val text: String = inputEditText.text.toString()
-        val textTrim: String = text.trim()
+    private fun onOkBtnClick() {
+        val title: String = inputEditText.text.toString().trim()
 
-        if (textTrim.isEmpty()) {
-            outErrorMessage()
+        if (title.isEmpty()) {
+            triggerErrorMessage()
         } else {
-            createBackupFile(text)
+            createBackupFile(title)
+            dismiss()
         }
     }
 
-    private fun outErrorMessage() {
+    private fun triggerErrorMessage() {
         inputEditText.editableText.clear()
         inputLayout.error = context.getString(R.string.sheet_backup_incorrect_name)
         inputLayout.isErrorEnabled = true
@@ -100,8 +87,6 @@ class NameBackupSheetDialog(private val context: Context) {
         } else {
             activity.showSnackbar(WarningSnackbar.MSG_UNABLE_CREATE_FOLDER)
         }
-
-        dialog.dismiss()
     }
 
     private fun creatingBackup(title: String) {

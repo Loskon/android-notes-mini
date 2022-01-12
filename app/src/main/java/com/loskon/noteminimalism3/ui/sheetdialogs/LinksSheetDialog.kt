@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.sheets
+package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import android.content.Context
 import android.view.View
@@ -6,36 +6,34 @@ import android.widget.CheckBox
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setStrokeCheckBoxColor
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 
 /**
- * Состояние активности ссылок в заметках
+ * Окно для переключения состояние активных ссылок
  */
 
-class LinksSheetDialog(private val context: Context) : View.OnClickListener {
+class LinksSheetDialog(sheetContext: Context) :
+    BaseSheetDialog(sheetContext, R.layout.sheet_links),
+    View.OnClickListener {
 
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
-    private val insertView = View.inflate(context, R.layout.sheet_links, null)
-
-    private val checkBoxWeb: CheckBox = insertView.findViewById(R.id.check_box_web)
-    private val checkBoxMail: CheckBox = insertView.findViewById(R.id.check_box_mail)
-    private val checkBoxPhone: CheckBox = insertView.findViewById(R.id.check_box_phone)
+    private val checkBoxWeb: CheckBox = view.findViewById(R.id.check_box_web)
+    private val checkBoxMail: CheckBox = view.findViewById(R.id.check_box_mail)
+    private val checkBoxPhone: CheckBox = view.findViewById(R.id.check_box_phone)
 
     init {
-        dialog.addInsertedView(insertView)
-        dialog.setBtnOkVisibility(false)
-        dialog.setTextTitle(R.string.sheet_pref_links_title)
-        dialog.setTextBtnCancel(R.string.to_close)
-    }
-
-    fun show() {
+        configureDialogParameters()
         establishViewsColor()
         configureStateChecked()
         installHandlersForViews()
-        dialog.show()
+    }
+
+    private fun configureDialogParameters() {
+        setTitleDialog(R.string.sheet_pref_links_title)
+        setTextBtnCancel(R.string.to_close)
+        setBtnOkVisibility(false)
     }
 
     private fun establishViewsColor() {
-        val color = PrefHelper.getAppColor(context)
         checkBoxWeb.setStrokeCheckBoxColor(color)
         checkBoxMail.setStrokeCheckBoxColor(color)
         checkBoxPhone.setStrokeCheckBoxColor(color)

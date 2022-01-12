@@ -1,40 +1,43 @@
-package com.loskon.noteminimalism3.ui.sheets
+package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupFiles
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
+import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.io.File
 
 /**
- * Вывод подтверждения для удаления всех файлов бэкапа
+ * Окно для подтверждения удаления всех файлов бэкапа
  */
 
-class DeleteBackupsFilesSheetDialog(private val context: Context) {
-
-    private val activity: SettingsActivity = context as SettingsActivity
-
-    private val dialog: BaseSheetDialog = BaseSheetDialog(context)
+class DeleteBackupsFilesSheetDialog(
+    sheetContext: Context,
+    private val activity: SettingsActivity
+) :
+    BaseSheetDialog(sheetContext, null) {
 
     init {
-        dialog.setTextTitle(R.string.sheet_delete_warnings)
-        dialog.setContainerVisibility(false)
-        dialog.setTextBtnOk(R.string.yes)
-        dialog.setTextBtnCancel(R.string.no)
+        configureDialogParameters()
+        installHandlersForViews()
     }
 
-    fun show() {
-        installHandlersForViews()
-        dialog.show()
+    private fun configureDialogParameters() {
+        setTitleDialog(R.string.sheet_delete_warnings)
+        setContainerVisibility(false)
+        setTextBtnOk(R.string.yes)
+        setTextBtnCancel(R.string.no)
     }
 
     private fun installHandlersForViews() {
-        dialog.buttonOk.setOnSingleClickListener {
-            deleteAllBackupFiles()
-            dialog.dismiss()
-        }
+        btnOk.setOnSingleClickListener { onOkBtnClick() }
+    }
+
+    private fun onOkBtnClick() {
+        deleteAllBackupFiles()
+        dismiss()
     }
 
     private fun deleteAllBackupFiles() {

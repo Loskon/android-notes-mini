@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.dialogs
+package com.loskon.noteminimalism3.ui.basedialogs
 
 import android.content.Context
 import android.view.Gravity

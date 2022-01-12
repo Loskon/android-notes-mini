@@ -28,11 +28,8 @@
             android:id="@+id/input_edit_text_hex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="0123456789ABCDEFabcdef"
-            android:inputType="textFilter"
             android:hint="000000"
             android:lines="1"
-            android:maxLength="6"
             android:maxLines="1"
             android:singleLine="true"
             tools:ignore="HardcodedText,TextContrastCheck" />

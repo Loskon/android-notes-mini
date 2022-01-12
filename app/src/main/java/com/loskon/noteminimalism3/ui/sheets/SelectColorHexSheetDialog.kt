@@ -1,6 +1,8 @@
 package com.loskon.noteminimalism3.ui.sheets
 
 import android.content.Context
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.button.MaterialButton
@@ -8,12 +10,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
-import com.loskon.noteminimalism3.utils.setFilterAllowedCharacters
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 
 /**
- * Выбор основного цвета для приложения с помощью hex-кода
+ * Окно для указания hex-кода для цвета темы приложения
  */
 
 class SelectColorHexSheetDialog(private val context: Context) {
@@ -52,7 +53,7 @@ class SelectColorHexSheetDialog(private val context: Context) {
     private fun setHexString() {
         inputEditText.setText(convertIntInHex(PrefHelper.getAppColor(context)))
         inputEditText.setSelection(inputEditText.editableText.length)
-        inputEditText.setFilterAllowedCharacters(context, R.string.allowed_chracters)
+        inputEditText.setFilterAllowedCharacters()
     }
 
     private fun convertIntInHex(colorInt: Int): String {
@@ -136,4 +137,21 @@ class SelectColorHexSheetDialog(private val context: Context) {
         }
 
     }
+}
+
+// Extension functions
+private fun TextInputEditText.setFilterAllowedCharacters() {
+    filters = arrayOf(object : InputFilter {
+        override fun filter(
+            source: CharSequence?,
+            start: Int,
+            end: Int,
+            dest: Spanned?,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            return source?.subSequence(start, end)
+                ?.replace(Regex("[^A-Fa-f0-9 ]"), "")
+        }
+    }, InputFilter.LengthFilter(6))
 }

@@ -181,7 +181,7 @@
     <string name="type_font_title">Type of font</string>
     <string name="sort_title">Sort</string>
     <string name="dark_mode_title">Dark mode</string>
-    <string name="backup_title">Backup and Restore</string>
+    <string name="backup_title">Backup and restore</string>
     <string name="folder_title">Folder for data</string>
     <string name="auto_backup_title">Autobackup</string>
     <string name="notification_title">Notification</string>
@@ -245,8 +245,6 @@
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="my_email" translatable="false">andreyrochev23@gmail.com</string>
-
-    <string name="allowed_chracters" translatable="false">0123456789ABCDEFabcdef</string>
 
     <!-- Fonts -->
     <string name="roboto_name" translatable="false">Default</string>

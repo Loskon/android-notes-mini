@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.utils
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.text.InputFilter
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
@@ -12,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.textfield.TextInputEditText
 
 /**
  * Утилиты
@@ -41,20 +39,3 @@ fun DialogFragment.onlyShow(fragmentManager: FragmentManager, tag: String) {
         show(fragmentManager, tag)
     }
 }
-
-
-fun TextInputEditText.setFilterAllowedCharacters(
-    context: Context,
-    stringId: Int
-) {
-    filters += InputFilter { source, start, end, _, _, _ ->
-        val mask = context.getString(stringId)
-        for (i in start until end) {
-            if (!mask.contains(source[i])) {
-                return@InputFilter ""
-            }
-        }
-        null
-    }
-}
-

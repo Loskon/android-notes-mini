@@ -7,18 +7,17 @@ import java.util.*
  * Получение текущей даты и преобразование в текстовый формат
  */
 
-class DateUtil {
-    companion object {
+object DateUtil {
 
-        @JvmStatic
-        fun getStringDate(date: Date): String {
-            return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date)
-        }
+    @JvmStatic
+    fun getStringDate(date: Date): String {
+        return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date)
+    }
 
-        fun getTimeNow(): String {
-            val date = Date()
-            return " (" + DateFormat.getTimeInstance(DateFormat.SHORT).format(date) + ")"
-        }
+    fun getTimeNowWithBrackets(): String {
+        val date = Date()
+        return " (" + DateFormat.getTimeInstance(DateFormat.SHORT).format(date) + ")"
     }
 }
+
 

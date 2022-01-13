@@ -20,7 +20,7 @@ import java.io.File
  * Окно со список файлов бэкапа
  */
 
-class ListRestoreSheetDialog(private val activity: SettingsActivity) :
+class FileListSheetDialog(private val activity: SettingsActivity) :
     BaseSheetDialog(activity, R.layout.sheet_list_files),
     FilesAdapter.FilesAdapterCallback {
 
@@ -80,7 +80,7 @@ class ListRestoreSheetDialog(private val activity: SettingsActivity) :
             WarningToast.show(context, WarningToast.MSG_TOAST_RESTORE_LIST_EMPTY)
         } else {
             dismiss()
-            DeleteBackupsFilesSheetDialog(activity).show()
+            DeleteFilesSheetDialog(activity).show()
         }
     }
 

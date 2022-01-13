@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.other.InternetCheck
-import com.loskon.noteminimalism3.requests.AppRequestCodes
+import com.loskon.noteminimalism3.requests.activity.REQUEST_CODE_BACKUP_FILE
 import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.google.ResultGoogle
@@ -24,8 +24,8 @@ import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.CloudConfirmSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.GoogleAccountSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.ListRestoreSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.NameBackupSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
@@ -163,7 +163,7 @@ class BackupFragment : Fragment(),
     }
 
     private fun showListRestoreSheetDialog() {
-        ListRestoreSheetDialog(activity).show()
+        FileListSheetDialog(activity).show()
     }
 
     private fun showCloudConfirmSheetDialog(isBackup: Boolean) {
@@ -209,7 +209,7 @@ class BackupFragment : Fragment(),
 
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
-            if (requestCode == AppRequestCodes.REQUEST_CODE_BACKUP_FILE) {
+            if (requestCode == REQUEST_CODE_BACKUP_FILE) {
                 try {
                     restoreDateBase(data)
                 } catch (exception: Exception) {

@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.ColorManager
 import com.loskon.noteminimalism3.managers.IntentManager
-import com.loskon.noteminimalism3.requests.AppRequestCodes
+import com.loskon.noteminimalism3.requests.activity.REQUEST_CODE_FOLDER_FOR_BACKUP
 import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
@@ -312,7 +312,7 @@ class SettingsFragment :
 
     override fun onRequestActivityResult(isGranted: Boolean, requestCode: Int, data: Uri?) {
         if (isGranted) {
-            if (requestCode == AppRequestCodes.REQUEST_CODE_FOLDER_FOR_BACKUP) {
+            if (requestCode == REQUEST_CODE_FOLDER_FOR_BACKUP) {
                 val path: String? = data?.path
 
                 if (data != null && path != null) {

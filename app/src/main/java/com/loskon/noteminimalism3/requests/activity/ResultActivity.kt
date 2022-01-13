@@ -8,12 +8,14 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.loskon.noteminimalism3.files.BackupPath
-import com.loskon.noteminimalism3.requests.AppRequestCodes
 import com.loskon.noteminimalism3.ui.toast.WarningToast
 
 /**
  * Регистрация, получение и обработка результатов контракта
  */
+
+const val REQUEST_CODE_FOLDER_FOR_BACKUP = 451
+const val REQUEST_CODE_BACKUP_FILE = 452
 
 class ResultActivity(
     private val context: Context,
@@ -41,7 +43,7 @@ class ResultActivity(
 
     //--- Android Old ------------------------------------------------------------------------------
     fun launcherSelectingFolder() {
-        requestCode = AppRequestCodes.REQUEST_CODE_FOLDER_FOR_BACKUP
+        requestCode = REQUEST_CODE_FOLDER_FOR_BACKUP
 
         try {
             val intent: Intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
@@ -59,7 +61,7 @@ class ResultActivity(
 
     //--- Android 11 -------------------------------------------------------------------------------
     fun launcherSelectingDateBaseFile() {
-        requestCode = AppRequestCodes.REQUEST_CODE_BACKUP_FILE
+        requestCode = REQUEST_CODE_BACKUP_FILE
 
         val backupFolderUri: Uri = Uri.parse(BackupPath.getPathBackupFolder(context))
         val mimetypes: Array<String> = arrayOf(

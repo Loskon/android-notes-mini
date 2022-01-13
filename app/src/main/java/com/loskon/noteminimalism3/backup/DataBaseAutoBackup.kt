@@ -14,58 +14,56 @@ import java.util.*
  * Автоматическое создание файла бэкапа
  */
 
-class DataBaseAutoBackup {
-    companion object {
+object DataBaseAutoBackup {
 
-        fun startCreatingBackup(
-            context: Context,
-            date: Date,
-            isShowToast: Boolean,
-            storageAccess: ResultStorageAccess
-        ) {
-            val hasAccessStorage: Boolean = storageAccess.hasAccessStorage()
+    fun startCreatingBackup(
+        context: Context,
+        date: Date,
+        isShowToast: Boolean,
+        storageAccess: ResultStorageAccess
+    ) {
+        val hasAccessStorage: Boolean = storageAccess.hasAccessStorage()
 
-            if (hasAccessStorage) {
-                creatingBackupFolder(context, date, isShowToast)
-            } else {
-                showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_NO_PERMISSIONS, isShowToast)
-            }
+        if (hasAccessStorage) {
+            creatingBackupFolder(context, date, isShowToast)
+        } else {
+            showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_NO_PERMISSIONS, isShowToast)
         }
+    }
 
-        private fun creatingBackupFolder(context: Context, date: Date, isShowToast: Boolean) {
-            val folder: File = BackupPath.getBackupFolder(context)
-            val hasCreatedFolder: Boolean = CheckCreatedFile.hasCreated(folder)
+    private fun creatingBackupFolder(context: Context, date: Date, isShowToast: Boolean) {
+        val folder: File = BackupPath.getBackupFolder(context)
+        val hasCreatedFolder: Boolean = CheckCreatedFile.hasCreated(folder)
 
-            if (hasCreatedFolder) {
-                creatingBackupFile(context, date, isShowToast)
-            } else {
-                showToast(context, WarningToast.MSG_TOAST_UNABLE_CREATE_FOLDER, isShowToast)
-            }
+        if (hasCreatedFolder) {
+            creatingBackupFile(context, date, isShowToast)
+        } else {
+            showToast(context, WarningToast.MSG_TOAST_UNABLE_CREATE_FOLDER, isShowToast)
         }
+    }
 
-        private fun creatingBackupFile(context: Context, date: Date, isShowToast: Boolean) {
-            val backupPath: String = BackupPath.getPathBackupFolder(context)
-            val backupName: String = StringUtil.replaceForbiddenCharacters(date)
-            val outFileName = "$backupPath$backupName.db"
+    private fun creatingBackupFile(context: Context, date: Date, isShowToast: Boolean) {
+        val backupPath: String = BackupPath.getPathBackupFolder(context)
+        val backupName: String = StringUtil.replaceForbiddenCharacters(date)
+        val outFileName = "$backupPath$backupName.db"
 
-            try {
-                DataBaseBackup.performBackup(context, outFileName)
-                if (isShowToast) showSuccessNotification(context)
-            } catch (exception: Exception) {
-                showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_FAILED, isShowToast)
-            }
+        try {
+            DataBaseBackup.performBackup(context, outFileName)
+            if (isShowToast) showSuccessNotification(context)
+        } catch (exception: Exception) {
+            showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_FAILED, isShowToast)
         }
+    }
 
-        private fun showToast(context: Context, messageType: String, isShowToast: Boolean) {
-            if (isShowToast) WarningToast.show(context, messageType)
-        }
+    private fun showToast(context: Context, messageType: String, isShowToast: Boolean) {
+        if (isShowToast) WarningToast.show(context, messageType)
+    }
 
-        private fun showSuccessNotification(context: Context) {
-            val hasNotification: Boolean = PrefHelper.hasNotificationAutoBackup(context)
+    private fun showSuccessNotification(context: Context) {
+        val hasNotification: Boolean = PrefHelper.hasNotificationAutoBackup(context)
 
-            if (hasNotification) {
-                showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_COMPLETED, true)
-            }
+        if (hasNotification) {
+            showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_COMPLETED, true)
         }
     }
 }

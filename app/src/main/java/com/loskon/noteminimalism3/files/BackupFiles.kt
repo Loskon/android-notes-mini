@@ -7,17 +7,14 @@ import java.io.File
  * Получить файлы бэкапов из выбранной папки
  */
 
-class BackupFiles {
-    companion object {
+object BackupFiles {
+    fun getList(context: Context): Array<File>? {
+        val folder: File = BackupPath.getBackupFolder(context)
 
-        fun getList(context: Context): Array<File>? {
-            val folder: File = BackupPath.getBackupFolder(context)
-
-            return if (folder.exists()) {
-                BackupFilter.getListDateBaseFiles(folder)
-            } else {
-                null
-            }
+        return if (folder.exists()) {
+            BackupFilter.getListDateBaseFiles(folder)
+        } else {
+            null
         }
     }
 }

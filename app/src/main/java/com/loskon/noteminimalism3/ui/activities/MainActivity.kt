@@ -37,7 +37,7 @@ import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteRecyclerAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
-import com.loskon.noteminimalism3.ui.sheetdialogs.ListRestoreSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorHexSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SortWaySheetDialog
@@ -65,7 +65,7 @@ class MainActivity : BaseActivity(),
     PrefScreenCardView.FontsSizesCallback,
     PrefScreenNumberLines.NumberLinesCallback,
     SettingsAppFragment.OneSizeCardsCallback,
-    ListRestoreSheetDialog.RestoreNoteCallback,
+    FileListSheetDialog.RestoreNoteCallback,
     DataBaseCloudBackup.RestoreNoteCloudCallback,
     BackupFragment.RestoreNoteAndroidRCallback,
     SortWaySheetDialog.SortWayCallback,
@@ -114,7 +114,6 @@ class MainActivity : BaseActivity(),
 
     private fun installCallbacks() {
         // Для работы с заметками
-        NoteRecyclerAdapter.registerCallbackNoteListAdapter(this)
         SwipeCallback.registerCallbackNoteSwipe(this)
         NoteFragment.registerCallbackNote(this)
         NoteTrashFragment.registerCallbackNoteTrash(this)
@@ -125,7 +124,7 @@ class MainActivity : BaseActivity(),
         PrefScreenCardView.registerCallbackFontSizes(this)
         PrefScreenNumberLines.registerCallbackNumberLines(this)
         SettingsAppFragment.registerCallbackOneSizeCards(this)
-        ListRestoreSheetDialog.registerCallbackRestoreNote(this)
+        FileListSheetDialog.registerCallbackRestoreNote(this)
         DataBaseCloudBackup.registerCallbackRestoreNoteCloud(this)
         BackupFragment.registerCallbackRestoreNoteAndroidR(this)
         SortWaySheetDialog.registerCallbackSortWay(this)
@@ -161,20 +160,22 @@ class MainActivity : BaseActivity(),
     private fun configureRecyclerAdapter() {
         adapter.setViewsColor(color)
         adapter.setLinearList(hasLinearList)
-
+        //
         val radiusStrokeDp: Int = ValueUtil.getRadiusLinLay(this)
         val boredStrokeDp: Int = ValueUtil.getStrokeLinLay(this)
         adapter.setViewSizes(radiusStrokeDp, boredStrokeDp)
-
+        //
         val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
         val dateFontSize: Int = PrefHelper.getDateFontSize(this)
         adapter.setFontSizes(titleFontSize, dateFontSize)
-
+        //
         val numberLines: Int = PrefHelper.getNumberLines(this)
         adapter.setNumberLines(numberLines)
-
+        //
         val hasOneSizeCards: Boolean = PrefHelper.hasOneSizeCards(this)
         adapter.setOneSizeCards(hasOneSizeCards)
+        // Callback
+        adapter.registerCallbackNoteListAdapter(this)
     }
 
     private fun configureRecyclerView() {

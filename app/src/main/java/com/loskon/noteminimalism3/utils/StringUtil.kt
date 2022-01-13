@@ -6,25 +6,23 @@ import java.util.*
  * Замена запрещенных символов в строках
  */
 
-class StringUtil {
-    companion object {
+object StringUtil {
 
-        fun replaceForbiddenCharacters(oldString: String): String {
-            var newString = oldString
+    fun replaceForbiddenCharacters(oldString: String): String {
+        var newString = oldString
 
-            newString = newString.replace("\\", "_")
-            newString = newString.replace("[.|/*:]".toRegex(), "_")
-            newString = newString.replace("[\"<>«»]".toRegex(), "\'")
-            newString = newString.replace("?", ".")
-            newString = newString.replace("\n", " ")
+        newString = newString.replace("\\", "_")
+        newString = newString.replace("[.|/*:]".toRegex(), "_")
+        newString = newString.replace("[\"<>«»]".toRegex(), "\'")
+        newString = newString.replace("?", ".")
+        newString = newString.replace("\n", " ")
 
-            return newString
-        }
+        return newString
+    }
 
-        fun replaceForbiddenCharacters(date: Date): String {
-            var name: String = DateUtil.getStringDate(date)
-            name = name.replace("[./:]".toRegex(), "_")
-            return "$name (A)"
-        }
+    fun replaceForbiddenCharacters(date: Date): String {
+        var name: String = DateUtil.getStringDate(date)
+        name = name.replace("[./:]".toRegex(), "_")
+        return "$name (A)"
     }
 }

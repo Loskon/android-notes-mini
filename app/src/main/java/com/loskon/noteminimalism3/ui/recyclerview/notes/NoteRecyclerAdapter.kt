@@ -25,6 +25,8 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private var list: List<Note> = emptyList()
 
+    private lateinit var callback: NoteListAdapterCallback
+
     private var hasLinearList: Boolean = true
     private var hasOneSizeCards: Boolean = false
     private var isSelectedMode: Boolean = false
@@ -93,14 +95,14 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         if (isSelectedMode) {
             selectingItem(note, position)
         } else {
-            callback?.onNoteClick(note)
+            callback.onNoteClick(note)
         }
     }
 
     private fun selectingItem(note: Note, position: Int) {
         toggleSelection(note, position)
-        callback?.selectingNote(selectedItemsCount, hasAllSelected)
-        if (selectedItemsCount in 1..1) callback?.changeStatusOfFavorite(selectedItem)
+        callback.selectingNote(selectedItemsCount, hasAllSelected)
+        if (selectedItemsCount in 1..1) callback.changeStatusOfFavorite(selectedItem)
     }
 
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
@@ -113,7 +115,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private fun activationDeleteMode() {
         isSelectedMode = true
-        callback?.activatingSelectionMode()
+        callback.activatingSelectionMode()
         clearSelectionItems()
     }
 
@@ -168,13 +170,13 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     fun selectAllNotes() {
         selectAllItem(list, hasAllSelected)
-        callback?.selectingNote(selectedItemsCount, hasAllSelected)
+        callback.selectingNote(selectedItemsCount, hasAllSelected)
         updateChangedList()
     }
 
     fun changeFavoriteStatus(activity: MainActivity, commandCenter: CommandCenter) {
         changeFavorite(activity, commandCenter)
-        callback?.changeStatusOfFavorite(selectedItem)
+        callback.changeStatusOfFavorite(selectedItem)
         updateChangedList()
     }
 
@@ -183,7 +185,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         notifyDataSetChanged()
     }
 
-    //----------------------------------------------------------------------------------------------
+    //--- interface --------------------------------------------------------------------------------
     interface NoteListAdapterCallback {
         fun onNoteClick(note: Note)
         fun activatingSelectionMode()
@@ -191,11 +193,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         fun changeStatusOfFavorite(note: Note)
     }
 
-    companion object {
-        private var callback: NoteListAdapterCallback? = null
-
-        fun registerCallbackNoteListAdapter(callback: NoteListAdapterCallback) {
-            this.callback = callback
-        }
+    fun registerCallbackNoteListAdapter(callback: NoteListAdapterCallback) {
+        this.callback = callback
     }
 }

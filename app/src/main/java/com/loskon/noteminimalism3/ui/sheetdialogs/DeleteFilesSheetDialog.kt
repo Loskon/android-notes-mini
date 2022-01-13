@@ -12,7 +12,7 @@ import java.io.File
  * Окно для подтверждения удаления всех файлов бэкапа
  */
 
-class DeleteBackupsFilesSheetDialog(private val activity: SettingsActivity) :
+class DeleteFilesSheetDialog(private val activity: SettingsActivity) :
     BaseSheetDialog(activity, null) {
 
     init {

@@ -25,7 +25,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.ColorManager.Companion.ALPHA_COLOR
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.getShortColor
 
@@ -33,91 +32,89 @@ import com.loskon.noteminimalism3.utils.getShortColor
  * Управление цветом
  */
 
-class ColorManager {
-    companion object {
+private const val ALPHA_COLOR = 70
 
-        const val ALPHA_COLOR = 70
+object ColorManager {
 
-        fun setDarkTheme(isDarkMode: Boolean) {
-            if (isDarkMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    fun setDarkTheme(isDarkMode: Boolean) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    fun hasDarkMode(context: Context): Boolean {
+        val constUi: Int = context.resources.configuration.uiMode
+        val constUiMask: Int = Configuration.UI_MODE_NIGHT_MASK
+        val currentNightMode: Int = constUi and constUiMask
+
+        return currentNightMode != Configuration.UI_MODE_NIGHT_NO
+    }
+
+    fun installAppColor(activity: Activity) {
+        installDarkTheme(activity)
+        installColorTask(activity)
+        installIconsColorStatusBar(activity)
+        installBackgroundColorStatusBar(activity)
+    }
+
+    private fun installDarkTheme(activity: Activity) {
+        if (PrefHelper.hasDarkMode(activity)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun installColorTask(activity: Activity) {
+        activity.apply {
+
+            val color: Int = if (PrefHelper.hasDarkMode(this)) {
+                getShortColor(R.color.black_dark)
             } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Color.WHITE
+            }
+
+            setTaskDescription(TaskDescription(null, null, color))
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun installIconsColorStatusBar(activity: Activity) {
+        activity.window.apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (hasDarkMode(activity)) {
+                    insetsController?.setSystemBarsAppearance(
+                        0,
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    )
+                } else {
+                    insetsController?.setSystemBarsAppearance(
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    )
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (hasDarkMode(activity)) {
+                    decorView.systemUiVisibility = 0
+                } else {
+                    decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
             }
         }
+    }
 
-        fun hasDarkMode(context: Context): Boolean {
-            val constUi: Int = context.resources.configuration.uiMode
-            val constUiMask: Int = Configuration.UI_MODE_NIGHT_MASK
-            val currentNightMode: Int = constUi and constUiMask
-
-            return currentNightMode != Configuration.UI_MODE_NIGHT_NO
-        }
-
-        fun installAppColor(activity: Activity) {
-            installDarkTheme(activity)
-            installColorTask(activity)
-            installIconsColorStatusBar(activity)
-            installBackgroundColorStatusBar(activity)
-        }
-
-        private fun installDarkTheme(activity: Activity) {
-            if (PrefHelper.hasDarkMode(activity)) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    private fun installBackgroundColorStatusBar(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val color: Int = if (hasDarkMode(activity)) {
+                activity.getColor(R.color.black_dark)
             } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Color.WHITE
             }
-        }
 
-        @Suppress("DEPRECATION")
-        private fun installColorTask(activity: Activity) {
-            activity.apply {
-
-                val color: Int = if (PrefHelper.hasDarkMode(this)) {
-                    getShortColor(R.color.black_dark)
-                } else {
-                    Color.WHITE
-                }
-
-                setTaskDescription(TaskDescription(null, null, color))
-            }
-        }
-
-        @Suppress("DEPRECATION")
-        private fun installIconsColorStatusBar(activity: Activity) {
-            activity.window.apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (hasDarkMode(activity)) {
-                        insetsController?.setSystemBarsAppearance(
-                            0,
-                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-                        )
-                    } else {
-                        insetsController?.setSystemBarsAppearance(
-                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-                        )
-                    }
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (hasDarkMode(activity)) {
-                        decorView.systemUiVisibility = 0
-                    } else {
-                        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    }
-                }
-            }
-        }
-
-        private fun installBackgroundColorStatusBar(activity: Activity) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val color: Int = if (hasDarkMode(activity)) {
-                    activity.getColor(R.color.black_dark)
-                } else {
-                    Color.WHITE
-                }
-
-                activity.window.statusBarColor = color
-            }
+            activity.window.statusBarColor = color
         }
     }
 }

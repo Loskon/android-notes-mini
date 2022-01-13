@@ -48,7 +48,7 @@ class SaveTextFile(
 
     private fun getTitleTextFile(text: String): String {
         val primaryTitle: String = text.substring(0, 14.coerceAtMost(text.length))
-        val secondTitle: String = DateUtil.getTimeNow()
+        val secondTitle: String = DateUtil.getTimeNowWithBrackets()
         val commonTitle = "$primaryTitle$secondTitle".trim()
         val finalTitle = StringUtil.replaceForbiddenCharacters(commonTitle)
         return "$finalTitle.txt"

@@ -9,36 +9,33 @@ import java.io.File
  * Метод для ограничения количества файлов бэкапов
  */
 
-class BackupFilesLimiter {
-    companion object {
+object BackupFilesLimiter {
+    fun deleteExtraFiles(context: Context) {
 
-        fun deleteExtraFiles(context: Context) {
+        val homeFolder: File = BackupPath.getBackupFolder(context)
+        val maxNumberFiles: Int = PrefHelper.getNumberBackups(context)
+        var logFiles: Array<File>? = BackupFilter.getListDateBaseFiles(homeFolder)
 
-            val homeFolder: File = BackupPath.getBackupFolder(context)
-            val maxNumberFiles: Int = PrefHelper.getNumberBackups(context)
-            var logFiles: Array<File>? = BackupFilter.getListDateBaseFiles(homeFolder)
+        if (logFiles != null && logFiles.size > maxNumberFiles) {
+            // Удалить все старые файлы после того, как есть более N файлов
+            do {
+                var oldestDate: Long = Long.MAX_VALUE
+                var oldestFile: File? = null
 
-            if (logFiles != null && logFiles.size > maxNumberFiles) {
-                // Удалить все старые файлы после того, как есть более N файлов
-                do {
-                    var oldestDate: Long = Long.MAX_VALUE
-                    var oldestFile: File? = null
-
-                    for (file in logFiles!!) {
-                        if (file.lastModified() < oldestDate) {
-                            oldestDate = file.lastModified()
-                            oldestFile = file
-                        }
+                for (file in logFiles!!) {
+                    if (file.lastModified() < oldestDate) {
+                        oldestDate = file.lastModified()
+                        oldestFile = file
                     }
+                }
 
-                    if (oldestFile != null) {
-                        SQLiteDatabase.deleteDatabase(File(oldestFile.path))
-                    }
+                if (oldestFile != null) {
+                    SQLiteDatabase.deleteDatabase(File(oldestFile.path))
+                }
 
-                    logFiles = BackupFilter.getListDateBaseFiles(homeFolder)
+                logFiles = BackupFilter.getListDateBaseFiles(homeFolder)
 
-                } while (logFiles!!.size > maxNumberFiles)
-            }
+            } while (logFiles!!.size > maxNumberFiles)
         }
     }
 }

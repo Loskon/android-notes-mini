@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -26,7 +27,7 @@ open class BaseSheetDialog(
 
     private val sheetView: View = View.inflate(context, R.layout.base_dialog, null)
     private val tvTitle: TextView = sheetView.findViewById(R.id.tv_base_dialog_title)
-    private val linearLayout: LinearLayout = sheetView.findViewById(R.id.container_base_dialog)
+    private val linLayout: LinearLayout = sheetView.findViewById(R.id.container_base_dialog)
     private val buttonOk: MaterialButton = sheetView.findViewById(R.id.btn_base_dialog_ok)
     private val buttonCancel: MaterialButton = sheetView.findViewById(R.id.btn_base_dialog_cancel)
 
@@ -37,6 +38,11 @@ open class BaseSheetDialog(
         establishViewsColor()
         installHandlersForViews()
         addInsertedView()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(sheetView)
     }
 
     private fun configureSheetBehavior() {
@@ -57,27 +63,19 @@ open class BaseSheetDialog(
         buttonCancel.setOnSingleClickListener { dismiss() }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(sheetView)
-    }
-
     private fun addInsertedView() {
         if (insertViewId != null) {
             val insertView: View = View.inflate(context, insertViewId, null)
             insertView.setLayoutParamsForInsertedView()
-            if (insertView.parent != null) linearLayout.removeView(insertView)
-            linearLayout.addView(insertView)
+            linLayout.addView(insertView)
+        } else {
+            linLayout.setVisibleView(false)
         }
     }
 
     //----------------------------------------------------------------------------------------------
-    fun setTitleDialog(stringId: Int) {
+    fun setTitleDialog(@StringRes stringId: Int) {
         tvTitle.text = context.getString(stringId)
-    }
-
-    fun setTitleSheetDialog(string: String) {
-        tvTitle.text = string
     }
 
     fun setTextBtnOk(stringId: Int) {
@@ -93,7 +91,7 @@ open class BaseSheetDialog(
     }
 
     fun setContainerVisibility(isVisible: Boolean) {
-        linearLayout.setVisibleView(isVisible)
+        linLayout.setVisibleView(isVisible)
     }
 
     fun setBtnOkVisibility(isVisible: Boolean) {

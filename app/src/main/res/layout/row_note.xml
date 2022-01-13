@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="?attr/colorCardView"
+        app:cardBackgroundColor="?attr/colorPrimaryCardView"
         app:cardCornerRadius="6dp"
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true">

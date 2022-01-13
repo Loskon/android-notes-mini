@@ -12,8 +12,8 @@ import com.google.firebase.storage.*
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.requests.google.ResultGoogle
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
-import com.loskon.noteminimalism3.ui.dialogs.ProgressDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
+import com.loskon.noteminimalism3.ui.materialdialogs.ProgressDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import java.io.File
 
@@ -104,7 +104,7 @@ class DataBaseCloudBackup(
 
     private fun showSnackbar(messageType: String) {
         countDownTimer?.cancel()
-        progressDialog.close()
+        progressDialog.dismiss()
         fragment.showSnackbar(messageType)
     }
 

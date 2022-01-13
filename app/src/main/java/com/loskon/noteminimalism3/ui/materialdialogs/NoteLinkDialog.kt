@@ -1,20 +1,19 @@
-package com.loskon.noteminimalism3.ui.dialogs
+package com.loskon.noteminimalism3.ui.materialdialogs
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.view.View
 import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.IntentManager
-import com.loskon.noteminimalism3.ui.basedialogs.BaseDialog
+import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.regex.Pattern
 
 /**
- * Работа с гиперссылками в заметке
+ * Окно для открытия/копирования гиперссылок
  */
 
 private const val URL_WEB = "WEB"
@@ -22,21 +21,23 @@ private const val URL_MAIL = "MAIL"
 private const val URL_PHONE = "PHONE"
 private const val URL_ERROR = "ERROR"
 
-class NoteLinkDialog(private val context: Context, private val fragment: NoteFragment) {
+class NoteLinkDialog(private val fragment: NoteFragment) :
+    BaseMaterialDialog(fragment.requireContext(), R.layout.dialog_open_link) {
 
-    private val dialog: BaseDialog = BaseDialog(context)
-    private val insertView = View.inflate(context, R.layout.dialog_open_link, null)
-
-    private val btnOpen: Button = insertView.findViewById(R.id.btn_link_open)
-    private val btnCopy: Button = insertView.findViewById(R.id.btn_link_copy)
+    private val btnOpen: Button = view.findViewById(R.id.btn_link_open)
+    private val btnCopy: Button = view.findViewById(R.id.btn_link_copy)
 
     private var receivedLink: String = ""
     private var linkToOpen: String = ""
     private var typeLink: String = ""
 
     init {
-        dialog.setBtnOkVisibility(false)
-        dialog.setBtnCancelVisibility(false)
+        configureDialogParameters()
+    }
+
+    private fun configureDialogParameters() {
+        setBtnOkVisibility(false)
+        setBtnCancelVisibility(false)
     }
 
     fun show(receivedLink: String) {
@@ -45,7 +46,7 @@ class NoteLinkDialog(private val context: Context, private val fragment: NoteFra
 
         configInsertedViews()
         installHandlersForViews()
-        dialog.show(insertView)
+        super.show()
     }
 
     private fun configInsertedViews() {
@@ -69,7 +70,7 @@ class NoteLinkDialog(private val context: Context, private val fragment: NoteFra
             }
         }
 
-        dialog.setTextTitle(receivedLink)
+        setTitleDialog(receivedLink)
     }
 
     private fun getTypeLink(): String {
@@ -110,7 +111,7 @@ class NoteLinkDialog(private val context: Context, private val fragment: NoteFra
     }
 
     private fun clickingOpenButton() {
-        dialog.dismiss()
+        dismiss()
         launchClient()
     }
 
@@ -126,7 +127,7 @@ class NoteLinkDialog(private val context: Context, private val fragment: NoteFra
     private fun showSnackbar(messageType: String) = fragment.showSnackbar(messageType)
 
     private fun clickingCopyButton() {
-        dialog.dismiss()
+        dismiss()
         performCopyLink()
     }
 

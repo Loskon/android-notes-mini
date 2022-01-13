@@ -27,10 +27,10 @@ import com.loskon.noteminimalism3.other.QueryTextListener
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
-import com.loskon.noteminimalism3.ui.dialogs.DeleteForeverWarningDialog
-import com.loskon.noteminimalism3.ui.dialogs.SendToTrashWarningDialog
-import com.loskon.noteminimalism3.ui.dialogs.UnificationDialog
 import com.loskon.noteminimalism3.ui.fragments.*
+import com.loskon.noteminimalism3.ui.materialdialogs.DeleteForeverWarningDialog
+import com.loskon.noteminimalism3.ui.materialdialogs.SendToTrashWarningDialog
+import com.loskon.noteminimalism3.ui.materialdialogs.UnificationDialog
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
@@ -233,7 +233,7 @@ class MainActivity : BaseActivity(),
 
     private fun pressingInDeleteMode() {
         if (category == CATEGORY_TRASH) {
-            DeleteForeverWarningDialog(this).show()
+            DeleteForeverWarningDialog(this, this).show()
         } else {
             sendSelectedNotesToTrash()
         }

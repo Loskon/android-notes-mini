@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/sheet_pref_links_web_url"
+        android:textColor="?attr/colorPrimaryText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/sheet_pref_links_email"
+        android:textColor="?attr/colorPrimaryText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/sheet_pref_links_phone_number"
+        android:textColor="?attr/colorPrimaryText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

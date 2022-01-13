@@ -5,7 +5,7 @@
     android:layout_height="200dp"
     android:layout_margin="10dp"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="?attr/colorCardView"
+    card_view:cardBackgroundColor="?attr/colorPrimaryCardView"
     card_view:cardCornerRadius="6dp">
 
     <LinearLayout

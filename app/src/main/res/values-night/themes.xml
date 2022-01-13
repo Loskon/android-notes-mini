@@ -20,7 +20,8 @@
         <item name="colorSecondText">@android:color/darker_gray</item>
         <item name="colorBottomBar">@color/black_light</item>
         <item name="colorFabIcon">@color/black_light</item>
-        <item name="colorCardView">@color/black_light</item>
+        <item name="colorPrimaryCardView">@color/black_light</item>
+        <item name="colorSecondCardView">@color/dark_slate_color</item>
         <item name="colorSnackbar">@color/dark_slate_color</item>
         <item name="colorButtonOk">@color/black_light</item>
         <item name="colorShadowImitation">@android:color/transparent</item>

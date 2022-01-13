@@ -2,7 +2,8 @@
 <resources>
     <attr name="colorBottomBar" format="color" />
     <attr name="colorFabIcon" format="color" />
-    <attr name="colorCardView" format="color" />
+    <attr name="colorPrimaryCardView" format="color" />
+    <attr name="colorSecondCardView" format="color" />
     <attr name="colorPrimaryText" format="color" />
     <attr name="colorSecondText" format="color" />
     <attr name="colorSnackbar" format="color" />

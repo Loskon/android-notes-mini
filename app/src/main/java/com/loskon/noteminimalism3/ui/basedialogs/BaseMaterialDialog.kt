@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -17,78 +18,77 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
- * Единая форма для диалога
+ * Основа для материальных диалоговых окон
  */
 
-class BaseDialog(private val context: Context) {
+open class BaseMaterialDialog(private val dialogContext: Context, private val insertViewId: Int?) {
 
-    private val dialogView: View = View.inflate(context, R.layout.base_dialog, null)
-    private val alertDialog: AlertDialog = builderAlertDialog(dialogView)
-
+    private val dialogView: View = View.inflate(dialogContext, R.layout.base_dialog, null)
     private val tvTitle: TextView = dialogView.findViewById(R.id.tv_base_dialog_title)
     private val linLayout: LinearLayout = dialogView.findViewById(R.id.container_base_dialog)
     private val buttonOk: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_ok)
     private val btnCancel: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_cancel)
 
-    private fun builderAlertDialog(view: View): AlertDialog {
-        val alertDialog: AlertDialog = MaterialAlertDialogBuilder(context, DialogBackground)
-            .setView(view)
+    //----------------------------------------------------------------------------------------------
+    private val alertDialog: AlertDialog = builderAlertDialog()
+
+    private fun builderAlertDialog(): AlertDialog {
+        val alertDialog: AlertDialog = MaterialAlertDialogBuilder(dialogContext, DialogBackground)
+            .setView(dialogView)
             .create()
 
         val width: Int = ViewGroup.LayoutParams.WRAP_CONTENT
         val height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
-
         alertDialog.window?.setLayout(width, height)
         alertDialog.window?.setGravity(Gravity.CENTER)
 
         return alertDialog
     }
 
-    fun show() {
-        establishViewsColor()
-        installHandlersForViews()
-        hideContainer()
-        alertDialog.show()
-    }
+    fun show() = alertDialog.show()
 
-    fun show(insertView: View) {
+    fun dismiss() = alertDialog.dismiss()
+
+    fun setCancelable(isCancel: Boolean) = alertDialog.setCancelable(isCancel)
+
+    val context: Context get() = dialogContext
+
+    //----------------------------------------------------------------------------------------------
+    private var appColor: Int = 0
+
+    init {
         establishViewsColor()
         installHandlersForViews()
-        addInsertedView(insertView)
-        alertDialog.show()
+        addInsertedView()
     }
 
     private fun establishViewsColor() {
-        val color: Int = PrefHelper.getAppColor(context)
-        buttonOk.setBackgroundColor(color)
-        btnCancel.setTextColor(color)
+        appColor = PrefHelper.getAppColor(dialogContext)
+        buttonOk.setBackgroundColor(appColor)
+        btnCancel.setTextColor(appColor)
     }
 
     private fun installHandlersForViews() {
         btnCancel.setOnSingleClickListener { alertDialog.dismiss() }
     }
 
-    private fun hideContainer() {
-        linLayout.setVisibleView(false)
+    private fun addInsertedView() {
+        if (insertViewId != null) {
+            val insertView: View = View.inflate(dialogContext, insertViewId, null)
+            insertView.setLayoutParamsForInsertedView()
+            linLayout.addView(insertView)
+        } else {
+            linLayout.setVisibleView(false)
+        }
     }
 
-    private fun addInsertedView(insertView: View) {
-        insertView.setLayoutParamsForInsertedView()
-        if (insertView.parent != null) linLayout.removeView(insertView)
-        linLayout.addView(insertView)
+    //----------------------------------------------------------------------------------------------
+    fun setTitleDialog(@StringRes stringId: Int) {
+        tvTitle.text = dialogContext.getString(stringId)
     }
 
-    fun dismiss() {
-        alertDialog.dismiss()
-    }
-
-    // Внешние методы
-    fun setTextTitle(stringId: Int) {
-        tvTitle.text = context.getString(stringId)
-    }
-
-    fun setTextTitle(title: String) {
-        tvTitle.text = title
+    fun setTitleDialog(string: String) {
+        tvTitle.text = string
     }
 
     fun setTextTitleVisibility(isVisible: Boolean) {
@@ -104,17 +104,24 @@ class BaseDialog(private val context: Context) {
     }
 
     fun setProgressLayoutParameters() {
-        val width: Int = (context.resources.displayMetrics.widthPixels * 0.38).toInt()
+        val width: Int = (dialogContext.resources.displayMetrics.widthPixels * 0.38).toInt()
         val height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
         alertDialog.window?.setLayout(width, height)
     }
 
-    fun setCancelable(isCancel: Boolean) {
-        alertDialog.setCancelable(isCancel)
-    }
-
+    //----------------------------------------------------------------------------------------------
     val btnOk: MaterialButton
         get() {
             return buttonOk
+        }
+
+    val view: View
+        get() {
+            return dialogView
+        }
+
+    val color: Int
+        get() {
+            return appColor
         }
 }

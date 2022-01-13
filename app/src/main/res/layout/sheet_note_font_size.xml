@@ -21,6 +21,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:text="@string/title_card_view"
+        android:textColor="?attr/colorSecondText"
         app:layout_constraintBottom_toTopOf="@+id/guide_line_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

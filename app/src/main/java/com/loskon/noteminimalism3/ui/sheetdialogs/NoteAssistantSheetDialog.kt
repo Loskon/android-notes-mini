@@ -34,10 +34,14 @@ class NoteAssistantSheetDialog(
     }
 
     fun show(dateModification: String?, noteId: Long) {
-        setTextDateModification(dateModification)
-        hideDateModification(noteId)
+        configInsertedViews(dateModification, noteId)
         installHandlersForViews()
         super.show()
+    }
+
+    private fun configInsertedViews(dateModification: String?, noteId: Long) {
+        setTextDateModification(dateModification)
+        hideDateModification(noteId)
     }
 
     private fun hideDateModification(noteId: Long) {

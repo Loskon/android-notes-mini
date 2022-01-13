@@ -17,7 +17,7 @@ import java.util.*
  * Адаптер для работы со списком файлов
  */
 
-class FilesAdapter : BaseAdapter() {
+class FileBaseAdapter : BaseAdapter() {
 
     private var list: ArrayList<File> = arrayListOf()
 
@@ -43,7 +43,6 @@ class FilesAdapter : BaseAdapter() {
         file.delete()
         list.remove(file)
         notifyDataSetChanged()
-
         callback.onCheckEmpty()
     }
 
@@ -60,6 +59,8 @@ class FilesAdapter : BaseAdapter() {
     override fun getItem(position: Int): File = list[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
+
+    //--- interface --------------------------------------------------------------------------------
 
     interface FilesAdapterCallback {
         fun onFileClick(file: File)

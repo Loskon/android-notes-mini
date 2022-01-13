@@ -8,10 +8,9 @@ import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.files.BackupFiles
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.ui.listview.FilesAdapter
+import com.loskon.noteminimalism3.ui.listview.FileBaseAdapter
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.ui.toast.WarningToast
-import com.loskon.noteminimalism3.utils.setMargins
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 import java.io.File
@@ -22,13 +21,13 @@ import java.io.File
 
 class FileListSheetDialog(private val activity: SettingsActivity) :
     BaseSheetDialog(activity, R.layout.sheet_list_files),
-    FilesAdapter.FilesAdapterCallback {
+    FileBaseAdapter.FilesAdapterCallback {
 
     private val listView: ListView = view.findViewById(R.id.list_view_files)
     private val tvEmpty: TextView = view.findViewById(R.id.tv_restore_empty)
     private val btnDeleteAll: MaterialButton = view.findViewById(R.id.btn_restore_delete)
 
-    private var adapter: FilesAdapter = FilesAdapter()
+    private var adapter: FileBaseAdapter = FileBaseAdapter()
 
     init {
         configureDialogParameters()
@@ -42,7 +41,6 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
         setTitleDialog(R.string.sheet_restore_db_title)
         setTextBtnCancel(R.string.to_close)
         setBtnOkVisibility(false)
-        btnCancel.setMargins(16, 0, 16, 16)
     }
 
     private fun configureListAdapter() {

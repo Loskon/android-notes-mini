@@ -22,9 +22,10 @@
         android:id="@+id/lin_layout_restore"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_restore_delete">

@@ -7,13 +7,13 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 
 /**
- * Состояние активности ссылок в заметках
+ * Окно с информацией о приложении
  */
 
 class AboutAppSheetDialog(sheetContext: Context) :
     BaseSheetDialog(sheetContext, R.layout.sheet_about_app) {
 
-    private val tvVersion: TextView = view.findViewById(R.id.tv_about_app_version)
+    private val tvAppVersion: TextView = view.findViewById(R.id.tv_about_app_version)
 
     init {
         configureDialogParameters()
@@ -28,6 +28,6 @@ class AboutAppSheetDialog(sheetContext: Context) :
 
     private fun configureInsertedViews() {
         val versionName: String = BuildConfig.VERSION_NAME
-        tvVersion.text = context.getString(R.string.sheet_about_version, versionName)
+        tvAppVersion.text = context.getString(R.string.sheet_about_version, versionName)
     }
 }

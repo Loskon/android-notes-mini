@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
-import android.content.Context
 import android.widget.ListView
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
@@ -21,11 +20,8 @@ import java.io.File
  * Окно со список файлов бэкапа
  */
 
-class ListRestoreSheetDialog(
-    sheetContext: Context,
-    private val activity: SettingsActivity
-) :
-    BaseSheetDialog(sheetContext, R.layout.sheet_list_files),
+class ListRestoreSheetDialog(private val activity: SettingsActivity) :
+    BaseSheetDialog(activity, R.layout.sheet_list_files),
     FilesAdapter.FilesAdapterCallback {
 
     private val listView: ListView = view.findViewById(R.id.list_view_files)
@@ -84,7 +80,7 @@ class ListRestoreSheetDialog(
             WarningToast.show(context, WarningToast.MSG_TOAST_RESTORE_LIST_EMPTY)
         } else {
             dismiss()
-            DeleteBackupsFilesSheetDialog(context, activity).show()
+            DeleteBackupsFilesSheetDialog(activity).show()
         }
     }
 

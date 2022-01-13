@@ -23,7 +23,7 @@ import com.loskon.noteminimalism3.utils.setVisibleView
 
 open class BaseMaterialDialog(private val dialogContext: Context, private val insertViewId: Int?) {
 
-    private val dialogView: View = View.inflate(dialogContext, R.layout.base_dialog, null)
+    private val dialogView: View = View.inflate(dialogContext, R.layout.dialog_base, null)
     private val tvTitle: TextView = dialogView.findViewById(R.id.tv_base_dialog_title)
     private val linLayout: LinearLayout = dialogView.findViewById(R.id.container_base_dialog)
     private val buttonOk: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_ok)

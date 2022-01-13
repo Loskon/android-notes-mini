@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
-import android.content.Context
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
@@ -11,10 +10,8 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Окно для действий с гугл-аккаунтом
  */
 
-class GoogleAccountSheetDialog(
-    sheetContext: Context,
-    private val fragment: BackupFragment
-) : BaseSheetDialog(sheetContext, R.layout.sheet_google_account) {
+class GoogleAccountSheetDialog(private val fragment: BackupFragment
+) : BaseSheetDialog(fragment.requireContext(), R.layout.sheet_google_account) {
 
     private val btnLogout: MaterialButton = view.findViewById(R.id.btn_data_account_logout)
     private val btnDelete: MaterialButton = view.findViewById(R.id.btn_data_account_delete)
@@ -48,6 +45,6 @@ class GoogleAccountSheetDialog(
 
     private fun onDeleteBtnClick() {
         dismiss()
-        DeleteGoogleAccountSheetDialog(context, fragment).show()
+        DeleteGoogleAccountSheetDialog(fragment).show()
     }
 }

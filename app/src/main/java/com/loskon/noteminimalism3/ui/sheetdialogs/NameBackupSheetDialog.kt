@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
-import android.content.Context
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -22,11 +21,8 @@ import java.util.*
  * Окно для создание бэкапа с определенным названием
  */
 
-class NameBackupSheetDialog(
-    sheetContext: Context,
-    private val activity: SettingsActivity
-) :
-    BaseSheetDialog(sheetContext, R.layout.sheet_backup) {
+class NameBackupSheetDialog(private val activity: SettingsActivity) :
+    BaseSheetDialog(activity, R.layout.sheet_backup) {
 
     private val inputLayout: TextInputLayout = view.findViewById(R.id.input_layout_backup)
     private val inputEditText: TextInputEditText = view.findViewById(R.id.input_edit_text_backup)

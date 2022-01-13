@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
-import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
@@ -10,11 +9,8 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Окно подтверждения облачного бэкапа/восстановления
  */
 
-class CloudConfirmSheetDialog(
-    sheetContext: Context,
-    private val fragment: BackupFragment
-) :
-    BaseSheetDialog(sheetContext, null) {
+class CloudConfirmSheetDialog(private val fragment: BackupFragment) :
+    BaseSheetDialog(fragment.requireContext(), null) {
 
     init {
         setTitleDialog(R.string.sheet_confirm_action)

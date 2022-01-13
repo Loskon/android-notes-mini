@@ -25,7 +25,7 @@ open class BaseSheetDialog(
 ) :
     BottomSheetDialog(sheetContext, R.style.RoundedSheetDialog) {
 
-    private val sheetView: View = View.inflate(context, R.layout.base_dialog, null)
+    private val sheetView: View = View.inflate(context, R.layout.dialog_base, null)
     private val tvTitle: TextView = sheetView.findViewById(R.id.tv_base_dialog_title)
     private val linLayout: LinearLayout = sheetView.findViewById(R.id.container_base_dialog)
     private val buttonOk: MaterialButton = sheetView.findViewById(R.id.btn_base_dialog_ok)

@@ -233,7 +233,7 @@ class MainActivity : BaseActivity(),
 
     private fun pressingInDeleteMode() {
         if (category == CATEGORY_TRASH) {
-            DeleteForeverWarningDialog(this, this).show()
+            DeleteForeverWarningDialog(this).show()
         } else {
             sendSelectedNotesToTrash()
         }

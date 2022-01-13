@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.materialdialogs
 
-import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
@@ -10,8 +9,8 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Окно для подтверждение удаления выбранных заметок
  */
 
-class DeleteForeverWarningDialog(context: Context, private val activity: MainActivity) :
-    BaseMaterialDialog(context, null) {
+class DeleteForeverWarningDialog(private val activity: MainActivity) :
+    BaseMaterialDialog(activity, null) {
 
     init {
         configureDialogParameters()

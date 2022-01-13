@@ -86,9 +86,13 @@ class BackupFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cloudBackup = DataBaseCloudBackup(activity, this, resultGoogle)
         establishViewsColor()
+        initializingObjects()
         installHandlersForViews()
+    }
+
+    private fun initializingObjects() {
+        cloudBackup = DataBaseCloudBackup(activity, this, resultGoogle)
     }
 
     private fun establishViewsColor() {
@@ -122,13 +126,13 @@ class BackupFragment : Fragment(),
 
             R.id.btn_backup_cloud -> {
                 if (checkForInternet()) {
-                    CloudConfirmSheetDialog(activity, this).show(true)
+                    showCloudConfirmSheetDialog(true)
                 }
             }
 
             R.id.btn_restore_cloud -> {
                 if (checkForInternet()) {
-                    CloudConfirmSheetDialog(activity, this).show(false)
+                    showCloudConfirmSheetDialog(false)
                 }
 
             }
@@ -155,11 +159,15 @@ class BackupFragment : Fragment(),
         }
 
     private fun showNameBackupSheetDialog() {
-        NameBackupSheetDialog(requireContext(), activity).show()
+        NameBackupSheetDialog(activity).show()
     }
 
     private fun showListRestoreSheetDialog() {
-        ListRestoreSheetDialog(requireContext(), activity).show()
+        ListRestoreSheetDialog(activity).show()
+    }
+
+    private fun showCloudConfirmSheetDialog(isBackup: Boolean) {
+        CloudConfirmSheetDialog(this).show(isBackup)
     }
 
     private fun installHandlersForViews() {
@@ -173,7 +181,7 @@ class BackupFragment : Fragment(),
     private fun onMenuItemClick(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_account) {
             if (checkForInternet()) {
-                GoogleAccountSheetDialog(activity, this).show()
+                GoogleAccountSheetDialog(this).show()
             }
             return true
         }

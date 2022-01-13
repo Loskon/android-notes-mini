@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
-import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupFiles
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
@@ -13,11 +12,8 @@ import java.io.File
  * Окно для подтверждения удаления всех файлов бэкапа
  */
 
-class DeleteBackupsFilesSheetDialog(
-    sheetContext: Context,
-    private val activity: SettingsActivity
-) :
-    BaseSheetDialog(sheetContext, null) {
+class DeleteBackupsFilesSheetDialog(private val activity: SettingsActivity) :
+    BaseSheetDialog(activity, null) {
 
     init {
         configureDialogParameters()

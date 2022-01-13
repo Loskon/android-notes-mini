@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
-import android.content.Context
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setStrokeBtnColor
@@ -12,10 +11,8 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Окно для подтверждение удаления гугл-аккаунта
  */
 
-class DeleteGoogleAccountSheetDialog(
-    sheetContext: Context,
-    private val fragment: BackupFragment
-) : BaseSheetDialog(sheetContext, R.layout.sheet_delete_account_warning) {
+class DeleteGoogleAccountSheetDialog(private val fragment: BackupFragment) :
+    BaseSheetDialog(fragment.requireContext(), R.layout.sheet_delete_account_warning) {
 
     private val btnYes: MaterialButton = view.findViewById(R.id.btn_data_yes)
     private val btnNo: MaterialButton = view.findViewById(R.id.btn_data_no)

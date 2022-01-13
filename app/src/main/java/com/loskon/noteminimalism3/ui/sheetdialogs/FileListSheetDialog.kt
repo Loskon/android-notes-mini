@@ -20,7 +20,7 @@ import java.io.File
  */
 
 class FileListSheetDialog(private val activity: SettingsActivity) :
-    BaseSheetDialog(activity, R.layout.sheet_list_files),
+    BaseSheetDialog(activity, R.layout.sheet_file_list),
     FileBaseAdapter.FilesAdapterCallback {
 
     private val listView: ListView = view.findViewById(R.id.list_view_files)

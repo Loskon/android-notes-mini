@@ -5,17 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/include_button"
-        layout="@layout/inc_backup_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/iv_backup"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/btn_restore_sd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_backup"
+        app:tint="?attr/colorBackupImage"
+        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_backup_sd"
+        style="@style/ButtonBackupIconStyle"
+        android:layout_width="0dp"
+        android:layout_margin="16dp"
+        app:icon="@drawable/round_drive_folder_upload_black_36"
+        app:layout_constraintBottom_toTopOf="@+id/btn_backup_cloud"
+        app:layout_constraintEnd_toStartOf="@+id/btn_restore_sd"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_restore_sd"
+        style="@style/ButtonBackupIconStyle"
+        android:layout_width="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:icon="@drawable/round_download_for_offline_black_36"
+        app:layout_constraintBottom_toTopOf="@+id/btn_backup_cloud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_backup_sd"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_backup_cloud"
+        style="@style/ButtonBackupIconStyle"
+        android:layout_width="0dp"
+        android:layout_margin="16dp"
+        app:icon="@drawable/baseline_cloud_upload_black_36"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_restore_cloud"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_restore_cloud"
+        style="@style/ButtonBackupIconStyle"
+        android:layout_width="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:icon="@drawable/baseline_cloud_download_black_36"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-
+        app:layout_constraintStart_toEndOf="@+id/btn_backup_cloud"
+        tools:ignore="SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

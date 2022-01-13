@@ -29,6 +29,6 @@
         <item name="colorDialogBackground">@color/black_light</item>
         <item name="colorWarning">@android:color/holo_red_light</item>
         <item name="colorSearchViewBackground">@color/black_light</item>
-        <item name="colorWindowBackground">@color/black_dark</item>
+        <item name="colorBackupImage">@color/black_light</item>
     </style>
 </resources>

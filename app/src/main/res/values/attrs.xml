@@ -2,6 +2,7 @@
 <resources>
     <attr name="colorBottomBar" format="color" />
     <attr name="colorFabIcon" format="color" />
+    <attr name="colorBackupImage" format="color" />
     <attr name="colorPrimaryCardView" format="color" />
     <attr name="colorSecondCardView" format="color" />
     <attr name="colorPrimaryText" format="color" />
@@ -13,5 +14,4 @@
     <attr name="colorDialogBackground" format="color" />
     <attr name="colorWarning" format="color" />
     <attr name="colorSearchViewBackground" format="color" />
-    <attr name="colorWindowBackground" format="color" />
 </resources>

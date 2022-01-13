@@ -17,5 +17,5 @@
     <!-- Border switch. -->
     <dimen name="border_width_switch">2dp</dimen>
     <!-- Square buttons. -->
-    <dimen name="square_button">160dp</dimen>
+    <dimen name="button_backup_height">60dp</dimen>
 </resources>

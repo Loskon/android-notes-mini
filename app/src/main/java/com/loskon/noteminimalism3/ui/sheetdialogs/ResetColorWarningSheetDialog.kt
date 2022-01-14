@@ -2,15 +2,16 @@ package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
+import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
+import com.loskon.noteminimalism3.utils.getShortColor
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
  * Окно для подтверждения сброса цвета приложения
  */
 
-class ResetColorWarningSheetDialog(private val prefScreenResetColor: PrefScreenResetColor) :
-    BaseSheetDialog(prefScreenResetColor.context, null) {
+class ResetColorWarningSheetDialog(private val fragment: SettingsAppFragment) :
+    BaseSheetDialog(fragment.requireContext(), null) {
 
     init {
         configureDialogParameters()
@@ -34,6 +35,7 @@ class ResetColorWarningSheetDialog(private val prefScreenResetColor: PrefScreenR
     }
 
     private fun deleteAllBackupFiles() {
-        prefScreenResetColor.callingCallbacks()
+        val appColor: Int = context.getShortColor(R.color.material_blue)
+        fragment.callingCallbacks(appColor)
     }
 }

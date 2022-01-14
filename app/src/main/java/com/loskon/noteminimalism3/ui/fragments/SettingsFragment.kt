@@ -167,11 +167,11 @@ class SettingsFragment :
         customization?.onPreferenceClickListener = this
         typeFont?.onPreferenceClickListener = this
         sorting?.onPreferenceClickListener = this
-        darkModeSwitch?.onPreferenceChangeListener = this // Change
+        darkModeSwitch?.onPreferenceChangeListener = this // onChange
         // Data
         backup?.onPreferenceClickListener = this
         folder?.onPreferenceClickListener = this
-        autoBackup?.onPreferenceChangeListener = this // Change
+        autoBackup?.onPreferenceChangeListener = this // onChange
         numberBackups?.onPreferenceClickListener = this
         // Notes
         hyperlinks?.onPreferenceClickListener = this

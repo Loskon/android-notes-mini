@@ -11,10 +11,8 @@ import com.loskon.noteminimalism3.managers.FontManager
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
-import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorHexSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 /**
@@ -22,9 +20,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
  */
 
 class SettingsActivity : BaseActivity(),
-    SelectColorPickerSheetDialog.ColorNavIconCallback,
-    SelectColorHexSheetDialog.ColorHexNavIconCallback,
-    PrefScreenResetColor.ColorResetNavIconCallback {
+    SettingsAppFragment.ColorNavIconCallback2 {
 
     private lateinit var constLayout: ConstraintLayout
     private lateinit var bottomBar: BottomAppBar
@@ -44,9 +40,7 @@ class SettingsActivity : BaseActivity(),
     }
 
     private fun installCallbacks() {
-        SelectColorPickerSheetDialog.registerCallbackColorNavIcon(this)
-        SelectColorHexSheetDialog.registerCallbackColorNavIcon(this)
-        PrefScreenResetColor.registerCallbackColorNavIcon(this)
+        SettingsAppFragment.registerCallbackColorNavIcon(this)
     }
 
     private fun setupViewDeclaration() {

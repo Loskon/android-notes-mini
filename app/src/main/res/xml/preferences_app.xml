@@ -4,8 +4,7 @@
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/note_app_header">
-        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
-            app:allowDividerAbove="false" />
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView app:allowDividerAbove="false" />
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
     <Preference
@@ -18,16 +17,16 @@
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenColor
             android:layout="@layout/preference_layout"
             android:title="@string/select_color_app_title"
-            app:key="@string/select_color_app_title"
-            app:allowDividerAbove="false" />
+            app:allowDividerAbove="false"
+            app:key="@string/select_color_app_title" />
 
         <Preference
             android:key="@string/select_color_app_hex_title"
             android:title="@string/select_color_app_hex_title"
             app:iconSpaceReserved="false" />
 
-        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
-            android:layout="@layout/preference_layout"
+        <Preference
+            android:key="@string/reset_app_color"
             android:title="@string/reset_app_color"
             app:iconSpaceReserved="false" />
 
@@ -36,8 +35,7 @@
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/num_of_lines_header">
-        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
-            app:allowDividerAbove="false" />
+        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines app:allowDividerAbove="false" />
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
@@ -45,8 +43,8 @@
         app:iconSpaceReserved="false">
         <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenSwitch
             android:key="@string/one_size_cards_key"
-            android:title="@string/one_size_cards_title"
             android:layout="@layout/preference_layout"
+            android:title="@string/one_size_cards_title"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
             app:summary="@string/one_size_cards_summary" />

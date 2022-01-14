@@ -1,6 +1,5 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
-import android.content.Context
 import android.text.InputFilter
 import android.text.Spanned
 import androidx.core.widget.doOnTextChanged
@@ -10,6 +9,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
+import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 
@@ -17,8 +17,8 @@ import com.loskon.noteminimalism3.utils.showKeyboard
  * Окно для указания hex-кода для цвета темы приложения
  */
 
-class SelectColorHexSheetDialog(sheetContext: Context) :
-    BaseSheetDialog(sheetContext, R.layout.sheet_color_hex) {
+class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
+    BaseSheetDialog(fragment.requireContext(), R.layout.sheet_color_hex) {
 
     private val inputLayout: TextInputLayout = view.findViewById(R.id.input_layout_hex)
     private val inputEditText: TextInputEditText = view.findViewById(R.id.input_edit_text_hex)
@@ -86,47 +86,8 @@ class SelectColorHexSheetDialog(sheetContext: Context) :
     }
 
     private fun onOkBtnClick() {
-        PrefHelper.setAppColor(context, appColor)
-        callingCallbacks()
+        fragment.callingCallbacks(appColor)
         dismiss()
-    }
-
-    private fun callingCallbacks() {
-        callbackColorNavIcon?.onChangeColor(appColor)
-        callbackColorNotifyData?.onChangeColor()
-        callbackColorList?.onChangeColor(appColor)
-    }
-
-    //--- interface --------------------------------------------------------------------------------
-    interface ColorHexNavIconCallback {
-        fun onChangeColor(color: Int)
-    }
-
-    interface ColorHexNotifyDataCallback {
-        fun onChangeColor()
-    }
-
-    interface ColorHexListCallback {
-        fun onChangeColor(color: Int)
-    }
-
-    companion object {
-        private var callbackColorNavIcon: ColorHexNavIconCallback? = null
-        private var callbackColorNotifyData: ColorHexNotifyDataCallback? = null
-        private var callbackColorList: ColorHexListCallback? = null
-
-        fun registerCallbackColorNavIcon(callbackColorNavIcon: ColorHexNavIconCallback) {
-            this.callbackColorNavIcon = callbackColorNavIcon
-        }
-
-        fun registerCallbackNotifyData(callbackColorNotifyData: ColorHexNotifyDataCallback) {
-            this.callbackColorNotifyData = callbackColorNotifyData
-        }
-
-        fun registerCallbackColorList(callbackColorList: ColorHexListCallback) {
-            this.callbackColorList = callbackColorList
-        }
-
     }
 }
 

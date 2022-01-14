@@ -33,13 +33,10 @@ import com.loskon.noteminimalism3.ui.materialdialogs.SendToTrashWarningDialog
 import com.loskon.noteminimalism3.ui.materialdialogs.UnificationDialog
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
-import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenResetColor
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteRecyclerAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorHexSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorPickerSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.UndoSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
@@ -59,9 +56,7 @@ class MainActivity : BaseActivity(),
     CategorySheetFragment.CallbackCategory,
     NoteFragment.NoteCallback,
     NoteTrashFragment.NoteTrashCallback,
-    SelectColorPickerSheetDialog.ColorListCallback,
-    SelectColorHexSheetDialog.ColorHexListCallback,
-    PrefScreenResetColor.ColorResetListCallback,
+    SettingsAppFragment.MainColorCallback,
     PrefScreenCardView.FontsSizesCallback,
     PrefScreenNumberLines.NumberLinesCallback,
     SettingsAppFragment.OneSizeCardsCallback,
@@ -118,9 +113,7 @@ class MainActivity : BaseActivity(),
         NoteFragment.registerCallbackNote(this)
         NoteTrashFragment.registerCallbackNoteTrash(this)
         // Для изменения настроек
-        SelectColorPickerSheetDialog.registerCallbackColorList(this)
-        SelectColorHexSheetDialog.registerCallbackColorList(this)
-        PrefScreenResetColor.registerCallbackColorList(this)
+        SettingsAppFragment.registerCallbackColorList(this)
         PrefScreenCardView.registerCallbackFontSizes(this)
         PrefScreenNumberLines.registerCallbackNumberLines(this)
         SettingsAppFragment.registerCallbackOneSizeCards(this)

@@ -393,6 +393,7 @@ open class NoteFragment : Fragment(),
 
     fun showSnackbar(messageType: String) = WarningSnackbar.show(constLayout, fab, messageType)
 
+    //--- interface --------------------------------------------------------------------------------
     interface NoteCallback {
         fun onAddNote()
         fun onUpdateNote()

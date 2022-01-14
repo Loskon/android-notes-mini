@@ -21,8 +21,8 @@ import java.util.*
  * Окно для создание бэкапа с определенным названием
  */
 
-class NameBackupSheetDialog(private val activity: SettingsActivity) :
-    BaseSheetDialog(activity, R.layout.sheet_backup) {
+class CreateBackupSheetDialog(private val activity: SettingsActivity) :
+    BaseSheetDialog(activity, R.layout.sheet_create_backup) {
 
     private val inputLayout: TextInputLayout = view.findViewById(R.id.input_layout_backup)
     private val inputEditText: TextInputEditText = view.findViewById(R.id.input_edit_text_backup)

@@ -376,7 +376,7 @@ open class NoteFragment : Fragment(),
         val hasAutoBackup: Boolean = PrefHelper.hasAutoBackup(activity)
 
         if (hasAutoBackup && isNewNote && noteId % 3 == 0L) {
-            DataBaseAutoBackup.startCreatingBackup(
+            DataBaseAutoBackup.checkingStorageAccess(
                 activity, backupDate,
                 hasShowToast, storageAccess
             )

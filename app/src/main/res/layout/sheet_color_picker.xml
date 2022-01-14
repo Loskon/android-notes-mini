@@ -19,22 +19,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/color_picker" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_color_picker_reset"
-        style="@style/ButtonIconStyle"
-        android:layout_width="50dp"
-        android:layout_height="44dp"
-        android:layout_margin="8dp"
-        app:icon="@drawable/baseline_refresh_black_24"
-        app:iconTint="?attr/colorWarning"
-        app:layout_constraintBottom_toBottomOf="@+id/color_picker"
-        app:layout_constraintEnd_toEndOf="@+id/color_picker"
-        app:rippleColor="?attr/colorControlHighlight"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        style="@style/ButtonStrokeStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/sheet_font_size_reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sv_color_bar"
+        tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

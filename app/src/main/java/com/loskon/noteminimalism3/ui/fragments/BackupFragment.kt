@@ -24,11 +24,12 @@ import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.CloudConfirmSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.CreateBackupSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.GoogleAccountSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.NameBackupSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
+import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
  * Экран для бэкапа/восстановления БД
@@ -37,8 +38,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 class BackupFragment : Fragment(),
     ResultAccessStorageInterface,
     ResultActivityInterface,
-    ResultGoogleInterface,
-    View.OnClickListener {
+    ResultGoogleInterface {
 
     private lateinit var activity: SettingsActivity
     private lateinit var resultActivity: ResultActivity
@@ -51,7 +51,7 @@ class BackupFragment : Fragment(),
     private lateinit var btnBackupCloud: Button
     private lateinit var btnRestoreCloud: Button
 
-    private var btnId: Int? = 0
+    private var isBackupSd: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -103,40 +103,18 @@ class BackupFragment : Fragment(),
         btnRestoreCloud.setBackgroundColor(color)
     }
 
-    override fun onClick(view: View?) {
+    private fun installHandlersForViews() {
+        btnBackupSD.setOnSingleClickListener { onBackupSdBtnClick() }
+        btnRestoreSD.setOnSingleClickListener { onRestoreSdBtnClick() }
+        btnBackupCloud.setOnSingleClickListener { onBackupCloudBtnClick() }
+        btnRestoreCloud.setOnSingleClickListener { onRestoreCloudBtnClick() }
+        activity.bottomAppBar.setOnMenuItemClickListener { onMenuItemClick(it) }
+    }
+
+    private fun onBackupSdBtnClick() {
         WarningBaseSnackbar.dismiss()
-        btnId = view?.id
-
-        when (btnId) {
-            R.id.btn_backup_sd -> {
-                if (hasAccessStorageRequest) {
-                    showNameBackupSheetDialog()
-                }
-            }
-
-            R.id.btn_restore_sd -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    resultActivity.launcherSelectingDateBaseFile()
-                } else {
-                    if (hasAccessStorageRequest) {
-                        showListRestoreSheetDialog()
-                    }
-                }
-            }
-
-            R.id.btn_backup_cloud -> {
-                if (checkForInternet()) {
-                    showCloudConfirmSheetDialog(true)
-                }
-            }
-
-            R.id.btn_restore_cloud -> {
-                if (checkForInternet()) {
-                    showCloudConfirmSheetDialog(false)
-                }
-
-            }
-        }
+        isBackupSd = true
+        if (hasAccessStorageRequest) showCreateBackupSheetDialog()
     }
 
     private val hasAccessStorageRequest: Boolean
@@ -144,7 +122,35 @@ class BackupFragment : Fragment(),
             return storageAccess.hasAccessStorageRequest()
         }
 
-    private fun checkForInternet(): Boolean {
+    private fun showCreateBackupSheetDialog() {
+        CreateBackupSheetDialog(activity).show()
+    }
+
+    private fun onRestoreSdBtnClick() {
+        WarningBaseSnackbar.dismiss()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            resultActivity.launcherSelectingDateBaseFile()
+        } else {
+            isBackupSd = false
+            if (hasAccessStorageRequest) showListRestoreSheetDialog()
+        }
+    }
+
+    private fun showListRestoreSheetDialog() {
+        FileListSheetDialog(activity).show()
+    }
+
+    private fun onBackupCloudBtnClick() {
+        WarningBaseSnackbar.dismiss()
+        if (hasInternetConnection()) showCloudConfirmSheetDialog(true)
+    }
+
+    private fun onRestoreCloudBtnClick() {
+        WarningBaseSnackbar.dismiss()
+        if (hasInternetConnection()) showCloudConfirmSheetDialog(false)
+    }
+
+    private fun hasInternetConnection(): Boolean {
         return if (hasInternetConnection) {
             true
         } else {
@@ -158,29 +164,13 @@ class BackupFragment : Fragment(),
             return InternetCheck.isConnected(activity)
         }
 
-    private fun showNameBackupSheetDialog() {
-        NameBackupSheetDialog(activity).show()
-    }
-
-    private fun showListRestoreSheetDialog() {
-        FileListSheetDialog(activity).show()
-    }
-
     private fun showCloudConfirmSheetDialog(isBackup: Boolean) {
         CloudConfirmSheetDialog(this).show(isBackup)
     }
 
-    private fun installHandlersForViews() {
-        btnBackupSD.setOnClickListener(this)
-        btnRestoreSD.setOnClickListener(this)
-        btnBackupCloud.setOnClickListener(this)
-        btnRestoreCloud.setOnClickListener(this)
-        activity.bottomAppBar.setOnMenuItemClickListener { onMenuItemClick(it) }
-    }
-
     private fun onMenuItemClick(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_account) {
-            if (checkForInternet()) {
+            if (hasInternetConnection()) {
                 GoogleAccountSheetDialog(this).show()
             }
             return true
@@ -197,9 +187,9 @@ class BackupFragment : Fragment(),
 
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
         if (isGranted) {
-            if (btnId == R.id.btn_backup_sd) {
-                showNameBackupSheetDialog()
-            } else if (btnId == R.id.btn_restore_sd) {
+            if (isBackupSd) {
+                showCreateBackupSheetDialog()
+            } else {
                 showListRestoreSheetDialog()
             }
         } else {
@@ -235,25 +225,24 @@ class BackupFragment : Fragment(),
     }
 
     override fun onRequestGoogleResult(isGranted: Boolean) {
-        cloudBackup.apply {
-            if (isGranted) {
-                if (isBackup()) {
-                    uploadCopyDateBaseToCloud()
-                } else {
-                    checkingPresenceFile()
-                }
+        if (isGranted) {
+            if (cloudBackup.isBackup()) {
+                cloudBackup.uploadCopyDateBaseToCloud()
             } else {
-                showSnackbar(WarningSnackbar.MSG_TEXT_SIGN_IN_FAILED)
+                cloudBackup.checkingPresenceFile()
             }
-
-            changeVisibilityMenuItemAccount()
+        } else {
+            showSnackbar(WarningSnackbar.MSG_TEXT_SIGN_IN_FAILED)
         }
+
+        cloudBackup.changeVisibilityMenuItemAccount()
     }
 
     fun showSnackbar(messageType: String) = activity.showSnackbar(messageType)
 
     fun changeVisibilityMenuItem(isVisible: Boolean) = activity.changeVisibilityMenuItem(isVisible)
 
+    //--- Внешние методы ---------------------------------------------------------------------------
     fun performBackupCloud() = cloudBackup.performBackupCloud()
 
     fun performRestoreCloud() = cloudBackup.performRestoreCloud()
@@ -262,6 +251,7 @@ class BackupFragment : Fragment(),
 
     fun deleteUserAccount() = cloudBackup.deleteUserAccount()
 
+    //--- interface --------------------------------------------------------------------------------
     interface RestoreNoteAndroidRCallback {
         fun onRestoreNotes()
     }

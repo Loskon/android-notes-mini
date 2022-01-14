@@ -451,7 +451,7 @@ class MainActivity : BaseActivity(),
         typeFace?.let { tvEmpty.typeface = it }
     }
 
-    //--- Внешние методы для диалогов --------------------------------------------------------------
+    //--- Внешние методы ---------------------------------------------------------------------------
     // SendToTrashWarningDialog
     fun cleanTrash() {
         commandCenter.cleanTrash()

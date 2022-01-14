@@ -105,11 +105,11 @@ object DataBaseBackup {
 
     private fun isValidSQLiteFile(path: String): Boolean {
         return try {
-            val fr = FileReader(File(path))
+            val fileReader = FileReader(File(path))
             val buffer = CharArray(16)
-            fr.read(buffer, 0, 16)
+            fileReader.read(buffer, 0, 16)
             val str = String(buffer)
-            fr.close()
+            fileReader.close()
             str == "SQLite format 3\u0000"
         } catch (exception: Exception) {
             false

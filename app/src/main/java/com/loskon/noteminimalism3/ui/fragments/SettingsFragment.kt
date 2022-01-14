@@ -317,15 +317,10 @@ class SettingsFragment :
 
                 if (data != null && path != null) {
                     savingSelectedPath(path)
-                    activity.showToast("" + path)
                 } else {
                     activity.showSnackbar(WarningSnackbar.MSG_UNABLE_SELECT_FOLDER)
                 }
-            } else {
-                activity.showToast("no2")
             }
-        } else {
-            activity.showToast("no")
         }
     }
 

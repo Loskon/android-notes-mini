@@ -16,7 +16,7 @@ import java.util.*
 
 object DataBaseAutoBackup {
 
-    fun startCreatingBackup(
+    fun checkingStorageAccess(
         context: Context,
         date: Date,
         isShowToast: Boolean,

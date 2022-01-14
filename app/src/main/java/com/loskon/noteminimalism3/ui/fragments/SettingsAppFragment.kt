@@ -10,6 +10,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.ResetColorWarningSheetDialog
+import com.loskon.noteminimalism3.ui.sheetdialogs.ResetFontSizeWarningSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorHexSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SelectColorPickerSheetDialog
 
@@ -85,7 +86,7 @@ class SettingsAppFragment :
 
         return when (preference?.key) {
             resetFontSizeKey -> {
-                callbackReset?.onResetFontSize()
+                ResetFontSizeWarningSheetDialog(this).show()
                 true
             }
 
@@ -131,6 +132,10 @@ class SettingsAppFragment :
     @SuppressLint("NotifyDataSetChanged")
     private fun forceUpdatePreferenceList() {
         listView.adapter?.notifyDataSetChanged()
+    }
+
+    fun resetFontSize() {
+        callbackReset?.onResetFontSize()
     }
 
     //--- interface --------------------------------------------------------------------------------

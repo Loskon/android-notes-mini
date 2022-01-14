@@ -105,6 +105,7 @@
 
     <!-- Sheet -->
     <string name="sheet_reset_color_title">Сбросить цвет?</string>
+    <string name="sheet_reset_font_size_title">Сбросить размер текста?</string>
     <!-- sheet_backup -->
     <string name="sheet_backup_title">Введите название</string>
     <string name="sheet_backup_text_hint">Название</string>

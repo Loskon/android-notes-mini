@@ -106,6 +106,7 @@
 
     <!-- Sheets -->
     <string name="sheet_reset_color_title">Reset the color?</string>
+    <string name="sheet_reset_font_size_title">Reset the font size?</string>
     <!-- sheet_backup -->
     <string name="sheet_backup_title">Enter a title</string>
     <string name="sheet_backup_text_hint">Title</string>

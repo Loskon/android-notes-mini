@@ -104,9 +104,11 @@
     <string name="sb_bp_backup_not_selected">A backup file was not selected!</string>
     <string name="sb_bp_invalid_format_file">Invalid file format!</string>
 
-    <!-- Sheet -->
+    <!-- Sheets -->
+    <string name="sheet_reset_color_title">Reset the color?</string>
     <!-- sheet_backup -->
     <string name="sheet_backup_title">Enter a title</string>
+    <string name="sheet_backup_text_hint">Title</string>
     <string name="sheet_backup_incorrect_name">Enter the correct title!</string>
     <!-- sheet_restore_date_base -->
     <string name="sheet_restore_db_title">Select file:</string>
@@ -218,7 +220,7 @@
     <string name="reset_font_size_title">Reset font size</string>
     <string name="select_color_app_title">Select color</string>
     <string name="select_color_app_hex_title">Set hex code</string>
-    <string name="reset_app_color">Reset app color</string>
+    <string name="reset_app_color">Reset color</string>
     <string name="one_size_cards_title">Same cards size</string>
     <!-- Preference summary -->
     <string name="one_size_cards_summary">For multi-cards mode</string>

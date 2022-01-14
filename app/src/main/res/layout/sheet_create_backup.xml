@@ -29,7 +29,7 @@
             android:id="@+id/input_edit_text_backup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sheet_backup_title"
+            android:hint="@string/sheet_backup_text_hint"
             android:inputType="textCapSentences|textNoSuggestions"
             android:lines="1"
             android:maxLines="1"

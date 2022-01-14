@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
@@ -20,7 +21,6 @@ import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.*
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.ui.toast.showToast
 
 /**
  * Экран общих настроек
@@ -86,6 +86,7 @@ class SettingsFragment :
     private var aboutApp: Preference? = null
 
     private var selectedPreference: String = ""
+    private var lastClickTime = 0L
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -216,11 +217,17 @@ class SettingsFragment :
         }
 
     override fun onPreferenceClick(preference: Preference?): Boolean {
-        val key: String? = preference?.key
-        selectedPreference = key.toString()
+        if (SystemClock.elapsedRealtime() - lastClickTime < 600) {
+            return false
+        } else {
+            lastClickTime = SystemClock.elapsedRealtime()
+        }
+
+        val preferenceKey: String? = preference?.key
+        selectedPreference = preferenceKey.toString()
 
         activity.apply {
-            when (key) {
+            when (preferenceKey) {
                 customizationKey -> {
                     replaceFragment(SettingsAppFragment())
                     return true

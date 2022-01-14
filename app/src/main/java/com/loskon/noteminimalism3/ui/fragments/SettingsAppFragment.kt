@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
@@ -26,15 +27,19 @@ class SettingsAppFragment :
 
     private lateinit var activity: SettingsActivity
 
+    // PreferenceScreen Keys
     private var resetFontSizeKey: String = ""
     private var selectColorKey: String = ""
     private var selectColorHexKey: String = ""
     private var oneSizeCardsKey: String = ""
 
+    // Preferences and SwitchPreferences
     private var resetFontSize: Preference? = null
     private var selectColor: Preference? = null
     private var selectColorHex: Preference? = null
-    private var oneSizeCards: SwitchPreference? = null
+    private var oneSizeCardsSwitch: SwitchPreference? = null
+
+    private var lastClickTime = 0L
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,17 +75,23 @@ class SettingsAppFragment :
         resetFontSize = findPreference(resetFontSizeKey)
         selectColor = findPreference(selectColorKey)
         selectColorHex = findPreference(selectColorHexKey)
-        oneSizeCards = findPreference(oneSizeCardsKey)
+        oneSizeCardsSwitch = findPreference(oneSizeCardsKey)
     }
 
     private fun installPreferencesListener() {
         resetFontSize?.onPreferenceClickListener = this
         selectColor?.onPreferenceClickListener = this
         selectColorHex?.onPreferenceClickListener = this
-        oneSizeCards?.onPreferenceChangeListener = this // Change
+        oneSizeCardsSwitch?.onPreferenceChangeListener = this // Change
     }
 
     override fun onPreferenceClick(preference: Preference?): Boolean {
+        if (SystemClock.elapsedRealtime() - lastClickTime < 600) {
+            return false
+        } else {
+            lastClickTime = SystemClock.elapsedRealtime()
+        }
+
         return when (preference?.key) {
             resetFontSizeKey -> {
                 callbackReset?.onResetFontSize()

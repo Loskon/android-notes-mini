@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import androidx.preference.Preference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.ui.sheetdialogs.ResetColorWarningSheetDialog
 import com.loskon.noteminimalism3.utils.getShortColor
 
 /**
@@ -18,7 +19,12 @@ class PrefScreenResetColor @JvmOverloads constructor(
 ) : Preference(context, attrs, defStyleAttr) {
 
     override fun onClick() {
+        ResetColorWarningSheetDialog(this).show()
         super.onClick()
+
+    }
+
+    fun callingCallbacks() {
         val color: Int = context.getShortColor(R.color.material_blue)
         PrefHelper.setAppColor(context, color)
         callbackColorNavIcon?.onChangeColor(color)

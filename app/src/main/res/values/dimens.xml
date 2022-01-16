@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Heights. -->
-    <dimen name="height_bottom_bar">48dp</dimen>
-    <dimen name="height_button_flat">52dp</dimen>
+    <dimen name="bottom_bar_height">48dp</dimen>
+    <dimen name="button_flat_height">52dp</dimen>
     <!-- Slider. -->
     <dimen name="thumb_radius_slider">6dp</dimen>
     <dimen name="slider_halo_radius">14dp</dimen>

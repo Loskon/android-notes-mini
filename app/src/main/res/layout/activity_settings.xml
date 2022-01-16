@@ -37,7 +37,7 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_bar_settings"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_bottom_bar"
+            android:layout_height="@dimen/bottom_bar_height"
             android:layout_gravity="bottom"
             android:backgroundTint="?attr/colorBottomBar"
             app:backgroundTint="?attr/colorBottomBar"

@@ -104,7 +104,7 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorPrimaryText</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:layout_height">@dimen/height_button_flat</item>
+        <item name="android:layout_height">@dimen/button_flat_height</item>
         <item name="cornerRadius">0dp</item>
         <item name="rippleColor">?attr/colorControlHighlight</item>
     </style>

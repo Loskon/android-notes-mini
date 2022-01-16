@@ -58,8 +58,8 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
             title.configureFontSizeAndNumberLines()
             date.changeTextSize(dateFontSize)
 
-            itemView.setOnSingleClickListener { onItemClick(note, position) }
-            itemView.setOnLongClickListener { onItemLongClick(note, position) }
+            card.setOnSingleClickListener { onItemClick(note, position) }
+            card.setOnLongClickListener { onItemLongClick(note, position) }
 
             setVariablesGradDraw(note.isChecked)
             gradientDrawable.configureGradDraw(linearLayout)

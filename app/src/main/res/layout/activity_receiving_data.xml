@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/height_bottom_bar"
+        android:layout_marginBottom="@dimen/bottom_bar_height"
         android:gravity="center"
         android:text="@string/empty_list"
         android:textColor="?attr/colorSecondText"
@@ -24,7 +24,7 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_bar_receiving_data"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_bottom_bar"
+        android:layout_height="@dimen/bottom_bar_height"
         android:layout_gravity="bottom"
         android:backgroundTint="?attr/colorBottomBar"
         app:backgroundTint="?attr/colorBottomBar"

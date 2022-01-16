@@ -48,8 +48,12 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 
-    private fun convertIntInHex(colorInt: Int): String {
-        return Integer.toHexString((colorInt - 4278190080L).toInt())
+    private fun convertIntInHex(color: Int): String {
+        return if (color == -16777216) {
+            "000000"
+        } else {
+            Integer.toHexString((color - 4278190080L).toInt())
+        }
     }
 
     private fun installHandlersForViews() {

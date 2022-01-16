@@ -18,6 +18,7 @@
         <!-- Customize colors of items. -->
         <item name="colorPrimaryText">@android:color/black</item>
         <item name="colorSecondText">@color/little_darker_gray</item>
+        <item name="colorTextHint">@android:color/darker_gray</item>
         <item name="colorBottomBar">@android:color/white</item>
         <item name="colorFabIcon">@android:color/white</item>
         <item name="colorPrimaryCardView">@color/white</item>

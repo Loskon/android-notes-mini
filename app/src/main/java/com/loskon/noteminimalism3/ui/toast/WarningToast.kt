@@ -67,5 +67,6 @@ object WarningToast {
     }
 }
 
-
-fun Context.showToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+// Extension functions
+private fun Context.showToast(message: String) =
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

@@ -7,6 +7,7 @@
     <attr name="colorSecondCardView" format="color" />
     <attr name="colorPrimaryText" format="color" />
     <attr name="colorSecondText" format="color" />
+    <attr name="colorTextHint" format="color" />
     <attr name="colorSnackbar" format="color" />
     <attr name="colorButtonOk" format="color" />
     <attr name="colorShadowImitation" format="color" />

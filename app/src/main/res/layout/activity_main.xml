@@ -10,7 +10,7 @@
     tools:context=".ui.activities.MainActivity">
 
     <include
-        layout="@layout/inc_list_notes"
+        layout="@layout/inc_note_list"
         app:layout_anchor="@+id/tv_empty_main"
         app:layout_anchorGravity="center" />
 

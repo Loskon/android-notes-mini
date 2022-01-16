@@ -36,7 +36,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine|textNoSuggestions|textCapSentences"
                 android:textColor="?attr/colorPrimaryText"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColorHint="?attr/colorTextHint"
                 tools:ignore="TextContrastCheck,TextContrastCheck,TextContrastCheck,TouchTargetSizeCheck" />
         </LinearLayout>
     </ScrollView>

@@ -20,7 +20,7 @@ class NoteAssistantSheetDialog(
     private val assistant: NoteAssistant
 ) : BottomSheetDialog(sheetContext, SheetDialogStatusBar) {
 
-    private val insertView = View.inflate(context, R.layout.sheet_note_assistant, null)
+    private val insertView = View.inflate(context, R.layout.sheet_assistant_note, null)
 
     private val tvDateModification: TextView = insertView.findViewById(R.id.tv_sheet_note_title)
     private val btnPaste: MaterialButton = insertView.findViewById(R.id.btn_sheet_paste)

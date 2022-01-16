@@ -35,6 +35,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="?attr/colorPrimaryText"
+            android:textColorHint="?attr/colorTextHint"
             tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 

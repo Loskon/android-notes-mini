@@ -71,28 +71,28 @@ class MainWidgetHelper(
         if (isSelectionMode) {
             if (isSearchMode) {
                 searchView.enableSearchView(false)
-                visibleBottomBar(true)
+                visibilityBottomBar(true)
             }
 
             changeFabIconForTrash(category)
         } else {
             if (isSearchMode) {
                 searchView.enableSearchView(true)
-                visibleBottomBar(false)
+                visibilityBottomBar(false)
                 showKeyboardInSearchView()
                 setIconFab(ICON_FAB_SEARCH_CLOSE)
             } else {
                 changeFabIcon(category)
             }
 
-            visibleUnificationMenuItem(false)
-            visibleFavoriteMenuItem(category, false)
+            visibilityUnificationMenuItem(false)
+            visibilityFavoriteMenuItem(category, false)
         }
 
         hasNavigationButtonIsCloseIcon(!isSelectionMode && !isSearchMode)
-        visibleHomeMenuItems(!isSelectionMode && !isSearchMode)
-        visibleSelectMenuItem(isSelectionMode)
-        visibleCardView(isSelectionMode)
+        visibilityHomeMenuItems(!isSelectionMode && !isSearchMode)
+        visibilitySelectMenuItem(isSelectionMode)
+        visibilityCardView(isSelectionMode)
     }
 
     fun selectingNote(
@@ -102,8 +102,8 @@ class MainWidgetHelper(
     ) {
         setCountItemsText(selectedItemsCount)
         changeIconSelectMenuItem(hasAllSelected)
-        visibleUnificationMenu(category, selectedItemsCount >= 2)
-        visibleFavoriteMenuItem(category, selectedItemsCount in 1..1)
+        visibilityUnificationMenu(category, selectedItemsCount >= 2)
+        visibilityFavoriteMenuItem(category, selectedItemsCount in 1..1)
     }
 
     fun togglingSearchMode(category: String, isSearchMode: Boolean) {
@@ -115,11 +115,11 @@ class MainWidgetHelper(
             setIconFab(ICON_FAB_SEARCH_CLOSE)
         } else {
             hasNavigationButtonIsCloseIcon(true)
-            visibleHomeMenuItems(true)
+            visibilityHomeMenuItems(true)
             changeFabIcon(category)
         }
 
-        visibleBottomBar(!isSearchMode)
+        visibilityBottomBar(!isSearchMode)
     }
 
     private fun showKeyboardInSearchView() {
@@ -128,25 +128,25 @@ class MainWidgetHelper(
     }
 
     //--- Menu -------------------------------------------------------------------------------------
-    private fun visibleUnificationMenu(category: String, hasRequiredRange: Boolean) {
+    private fun visibilityUnificationMenu(category: String, hasRequiredRange: Boolean) {
         val isVisible: Boolean = (category != CATEGORY_TRASH && hasRequiredRange)
-        visibleUnificationMenuItem(isVisible)
+        visibilityUnificationMenuItem(isVisible)
     }
 
-    private fun visibleUnificationMenuItem(isVisible: Boolean) {
+    private fun visibilityUnificationMenuItem(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_unification, isVisible)
     }
 
-    private fun visibleSelectMenuItem(isVisible: Boolean) {
+    private fun visibilitySelectMenuItem(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_select_item, isVisible)
     }
 
-    private fun visibleFavoriteMenuItem(category: String, isVisible: Boolean) {
+    private fun visibilityFavoriteMenuItem(category: String, isVisible: Boolean) {
         val isVis: Boolean = (category != CATEGORY_TRASH && isVisible)
         setVisibleMenuItem(R.id.action_favorite, isVis)
     }
 
-    private fun visibleHomeMenuItems(isVisible: Boolean) {
+    private fun visibilityHomeMenuItems(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_search, isVisible)
         setVisibleMenuItem(R.id.action_toggle_view, isVisible)
     }
@@ -233,7 +233,7 @@ class MainWidgetHelper(
         fab.setImageDrawable(context.getShortDrawable(drawableId))
     }
 
-    private fun visibleBottomBar(isVisible: Boolean) {
+    private fun visibilityBottomBar(isVisible: Boolean) {
         if (isVisible) {
             bottomBar.performShow()
         } else {
@@ -242,7 +242,7 @@ class MainWidgetHelper(
     }
 
     //--- CardView ---------------------------------------------------------------------------------
-    private fun visibleCardView(isVisible: Boolean) {
+    private fun visibilityCardView(isVisible: Boolean) {
         cardView.setVisibleView(isVisible)
     }
 

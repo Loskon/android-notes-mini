@@ -15,9 +15,12 @@
         <item name="android:windowBackground">@color/black_dark</item>
         <item name="android:colorBackground">@color/black_dark</item>
 
+        <item name="android:textColorHint">@color/light_dark_gray</item>
+
         <!-- Customize colors of items. -->
         <item name="colorPrimaryText">@android:color/white</item>
         <item name="colorSecondText">@android:color/darker_gray</item>
+        <item name="colorTextHint">@color/light_dark_gray</item>
         <item name="colorBottomBar">@color/black_light</item>
         <item name="colorFabIcon">@color/black_light</item>
         <item name="colorPrimaryCardView">@color/black_light</item>

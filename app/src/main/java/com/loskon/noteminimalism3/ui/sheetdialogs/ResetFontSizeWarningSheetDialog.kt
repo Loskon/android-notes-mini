@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  */
 
 class ResetFontSizeWarningSheetDialog(private val fragment: SettingsAppFragment) :
-    BaseSheetDialog(fragment.requireContext(), null) {
+    BaseSheetDialog(fragment.requireContext()) {
 
     init {
         configureDialogParameters()

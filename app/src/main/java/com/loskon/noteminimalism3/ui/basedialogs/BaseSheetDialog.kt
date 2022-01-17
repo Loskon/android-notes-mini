@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.utils.setVisibleView
 
 open class BaseSheetDialog(
     sheetContext: Context,
-    private val insertViewId: Int?
+    private val insertViewId: Int? = null
 ) :
     BottomSheetDialog(sheetContext, R.style.RoundedSheetDialog) {
 

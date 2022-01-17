@@ -10,9 +10,13 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  */
 
 class CloudConfirmSheetDialog(private val fragment: BackupFragment) :
-    BaseSheetDialog(fragment.requireContext(), null) {
+    BaseSheetDialog(fragment.requireContext()) {
 
     init {
+        configureDialogParameters()
+    }
+
+    private fun configureDialogParameters() {
         setTitleDialog(R.string.sheet_confirm_action)
         setTextBtnOk(R.string.continue_action)
         setTextBtnCancel(R.string.no)

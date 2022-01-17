@@ -88,11 +88,11 @@ class FontsFragment : Fragment(), FontListAdapter.FontAdapterCallback {
     }
 
     private fun updateFontsList() {
-        val fonts: List<Font> = getListFonts()
+        val fonts: List<Font> = getFontList()
         adapter.setFontsList(fonts)
     }
 
-    private fun getListFonts(): List<Font> {
+    private fun getFontList(): List<Font> {
         return listOf(
             createFont(0, R.string.roboto_name, R.font.roboto_light),
             createFont(1, R.string.lato_light_name, R.font.lato_light),
@@ -124,7 +124,7 @@ class FontsFragment : Fragment(), FontListAdapter.FontAdapterCallback {
     }
 
     private fun configureOtherViews() {
-        tvExample.typeface = getListFonts()[savedPosition].font_type_face
+        tvExample.typeface = getFontList()[savedPosition].font_type_face
     }
 
     private fun showWarningDialog() {

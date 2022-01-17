@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Окно для подтверждение объединения выбранных заметок
  */
 
-class UnificationDialog(private val activity: MainActivity) : BaseMaterialDialog(activity, null) {
+class UnificationDialog(private val activity: MainActivity) : BaseMaterialDialog(activity) {
 
     init {
         configureDialogParameters()

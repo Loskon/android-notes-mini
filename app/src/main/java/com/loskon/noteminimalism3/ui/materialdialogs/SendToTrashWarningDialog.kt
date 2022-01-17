@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  */
 
 class SendToTrashWarningDialog(private val activity: MainActivity) :
-    BaseMaterialDialog(activity, null) {
+    BaseMaterialDialog(activity) {
 
     init {
         configureDialogParameters()

@@ -21,7 +21,10 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  * Основа для материальных диалоговых окон
  */
 
-open class BaseMaterialDialog(private val dialogContext: Context, private val insertViewId: Int?) {
+open class BaseMaterialDialog(
+    private val dialogContext: Context,
+    private val insertViewId: Int? = null
+) {
 
     private val dialogView: View = View.inflate(dialogContext, R.layout.dialog_base, null)
     private val tvTitle: TextView = dialogView.findViewById(R.id.tv_base_dialog_title)

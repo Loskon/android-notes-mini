@@ -13,7 +13,7 @@ import java.io.File
  */
 
 class DeleteFilesSheetDialog(private val activity: SettingsActivity) :
-    BaseSheetDialog(activity, null) {
+    BaseSheetDialog(activity) {
 
     init {
         configureDialogParameters()

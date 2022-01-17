@@ -230,12 +230,12 @@
     <string name="number_of_lines_key">Number of lines</string>
 
     <!-- Other -->
-    <!-- Name my app -->
+    <!-- App -->
     <string name="app_name" translatable="false">Notes Mini</string>
     <string name="folder_backups_name" translatable="false">Notes Mini Backup</string>
     <string name="folder_text_files_name" translatable="false">Text Files</string>
 
-    <!-- other -->
+    <!-- Other (translatable) -->
     <string name="empty_list">Empty</string>
     <string name="no_permissions">No permissions!</string>
     <string name="unknown_error">Unknown error!</string>

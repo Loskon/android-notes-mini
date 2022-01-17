@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  */
 
 class DeleteForeverWarningDialog(private val activity: MainActivity) :
-    BaseMaterialDialog(activity, null) {
+    BaseMaterialDialog(activity) {
 
     init {
         configureDialogParameters()

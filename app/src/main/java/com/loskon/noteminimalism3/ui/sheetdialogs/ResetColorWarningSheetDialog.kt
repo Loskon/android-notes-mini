@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  */
 
 class ResetColorWarningSheetDialog(private val fragment: SettingsAppFragment) :
-    BaseSheetDialog(fragment.requireContext(), null) {
+    BaseSheetDialog(fragment.requireContext()) {
 
     init {
         configureDialogParameters()

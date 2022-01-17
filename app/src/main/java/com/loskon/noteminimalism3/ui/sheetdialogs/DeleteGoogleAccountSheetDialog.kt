@@ -2,7 +2,6 @@ package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.setStrokeBtnColor
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
@@ -31,8 +30,6 @@ class DeleteGoogleAccountSheetDialog(private val fragment: BackupFragment) :
 
     private fun establishViewsColor() {
         btnNo.setBackgroundColor(color)
-        btnYes.setStrokeBtnColor(color)
-        btnYes.setTextColor(color)
     }
 
     private fun installHandlersForViews() {

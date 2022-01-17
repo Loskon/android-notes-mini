@@ -21,19 +21,16 @@
 
     <Button
         android:id="@+id/btn_data_yes"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/ButtonStrokeStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:animateLayoutChanges="true"
         android:text="@string/yes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_data_no"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_data_account_warning"
-        app:rippleColor="?attr/colorControlHighlight"
-        app:strokeColor="@android:color/darker_gray"
         tools:ignore="TextContrastCheck" />
 
     <Button
@@ -41,7 +38,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:animateLayoutChanges="true"
         android:text="@string/no"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"

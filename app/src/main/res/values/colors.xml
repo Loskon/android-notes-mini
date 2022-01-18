@@ -13,21 +13,21 @@
     <!-- App -->
     <color name="material_blue">#4285F4</color>
     <!-- TextView -->
-    <color name="little_darker_gray">#A5A4A4</color>
+    <color name="widget_secondary_text">#A5A4A4</color>
     <!-- EditText -->
-    <color name="light_dark_gray">#80A9A9A9</color>
+    <color name="widget_text_hint">#80A9A9A9</color>
     <!-- Menu -->
-    <color name="dark_gray_light">#33A9A9A9</color>
+    <color name="widget_menu_icon_dark">#33A9A9A9</color>
     <!-- Snackbar -->
-    <color name="dark_slate_gray_light">#FF333333</color>
-    <color name="dark_slate_color">#383838</color>
-    <color name="light_green">#2e7d32</color>
-    <color name="dark_green">#005005</color>
-    <color name="light_red">#b71c1c</color>
-    <color name="dark_red">#8e0000</color>
+    <color name="widget_snackbar_light">#FF333333</color>
+    <color name="widget_snackbar_dark">#383838</color>
+    <color name="widget_warning_snackbar_green_light">#2e7d32</color>
+    <color name="widget_warning_snackbar_green_dark">#005005</color>
+    <color name="widget_warning_snackbar_red_light">#b71c1c</color>
+    <color name="widget_warning_snackbar_red_dark">#8e0000</color>
     <!-- Background -->
-    <color name="black_super_light">#15000000</color>
-    <color name="black_dark">#121212</color>
+    <color name="widget_search_view">#15000000</color>
+    <color name="window_background_dark">#121212</color>
     <color name="black_light">#272727</color>
-    <color name="super_light_gray">#DFDFDF</color>
+    <color name="widget_backup_image">#DFDFDF</color>
 </resources>

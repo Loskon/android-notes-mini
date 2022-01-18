@@ -8,7 +8,7 @@
         <item name="android:navigationBarColor">@android:color/black</item>
         <!-- EditText cursor and selection color. -->
         <item name="colorControlActivated">@android:color/darker_gray</item>
-        <item name="android:textColorHighlight">@color/light_dark_gray</item>
+        <item name="android:textColorHighlight">@color/widget_text_hint</item>
         <!-- Disable Multi-touch. -->
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
@@ -112,7 +112,7 @@
     <!-- ButtonStroke -->
     <style name="ButtonStrokeStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">?attr/colorWarning</item>
-        <item name="strokeColor">@color/light_dark_gray</item>
+        <item name="strokeColor">@color/widget_text_hint</item>
         <item name="rippleColor">?attr/colorControlHighlight</item>
     </style>
 

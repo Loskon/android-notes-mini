@@ -72,7 +72,7 @@ object ColorManager {
         activity.apply {
 
             val color: Int = if (PrefHelper.hasDarkMode(this)) {
-                getShortColor(R.color.black_dark)
+                getShortColor(R.color.window_background_dark)
             } else {
                 Color.WHITE
             }
@@ -109,7 +109,7 @@ object ColorManager {
     private fun installBackgroundColorStatusBar(activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val color: Int = if (hasDarkMode(activity)) {
-                activity.getColor(R.color.black_dark)
+                activity.getColor(R.color.window_background_dark)
             } else {
                 Color.WHITE
             }
@@ -128,7 +128,7 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
 
     if (ColorManager.hasDarkMode(context)) {
         navDefaultTextColor = Color.WHITE
-        navDefaultIconColor = context.getShortColor(R.color.dark_gray_light)
+        navDefaultIconColor = context.getShortColor(R.color.widget_menu_icon_dark)
     } else {
         navDefaultTextColor = Color.BLACK
         navDefaultIconColor = Color.BLACK
@@ -217,7 +217,7 @@ fun CircularProgressIndicator.setColorProgressIndicator(@ColorInt color: Int) {
 }
 
 
-fun View.setColorBackgroundSnackbar(context: Context, isSuccess: Boolean) {
+fun View.setBackgroundTintColor(context: Context, isSuccess: Boolean) {
     val colorId: Int = context.getSuccessColor(isSuccess)
     backgroundTintList = ColorStateList.valueOf(colorId)
 }
@@ -225,15 +225,15 @@ fun View.setColorBackgroundSnackbar(context: Context, isSuccess: Boolean) {
 fun Context.getSuccessColor(isSuccess: Boolean): Int {
     val color: Int = if (ColorManager.hasDarkMode(this)) {
         if (isSuccess) {
-            R.color.dark_green
+            R.color.widget_warning_snackbar_green_dark
         } else {
-            R.color.dark_red
+            R.color.widget_warning_snackbar_red_dark
         }
     } else {
         if (isSuccess) {
-            R.color.light_green
+            R.color.widget_warning_snackbar_green_light
         } else {
-            R.color.light_red
+            R.color.widget_warning_snackbar_red_light
         }
     }
 

@@ -17,19 +17,19 @@
 
         <!-- Customize colors of items. -->
         <item name="colorPrimaryText">@android:color/black</item>
-        <item name="colorSecondText">@color/little_darker_gray</item>
+        <item name="colorSecondText">@color/widget_secondary_text</item>
         <item name="colorTextHint">@android:color/darker_gray</item>
         <item name="colorBottomBar">@android:color/white</item>
         <item name="colorFabIcon">@android:color/white</item>
         <item name="colorPrimaryCardView">@color/white</item>
         <item name="colorSecondCardView">@color/white</item>
-        <item name="colorSnackbar">@color/dark_slate_gray_light</item>
+        <item name="colorSnackbar">@color/widget_snackbar_light</item>
         <item name="colorButtonOk">@android:color/white</item>
         <item name="colorShadowImitation">@android:color/darker_gray</item>
         <item name="colorSwitchBackground">@android:color/white</item>
         <item name="colorDialogBackground">@android:color/white</item>
         <item name="colorWarning">@android:color/holo_red_dark</item>
-        <item name="colorSearchViewBackground">@color/black_super_light</item>
-        <item name="colorBackupImage">@color/super_light_gray</item>
+        <item name="colorSearchViewBackground">@color/widget_search_view</item>
+        <item name="colorBackupImage">@color/widget_backup_image</item>
     </style>
 </resources>

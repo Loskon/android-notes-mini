@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.setColorBackgroundSnackbar
+import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.utils.getShortFont
 
 /**
- * Основа для Snackbar с текстом
+ * Основа для показа Snackbar с предупреждениями/уведомлениями
  */
 
 object WarningBaseSnackbar {
@@ -32,7 +32,7 @@ object WarningBaseSnackbar {
         val tvSnack: TextView? = snackView?.findViewById(R.id.snackbar_text)
 
         snackView?.setBackgroundResource(R.drawable.snackbar_background)
-        snackView?.setColorBackgroundSnackbar(parent.context, isSuccess)
+        snackView?.setBackgroundTintColor(parent.context, isSuccess)
         snackView?.setOnClickListener { dismiss() }
 
         tvSnack?.setTextColor(Color.WHITE)

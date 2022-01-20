@@ -33,13 +33,6 @@ class SQLiteTest {
         }
     }
 
-    private fun createAndInsertNote(): Note {
-        val note = Note()
-        note.title = "Test Title"
-        note.id = commandCenter.insertWithIdReturn(note)
-        return note
-    }
-
     @Test
     @Throws(NullPointerException::class)
     fun notNullCommandCenter() {
@@ -51,6 +44,13 @@ class SQLiteTest {
     fun insertNoteAndReadInList() {
         val note: Note = createAndInsertNote()
         assertThat(notes[0], `is`(note))
+    }
+
+    private fun createAndInsertNote(): Note {
+        val note = Note()
+        note.title = "Test Title"
+        note.id = commandCenter.insertWithIdReturn(note)
+        return note
     }
 
     private val notes: List<Note>

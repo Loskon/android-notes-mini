@@ -19,7 +19,7 @@ class SelectColorPickerSheetDialog(private val fragment: SettingsAppFragment) :
     private val svBar: SVBar = view.findViewById(R.id.sv_color_bar)
     private val btnReset: MaterialButton = view.findViewById(R.id.btn_color_picker_reset)
 
-    private var appColor: Int = 0
+    private var appColor: Int = color
 
     init {
         configureDialogParameters()
@@ -34,7 +34,7 @@ class SelectColorPickerSheetDialog(private val fragment: SettingsAppFragment) :
     private fun configureInsertedViews() {
         colorPicker.addSVBar(svBar)
         colorPicker.showOldCenterColor = false
-        colorPicker.color = color
+        colorPicker.color = appColor
     }
 
     private fun installHandlersForViews() {

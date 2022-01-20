@@ -24,7 +24,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     private val inputEditText: TextInputEditText = view.findViewById(R.id.input_edit_text_hex)
     private val btnReset: MaterialButton = view.findViewById(R.id.reset_hex_color)
 
-    private var appColor: Int = 0
+    private var appColor: Int = color
 
     init {
         configureDialogParameters()
@@ -37,7 +37,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     }
 
     private fun configureInsertedViews() {
-        inputLayout.boxStrokeColor = color
+        inputLayout.boxStrokeColor = appColor
         inputEditText.showKeyboard(context)
         inputEditText.setFilterAllowedCharacters()
         changeHexString()

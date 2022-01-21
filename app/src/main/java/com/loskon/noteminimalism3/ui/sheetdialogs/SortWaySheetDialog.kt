@@ -77,7 +77,7 @@ class SortWaySheetDialog(sheetContext: Context) :
     companion object {
         private var callbackSort: SortWayCallback? = null
 
-        fun registerCallbackSortWay(callbackSort: SortWayCallback) {
+        fun registerSortWayCallback(callbackSort: SortWayCallback) {
             this.callbackSort = callbackSort
         }
     }

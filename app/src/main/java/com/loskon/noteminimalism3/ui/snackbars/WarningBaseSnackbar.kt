@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.ui.snackbars
 
+import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
@@ -18,28 +19,36 @@ object WarningBaseSnackbar {
     private var snackbar: Snackbar? = null
 
     fun make(
+        context: Context,
         parent: ViewGroup, anchorView: View,
         message: String, isSuccess: Boolean
     ) {
         snackbar = Snackbar.make(parent, message, Snackbar.LENGTH_LONG)
-        snackbar?.settingSnackbarView(parent, isSuccess)
+        snackbar?.settingSnackbarView(context, isSuccess)
         snackbar?.anchorView = anchorView
         snackbar?.show()
     }
 
-    private fun Snackbar?.settingSnackbarView(parent: ViewGroup, isSuccess: Boolean) {
+    private fun Snackbar?.settingSnackbarView(
+        context: Context,
+        isSuccess: Boolean
+    ) {
         val snackView: View? = this?.view
         val tvSnack: TextView? = snackView?.findViewById(R.id.snackbar_text)
 
         snackView?.setBackgroundResource(R.drawable.snackbar_background)
-        snackView?.setBackgroundTintColor(parent.context, isSuccess)
+        snackView?.setBackgroundTintColor(context, isSuccess)
         snackView?.setOnClickListener { dismiss() }
 
         tvSnack?.setTextColor(Color.WHITE)
-        tvSnack?.typeface = parent.context.getShortFont(R.font.roboto_light)
+        tvSnack?.typeface = context.getShortFont(R.font.roboto_light)
     }
 
     fun dismiss() {
         snackbar?.dismiss()
+    }
+
+    fun nullify() {
+        snackbar = null
     }
 }

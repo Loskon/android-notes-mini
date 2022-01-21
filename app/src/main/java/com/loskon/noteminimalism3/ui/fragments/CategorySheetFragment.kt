@@ -23,7 +23,7 @@ import com.loskon.noteminimalism3.utils.getShortDrawable
 
 class CategorySheetFragment : BottomSheetDialogFragment() {
 
-    private var callback: CallbackCategory? = null
+    private var callback: CategorySheetCallback? = null
 
     private lateinit var mContext: Context
 
@@ -39,7 +39,7 @@ class CategorySheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun registerCallback(context: Context) {
-        callback = context as CallbackCategory?
+        callback = context as CategorySheetCallback?
     }
 
     private fun getPassedArguments() {
@@ -110,11 +110,11 @@ class CategorySheetFragment : BottomSheetDialogFragment() {
         }
 
     override fun onDetach() {
-        super.onDetach()
         callback = null
+        super.onDetach()
     }
 
-    interface CallbackCategory {
+    interface CategorySheetCallback {
         fun onChangeCategory(category: String)
     }
 

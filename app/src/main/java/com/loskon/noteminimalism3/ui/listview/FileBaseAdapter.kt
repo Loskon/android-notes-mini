@@ -21,7 +21,7 @@ class FileBaseAdapter : BaseAdapter() {
 
     private var list: ArrayList<File> = arrayListOf()
 
-    private lateinit var callback: FilesAdapterCallback
+    private lateinit var clickListener: FileClickListener
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -33,7 +33,7 @@ class FileBaseAdapter : BaseAdapter() {
         val file = list[position]
 
         nameFiles.text = file.name.replace(".db", "")
-        cardView.setOnSingleClickListener { callback.onFileClick(file) }
+        cardView.setOnSingleClickListener { clickListener.onFileClick(file) }
         delFile.setOnSingleClickListener { remove(file) }
 
         return view
@@ -43,7 +43,7 @@ class FileBaseAdapter : BaseAdapter() {
         file.delete()
         list.remove(file)
         notifyDataSetChanged()
-        callback.onCheckEmpty()
+        clickListener.onCheckEmpty()
     }
 
     fun setFilesList(newList: Array<File>?) {
@@ -61,13 +61,12 @@ class FileBaseAdapter : BaseAdapter() {
     override fun getItemId(position: Int): Long = position.toLong()
 
     //--- interface --------------------------------------------------------------------------------
-
-    interface FilesAdapterCallback {
+    interface FileClickListener {
         fun onFileClick(file: File)
         fun onCheckEmpty()
     }
 
-    fun registerCallbackFilesAdapter(callback: FilesAdapterCallback) {
-        this.callback = callback
+    fun registerFileClickListener(clickListener: FileClickListener) {
+        this.clickListener = clickListener
     }
 }

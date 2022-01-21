@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setRadioButtonColor
@@ -16,7 +17,9 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Адаптер для работы со списком шрифтов
  */
 
-class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontViewHolder>() {
+class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
+
+    private lateinit var clickListener: FontClickListener
 
     private var list: List<Font> = emptyList()
 
@@ -32,66 +35,64 @@ class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontViewHolder>() {
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: FontViewHolder, position: Int) {
-        val item = list[position]
+        val font: Font = list[position]
 
         holder.apply {
+            title.configureTitleText(font)
+            exampleText.typeface = font.typeFace
+            radioButton.configureRadioButton(position)
 
-            title.apply {
-                text = item.title
-                typeface = item.font_type_face
-            }
-
-            exampleText.typeface = item.font_type_face
-
-            radioButton.apply {
-                isChecked = (position == lastCheckedPosition)
-                setRadioButtonColor(color)
-            }
-
-            itemView.apply {
-                setOnSingleClickListener {
-                    lastCheckedPosition = absoluteAdapterPosition
-                    notifyItemRangeChanged(0, itemCount)
-                    callback?.onClickingItem(item)
-                }
-            }
-
+            card.setOnSingleClickListener { onItemClick(font, absoluteAdapterPosition) }
         }
     }
 
-    fun setFontsList(newList: List<Font>) {
+    private fun TextView.configureTitleText(font: Font) {
+        text = font.title
+        typeface = font.typeFace
+    }
+
+    private fun RadioButton.configureRadioButton(position: Int) {
+        isChecked = (position == lastCheckedPosition)
+        setRadioButtonColor(color)
+    }
+
+    private fun onItemClick(font: Font, absoluteAdapterPosition: Int) {
+        lastCheckedPosition = absoluteAdapterPosition
+        notifyItemRangeChanged(0, itemCount)
+        clickListener.onFontClick(font)
+    }
+
+    //----------------------------------------------------------------------------------------------
+    fun setFontList(newList: List<Font>) {
         list = newList
         updateChangedList()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateChangedList() = notifyDataSetChanged()
+
+    //----------------------------------------------------------------------------------------------
     fun setCheckedPosition(newCheckedPosition: Int) {
         lastCheckedPosition = newCheckedPosition
     }
 
-    fun setColor(color: Int) {
+    fun setViewColor(color: Int) {
         this.color = color
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateChangedList() {
-        notifyDataSetChanged()
+    //--- interface --------------------------------------------------------------------------------
+    interface FontClickListener {
+        fun onFontClick(font: Font)
     }
 
-    class FontViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var title: TextView = itemView.findViewById(R.id.title_font)
-        var exampleText: TextView = itemView.findViewById(R.id.example_text_font)
-        var radioButton: RadioButton = itemView.findViewById(R.id.radio_button_font)
+    fun registerFontClickListener(clickListener: FontClickListener) {
+        this.clickListener = clickListener
     }
+}
 
-    interface FontAdapterCallback {
-        fun onClickingItem(item: Font)
-    }
-
-    companion object {
-        private var callback: FontAdapterCallback? = null
-
-        fun registerCallbackFontAdapter(callback: FontAdapterCallback) {
-            this.callback = callback
-        }
-    }
+class FontViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val card: CardView = itemView.findViewById(R.id.card_view_row_font)
+    val title: TextView = itemView.findViewById(R.id.title_row_font)
+    val exampleText: TextView = itemView.findViewById(R.id.example_text_row_font)
+    val radioButton: RadioButton = itemView.findViewById(R.id.radio_button_row_font)
 }

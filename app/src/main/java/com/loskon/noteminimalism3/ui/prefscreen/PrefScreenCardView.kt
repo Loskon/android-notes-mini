@@ -63,7 +63,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun installCallbacks() {
-        SettingsAppFragment.registerCallbackResetFontSize(this)
+        SettingsAppFragment.registerResetFontSizeCallback(this)
     }
 
     private fun configureViews() {
@@ -130,10 +130,20 @@ class PrefScreenCardView @JvmOverloads constructor(
         fun onChangeFontSizes(fontSizeTitle: Int, fontSizeDate: Int)
     }
 
+    override fun onDetached() {
+        removeCallbacks()
+        super.onDetached()
+    }
+
+    private fun removeCallbacks() {
+        SettingsAppFragment.registerResetFontSizeCallback(null)
+    }
+
+    //--- interface --------------------------------------------------------------------------------
     companion object {
         private var callback: FontsSizesCallback? = null
 
-        fun registerCallbackFontSizes(callback: FontsSizesCallback) {
+        fun registerFontsSizesCallback(callback: FontsSizesCallback) {
             Companion.callback = callback
         }
     }

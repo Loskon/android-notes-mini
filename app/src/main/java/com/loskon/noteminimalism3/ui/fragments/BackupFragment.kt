@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
@@ -27,7 +28,6 @@ import com.loskon.noteminimalism3.ui.sheetdialogs.CloudConfirmSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.CreateBackupSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.GoogleAccountSheetDialog
-import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
@@ -50,12 +50,14 @@ class BackupFragment : Fragment(),
     private lateinit var btnRestoreSD: Button
     private lateinit var btnBackupCloud: Button
     private lateinit var btnRestoreCloud: Button
+    private lateinit var bottomAppBar: BottomAppBar
 
     private var isBackupSd: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as SettingsActivity
+        bottomAppBar = activity.bottomAppBar
         configureRequestPermissions()
     }
 
@@ -108,11 +110,11 @@ class BackupFragment : Fragment(),
         btnRestoreSD.setOnSingleClickListener { onRestoreSdBtnClick() }
         btnBackupCloud.setOnSingleClickListener { onBackupCloudBtnClick() }
         btnRestoreCloud.setOnSingleClickListener { onRestoreCloudBtnClick() }
-        activity.bottomAppBar.setOnMenuItemClickListener { onMenuItemClick(it) }
+        bottomAppBar.setOnMenuItemClickListener { onMenuItemClick(it) }
     }
 
     private fun onBackupSdBtnClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         isBackupSd = true
         if (hasAccessStorageRequest) showCreateBackupSheetDialog()
     }
@@ -127,7 +129,7 @@ class BackupFragment : Fragment(),
     }
 
     private fun onRestoreSdBtnClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             resultActivity.launcherSelectingDateBaseFile()
         } else {
@@ -141,12 +143,12 @@ class BackupFragment : Fragment(),
     }
 
     private fun onBackupCloudBtnClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         if (hasInternetConnection()) showCloudConfirmSheetDialog(true)
     }
 
     private fun onRestoreCloudBtnClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         if (hasInternetConnection()) showCloudConfirmSheetDialog(false)
     }
 
@@ -180,9 +182,9 @@ class BackupFragment : Fragment(),
     }
 
     override fun onDetach() {
-        super.onDetach()
-        WarningBaseSnackbar.dismiss()
+        bottomAppBar.setOnMenuItemClickListener(null)
         changeVisibilityMenuItem(false)
+        super.onDetach()
     }
 
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
@@ -259,7 +261,7 @@ class BackupFragment : Fragment(),
     companion object {
         private var callback: RestoreNoteAndroidRCallback? = null
 
-        fun registerCallbackRestoreNoteAndroidR(callback: RestoreNoteAndroidRCallback) {
+        fun registerRestoreNoteAndroidRCallback(callback: RestoreNoteAndroidRCallback) {
             this.callback = callback
         }
     }

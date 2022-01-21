@@ -16,6 +16,8 @@ class SwipeCallback(
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ) {
 
+    private lateinit var swipeListener: NoteSwipeListener
+
     private var isDeleteMode: Boolean = false
 
     override fun getSwipeDirs(
@@ -36,7 +38,7 @@ class SwipeCallback(
         val position: Int = viewHolder.bindingAdapterPosition
         val note: Note = adapter.getNote(position)
         val isFavorite: Boolean = note.isFavorite
-        callback?.onNoteSwipe(note, isFavorite)
+        swipeListener.onNoteSwipe(note, isFavorite)
     }
 
     //--- MainActivity -----------------------------------------------------------------------------
@@ -45,15 +47,11 @@ class SwipeCallback(
     }
 
     //--- interface ---------------------------------------------------------------------------------
-    interface NoteSwipeCallback {
+    interface NoteSwipeListener {
         fun onNoteSwipe(note: Note, hasFavStatus: Boolean)
     }
 
-    companion object {
-        private var callback: NoteSwipeCallback? = null
-
-        fun registerCallbackNoteSwipe(callback: NoteSwipeCallback) {
-            this.callback = callback
-        }
+    fun registerNoteSwipeListener(swipeListener: NoteSwipeListener) {
+        this.swipeListener = swipeListener
     }
 }

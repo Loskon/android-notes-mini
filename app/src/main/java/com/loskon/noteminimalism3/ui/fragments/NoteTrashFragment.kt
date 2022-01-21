@@ -32,7 +32,7 @@ class NoteTrashFragment : Fragment() {
     private val commandCenter: CommandCenter = CommandCenter()
 
     private lateinit var activity: NoteActivity
-    private lateinit var restoreNoteSnackbar: RestoreNoteSnackbar
+    private lateinit var noteSnackbar: RestoreNoteSnackbar
 
     private lateinit var constLayout: ConstraintLayout
     private lateinit var linearLayout: LinearLayout
@@ -75,7 +75,7 @@ class NoteTrashFragment : Fragment() {
 
     private fun initObjects() {
         note = activity.getNote()
-        restoreNoteSnackbar = RestoreNoteSnackbar(this, constLayout, fab)
+        noteSnackbar = RestoreNoteSnackbar(this, constLayout, fab)
     }
 
     private fun establishViewsColor() {
@@ -113,9 +113,10 @@ class NoteTrashFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        restoreNoteSnackbar.show()
+        noteSnackbar.show()
     }
 
+    //--- interface ---------------------------------------------------------------------------------
     interface NoteTrashCallback {
         fun onDeleteNote(note: Note, hasFavStatus: Boolean)
         fun onRestoreNote(note: Note)
@@ -124,7 +125,7 @@ class NoteTrashFragment : Fragment() {
     companion object {
         private var callback: NoteTrashCallback? = null
 
-        fun registerCallbackNoteTrash(callback: NoteTrashCallback) {
+        fun registerNoteTrashCallback(callback: NoteTrashCallback) {
             Companion.callback = callback
         }
 

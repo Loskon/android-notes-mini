@@ -124,8 +124,8 @@ class SettingsAppFragment :
     //--- Внешние методы ---------------------------------------------------------------------------
     fun callingCallbacks(appColor: Int) {
         PrefHelper.setAppColor(activity, appColor)
-        callbackColorNavIcon?.onChangeColor(appColor)
-        callbackColorList?.onChangeColor(appColor)
+        activity.onChangeColor(appColor)
+        callbackColor?.onChangeColor(appColor)
         forceUpdatePreferenceList()
     }
 
@@ -135,12 +135,12 @@ class SettingsAppFragment :
     }
 
     fun resetFontSize() {
-        callbackReset?.onResetFontSize()
+        resetFontSizeCallback?.onResetFontSize()
     }
 
     //--- interface --------------------------------------------------------------------------------
-    interface ColorNavIconCallback2 {
-        fun onChangeColor(color: Int)
+    interface ResetFontSizeCallback {
+        fun onResetFontSize()
     }
 
     interface MainColorCallback {
@@ -151,30 +151,21 @@ class SettingsAppFragment :
         fun onChangeStatusSizeCards(hasOneSizeCards: Boolean)
     }
 
-    interface ResetFontSizeCallback {
-        fun onResetFontSize()
-    }
-
     companion object {
-        private var callbackReset: ResetFontSizeCallback? = null
-        private var callbackColorNavIcon: ColorNavIconCallback2? = null
-        private var callbackColorList: MainColorCallback? = null
+        private var resetFontSizeCallback: ResetFontSizeCallback? = null
+        private var callbackColor: MainColorCallback? = null
         private var callbackSize: OneSizeCardsCallback? = null
 
-        fun registerCallbackResetFontSize(callback: ResetFontSizeCallback) {
-            callbackReset = callback
+        fun registerResetFontSizeCallback(resetFontSizeCallback: ResetFontSizeCallback?) {
+            this.resetFontSizeCallback = resetFontSizeCallback
         }
 
-        fun registerCallbackColorNavIcon(callbackColorNavIcon: ColorNavIconCallback2) {
-            this.callbackColorNavIcon = callbackColorNavIcon
+        fun registerColorCallback(callbackColor: MainColorCallback) {
+            this.callbackColor = callbackColor
         }
 
-        fun registerCallbackColorList(callbackColorList: MainColorCallback) {
-            this.callbackColorList = callbackColorList
-        }
-
-        fun registerCallbackOneSizeCards(callback: OneSizeCardsCallback) {
-            callbackSize = callback
+        fun registerOneSizeCardsCallback(callbackSize: OneSizeCardsCallback) {
+            this.callbackSize = callbackSize
         }
     }
 }

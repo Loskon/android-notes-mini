@@ -109,8 +109,8 @@ class SettingsFragment :
     }
 
     private fun installCallbacks() {
-        NumberBackupsSheetDialog.registerCallbackNumberBackups(this)
-        RetentionTimeSheetDialog.registerCallbackRetentionTime(this)
+        NumberBackupsSheetDialog.registerNumberBackupsCallback(this)
+        RetentionTimeSheetDialog.registerRetentionTimeCallback(this)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -361,4 +361,15 @@ class SettingsFragment :
     override fun onChangeRetention(range: Int) {
         retention?.summary = activity.getString(R.string.number_of_days_summary, range)
     }
+
+    override fun onDetach() {
+        removeCallbacks()
+        super.onDetach()
+    }
+
+    private fun removeCallbacks() {
+        NumberBackupsSheetDialog.registerNumberBackupsCallback(null)
+        RetentionTimeSheetDialog.registerRetentionTimeCallback(null)
+    }
+
 }

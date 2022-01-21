@@ -8,8 +8,6 @@ import android.graphics.Typeface
 
 data class Font(
     var id: Int = 0,
-
     var title: String = "",
-
-    var font_type_face: Typeface? = null
+    var typeFace: Typeface? = null
 )

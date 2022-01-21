@@ -53,21 +53,17 @@ class NoteActivity : BaseActivity() {
 
     private fun selectFragmentOpen() {
         if (category == CATEGORY_TRASH) {
-            startFragment(NoteTrashFragment.newInstance())
+            openFragment(NoteTrashFragment.newInstance())
         } else {
-            startFragment(NoteFragment.newInstance())
+            openFragment(NoteFragment.newInstance())
         }
     }
 
-    private fun startFragment(fragment: Fragment) {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_note)
-
-        if (currentFragment == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragment_container_note, fragment)
-                .commit()
-        }
+    private fun openFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragment_container_note, fragment)
+            .commit()
     }
 
     fun getColor(): Int {

@@ -11,7 +11,6 @@ import com.loskon.noteminimalism3.managers.FontManager
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
@@ -19,8 +18,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
  * Хост представления для фрагментов
  */
 
-class SettingsActivity : BaseActivity(),
-    SettingsAppFragment.ColorNavIconCallback2 {
+class SettingsActivity : BaseActivity() {
 
     private lateinit var constLayout: ConstraintLayout
     private lateinit var bottomBar: BottomAppBar
@@ -30,17 +28,12 @@ class SettingsActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        installCallbacks()
         setupViewDeclaration()
         initObjects()
         establishViewsColor()
         openSettingsFragment(savedInstanceState)
         installHandlersForViews()
         configureBottomBarMenu()
-    }
-
-    private fun installCallbacks() {
-        SettingsAppFragment.registerCallbackColorNavIcon(this)
     }
 
     private fun setupViewDeclaration() {
@@ -80,6 +73,7 @@ class SettingsActivity : BaseActivity(),
 
     private fun configureBottomBarMenu() = changeVisibilityMenuItem(false)
 
+    //----------------------------------------------------------------------------------------------
     fun replaceFragment(fragment: Fragment) {
         fragmentManager
             .beginTransaction()
@@ -89,18 +83,23 @@ class SettingsActivity : BaseActivity(),
     }
 
     fun showSnackbar(messageType: String) =
-        WarningSnackbar.show(constLayout, bottomBar, messageType)
+        WarningSnackbar.show(this, constLayout, bottomBar, messageType)
 
-    override fun onChangeColor(color: Int) = establishViewsColor(color)
+    fun onChangeColor(color: Int) = establishViewsColor(color)
 
     fun changeVisibilityMenuItem(isVisible: Boolean) {
         menu.findItem(R.id.action_account).isVisible = isVisible
     }
 
-    fun setAppFonts() {
-        FontManager.setFont(this)
+    fun setAppFonts() = FontManager.setFont(this)
+
+    //----------------------------------------------------------------------------------------------
+    override fun onDestroy() {
+        WarningSnackbar.nullify()
+        super.onDestroy()
     }
 
+    //----------------------------------------------------------------------------------------------
     val bottomAppBar: BottomAppBar
         get() {
             return bottomBar

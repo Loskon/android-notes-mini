@@ -21,11 +21,11 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
  * Адаптер для работы со списком заметок
  */
 
-class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
+class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
+
+    private lateinit var clickListener: NoteClickListener
 
     private var list: List<Note> = emptyList()
-
-    private lateinit var callback: NoteListAdapterCallback
 
     private var hasLinearList: Boolean = true
     private var hasOneSizeCards: Boolean = false
@@ -34,7 +34,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
     private var dateFontSize: Int = 0
     private var numberLines: Int = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view: RowNoteBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.row_note,
@@ -42,12 +42,12 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
             false
         )
 
-        return NotesListViewHolder(view)
+        return NoteViewHolder(view)
     }
 
     override fun getItemCount(): Int = list.size
 
-    override fun onBindViewHolder(holder: NotesListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note: Note = list[position]
         val gradientDrawable = GradientDrawable()
 
@@ -55,7 +55,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
             bind(note)
 
             viewFavorite.setBackgroundTintColor(color)
-            title.configureFontSizeAndNumberLines()
+            title.configureTitleText()
             date.changeTextSize(dateFontSize)
 
             card.setOnSingleClickListener { onItemClick(note, position) }
@@ -66,7 +66,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         }
     }
 
-    private fun TextView.configureFontSizeAndNumberLines() {
+    private fun TextView.configureTitleText() {
         changeTextSize(titleFontSize)
         maxLines = numberLines
         minLines = lines
@@ -95,14 +95,14 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         if (isSelectedMode) {
             selectingItem(note, position)
         } else {
-            callback.onNoteClick(note)
+            clickListener.onNoteClick(note)
         }
     }
 
     private fun selectingItem(note: Note, position: Int) {
         toggleSelection(note, position)
-        callback.selectingNote(selectedItemsCount, hasAllSelected)
-        if (selectedItemsCount in 1..1) callback.changeStatusOfFavorite(selectedItem)
+        clickListener.selectingNote(selectedItemsCount, hasAllSelected)
+        if (selectedItemsCount in 1..1) clickListener.changeStatusOfFavorite(selectedItem)
     }
 
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
@@ -115,7 +115,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     private fun activationDeleteMode() {
         isSelectedMode = true
-        callback.activatingSelectionMode()
+        clickListener.activatingSelectionMode()
         clearSelectionItems()
     }
 
@@ -146,6 +146,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         this.hasOneSizeCards = hasOneSizeCards
     }
 
+    //----------------------------------------------------------------------------------------------
     fun setNoteList(newList: List<Note>) {
         val diffUtil = NoteDiffUtil(list, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil, false)
@@ -158,10 +159,12 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
         updateChangedList()
     }
 
-    fun getNote(position: Int): Note {
-        return list[position]
-    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateChangedList() = notifyDataSetChanged()
 
+    fun getNote(position: Int): Note = list[position]
+
+    //----------------------------------------------------------------------------------------------
     fun disableSelectionMode() {
         isSelectedMode = false
         resetSelectedItems()
@@ -170,30 +173,25 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NotesListViewHolder>() {
 
     fun selectAllNotes() {
         selectAllItem(list, hasAllSelected)
-        callback.selectingNote(selectedItemsCount, hasAllSelected)
+        clickListener.selectingNote(selectedItemsCount, hasAllSelected)
         updateChangedList()
     }
 
     fun changeFavoriteStatus(activity: MainActivity, commandCenter: CommandCenter) {
         changeFavorite(activity, commandCenter)
-        callback.changeStatusOfFavorite(selectedItem)
+        clickListener.changeStatusOfFavorite(selectedItem)
         updateChangedList()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateChangedList() {
-        notifyDataSetChanged()
-    }
-
     //--- interface --------------------------------------------------------------------------------
-    interface NoteListAdapterCallback {
+    interface NoteClickListener {
         fun onNoteClick(note: Note)
         fun activatingSelectionMode()
         fun selectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
         fun changeStatusOfFavorite(note: Note)
     }
 
-    fun registerCallbackNoteListAdapter(callback: NoteListAdapterCallback) {
-        this.callback = callback
+    fun registerNoteClickListener(clickListener: NoteClickListener) {
+        this.clickListener = clickListener
     }
 }

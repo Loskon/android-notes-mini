@@ -21,7 +21,7 @@ import java.io.File
 
 class FileListSheetDialog(private val activity: SettingsActivity) :
     BaseSheetDialog(activity, R.layout.sheet_file_list),
-    FileBaseAdapter.FilesAdapterCallback {
+    FileBaseAdapter.FileClickListener {
 
     private val listView: ListView = view.findViewById(R.id.list_view_files)
     private val tvEmpty: TextView = view.findViewById(R.id.tv_restore_empty)
@@ -44,7 +44,7 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
     }
 
     private fun configureListAdapter() {
-        adapter.registerCallbackFilesAdapter(this)
+        adapter.registerFileClickListener(this)
     }
 
     private fun configureListView() {
@@ -105,7 +105,7 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
     companion object {
         private var callback: RestoreNoteCallback? = null
 
-        fun registerCallbackRestoreNote(callback: RestoreNoteCallback) {
+        fun registerRestoreNoteCallback(callback: RestoreNoteCallback) {
             this.callback = callback
         }
     }

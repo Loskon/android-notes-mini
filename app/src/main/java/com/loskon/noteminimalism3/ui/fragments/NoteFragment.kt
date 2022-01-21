@@ -32,7 +32,6 @@ import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.materialdialogs.NoteLinkDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppMovementMethod
 import com.loskon.noteminimalism3.ui.sheetdialogs.NoteAssistantSheetDialog
-import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.*
 import kotlinx.coroutines.delay
@@ -120,7 +119,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun installCallbacks() {
-        if (!hasReceivingText) ReceivingDataActivity.registerCallbackReceivingData(this)
+        if (!hasReceivingText) ReceivingDataActivity.registerReceivingDataCallback(this)
     }
 
     private fun overrideBackPressed() {
@@ -203,7 +202,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun onEmptyAreaClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         if (supportedLinks != 0) activatingTextEditingMode()
         editText.setSelection(editText.getLength())
         editText.showKeyboard(activity)
@@ -243,7 +242,7 @@ open class NoteFragment : Fragment(),
         btnFav.setOnClickListener { onFavoriteBtnClick() }
         btnDel.setOnSingleClickListener { onDeleteBtnClick() }
         btnMore.setOnSingleClickListener { onMoreBtnClick() }
-        editText.setOnClickListener { WarningBaseSnackbar.dismiss() }
+        editText.setOnClickListener { WarningSnackbar.dismiss() }
         linLayout.setOnLinLayoutClickListener()
     }
 
@@ -258,7 +257,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun onFavoriteBtnClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         toggleFavoriteStatus()
     }
 
@@ -268,7 +267,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun onDeleteBtnClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         beginDeletingNote()
     }
 
@@ -302,7 +301,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun onMoreBtnClick() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         showNoteAssistantSheetDialog()
     }
 
@@ -391,7 +390,14 @@ open class NoteFragment : Fragment(),
         }
     }
 
-    fun showSnackbar(messageType: String) = WarningSnackbar.show(constLayout, fab, messageType)
+    fun showSnackbar(messageType: String) =
+        WarningSnackbar.show(activity, constLayout, fab, messageType)
+
+    override fun onDetach() {
+        WarningSnackbar.nullify()
+        if (!hasReceivingText) ReceivingDataActivity.registerReceivingDataCallback(null)
+        super.onDetach()
+    }
 
     //--- interface --------------------------------------------------------------------------------
     interface NoteCallback {
@@ -403,7 +409,7 @@ open class NoteFragment : Fragment(),
     companion object {
         private var callback: NoteCallback? = null
 
-        fun registerCallbackNote(callback: NoteCallback) {
+        fun registerNoteCallback(callback: NoteCallback) {
             this.callback = callback
         }
 
@@ -412,7 +418,7 @@ open class NoteFragment : Fragment(),
         }
     }
 
-    override fun onReceivingData() {
+    override fun onCloseRepeatedNote() {
         activity.finish()
     }
 }

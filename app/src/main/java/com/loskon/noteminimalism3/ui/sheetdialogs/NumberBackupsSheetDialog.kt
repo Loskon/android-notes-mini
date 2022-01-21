@@ -33,10 +33,8 @@ class NumberBackupsSheetDialog(sheetContext: Context) :
     companion object {
         private var callback: NumberBackupsCallback? = null
 
-        fun registerCallbackNumberBackups(callback: NumberBackupsCallback) {
+        fun registerNumberBackupsCallback(callback: NumberBackupsCallback?) {
             Companion.callback = callback
         }
     }
 }
-
-

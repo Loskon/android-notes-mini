@@ -51,9 +51,9 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  */
 
 class MainActivity : BaseActivity(),
-    NoteRecyclerAdapter.NoteListAdapterCallback,
-    SwipeCallback.NoteSwipeCallback,
-    CategorySheetFragment.CallbackCategory,
+    NoteRecyclerAdapter.NoteClickListener,
+    SwipeCallback.NoteSwipeListener,
+    CategorySheetFragment.CategorySheetCallback,
     NoteFragment.NoteCallback,
     NoteTrashFragment.NoteTrashCallback,
     SettingsAppFragment.MainColorCallback,
@@ -109,19 +109,18 @@ class MainActivity : BaseActivity(),
 
     private fun installCallbacks() {
         // Для работы с заметками
-        SwipeCallback.registerCallbackNoteSwipe(this)
-        NoteFragment.registerCallbackNote(this)
-        NoteTrashFragment.registerCallbackNoteTrash(this)
+        NoteFragment.registerNoteCallback(this)
+        NoteTrashFragment.registerNoteTrashCallback(this)
         // Для изменения настроек
-        SettingsAppFragment.registerCallbackColorList(this)
-        PrefScreenCardView.registerCallbackFontSizes(this)
-        PrefScreenNumberLines.registerCallbackNumberLines(this)
-        SettingsAppFragment.registerCallbackOneSizeCards(this)
-        FileListSheetDialog.registerCallbackRestoreNote(this)
-        DataBaseCloudBackup.registerCallbackRestoreNoteCloud(this)
-        BackupFragment.registerCallbackRestoreNoteAndroidR(this)
-        SortWaySheetDialog.registerCallbackSortWay(this)
-        FontsFragment.registerCallbackTypeFont(this)
+        SettingsAppFragment.registerColorCallback(this)
+        PrefScreenCardView.registerFontsSizesCallback(this)
+        PrefScreenNumberLines.registerNumberLinesCallback(this)
+        SettingsAppFragment.registerOneSizeCardsCallback(this)
+        FileListSheetDialog.registerRestoreNoteCallback(this)
+        DataBaseCloudBackup.registerRestoreNoteCloudCallback(this)
+        BackupFragment.registerRestoreNoteAndroidRCallback(this)
+        SortWaySheetDialog.registerSortWayCallback(this)
+        FontsFragment.registerTypeFontCallback(this)
     }
 
     private fun setupViewDeclaration() {
@@ -168,7 +167,7 @@ class MainActivity : BaseActivity(),
         val hasOneSizeCards: Boolean = PrefHelper.hasOneSizeCards(this)
         adapter.setOneSizeCards(hasOneSizeCards)
         // Callback
-        adapter.registerCallbackNoteListAdapter(this)
+        adapter.registerNoteClickListener(this)
     }
 
     private fun configureRecyclerView() {
@@ -183,6 +182,7 @@ class MainActivity : BaseActivity(),
 
     private fun installSwipeCallback() {
         swipeCallback = SwipeCallback(adapter)
+        swipeCallback.registerNoteSwipeListener(this)
         ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView)
     }
 
@@ -288,7 +288,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun dismissSnackbars() {
-        WarningBaseSnackbar.dismiss()
+        WarningSnackbar.dismiss()
         undoSnackbar.dismiss()
     }
 
@@ -384,7 +384,7 @@ class MainActivity : BaseActivity(),
         showSnackbar(WarningSnackbar.MSG_NOTE_RESTORED)
     }
 
-    fun showSnackbar(message: String) = WarningSnackbar.show(coordLayout, fab, message)
+    fun showSnackbar(message: String) = WarningSnackbar.show(this, coordLayout, fab, message)
 
     //--- SwipeCallback ----------------------------------------------------------------------------
     override fun onNoteSwipe(note: Note, hasFavStatus: Boolean) {
@@ -485,8 +485,8 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onPause() {
-        super.onPause()
         dismissSnackbars()
+        super.onPause()
     }
 }
 

@@ -31,7 +31,7 @@ class RetentionTimeSheetDialog(sheetContext: Context) :
     companion object {
         private var callback: RetentionTimeCallback? = null
 
-        fun registerCallbackRetentionTime(callback: RetentionTimeCallback) {
+        fun registerRetentionTimeCallback(callback: RetentionTimeCallback?) {
             Companion.callback = callback
         }
     }

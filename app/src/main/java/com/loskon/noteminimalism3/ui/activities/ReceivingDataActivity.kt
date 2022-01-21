@@ -17,20 +17,20 @@ import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.ui.materialdialogs.NoteReceivingDataDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
-import com.loskon.noteminimalism3.ui.recyclerview.share.NotesSelectedListAdapter
+import com.loskon.noteminimalism3.ui.recyclerview.sharednotes.ReceivingNoteRecyclerAdapter
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setVisibleView
 
 /**
- * Список заметок для выбора вставки текста
+ * Экран для выбора заметки из списка/создания новой для вставки полученного текста
  */
 
 class ReceivingDataActivity :
     BaseActivity(),
-    NotesSelectedListAdapter.SendAdapterCallback {
+    ReceivingNoteRecyclerAdapter.SharedNoteClickListener {
 
     private val commandCenter: CommandCenter = CommandCenter()
-    private val adapterSelected: NotesSelectedListAdapter = NotesSelectedListAdapter()
+    private val adapter: ReceivingNoteRecyclerAdapter = ReceivingNoteRecyclerAdapter()
 
     private lateinit var tvEmpty: TextView
     private lateinit var recyclerView: RecyclerView
@@ -38,24 +38,19 @@ class ReceivingDataActivity :
     private lateinit var bottomBar: BottomAppBar
 
     private var color: Int = 0
-    private val notesCategory: String = CATEGORY_ALL_NOTES
+    private val category: String = CATEGORY_ALL_NOTES
     private var receivingText: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_receiving_data)
-        installCallbacks()
         setupViewDeclaration()
         establishViewsColor()
         configureRecyclerAdapter()
         configureRecyclerView()
-        updateNotesList()
+        updateSharedNotesList()
         installHandlersForViews()
         receivingTextData()
-    }
-
-    private fun installCallbacks() {
-        NotesSelectedListAdapter.registerCallbackSendAdapter(this)
     }
 
     private fun setupViewDeclaration() {
@@ -72,61 +67,67 @@ class ReceivingDataActivity :
     }
 
     private fun configureRecyclerAdapter() {
-        adapterSelected.setViewColor(color)
-
+        adapter.setViewColor(color)
+        //
         val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
         val dateFontSize: Int = PrefHelper.getDateFontSize(this)
-        adapterSelected.setFontSizes(titleFontSize, dateFontSize)
-
+        adapter.setFontSizes(titleFontSize, dateFontSize)
+        //
         val numberLines: Int = PrefHelper.getNumberLines(this)
-        adapterSelected.setNumberLines(numberLines)
+        adapter.setNumberLines(numberLines)
+        // Callback
+        adapter.registerSharedNoteClickListener(this)
     }
 
     private fun configureRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapterSelected
+        recyclerView.adapter = adapter
         recyclerView.itemAnimator = AppItemAnimator()
     }
 
-    private fun updateNotesList() {
-        adapterSelected.setFilesList(notes)
+    private fun updateSharedNotesList() {
+        adapter.setSharedNoteList(notes)
         checkEmptyFilesList()
     }
 
     private val notes: List<Note>
         get() {
             val sortingWay: Int = PrefHelper.getSortingWay(this)
-            return commandCenter.getNotes(null, notesCategory, sortingWay)
+            return commandCenter.getNotes(null, category, sortingWay)
         }
 
     private fun checkEmptyFilesList() {
-        tvEmpty.setVisibleView(adapterSelected.itemCount == 0)
+        tvEmpty.setVisibleView(adapter.itemCount == 0)
     }
 
     private fun installHandlersForViews() {
-        fab.setOnSingleClickListener {
-            addNewNote()
-        }
-
-        bottomBar.setOnSingleClickListener {
-            finish()
-        }
+        fab.setOnSingleClickListener { addNewNote() }
+        bottomBar.setNavigationOnClickListener { finish() }
     }
 
     fun addNewNote() {
-        val note = Note()
-        note.title = receivingText
-        callback?.onReceivingData()
-        IntentManager.openNoteFromDialog(this, note, notesCategory)
+        openNote(getNewNote())
+        closeUnnecessaryScreens()
+    }
+
+    private fun getNewNote(): Note = Note().apply { title = receivingText }
+
+    private fun openNote(note: Note) = IntentManager.openNote(this, note, category, true)
+
+    private fun closeUnnecessaryScreens() {
+        callback?.onCloseRepeatedNote()
         finish()
     }
 
     private fun updateCreatedNote(note: Note) {
+        openNote(getOldNote(note))
+        closeUnnecessaryScreens()
+    }
+
+    private fun getOldNote(note: Note): Note {
         val title: String = note.title.plus("\n\n").plus(receivingText)
         note.title = title
-        callback?.onReceivingData()
-        IntentManager.openNoteFromDialog(this, note, notesCategory)
-        finish()
+        return note
     }
 
     private fun receivingTextData() {
@@ -140,18 +141,20 @@ class ReceivingDataActivity :
         }
     }
 
-    override fun onClickingNote(note: Note) {
+    //--- ReceivingNoteRecyclerAdapter -------------------------------------------------------------
+    override fun onSharedNoteClick(note: Note) {
         updateCreatedNote(note)
     }
 
+    //--- interface --------------------------------------------------------------------------------
     interface ReceivingDataCallback {
-        fun onReceivingData()
+        fun onCloseRepeatedNote()
     }
 
     companion object {
         private var callback: ReceivingDataCallback? = null
 
-        fun registerCallbackReceivingData(callback: ReceivingDataCallback) {
+        fun registerReceivingDataCallback(callback: ReceivingDataCallback?) {
             this.callback = callback
         }
     }

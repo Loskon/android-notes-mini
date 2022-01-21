@@ -24,13 +24,12 @@ import com.loskon.noteminimalism3.utils.getShortFont
  * Форма для выбора шрифта в приложении
  */
 
-class FontsFragment : Fragment(), FontListAdapter.FontAdapterCallback {
+class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
 
     private lateinit var activity: SettingsActivity
 
     private var adapter: FontListAdapter = FontListAdapter()
 
-    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvExample: TextView
 
@@ -54,45 +53,45 @@ class FontsFragment : Fragment(), FontListAdapter.FontAdapterCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        installCallbacks()
-        configureLayoutManager()
-        configureRecyclerView()
+        getSomeSharedPreferences()
         configureRecyclerAdapter()
+        configureRecyclerView()
         updateFontsList()
         installSnapHelper()
         configureOtherViews()
         showWarningDialog()
     }
 
-    private fun installCallbacks() {
-        FontListAdapter.registerCallbackFontAdapter(this)
+    private fun getSomeSharedPreferences() {
+        savedPosition = PrefHelper.getTypeFont(activity)
     }
 
-    private fun configureLayoutManager() {
-        val orientation: Int = RecyclerView.HORIZONTAL
-        layoutManager = LinearLayoutManager(activity, orientation, false)
+    private fun configureRecyclerAdapter() {
+        adapter.setCheckedPosition(savedPosition)
+        //
+        val color: Int = PrefHelper.getAppColor(activity)
+        adapter.setViewColor(color)
+        // Callback
+        adapter.registerFontClickListener(this)
     }
 
     private fun configureRecyclerView() {
-        recyclerView.layoutManager = layoutManager
+        recyclerView.configureLayoutManager()
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = AppItemAnimator()
     }
 
-    private fun configureRecyclerAdapter() {
-        savedPosition = PrefHelper.getTypeFont(activity)
-        adapter.setCheckedPosition(savedPosition)
-
-        val color: Int = PrefHelper.getAppColor(activity)
-        adapter.setColor(color)
+    private fun RecyclerView.configureLayoutManager() {
+        val orientation: Int = RecyclerView.HORIZONTAL
+        layoutManager = LinearLayoutManager(activity, orientation, false)
     }
 
     private fun updateFontsList() {
-        val fonts: List<Font> = getFontList()
-        adapter.setFontsList(fonts)
+        val fontList: List<Font> = createFontList()
+        adapter.setFontList(fontList)
     }
 
-    private fun getFontList(): List<Font> {
+    private fun createFontList(): List<Font> {
         return listOf(
             createFont(0, R.string.roboto_name, R.font.roboto_light),
             createFont(1, R.string.lato_light_name, R.font.lato_light),
@@ -124,22 +123,21 @@ class FontsFragment : Fragment(), FontListAdapter.FontAdapterCallback {
     }
 
     private fun configureOtherViews() {
-        tvExample.typeface = getFontList()[savedPosition].font_type_face
+        tvExample.typeface = createFontList()[savedPosition].typeFace
     }
 
     private fun showWarningDialog() {
-        if (PrefHelper.isDialogShow(activity)) {
-            WarningAboutFontDialog(activity).show()
-        }
+        if (PrefHelper.isDialogShow(activity)) WarningAboutFontDialog(activity).show()
     }
 
-    override fun onClickingItem(item: Font) {
-        tvExample.typeface = item.font_type_face
-        PrefHelper.setTypeFont(activity, item.id)
+    override fun onFontClick(font: Font) {
+        tvExample.typeface = font.typeFace
+        PrefHelper.setTypeFont(activity, font.id)
         activity.setAppFonts()
-        callback?.onChangeTypeFont(item.font_type_face)
+        callback?.onChangeTypeFont(font.typeFace)
     }
 
+    //--- interface --------------------------------------------------------------------------------
     interface TypeFontCallback {
         fun onChangeTypeFont(typeFace: Typeface?)
     }
@@ -147,7 +145,7 @@ class FontsFragment : Fragment(), FontListAdapter.FontAdapterCallback {
     companion object {
         private var callback: TypeFontCallback? = null
 
-        fun registerCallbackTypeFont(callback: TypeFontCallback) {
+        fun registerTypeFontCallback(callback: TypeFontCallback) {
             this.callback = callback
         }
     }

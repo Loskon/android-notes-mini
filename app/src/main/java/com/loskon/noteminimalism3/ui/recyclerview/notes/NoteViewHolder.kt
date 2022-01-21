@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.model.Note
  * Доступ к View-компонентам
  */
 
-class NotesListViewHolder(private val binding: RowNoteBinding) :
+class NoteViewHolder(private val binding: RowNoteBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(note: Note) {

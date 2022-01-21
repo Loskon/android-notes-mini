@@ -177,10 +177,9 @@ class DataBaseCloudBackup(
             }
     }
 
-    fun isBackup(): Boolean {
-        return isBackup
-    }
+    fun isBackup(): Boolean = isBackup
 
+    //--- interface --------------------------------------------------------------------------------
     interface RestoreNoteCloudCallback {
         fun onRestoreNotes()
     }
@@ -188,7 +187,7 @@ class DataBaseCloudBackup(
     companion object {
         private var callback: RestoreNoteCloudCallback? = null
 
-        fun registerCallbackRestoreNoteCloud(callback: RestoreNoteCloudCallback) {
+        fun registerRestoreNoteCloudCallback(callback: RestoreNoteCloudCallback) {
             this.callback = callback
         }
     }

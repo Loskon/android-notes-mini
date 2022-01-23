@@ -83,7 +83,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     fun showSnackbar(messageType: String) =
-        WarningSnackbar.show(this, constLayout, bottomBar, messageType)
+        WarningSnackbar.show(constLayout, bottomBar, messageType)
 
     fun onChangeColor(color: Int) = establishViewsColor(color)
 
@@ -92,12 +92,6 @@ class SettingsActivity : BaseActivity() {
     }
 
     fun setAppFonts() = FontManager.setFont(this)
-
-    //----------------------------------------------------------------------------------------------
-    override fun onDestroy() {
-        WarningSnackbar.nullify()
-        super.onDestroy()
-    }
 
     //----------------------------------------------------------------------------------------------
     val bottomAppBar: BottomAppBar

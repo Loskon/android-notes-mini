@@ -390,11 +390,9 @@ open class NoteFragment : Fragment(),
         }
     }
 
-    fun showSnackbar(messageType: String) =
-        WarningSnackbar.show(activity, constLayout, fab, messageType)
+    fun showSnackbar(messageType: String) = WarningSnackbar.show(constLayout, fab, messageType)
 
     override fun onDetach() {
-        WarningSnackbar.nullify()
         if (!hasReceivingText) ReceivingDataActivity.registerReceivingDataCallback(null)
         super.onDetach()
     }

@@ -52,15 +52,10 @@ object WarningSnackbar {
     const val MSG_NO_PERMISSION = "no_permission_msg_snack"
     const val MSG_UNKNOWN_ERROR = "unknown_error_msg_snack"
 
-    fun show(
-        context: Context,
-        layout: ViewGroup,
-        anchorView: View,
-        messageType: String
-    ) {
-        val message: String = getMessage(context, messageType)
-        val isSuccess: Boolean = getSuccess(context, messageType)
-        WarningBaseSnackbar.make(context, layout, anchorView, message, isSuccess)
+    fun show(parentLayout: ViewGroup, anchorView: View, messageType: String) {
+        val message: String = getMessage(parentLayout.context, messageType)
+        val isSuccess: Boolean = getSuccess(parentLayout.context, messageType)
+        WarningBaseSnackbar.make(parentLayout, anchorView, message, isSuccess)
 
     }
 
@@ -134,9 +129,5 @@ object WarningSnackbar {
 
     fun dismiss() {
         WarningBaseSnackbar.dismiss()
-    }
-
-    fun nullify() {
-        WarningBaseSnackbar.nullify()
     }
 }

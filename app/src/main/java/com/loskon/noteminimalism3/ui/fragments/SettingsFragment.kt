@@ -371,5 +371,4 @@ class SettingsFragment :
         NumberBackupsSheetDialog.registerNumberBackupsCallback(null)
         RetentionTimeSheetDialog.registerRetentionTimeCallback(null)
     }
-
 }

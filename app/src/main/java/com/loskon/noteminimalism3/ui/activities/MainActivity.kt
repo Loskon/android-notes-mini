@@ -39,7 +39,6 @@ import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.UndoSnackbar
-import com.loskon.noteminimalism3.ui.snackbars.WarningBaseSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.ValueUtil
 import com.loskon.noteminimalism3.utils.onlyShow
@@ -384,7 +383,7 @@ class MainActivity : BaseActivity(),
         showSnackbar(WarningSnackbar.MSG_NOTE_RESTORED)
     }
 
-    fun showSnackbar(message: String) = WarningSnackbar.show(this, coordLayout, fab, message)
+    fun showSnackbar(messageType: String) = WarningSnackbar.show(coordLayout, fab, messageType)
 
     //--- SwipeCallback ----------------------------------------------------------------------------
     override fun onNoteSwipe(note: Note, hasFavStatus: Boolean) {

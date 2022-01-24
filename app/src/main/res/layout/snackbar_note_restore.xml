@@ -24,7 +24,7 @@
         android:id="@+id/btn_snackbar_note_reset"
         style="@style/ButtonSnackStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:text="@string/sb_note_restore_action"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -13,14 +13,13 @@
 
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
+        app:rippleColor="?attr/colorControlHighlight"
         app:cardBackgroundColor="?attr/colorPrimaryCardView"
         app:cardCornerRadius="6dp"
-        app:cardElevation="2dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -64,5 +63,5 @@
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

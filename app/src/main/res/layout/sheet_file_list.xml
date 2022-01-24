@@ -49,6 +49,7 @@
         android:layout_margin="8dp"
         android:gravity="center"
         android:text="@string/empty_list"
+        android:textColor="?attr/colorPrimaryText"
         app:layout_constraintBottom_toBottomOf="@+id/lin_layout_restore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -122,7 +122,7 @@
         <item name="android:minWidth">48dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="strokeColor">@android:color/darker_gray</item>
-        <item name="rippleColor">?attr/colorControlHighlight</item>
+        <item name="rippleColor">@color/btn_snackbar_ripple_color</item>
     </style>
 
     <!-- TextViewSnack -->

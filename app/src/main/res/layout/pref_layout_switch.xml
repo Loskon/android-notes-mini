@@ -22,7 +22,7 @@
         app:position="0"
         app:radius="4dp"
         app:ripple="true"
-        app:selectedBackground="@color/teal_700"
+        app:selectedBackground="@color/widget_warning_snackbar_red_dark"
         tools:ignore="TouchTargetSizeCheck">
 
 

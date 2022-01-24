@@ -16,6 +16,7 @@
     <color name="widget_secondary_text">#A5A4A4</color>
     <!-- EditText -->
     <color name="widget_text_hint">#80A9A9A9</color>
+    <color name="btn_snackbar_ripple_color">#80A9A9A9</color>
     <!-- Menu -->
     <color name="widget_menu_icon_dark">#33A9A9A9</color>
     <!-- Snackbar -->

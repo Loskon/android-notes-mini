@@ -194,11 +194,11 @@ class MainActivity : BaseActivity(),
         })
     }
 
-    private fun updateQuicklyNoteList(hasScrollToTop: Boolean) {
+    private fun updateQuicklyNoteList(scrollToTop: Boolean) {
         val list: List<Note> = noteList
         tvEmpty.setVisibleView(list.isEmpty())
         adapter.setQuicklyNoteList(list)
-        recyclerView.scrollToTop(list, hasScrollToTop)
+        recyclerView.scrollToTop(list, scrollToTop)
     }
 
     private val noteList: List<Note>

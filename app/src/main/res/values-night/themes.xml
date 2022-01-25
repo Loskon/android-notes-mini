@@ -15,8 +15,6 @@
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="android:colorBackground">@color/window_background_dark</item>
 
-        <item name="android:textColorHint">@color/widget_text_hint</item>
-
         <!-- Customize colors of items. -->
         <item name="colorPrimaryText">@android:color/white</item>
         <item name="colorSecondText">@android:color/darker_gray</item>
@@ -33,5 +31,6 @@
         <item name="colorWarning">@android:color/holo_red_light</item>
         <item name="colorSearchViewBackground">@color/black_light</item>
         <item name="colorBackupImage">@color/black_light</item>
+        <item name="colorLayoutBackground">@color/window_background_dark</item>
     </style>
 </resources>

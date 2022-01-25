@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_row_font"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
+    android:layout_width="@dimen/card_view_font_square"
+    android:layout_height="@dimen/card_view_font_square"
     android:layout_margin="10dp"
-    app:rippleColor="?attr/colorControlHighlight"
     app:cardBackgroundColor="?attr/colorPrimaryCardView"
-    app:cardCornerRadius="6dp">
+    app:cardCornerRadius="6dp"
+    app:rippleColor="?attr/colorControlHighlight">
 
     <LinearLayout
         android:layout_width="match_parent"

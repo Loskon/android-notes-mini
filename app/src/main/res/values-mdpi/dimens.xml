@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sizes. -->
+    <dimen name="coord_layout_height">44dp</dimen>
+    <dimen name="bottom_bar_height">42dp</dimen>
+    <dimen name="card_view_font_square">180dp</dimen>
+    <dimen name="card_view_font_margin_bottom">8dp</dimen>
+    <dimen name="text_view_font_padding_bottom">16dp</dimen>
+    <dimen name="dialog_margin_top">8dp</dimen>
+    <dimen name="dialog_margin_bottom">8dp</dimen>
+</resources>

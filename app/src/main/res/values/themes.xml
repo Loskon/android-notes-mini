@@ -31,5 +31,6 @@
         <item name="colorWarning">@android:color/holo_red_dark</item>
         <item name="colorSearchViewBackground">@color/widget_search_view</item>
         <item name="colorBackupImage">@color/widget_backup_image</item>
+        <item name="colorLayoutBackground">@android:color/white</item>
     </style>
 </resources>

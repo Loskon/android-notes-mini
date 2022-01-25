@@ -12,24 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/include_shadow_settings"
+        app:layout_constraintBottom_toTopOf="@+id/coord_layout_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/include_shadow_settings"
-        layout="@layout/inc_shadow_imitation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/coord_layout_settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coord_layout_settings"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/coord_layout_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

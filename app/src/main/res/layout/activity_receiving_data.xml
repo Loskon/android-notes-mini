@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/inc_list_notes_for_receiving_data"
+        layout="@layout/inc_receiving_note_list"
         app:layout_anchorGravity="center" />
 
     <TextView

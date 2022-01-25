@@ -56,7 +56,7 @@ class CategorySheetFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_bottomsheet, container, false)
+        val view = inflater.inflate(R.layout.fragment_dialog_category, container, false)
         navigationView = view.findViewById(R.id.navigation_view)
         navigationView.background = mContext.getShortDrawable(R.drawable.sheet_round_corner)
         return view

@@ -5,7 +5,6 @@ import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import java.util.*
 
 /**
  * Адаптер для помощи в выделении элементов
@@ -13,7 +12,7 @@ import java.util.*
 
 abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapter<VH>() {
 
-    private val selectedItems: ArrayList<Note> = ArrayList<Note>()
+    private val selectedNotes: ArrayList<Note> = ArrayList<Note>()
 
     var radiusStroke: Int = 0
     var borderStroke: Int = 0
@@ -23,6 +22,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
     var boredStrokeDp: Int = 0
     var color: Int = 0
 
+    //--- Primary methods --------------------------------------------------------------------------
     // Установка параметров для цветной рамки на выбранных представлениях
     fun setVariablesGradDraw(isChecked: Boolean) {
         if (isChecked) {
@@ -41,25 +41,18 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
         note.isChecked = !note.isChecked
 
         if (note.isChecked) {
-            selectedItems.add(note)
+            selectedNotes.add(note)
         } else {
-            selectedItems.remove(note)
+            selectedNotes.remove(note)
         }
 
         notifyItemChanged(position)
     }
 
-    // Очистить список выбранных элементов
-    fun clearSelectionItems() {
-        if (selectedItems.size != 0) {
-            selectedItems.clear()
-        }
-    }
-
     // Снять статус выбора для выбранных элементов
     fun resetSelectedItems() {
-        if (selectedItems.size != 0) {
-            for (item in selectedItems) {
+        if (selectedNotes.size != 0) {
+            for (item in selectedNotes) {
                 item.isChecked = false
             }
         }
@@ -68,15 +61,16 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
     // Подсчет выбранных элементов
     val selectedItemsCount: Int
         get() {
-            return selectedItems.size
+            return selectedNotes.size
         }
 
     // Вернуть первый элемент
     val selectedItem: Note
         get() {
-            return selectedItems[0]
+            return selectedNotes[0]
         }
 
+    //--- Second methods ---------------------------------------------------------------------------
     // Выбрать/снять выбор всех элементов списка
     fun selectAllItem(list: List<Note>, hasAllSelected: Boolean) {
         clearSelectionItems()
@@ -84,22 +78,25 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
         if (hasAllSelected) {
             for (item in list) {
                 item.isChecked = false
-                selectedItems.remove(item)
+                selectedNotes.remove(item)
             }
         } else {
             for (item in list) {
                 item.isChecked = true
-                selectedItems.add(item)
+                selectedNotes.add(item)
             }
         }
     }
 
+    // Очистить список выбранных элементов
+    fun clearSelectionItems() {
+        if (selectedNotes.size != 0) selectedNotes.clear()
+    }
+
     // Отправить выбранные элементы в корзину
     fun sendSelectedItemsToTrash(commandCenter: CommandCenter) {
-        for (item in selectedItems) {
-            item.isFavorite = false
-            item.isDelete = true
-            commandCenter.update(item)
+        for (note in selectedNotes) {
+            commandCenter.sendToTrash(note)
         }
 
         clearSelectionItems()
@@ -107,7 +104,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
 
     // Удалить навсегда выбранные элементы
     fun deleteItems(commandCenter: CommandCenter) {
-        for (item in selectedItems) {
+        for (item in selectedNotes) {
             commandCenter.delete(item)
         }
 
@@ -123,23 +120,20 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
 
         try {
 
-            for (item in selectedItems) {
+            for (item in selectedNotes) {
                 newTitle = uniteTitlesItems(item, stringBuilder)
                 if (item.isFavorite) isFavorite = true
                 commandCenter.delete(item)
             }
 
-            note.isFavorite = isFavorite
-            note.title = newTitle
-            commandCenter.insert(note)
-
+            commandCenter.insertUnification(note, isFavorite, newTitle)
             activity.showSnackbar(WarningSnackbar.MSG_COMBINED_NOTE_ADD)
 
         } catch (exception: Exception) {
 
             commandCenter.delete(note)
 
-            for (item in selectedItems) {
+            for (item in selectedNotes) {
                 commandCenter.delete(item)
                 commandCenter.insert(item)
             }
@@ -152,7 +146,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
         // Защита от добавления пустых строк для последнего объединенного текста
         val title = note.title.trim()
 
-        if (note !== selectedItems[selectedItems.size - 1]) {
+        if (note !== selectedNotes[selectedNotes.size - 1]) {
             stringBuilder.append(title).append("\n\n")
         } else {
             stringBuilder.append(title)

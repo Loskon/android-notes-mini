@@ -34,6 +34,11 @@ class CommandCenter {
         return dateBase.insertWithIdReturn(note)
     }
 
+    fun insertUnification(note: Note, isFavorite: Boolean, newTitle: String) {
+        note.isFavorite = isFavorite
+        note.title = newTitle
+    }
+
     fun selectDeleteOption(category: String, note: Note) {
         if (category == DataBaseAdapter.CATEGORY_TRASH) {
             delete(note)

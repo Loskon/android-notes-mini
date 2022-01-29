@@ -216,14 +216,14 @@ class SettingsFragment :
             return storageAccess.hasAccessStorageRequest()
         }
 
-    override fun onPreferenceClick(preference: Preference?): Boolean {
+    override fun onPreferenceClick(preference: Preference): Boolean {
         if (SystemClock.elapsedRealtime() - lastClickTime < 600) {
             return false
         } else {
             lastClickTime = SystemClock.elapsedRealtime()
         }
 
-        val preferenceKey: String? = preference?.key
+        val preferenceKey: String? = preference.key
         selectedPreference = preferenceKey.toString()
 
         activity.apply {
@@ -288,8 +288,8 @@ class SettingsFragment :
         }
     }
 
-    override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
-        val key: String? = preference?.key
+    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
+        val key: String? = preference.key
         selectedPreference = key.toString()
 
         if (key == darkModeSwitchKey) {

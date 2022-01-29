@@ -77,14 +77,14 @@ class SettingsAppFragment :
         oneSizeCardsSwitch?.onPreferenceChangeListener = this // onChange
     }
 
-    override fun onPreferenceClick(preference: Preference?): Boolean {
+    override fun onPreferenceClick(preference: Preference): Boolean {
         if (SystemClock.elapsedRealtime() - lastClickTime < 600) {
             return false
         } else {
             lastClickTime = SystemClock.elapsedRealtime()
         }
 
-        return when (preference?.key) {
+        return when (preference.key) {
             resetFontSizeKey -> {
                 ResetFontSizeWarningSheetDialog(this).show()
                 true
@@ -110,8 +110,8 @@ class SettingsAppFragment :
 
     }
 
-    override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
-        val key: String? = preference?.key
+    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
+        val key: String? = preference.key
 
         if (key == oneSizeCardsKey) {
             callbackSize?.onChangeStatusSizeCards(newValue as Boolean)

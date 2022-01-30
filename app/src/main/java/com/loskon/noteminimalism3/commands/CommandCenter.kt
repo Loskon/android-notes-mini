@@ -37,6 +37,7 @@ class CommandCenter {
     fun insertUnification(note: Note, isFavorite: Boolean, newTitle: String) {
         note.isFavorite = isFavorite
         note.title = newTitle
+        dateBase.insert(note)
     }
 
     fun selectDeleteOption(category: String, note: Note) {

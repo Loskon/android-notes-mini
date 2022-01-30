@@ -89,33 +89,8 @@ open class NoteFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getCurrentNote()
-        getRequiredVariableValues()
-        changingValueVariablesForUpdateNote()
-        checkingForIncludedLinks()
         installCallbacks()
         overrideBackPressed()
-    }
-
-    private fun getCurrentNote() {
-        note = activity.getNote()
-    }
-
-    private fun getRequiredVariableValues() {
-        noteId = note.id
-        isFavorite = note.isFavorite
-        hasReceivingText = activity.hasReceivingText()
-    }
-
-    private fun changingValueVariablesForUpdateNote() {
-        if (noteId != 0L) {
-            isNewNote = false
-            if (!hasReceivingText) savedText = note.title
-        }
-    }
-
-    private fun checkingForIncludedLinks() {
-        if (noteId != 0L) supportedLinks = LinksManager.getActiveLinks(activity)
     }
 
     private fun installCallbacks() {
@@ -153,6 +128,10 @@ open class NoteFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         establishViewsColor()
         initializingObjects()
+        getCurrentNote()
+        getRequiredVariableValues()
+        changingValueVariablesForUpdateNote()
+        checkingForIncludedLinks()
         configureEditText()
         configureShowKeyboard()
         changeIconFavoriteBtn()
@@ -170,6 +149,28 @@ open class NoteFragment : Fragment(),
     private fun initializingObjects() {
         assistant = NoteAssistant(activity, this, storageAccess, editText, scrollView)
     }
+
+    private fun getCurrentNote() {
+        note = activity.getNote()
+    }
+
+    private fun getRequiredVariableValues() {
+        noteId = note.id
+        isFavorite = note.isFavorite
+        hasReceivingText = activity.hasReceivingText()
+    }
+
+    private fun changingValueVariablesForUpdateNote() {
+        if (noteId != 0L) {
+            isNewNote = false
+            if (!hasReceivingText) savedText = note.title
+        }
+    }
+
+    private fun checkingForIncludedLinks() {
+        if (noteId != 0L) supportedLinks = LinksManager.getActiveLinks(activity)
+    }
+
 
     private fun configureEditText() {
         if (supportedLinks != 0) preparingToWorkWithLinks()

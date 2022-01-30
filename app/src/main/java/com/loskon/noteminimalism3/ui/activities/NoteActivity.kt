@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
 
 class NoteActivity : BaseActivity() {
 
-    private lateinit var note: Note
+    private var note: Note = Note()
 
     private var color: Int = 0
     private var noteFontSize: Int = 0

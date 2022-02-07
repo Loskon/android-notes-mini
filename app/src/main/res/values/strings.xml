@@ -142,7 +142,6 @@
     <string name="bs_download">Download</string>
     <string name="to_close">To close</string>
     <!-- sheet_pref_sorting -->
-    <string name="sheet_pref_sorting_title">Sort</string>
     <string name="sheet_pref_sorting_time_creation">By time of creation</string>
     <string name="sheet_pref_sorting_time_modification">By time of modification</string>
     <!-- sheet_delete_warnings -->
@@ -239,7 +238,6 @@
     <string name="empty_list">Empty</string>
     <string name="no_permissions">No permissions!</string>
     <string name="unknown_error">Unknown error!</string>
-    <string name="confirm">Confirm</string>
     <string name="continue_action">Continue</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

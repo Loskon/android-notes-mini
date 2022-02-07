@@ -69,7 +69,7 @@ class BackupFragment : Fragment(),
         resultActivity = ResultActivity(activity, this, this)
         resultActivity.installingContracts()
         // google
-        resultGoogle = ResultGoogle(activity, this, this)
+        resultGoogle = ResultGoogle(this, this)
         resultGoogle.installingContracts()
     }
 

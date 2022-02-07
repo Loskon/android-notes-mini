@@ -11,6 +11,7 @@ import com.loskon.noteminimalism3.utils.getShortInt
  * Помощник для работы с SharedPreferences
  */
 
+@Suppress("MemberVisibilityCanBePrivate")
 object PrefHelper {
 
     private const val PREF_KEY_STATE_LINEAR_LIST = "key_type_notes"

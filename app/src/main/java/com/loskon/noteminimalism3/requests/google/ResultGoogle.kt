@@ -14,7 +14,6 @@ import com.loskon.noteminimalism3.R
  */
 
 class ResultGoogle(
-    private val context: Context,
     private val fragment: Fragment,
     private val googleInterface: ResultGoogleInterface
 ) {

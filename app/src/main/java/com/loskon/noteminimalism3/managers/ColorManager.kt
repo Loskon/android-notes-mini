@@ -251,11 +251,6 @@ fun RadioButton.setRadioButtonColor(color: Int) {
 }
 
 
-fun MaterialButton.setStrokeBtnColor(color: Int) {
-    this.strokeColor = ColorStateList.valueOf(color)
-}
-
-
 fun CheckBox.setStrokeCheckBoxColor(color: Int) {
     this.buttonTintList = ColorStateList.valueOf(color)
 }

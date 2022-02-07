@@ -9,7 +9,6 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/include_scroll"
         layout="@layout/inc_note_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -20,7 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/include_button"
         layout="@layout/inc_button_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

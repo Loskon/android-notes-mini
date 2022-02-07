@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <group android:checkableBehavior="single"
-        android:id="@+id/menu_top">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_item_note"
             android:icon="@drawable/baseline_notes_black_24"
@@ -17,7 +15,7 @@
             android:title="@string/menu_navigation_trash" />
     </group>
 
-    <group android:id="@+id/menu_bottom">
+    <group>
         <item
             android:id="@+id/nav_item_settings"
             android:icon="@drawable/baseline_settings_black_24"

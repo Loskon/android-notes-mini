@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapter<VH>() {
 
-    private val selectedNotes: ArrayList<Note> = ArrayList<Note>()
+    private val selectedNotes: ArrayList<Note> = ArrayList()
 
     var radiusStroke: Int = 0
     var borderStroke: Int = 0

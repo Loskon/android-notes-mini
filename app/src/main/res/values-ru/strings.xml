@@ -141,7 +141,6 @@
     <string name="bs_download">Скачать</string>
     <string name="to_close">Закрыть</string>
     <!-- sheet_pref_sorting -->
-    <string name="sheet_pref_sorting_title">Сортировка</string>
     <string name="sheet_pref_sorting_time_creation">По дате создания</string>
     <string name="sheet_pref_sorting_time_modification">По дате изменения</string>
     <!-- sheet_delete_warnings -->
@@ -233,7 +232,6 @@
     <string name="empty_list">Пусто</string>
     <string name="no_permissions">Нет необходимых разрешений!</string>
     <string name="unknown_error">Неизввестная ошибка!</string>
-    <string name="confirm">Потвердить</string>
     <string name="continue_action">Продолжить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>

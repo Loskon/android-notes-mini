@@ -9,7 +9,6 @@
     android:backgroundTint="@android:color/transparent">
 
     <include
-        android:id="@+id/include_scroll_trash"
         layout="@layout/inc_note_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"

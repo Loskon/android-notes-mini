@@ -16,7 +16,7 @@ class WarningAboutFontDialog(dialogContext: Context) :
 
     init {
         configureDialogParameters()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
@@ -24,7 +24,7 @@ class WarningAboutFontDialog(dialogContext: Context) :
         setBtnCancelVisibility(false)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }
 

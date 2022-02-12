@@ -29,7 +29,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     init {
         configureDialogParameters()
         configureInsertedViews()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
@@ -56,7 +56,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
         }
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         inputEditText.doOnTextChanged { text, _, _, _ -> run { changeColorBox(text) } }
         inputLayout.setEndIconOnClickListener { onEndIconClick() }
         btnReset.setOnSingleClickListener { onResetBtnClick() }

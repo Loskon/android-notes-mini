@@ -26,7 +26,7 @@ class SortWaySheetDialog(sheetContext: Context) :
         configureDialogParameters()
         establishViewsColor()
         configureInsertedViews()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
@@ -48,7 +48,7 @@ class SortWaySheetDialog(sheetContext: Context) :
         }
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         radioGroup.setShortOnCheckedChangeListener()
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }

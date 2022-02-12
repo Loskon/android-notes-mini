@@ -45,7 +45,7 @@ class NoteLinkDialog(private val fragment: NoteFragment) :
         this.linkToOpen = receivedLink
 
         configInsertedViews()
-        installHandlersForViews()
+        setupViewListeners()
         super.show()
     }
 
@@ -105,7 +105,7 @@ class NoteLinkDialog(private val fragment: NoteFragment) :
         btnOpen.text = context.getString(stringId)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         btnOpen.setOnSingleClickListener { clickingOpenButton() }
         btnCopy.setOnSingleClickListener { clickingCopyButton() }
     }

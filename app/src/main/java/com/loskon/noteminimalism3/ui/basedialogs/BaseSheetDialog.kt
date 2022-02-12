@@ -36,7 +36,7 @@ open class BaseSheetDialog(
     init {
         configureSheetBehavior()
         establishViewsColor()
-        installHandlersForViews()
+        setupViewListeners()
         addInsertedView()
     }
 
@@ -60,7 +60,7 @@ open class BaseSheetDialog(
         buttonCancel.setTextColor(appColor)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         buttonCancel.setOnSingleClickListener { dismiss() }
     }
 

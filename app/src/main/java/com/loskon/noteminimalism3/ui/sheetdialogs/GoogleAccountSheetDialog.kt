@@ -19,7 +19,7 @@ class GoogleAccountSheetDialog(private val fragment: BackupFragment
     init {
         configureDialogParameters()
         establishViewsColor()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
@@ -33,7 +33,7 @@ class GoogleAccountSheetDialog(private val fragment: BackupFragment
         btnDelete.setBackgroundColor(color)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         btnLogout.setOnSingleClickListener { onLogoutBtnClick() }
         btnDelete.setOnSingleClickListener { onDeleteBtnClick() }
     }

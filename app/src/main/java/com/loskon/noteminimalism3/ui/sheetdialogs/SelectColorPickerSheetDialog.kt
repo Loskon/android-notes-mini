@@ -24,7 +24,7 @@ class SelectColorPickerSheetDialog(private val fragment: SettingsAppFragment) :
     init {
         configureDialogParameters()
         configureInsertedViews()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
@@ -37,7 +37,7 @@ class SelectColorPickerSheetDialog(private val fragment: SettingsAppFragment) :
         colorPicker.color = appColor
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         colorPicker.setOnColorChangedListener { appColor = it }
         btnOk.setOnSingleClickListener { onOkBtnClick() }
         btnReset.setOnSingleClickListener { colorPicker.color = color }

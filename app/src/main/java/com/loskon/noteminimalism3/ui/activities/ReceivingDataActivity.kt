@@ -49,7 +49,7 @@ class ReceivingDataActivity :
         configureRecyclerAdapter()
         configureRecyclerView()
         updateSharedNotesList()
-        installHandlersForViews()
+        setupViewListeners()
         receivingTextData()
     }
 
@@ -100,7 +100,7 @@ class ReceivingDataActivity :
         tvEmpty.setVisibleView(adapter.itemCount == 0)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         fab.setOnSingleClickListener { addNewNote() }
         bottomBar.setNavigationOnClickListener { finish() }
     }

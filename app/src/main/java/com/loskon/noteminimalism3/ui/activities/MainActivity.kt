@@ -27,6 +27,7 @@ import com.loskon.noteminimalism3.other.QueryTextListener
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.ui.dialogfragmntes.CategorySheetFragment
 import com.loskon.noteminimalism3.ui.fragments.*
 import com.loskon.noteminimalism3.ui.materialdialogs.DeleteForeverWarningDialog
 import com.loskon.noteminimalism3.ui.materialdialogs.SendToTrashWarningDialog
@@ -102,7 +103,7 @@ class MainActivity : BaseActivity(),
         differentConfigurations()
         installSwipeCallback()
         configureSearchWithSearchView()
-        installHandlersForViews()
+        setupViewListeners()
         updateQuicklyNoteList(true)
     }
 
@@ -210,7 +211,7 @@ class MainActivity : BaseActivity(),
         if (list.isNotEmpty() && hasScrollToTop) scrollToPosition(0)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         fab.setOnSingleClickListener { onFabClick() }
         bottomBar.setNavigationOnClickListener { onNavigationBtnClick() }
         bottomBar.setOnMenuItemClickListener { onMenuItemsClick(it) }
@@ -304,33 +305,15 @@ class MainActivity : BaseActivity(),
     private fun onMenuItemsClick(item: MenuItem): Boolean {
         dismissSnackbars()
 
-        return when (item.itemId) {
-            R.id.action_toggle_view -> {
-                menuItemSwitchClick()
-                true
-            }
-            R.id.action_select_item -> {
-                adapter.selectAllNotes()
-                true
-            }
-
-            R.id.action_search -> {
-                togglingSearchMode(true)
-                true
-            }
-
-            R.id.action_unification -> {
-                UnificationDialog(this).show()
-                true
-            }
-
-            R.id.action_favorite -> {
-                adapter.changeFavoriteStatus(this, commandCenter)
-                true
-            }
-
-            else -> false
+        when (item.itemId) {
+            R.id.action_toggle_view -> menuItemSwitchClick()
+            R.id.action_select_item -> adapter.selectAllNotes()
+            R.id.action_search -> togglingSearchMode(true)
+            R.id.action_unification -> UnificationDialog(this).show()
+            R.id.action_favorite -> adapter.changeFavoriteStatus(this, commandCenter)
         }
+
+        return true
     }
 
     private fun menuItemSwitchClick() {

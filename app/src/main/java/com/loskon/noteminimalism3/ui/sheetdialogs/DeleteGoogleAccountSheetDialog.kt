@@ -19,7 +19,7 @@ class DeleteGoogleAccountSheetDialog(private val fragment: BackupFragment) :
     init {
         configureDialogParameters()
         establishViewsColor()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
@@ -32,7 +32,7 @@ class DeleteGoogleAccountSheetDialog(private val fragment: BackupFragment) :
         btnNo.setBackgroundColor(color)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         btnYes.setOnSingleClickListener { onYesBtnClick() }
         btnNo.setOnSingleClickListener { dismiss() }
     }

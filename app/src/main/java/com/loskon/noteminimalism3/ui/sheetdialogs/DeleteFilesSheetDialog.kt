@@ -17,7 +17,7 @@ class DeleteFilesSheetDialog(private val activity: SettingsActivity) :
 
     init {
         configureDialogParameters()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
@@ -27,7 +27,7 @@ class DeleteFilesSheetDialog(private val activity: SettingsActivity) :
         setTextBtnCancel(R.string.no)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }
 

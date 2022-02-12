@@ -14,14 +14,14 @@ class DeleteForeverWarningDialog(private val activity: MainActivity) :
 
     init {
         configureDialogParameters()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
         setTitleDialog(R.string.dg_delete_forever_title)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }
 

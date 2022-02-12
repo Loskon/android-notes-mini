@@ -13,14 +13,14 @@ class UnificationDialog(private val activity: MainActivity) : BaseMaterialDialog
 
     init {
         configureDialogParameters()
-        installHandlersForViews()
+        setupViewListeners()
     }
 
     private fun configureDialogParameters() {
         setTitleDialog(R.string.dg_unification_title)
     }
 
-    private fun installHandlersForViews() {
+    private fun setupViewListeners() {
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }
 

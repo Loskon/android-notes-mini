@@ -14,7 +14,7 @@ class ResetFontSizeWarningSheetDialog(private val fragment: SettingsAppFragment)
 
     init {
         configureDialogParameters()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -24,7 +24,7 @@ class ResetFontSizeWarningSheetDialog(private val fragment: SettingsAppFragment)
         setTextBtnCancel(R.string.no)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }
 

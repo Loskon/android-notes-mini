@@ -103,7 +103,7 @@ class MainActivity : BaseActivity(),
         differentConfigurations()
         installSwipeCallback()
         configureSearchWithSearchView()
-        setupViewListeners()
+        setupViewsListeners()
         updateQuicklyNoteList(true)
     }
 
@@ -211,7 +211,7 @@ class MainActivity : BaseActivity(),
         if (list.isNotEmpty() && hasScrollToTop) scrollToPosition(0)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         fab.setOnSingleClickListener { onFabClick() }
         bottomBar.setNavigationOnClickListener { onNavigationBtnClick() }
         bottomBar.setOnMenuItemClickListener { onMenuItemsClick(it) }

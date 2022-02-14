@@ -28,7 +28,7 @@ class NoteFontSizeSheetDialog(sheetContext: Context) :
         configureDialogParameters()
         establishViewsColor()
         setStateChecked()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -45,7 +45,7 @@ class NoteFontSizeSheetDialog(sheetContext: Context) :
         changeTextSize()
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         slider.addOnChangeListener { _, value: Float, _ -> onSliderChange(value) }
         btnReset.setOnSingleClickListener { onResetBtnClick() }
         btnOk.setOnSingleClickListener { onOkBtnClick() }

@@ -18,7 +18,7 @@ class NoteReceivingDataDialog(private val activity: ReceivingDataActivity) :
 
     init {
         configureDialogParameters()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -27,7 +27,7 @@ class NoteReceivingDataDialog(private val activity: ReceivingDataActivity) :
         setBtnCancelVisibility(false)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         btnAdd.setOnSingleClickListener { onAddBtnClick() }
         btnUpdate.setOnSingleClickListener { dismiss() }
     }

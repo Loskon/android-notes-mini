@@ -32,7 +32,7 @@ class SettingsActivity : BaseActivity() {
         initObjects()
         establishViewsColor()
         openSettingsFragment(savedInstanceState)
-        setupViewListeners()
+        setupViewsListeners()
         configureBottomBarMenu()
     }
 
@@ -65,7 +65,7 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         bottomBar.setNavigationOnClickListener {
             onBackPressed()
         }

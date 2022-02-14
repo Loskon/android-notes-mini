@@ -61,7 +61,7 @@ open class BaseMaterialDialog(
 
     init {
         establishViewsColor()
-        setupViewListeners()
+        setupViewsListeners()
         addInsertedView()
     }
 
@@ -71,7 +71,7 @@ open class BaseMaterialDialog(
         btnCancel.setTextColor(appColor)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         btnCancel.setOnSingleClickListener { alertDialog.dismiss() }
     }
 

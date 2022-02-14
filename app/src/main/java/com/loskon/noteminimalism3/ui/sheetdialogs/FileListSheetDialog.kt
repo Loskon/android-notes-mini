@@ -34,7 +34,7 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
         configureListAdapter()
         configureListView()
         updateFilesList()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -69,7 +69,7 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
             return BackupFiles.getList(context)
         }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         btnDeleteAll.setOnSingleClickListener { onDeleteAllBtnClick() }
     }
 

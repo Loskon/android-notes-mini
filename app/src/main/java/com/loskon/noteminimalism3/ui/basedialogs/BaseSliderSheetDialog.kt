@@ -23,7 +23,7 @@ abstract class BaseSliderSheetDialog(
         configureDialogParameters()
         establishViewsColor()
         configureInsertedViews()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -38,7 +38,7 @@ abstract class BaseSliderSheetDialog(
         slider.value = sliderValue.toFloat()
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }
 

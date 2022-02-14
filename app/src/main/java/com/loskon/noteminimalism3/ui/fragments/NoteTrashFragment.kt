@@ -70,7 +70,7 @@ class NoteTrashFragment : Fragment() {
         initObjects()
         establishViewsColor()
         configureEditText()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun initObjects() {
@@ -91,7 +91,7 @@ class NoteTrashFragment : Fragment() {
 
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         fab.setOnSingleClickListener { restoreNote() }
         btnDel.setOnSingleClickListener { deleteNote() }
         linearLayout.setOnClickListener { showSnackbar() }

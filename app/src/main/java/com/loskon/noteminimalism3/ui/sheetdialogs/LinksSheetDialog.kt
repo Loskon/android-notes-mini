@@ -24,7 +24,7 @@ class LinksSheetDialog(sheetContext: Context) :
         configureDialogParameters()
         establishViewsColor()
         configureStateChecked()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -45,7 +45,7 @@ class LinksSheetDialog(sheetContext: Context) :
         checkBoxPhone.isChecked = PrefHelper.isPhone(context)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         checkBoxWeb.setOnClickListener(this)
         checkBoxMail.setOnClickListener(this)
         checkBoxPhone.setOnClickListener(this)

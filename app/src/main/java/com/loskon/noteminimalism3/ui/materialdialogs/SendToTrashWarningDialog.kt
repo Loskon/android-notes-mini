@@ -22,11 +22,11 @@ class SendToTrashWarningDialog(private val activity: MainActivity) :
     }
 
     fun show(itemCount: Int) {
-        setupViewListeners(itemCount)
+        setupViewsListeners(itemCount)
         super.show()
     }
 
-    private fun setupViewListeners(itemCount: Int) {
+    private fun setupViewsListeners(itemCount: Int) {
         btnOk.setOnSingleClickListener { onOkBtnClick(itemCount) }
     }
 

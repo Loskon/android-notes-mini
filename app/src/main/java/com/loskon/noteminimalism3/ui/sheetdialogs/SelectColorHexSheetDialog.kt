@@ -29,7 +29,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     init {
         configureDialogParameters()
         configureInsertedViews()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -41,6 +41,22 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
         inputEditText.showKeyboard(context)
         inputEditText.setFilterAllowedCharacters()
         changeHexString()
+    }
+
+    private fun TextInputEditText.setFilterAllowedCharacters() {
+        filters = arrayOf(object : InputFilter {
+            override fun filter(
+                source: CharSequence?,
+                start: Int,
+                end: Int,
+                dest: Spanned?,
+                dstart: Int,
+                dend: Int
+            ): CharSequence? {
+                return source?.subSequence(start, end)
+                    ?.replace(Regex("[^A-Fa-f0-9 ]"), "")?.trim()
+            }
+        }, InputFilter.LengthFilter(6))
     }
 
     private fun changeHexString() {
@@ -56,7 +72,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
         }
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         inputEditText.doOnTextChanged { text, _, _, _ -> run { changeColorBox(text) } }
         inputLayout.setEndIconOnClickListener { onEndIconClick() }
         btnReset.setOnSingleClickListener { onResetBtnClick() }
@@ -64,7 +80,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     }
 
     private fun changeColorBox(text: CharSequence?) {
-        val hexString: String = text.toString()
+        val hexString: String = text.toString().trim()
 
         appColor = if (hexString.isEmpty()) {
             convertHexInInt("000000")
@@ -93,21 +109,4 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
         fragment.callingCallbacks(appColor)
         dismiss()
     }
-}
-
-// Extension functions
-private fun TextInputEditText.setFilterAllowedCharacters() {
-    filters = arrayOf(object : InputFilter {
-        override fun filter(
-            source: CharSequence?,
-            start: Int,
-            end: Int,
-            dest: Spanned?,
-            dstart: Int,
-            dend: Int
-        ): CharSequence? {
-            return source?.subSequence(start, end)
-                ?.replace(Regex("[^A-Fa-f0-9 ]"), "")
-        }
-    }, InputFilter.LengthFilter(6))
 }

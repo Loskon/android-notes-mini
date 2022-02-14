@@ -31,7 +31,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
         configureDialogParameters()
         establishViewsColor()
         configInsertedViews()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun configureDialogParameters() {
@@ -48,7 +48,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         inputEditText.doOnTextChanged { _, _, _, _ -> run { disableErrorNotification() } }
         btnOk.setOnSingleClickListener { onOkBtnClick() }
     }

@@ -90,7 +90,7 @@ class BackupFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         establishViewsColor()
         initializingObjects()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun initializingObjects() {
@@ -105,7 +105,7 @@ class BackupFragment : Fragment(),
         btnRestoreCloud.setBackgroundColor(color)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         btnBackupSD.setOnSingleClickListener { onBackupSdBtnClick() }
         btnRestoreSD.setOnSingleClickListener { onRestoreSdBtnClick() }
         btnBackupCloud.setOnSingleClickListener { onBackupCloudBtnClick() }

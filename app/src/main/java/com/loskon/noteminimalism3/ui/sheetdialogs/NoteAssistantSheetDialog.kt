@@ -35,7 +35,7 @@ class NoteAssistantSheetDialog(
 
     fun show(dateModification: String?, noteId: Long) {
         configInsertedViews(dateModification, noteId)
-        setupViewListeners()
+        setupViewsListeners()
         super.show()
     }
 
@@ -52,7 +52,7 @@ class NoteAssistantSheetDialog(
         tvDateModification.text = context.getString(R.string.bs_last_modified, dateModification)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         assistant.apply {
             btnPaste.setOnSingleClickListener {
                 dismiss()

@@ -135,7 +135,7 @@ open class NoteFragment : Fragment(),
         configureEditText()
         configureShowKeyboard()
         changeIconFavoriteBtn()
-        setupViewListeners()
+        setupViewsListeners()
     }
 
     private fun establishViewsColor() {
@@ -238,7 +238,7 @@ open class NoteFragment : Fragment(),
         btnFav.icon = activity.getShortDrawable(icon)
     }
 
-    private fun setupViewListeners() {
+    private fun setupViewsListeners() {
         fab.setOnSingleClickListener { onFabClick() }
         btnFav.setOnClickListener { onFavoriteBtnClick() }
         btnDel.setOnSingleClickListener { onDeleteBtnClick() }

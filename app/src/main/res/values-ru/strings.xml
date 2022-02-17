@@ -156,6 +156,8 @@
     <string name="dg_delete_forever_title">Удалить выбранные заметки\n навсегда?</string>
     <!-- dialog_unification -->
     <string name="dg_unification_title">Объединить заметки?</string>
+    <string name="dg_unification_delete">Удалить объединенные заметки</string>
+    <string name="dg_unification_leave">Оставить объединенные заметки</string>
     <!-- dialog_open_link -->
     <string name="dg_open_link_open">Открыть</string>
     <string name="dg_open_link_call">Позвонить</string>

@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Font
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.materialdialogs.WarningAboutFontDialog
+import com.loskon.noteminimalism3.ui.dialogs.WarningAboutFontDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.fonts.FontListAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.fonts.FontSnapHelper

@@ -112,7 +112,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
     }
 
     // Объединить несколько заметок в одну новую
-    fun unification(activity: MainActivity, commandCenter: CommandCenter) {
+    fun unification(activity: MainActivity, commandCenter: CommandCenter, delete: Boolean) {
         val stringBuilder: StringBuilder = StringBuilder()
         val note = Note()
         var newTitle = ""
@@ -123,7 +123,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
             for (item in selectedNotes) {
                 newTitle = uniteTitlesItems(item, stringBuilder)
                 if (item.isFavorite) isFavorite = true
-                commandCenter.delete(item)
+                if (delete) commandCenter.delete(item)
             }
 
             commandCenter.insertUnification(note, isFavorite, newTitle)

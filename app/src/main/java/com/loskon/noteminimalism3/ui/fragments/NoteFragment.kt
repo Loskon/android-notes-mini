@@ -29,7 +29,7 @@ import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
-import com.loskon.noteminimalism3.ui.materialdialogs.NoteLinkDialog
+import com.loskon.noteminimalism3.ui.dialogs.NoteLinkDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppMovementMethod
 import com.loskon.noteminimalism3.ui.sheetdialogs.NoteAssistantSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar

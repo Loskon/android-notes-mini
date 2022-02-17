@@ -28,10 +28,10 @@ import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.dialogfragmntes.CategorySheetFragment
+import com.loskon.noteminimalism3.ui.dialogs.DeleteForeverWarningDialog
+import com.loskon.noteminimalism3.ui.dialogs.SendToTrashWarningDialog
+import com.loskon.noteminimalism3.ui.dialogs.UnificationDialog
 import com.loskon.noteminimalism3.ui.fragments.*
-import com.loskon.noteminimalism3.ui.materialdialogs.DeleteForeverWarningDialog
-import com.loskon.noteminimalism3.ui.materialdialogs.SendToTrashWarningDialog
-import com.loskon.noteminimalism3.ui.materialdialogs.UnificationDialog
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
@@ -441,8 +441,8 @@ class MainActivity : BaseActivity(),
     }
 
     // UnificationDialog
-    fun performUnificationNotes() {
-        adapter.unification(this, commandCenter)
+    fun performUnificationNotes(delete: Boolean) {
+        adapter.unification(this, commandCenter, delete)
         disableSelectionMode()
         updateQuicklyNoteList(true)
     }

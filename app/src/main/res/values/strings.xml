@@ -157,6 +157,8 @@
     <string name="dg_delete_forever_title">Delete selected notes\n definitively?</string>
     <!-- dialog_unification -->
     <string name="dg_unification_title">Unification this notes?</string>
+    <string name="dg_unification_delete">Delete merged notes</string>
+    <string name="dg_unification_leave">Leave merged notes</string>
     <!-- dialog_open_link -->
     <string name="dg_open_link_open">Open</string>
     <string name="dg_open_link_call">Call</string>

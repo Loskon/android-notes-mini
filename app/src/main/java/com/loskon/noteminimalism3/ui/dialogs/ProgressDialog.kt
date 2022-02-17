@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.materialdialogs
+package com.loskon.noteminimalism3.ui.dialogs
 
 import android.content.Context
 import com.google.android.material.progressindicator.CircularProgressIndicator

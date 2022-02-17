@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.materialdialogs
+package com.loskon.noteminimalism3.ui.dialogs
 
 import android.widget.Button
 import com.loskon.noteminimalism3.R

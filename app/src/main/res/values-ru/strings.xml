@@ -15,6 +15,11 @@
     <string name="templars">Тамплиеры – духовно-рыцарский орден, основанный
         на Святой землев 1119 г. незначительной группой рыцарей, во главе с
         Гуго де Пейном, после Первого крестового похода (1096-1099).</string>
+    <!-- fragment_backup -->
+    <string name="local_backup">Бэкап</string>
+    <string name="local_restore">Восстановление</string>
+    <string name="cloud_backup">Облачный бэкап</string>
+    <string name="cloud_restore">Облачное восстановление</string>
 
     <!-- Preferences Fragment -->
     <!-- preferences_app -->

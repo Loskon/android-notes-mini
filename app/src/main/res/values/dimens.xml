@@ -4,6 +4,7 @@
     <dimen name="coord_layout_height">50dp</dimen>
     <dimen name="bottom_bar_height">48dp</dimen>
     <dimen name="button_flat_height">52dp</dimen>
+    <dimen name="button_backup_height">60dp</dimen>
     <dimen name="card_view_font_square">200dp</dimen>
     <dimen name="card_view_font_margin_bottom">40dp</dimen>
     <dimen name="text_view_font_padding_bottom">32dp</dimen>
@@ -22,6 +23,4 @@
     <dimen name="border_stroke_lin_layout">2dp</dimen>
     <!-- Border switch. -->
     <dimen name="border_width_switch">2dp</dimen>
-    <!-- Square buttons. -->
-    <dimen name="button_backup_height">60dp</dimen>
 </resources>

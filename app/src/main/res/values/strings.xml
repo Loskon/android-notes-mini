@@ -16,6 +16,11 @@
     <string name="templars">The Templars are a spiritual and knightly order
         founded in the HolyLand in 1119 by a small group of knights,
         led by Hugh de Payens,after the First Crusade (1096-1099).</string>
+    <!-- fragment_backup -->
+    <string name="local_backup">Backup</string>
+    <string name="local_restore">Restore</string>
+    <string name="cloud_backup">Cloud backup</string>
+    <string name="cloud_restore">Cloud restore</string>
 
     <!-- Preferences Fragment -->
     <!-- preferences_app -->

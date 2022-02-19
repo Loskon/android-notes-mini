@@ -1,7 +1,7 @@
 package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.files.BackupFiles
+import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
@@ -54,6 +54,6 @@ class DeleteFilesSheetDialog(private val activity: SettingsActivity) :
 
     private val files: Array<File>?
         get() {
-            return BackupFiles.getList(context)
+            return BackupFileHelper.getList(context)
         }
 }

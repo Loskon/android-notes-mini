@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
-import com.loskon.noteminimalism3.files.BackupFilesLimiter
+import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.io.*
 import java.nio.channels.FileChannel
@@ -19,7 +19,7 @@ object DataBaseBackup {
 
     fun performBackup(context: Context, outFileName: String) {
         copyFile(pathDateBase(context), outFileName)
-        BackupFilesLimiter.deleteExtraFiles(context)
+        BackupFileHelper.deleteExtraFiles(context)
     }
 
     fun performRestore(context: Context, inFileName: String) {

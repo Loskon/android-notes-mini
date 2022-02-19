@@ -71,7 +71,9 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun configureBottomBarMenu() = changeVisibilityMenuItem(false)
+    private fun configureBottomBarMenu() {
+        changeVisibilityMenuItem(false)
+    }
 
     //----------------------------------------------------------------------------------------------
     fun replaceFragment(fragment: Fragment) {
@@ -82,16 +84,21 @@ class SettingsActivity : BaseActivity() {
             .commit()
     }
 
-    fun showSnackbar(messageType: String) =
+    fun showSnackbar(messageType: String) {
         WarningSnackbar.show(constLayout, bottomBar, messageType)
+    }
 
-    fun onChangeColor(color: Int) = establishViewsColor(color)
+    fun onChangeColor(color: Int) {
+        establishViewsColor(color)
+    }
 
     fun changeVisibilityMenuItem(isVisible: Boolean) {
         menu.findItem(R.id.action_account).isVisible = isVisible
     }
 
-    fun setAppFonts() = FontManager.setFont(this)
+    fun setAppFonts() {
+        FontManager.setFont(this)
+    }
 
     //----------------------------------------------------------------------------------------------
     val bottomAppBar: BottomAppBar

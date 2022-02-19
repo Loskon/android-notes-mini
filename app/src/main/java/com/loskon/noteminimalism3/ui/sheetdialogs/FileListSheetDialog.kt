@@ -5,7 +5,7 @@ import android.widget.TextView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DataBaseBackup
-import com.loskon.noteminimalism3.files.BackupFiles
+import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.listview.FileBaseAdapter
@@ -66,7 +66,7 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
 
     private val files: Array<File>?
         get() {
-            return BackupFiles.getList(context)
+            return BackupFileHelper.getList(context)
         }
 
     private fun setupViewsListeners() {

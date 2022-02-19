@@ -22,7 +22,7 @@ class SaveTextFile(
         val folderBackup: File = BackupPath.getBackupFolder(context)
         val folderTextFiles = File(folderBackup, context.getString(R.string.folder_text_files_name))
 
-        val hasCreatedFolder: Boolean = CheckCreatedFile.hasCreated(folderTextFiles)
+        val hasCreatedFolder: Boolean = BackupFileHelper.hasCreated(folderTextFiles)
 
         if (hasCreatedFolder) {
             performCreationTextFile(folderTextFiles, text)

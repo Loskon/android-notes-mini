@@ -5,8 +5,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.backup.DataBaseBackup
+import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.files.BackupPath
-import com.loskon.noteminimalism3.files.CheckCreatedFile
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
@@ -76,7 +76,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
 
     private fun createBackupFile(title: String) {
         val backupFolder: File = BackupPath.getBackupFolder(context)
-        val hasCreatedFolder: Boolean = CheckCreatedFile.hasCreated(backupFolder)
+        val hasCreatedFolder: Boolean = BackupFileHelper.hasCreated(backupFolder)
 
         if (hasCreatedFolder) {
             creatingBackup(title)

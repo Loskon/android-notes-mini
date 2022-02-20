@@ -202,10 +202,16 @@ open class NoteFragment : Fragment(),
         editText.clearFocus()
     }
 
+    private fun View.turnFocusOnYourself() {
+        isFocusable = true
+        isFocusableInTouchMode = true
+        requestFocus()
+    }
+
     private fun onEmptyAreaClick() {
         WarningSnackbar.dismiss()
         if (supportedLinks != 0) activatingTextEditingMode()
-        editText.setSelection(editText.getLength())
+        editText.setSelection(editText.text.toString().length)
         editText.showKeyboard(activity)
     }
 
@@ -391,11 +397,13 @@ open class NoteFragment : Fragment(),
         }
     }
 
-    fun showSnackbar(messageType: String) = WarningSnackbar.show(constLayout, fab, messageType)
+    fun showSnackbar(messageType: String) {
+        WarningSnackbar.show(constLayout, fab, messageType)
+    }
 
     override fun onDetach() {
-        if (!hasReceivingText) ReceivingDataActivity.registerReceivingDataCallback(null)
         super.onDetach()
+        if (!hasReceivingText) ReceivingDataActivity.registerReceivingDataCallback(null)
     }
 
     //--- interface --------------------------------------------------------------------------------
@@ -423,10 +431,6 @@ open class NoteFragment : Fragment(),
 }
 
 // Extension functions
-private fun EditText.getLength(): Int {
-    return text.toString().length
-}
-
 private fun EditText.changeWorkWithLinks(supportedLinks: Int) {
     val hasNormalClickProcessing = true
 
@@ -439,10 +443,4 @@ private fun EditText.changeWorkWithLinks(supportedLinks: Int) {
         isCursorVisible = !hasNormalClickProcessing
         showSoftInputOnFocus = !hasNormalClickProcessing
     }
-}
-
-private fun View.turnFocusOnYourself() {
-    isFocusable = true
-    isFocusableInTouchMode = true
-    requestFocus()
 }

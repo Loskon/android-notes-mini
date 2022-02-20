@@ -34,9 +34,8 @@ object PrefHelper {
         preferences.edit().putBoolean(key, value).apply()
     }
 
-    fun load(context: Context, key: String, defValue: Boolean): Boolean {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-            .getBoolean(key, defValue)
+    fun load(context: Context, key: String, default: Boolean): Boolean {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, default)
     }
 
     // int
@@ -45,9 +44,8 @@ object PrefHelper {
         preferences.edit().putInt(key, value).apply()
     }
 
-    fun load(context: Context, key: String, defValue: Int): Int {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-            .getInt(key, defValue)
+    fun load(context: Context, key: String, default: Int): Int {
+        return PreferenceManager.getDefaultSharedPreferences(context).getInt(key, default)
     }
 
     // string
@@ -56,9 +54,8 @@ object PrefHelper {
         preferences.edit().putString(key, value).apply()
     }
 
-    fun load(context: Context, key: String, defValue: String): String? {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-            .getString(key, defValue)
+    fun load(context: Context, key: String, default: String): String? {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(key, default)
     }
 
     //--- Set shared preferences ---------------------------------------------------------------

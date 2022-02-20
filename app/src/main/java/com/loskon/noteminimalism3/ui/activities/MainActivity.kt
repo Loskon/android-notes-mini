@@ -51,7 +51,7 @@ import com.loskon.noteminimalism3.utils.setVisibleView
  */
 
 class MainActivity : BaseActivity(),
-    NoteRecyclerAdapter.NoteClickListener,
+    NoteRecyclerAdapter.NoteActionListener,
     SwipeCallback.NoteSwipeListener,
     CategorySheetFragment.CategorySheetCallback,
     NoteFragment.NoteCallback,
@@ -310,7 +310,7 @@ class MainActivity : BaseActivity(),
             R.id.action_select_item -> adapter.selectAllNotes()
             R.id.action_search -> togglingSearchMode(true)
             R.id.action_unification -> UnificationDialog(this).show()
-            R.id.action_favorite -> adapter.changeFavoriteStatus(this, commandCenter)
+            R.id.action_favorite -> adapter.changeFavoriteStatus(commandCenter)
         }
 
         return true
@@ -329,19 +329,23 @@ class MainActivity : BaseActivity(),
         IntentManager.openNote(this, note, category)
     }
 
-    override fun selectingNote(selectedItemsCount: Int, hasAllSelected: Boolean) {
+    override fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean) {
         widgetHelper.selectingNote(category, selectedItemsCount, hasAllSelected)
     }
 
-    override fun changeStatusOfFavorite(note: Note) {
+    override fun onChangeStatusOfFavorite(note: Note) {
         widgetHelper.changeIconFavoriteMenuItem(note.isFavorite)
     }
 
-    override fun activatingSelectionMode() {
+    override fun onActivatingSelectionMode() {
         isSelectionMode = true
         swipeCallback.blockSwiped(isSelectionMode)
         dismissSnackbars()
         changingViewsForSelectionMode()
+    }
+
+    override fun onShowSnackbar(messageType: String) {
+        showSnackbar(messageType)
     }
 
     //--- NoteFragment -----------------------------------------------------------------------------
@@ -442,7 +446,7 @@ class MainActivity : BaseActivity(),
 
     // UnificationDialog
     fun performUnificationNotes(delete: Boolean) {
-        adapter.unification(this, commandCenter, delete)
+        adapter.unification(commandCenter, delete)
         disableSelectionMode()
         updateQuicklyNoteList(true)
     }

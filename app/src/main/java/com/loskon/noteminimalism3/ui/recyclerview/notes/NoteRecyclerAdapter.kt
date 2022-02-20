@@ -13,7 +13,6 @@ import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.databinding.RowNoteBinding
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.utils.changeTextSize
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
@@ -23,7 +22,7 @@ import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
 
-    private lateinit var clickListener: NoteClickListener
+    private lateinit var actionListener: NoteActionListener
 
     private var list: List<Note> = emptyList()
 
@@ -95,14 +94,14 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
         if (isSelectedMode) {
             selectingItem(note, position)
         } else {
-            clickListener.onNoteClick(note)
+            actionListener.onNoteClick(note)
         }
     }
 
     private fun selectingItem(note: Note, position: Int) {
         toggleSelection(note, position)
-        clickListener.selectingNote(selectedItemsCount, hasAllSelected)
-        if (selectedItemsCount in 1..1) clickListener.changeStatusOfFavorite(selectedItem)
+        actionListener.onSelectingNote(selectedItemsCount, hasAllSelected)
+        if (selectedItemsCount in 1..1) actionListener.onChangeStatusOfFavorite(selectedItem)
     }
 
     private val hasAllSelected get() = (selectedItemsCount == itemCount)
@@ -115,7 +114,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
 
     private fun activationDeleteMode() {
         isSelectedMode = true
-        clickListener.activatingSelectionMode()
+        actionListener.onActivatingSelectionMode()
         clearSelectionItems()
     }
 
@@ -173,25 +172,30 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
 
     fun selectAllNotes() {
         selectAllItem(list, hasAllSelected)
-        clickListener.selectingNote(selectedItemsCount, hasAllSelected)
+        actionListener.onSelectingNote(selectedItemsCount, hasAllSelected)
         updateChangedList()
     }
 
-    fun changeFavoriteStatus(activity: MainActivity, commandCenter: CommandCenter) {
-        changeFavorite(activity, commandCenter)
-        clickListener.changeStatusOfFavorite(selectedItem)
+    fun changeFavoriteStatus(commandCenter: CommandCenter) {
+        changeFavorite(commandCenter)
+        actionListener.onChangeStatusOfFavorite(selectedItem)
         updateChangedList()
+    }
+
+    override fun showSnackbar(messageType: String) {
+        actionListener.onShowSnackbar(messageType)
     }
 
     //--- interface --------------------------------------------------------------------------------
-    interface NoteClickListener {
+    interface NoteActionListener {
         fun onNoteClick(note: Note)
-        fun activatingSelectionMode()
-        fun selectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
-        fun changeStatusOfFavorite(note: Note)
+        fun onActivatingSelectionMode()
+        fun onSelectingNote(selectedItemsCount: Int, hasAllSelected: Boolean)
+        fun onChangeStatusOfFavorite(note: Note)
+        fun onShowSnackbar(messageType: String)
     }
 
-    fun registerNoteClickListener(clickListener: NoteClickListener) {
-        this.clickListener = clickListener
+    fun registerNoteClickListener(actionListener: NoteActionListener) {
+        this.actionListener = actionListener
     }
 }

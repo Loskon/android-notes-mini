@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.ui.recyclerview.notes
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 /**
@@ -112,7 +111,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
     }
 
     // Объединить несколько заметок в одну новую
-    fun unification(activity: MainActivity, commandCenter: CommandCenter, delete: Boolean) {
+    fun unification(commandCenter: CommandCenter, delete: Boolean) {
         val stringBuilder: StringBuilder = StringBuilder()
         val note = Note()
         var newTitle = ""
@@ -127,7 +126,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
             }
 
             commandCenter.insertUnification(note, isFavorite, newTitle)
-            activity.showSnackbar(WarningSnackbar.MSG_COMBINED_NOTE_ADD)
+            showSnackbar(WarningSnackbar.MSG_COMBINED_NOTE_ADD)
 
         } catch (exception: Exception) {
 
@@ -138,7 +137,7 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
                 commandCenter.insert(item)
             }
 
-            activity.showSnackbar(WarningSnackbar.MSG_ERROR_COMBINING_NOTES)
+            showSnackbar(WarningSnackbar.MSG_ERROR_COMBINING_NOTES)
         }
     }
 
@@ -156,13 +155,15 @@ abstract class NoteSelectableAdapter<VH : RecyclerView.ViewHolder?> : RecyclerVi
     }
 
     // Изменить статус избранного
-    fun changeFavorite(activity: MainActivity, commandCenter: CommandCenter) {
+    fun changeFavorite(commandCenter: CommandCenter) {
         try {
             val note: Note = selectedItem
             note.isFavorite = !note.isFavorite
             commandCenter.update(note)
         } catch (exception: Exception) {
-            activity.showSnackbar(WarningSnackbar.MSG_SELECT_ONE_NOTE)
+            showSnackbar(WarningSnackbar.MSG_SELECT_ONE_NOTE)
         }
     }
+
+    abstract fun showSnackbar(messageType: String)
 }

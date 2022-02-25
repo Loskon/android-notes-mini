@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.ui.activities
 
 import android.os.Bundle
 import android.view.Menu
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 class SettingsActivity : BaseActivity() {
 
-    private lateinit var constLayout: ConstraintLayout
+    private lateinit var coordLayout: CoordinatorLayout
     private lateinit var bottomBar: BottomAppBar
     private lateinit var fragmentManager: FragmentManager
     private lateinit var menu: Menu
@@ -37,7 +37,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun setupViewDeclaration() {
-        constLayout = findViewById(R.id.const_layout_settings)
+        coordLayout = findViewById(R.id.coord_layout_settings)
         bottomBar = findViewById(R.id.bottom_bar_settings)
     }
 
@@ -85,7 +85,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     fun showSnackbar(messageType: String) {
-        WarningSnackbar.show(constLayout, bottomBar, messageType)
+        WarningSnackbar.show(coordLayout, bottomBar, messageType)
     }
 
     fun onChangeColor(color: Int) {
@@ -101,8 +101,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     //----------------------------------------------------------------------------------------------
-    val bottomAppBar: BottomAppBar
-        get() {
-            return bottomBar
-        }
+    fun getBottomBar(): BottomAppBar {
+        return bottomBar
+    }
 }

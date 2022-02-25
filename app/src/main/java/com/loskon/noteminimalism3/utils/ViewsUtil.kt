@@ -27,11 +27,9 @@ fun View.setLayoutParamsForInsertedView() {
     )
 }
 
-
 fun TextView.changeTextSize(fontSize: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
 }
-
 
 fun EditText.scrollBottom(scrollView: ScrollView) {
     scrollView.post { scrollView.scrollTo(0, bottom) }

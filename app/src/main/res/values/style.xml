@@ -42,7 +42,7 @@
     </style>
 
     <!-- SheetDialog -->
-    <style name="RoundedSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="RoundedSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Style.AppModal</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>

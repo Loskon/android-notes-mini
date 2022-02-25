@@ -50,14 +50,14 @@ class BackupFragment : Fragment(),
     private lateinit var btnRestoreSD: Button
     private lateinit var btnBackupCloud: Button
     private lateinit var btnRestoreCloud: Button
-    private lateinit var bottomAppBar: BottomAppBar
+    private lateinit var bottomBar: BottomAppBar
 
     private var isBackupSd: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as SettingsActivity
-        bottomAppBar = activity.bottomAppBar
+        bottomBar = activity.getBottomBar()
         configureRequestPermissions()
     }
 
@@ -110,7 +110,7 @@ class BackupFragment : Fragment(),
         btnRestoreSD.setOnSingleClickListener { onRestoreSdBtnClick() }
         btnBackupCloud.setOnSingleClickListener { onBackupCloudBtnClick() }
         btnRestoreCloud.setOnSingleClickListener { onRestoreCloudBtnClick() }
-        bottomAppBar.setOnMenuItemClickListener { onMenuItemClick(it) }
+        bottomBar.setOnMenuItemClickListener { onMenuItemClick(it) }
     }
 
     private fun onBackupSdBtnClick() {
@@ -182,7 +182,7 @@ class BackupFragment : Fragment(),
     }
 
     override fun onDetach() {
-        bottomAppBar.setOnMenuItemClickListener(null)
+        bottomBar.setOnMenuItemClickListener(null)
         changeVisibilityMenuItem(false)
         super.onDetach()
     }

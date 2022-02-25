@@ -15,6 +15,7 @@ import android.widget.CheckBox
 import android.widget.RadioButton
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
@@ -205,6 +206,9 @@ fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) {
     navigationIcon?.mutate()?.setTint(color)
 }
 
+fun Toolbar.setNavigationIconColor(@ColorInt color: Int) {
+    navigationIcon?.mutate()?.setTint(color)
+}
 
 fun MaterialButton.setButtonIconColor(@ColorInt colorId: Int) {
     iconTint = ColorStateList.valueOf(colorId)

@@ -28,7 +28,7 @@ class SQLiteTest {
         @JvmStatic
         fun initDataBase() {
             val context: Context = ApplicationProvider.getApplicationContext()
-            DataBaseAdapter.initDateBase(context)
+            DataBaseAdapter.initDataBase(context)
             commandCenter = CommandCenter()
         }
     }

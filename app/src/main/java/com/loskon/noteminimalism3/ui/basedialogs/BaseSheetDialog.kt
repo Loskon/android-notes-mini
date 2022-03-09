@@ -49,8 +49,6 @@ open class BaseSheetDialog(
         behavior.apply {
             state = BottomSheetBehavior.STATE_EXPANDED
             skipCollapsed = true
-            //isDraggable = false
-            //isHideable = false
         }
     }
 

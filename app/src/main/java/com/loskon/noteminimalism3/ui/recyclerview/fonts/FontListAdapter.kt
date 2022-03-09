@@ -27,8 +27,8 @@ class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
     private var lastCheckedPosition: Int = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {
-        val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_fonts, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.row_fonts, parent, false)
         return FontViewHolder(view)
     }
 
@@ -37,12 +37,11 @@ class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
     override fun onBindViewHolder(holder: FontViewHolder, position: Int) {
         val font: Font = list[position]
 
-        holder.apply {
+        with(holder) {
             title.configureTitleText(font)
             exampleText.typeface = font.typeFace
             radioButton.configureRadioButton(position)
-
-            card.setOnSingleClickListener { onItemClick(font, absoluteAdapterPosition) }
+            card.setOnSingleClickListener { onItemClick(font, position) }
         }
     }
 

@@ -137,7 +137,7 @@ class DataBaseAdapter(context: Context) {
     companion object {
         private var INSTANCE: DataBaseAdapter? = null
 
-        fun initDateBase(context: Context) {
+        fun initDataBase(context: Context) {
             if (INSTANCE == null) {
                 INSTANCE = DataBaseAdapter(context)
             }

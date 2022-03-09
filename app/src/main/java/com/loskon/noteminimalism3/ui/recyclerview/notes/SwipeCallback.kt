@@ -35,7 +35,7 @@ class SwipeCallback(
     ) = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position: Int = viewHolder.bindingAdapterPosition
+        val position: Int = viewHolder.adapterPosition
         val note: Note = adapter.getNote(position)
         val isFavorite: Boolean = note.isFavorite
         swipeListener.onNoteSwipe(note, isFavorite)

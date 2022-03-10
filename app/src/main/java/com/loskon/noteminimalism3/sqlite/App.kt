@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.sqlite
 
 import android.app.Application
+import com.loskon.noteminimalism3.sharedpref.PrefHelper
 
 /**
  * Инициализации базы данных
@@ -11,7 +12,8 @@ internal class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DataBaseAdapter.initDataBase(this)
-        DataBaseAdapter.deleteNotesByTime(this)
+        val rangeInDays: Int = PrefHelper.getRetentionRange(this)
+        DataBaseAdapter.initDataBase(this, rangeInDays)
+        //DataBaseAdapter.deleteNotesByTime(this)
     }
 }

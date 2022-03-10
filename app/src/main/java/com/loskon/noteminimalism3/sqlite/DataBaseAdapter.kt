@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -21,13 +20,13 @@ class DataBaseAdapter(context: Context) {
 
     //----------------------------------------------------------------------------------------------
     fun getNotes(searchTerm: String?, category: String, sortingWay: Int): List<Note> {
-        val notes: ArrayList<Note> = ArrayList<Note>()
-        val whereClause: String = getWhereClause(category)
+        val notes: MutableList<Note> = arrayListOf()
+        val whereClause: String = getWhereClause(searchTerm, category)
         val orderBy: String = getOrderBy(category, sortingWay)
 
-        queryNotes(searchTerm, whereClause, orderBy).use { cursor ->
+        queryNotes(whereClause, orderBy).use { cursor ->
             cursor.moveToFirst()
-            while (!cursor.isAfterLast) {
+            while (cursor.isAfterLast.not()) {
                 notes.add(cursor.getNotes())
                 cursor.moveToNext()
             }
@@ -36,13 +35,24 @@ class DataBaseAdapter(context: Context) {
         return notes
     }
 
-    private fun getWhereClause(category: String): String =
-        when (category) {
+    private fun getWhereClause(searchTerm: String?, category: String): String {
+        val categoryWhereClause: String = getCategoryWhereClause(category)
+
+        return if (searchTerm != null) {
+            NoteTable.COLUMN_TITLE + " LIKE '%$searchTerm%' AND " + categoryWhereClause
+        } else {
+            categoryWhereClause
+        }
+    }
+
+    private fun getCategoryWhereClause(category: String): String {
+        return when (category) {
             CATEGORY_ALL_NOTES -> NoteTable.COLUMN_DEL_ITEMS + " = 0"
             CATEGORY_FAVORITES -> NoteTable.COLUMN_FAVORITES + " = 1"
             CATEGORY_TRASH -> NoteTable.COLUMN_DEL_ITEMS + " = 1"
             else -> NoteTable.COLUMN_DEL_ITEMS + " = 0"
         }
+    }
 
     private fun getOrderBy(category: String, sort: Int): String {
         return if (category == CATEGORY_TRASH) {
@@ -56,23 +66,11 @@ class DataBaseAdapter(context: Context) {
         }
     }
 
-    private fun queryNotes(
-        searchTerm: String?,
-        whereClause: String,
-        orderBy: String?
-    ): NoteCursorWrapper {
-        val cursor: Cursor
-
-        val where: String = if (searchTerm != null) {
-            NoteTable.COLUMN_TITLE + " LIKE '%$searchTerm%' AND " + whereClause
-        } else {
-            whereClause
-        }
-
-        cursor = database.query(
+    private fun queryNotes(whereClause: String, orderBy: String?): NoteCursorWrapper {
+        val cursor: Cursor = database.query(
             NoteTable.NAME_TABLE,
             null,
-            where,
+            whereClause,
             null,
             null,
             null,
@@ -105,8 +103,7 @@ class DataBaseAdapter(context: Context) {
         database.delete(NoteTable.NAME_TABLE, null, null)
     }
 
-    fun deleteByTime(context: Context) {
-        val rangeInDays: Int = PrefHelper.getRetentionRange(context)
+    fun deleteByTime(rangeInDays: Int) {
         // Перевод дня в Unix-time для корректного сложения и сравнения
         val range: Long = TimeUnit.MILLISECONDS.convert(rangeInDays.toLong(), TimeUnit.DAYS)
         database.delete(NoteTable.NAME_TABLE, getDelWhereClause(range), null)
@@ -123,36 +120,32 @@ class DataBaseAdapter(context: Context) {
     }
 
     private fun getContentValues(note: Note): ContentValues {
-        val values = ContentValues()
-        values.put(NoteTable.COLUMN_TITLE, note.title)
-        values.put(NoteTable.COLUMN_DATE, note.dateCreation.time)
-        values.put(NoteTable.COLUMN_DATE_MOD, note.dateModification.time)
-        values.put(NoteTable.COLUMN_DATE_DEL, note.dateDelete.time)
-        values.put(NoteTable.COLUMN_FAVORITES, note.isFavorite)
-        values.put(NoteTable.COLUMN_DEL_ITEMS, note.isDelete)
-        return values
+        return ContentValues().apply {
+            put(NoteTable.COLUMN_TITLE, note.title)
+            put(NoteTable.COLUMN_DATE, note.dateCreation.time)
+            put(NoteTable.COLUMN_DATE_MOD, note.dateModification.time)
+            put(NoteTable.COLUMN_DATE_DEL, note.dateDelete.time)
+            put(NoteTable.COLUMN_FAVORITES, note.isFavorite)
+            put(NoteTable.COLUMN_DEL_ITEMS, note.isDelete)
+        }
     }
 
     //----------------------------------------------------------------------------------------------
     companion object {
-        private var INSTANCE: DataBaseAdapter? = null
-
-        fun initDataBase(context: Context) {
-            if (INSTANCE == null) {
-                INSTANCE = DataBaseAdapter(context)
-            }
-        }
-
-        fun deleteNotesByTime(context: Context) {
-            INSTANCE?.deleteByTime(context)
-        }
-
-        fun getDateBase(): DataBaseAdapter {
-            return INSTANCE ?: throw Exception("Database must be initialized")
-        }
-
         const val CATEGORY_ALL_NOTES = "category_all_notes"
         const val CATEGORY_FAVORITES = "category_favorites"
         const val CATEGORY_TRASH = "category_trash"
+
+        private var INSTANCE: DataBaseAdapter? = null
+
+        fun initDataBase(context: Context, rangeInDays: Int = 2) {
+            if (INSTANCE == null) {
+                INSTANCE = DataBaseAdapter(context).also { it.deleteByTime(rangeInDays) }
+            }
+        }
+
+        fun getInstance(): DataBaseAdapter {
+            return INSTANCE ?: throw Exception("Database must be initialized")
+        }
     }
 }

@@ -10,7 +10,7 @@ import java.util.*
 
 class CommandCenter {
 
-    private val dateBase: DataBaseAdapter = DataBaseAdapter.getDateBase()
+    private val dateBase: DataBaseAdapter = DataBaseAdapter.getInstance()
 
     fun getNotes(searchTerm: String?, notesCategory: String, sortingWay: Int): List<Note> {
         return dateBase.getNotes(searchTerm, notesCategory, sortingWay)

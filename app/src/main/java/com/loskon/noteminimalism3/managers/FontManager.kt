@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Typeface
 import androidx.core.content.res.ResourcesCompat
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 
 /**
  * Смена шрифта в приложении
@@ -14,7 +14,7 @@ object FontManager {
 
     fun setFont(context: Context) {
         context.apply {
-            val fontId: Int = when (PrefHelper.getTypeFont(this)) {
+            val fontId: Int = when (AppPreference.getTypeFont(this)) {
 
                 0 -> R.style.RobotoLightFont
 
@@ -57,7 +57,7 @@ object FontManager {
 
     fun getAppFont(context: Context): Typeface? {
         context.apply {
-            val font: Int = when (PrefHelper.getTypeFont(this)) {
+            val font: Int = when (AppPreference.getTypeFont(this)) {
 
                 0 -> R.font.roboto_light
 

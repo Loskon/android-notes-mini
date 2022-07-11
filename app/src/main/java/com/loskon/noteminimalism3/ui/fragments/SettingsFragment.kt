@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.requests.activity.ResultActivity
 import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.*
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
@@ -113,7 +113,7 @@ class SettingsFragment : BaseSettingsFragment(),
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
+        setPreferencesFromResource(R.xml.root_preferences, rootKey)
         getPreferenceScreenKeys()
         findPreferences()
         installPreferencesListener()
@@ -191,11 +191,11 @@ class SettingsFragment : BaseSettingsFragment(),
         // Data
         folder?.summary = BackupPath.getSummary(activity)
 
-        val number: Int = PrefHelper.getNumberBackups(activity)
+        val number: Int = AppPreference.getNumberBackups(activity)
         numberBackups?.summary = number.toString()
 
         // Other
-        val range: Int = PrefHelper.getRetentionRange(activity)
+        val range: Int = AppPreference.getRetentionRange(activity)
         retention?.summary = activity.getString(R.string.number_of_days_summary, range)
     }
 
@@ -344,7 +344,7 @@ class SettingsFragment : BaseSettingsFragment(),
         if (path.contains("/tree/primary")) {
             try {
                 val backupPath: String = BackupPath.findFullPath(path)
-                PrefHelper.setBackupPath(activity, backupPath)
+                AppPreference.setBackupPath(activity, backupPath)
             } catch (exception: Exception) {
                 activity.showSnackbar(WarningSnackbar.MSG_UNKNOWN_ERROR)
             }

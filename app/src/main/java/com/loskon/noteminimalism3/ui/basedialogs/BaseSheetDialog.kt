@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setViewVisibility
@@ -53,7 +53,7 @@ open class BaseSheetDialog(
     }
 
     private fun establishViewsColor() {
-        appColor = PrefHelper.getAppColor(context)
+        appColor = AppPreference.getAppColor(context)
         buttonOk.setBackgroundColor(appColor)
         buttonCancel.setTextColor(appColor)
     }

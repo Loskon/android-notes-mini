@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Font
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.dialogs.WarningAboutFontDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
@@ -63,13 +63,13 @@ class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
     }
 
     private fun getSomeSharedPreferences() {
-        savedPosition = PrefHelper.getTypeFont(activity)
+        savedPosition = AppPreference.getTypeFont(activity)
     }
 
     private fun configureRecyclerAdapter() {
         adapter.setCheckedPosition(savedPosition)
         //
-        val color: Int = PrefHelper.getAppColor(activity)
+        val color: Int = AppPreference.getAppColor(activity)
         adapter.setViewColor(color)
         // Callback
         adapter.registerFontClickListener(this)
@@ -127,12 +127,12 @@ class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
     }
 
     private fun showWarningDialog() {
-        if (PrefHelper.isDialogShow(activity)) WarningAboutFontDialog(activity).show()
+        if (AppPreference.isDialogShow(activity)) WarningAboutFontDialog(activity).show()
     }
 
     override fun onFontClick(font: Font) {
         tvExample.typeface = font.typeFace
-        PrefHelper.setTypeFont(activity, font.id)
+        AppPreference.setTypeFont(activity, font.id)
         activity.setAppFonts()
         callback?.onChangeTypeFont(font.typeFace)
     }

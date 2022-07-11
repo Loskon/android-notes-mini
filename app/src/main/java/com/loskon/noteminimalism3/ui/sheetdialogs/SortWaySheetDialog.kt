@@ -5,7 +5,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setRadioButtonColor
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
@@ -39,7 +39,7 @@ class SortWaySheetDialog(sheetContext: Context) :
     }
 
     private fun configureInsertedViews() {
-        checkedNumber = PrefHelper.getSortingWay(context)
+        checkedNumber = AppPreference.getSortingWay(context)
 
         if (checkedNumber == 1) {
             radioGroup.check(R.id.rb_sort_modification)
@@ -64,7 +64,7 @@ class SortWaySheetDialog(sheetContext: Context) :
     }
 
     private fun onOkBtnClick() {
-        PrefHelper.setSortingWay(context, checkedNumber)
+        AppPreference.setSortingWay(context, checkedNumber)
         callbackSort?.onChangeSortingWay(checkedNumber)
         dismiss()
     }

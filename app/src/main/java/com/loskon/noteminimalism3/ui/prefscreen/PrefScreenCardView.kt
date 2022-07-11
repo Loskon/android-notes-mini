@@ -11,7 +11,7 @@ import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.managers.setSliderColor
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.utils.changeTextSize
 
@@ -67,7 +67,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun configureViews() {
-        titleFontSize = PrefHelper.getTitleFontSize(context)
+        titleFontSize = AppPreference.getTitleFontSize(context)
         tvTitleFontSize.text = context.getString(R.string.title_card_view)
         tvDateFontSize.text = context.getString(R.string.date_card_view)
         setTextSizes(titleFontSize, getValueDateFontSize())
@@ -94,7 +94,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun establishViewsColor() {
-        val color: Int = PrefHelper.getAppColor(context)
+        val color: Int = AppPreference.getAppColor(context)
         viewFavorite.setBackgroundTintColor(color)
         titleCategory.setTextColor(color)
         slider.setSliderColor(color)
@@ -115,8 +115,8 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun saveAppearanceSettings() {
-        PrefHelper.setTitleFontSize(context, titleFontSize)
-        PrefHelper.setDateFontSize(context, fontSizeDate)
+        AppPreference.setTitleFontSize(context, titleFontSize)
+        AppPreference.setDateFontSize(context, fontSizeDate)
     }
 
     override fun onResetFontSize() {

@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.ui.dialogs
 
 import android.content.Context
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
@@ -29,7 +29,7 @@ class WarningAboutFontDialog(dialogContext: Context) :
     }
 
     private fun onOkBtnClick() {
-        PrefHelper.setStatusDialogShow(context)
+        AppPreference.setStatusDialogShow(context)
         dismiss()
     }
 }

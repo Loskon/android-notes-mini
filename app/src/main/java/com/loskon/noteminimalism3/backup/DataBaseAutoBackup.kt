@@ -4,7 +4,7 @@ import android.content.Context
 import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.toast.WarningToast
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File
@@ -60,7 +60,7 @@ object DataBaseAutoBackup {
     }
 
     private fun showSuccessNotification(context: Context) {
-        val hasNotification: Boolean = PrefHelper.hasNotificationAutoBackup(context)
+        val hasNotification: Boolean = AppPreference.hasNotificationAutoBackup(context)
 
         if (hasNotification) {
             showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_COMPLETED, true)

@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.FontManager
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
@@ -47,7 +47,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun establishViewsColor() {
-        val color: Int = PrefHelper.getAppColor(this)
+        val color: Int = AppPreference.getAppColor(this)
         establishViewsColor(color)
     }
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Environment
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import java.io.File
 
 /**
@@ -67,7 +67,7 @@ object BackupPath {
             val documents: String = Environment.DIRECTORY_DOCUMENTS
             Environment.getExternalStoragePublicDirectory(documents).toString()
         } else {
-            PrefHelper.getSelectedDirectory(context)
+            AppPreference.getSelectedDirectory(context)
         }
     }
 

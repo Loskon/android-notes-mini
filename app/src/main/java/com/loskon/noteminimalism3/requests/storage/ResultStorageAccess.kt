@@ -28,7 +28,7 @@ class ResultStorageAccess(
 ) {
 
     private lateinit var resultLauncherAndroidR: ActivityResultLauncher<Intent>
-    private lateinit var resultLauncher: ActivityResultLauncher<Array<out String>>
+    private lateinit var resultLauncher: ActivityResultLauncher<Array<String>>
 
     fun installingContracts() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -49,7 +49,7 @@ class ResultStorageAccess(
             }
     }
 
-    private fun checkPermissions(    ) {
+    private fun checkPermissions() {
         resultLauncher = fragment.registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions -> getResultPermissions(permissions) }

@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.CheckBox
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setStrokeCheckBoxColor
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 
 /**
@@ -40,9 +40,9 @@ class LinksSheetDialog(sheetContext: Context) :
     }
 
     private fun configureStateChecked() {
-        checkBoxWeb.isChecked = PrefHelper.isWeb(context)
-        checkBoxMail.isChecked = PrefHelper.isMail(context)
-        checkBoxPhone.isChecked = PrefHelper.isPhone(context)
+        checkBoxWeb.isChecked = AppPreference.isWeb(context)
+        checkBoxMail.isChecked = AppPreference.isMail(context)
+        checkBoxPhone.isChecked = AppPreference.isPhone(context)
     }
 
     private fun setupViewsListeners() {
@@ -54,15 +54,15 @@ class LinksSheetDialog(sheetContext: Context) :
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.check_box_web -> {
-                PrefHelper.setResultWeb(context, checkBoxWeb.isChecked)
+                AppPreference.setResultWeb(context, checkBoxWeb.isChecked)
             }
 
             R.id.check_box_mail -> {
-                PrefHelper.setResultMail(context, checkBoxMail.isChecked)
+                AppPreference.setResultMail(context, checkBoxMail.isChecked)
             }
 
             R.id.check_box_phone -> {
-                PrefHelper.setResultPhone(context, checkBoxPhone.isChecked)
+                AppPreference.setResultPhone(context, checkBoxPhone.isChecked)
             }
         }
     }

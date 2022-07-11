@@ -7,7 +7,7 @@ import android.os.SystemClock
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.ResetColorWarningSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.ResetFontSizeWarningSheetDialog
@@ -47,7 +47,7 @@ class SettingsAppFragment :
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_app, rootKey)
+        setPreferencesFromResource(R.xml.appearance_preferences, rootKey)
         getPreferenceScreenKeys()
         findPreferences()
         installPreferencesListener()
@@ -123,7 +123,7 @@ class SettingsAppFragment :
 
     //--- Внешние методы ---------------------------------------------------------------------------
     fun callingCallbacks(appColor: Int) {
-        PrefHelper.setAppColor(activity, appColor)
+        AppPreference.setAppColor(activity, appColor)
         activity.onChangeColor(appColor)
         callbackColor?.onChangeColor(appColor)
         forceUpdatePreferenceList()

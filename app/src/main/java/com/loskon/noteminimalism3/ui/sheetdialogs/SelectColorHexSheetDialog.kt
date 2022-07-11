@@ -7,7 +7,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
@@ -60,7 +60,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     }
 
     private fun changeHexString() {
-        inputEditText.setText(convertIntInHex(PrefHelper.getAppColor(context)))
+        inputEditText.setText(convertIntInHex(AppPreference.getAppColor(context)))
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 

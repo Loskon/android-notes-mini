@@ -16,7 +16,7 @@ import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.setButtonIconColor
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.RestoreNoteSnackbar
 import com.loskon.noteminimalism3.utils.changeTextSize
@@ -48,7 +48,7 @@ class NoteTrashFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity = context as NoteActivity
-        hasUpdateDateTime = PrefHelper.hasUpdateDateTime(activity)
+        hasUpdateDateTime = AppPreference.hasUpdateDateTime(activity)
     }
 
     override fun onCreateView(

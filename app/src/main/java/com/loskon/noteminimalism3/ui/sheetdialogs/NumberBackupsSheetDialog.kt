@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.sheetdialogs
 import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.BackupFileHelper
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSliderSheetDialog
 
 /**
@@ -14,12 +14,12 @@ class NumberBackupsSheetDialog(sheetContext: Context) :
     BaseSliderSheetDialog(
         sheetContext,
         R.string.number_of_backup_key,
-        PrefHelper.getNumberBackups(sheetContext)
+        AppPreference.getNumberBackups(sheetContext)
     ) {
 
     override fun onOkBtnClick() {
         val sliderValue: Int = currentSliderValue
-        PrefHelper.save(context, prefKey, sliderValue)
+        AppPreference.setPreference(context, prefKey, sliderValue)
         BackupFileHelper.deleteExtraFiles(context)
         callback?.onChangeNumberBackups(sliderValue)
         dismiss()

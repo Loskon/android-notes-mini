@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import android.content.Context
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSliderSheetDialog
 
 /**
@@ -13,12 +13,12 @@ class RetentionTimeSheetDialog(sheetContext: Context) :
     BaseSliderSheetDialog(
         sheetContext,
         R.string.retention_trash_key,
-        PrefHelper.getRetentionRange(sheetContext)
+        AppPreference.getRetentionRange(sheetContext)
     ) {
 
     override fun onOkBtnClick() {
         val sliderValue: Int = currentSliderValue
-        PrefHelper.save(context, prefKey, sliderValue)
+        AppPreference.setPreference(context, prefKey, sliderValue)
         callback?.onChangeRetention(sliderValue)
         dismiss()
     }

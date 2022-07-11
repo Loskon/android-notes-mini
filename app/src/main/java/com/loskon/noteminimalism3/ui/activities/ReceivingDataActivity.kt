@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.ui.dialogs.NoteReceivingDataDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
@@ -61,7 +61,7 @@ class ReceivingDataActivity :
     }
 
     private fun establishViewsColor() {
-        color = PrefHelper.getAppColor(this)
+        color = AppPreference.getAppColor(this)
         bottomBar.setNavigationIconColor(color)
         fab.setFabColor(color)
     }
@@ -69,11 +69,11 @@ class ReceivingDataActivity :
     private fun configureRecyclerAdapter() {
         adapter.setViewColor(color)
         //
-        val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
-        val dateFontSize: Int = PrefHelper.getDateFontSize(this)
+        val titleFontSize: Int = AppPreference.getTitleFontSize(this)
+        val dateFontSize: Int = AppPreference.getDateFontSize(this)
         adapter.setFontSizes(titleFontSize, dateFontSize)
         //
-        val numberLines: Int = PrefHelper.getNumberLines(this)
+        val numberLines: Int = AppPreference.getNumberLines(this)
         adapter.setNumberLines(numberLines)
         // Callback
         adapter.registerSharedNoteClickListener(this)
@@ -92,7 +92,7 @@ class ReceivingDataActivity :
 
     private val notes: List<Note>
         get() {
-            val sortingWay: Int = PrefHelper.getSortingWay(this)
+            val sortingWay: Int = AppPreference.getSortingWay(this)
             return commandCenter.getNotes(null, category, sortingWay)
         }
 

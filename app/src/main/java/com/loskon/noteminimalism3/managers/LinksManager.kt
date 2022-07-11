@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.managers
 
 import android.content.Context
 import android.text.util.Linkify
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 
 /**
  * Получение активных гиперссылок
@@ -15,7 +15,7 @@ object LinksManager {
     }
 
     private fun getWebLinks(context: Context): Int {
-        return if (PrefHelper.isWeb(context)) {
+        return if (AppPreference.isWeb(context)) {
             Linkify.WEB_URLS
         } else {
             0
@@ -23,7 +23,7 @@ object LinksManager {
     }
 
     private fun getMailLinks(context: Context): Int {
-        return if (PrefHelper.isMail(context)) {
+        return if (AppPreference.isMail(context)) {
             Linkify.EMAIL_ADDRESSES
         } else {
             0
@@ -31,7 +31,7 @@ object LinksManager {
     }
 
     private fun getPhoneLinks(context: Context): Int {
-        return if (PrefHelper.isPhone(context)) {
+        return if (AppPreference.isPhone(context)) {
             Linkify.PHONE_NUMBERS
         } else {
             0

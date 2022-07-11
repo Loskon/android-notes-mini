@@ -1,26 +1,33 @@
 plugins {
-    id 'com.android.application'
-    id 'com.google.gms.google-services'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
+    alias deps.plugins.androidApplication
+    alias deps.plugins.googleServices
+    alias deps.plugins.kotlin
+    alias deps.plugins.kapt
+    alias deps.plugins.navigation
+    alias deps.plugins.parcelize
 }
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    compileSdk deps.versions.compileSdk.get() as Integer
+    //buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.loskon.noteminimalism3"
-        minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 39
-        versionName "1.3.9"
+
+        minSdk deps.versions.minSdk.get() as Integer
+        targetSdk deps.versions.targetSdk.get() as Integer
+
+        versionCode deps.versions.debugVersionCode.get() as Integer
+        versionName deps.versions.debugVersionName.get()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -28,42 +35,44 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    // Data binding support
     buildFeatures {
         dataBinding true
+        viewBinding true
     }
 }
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
-
-    // Android support
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-
-    // UI
-    implementation 'com.google.android.material:material:1.6.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
     // Firebase components
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
 
-    // Kotlin components
-    implementation 'androidx.core:core-ktx:1.7.0'
-
-    // GitHub components
-    implementation 'com.larswerkman:HoloColorPicker:1.5'
-    implementation 'com.github.addisonelliott:SegmentedButton:3.1.9'
-
-    // Testing
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // Desugar
+    coreLibraryDesugaring deps.desugar
+    // Android
+    implementation deps.appcompat
+    implementation deps.material
+    implementation deps.constraintlayout
+    implementation deps.recyclerview
+    implementation deps.activity
+    implementation deps.fragment
+    implementation deps.swiperefreshlayout
+    implementation deps.preference
+    implementation deps.bundles.lifecycle
+    implementation deps.bundles.navigation
+    // Kotlin
+    implementation deps.core
+    // Misc
+    implementation deps.holoColorPicker
+    // Test
+    testImplementation deps.junit5
+    androidTestImplementation deps.extJunit
+    androidTestImplementation deps.espresso
 }

@@ -24,7 +24,7 @@ import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.MainWidgetHelper
 import com.loskon.noteminimalism3.other.QueryTextListener
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.dialogfragmntes.CategorySheetFragment
@@ -140,9 +140,9 @@ class MainActivity : BaseActivity(),
     }
 
     private fun getSomeSharedPreferences() {
-        color = PrefHelper.getAppColor(this)
-        sortingWay = PrefHelper.getSortingWay(this)
-        hasLinearList = PrefHelper.hasLinearList(this)
+        color = AppPreference.getAppColor(this)
+        sortingWay = AppPreference.getSortingWay(this)
+        hasLinearList = AppPreference.hasLinearList(this)
     }
 
     private fun establishViewsColor() {
@@ -157,14 +157,14 @@ class MainActivity : BaseActivity(),
         val boredStrokeDp: Int = ValueUtil.getStrokeLinLay(this)
         adapter.setViewSizes(radiusStrokeDp, boredStrokeDp)
         //
-        val titleFontSize: Int = PrefHelper.getTitleFontSize(this)
-        val dateFontSize: Int = PrefHelper.getDateFontSize(this)
+        val titleFontSize: Int = AppPreference.getTitleFontSize(this)
+        val dateFontSize: Int = AppPreference.getDateFontSize(this)
         adapter.setFontSizes(titleFontSize, dateFontSize)
         //
-        val numberLines: Int = PrefHelper.getNumberLines(this)
+        val numberLines: Int = AppPreference.getNumberLines(this)
         adapter.setNumberLines(numberLines)
         //
-        val hasOneSizeCards: Boolean = PrefHelper.hasOneSizeCards(this)
+        val hasOneSizeCards: Boolean = AppPreference.hasOneSizeCards(this)
         adapter.setOneSizeCards(hasOneSizeCards)
         // Callback
         adapter.registerNoteClickListener(this)
@@ -321,7 +321,7 @@ class MainActivity : BaseActivity(),
         adapter.setLinearList(hasLinearList)
         recyclerView.changeLayoutManager(hasLinearList)
         widgetHelper.changeIconToggleViewMenuItem(hasLinearList)
-        PrefHelper.setStateLinearList(this, hasLinearList)
+        AppPreference.setStateLinearList(this, hasLinearList)
     }
 
     //--- NoteRecyclerAdapter ----------------------------------------------------------------------
@@ -355,7 +355,7 @@ class MainActivity : BaseActivity(),
 
     override fun onSendNoteToTrash(note: Note, hasFavStatus: Boolean) {
         updateQuicklyNoteList(false)
-        val hasShowUndoSnackbar: Boolean = PrefHelper.isBottomWidgetShow(this)
+        val hasShowUndoSnackbar: Boolean = AppPreference.isBottomWidgetShow(this)
         if (hasShowUndoSnackbar) showSnackbarUndo(note, hasFavStatus)
     }
 

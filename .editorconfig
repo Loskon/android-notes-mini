@@ -1,0 +1,18 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = false
+
+[*.gradle]
+indent_size = 4
+
+[*.{java,kt,kts,xml,kt.spec,kts.spec}]
+indent_size = 4
+max_line_length = 130
+# noinspection EditorConfigKeyCorrectness
+disabled_rules = import-ordering

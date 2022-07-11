@@ -1,28 +1,111 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    ext.kotlin_version = "1.6.21"
-
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.1'
-        classpath 'com.google.gms:google-services:4.3.10'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-    }
+plugins {
+    alias deps.plugins.androidApplication apply false
+    alias deps.plugins.androidLibrary apply false
+    alias deps.plugins.googleServices apply false
+    alias deps.plugins.kotlin apply false
+    alias deps.plugins.kapt apply false
+    alias deps.plugins.navigation apply false
+    alias deps.plugins.ktlint apply false
+    alias deps.plugins.detekt apply false
+    alias deps.plugins.gradlevers apply false
+    alias deps.plugins.parcelize apply false
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+subprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+    apply plugin: "io.gitlab.arturbosch.detekt"
+    apply plugin: "checkstyle"
+
+    task ktlint(type: JavaExec) {
+        group = "verification"
+        description = "Check Kotlin code style."
+
+        classpath = configurations.ktlint
+        mainClass.set("com.pinterest.ktlint.Main")
+
+        args "--reporter=plain"
+        args "--reporter=checkstyle,output=$projectDir/build/reports/ktlint/ktlint-report.xml"
+        args "--reporter=checkstyle,output=$projectDir/build/reports/ktlint/ktlint-report.html"
+        args "src/**/*.kt"
+    }
+
+    // noinspection UnnecessaryQualifiedReference
+    task detektCode(type: io.gitlab.arturbosch.detekt.Detekt) {
+        group = "verification"
+        description = "Runs code checks."
+
+        buildUponDefaultConfig = true
+        setSource(files("$projectDir/src/main/"))
+        config.from(files("$rootDir/configs/detekt-config.yml"))
+
+        include '**/*.kt'
+        include '**/*.kts'
+
+        exclude '.*test.*'
+        exclude '.*build.*'
+        exclude '*/resources/.*'
+        exclude '.*/tmp/.*'
+        exclude '**/build/**'
+        exclude '**/test/**'
+        exclude '.*Test.kt'
+        exclude '.*Spec.kt'
+
+        reports {
+            xml.required.set(true)
+            xml.outputLocation.set(file("$projectDir/build/reports/detekt/detekt-report.xml"))
+            html.required.set(true)
+            html.outputLocation.set(file("$projectDir/build/reports/detekt/detekt-report.html"))
+        }
+    }
+
+    task checkstyle(type: Checkstyle) {
+        group = "verification"
+        description = "Runs code style checks."
+
+        source = files("src/main/")
+        configFile = file("$rootDir/configs/checkstyle-config.xml")
+        classpath = files()
+
+        include '**/*.xml'
+        include '**/*.kt'
+        exclude '**/gen/**'
+        exclude '**/R.java'
+        exclude '**/BuildConfig.java'
+
+        reports {
+            xml.required.set(true)
+            xml.outputLocation.set(file("$projectDir/build/reports/checkstyle/checkstyle-report.xml"))
+            html.required.set(true)
+            html.outputLocation.set(file("$projectDir/build/reports/checkstyle/checkstyle-report.html"))
+        }
+    }
+
+    def isNonStable = { String version ->
+        def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { s -> version.toUpperCase().contains(s) }
+        def regex = /^[0-9,.v-]+(-r)?$/
+        return !stableKeyword && !(version ==~ regex)
+    }
+
+    // noinspection UnnecessaryQualifiedReference
+    task checkDependenciesUpdates(type: com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask) {
+        group = "verification"
+        description = "Inspect dependecies updates."
+
+        // Disallow release candidates as upgradable versions from stable versions
+        rejectVersionIf {
+            isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
+        }
+    }
+
+    task checkBeforePushFast(group: 'verification', description: 'Inspect code before push') {
+        dependsOn 'checkstyle', 'detektCode', 'ktlint'
+    }
+
+    task checkBeforePush(group: 'verification', description: 'Deep inspect code before push') {
+        dependsOn 'checkstyle', 'detektCode', 'ktlint', 'lintDebug'
+    }
 }

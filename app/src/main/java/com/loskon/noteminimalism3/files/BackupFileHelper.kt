@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.files
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import java.io.File
 
 /**
@@ -31,7 +31,7 @@ object BackupFileHelper {
     //--- Удаление экстра файлов бэкапа ------------------------------------------------------------
     fun deleteExtraFiles(context: Context) {
         val homeFolder: File = BackupPath.getBackupFolder(context)
-        val maxNumberFiles: Int = PrefHelper.getNumberBackups(context)
+        val maxNumberFiles: Int = AppPreference.getNumberBackups(context)
         var logFiles: Array<File>? = getListDateBaseFiles(homeFolder)
 
         if (logFiles != null && logFiles.size > maxNumberFiles) {

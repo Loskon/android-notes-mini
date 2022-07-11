@@ -26,7 +26,7 @@ import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.NoteAssistant
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
-import com.loskon.noteminimalism3.sharedpref.PrefHelper
+import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.dialogs.NoteLinkDialog
@@ -379,7 +379,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun performAutoBackup() {
-        val hasAutoBackup: Boolean = PrefHelper.hasAutoBackup(activity)
+        val hasAutoBackup: Boolean = AppPreference.hasAutoBackup(activity)
 
         if (hasAutoBackup && isNewNote && noteId % 3 == 0L) {
             DataBaseAutoBackup.checkingStorageAccess(

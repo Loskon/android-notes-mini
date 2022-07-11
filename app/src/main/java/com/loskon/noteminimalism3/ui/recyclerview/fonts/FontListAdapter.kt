@@ -28,7 +28,7 @@ class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.row_fonts, parent, false)
+        val view = inflater.inflate(R.layout.item_fonts, parent, false)
         return FontViewHolder(view)
     }
 

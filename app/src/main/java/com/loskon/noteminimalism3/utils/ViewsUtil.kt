@@ -7,16 +7,21 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.core.view.isVisible
 
 /**
  * Утилиты для вьюшек
  */
 
-fun View.setVisibleView(isVisible: Boolean) {
-    if (isVisible) {
-        this.visibility = View.VISIBLE
+fun View.setViewVisibility(visible: Boolean) {
+    if (this.isVisible == visible) {
+        return
     } else {
-        this.visibility = View.GONE
+        if (visible) {
+            this.visibility = View.VISIBLE
+        } else {
+            this.visibility = View.GONE
+        }
     }
 }
 

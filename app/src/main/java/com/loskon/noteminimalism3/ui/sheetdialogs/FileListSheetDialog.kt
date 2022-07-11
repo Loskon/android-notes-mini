@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.ui.listview.FileBaseAdapter
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.ui.toast.WarningToast
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setVisibleView
+import com.loskon.noteminimalism3.utils.setViewVisibility
 import java.io.File
 
 /**
@@ -60,7 +60,7 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
         if (files == null) {
             tvEmpty.text = context.getString(R.string.sheet_restore_db_folder_not_found)
         } else {
-            tvEmpty.setVisibleView(adapter.count == 0)
+            tvEmpty.setViewVisibility(adapter.count == 0)
         }
     }
 

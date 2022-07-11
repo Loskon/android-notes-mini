@@ -9,7 +9,7 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/inc_note_scroll"
+        layout="@layout/inc_note_edit_text"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="2dp"

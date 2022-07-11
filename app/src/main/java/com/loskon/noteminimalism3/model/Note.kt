@@ -10,6 +10,7 @@ import java.util.*
 
 @Parcelize
 data class Note(
+
     var id: Long = 0L,
 
     var title: String = "",
@@ -22,7 +23,7 @@ data class Note(
 
     var isFavorite: Boolean = false,
 
-    var isDelete: Boolean = false,
+    var isDeleted: Boolean = false,
 
     var isChecked: Boolean = false
 

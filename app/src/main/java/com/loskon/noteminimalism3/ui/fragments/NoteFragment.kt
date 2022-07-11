@@ -314,7 +314,7 @@ open class NoteFragment : Fragment(),
 
     private fun showNoteAssistantSheetDialog() {
         editText.hideKeyboard(activity)
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             delay(300L)
             val stringDate: String = DateUtil.getStringDate(note.dateModification)
             NoteAssistantSheetDialog(activity, assistant).show(stringDate, noteId)

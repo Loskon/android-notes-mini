@@ -42,7 +42,7 @@ class ResultActivity(
     }
 
     //--- Android Old ------------------------------------------------------------------------------
-    fun launcherSelectingFolder() {
+    fun launchFolderSelect() {
         requestCode = REQUEST_CODE_FOLDER_FOR_BACKUP
 
         try {
@@ -60,7 +60,7 @@ class ResultActivity(
     }
 
     //--- Android 11 -------------------------------------------------------------------------------
-    fun launcherSelectingDateBaseFile() {
+    fun launchDateBaseFileSelect() {
         requestCode = REQUEST_CODE_BACKUP_FILE
 
         val backupFolderUri: Uri = Uri.parse(BackupPath.getPathBackupFolder(context))

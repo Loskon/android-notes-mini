@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
-        tools:listitem="@layout/row_note" />
+        tools:listitem="@layout/item_note" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_main"

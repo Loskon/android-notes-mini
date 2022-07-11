@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.R.style.DialogBackground
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setVisibleView
+import com.loskon.noteminimalism3.utils.setViewVisibility
 
 /**
  * Основа для материальных диалоговых окон
@@ -28,7 +28,7 @@ open class BaseMaterialDialog(
 
     private val dialogView: View = View.inflate(dialogContext, R.layout.dialog_base, null)
     private val tvTitle: TextView = dialogView.findViewById(R.id.tv_base_dialog_title)
-    private val linLayout: LinearLayout = dialogView.findViewById(R.id.container_base_dialog)
+    private val frameLayout: FrameLayout = dialogView.findViewById(R.id.container_base_dialog)
     private val buttonOk: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_ok)
     private val btnCancel: MaterialButton = dialogView.findViewById(R.id.btn_base_dialog_cancel)
 
@@ -79,11 +79,12 @@ open class BaseMaterialDialog(
         if (insertViewId != null) {
             val insertView: View = View.inflate(dialogContext, insertViewId, null)
             insertView.setLayoutParamsForInsertedView()
-            linLayout.addView(insertView)
+            frameLayout.addView(insertView)
         } else {
-            linLayout.setVisibleView(false)
+            frameLayout.setViewVisibility(false)
         }
     }
+
 
     //----------------------------------------------------------------------------------------------
     fun setTitleDialog(@StringRes stringId: Int) {
@@ -95,15 +96,15 @@ open class BaseMaterialDialog(
     }
 
     fun setTextTitleVisibility(isVisible: Boolean) {
-        tvTitle.setVisibleView(isVisible)
+        tvTitle.setViewVisibility(isVisible)
     }
 
     fun setBtnOkVisibility(isVisible: Boolean) {
-        buttonOk.setVisibleView(isVisible)
+        buttonOk.setViewVisibility(isVisible)
     }
 
     fun setBtnCancelVisibility(isVisible: Boolean) {
-        btnCancel.setVisibleView(isVisible)
+        btnCancel.setViewVisibility(isVisible)
     }
 
     fun setProgressLayoutParameters() {

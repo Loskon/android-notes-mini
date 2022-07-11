@@ -35,7 +35,6 @@
 
         <Preference
             android:title="@string/backup_title"
-            app:iconSpaceReserved="false"
             app:key="@string/backup_title" />
         <Preference
             android:title="@string/folder_title"

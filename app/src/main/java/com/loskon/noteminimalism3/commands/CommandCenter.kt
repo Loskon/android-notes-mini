@@ -50,14 +50,14 @@ class CommandCenter {
 
     fun sendToTrash(note: Note) {
         note.dateDelete = Date()
-        note.isDelete = true
+        note.isDeleted = true
         note.isFavorite = false
         dateBase.update(note)
     }
 
     fun resetFromTrash(note: Note, hasFavoriteStatus: Boolean) {
         note.isFavorite = hasFavoriteStatus
-        note.isDelete = false
+        note.isDeleted = false
         dateBase.update(note)
     }
 

@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.basedialogs
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.PrefHelper
 import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setVisibleView
+import com.loskon.noteminimalism3.utils.setViewVisibility
 
 /**
  * Основа для нижних диалоговых окон
@@ -27,7 +27,7 @@ open class BaseSheetDialog(
 
     private val sheetView: View = View.inflate(context, R.layout.dialog_base, null)
     private val tvTitle: TextView = sheetView.findViewById(R.id.tv_base_dialog_title)
-    private val linLayout: LinearLayout = sheetView.findViewById(R.id.container_base_dialog)
+    private val linLayout: FrameLayout = sheetView.findViewById(R.id.container_base_dialog)
     private val buttonOk: MaterialButton = sheetView.findViewById(R.id.btn_base_dialog_ok)
     private val buttonCancel: MaterialButton = sheetView.findViewById(R.id.btn_base_dialog_cancel)
 
@@ -68,7 +68,7 @@ open class BaseSheetDialog(
             insertView.setLayoutParamsForInsertedView()
             linLayout.addView(insertView)
         } else {
-            linLayout.setVisibleView(false)
+            linLayout.setViewVisibility(false)
         }
     }
 
@@ -86,19 +86,19 @@ open class BaseSheetDialog(
     }
 
     fun setTitleVisibility(isVisible: Boolean) {
-        tvTitle.setVisibleView(isVisible)
+        tvTitle.setViewVisibility(isVisible)
     }
 
     fun setContainerVisibility(isVisible: Boolean) {
-        linLayout.setVisibleView(isVisible)
+        linLayout.setViewVisibility(isVisible)
     }
 
     fun setBtnOkVisibility(isVisible: Boolean) {
-        buttonOk.setVisibleView(isVisible)
+        buttonOk.setViewVisibility(isVisible)
     }
 
     fun setBtnCancelVisibility(isVisible: Boolean) {
-        buttonCancel.setVisibleView(isVisible)
+        buttonCancel.setViewVisibility(isVisible)
     }
 
     //----------------------------------------------------------------------------------------------

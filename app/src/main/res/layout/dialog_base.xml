@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/container_base_dialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

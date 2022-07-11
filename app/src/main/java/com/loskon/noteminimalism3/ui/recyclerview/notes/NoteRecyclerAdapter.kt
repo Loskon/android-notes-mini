@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.commands.CommandCenter
-import com.loskon.noteminimalism3.databinding.RowNoteBinding
+import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.utils.changeTextSize
@@ -34,9 +34,9 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
     private var numberLines: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val view: RowNoteBinding = DataBindingUtil.inflate(
+        val view: ItemNoteBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.row_note,
+            R.layout.item_note,
             parent,
             false
         )

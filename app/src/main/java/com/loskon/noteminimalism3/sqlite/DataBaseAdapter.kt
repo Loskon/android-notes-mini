@@ -126,7 +126,7 @@ class DataBaseAdapter(context: Context) {
             put(NoteTable.COLUMN_DATE_MOD, note.dateModification.time)
             put(NoteTable.COLUMN_DATE_DEL, note.dateDelete.time)
             put(NoteTable.COLUMN_FAVORITES, note.isFavorite)
-            put(NoteTable.COLUMN_DEL_ITEMS, note.isDelete)
+            put(NoteTable.COLUMN_DEL_ITEMS, note.isDeleted)
         }
     }
 

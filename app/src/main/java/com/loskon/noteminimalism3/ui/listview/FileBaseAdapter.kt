@@ -25,7 +25,7 @@ class FileBaseAdapter : BaseAdapter() {
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = View.inflate(parent?.context, R.layout.row_file, null)
+        val view = View.inflate(parent?.context, R.layout.item_file, null)
         val nameFiles: TextView = view.findViewById(R.id.tv_title_file)
         val cardView: CardView = view.findViewById(R.id.card_view_file)
         val delFile: MaterialButton = view.findViewById(R.id.btn_del_file)

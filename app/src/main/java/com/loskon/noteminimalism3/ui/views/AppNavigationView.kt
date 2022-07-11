@@ -11,7 +11,6 @@ import com.loskon.noteminimalism3.managers.FontManager
 /**
  * NavigationView с измененным шрифтом
  */
-
 class AppNavigationView constructor(
     context: Context,
     attrs: AttributeSet

@@ -26,8 +26,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
  * Экран общих настроек
  */
 
-class SettingsFragment :
-    BaseSettingsFragment(),
+class SettingsFragment : BaseSettingsFragment(),
     Preference.OnPreferenceClickListener,
     Preference.OnPreferenceChangeListener,
     NumberBackupsSheetDialog.NumberBackupsCallback,
@@ -249,7 +248,7 @@ class SettingsFragment :
                 }
 
                 folderKey -> {
-                    if (hasAccessStorageRequest) resultActivity.launcherSelectingFolder()
+                    if (hasAccessStorageRequest) resultActivity.launchFolderSelect()
                     return true
                 }
 
@@ -306,7 +305,7 @@ class SettingsFragment :
     override fun onRequestPermissionsStorageResult(isGranted: Boolean) {
         if (isGranted) {
             if (selectedPreference == folderKey) {
-                resultActivity.launcherSelectingFolder()
+                resultActivity.launchFolderSelect()
             }
         } else {
             if (selectedPreference == autoBackupKey) {

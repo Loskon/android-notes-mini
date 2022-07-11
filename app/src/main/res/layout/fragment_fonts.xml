@@ -33,5 +33,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/row_fonts" />
+        tools:listitem="@layout/item_fonts" />
 </androidx.constraintlayout.widget.ConstraintLayout>

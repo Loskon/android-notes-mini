@@ -34,7 +34,7 @@ import com.loskon.noteminimalism3.ui.dialogs.UnificationDialog
 import com.loskon.noteminimalism3.ui.fragments.*
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
-import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
+import com.loskon.noteminimalism3.ui.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteRecyclerAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
@@ -44,7 +44,7 @@ import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.ValueUtil
 import com.loskon.noteminimalism3.utils.onlyShow
 import com.loskon.noteminimalism3.utils.setOnSingleClickListener
-import com.loskon.noteminimalism3.utils.setVisibleView
+import com.loskon.noteminimalism3.utils.setViewVisibility
 
 /**
  * Главный экран для работы со списком заметок
@@ -173,7 +173,7 @@ class MainActivity : BaseActivity(),
     private fun configureRecyclerView() {
         recyclerView.changeLayoutManager(hasLinearList)
         recyclerView.adapter = adapter
-        recyclerView.itemAnimator = AppItemAnimator()
+        recyclerView.itemAnimator = AddAnimationItemAnimator()
     }
 
     private fun differentConfigurations() {
@@ -197,7 +197,7 @@ class MainActivity : BaseActivity(),
 
     private fun updateQuicklyNoteList(scrollToTop: Boolean) {
         val list: List<Note> = noteList
-        tvEmpty.setVisibleView(list.isEmpty())
+        tvEmpty.setViewVisibility(list.isEmpty())
         adapter.setQuicklyNoteList(list)
         recyclerView.scrollToTop(list, scrollToTop)
     }
@@ -248,7 +248,7 @@ class MainActivity : BaseActivity(),
 
     fun updateNoteList() {
         val notes: List<Note> = noteList
-        tvEmpty.setVisibleView(notes.isEmpty())
+        tvEmpty.setViewVisibility(notes.isEmpty())
         adapter.setNoteList(notes)
     }
 

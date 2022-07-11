@@ -99,7 +99,7 @@ class NoteTrashFragment : Fragment() {
     }
 
     fun restoreNote() {
-        note.isDelete = false
+        note.isDeleted = false
         if (hasUpdateDateTime) note.dateCreation = Date()
         commandCenter.update(note)
         callback?.onRestoreNote(note)

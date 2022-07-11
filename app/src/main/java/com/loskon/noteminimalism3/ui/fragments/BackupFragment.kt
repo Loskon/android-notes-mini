@@ -131,7 +131,7 @@ class BackupFragment : Fragment(),
     private fun onRestoreSdBtnClick() {
         WarningSnackbar.dismiss()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            resultActivity.launcherSelectingDateBaseFile()
+            resultActivity.launchDateBaseFileSelect()
         } else {
             isBackupSd = false
             if (hasAccessStorageRequest) showListRestoreSheetDialog()

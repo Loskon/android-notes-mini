@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.sheetdialogs
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно подтверждения облачного бэкапа/восстановления
@@ -24,7 +24,7 @@ class CloudConfirmSheetDialog(private val fragment: BackupFragment) :
     }
 
     fun show(isBackup: Boolean) {
-        btnOk.setOnSingleClickListener { onOkBtnClick(isBackup) }
+        btnOk.setDebounceClickListener { onOkBtnClick(isBackup) }
         super.show()
     }
 

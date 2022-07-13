@@ -9,7 +9,7 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.files.SortFileDatetime
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import java.io.File
 import java.util.*
 
@@ -33,8 +33,8 @@ class FileBaseAdapter : BaseAdapter() {
         val file = list[position]
 
         nameFiles.text = file.name.replace(".db", "")
-        cardView.setOnSingleClickListener { clickListener.onFileClick(file) }
-        delFile.setOnSingleClickListener { remove(file) }
+        cardView.setDebounceClickListener { clickListener.onFileClick(file) }
+        delFile.setDebounceClickListener { remove(file) }
 
         return view
     }

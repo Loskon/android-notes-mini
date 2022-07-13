@@ -19,18 +19,18 @@
         <item name="colorPrimaryText">@android:color/white</item>
         <item name="colorSecondText">@android:color/darker_gray</item>
         <item name="colorTextHint">@color/widget_text_hint</item>
-        <item name="colorBottomBar">@color/black_light</item>
-        <item name="colorFabIcon">@color/black_light</item>
-        <item name="colorPrimaryCardView">@color/black_light</item>
+        <item name="colorBottomBar">@color/dialog_background</item>
+        <item name="colorFabIcon">@color/dialog_background</item>
+        <item name="colorPrimaryCardView">@color/dialog_background</item>
         <item name="colorSecondCardView">@color/widget_snackbar_dark</item>
         <item name="colorSnackbar">@color/widget_snackbar_dark</item>
-        <item name="colorButtonOk">@color/black_light</item>
+        <item name="colorButtonOk">@color/dialog_background</item>
         <item name="colorShadowImitation">@android:color/transparent</item>
         <item name="colorSwitchBackground">@color/window_background_dark</item>
-        <item name="colorDialogBackground">@color/black_light</item>
+        <item name="colorDialogBackground">@color/dialog_background</item>
         <item name="colorWarning">@android:color/holo_red_light</item>
-        <item name="colorSearchViewBackground">@color/black_light</item>
-        <item name="colorBackupImage">@color/black_light</item>
+        <item name="colorSearchViewBackground">@color/dialog_background</item>
+        <item name="colorBackupImage">@color/dialog_background</item>
         <item name="colorLayoutBackground">@color/window_background_dark</item>
     </style>
 </resources>

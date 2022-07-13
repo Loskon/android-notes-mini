@@ -4,7 +4,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.utils.getShortColor
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для подтверждения сброса цвета приложения
@@ -26,7 +26,7 @@ class ResetColorWarningSheetDialog(private val fragment: SettingsAppFragment) :
     }
 
     private fun setupViewsListeners() {
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun onOkBtnClick() {

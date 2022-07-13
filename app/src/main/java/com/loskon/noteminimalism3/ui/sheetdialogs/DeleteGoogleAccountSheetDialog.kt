@@ -4,7 +4,7 @@ import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для подтверждение удаления гугл-аккаунта
@@ -33,8 +33,8 @@ class DeleteGoogleAccountSheetDialog(private val fragment: BackupFragment) :
     }
 
     private fun setupViewsListeners() {
-        btnYes.setOnSingleClickListener { onYesBtnClick() }
-        btnNo.setOnSingleClickListener { dismiss() }
+        btnYes.setDebounceClickListener { onYesBtnClick() }
+        btnNo.setDebounceClickListener { dismiss() }
     }
 
     private fun onYesBtnClick() {

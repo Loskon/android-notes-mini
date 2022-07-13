@@ -34,7 +34,7 @@
     <dimen name="padding_title_preference">16dp</dimen>
     <dimen name="margin_slider_preference">4dp</dimen>
     <!-- Dialog. -->
-    <dimen name="corner_radius_dialog">6dp</dimen>
+    <dimen name="dialog_corner_radius">6dp</dimen>
     <!-- Parameters for a stroke linearLayout. -->
     <dimen name="corner_radius_lin_layout">5dp</dimen>
     <dimen name="border_stroke_lin_layout">2dp</dimen>

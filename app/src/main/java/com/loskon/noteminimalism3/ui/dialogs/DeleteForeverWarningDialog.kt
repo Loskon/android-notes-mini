@@ -1,9 +1,9 @@
 package com.loskon.noteminimalism3.ui.dialogs
 
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
  * Окно для подтверждение удаления выбранных заметок
@@ -22,7 +22,7 @@ class DeleteForeverWarningDialog(private val activity: MainActivity) :
     }
 
     private fun setupViewsListeners() {
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun onOkBtnClick() {

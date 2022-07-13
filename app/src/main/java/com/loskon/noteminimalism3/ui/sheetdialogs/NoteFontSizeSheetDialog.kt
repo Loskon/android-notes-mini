@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Изменение размер текста заметок
@@ -47,8 +47,8 @@ class NoteFontSizeSheetDialog(sheetContext: Context) :
 
     private fun setupViewsListeners() {
         slider.addOnChangeListener { _, value: Float, _ -> onSliderChange(value) }
-        btnReset.setOnSingleClickListener { onResetBtnClick() }
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnReset.setDebounceClickListener { onResetBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun onSliderChange(value: Float) {

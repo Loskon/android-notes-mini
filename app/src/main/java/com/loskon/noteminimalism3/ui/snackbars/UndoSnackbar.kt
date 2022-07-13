@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.MainActivity
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Snackbar с таймером для восстановления удаленной заметки
@@ -54,7 +54,7 @@ class UndoSnackbar(
         val tvProgress: TextView? = view?.findViewById(R.id.tv_snackbar_undo_progress)
         val tvTitle: TextView? = view?.findViewById(R.id.tv_snackbar_undo_text)
 
-        btnSnackbar?.setOnSingleClickListener { performRestoreNote(note, hasFavStatus, category) }
+        btnSnackbar?.setDebounceClickListener { performRestoreNote(note, hasFavStatus, category) }
         progressBar?.setupAnimation()
         tvProgress?.installTimer()
         tvTitle?.messageText(category)

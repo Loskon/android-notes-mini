@@ -19,7 +19,7 @@ class NumberBackupsSheetDialog(sheetContext: Context) :
 
     override fun onOkBtnClick() {
         val sliderValue: Int = currentSliderValue
-        AppPreference.setPreference(context, prefKey, sliderValue)
+        AppPreference.set(context, prefKey, sliderValue)
         BackupFileHelper.deleteExtraFiles(context)
         callback?.onChangeNumberBackups(sliderValue)
         dismiss()

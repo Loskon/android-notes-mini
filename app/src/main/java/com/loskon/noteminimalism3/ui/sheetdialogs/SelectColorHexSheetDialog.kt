@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 
 /**
@@ -60,7 +60,7 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     }
 
     private fun changeHexString() {
-        inputEditText.setText(convertIntInHex(AppPreference.getAppColor(context)))
+        inputEditText.setText(convertIntInHex(AppPreference.getColor(context)))
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 
@@ -75,8 +75,8 @@ class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
     private fun setupViewsListeners() {
         inputEditText.doOnTextChanged { text, _, _, _ -> run { changeColorBox(text) } }
         inputLayout.setEndIconOnClickListener { onEndIconClick() }
-        btnReset.setOnSingleClickListener { onResetBtnClick() }
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnReset.setDebounceClickListener { onResetBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun changeColorBox(text: CharSequence?) {

@@ -33,7 +33,7 @@ class PrefScreenNumberLines @JvmOverloads constructor(
             val prefKey: String = getString(R.string.number_of_lines_key)
             val slider: Slider = holder.findViewById(R.id.slider_number_of_lines) as Slider
 
-            val color: Int = AppPreference.getAppColor(this)
+            val color: Int = AppPreference.getColor(this)
             slider.setSliderColor(color)
 
             val numberLines: Int = AppPreference.getNumberLines(this)
@@ -41,7 +41,7 @@ class PrefScreenNumberLines @JvmOverloads constructor(
 
             slider.addOnChangeListener(Slider.OnChangeListener { _, value: Float, _ ->
                 val number: Int = value.toInt()
-                AppPreference.setPreference(this, prefKey, number)
+                AppPreference.set(this, prefKey, number)
                 callback?.onChangeNumberLines(number)
             })
         }

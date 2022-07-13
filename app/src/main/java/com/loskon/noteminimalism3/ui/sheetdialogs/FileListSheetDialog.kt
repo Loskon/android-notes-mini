@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.listview.FileBaseAdapter
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.ui.toast.WarningToast
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.utils.setViewVisibility
 import java.io.File
 
@@ -70,7 +70,7 @@ class FileListSheetDialog(private val activity: SettingsActivity) :
         }
 
     private fun setupViewsListeners() {
-        btnDeleteAll.setOnSingleClickListener { onDeleteAllBtnClick() }
+        btnDeleteAll.setDebounceClickListener { onDeleteAllBtnClick() }
     }
 
     private fun onDeleteAllBtnClick() {

@@ -5,7 +5,7 @@ import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import java.io.File
 
 /**
@@ -28,7 +28,7 @@ class DeleteFilesSheetDialog(private val activity: SettingsActivity) :
     }
 
     private fun setupViewsListeners() {
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun onOkBtnClick() {

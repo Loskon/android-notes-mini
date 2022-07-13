@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.ui.prefscreen
+package com.loskon.noteminimalism3.app.base.widget.preference
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -12,7 +12,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 
-class AppSwitchPreference(
+class CustomSwitchPreference(
     context: Context,
     attrs: AttributeSet
 ) : SwitchPreference(context, attrs) {
@@ -29,21 +29,21 @@ class AppSwitchPreference(
         val btnOn = holder.findViewById(R.id.btn_toggle_preference_on) as MaterialButton
 
         if (isEnabled) {
-            val color = AppPreference.getAppColor(context)
-            val isChecked = AppPreference.getPreference(context, key, false)
+            val color = AppPreference.getColor(context)
+            val isChecked = AppPreference.get(context, key, false)
 
             btnOff.strokeColor = ColorStateList.valueOf(color)
             btnOn.strokeColor = ColorStateList.valueOf(color)
 
             if (isChecked) {
                 btnOff.setTextColor(Color.GRAY)
-                btnOn.setTextColor(color)
                 btnOff.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+                btnOn.setTextColor(color)
                 btnOn.backgroundTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 60))
             } else {
                 btnOff.setTextColor(color)
-                btnOn.setTextColor(Color.GRAY)
                 btnOff.backgroundTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 60))
+                btnOn.setTextColor(Color.GRAY)
                 btnOn.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
             }
 

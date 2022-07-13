@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.setFabColor
@@ -18,7 +19,6 @@ import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_
 import com.loskon.noteminimalism3.ui.dialogs.NoteReceivingDataDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.sharednotes.ReceivingNoteRecyclerAdapter
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setViewVisibility
 
 /**
@@ -61,7 +61,7 @@ class ReceivingDataActivity :
     }
 
     private fun establishViewsColor() {
-        color = AppPreference.getAppColor(this)
+        color = AppPreference.getColor(this)
         bottomBar.setNavigationIconColor(color)
         fab.setFabColor(color)
     }
@@ -101,7 +101,7 @@ class ReceivingDataActivity :
     }
 
     private fun setupViewsListeners() {
-        fab.setOnSingleClickListener { addNewNote() }
+        fab.setDebounceClickListener { addNewNote() }
         bottomBar.setNavigationOnClickListener { finish() }
     }
 

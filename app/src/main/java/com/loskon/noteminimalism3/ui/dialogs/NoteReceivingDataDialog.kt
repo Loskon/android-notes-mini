@@ -2,9 +2,10 @@ package com.loskon.noteminimalism3.ui.dialogs
 
 import android.widget.Button
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.ui.activities.ReceivingDataActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для выбора пути сохранения полученного текста
@@ -28,8 +29,8 @@ class NoteReceivingDataDialog(private val activity: ReceivingDataActivity) :
     }
 
     private fun setupViewsListeners() {
-        btnAdd.setOnSingleClickListener { onAddBtnClick() }
-        btnUpdate.setOnSingleClickListener { dismiss() }
+        btnAdd.setDebounceClickListener { onAddBtnClick() }
+        btnUpdate.setDebounceClickListener { dismiss() }
     }
 
     private fun onAddBtnClick() {

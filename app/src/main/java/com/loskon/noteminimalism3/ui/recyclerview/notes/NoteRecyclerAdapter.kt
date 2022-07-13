@@ -14,7 +14,7 @@ import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Адаптер для работы со списком заметок
@@ -57,7 +57,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
             title.configureTitleText()
             date.changeTextSize(dateFontSize)
 
-            card.setOnSingleClickListener { onItemClick(note, position) }
+            card.setDebounceClickListener { onItemClick(note, position) }
             card.setOnLongClickListener { onItemLongClick(note, position) }
 
             setVariablesGradDraw(note.isChecked)

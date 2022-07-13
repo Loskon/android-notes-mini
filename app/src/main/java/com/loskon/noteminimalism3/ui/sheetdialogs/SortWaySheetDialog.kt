@@ -7,7 +7,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setRadioButtonColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для выбора способа сортировки заметок
@@ -50,7 +50,7 @@ class SortWaySheetDialog(sheetContext: Context) :
 
     private fun setupViewsListeners() {
         radioGroup.setShortOnCheckedChangeListener()
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun RadioGroup.setShortOnCheckedChangeListener() {

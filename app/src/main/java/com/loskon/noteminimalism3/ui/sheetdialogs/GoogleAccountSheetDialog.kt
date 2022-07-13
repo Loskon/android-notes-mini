@@ -4,7 +4,7 @@ import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для действий с гугл-аккаунтом
@@ -34,8 +34,8 @@ class GoogleAccountSheetDialog(private val fragment: BackupFragment
     }
 
     private fun setupViewsListeners() {
-        btnLogout.setOnSingleClickListener { onLogoutBtnClick() }
-        btnDelete.setOnSingleClickListener { onDeleteBtnClick() }
+        btnLogout.setDebounceClickListener { onLogoutBtnClick() }
+        btnDelete.setDebounceClickListener { onDeleteBtnClick() }
     }
 
     private fun onLogoutBtnClick() {

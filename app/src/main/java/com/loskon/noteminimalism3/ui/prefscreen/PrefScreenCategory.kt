@@ -23,7 +23,7 @@ class PrefScreenCategory @JvmOverloads constructor(
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
         val title: TextView = holder.findViewById(android.R.id.title) as TextView
-        title.setTextColor(AppPreference.getAppColor(context))
+        title.setTextColor(AppPreference.getColor(context))
         title.typeface = Typeface.DEFAULT_BOLD
     }
 }

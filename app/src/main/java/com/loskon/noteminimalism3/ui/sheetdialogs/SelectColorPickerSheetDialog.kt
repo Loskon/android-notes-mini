@@ -6,7 +6,7 @@ import com.larswerkman.holocolorpicker.SVBar
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для выбора цвета темы приложения с помощью ColorPicker
@@ -39,8 +39,8 @@ class SelectColorPickerSheetDialog(private val fragment: SettingsAppFragment) :
 
     private fun setupViewsListeners() {
         colorPicker.setOnColorChangedListener { appColor = it }
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
-        btnReset.setOnSingleClickListener { colorPicker.color = color }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
+        btnReset.setDebounceClickListener { colorPicker.color = color }
     }
 
     private fun onOkBtnClick() {

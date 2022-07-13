@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setRadioButtonColor
 import com.loskon.noteminimalism3.model.Font
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Адаптер для работы со списком шрифтов
@@ -41,7 +41,7 @@ class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
             title.configureTitleText(font)
             exampleText.typeface = font.typeFace
             radioButton.configureRadioButton(position)
-            card.setOnSingleClickListener { onItemClick(font, position) }
+            card.setDebounceClickListener { onItemClick(font, position) }
         }
     }
 

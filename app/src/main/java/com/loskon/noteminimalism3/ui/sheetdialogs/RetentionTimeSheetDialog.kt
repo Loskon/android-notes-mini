@@ -18,7 +18,7 @@ class RetentionTimeSheetDialog(sheetContext: Context) :
 
     override fun onOkBtnClick() {
         val sliderValue: Int = currentSliderValue
-        AppPreference.setPreference(context, prefKey, sliderValue)
+        AppPreference.set(context, prefKey, sliderValue)
         callback?.onChangeRetention(sliderValue)
         dismiss()
     }

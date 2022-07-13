@@ -43,7 +43,7 @@ class NoteActivity : BaseActivity() {
     }
 
     private fun getSomeSharedPreferences() {
-        color = AppPreference.getAppColor(this)
+        color = AppPreference.getColor(this)
         noteFontSize = AppPreference.getNoteFontSize(this)
     }
 

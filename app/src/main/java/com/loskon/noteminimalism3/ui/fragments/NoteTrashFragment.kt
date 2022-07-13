@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.RestoreNoteSnackbar
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import java.util.*
 
 /**
@@ -92,8 +92,8 @@ class NoteTrashFragment : Fragment() {
     }
 
     private fun setupViewsListeners() {
-        fab.setOnSingleClickListener { restoreNote() }
-        btnDel.setOnSingleClickListener { deleteNote() }
+        fab.setDebounceClickListener { restoreNote() }
+        btnDel.setDebounceClickListener { deleteNote() }
         linearLayout.setOnClickListener { showSnackbar() }
         editText.setOnClickListener { showSnackbar() }
     }

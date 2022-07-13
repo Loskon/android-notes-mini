@@ -3,8 +3,8 @@ package com.loskon.noteminimalism3.ui.basedialogs
 import android.content.Context
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.managers.setSliderColor
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 
 /**
  *
@@ -39,7 +39,7 @@ abstract class BaseSliderSheetDialog(
     }
 
     private fun setupViewsListeners() {
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     abstract fun onOkBtnClick()

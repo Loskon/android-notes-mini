@@ -4,7 +4,7 @@ import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для предупреждения о том, что выбранный шрифт
@@ -25,7 +25,7 @@ class WarningAboutFontDialog(dialogContext: Context) :
     }
 
     private fun setupViewsListeners() {
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun onOkBtnClick() {

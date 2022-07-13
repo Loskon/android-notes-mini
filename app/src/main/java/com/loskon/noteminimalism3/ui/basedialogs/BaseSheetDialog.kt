@@ -10,9 +10,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setViewVisibility
 
 /**
@@ -53,13 +53,13 @@ open class BaseSheetDialog(
     }
 
     private fun establishViewsColor() {
-        appColor = AppPreference.getAppColor(context)
+        appColor = AppPreference.getColor(context)
         buttonOk.setBackgroundColor(appColor)
         buttonCancel.setTextColor(appColor)
     }
 
     private fun setupViewsListeners() {
-        buttonCancel.setOnSingleClickListener { dismiss() }
+        buttonCancel.setDebounceClickListener { dismiss() }
     }
 
     private fun addInsertedView() {

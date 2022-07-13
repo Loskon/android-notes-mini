@@ -47,7 +47,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun establishViewsColor() {
-        val color: Int = AppPreference.getAppColor(this)
+        val color: Int = AppPreference.getColor(this)
         establishViewsColor(color)
     }
 

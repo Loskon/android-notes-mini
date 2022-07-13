@@ -4,7 +4,7 @@ import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для подтверждение объединения выбранных заметок
@@ -33,8 +33,8 @@ class UnificationDialog(private val activity: MainActivity) :
     }
 
     private fun setupViewsListeners() {
-        btnDelete.setOnSingleClickListener { onDeleteBtnClick() }
-        btnLeave.setOnSingleClickListener { onLeaveBtnClick() }
+        btnDelete.setDebounceClickListener { onDeleteBtnClick() }
+        btnLeave.setDebounceClickListener { onLeaveBtnClick() }
     }
 
     private fun onDeleteBtnClick() {

@@ -69,7 +69,7 @@ class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
     private fun configureRecyclerAdapter() {
         adapter.setCheckedPosition(savedPosition)
         //
-        val color: Int = AppPreference.getAppColor(activity)
+        val color: Int = AppPreference.getColor(activity)
         adapter.setViewColor(color)
         // Callback
         adapter.registerFontClickListener(this)

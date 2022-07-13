@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Snackbar с текстом и кнопкой
@@ -29,7 +29,7 @@ class RestoreNoteSnackbar(
     private fun BaseDefaultSnackbar?.settingSnackbarView() {
         val view: View? = this?.view
         val btnSnackbar: Button? = view?.findViewById(R.id.btn_snackbar_note_reset)
-        btnSnackbar?.setOnSingleClickListener { restoreNoteFromTrash() }
+        btnSnackbar?.setDebounceClickListener { restoreNoteFromTrash() }
     }
 
     private fun restoreNoteFromTrash() {

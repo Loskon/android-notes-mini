@@ -29,6 +29,29 @@
     <!-- Background -->
     <color name="widget_search_view">#15000000</color>
     <color name="window_background_dark">#121212</color>
-    <color name="black_light">#272727</color>
+    <color name="dialog_background">#272727</color>
     <color name="widget_backup_image">#DFDFDF</color>
+
+    <!-- Common -->
+    <color name="accent_on_grey">#E8ECF1</color>
+    <!-- Light -->
+    <color name="blue_light">#0969DA</color>
+    <color name="error_red_light">#D73A49</color>
+    <color name="primary_text_light">#2C3137</color>
+    <color name="secondary_text_light">#606872</color>
+    <color name="item_background_light">#F6F8FA</color>
+    <!-- Dark -->
+    <color name="blue_dark">#539BF4</color>
+    <color name="error_red_dark">#D44D49</color>
+<!--    <color name="window_background_dark">#22272E</color>-->
+    <color name="black_dark">#1C2128</color>
+    <color name="item_background_dark">#2D333B</color>
+    <color name="bottom_bar_dark">#373e47</color>
+    <color name="primary_text_dark">#CDD9E5</color>
+    <color name="secondary_text_dark">#707D89</color>
+    <!-- Color -->
+    <color name="secondary_text_color">@color/secondary_text_light</color>
+    <color name="sheet_background_color">@android:color/white</color>
+    <color name="error_color">@color/error_red_light</color>
+    <color name="bg_tv_color">@color/accent_on_grey</color>
 </resources>

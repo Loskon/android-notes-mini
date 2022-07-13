@@ -25,6 +25,6 @@ class PrefScreenColor @JvmOverloads constructor(
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
         val imageView = holder.findViewById(R.id.image_view_color) as ImageView
-        imageView.setColorFilter(AppPreference.getAppColor(context))
+        imageView.setColorFilter(AppPreference.getColor(context))
     }
 }

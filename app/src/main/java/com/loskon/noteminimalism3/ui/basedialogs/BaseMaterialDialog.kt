@@ -12,9 +12,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.DialogBackground
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setViewVisibility
 
 /**
@@ -66,13 +66,13 @@ open class BaseMaterialDialog(
     }
 
     private fun establishViewsColor() {
-        appColor = AppPreference.getAppColor(dialogContext)
+        appColor = AppPreference.getColor(dialogContext)
         buttonOk.setBackgroundColor(appColor)
         btnCancel.setTextColor(appColor)
     }
 
     private fun setupViewsListeners() {
-        btnCancel.setOnSingleClickListener { alertDialog.dismiss() }
+        btnCancel.setDebounceClickListener { alertDialog.dismiss() }
     }
 
     private fun addInsertedView() {

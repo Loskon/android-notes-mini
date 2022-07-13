@@ -4,7 +4,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.activities.MainActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для подтверждения очистки корзины
@@ -27,7 +27,7 @@ class SendToTrashWarningDialog(private val activity: MainActivity) :
     }
 
     private fun setupViewsListeners(itemCount: Int) {
-        btnOk.setOnSingleClickListener { onOkBtnClick(itemCount) }
+        btnOk.setDebounceClickListener { onOkBtnClick(itemCount) }
     }
 
     private fun onOkBtnClick(itemCount: Int) {

@@ -94,7 +94,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun establishViewsColor() {
-        val color: Int = AppPreference.getAppColor(context)
+        val color: Int = AppPreference.getColor(context)
         viewFavorite.setBackgroundTintColor(color)
         titleCategory.setTextColor(color)
         slider.setSliderColor(color)

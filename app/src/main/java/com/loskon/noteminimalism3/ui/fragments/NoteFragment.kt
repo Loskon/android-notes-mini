@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.backup.DataBaseAutoBackup
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.LinksManager
@@ -33,10 +34,15 @@ import com.loskon.noteminimalism3.ui.dialogs.NoteLinkDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppMovementMethod
 import com.loskon.noteminimalism3.ui.sheetdialogs.NoteAssistantSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.utils.*
+import com.loskon.noteminimalism3.utils.DateUtil
+import com.loskon.noteminimalism3.utils.changeTextSize
+import com.loskon.noteminimalism3.utils.getShortDrawable
+import com.loskon.noteminimalism3.utils.hideKeyboard
+import com.loskon.noteminimalism3.utils.scrollBottom
+import com.loskon.noteminimalism3.utils.showKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 
 /**
  * Экран для работы с заметкой
@@ -245,10 +251,10 @@ open class NoteFragment : Fragment(),
     }
 
     private fun setupViewsListeners() {
-        fab.setOnSingleClickListener { onFabClick() }
+        fab.setDebounceClickListener { onFabClick() }
         btnFav.setOnClickListener { onFavoriteBtnClick() }
-        btnDel.setOnSingleClickListener { onDeleteBtnClick() }
-        btnMore.setOnSingleClickListener { onMoreBtnClick() }
+        btnDel.setDebounceClickListener { onDeleteBtnClick() }
+        btnMore.setDebounceClickListener { onMoreBtnClick() }
         editText.setOnClickListener { WarningSnackbar.dismiss() }
         linLayout.setOnLinLayoutClickListener()
     }

@@ -47,15 +47,14 @@ android {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:29.0.3')
-    // Firebase components
-    implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
-    implementation 'com.google.android.gms:play-services-auth:20.2.0'
-
     // Desugar
     coreLibraryDesugaring deps.desugar
+    // Services
+    implementation platform(deps.firebaseBom)
+    implementation deps.firebaseStorage
+    implementation deps.firebaseAuth
+    implementation deps.firebaseUiAuth
+    implementation deps.playServices
     // Android
     implementation deps.appcompat
     implementation deps.material
@@ -69,6 +68,8 @@ dependencies {
     implementation deps.bundles.navigation
     // Kotlin
     implementation deps.core
+    // Logs
+    implementation deps.timber
     // Misc
     implementation deps.holoColorPicker
     // Test

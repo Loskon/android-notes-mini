@@ -8,7 +8,7 @@ import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.SheetDialogStatusBar
 import com.loskon.noteminimalism3.other.NoteAssistant
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.utils.setViewVisibility
 
 /**
@@ -54,23 +54,23 @@ class NoteAssistantSheetDialog(
 
     private fun setupViewsListeners() {
         assistant.apply {
-            btnPaste.setOnSingleClickListener {
+            btnPaste.setDebounceClickListener {
                 dismiss()
                 pasteText()
             }
-            btnCopyAll.setOnSingleClickListener {
+            btnCopyAll.setDebounceClickListener {
                 dismiss()
                 copyText()
             }
-            btnSave.setOnSingleClickListener {
+            btnSave.setDebounceClickListener {
                 dismiss()
                 saveTextFile()
             }
-            btnShare.setOnSingleClickListener {
+            btnShare.setDebounceClickListener {
                 dismiss()
                 shareText()
             }
-            btnClose.setOnSingleClickListener { dismiss() }
+            btnClose.setDebounceClickListener { dismiss() }
         }
     }
 }

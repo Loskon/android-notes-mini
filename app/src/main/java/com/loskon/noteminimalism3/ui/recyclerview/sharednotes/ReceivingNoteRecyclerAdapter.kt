@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteViewHolder
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Адаптер для работы со списком заметок (для Share)
@@ -52,7 +52,7 @@ class ReceivingNoteRecyclerAdapter : RecyclerView.Adapter<NoteViewHolder>() {
             date.changeTextSize(dateFontSize)
             viewFavorite.setBackgroundTintColor(color)
 
-            card.setOnSingleClickListener { clickListener.onSharedNoteClick(note) }
+            card.setDebounceClickListener { clickListener.onSharedNoteClick(note) }
         }
     }
 

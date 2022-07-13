@@ -29,7 +29,7 @@ import com.loskon.noteminimalism3.ui.sheetdialogs.CreateBackupSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.GoogleAccountSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Экран для бэкапа/восстановления БД
@@ -98,7 +98,7 @@ class BackupFragment : Fragment(),
     }
 
     private fun establishViewsColor() {
-        val color: Int = AppPreference.getAppColor(activity)
+        val color: Int = AppPreference.getColor(activity)
         btnBackupSD.setBackgroundColor(color)
         btnRestoreSD.setBackgroundColor(color)
         btnBackupCloud.setBackgroundColor(color)
@@ -106,10 +106,10 @@ class BackupFragment : Fragment(),
     }
 
     private fun setupViewsListeners() {
-        btnBackupSD.setOnSingleClickListener { onBackupSdBtnClick() }
-        btnRestoreSD.setOnSingleClickListener { onRestoreSdBtnClick() }
-        btnBackupCloud.setOnSingleClickListener { onBackupCloudBtnClick() }
-        btnRestoreCloud.setOnSingleClickListener { onRestoreCloudBtnClick() }
+        btnBackupSD.setDebounceClickListener { onBackupSdBtnClick() }
+        btnRestoreSD.setDebounceClickListener { onRestoreSdBtnClick() }
+        btnBackupCloud.setDebounceClickListener { onBackupCloudBtnClick() }
+        btnRestoreCloud.setDebounceClickListener { onRestoreCloudBtnClick() }
         bottomBar.setOnMenuItemClickListener { onMenuItemClick(it) }
     }
 

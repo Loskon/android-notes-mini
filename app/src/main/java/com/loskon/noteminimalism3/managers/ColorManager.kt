@@ -122,7 +122,7 @@ object ColorManager {
 
 
 fun NavigationView.setColorStateMenuItem(context: Context) {
-    val color: Int = AppPreference.getAppColor(context)
+    val color: Int = AppPreference.getColor(context)
 
     val navDefaultTextColor: Int
     val navDefaultIconColor: Int

@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 import java.io.File
 import java.util.*
@@ -50,7 +50,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
 
     private fun setupViewsListeners() {
         inputEditText.doOnTextChanged { _, _, _, _ -> run { disableErrorNotification() } }
-        btnOk.setOnSingleClickListener { onOkBtnClick() }
+        btnOk.setDebounceClickListener { onOkBtnClick() }
     }
 
     private fun disableErrorNotification() {

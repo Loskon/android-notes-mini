@@ -5,11 +5,11 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Button
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import java.util.regex.Pattern
 
 /**
@@ -106,8 +106,8 @@ class NoteLinkDialog(private val fragment: NoteFragment) :
     }
 
     private fun setupViewsListeners() {
-        btnOpen.setOnSingleClickListener { clickingOpenButton() }
-        btnCopy.setOnSingleClickListener { clickingCopyButton() }
+        btnOpen.setDebounceClickListener { clickingOpenButton() }
+        btnCopy.setDebounceClickListener { clickingCopyButton() }
     }
 
     private fun clickingOpenButton() {

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.FontManager
@@ -31,7 +32,11 @@ import com.loskon.noteminimalism3.ui.dialogfragmntes.CategorySheetFragment
 import com.loskon.noteminimalism3.ui.dialogs.DeleteForeverWarningDialog
 import com.loskon.noteminimalism3.ui.dialogs.SendToTrashWarningDialog
 import com.loskon.noteminimalism3.ui.dialogs.UnificationDialog
-import com.loskon.noteminimalism3.ui.fragments.*
+import com.loskon.noteminimalism3.ui.fragments.BackupFragment
+import com.loskon.noteminimalism3.ui.fragments.FontsFragment
+import com.loskon.noteminimalism3.ui.fragments.NoteFragment
+import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
+import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
 import com.loskon.noteminimalism3.ui.recyclerview.AddAnimationItemAnimator
@@ -43,12 +48,7 @@ import com.loskon.noteminimalism3.ui.snackbars.UndoSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.ValueUtil
 import com.loskon.noteminimalism3.utils.onlyShow
-import com.loskon.noteminimalism3.utils.setOnSingleClickListener
 import com.loskon.noteminimalism3.utils.setViewVisibility
-
-/**
- * Главный экран для работы со списком заметок
- */
 
 class MainActivity : BaseActivity(),
     NoteRecyclerAdapter.NoteActionListener,
@@ -140,7 +140,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun getSomeSharedPreferences() {
-        color = AppPreference.getAppColor(this)
+        color = AppPreference.getColor(this)
         sortingWay = AppPreference.getSortingWay(this)
         hasLinearList = AppPreference.hasLinearList(this)
     }
@@ -212,7 +212,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun setupViewsListeners() {
-        fab.setOnSingleClickListener { onFabClick() }
+        fab.setDebounceClickListener { onFabClick() }
         bottomBar.setNavigationOnClickListener { onNavigationBtnClick() }
         bottomBar.setOnMenuItemClickListener { onMenuItemsClick(it) }
     }

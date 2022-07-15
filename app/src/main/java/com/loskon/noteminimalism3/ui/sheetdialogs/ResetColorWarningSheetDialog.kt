@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
+import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.utils.getShortColor
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListen
  * Окно для подтверждения сброса цвета приложения
  */
 
-class ResetColorWarningSheetDialog(private val fragment: SettingsAppFragment) :
+class ResetColorWarningSheetDialog(private val fragment: AppearanceSettingsFragment) :
     BaseSheetDialog(fragment.requireContext()) {
 
     init {

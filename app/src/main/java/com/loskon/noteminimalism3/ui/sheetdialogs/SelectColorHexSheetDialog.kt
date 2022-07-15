@@ -9,7 +9,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
+import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 
@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.utils.showKeyboard
  * Окно для указания hex-кода для цвета темы приложения
  */
 
-class SelectColorHexSheetDialog(private val fragment: SettingsAppFragment) :
+class SelectColorHexSheetDialog(private val fragment: AppearanceSettingsFragment) :
     BaseSheetDialog(fragment.requireContext(), R.layout.sheet_color_hex) {
 
     private val inputLayout: TextInputLayout = view.findViewById(R.id.input_layout_hex)

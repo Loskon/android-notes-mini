@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.managers.FontManager
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
-import com.loskon.noteminimalism3.ui.fragments.SettingsFragment
+import com.loskon.noteminimalism3.ui.fragments.RootSettingsFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 /**
@@ -60,7 +60,7 @@ class SettingsActivity : BaseActivity() {
         if (savedInstanceState == null) {
             fragmentManager
                 .beginTransaction()
-                .add(R.id.fragment_container_settings, SettingsFragment())
+                .add(R.id.fragment_container_settings, RootSettingsFragment())
                 .commit()
         }
     }

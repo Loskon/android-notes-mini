@@ -35,7 +35,12 @@
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/num_of_lines_header">
-        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines app:allowDividerAbove="false" />
+        <com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
+            android:key="@string/number_of_lines_key"
+            app:allowDividerAbove="false"
+            app:defaultValue="@integer/number_lines"
+            app:sliderMaxValue="10"
+            app:sliderMinValue="1" />
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory

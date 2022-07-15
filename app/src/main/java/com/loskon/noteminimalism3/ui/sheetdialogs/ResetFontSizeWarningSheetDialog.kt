@@ -2,14 +2,14 @@ package com.loskon.noteminimalism3.ui.sheetdialogs
 
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
+import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для подтверждения сброса цвета приложения
  */
 
-class ResetFontSizeWarningSheetDialog(private val fragment: SettingsAppFragment) :
+class ResetFontSizeWarningSheetDialog(private val fragment: AppearanceSettingsFragment) :
     BaseSheetDialog(fragment.requireContext()) {
 
     init {

@@ -4,7 +4,7 @@ import android.os.SystemClock
 import android.view.View
 import androidx.core.view.isVisible
 
-fun View.setDebounceClickListener(debounceTime: Long = 600L, action: () -> Unit) {
+fun View.setDebounceClickListener(debounceTime: Long = 600L, onClick: () -> Unit) {
     setOnClickListener(object : View.OnClickListener {
 
         private var lastClickTime: Long = 0
@@ -13,7 +13,7 @@ fun View.setDebounceClickListener(debounceTime: Long = 600L, action: () -> Unit)
             if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) {
                 return
             } else {
-                action()
+                onClick()
             }
 
             lastClickTime = SystemClock.elapsedRealtime()

@@ -178,7 +178,7 @@ object AppPreference {
 
     fun getNumberLines(context: Context): Int {
         val key: String = context.getString(R.string.number_of_lines_key)
-        val defValue: Int = context.getShortInt(R.integer.number_lines_int)
+        val defValue: Int = context.getShortInt(R.integer.number_lines)
         return get(context, key, defValue)
     }
 

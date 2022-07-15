@@ -7,7 +7,6 @@ import com.loskon.noteminimalism3.model.Note
 /**
  * Свайп и удаление
  */
-
 class SwipeCallback(
     private val adapter: NoteRecyclerAdapter
 ) :

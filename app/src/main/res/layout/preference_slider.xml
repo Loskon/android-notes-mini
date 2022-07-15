@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider_preference"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_xsmall"
+        android:layout_marginStart="@dimen/margin_slider_preference"
+        android:layout_weight="1"
         android:stepSize="1"
-        android:valueFrom="30"
-        android:valueTo="100"
         app:haloRadius="14dp"
         app:labelBehavior="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,15 +28,15 @@
         android:id="@+id/tv_value_slider_preference"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_large"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/margin_medium"
         android:background="@drawable/bg_tv_slider"
         android:gravity="center"
         android:padding="@dimen/margin_xsmall"
-        android:text="10"
         android:textColor="@color/secondary_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText" />
+        tools:text="0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

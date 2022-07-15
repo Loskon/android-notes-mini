@@ -16,4 +16,9 @@
     <attr name="colorWarning" format="color" />
     <attr name="colorSearchViewBackground" format="color" />
     <attr name="colorLayoutBackground" format="color" />
+
+    <declare-styleable name="SliderPreference">
+        <attr name="sliderMinValue" format="integer" />
+        <attr name="sliderMaxValue" format="integer" />
+    </declare-styleable>
 </resources>

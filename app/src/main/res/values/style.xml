@@ -18,6 +18,13 @@
         <item name="snackbarStyle">@style/Style.MaterialSnackbar</item>
         <!-- Change window animation style. -->
         <item name="android:windowAnimationStyle">@style/Style.ActivityAnimation</item>
+        <!-- Remove divider in PreferencesScreen -->
+        <item name="preferenceTheme">@style/PrefsTheme</item>
+    </style>
+
+    <style name="PrefsTheme" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
     </style>
 
     <!-- Snackbar background style -->

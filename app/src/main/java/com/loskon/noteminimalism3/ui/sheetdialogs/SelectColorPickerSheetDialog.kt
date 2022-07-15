@@ -5,14 +5,14 @@ import com.larswerkman.holocolorpicker.ColorPicker
 import com.larswerkman.holocolorpicker.SVBar
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
+import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для выбора цвета темы приложения с помощью ColorPicker
  */
 
-class SelectColorPickerSheetDialog(private val fragment: SettingsAppFragment) :
+class SelectColorPickerSheetDialog(private val fragment: AppearanceSettingsFragment) :
     BaseSheetDialog(fragment.requireContext(), R.layout.sheet_color_picker) {
 
     private val colorPicker: ColorPicker = view.findViewById(R.id.color_picker)

@@ -7,5 +7,5 @@
     <!-- Preferences app. -->
     <integer name="title_font_size_int">18</integer>
     <integer name="date_font_size_int">14</integer>
-    <integer name="number_lines_int">3</integer>
+    <integer name="number_lines">3</integer>
 </resources>

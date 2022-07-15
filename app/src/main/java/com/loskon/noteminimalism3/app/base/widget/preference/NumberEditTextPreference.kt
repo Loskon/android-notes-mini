@@ -1,4 +1,4 @@
-package com.loskon.githubapi.app.base.widget.preference
+package com.loskon.noteminimalism3.app.base.widget.preference
 
 import android.content.Context
 import android.text.InputType

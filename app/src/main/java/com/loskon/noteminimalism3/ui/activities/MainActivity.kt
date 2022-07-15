@@ -32,13 +32,12 @@ import com.loskon.noteminimalism3.ui.dialogfragmntes.CategorySheetFragment
 import com.loskon.noteminimalism3.ui.dialogs.DeleteForeverWarningDialog
 import com.loskon.noteminimalism3.ui.dialogs.SendToTrashWarningDialog
 import com.loskon.noteminimalism3.ui.dialogs.UnificationDialog
+import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 import com.loskon.noteminimalism3.ui.fragments.FontsFragment
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
-import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenNumberLines
 import com.loskon.noteminimalism3.ui.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteRecyclerAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
@@ -56,10 +55,10 @@ class MainActivity : BaseActivity(),
     CategorySheetFragment.CategorySheetCallback,
     NoteFragment.NoteCallback,
     NoteTrashFragment.NoteTrashCallback,
-    SettingsAppFragment.MainColorCallback,
+    AppearanceSettingsFragment.MainColorCallback,
     PrefScreenCardView.FontsSizesCallback,
-    PrefScreenNumberLines.NumberLinesCallback,
-    SettingsAppFragment.OneSizeCardsCallback,
+    AppearanceSettingsFragment.NumberLinesCallback,
+    AppearanceSettingsFragment.OneSizeCardsCallback,
     FileListSheetDialog.RestoreNoteCallback,
     DataBaseCloudBackup.RestoreNoteCloudCallback,
     BackupFragment.RestoreNoteAndroidRCallback,
@@ -112,10 +111,10 @@ class MainActivity : BaseActivity(),
         NoteFragment.registerNoteCallback(this)
         NoteTrashFragment.registerNoteTrashCallback(this)
         // Для изменения настроек
-        SettingsAppFragment.registerColorCallback(this)
+        AppearanceSettingsFragment.registerColorCallback(this)
         PrefScreenCardView.registerFontsSizesCallback(this)
-        PrefScreenNumberLines.registerNumberLinesCallback(this)
-        SettingsAppFragment.registerOneSizeCardsCallback(this)
+        AppearanceSettingsFragment.registerNumberLinesCallback(this)
+        AppearanceSettingsFragment.registerOneSizeCardsCallback(this)
         FileListSheetDialog.registerRestoreNoteCallback(this)
         DataBaseCloudBackup.registerRestoreNoteCloudCallback(this)
         BackupFragment.registerRestoreNoteAndroidRCallback(this)
@@ -408,7 +407,7 @@ class MainActivity : BaseActivity(),
         updateQuicklyNoteList(true)
     }
 
-    override fun onChangeStatusSizeCards(hasOneSizeCards: Boolean) {
+    override fun onToggleStatusSizeCards(hasOneSizeCards: Boolean) {
         adapter.setOneSizeCards(hasOneSizeCards)
         updateQuicklyNoteList(true)
     }

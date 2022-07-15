@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
-import com.loskon.noteminimalism3.ui.fragments.SettingsAppFragment
+import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.utils.changeTextSize
 
 /**
@@ -25,7 +25,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.preferenceStyle,
     defStyleRes: Int = 0
 ) : Preference(context, attrs, defStyleAttr, defStyleRes),
-    SettingsAppFragment.ResetFontSizeCallback {
+    AppearanceSettingsFragment.ResetFontSizeCallback {
 
     init {
         layoutResource = R.layout.pref_layout_card_view
@@ -63,7 +63,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun installCallbacks() {
-        SettingsAppFragment.registerResetFontSizeCallback(this)
+        AppearanceSettingsFragment.registerResetFontSizeCallback(this)
     }
 
     private fun configureViews() {
@@ -136,7 +136,7 @@ class PrefScreenCardView @JvmOverloads constructor(
     }
 
     private fun removeCallbacks() {
-        SettingsAppFragment.registerResetFontSizeCallback(null)
+        AppearanceSettingsFragment.registerResetFontSizeCallback(null)
     }
 
     //--- interface --------------------------------------------------------------------------------

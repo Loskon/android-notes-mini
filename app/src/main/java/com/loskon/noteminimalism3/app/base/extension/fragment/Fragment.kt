@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.app.base.extension.fragment
 
+import android.graphics.Typeface
 import androidx.annotation.ColorRes
 import androidx.annotation.FontRes
 import androidx.fragment.app.Fragment
@@ -15,3 +16,7 @@ val Fragment.controlHighlight: Int get() = requireContext().getColorControlHighl
 fun Fragment.getColor(@ColorRes colorId: Int): Int = requireContext().getColorKtx(colorId)
 
 fun Fragment.getFont(@FontRes fontId: Int) = requireContext().getFontKtx(fontId)
+
+fun Fragment.requireFont(@FontRes fontId: Int): Typeface {
+    return getFont(fontId) ?: throw NullPointerException("Fragment $this could not find the font.")
+}

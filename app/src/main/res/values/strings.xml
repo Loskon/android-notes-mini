@@ -255,20 +255,20 @@
     <string name="my_email" translatable="false">andreyrochev23@gmail.com</string>
 
     <!-- Fonts -->
-    <string name="roboto_name" translatable="false">Default</string>
-    <string name="lato_light_name" translatable="false">Lato</string>
-    <string name="open_sans_light_name" translatable="false">Open Sans</string>
-    <string name="oswald_light_name" translatable="false">Oswald</string>
-    <string name="source_sans_pro_light_name" translatable="false">Source Sans Pro</string>
-    <string name="montserrat_light_name" translatable="false">Montserrat</string>
-    <string name="roboto_condensed_light_name" translatable="false">Roboto Condensed</string>
-    <string name="poppins_light_name" translatable="false">Poppins</string>
-    <string name="ubuntu_light_name" translatable="false">Ubuntu</string>
-    <string name="dosis_light_name" translatable="false">Dosis</string>
-    <string name="titillium_web_light_name" translatable="false">Titillium Web</string>
-    <string name="ibm_plex_serif_light_name" translatable="false">IBM Plex Serif</string>
-    <string name="karla_light_name" translatable="false">Karla</string>
-    <string name="marmelad_regular_name" translatable="false">Marmelad</string>
-    <string name="nunito_light_name" translatable="false">Nunito</string>
-    <string name="alice_regular_name" translatable="false">Alice</string>
+    <string name="roboto_title" translatable="false">Default</string>
+    <string name="lato_light_title" translatable="false">Lato</string>
+    <string name="open_sans_light_title" translatable="false">Open Sans</string>
+    <string name="oswald_light_title" translatable="false">Oswald</string>
+    <string name="source_sans_pro_light_title" translatable="false">Source Sans Pro</string>
+    <string name="montserrat_light_title" translatable="false">Montserrat</string>
+    <string name="roboto_condensed_light_title" translatable="false">Roboto Condensed</string>
+    <string name="poppins_light_title" translatable="false">Poppins</string>
+    <string name="ubuntu_light_title" translatable="false">Ubuntu</string>
+    <string name="dosis_light_title" translatable="false">Dosis</string>
+    <string name="titillium_web_light_title" translatable="false">Titillium Web</string>
+    <string name="ibm_plex_serif_light_title" translatable="false">IBM Plex Serif</string>
+    <string name="karla_light_title" translatable="false">Karla</string>
+    <string name="marmelad_regular_title" translatable="false">Marmelad</string>
+    <string name="nunito_light_title" translatable="false">Nunito</string>
+    <string name="alice_regular_title" translatable="false">Alice</string>
 </resources>

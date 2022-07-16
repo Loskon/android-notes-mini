@@ -19,7 +19,7 @@ import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_
 import com.loskon.noteminimalism3.ui.dialogs.NoteReceivingDataDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.sharednotes.ReceivingNoteRecyclerAdapter
-import com.loskon.noteminimalism3.utils.setViewVisibility
+import com.loskon.noteminimalism3.utils.setVisibilityKtx
 
 /**
  * Экран для выбора заметки из списка/создания новой для вставки полученного текста
@@ -97,7 +97,7 @@ class ReceivingDataActivity :
         }
 
     private fun checkEmptyFilesList() {
-        tvEmpty.setViewVisibility(adapter.itemCount == 0)
+        tvEmpty.setVisibilityKtx(adapter.itemCount == 0)
     }
 
     private fun setupViewsListeners() {

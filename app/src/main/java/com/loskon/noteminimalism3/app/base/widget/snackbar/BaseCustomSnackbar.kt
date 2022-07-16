@@ -1,4 +1,4 @@
-package com.loskon.githubapi.app.base.widget.snackbar
+package com.loskon.noteminimalism3.app.base.widget.snackbar
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -63,6 +63,10 @@ class BaseCustomSnackbar {
     fun setTextColor(color: Int) {
         textView?.setTextColor(color)
         button?.setTextColor(color)
+    }
+
+    fun hideOnClick() {
+        snackbar?.view?.setOnClickListener { dismiss() }
     }
 
     private fun Int.toPx(): Int = (this * getSystem().displayMetrics.density).toInt()

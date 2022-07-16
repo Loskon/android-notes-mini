@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_row_font"
@@ -17,18 +18,17 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/title_row_font"
+            android:id="@+id/tv_title_font_card"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Title"
             android:textColor="?attr/colorPrimaryText"
             android:textSize="18sp"
-            tools:ignore="HardcodedText" />
+            tools:text="Title" />
 
         <TextView
-            android:id="@+id/example_text_row_font"
+            android:id="@+id/tv_font_example_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -39,7 +39,7 @@
             tools:ignore="TextContrastCheck" />
 
         <RadioButton
-            android:id="@+id/radio_button_row_font"
+            android:id="@+id/rb_font_card"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"

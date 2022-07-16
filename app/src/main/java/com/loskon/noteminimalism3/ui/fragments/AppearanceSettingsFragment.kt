@@ -9,7 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.view.setDebouncePreferenceClickListener
-import com.loskon.noteminimalism3.app.base.extension.view.setOnShortPreferenceChangeListener
+import com.loskon.noteminimalism3.app.base.extension.view.setShortPreferenceChangeListener
 import com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
@@ -67,7 +67,7 @@ class AppearanceSettingsFragment : PreferenceFragmentCompat() {
         resetColor?.setDebouncePreferenceClickListener {
             ResetColorWarningSheetDialog(this).show()
         }
-        oneSizeCardsSwitch?.setOnShortPreferenceChangeListener { newValue: Boolean ->
+        oneSizeCardsSwitch?.setShortPreferenceChangeListener { newValue: Boolean ->
             callbackSize?.onToggleStatusSizeCards(newValue)
         }
         numberLinesSlider?.setOnChangeListener { newValue: Int ->

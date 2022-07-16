@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * ItemAnimator с избавлением от бага с ripple эффектом для CardView
  */
-class AddAnimationItemAnimator : DefaultItemAnimator() {
+class AddAnimationItemAnimator2 : DefaultItemAnimator() {
 
     override fun animateAdd(holder: RecyclerView.ViewHolder): Boolean {
         val view = holder.itemView

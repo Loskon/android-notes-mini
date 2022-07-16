@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.SheetDialogStatusBar
 import com.loskon.noteminimalism3.other.NoteAssistant
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.utils.setViewVisibility
+import com.loskon.noteminimalism3.utils.setVisibilityKtx
 
 /**
  * Действия с заметкой
@@ -45,7 +45,7 @@ class NoteAssistantSheetDialog(
     }
 
     private fun hideDateModification(noteId: Long) {
-        if (noteId == 0L) tvDateModification.setViewVisibility(false)
+        if (noteId == 0L) tvDateModification.setVisibilityKtx(false)
     }
 
     private fun setTextDateModification(dateModification: String?) {

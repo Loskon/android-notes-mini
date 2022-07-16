@@ -14,9 +14,9 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.model.Font
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
-import com.loskon.noteminimalism3.ui.dialogs.WarningAboutFontDialog
+import com.loskon.noteminimalism3.ui.dialogs.WarningFontDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
-import com.loskon.noteminimalism3.ui.recyclerview.fonts.FontListAdapter
+import com.loskon.noteminimalism3.ui.recyclerview.fonts.FontAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.fonts.FontSnapHelper
 import com.loskon.noteminimalism3.utils.getShortFont
 
@@ -24,11 +24,11 @@ import com.loskon.noteminimalism3.utils.getShortFont
  * Форма для выбора шрифта в приложении
  */
 
-class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
+class FontsFragment : Fragment(), FontAdapter.FontClickListener {
 
     private lateinit var activity: SettingsActivity
 
-    private var adapter: FontListAdapter = FontListAdapter()
+    private var adapter: FontAdapter = FontAdapter()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvExample: TextView
@@ -47,7 +47,7 @@ class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_fonts, container, false)
         recyclerView = view.findViewById(R.id.recycler_view_fonts)
-        tvExample = view.findViewById(R.id.tv_example_font)
+        tvExample = view.findViewById(R.id.tv_font_example)
         return view
     }
 
@@ -63,7 +63,7 @@ class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
     }
 
     private fun getSomeSharedPreferences() {
-        savedPosition = AppPreference.getTypeFont(activity)
+        savedPosition = AppPreference.getFontType(activity)
     }
 
     private fun configureRecyclerAdapter() {
@@ -93,22 +93,22 @@ class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
 
     private fun createFontList(): List<Font> {
         return listOf(
-            createFont(0, R.string.roboto_name, R.font.roboto_light),
-            createFont(1, R.string.lato_light_name, R.font.lato_light),
-            createFont(2, R.string.open_sans_light_name, R.font.open_sans_light),
-            createFont(3, R.string.oswald_light_name, R.font.oswald_light),
-            createFont(4, R.string.source_sans_pro_light_name, R.font.source_sans_pro_light),
-            createFont(5, R.string.montserrat_light_name, R.font.montserrat_light),
-            createFont(6, R.string.roboto_condensed_light_name, R.font.roboto_condensed_light),
-            createFont(7, R.string.poppins_light_name, R.font.poppins_light),
-            createFont(8, R.string.ubuntu_light_name, R.font.ubuntu_light),
-            createFont(9, R.string.dosis_light_name, R.font.dosis_light),
-            createFont(10, R.string.titillium_web_light_name, R.font.titillium_web_light),
-            createFont(11, R.string.ibm_plex_serif_light_name, R.font.ibm_plex_serif_light),
-            createFont(12, R.string.karla_light_name, R.font.karla_light),
-            createFont(13, R.string.marmelad_regular_name, R.font.marmelad_regular),
-            createFont(14, R.string.nunito_light_name, R.font.nunito_light),
-            createFont(15, R.string.alice_regular_name, R.font.alice_regular)
+            createFont(0, R.string.roboto_title, R.font.roboto_light),
+            createFont(1, R.string.lato_light_title, R.font.lato_light),
+            createFont(2, R.string.open_sans_light_title, R.font.open_sans_light),
+            createFont(3, R.string.oswald_light_title, R.font.oswald_light),
+            createFont(4, R.string.source_sans_pro_light_title, R.font.source_sans_pro_light),
+            createFont(5, R.string.montserrat_light_title, R.font.montserrat_light),
+            createFont(6, R.string.roboto_condensed_light_title, R.font.roboto_condensed_light),
+            createFont(7, R.string.poppins_light_title, R.font.poppins_light),
+            createFont(8, R.string.ubuntu_light_title, R.font.ubuntu_light),
+            createFont(9, R.string.dosis_light_title, R.font.dosis_light),
+            createFont(10, R.string.titillium_web_light_title, R.font.titillium_web_light),
+            createFont(11, R.string.ibm_plex_serif_light_title, R.font.ibm_plex_serif_light),
+            createFont(12, R.string.karla_light_title, R.font.karla_light),
+            createFont(13, R.string.marmelad_regular_title, R.font.marmelad_regular),
+            createFont(14, R.string.nunito_light_title, R.font.nunito_light),
+            createFont(15, R.string.alice_regular_title, R.font.alice_regular)
         )
     }
 
@@ -127,7 +127,7 @@ class FontsFragment : Fragment(), FontListAdapter.FontClickListener {
     }
 
     private fun showWarningDialog() {
-        if (AppPreference.isDialogShow(activity)) WarningAboutFontDialog(activity).show()
+        if (AppPreference.showWarningFontDialog(activity)) WarningFontDialog(activity).show()
     }
 
     override fun onFontClick(font: Font) {

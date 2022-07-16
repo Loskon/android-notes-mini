@@ -1,4 +1,4 @@
-package com.loskon.githubapi.app.base.widget.recyclerview
+package com.loskon.noteminimalism3.app.base.widget.recyclerview
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid android:color="@color/bg_tv_color" />
-    <corners android:radius="@dimen/dialog_corner_radius" />
+    <corners android:radius="@dimen/app_corner_radius" />
 
 </shape>

@@ -19,7 +19,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -201,11 +200,6 @@ fun FloatingActionButton.setFabColor(@ColorInt color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 
-
-fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) {
-    navigationIcon?.mutate()?.setTint(color)
-}
-
 fun Toolbar.setNavigationIconColor(@ColorInt color: Int) {
     navigationIcon?.mutate()?.setTint(color)
 }
@@ -229,13 +223,13 @@ fun View.setBackgroundTintColor(context: Context, isSuccess: Boolean) {
 fun Context.getSuccessColor(isSuccess: Boolean): Int {
     val color: Int = if (ColorManager.hasDarkMode(this)) {
         if (isSuccess) {
-            R.color.widget_warning_snackbar_green_dark
+            R.color.snackbar_background_dark
         } else {
             R.color.widget_warning_snackbar_red_dark
         }
     } else {
         if (isSuccess) {
-            R.color.widget_warning_snackbar_green_light
+            R.color.snackbar_background_light
         } else {
             R.color.widget_warning_snackbar_red_light
         }
@@ -250,7 +244,7 @@ fun View.setBackgroundTintColor(color: Int) {
 }
 
 
-fun RadioButton.setRadioButtonColor(color: Int) {
+fun RadioButton.setColorKtx(color: Int) {
     buttonTintList = ColorStateList.valueOf(color)
 }
 

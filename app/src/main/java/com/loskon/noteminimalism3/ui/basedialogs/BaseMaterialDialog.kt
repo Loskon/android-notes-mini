@@ -15,7 +15,7 @@ import com.loskon.noteminimalism3.R.style.DialogBackground
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
-import com.loskon.noteminimalism3.utils.setViewVisibility
+import com.loskon.noteminimalism3.utils.setVisibilityKtx
 
 /**
  * Основа для материальных диалоговых окон
@@ -81,7 +81,7 @@ open class BaseMaterialDialog(
             insertView.setLayoutParamsForInsertedView()
             frameLayout.addView(insertView)
         } else {
-            frameLayout.setViewVisibility(false)
+            frameLayout.setVisibilityKtx(false)
         }
     }
 
@@ -96,15 +96,15 @@ open class BaseMaterialDialog(
     }
 
     fun setTextTitleVisibility(isVisible: Boolean) {
-        tvTitle.setViewVisibility(isVisible)
+        tvTitle.setVisibilityKtx(isVisible)
     }
 
     fun setBtnOkVisibility(isVisible: Boolean) {
-        buttonOk.setViewVisibility(isVisible)
+        buttonOk.setVisibilityKtx(isVisible)
     }
 
     fun setBtnCancelVisibility(isVisible: Boolean) {
-        btnCancel.setViewVisibility(isVisible)
+        btnCancel.setVisibilityKtx(isVisible)
     }
 
     fun setProgressLayoutParameters() {

@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setLayoutParamsForInsertedView
-import com.loskon.noteminimalism3.utils.setViewVisibility
+import com.loskon.noteminimalism3.utils.setVisibilityKtx
 
 /**
  * Основа для нижних диалоговых окон
@@ -68,7 +68,7 @@ open class BaseSheetDialog(
             insertView.setLayoutParamsForInsertedView()
             linLayout.addView(insertView)
         } else {
-            linLayout.setViewVisibility(false)
+            linLayout.setVisibilityKtx(false)
         }
     }
 
@@ -86,19 +86,19 @@ open class BaseSheetDialog(
     }
 
     fun setTitleVisibility(isVisible: Boolean) {
-        tvTitle.setViewVisibility(isVisible)
+        tvTitle.setVisibilityKtx(isVisible)
     }
 
     fun setContainerVisibility(isVisible: Boolean) {
-        linLayout.setViewVisibility(isVisible)
+        linLayout.setVisibilityKtx(isVisible)
     }
 
     fun setBtnOkVisibility(isVisible: Boolean) {
-        buttonOk.setViewVisibility(isVisible)
+        buttonOk.setVisibilityKtx(isVisible)
     }
 
     fun setBtnCancelVisibility(isVisible: Boolean) {
-        buttonCancel.setViewVisibility(isVisible)
+        buttonCancel.setVisibilityKtx(isVisible)
     }
 
     //----------------------------------------------------------------------------------------------

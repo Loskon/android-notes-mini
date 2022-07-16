@@ -25,6 +25,7 @@
     <style name="PrefsTheme" parent="PreferenceThemeOverlay.v14.Material">
         <item name="android:divider">@null</item>
         <item name="android:dividerHeight">0dp</item>
+        <item name="android:layout">@layout/fragment_settings</item>
     </style>
 
     <!-- Snackbar background style -->
@@ -42,7 +43,7 @@
 
     <!-- Dialog -->
     <style name="DialogBackground" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="cornerSize">@dimen/dialog_corner_radius</item>
+        <item name="cornerSize">@dimen/app_corner_radius</item>
         <item name="android:background">?attr/colorDialogBackground</item>
         <item name="android:backgroundTint">?attr/colorDialogBackground</item>
         <item name="android:windowSoftInputMode">adjustResize</item>

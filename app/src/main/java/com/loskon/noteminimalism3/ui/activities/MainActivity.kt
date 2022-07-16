@@ -18,6 +18,7 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.FontManager
@@ -38,7 +39,6 @@ import com.loskon.noteminimalism3.ui.fragments.FontsFragment
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
 import com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView
-import com.loskon.noteminimalism3.ui.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteRecyclerAdapter
 import com.loskon.noteminimalism3.ui.recyclerview.notes.SwipeCallback
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
@@ -47,7 +47,7 @@ import com.loskon.noteminimalism3.ui.snackbars.UndoSnackbar
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import com.loskon.noteminimalism3.utils.ValueUtil
 import com.loskon.noteminimalism3.utils.onlyShow
-import com.loskon.noteminimalism3.utils.setViewVisibility
+import com.loskon.noteminimalism3.utils.setVisibilityKtx
 
 class MainActivity : BaseActivity(),
     NoteRecyclerAdapter.NoteActionListener,
@@ -196,7 +196,7 @@ class MainActivity : BaseActivity(),
 
     private fun updateQuicklyNoteList(scrollToTop: Boolean) {
         val list: List<Note> = noteList
-        tvEmpty.setViewVisibility(list.isEmpty())
+        tvEmpty.setVisibilityKtx(list.isEmpty())
         adapter.setQuicklyNoteList(list)
         recyclerView.scrollToTop(list, scrollToTop)
     }
@@ -247,7 +247,7 @@ class MainActivity : BaseActivity(),
 
     fun updateNoteList() {
         val notes: List<Note> = noteList
-        tvEmpty.setViewVisibility(notes.isEmpty())
+        tvEmpty.setVisibilityKtx(notes.isEmpty())
         adapter.setNoteList(notes)
     }
 

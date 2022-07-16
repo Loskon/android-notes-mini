@@ -19,7 +19,7 @@ import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.utils.getShortDrawable
-import com.loskon.noteminimalism3.utils.setViewVisibility
+import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.utils.showKeyboard
 
 /**
@@ -108,7 +108,7 @@ class MainWidgetHelper(
 
     fun togglingSearchMode(category: String, isSearchMode: Boolean) {
         searchView.setQuery("", false)
-        searchView.setViewVisibility(isSearchMode)
+        searchView.setVisibilityKtx(isSearchMode)
 
         if (isSearchMode) {
             showKeyboardInSearchView()
@@ -243,7 +243,7 @@ class MainWidgetHelper(
 
     //--- CardView ---------------------------------------------------------------------------------
     private fun visibilityCardView(isVisible: Boolean) {
-        cardView.setViewVisibility(isVisible)
+        cardView.setVisibilityKtx(isVisible)
     }
 
     //--- TextView ---------------------------------------------------------------------------------

@@ -10,7 +10,7 @@
     tools:context=".ui.activities.SettingsActivity">
 
     <FrameLayout
-        android:id="@+id/fragment_container_settings"
+        android:id="@+id/fragment_container_root_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bottom_bar_height"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_bar_settings"
+        android:id="@+id/bottom_bar_root_settings"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:layout_gravity="bottom"

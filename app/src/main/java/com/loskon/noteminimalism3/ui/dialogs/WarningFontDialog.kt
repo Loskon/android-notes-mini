@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListen
  * может не поддерживать некоторые символы
  */
 
-class WarningAboutFontDialog(dialogContext: Context) :
+class WarningFontDialog(dialogContext: Context) :
     BaseMaterialDialog(dialogContext, R.layout.dialog_warning_about_font) {
 
     init {

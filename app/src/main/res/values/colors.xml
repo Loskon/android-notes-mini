@@ -22,8 +22,8 @@
     <!-- Snackbar -->
     <color name="widget_snackbar_light">#FF333333</color>
     <color name="widget_snackbar_dark">#383838</color>
-    <color name="widget_warning_snackbar_green_light">#2e7d32</color>
-    <color name="widget_warning_snackbar_green_dark">#005005</color>
+    <color name="snackbar_background_light">#2e7d32</color>
+    <color name="snackbar_background_dark">#005005</color>
     <color name="widget_warning_snackbar_red_light">#b71c1c</color>
     <color name="widget_warning_snackbar_red_dark">#8e0000</color>
     <!-- Background -->
@@ -43,15 +43,18 @@
     <!-- Dark -->
     <color name="blue_dark">#539BF4</color>
     <color name="error_red_dark">#D44D49</color>
-<!--    <color name="window_background_dark">#22272E</color>-->
+    <!--    <color name="window_background_dark">#22272E</color>-->
     <color name="black_dark">#1C2128</color>
     <color name="item_background_dark">#2D333B</color>
     <color name="bottom_bar_dark">#373e47</color>
     <color name="primary_text_dark">#CDD9E5</color>
     <color name="secondary_text_dark">#707D89</color>
     <!-- Color -->
+    <color name="bottom_bar_background_color">@android:color/white</color>
+    <color name="task_description_color">@android:color/white</color>
     <color name="secondary_text_color">@color/secondary_text_light</color>
     <color name="sheet_background_color">@android:color/white</color>
     <color name="error_color">@color/error_red_light</color>
+    <color name="success_color">@color/snackbar_background_light</color>
     <color name="bg_tv_color">@color/accent_on_grey</color>
 </resources>

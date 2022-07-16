@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Color -->
+    <color name="bottom_bar_background_color">@color/dialog_background</color>
+    <color name="task_description_color">@color/window_background_dark</color>
     <color name="secondary_text_color">@color/secondary_text_dark</color>
     <color name="sheet_background_color">@color/dialog_background</color>
     <color name="bg_tv_color">@color/item_background_dark</color>
+    <color name="success_color">@color/snackbar_background_dark</color>
     <color name="error_color">@color/error_red_dark</color>
 </resources>

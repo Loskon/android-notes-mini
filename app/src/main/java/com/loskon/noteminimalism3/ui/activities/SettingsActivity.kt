@@ -38,7 +38,7 @@ class SettingsActivity : BaseActivity() {
 
     private fun setupViewDeclaration() {
         coordLayout = findViewById(R.id.coord_layout_settings)
-        bottomBar = findViewById(R.id.bottom_bar_settings)
+        bottomBar = findViewById(R.id.bottom_bar_root_settings)
     }
 
     private fun initObjects() {
@@ -60,7 +60,7 @@ class SettingsActivity : BaseActivity() {
         if (savedInstanceState == null) {
             fragmentManager
                 .beginTransaction()
-                .add(R.id.fragment_container_settings, RootSettingsFragment())
+                .add(R.id.fragment_container_root_settings, RootSettingsFragment())
                 .commit()
         }
     }
@@ -79,7 +79,7 @@ class SettingsActivity : BaseActivity() {
     fun replaceFragment(fragment: Fragment) {
         fragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container_settings, fragment)
+            .replace(R.id.fragment_container_root_settings, fragment)
             .addToBackStack(null)
             .commit()
     }

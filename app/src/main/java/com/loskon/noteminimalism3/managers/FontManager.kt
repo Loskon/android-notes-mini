@@ -14,7 +14,7 @@ object FontManager {
 
     fun setFont(context: Context) {
         context.apply {
-            val fontId: Int = when (AppPreference.getTypeFont(this)) {
+            val fontId: Int = when (AppPreference.getFontType(this)) {
 
                 0 -> R.style.RobotoLightFont
 
@@ -57,7 +57,7 @@ object FontManager {
 
     fun getAppFont(context: Context): Typeface? {
         context.apply {
-            val font: Int = when (AppPreference.getTypeFont(this)) {
+            val font: Int = when (AppPreference.getFontType(this)) {
 
                 0 -> R.font.roboto_light
 

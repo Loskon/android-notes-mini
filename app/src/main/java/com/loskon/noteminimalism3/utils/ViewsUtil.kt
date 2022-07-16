@@ -13,11 +13,11 @@ import androidx.core.view.isVisible
  * Утилиты для вьюшек
  */
 
-fun View.setViewVisibility(visible: Boolean) {
-    if (this.isVisible == visible) {
+fun View.setVisibilityKtx(visibility: Boolean) {
+    if (isVisible == visibility) {
         return
     } else {
-        if (visible) {
+        if (visibility) {
             this.visibility = View.VISIBLE
         } else {
             this.visibility = View.GONE

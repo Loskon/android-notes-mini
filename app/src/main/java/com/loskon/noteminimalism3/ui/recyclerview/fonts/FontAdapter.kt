@@ -9,15 +9,15 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.setRadioButtonColor
-import com.loskon.noteminimalism3.model.Font
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.managers.setColorKtx
+import com.loskon.noteminimalism3.model.Font
 
 /**
  * Адаптер для работы со списком шрифтов
  */
 
-class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
+class FontAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
     private lateinit var clickListener: FontClickListener
 
@@ -28,7 +28,7 @@ class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_fonts, parent, false)
+        val view = inflater.inflate(R.layout.item_font, parent, false)
         return FontViewHolder(view)
     }
 
@@ -52,7 +52,7 @@ class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
     private fun RadioButton.configureRadioButton(position: Int) {
         isChecked = (position == lastCheckedPosition)
-        setRadioButtonColor(color)
+        setColorKtx(color)
     }
 
     private fun onItemClick(font: Font, absoluteAdapterPosition: Int) {
@@ -91,7 +91,7 @@ class FontListAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
 class FontViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val card: CardView = itemView.findViewById(R.id.card_view_row_font)
-    val title: TextView = itemView.findViewById(R.id.title_row_font)
-    val exampleText: TextView = itemView.findViewById(R.id.example_text_row_font)
-    val radioButton: RadioButton = itemView.findViewById(R.id.radio_button_row_font)
+    val title: TextView = itemView.findViewById(R.id.tv_title_font_card)
+    val exampleText: TextView = itemView.findViewById(R.id.tv_font_example_card)
+    val radioButton: RadioButton = itemView.findViewById(R.id.rb_font_card)
 }

@@ -4,5 +4,5 @@
     <corners
         android:bottomLeftRadius="0dp"
         android:bottomRightRadius="0dp"
-        android:radius="@dimen/dialog_corner_radius" />
+        android:radius="@dimen/app_corner_radius" />
 </shape>

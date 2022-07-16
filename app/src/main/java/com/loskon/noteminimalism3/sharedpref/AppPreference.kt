@@ -142,7 +142,7 @@ object AppPreference {
         return get(context, key, true)
     }
 
-    fun isDialogShow(context: Context): Boolean {
+    fun showWarningFontDialog(context: Context): Boolean {
         return get(context, PREF_KEY_DIALOG_WARNING_SHOW, true)
     }
 
@@ -201,8 +201,9 @@ object AppPreference {
         return get(context, PREF_KEY_SORT, 0)
     }
 
-    fun getTypeFont(context: Context): Int {
-        return get(context, PREF_KEY_TYPE_FONT, 0)
+    fun getFontType(context: Context): Int {
+        // TODO Default value
+        return get(context, PREF_KEY_TYPE_FONT, 3)
     }
 
     // string

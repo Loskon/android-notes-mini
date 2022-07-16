@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/userListFragment">
+
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.NoteListFragment"
+        android:label="UsersFragment">
+        <action
+            android:id="@+id/actionOpenSettingsFragment"
+            app:destination="@id/rootSettingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/rootSettingsFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.RootSettingsFragmentNew"
+        android:label="rootSettingsFragment">
+        <action
+            android:id="@+id/actionOpenAppearanceSettingsFragment"
+            app:destination="@id/appearanceSettingsFragment" />
+        <action
+            android:id="@+id/actionOpenFontFragment"
+            app:destination="@id/fontFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/appearanceSettingsFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.AppearanceSettingsFragmentNew"
+        android:label="appearanceSettingsFragment" />
+
+    <fragment
+        android:id="@+id/fontFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.FontFragment"
+        android:label="fontFragment" />
+
+</navigation>

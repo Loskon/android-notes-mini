@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.sqlite
 import android.database.Cursor
 import android.database.CursorWrapper
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
+import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
 import java.util.*
 
 /**

@@ -2,8 +2,6 @@
 <resources>
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@android:color/black</item>
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@android:color/black</item>
         <!-- EditText cursor and selection color. -->

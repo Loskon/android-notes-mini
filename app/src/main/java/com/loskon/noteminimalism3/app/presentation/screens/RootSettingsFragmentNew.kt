@@ -128,7 +128,8 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
         }
         // Data
         backup?.setDebouncePreferenceClickListener {
-            // activity.replaceFragment(BackupFragment())
+            val action = RootSettingsFragmentNewDirections.actionOpenBackupFragment()
+            findNavController().navigate(action)
         }
         folder?.setDebouncePreferenceClickListener {
             selectedPreference = "folderKey"

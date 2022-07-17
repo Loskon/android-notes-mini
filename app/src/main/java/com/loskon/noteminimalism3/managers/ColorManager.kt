@@ -12,7 +12,6 @@ import android.view.Menu
 import android.view.View
 import android.view.WindowInsetsController
 import android.widget.CheckBox
-import android.widget.RadioButton
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -241,11 +240,6 @@ fun Context.getSuccessColor(isSuccess: Boolean): Int {
 
 fun View.setBackgroundTintColor(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
-}
-
-
-fun RadioButton.setColorKtx(color: Int) {
-    buttonTintList = ColorStateList.valueOf(color)
 }
 
 

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.model.Font
+import com.loskon.noteminimalism3.model.FontType
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.dialogs.WarningFontDialog
@@ -87,11 +87,11 @@ class FontsFragment : Fragment(), FontAdapter.FontClickListener {
     }
 
     private fun updateFontsList() {
-        val fontList: List<Font> = createFontList()
-        adapter.setFontList(fontList)
+        val fontTypeList: List<FontType> = createFontList()
+        adapter.setFontList(fontTypeList)
     }
 
-    private fun createFontList(): List<Font> {
+    private fun createFontList(): List<FontType> {
         return listOf(
             createFont(0, R.string.roboto_title, R.font.roboto_light),
             createFont(1, R.string.lato_light_title, R.font.lato_light),
@@ -112,8 +112,8 @@ class FontsFragment : Fragment(), FontAdapter.FontClickListener {
         )
     }
 
-    private fun createFont(id: Int, stringId: Int, fontId: Int): Font {
-        return Font(id, getString(stringId), activity.getShortFont(fontId))
+    private fun createFont(id: Int, stringId: Int, fontId: Int): FontType {
+        return FontType(id, getString(stringId), activity.getShortFont(fontId))
     }
 
     private fun installSnapHelper() {
@@ -130,11 +130,11 @@ class FontsFragment : Fragment(), FontAdapter.FontClickListener {
         if (AppPreference.showWarningFontDialog(activity)) WarningFontDialog(activity).show()
     }
 
-    override fun onFontClick(font: Font) {
-        tvExample.typeface = font.typeFace
-        AppPreference.setTypeFont(activity, font.id)
+    override fun onFontClick(fontType: FontType) {
+        tvExample.typeface = fontType.typeFace
+        AppPreference.setFontType(activity, fontType.id)
         activity.setAppFonts()
-        callback?.onChangeTypeFont(font.typeFace)
+        callback?.onChangeTypeFont(fontType.typeFace)
     }
 
     //--- interface --------------------------------------------------------------------------------

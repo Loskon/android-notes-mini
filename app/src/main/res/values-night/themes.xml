@@ -10,6 +10,9 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
 
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/window_background_dark</item>
+
         <!-- Customize your theme here. -->>
         <!-- Window background color.-->
         <item name="android:windowBackground">@color/window_background_dark</item>

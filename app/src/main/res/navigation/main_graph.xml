@@ -23,6 +23,9 @@
         <action
             android:id="@+id/actionOpenFontFragment"
             app:destination="@id/fontFragment" />
+        <action
+            android:id="@+id/actionOpenBackupFragment"
+            app:destination="@id/backupNewFragment" />
     </fragment>
 
     <fragment
@@ -32,7 +35,11 @@
 
     <fragment
         android:id="@+id/fontFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.FontFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.font.FontTypeFragment"
         android:label="fontFragment" />
+    <fragment
+        android:id="@+id/backupNewFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment"
+        android:label="BackupNewFragment" />
 
 </navigation>

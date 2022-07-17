@@ -8,12 +8,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.*
+import com.google.firebase.storage.FileDownloadTask
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.requests.google.ResultGoogle
-import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
-import com.loskon.noteminimalism3.ui.fragments.BackupFragment
+import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
 import com.loskon.noteminimalism3.ui.dialogs.ProgressDialog
+import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 import java.io.File
 

@@ -17,10 +17,10 @@
         founded in the HolyLand in 1119 by a small group of knights,
         led by Hugh de Payens,after the First Crusade (1096-1099).</string>
     <!-- fragment_backup -->
-    <string name="local_backup">Backup</string>
-    <string name="local_restore">Restore</string>
-    <string name="cloud_backup">Cloud backup</string>
-    <string name="cloud_restore">Cloud restore</string>
+    <string name="local">Local</string>
+    <string name="cloud">Cloud</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
 
     <!-- Preferences Fragment -->
     <!-- preferences_app -->
@@ -253,6 +253,7 @@
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="my_email" translatable="false">andreyrochev23@gmail.com</string>
+    <string name="web_client_id" translatable="false">216809560444-ffcpkeu8kdffnud8lk9mmth4k8jaig98.apps.googleusercontent.com</string>
 
     <!-- Fonts -->
     <string name="roboto_title" translatable="false">Default</string>

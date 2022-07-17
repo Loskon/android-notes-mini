@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/bottom_bar_height"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/img_backup"
+            app:tint="?attr/colorBackupImage"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@string/local"
+            android:textSize="@dimen/txt_medium" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_backup_local"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_backup_height"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:text="@string/backup"
+            app:icon="@drawable/round_drive_folder_upload_black_36"
+            tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_restore_local"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_backup_height"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:text="@string/restore"
+            app:icon="@drawable/round_download_for_offline_black_36"
+            tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@string/cloud"
+            android:textSize="@dimen/txt_medium" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_backup_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_backup_height"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:text="@string/backup"
+            app:icon="@drawable/baseline_cloud_upload_black_36"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_restore_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_backup_height"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_xsmall"
+            android:gravity="center_vertical"
+            android:text="@string/restore"
+            app:icon="@drawable/baseline_cloud_download_black_36"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_bar_backup"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/bottom_bar_background_color"
+        app:menu="@menu/menu_backup"
+        app:navigationIcon="@drawable/baseline_navigate_before_black_24"
+        app:navigationIconTint="?android:colorPrimary" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

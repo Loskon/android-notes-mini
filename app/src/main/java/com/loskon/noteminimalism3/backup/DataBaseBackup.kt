@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import com.loskon.noteminimalism3.files.BackupFileHelper
-import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
+import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
 import java.io.*
 import java.nio.channels.FileChannel
 

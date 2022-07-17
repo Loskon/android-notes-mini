@@ -27,10 +27,8 @@ class CenteredSnapHelper : PagerSnapHelper() {
             if (layoutManager != null && view != null) {
                 val snapDistance: IntArray? = calculateDistanceToFinalSnap(layoutManager, view)
 
-                if (snapDistance != null) {
-
-                    if (snapDistance[0] != 0 || snapDistance[1] != 0)
-                        recyclerView?.scrollBy(snapDistance[0], snapDistance[1])
+                if (snapDistance != null && (snapDistance[0] != 0 || snapDistance[1] != 0)) {
+                    recyclerView?.scrollBy(snapDistance[0], snapDistance[1])
                 }
             }
         }

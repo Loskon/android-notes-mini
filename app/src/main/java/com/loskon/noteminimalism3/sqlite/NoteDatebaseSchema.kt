@@ -4,7 +4,7 @@ package com.loskon.noteminimalism3.sqlite
  * Описание таблицы
  */
 
-class NoteDateBaseSchema {
+class NoteDatebaseSchema {
     companion object NoteTable {
         const val DATABASE_NAME = "notes.db"
         const val NAME_TABLE = "notes"

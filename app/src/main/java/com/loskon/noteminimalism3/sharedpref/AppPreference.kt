@@ -77,7 +77,7 @@ object AppPreference {
     }
 
     // int
-    fun setTypeFont(context: Context, selectedFont: Int) {
+    fun setFontType(context: Context, selectedFont: Int) {
         set(context, PREF_KEY_TYPE_FONT, selectedFont)
     }
 
@@ -203,7 +203,7 @@ object AppPreference {
 
     fun getFontType(context: Context): Int {
         // TODO Default value
-        return get(context, PREF_KEY_TYPE_FONT, 3)
+        return get(context, PREF_KEY_TYPE_FONT, 0)
     }
 
     // string

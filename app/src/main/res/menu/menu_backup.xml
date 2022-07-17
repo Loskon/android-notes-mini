@@ -6,6 +6,5 @@
         android:id="@+id/item_account"
         android:icon="@drawable/baseline_account_circle_black_24"
         android:title="@string/menu_backup_data"
-        android:visible="false"
         app:showAsAction="always" />
 </menu>

@@ -3,8 +3,8 @@ package com.loskon.noteminimalism3.sqlite
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
-import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable.DATABASE_NAME
+import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
+import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable.DATABASE_NAME
 
 /**
  * Настройка БД

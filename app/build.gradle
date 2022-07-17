@@ -68,6 +68,8 @@ dependencies {
     implementation deps.bundles.navigation
     // Kotlin
     implementation deps.core
+    // DI
+    implementation deps.koin
     // Logs
     implementation deps.timber
     // Misc

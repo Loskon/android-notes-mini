@@ -171,7 +171,7 @@ class BackupFragment : Fragment(),
     }
 
     private fun onMenuItemClick(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_account) {
+        if (item.itemId == R.id.item_account) {
             if (hasInternetConnection()) {
                 GoogleAccountSheetDialog(this).show()
             }

@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sqlite.NoteDateBaseSchema.NoteTable
+import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
 import java.util.*
 import java.util.concurrent.TimeUnit
 

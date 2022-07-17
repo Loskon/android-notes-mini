@@ -93,7 +93,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     fun changeVisibilityMenuItem(isVisible: Boolean) {
-        menu.findItem(R.id.action_account).isVisible = isVisible
+        menu.findItem(R.id.item_account).isVisible = isVisible
     }
 
     fun setAppFonts() {

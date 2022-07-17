@@ -15,8 +15,8 @@ val Fragment.controlHighlight: Int get() = requireContext().getColorControlHighl
 
 fun Fragment.getColor(@ColorRes colorId: Int): Int = requireContext().getColorKtx(colorId)
 
-fun Fragment.getFont(@FontRes fontId: Int) = requireContext().getFontKtx(fontId)
+fun Fragment.getFontType(@FontRes fontId: Int) = requireContext().getFontKtx(fontId)
 
 fun Fragment.requireFont(@FontRes fontId: Int): Typeface {
-    return getFont(fontId) ?: throw NullPointerException("Fragment $this could not find the font.")
+    return getFontType(fontId) ?: throw NullPointerException("Fragment $this could not find the font.")
 }

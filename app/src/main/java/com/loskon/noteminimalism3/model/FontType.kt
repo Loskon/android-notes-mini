@@ -6,7 +6,7 @@ import android.graphics.Typeface
  * Модель Font
  */
 
-data class Font(
+data class FontType(
     var id: Int = 0,
     var title: String = "",
     var typeFace: Typeface? = null

@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.managers.setColorKtx
-import com.loskon.noteminimalism3.model.Font
+import com.loskon.noteminimalism3.model.FontType
 
 /**
  * Адаптер для работы со списком шрифтов
@@ -21,7 +21,7 @@ class FontAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
     private lateinit var clickListener: FontClickListener
 
-    private var list: List<Font> = emptyList()
+    private var list: List<FontType> = emptyList()
 
     private var color: Int = 0
     private var lastCheckedPosition: Int = -1
@@ -35,19 +35,19 @@ class FontAdapter : RecyclerView.Adapter<FontViewHolder>() {
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: FontViewHolder, position: Int) {
-        val font: Font = list[position]
+        val fontType: FontType = list[position]
 
         with(holder) {
-            title.configureTitleText(font)
-            exampleText.typeface = font.typeFace
+            title.configureTitleText(fontType)
+            exampleText.typeface = fontType.typeFace
             radioButton.configureRadioButton(position)
-            card.setDebounceClickListener { onItemClick(font, position) }
+            card.setDebounceClickListener { onItemClick(fontType, position) }
         }
     }
 
-    private fun TextView.configureTitleText(font: Font) {
-        text = font.title
-        typeface = font.typeFace
+    private fun TextView.configureTitleText(fontType: FontType) {
+        text = fontType.title
+        typeface = fontType.typeFace
     }
 
     private fun RadioButton.configureRadioButton(position: Int) {
@@ -55,14 +55,14 @@ class FontAdapter : RecyclerView.Adapter<FontViewHolder>() {
         setColorKtx(color)
     }
 
-    private fun onItemClick(font: Font, absoluteAdapterPosition: Int) {
+    private fun onItemClick(fontType: FontType, absoluteAdapterPosition: Int) {
         lastCheckedPosition = absoluteAdapterPosition
         notifyItemRangeChanged(0, itemCount)
-        clickListener.onFontClick(font)
+        clickListener.onFontClick(fontType)
     }
 
     //----------------------------------------------------------------------------------------------
-    fun setFontList(newList: List<Font>) {
+    fun setFontList(newList: List<FontType>) {
         list = newList
         updateChangedList()
     }
@@ -81,7 +81,7 @@ class FontAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
     //--- interface --------------------------------------------------------------------------------
     interface FontClickListener {
-        fun onFontClick(font: Font)
+        fun onFontClick(fontType: FontType)
     }
 
     fun registerFontClickListener(clickListener: FontClickListener) {

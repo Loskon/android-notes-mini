@@ -14,6 +14,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationC
 import com.loskon.noteminimalism3.app.base.snaphelper.CenteredSnapHelper
 import com.loskon.noteminimalism3.app.base.widget.recyclerview.BoundsOffsetDecoration
 import com.loskon.noteminimalism3.databinding.FragmentFontTypeBinding
+import com.loskon.noteminimalism3.managers.AppFont
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.model.FontType
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -26,7 +27,7 @@ class FontTypeFragment : Fragment(R.layout.fragment_font_type) {
     private val binding by viewBinding(FragmentFontTypeBinding::bind)
     private val viewModel: FontTypeViewModel by viewModels()
 
-    private var fontAdapter: FontTypeAdapter = FontTypeAdapter()
+    private var fontTypesAdapter: FontTypeListAdapter = FontTypeListAdapter()
 
     private var color: Int = 0
     private var savedPosition: Int = 0
@@ -69,7 +70,7 @@ class FontTypeFragment : Fragment(R.layout.fragment_font_type) {
         configureRecyclerView()
         configureSnapHelper()
         configureBottomBar()
-        setupAdapterListener()
+        setupViewListener()
         installObserver()
         showWarningFontDialog()
     }
@@ -79,7 +80,7 @@ class FontTypeFragment : Fragment(R.layout.fragment_font_type) {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
             addItemDecoration(BoundsOffsetDecoration())
             itemAnimator = AppItemAnimator()
-            adapter = fontAdapter
+            adapter = fontTypesAdapter
             setHasFixedSize(true)
         }
     }
@@ -97,11 +98,12 @@ class FontTypeFragment : Fragment(R.layout.fragment_font_type) {
         }
     }
 
-    private fun setupAdapterListener() {
-        fontAdapter.setItemOnClickListener { fontType, position ->
+    private fun setupViewListener() {
+        fontTypesAdapter.setItemOnClickListener { fontType, position ->
             binding.rvFont.smoothScrollToPosition(position)
             binding.tvFontExample.typeface = fontType.typeFace
             AppPreference.setFontType(requireContext(), fontType.id)
+            AppFont.set(requireContext())
         }
     }
 
@@ -109,7 +111,7 @@ class FontTypeFragment : Fragment(R.layout.fragment_font_type) {
         viewModel.getFontTypeListState.observe(viewLifecycleOwner) { fontTypes ->
             if (fontTypes.isNotEmpty()) {
                 binding.tvFontExample.typeface = fontTypes[savedPosition].typeFace
-                fontAdapter.updateFontList(fontTypes)
+                fontTypesAdapter.updateFontList(fontTypes)
             }
         }
     }

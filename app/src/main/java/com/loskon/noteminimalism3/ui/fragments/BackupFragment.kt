@@ -12,6 +12,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.other.InternetCheck
@@ -29,7 +30,6 @@ import com.loskon.noteminimalism3.ui.sheetdialogs.CreateBackupSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.FileListSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.GoogleAccountSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Экран для бэкапа/восстановления БД
@@ -163,7 +163,7 @@ class BackupFragment : Fragment(),
 
     private val hasInternetConnection: Boolean
         get() {
-            return InternetCheck.isConnected(activity)
+            return InternetCheck.hasConnected(activity)
         }
 
     private fun showCloudConfirmSheetDialog(isBackup: Boolean) {

@@ -32,6 +32,6 @@ open class BasePreferenceFragment : PreferenceFragmentCompat() {
     }
 
     fun showSnackbar(message: String, success: Boolean) {
-        CustomizedSnackbar.makeShow(requireView(), message, success, binding.bottomBarSettings)
+        CustomizedSnackbar.make(requireView(), message, success, binding.bottomBarSettings)
     }
 }

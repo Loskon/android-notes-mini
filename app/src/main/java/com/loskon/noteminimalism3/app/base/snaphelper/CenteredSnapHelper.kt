@@ -18,6 +18,7 @@ class CenteredSnapHelper : PagerSnapHelper() {
     }
 
     fun setCenterPosition(position: Int) {
+        recyclerView
         recyclerView?.layoutManager?.scrollToPosition(position)
 
         recyclerView?.doOnPreDraw {

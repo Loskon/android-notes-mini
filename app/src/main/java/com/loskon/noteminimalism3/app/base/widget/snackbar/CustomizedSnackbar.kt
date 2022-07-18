@@ -11,7 +11,7 @@ object CustomizedSnackbar {
 
     private var snackbar: BaseCustomSnackbar? = null
 
-    fun makeShow(view: View, message: String, success: Boolean, anchorView: View? = null) {
+    fun make(view: View, message: String, success: Boolean, anchorView: View? = null): BaseCustomSnackbar? {
         val successColor = if (success) R.color.success_color else R.color.error_color
 
         snackbar = BaseCustomSnackbar().create {
@@ -23,8 +23,6 @@ object CustomizedSnackbar {
             hideOnClick()
         }
 
-        snackbar?.show()
+        return snackbar
     }
-
-    fun dismiss() = snackbar?.dismiss()
 }

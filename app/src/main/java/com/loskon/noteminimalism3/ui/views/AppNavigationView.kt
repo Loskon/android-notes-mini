@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.CheckedTextView
 import com.google.android.material.internal.NavigationMenuItemView
 import com.google.android.material.navigation.NavigationView
-import com.loskon.noteminimalism3.managers.FontManager
+import com.loskon.noteminimalism3.managers.AppFont
 
 /**
  * NavigationView с измененным шрифтом
@@ -28,7 +28,7 @@ class AppNavigationView constructor(
 
             if (itemView is NavigationMenuItemView) {
                 val checkedTextView = itemView.getChildAt(0) as CheckedTextView
-                val typeface = FontManager.getAppFont(context)
+                val typeface = AppFont.getFontType(context)
                 checkedTextView.typeface = typeface
             }
         }

@@ -93,11 +93,11 @@
         local storage!</string>
     <!-- fragment_backup -->
     <string name="sb_bp_unable_created_folder">Unable to create a folder!</string>
-    <string name="sb_bp_completed">Backup completed!</string>
-    <string name="sb_bp_failed">Unable to backup database.
+    <string name="sb_bp_succes">Backup completed!</string>
+    <string name="sb_bp_failure">Unable to backup database.
         Maybe a file with that name already exists!</string>
-    <string name="sb_bp_restore_completed">Restore completed!</string>
-    <string name="sb_bp_restore_failed">Unable to restore. Retry!</string>
+    <string name="sb_bp_restore_succes">Restore completed!</string>
+    <string name="sb_bp_restore_failure">Unable to restore. Retry!</string>
     <string name="sb_bp_backup_files_deleted">Backup files have been deleted!</string>
     <string name="sb_bp_sign_in_failed">Sign in failed</string>
     <string name="sb_bp_logged_account">You are logged out of account</string>

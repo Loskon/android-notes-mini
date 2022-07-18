@@ -1,20 +1,20 @@
 package com.loskon.noteminimalism3.app.presentation.main
 
-import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.activity.installTaskDescriptionColor
-import com.loskon.noteminimalism3.ui.activities.MainActivity
+import com.loskon.noteminimalism3.managers.AppFont
 
 class MainActivity2 : AppCompatActivity(R.layout.activity_main2) {
 
-    override fun onAttachedToWindow() {
-        installTaskDescriptionColor(getColor(R.color.task_description_color))
-        super.onAttachedToWindow()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AppFont.set(this)
     }
 
-    companion object {
-        fun makeIntent(context: Context) = Intent(context, MainActivity::class.java)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        installTaskDescriptionColor(R.color.task_description_color)
     }
 }

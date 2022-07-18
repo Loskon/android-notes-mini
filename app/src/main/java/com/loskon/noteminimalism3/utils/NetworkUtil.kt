@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.other
+package com.loskon.noteminimalism3.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,36 +10,33 @@ import androidx.annotation.RequiresApi
 /**
  * Checking for an internet connection
  */
-object InternetCheck {
+class NetworkUtil(context: Context) {
 
-    fun hasConnected(context: Context): Boolean {
-        val connectivityManager: ConnectivityManager = context
-            .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    fun hasConnected(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkConnectedAndroidM(connectivityManager)
+            checkConnectedAndroidM()
         } else {
-            checkConnected(connectivityManager)
+            checkConnected()
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun checkConnectedAndroidM(connectivityManager: ConnectivityManager): Boolean {
-        val network: Network = connectivityManager
-            .activeNetwork ?: return false
-
-        val activeNetwork: NetworkCapabilities = connectivityManager
-            .getNetworkCapabilities(network) ?: return false
+    private fun checkConnectedAndroidM(): Boolean {
+        val network: Network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork: NetworkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
 
         return when {
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
             else -> false
         }
     }
 
     @Suppress("DEPRECATION")
-    private fun checkConnected(connectivityManager: ConnectivityManager): Boolean {
+    private fun checkConnected(): Boolean {
         val networkInfo = connectivityManager.activeNetworkInfo ?: return false
         return networkInfo.isConnected
     }

@@ -65,6 +65,6 @@ fun BottomAppBar.setMenuItemVisibility(@MenuRes menuItemId: Int, visible: Boolea
 
 fun BottomAppBar.setAllMenuItemsVisibility(visible: Boolean) {
     for (i in 0 until menu.size()) {
-        menu[i].isVisible = false
+        menu[i].isVisible = visible
     }
 }

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/userListFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.NoteListFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.notelist.NoteListFragment"
         android:label="UsersFragment">
         <action
             android:id="@+id/actionOpenSettingsFragment"
@@ -40,6 +40,19 @@
     <fragment
         android:id="@+id/backupNewFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment"
-        android:label="BackupNewFragment" />
+        android:label="BackupNewFragment">
+        <action
+            android:id="@+id/actionOpenCloudConfirmSheetDialogFragment"
+            app:destination="@id/cloudConfirmSheetDialogFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/cloudConfirmSheetDialogFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.CloudConfirmSheetDialogFragment"
+        android:label="CloudConfirmSheetDialogFragment">
+        <argument
+            android:name="isBackup"
+            app:argType="boolean" />
+    </dialog>
 
 </navigation>

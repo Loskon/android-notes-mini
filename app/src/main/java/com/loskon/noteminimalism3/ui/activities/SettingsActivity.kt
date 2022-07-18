@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.FontManager
+import com.loskon.noteminimalism3.managers.AppFont
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -97,7 +97,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     fun setAppFonts() {
-        FontManager.setFont(this)
+        AppFont.set(this)
     }
 
     //----------------------------------------------------------------------------------------------

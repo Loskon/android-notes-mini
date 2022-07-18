@@ -11,7 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.loskon.noteminimalism3.R
 
-open class BaseBottomSheetDialogFragment(
+open class BaseSheetDialogFragment(
     @LayoutRes val layoutId: Int = 0
 ) : BottomSheetDialogFragment() {
 

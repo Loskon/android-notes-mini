@@ -82,10 +82,10 @@ object WarningSnackbar {
                 MSG_LOCAL_STORAGE -> R.string.sb_settings_you_can_local_storage
                 // fragment_backup
                 MSG_UNABLE_CREATE_FOLDER -> R.string.sb_bp_unable_created_folder
-                MSG_BACKUP_COMPLETED -> R.string.sb_bp_completed
-                MSG_BACKUP_FAILED -> R.string.sb_bp_failed
-                MSG_RESTORE_COMPLETED -> R.string.sb_bp_restore_completed
-                MSG_RESTORE_FAILED -> R.string.sb_bp_restore_failed
+                MSG_BACKUP_COMPLETED -> R.string.sb_bp_succes
+                MSG_BACKUP_FAILED -> R.string.sb_bp_failure
+                MSG_RESTORE_COMPLETED -> R.string.sb_bp_restore_succes
+                MSG_RESTORE_FAILED -> R.string.sb_bp_restore_failure
                 MSG_BACKUP_FILES_DELETED -> R.string.sb_bp_backup_files_deleted
                 MSG_TEXT_SIGN_IN_FAILED -> R.string.sb_bp_sign_in_failed
                 MSG_TEXT_OUT -> R.string.sb_bp_logged_account

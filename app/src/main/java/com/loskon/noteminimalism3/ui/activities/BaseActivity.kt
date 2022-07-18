@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.loskon.noteminimalism3.managers.ColorManager
-import com.loskon.noteminimalism3.managers.FontManager
+import com.loskon.noteminimalism3.managers.AppFont
 
 /**
  * Изменение шрифта и цвета приложения
@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.managers.FontManager
 open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        FontManager.setFont(this)
+        AppFont.set(this)
         super.onCreate(savedInstanceState)
     }
 

@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.model.FontType
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class FontTypeAdapter : RecyclerView.Adapter<FontTypeAdapter.FontNewViewHolder>() {
+class FontTypeListAdapter : RecyclerView.Adapter<FontTypeListAdapter.FontNewViewHolder>() {
 
     private var onClickListener: ((fontType: FontType, position: Int) -> Unit)? = null
 
@@ -25,7 +25,7 @@ class FontTypeAdapter : RecyclerView.Adapter<FontTypeAdapter.FontNewViewHolder>(
     }
 
     override fun onBindViewHolder(holder: FontNewViewHolder, position: Int) {
-        val fontType: FontType = list[position]
+        val fontType = list[position]
 
         with(holder.binding) {
             rbFontCard.setColorKtx(color)

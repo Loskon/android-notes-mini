@@ -17,7 +17,7 @@
         Гуго де Пейном, после Первого крестового похода (1096-1099).</string>
     <!-- fragment_backup -->
     <string name="local">Локальный</string>
-    <string name="cloud">Облычный</string>
+    <string name="cloud">Облачный</string>
     <string name="backup">Бэкап</string>
     <string name="restore">Восстановление</string>
 
@@ -92,11 +92,11 @@
         памяти телефона</string>
     <!-- fragment_backup -->
     <string name="sb_bp_unable_created_folder">Невозможно создать папку!</string>
-    <string name="sb_bp_completed">Резервное копирование прошло успешно!</string>
-    <string name="sb_bp_failed">Невозможно создать резервную копию базы данных.
+    <string name="sb_bp_succes">Резервное копирование прошло успешно!</string>
+    <string name="sb_bp_failure">Невозможно создать резервную копию базы данных.
         Возможно, файл с таким именем уже существует!</string>
-    <string name="sb_bp_restore_completed">Восстановление прошло успешно!</string>
-    <string name="sb_bp_restore_failed">Ошибка восстановления. Повторите попытку!</string>
+    <string name="sb_bp_restore_succes">Восстановление прошло успешно!</string>
+    <string name="sb_bp_restore_failure">Ошибка восстановления. Повторите попытку!</string>
     <string name="sb_bp_backup_files_deleted">Файлы бэкапов были удалены!</string>
     <string name="sb_bp_sign_in_failed">Не удалось войти в учетную запись</string>
     <string name="sb_bp_logged_account">Вы вышли из учетной записи</string>

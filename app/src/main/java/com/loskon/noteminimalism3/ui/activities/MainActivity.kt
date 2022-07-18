@@ -21,7 +21,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListen
 import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.commands.CommandCenter
-import com.loskon.noteminimalism3.managers.FontManager
+import com.loskon.noteminimalism3.managers.AppFont
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.MainWidgetHelper
@@ -424,7 +424,7 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onChangeTypeFont(typeFace: Typeface?) {
-        FontManager.setFont(this)
+        AppFont.set(this)
         recyclerView.adapter = adapter
         typeFace?.let { tvEmpty.typeface = it }
     }

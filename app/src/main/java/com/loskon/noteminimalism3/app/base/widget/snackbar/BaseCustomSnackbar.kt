@@ -16,14 +16,16 @@ class BaseCustomSnackbar {
     private var textView: TextView? = null
     private var button: MaterialButton? = null
 
-    fun make(view: View, message: String?, length: Int) {
+    fun make(view: View, message: String?, length: Int): BaseCustomSnackbar {
         snackbar = Snackbar.make(view, message ?: UNKNOWN_ERROR_MESSAGE, length)
         initializationSnackbarViews()
+        return this
     }
 
-    fun make(context: Context, view: View, message: String?, length: Int) {
+    fun make(context: Context, view: View, message: String?, length: Int): BaseCustomSnackbar {
         snackbar = Snackbar.make(context, view, message ?: UNKNOWN_ERROR_MESSAGE, length)
         initializationSnackbarViews()
+        return this
     }
 
     private fun initializationSnackbarViews() {

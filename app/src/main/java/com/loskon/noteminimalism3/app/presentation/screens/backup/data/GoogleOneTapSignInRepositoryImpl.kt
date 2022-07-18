@@ -12,7 +12,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.AuthRepository
+import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.GoogleOneTapSignInRepository
+import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -20,7 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * Actions with the user and
  */
-class AuthRepositoryImpl(context: Context) : AuthRepository {
+class GoogleOneTapSignInRepositoryImpl(context: Context) : GoogleOneTapSignInRepository {
 
     private val signInClient: SignInClient = Identity.getSignInClient(context)
     private val auth: FirebaseAuth = Firebase.auth
@@ -39,22 +40,34 @@ class AuthRepositoryImpl(context: Context) : AuthRepository {
         return auth.currentUser != null
     }
 
-    override suspend fun getGoogleAuthBeginSignInResult(activity: Activity): BeginSignInResult {
+    override suspend fun getBeginSignInResult(activity: Activity): BeginSignInResult {
         return suspendCoroutine { cont ->
             signInClient.beginSignIn(signInRequest)
-                .addOnSuccessListener { cont.resume(it) }
-                .addOnFailureListener { cont.resumeWithException(it) }
+                .addOnSuccessListener {
+                    Timber.d(it.toString())
+                    cont.resume(it)
+                }
+                .addOnFailureListener {
+                    Timber.e(it)
+                    cont.resumeWithException(it)
+                }
         }
     }
 
-    override suspend fun signInToGoogle(activity: Activity, data: Intent?): Boolean {
+    override suspend fun signIn(activity: Activity, data: Intent?): Boolean {
         val credential = signInClient.getSignInCredentialFromIntent(data)
         val firebaseCredential = GoogleAuthProvider.getCredential(credential.googleIdToken, null)
 
         return suspendCoroutine { cont ->
             auth.signInWithCredential(firebaseCredential)
-                .addOnSuccessListener { cont.resume(true) }
-                .addOnFailureListener { cont.resumeWithException(it) }
+                .addOnSuccessListener {
+                    Timber.d(it.toString())
+                    cont.resume(true)
+                }
+                .addOnFailureListener {
+                    Timber.e(it)
+                    cont.resume(false)
+                }
         }
     }
 

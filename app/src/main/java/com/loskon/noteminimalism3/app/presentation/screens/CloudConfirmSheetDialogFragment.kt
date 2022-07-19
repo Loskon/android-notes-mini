@@ -30,6 +30,7 @@ class CloudConfirmSheetDialogFragment : BaseCustomizedSheetDialogFragment() {
     private fun setupViewListener() {
         setOnClickBtnOk {
             setFragmentResult(CLOUD_BACKUP_REQUEST_KEY, bundleOf(CLOUD_BACKUP_BUNDLE_KEY to args.isBackup))
+            dismiss()
         }
     }
 }

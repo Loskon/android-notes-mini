@@ -8,19 +8,17 @@ class GoogleOneTapSignInInteractor(
     private val googleOneTapSignInRepository: GoogleOneTapSignInRepository
 ) {
 
-    suspend fun hasAuthorizedUser(): Boolean {
-        return googleOneTapSignInRepository.hasAuthorizedUser()
-    }
+    suspend fun hasAuthorizedUser() = googleOneTapSignInRepository.hasAuthorizedUser()
 
     suspend fun getIntentSender(activity: Activity): IntentSender {
         return googleOneTapSignInRepository.getBeginSignInResult(activity).pendingIntent.intentSender
     }
 
-    suspend fun signIn(activity: Activity, data: Intent?): Boolean {
-        return googleOneTapSignInRepository.signIn(activity, data)
-    }
+    suspend fun signIn(data: Intent?) = googleOneTapSignInRepository.signIn(data)
 
-    suspend fun signOut() {
-        googleOneTapSignInRepository.signOut()
-    }
+    suspend fun signOut() = googleOneTapSignInRepository.signOut()
+
+    suspend fun deleteAccount() = googleOneTapSignInRepository.deleteAccount()
+
+    suspend fun reAuthenticate(data: Intent?) = googleOneTapSignInRepository.reauthenticate(data)
 }

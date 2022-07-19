@@ -86,4 +86,9 @@ class CloudStorageRepositoryImpl(
                 }
         }
     }
+
+    override suspend fun deleteDatabaseFile() {
+        val cloudPath = getCloudPath()
+        storageRef.child(cloudPath).delete()
+    }
 }

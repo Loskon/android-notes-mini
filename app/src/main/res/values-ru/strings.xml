@@ -92,7 +92,7 @@
         памяти телефона</string>
     <!-- fragment_backup -->
     <string name="sb_bp_unable_created_folder">Невозможно создать папку!</string>
-    <string name="sb_bp_succes">Резервное копирование прошло успешно!</string>
+    <string name="sb_bp_succes">Бэкап создан успешно!</string>
     <string name="sb_bp_failure">Невозможно создать резервную копию базы данных.
         Возможно, файл с таким именем уже существует!</string>
     <string name="sb_bp_restore_succes">Восстановление прошло успешно!</string>
@@ -101,7 +101,7 @@
     <string name="sb_bp_sign_in_failed">Не удалось войти в учетную запись</string>
     <string name="sb_bp_logged_account">Вы вышли из учетной записи</string>
     <string name="sb_bp_no_internet">Нет интернет-соединения</string>
-    <string name="sb_bp_delete_data_from_cloud">Данные удалены из облака!</string>
+    <string name="sb_bp_delete_data_from_cloud">Ваши данные были удалены из облака!</string>
     <string name="sb_bp_backup_not_found">Файл бэкапа не найден.
         Возможно он не был еще загружен!</string>
     <string name="sb_bp_problem_internet">Проблемы с интернет-соединением!</string>

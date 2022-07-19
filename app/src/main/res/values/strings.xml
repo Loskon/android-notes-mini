@@ -102,7 +102,7 @@
     <string name="sb_bp_sign_in_failed">Sign in failed</string>
     <string name="sb_bp_logged_account">You are logged out of account</string>
     <string name="sb_bp_no_internet">No internet connection</string>
-    <string name="sb_bp_delete_data_from_cloud">Data deleted from the cloud!</string>
+    <string name="sb_bp_delete_data_from_cloud">Your data has been deleted from the cloud!</string>
     <string name="sb_bp_backup_not_found">Backup file was not found. Maybe it
         hasn\'t been uploaded yet!</string>
     <string name="sb_bp_problem_internet">Problems with the internet connection!</string>

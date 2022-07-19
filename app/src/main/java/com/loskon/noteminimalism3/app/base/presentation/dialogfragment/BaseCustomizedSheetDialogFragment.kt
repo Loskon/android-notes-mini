@@ -20,6 +20,8 @@ open class BaseCustomizedSheetDialogFragment(
     private val binding by viewBinding(BaseDialogBinding::bind)
     open val color: Int get() = AppPreference.getColor(requireContext())
 
+    open val isNestedScrollingEnabled: Boolean = false
+
     private val layoutParams = LinearLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
@@ -29,6 +31,7 @@ open class BaseCustomizedSheetDialogFragment(
         super.onViewCreated(view, savedInstanceState)
 
         establishBaseViewsColor()
+        configureBaseViewsParameters()
         setupBaseViewListener()
         addInsertedView()
     }
@@ -36,6 +39,10 @@ open class BaseCustomizedSheetDialogFragment(
     private fun establishBaseViewsColor() {
         binding.btnBaseDialogOk.setBackgroundColor(color)
         binding.btnBaseDialogCancel.setTextColor(color)
+    }
+
+    private fun configureBaseViewsParameters() {
+        binding.containerBaseDialog.isNestedScrollingEnabled = isNestedScrollingEnabled
     }
 
     private fun setupBaseViewListener() {
@@ -62,6 +69,10 @@ open class BaseCustomizedSheetDialogFragment(
 
     fun setTextBtnCancel(stringId: Int) {
         binding.btnBaseDialogCancel.text = getString(stringId)
+    }
+
+    fun setBtnOkVisibility(isVisible: Boolean) {
+        binding.btnBaseDialogOk.setVisibilityKtx(isVisible)
     }
 
     fun setOnClickBtnOk(onClick: () -> Unit?) {

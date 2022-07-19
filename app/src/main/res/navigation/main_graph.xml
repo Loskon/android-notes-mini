@@ -44,6 +44,9 @@
         <action
             android:id="@+id/actionOpenCloudConfirmSheetDialogFragment"
             app:destination="@id/cloudConfirmSheetDialogFragment" />
+        <action
+            android:id="@+id/actionOpenAccountSheetDialogFragment"
+            app:destination="@id/accountSheetDialogFragment" />
     </fragment>
 
     <dialog
@@ -54,5 +57,10 @@
             android:name="isBackup"
             app:argType="boolean" />
     </dialog>
+
+    <dialog
+        android:id="@+id/accountSheetDialogFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment"
+        android:label="AccountSheetDialogFragment" />
 
 </navigation>

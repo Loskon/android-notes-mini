@@ -9,4 +9,6 @@ class CloudStorageInteractor(
     suspend fun fileExists() = cloudStorageRepository.databaseFileExists()
 
     suspend fun downloadFile() = cloudStorageRepository.downloadDatabaseFile()
+
+    suspend fun deleteDatabaseFile() = cloudStorageRepository.deleteDatabaseFile()
 }

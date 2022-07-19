@@ -5,12 +5,21 @@ import android.content.Intent
 import com.loskon.noteminimalism3.app.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.CloudStorageInteractor
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.GoogleOneTapSignInInteractor
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupMessageType
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupState
 import com.loskon.noteminimalism3.utils.NetworkUtil
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+
+enum class AuthIntent {
+    BACKUP,
+    RESTORE,
+    REAUTHENTICATE
+}
 
 class BackupViewModel(
     private val googleOneTapSignInInteractor: GoogleOneTapSignInInteractor,
@@ -19,27 +28,42 @@ class BackupViewModel(
 ) : BaseViewModel() {
 
     private val backupState = MutableStateFlow(BackupState())
-    private val backupAction = MutableSharedFlow<AuthAction>()
+    private val backupAction = MutableSharedFlow<BackupAction>()
     val getBackupState get() = backupState.asStateFlow()
     val getBackupAction get() = backupAction.asSharedFlow()
 
+    private var authIntent: AuthIntent? = null
+
     fun hasAuthorizedUser() {
-        launchWithCheckInternetErrorJob {
+        launchErrorJob {
             val hasAuthorizedUser = googleOneTapSignInInteractor.hasAuthorizedUser()
             backupState.emit(BackupState(hasAuthorizedUser = hasAuthorizedUser))
         }
     }
 
-    fun signInToGoogle(activity: Activity, data: Intent?, isBackup: Boolean) {
+    fun signInToGoogle(data: Intent?) {
         launchErrorJob {
-            val signInSuccess = googleOneTapSignInInteractor.signIn(activity, data)
-            backupState.emit(BackupState(hasAuthorizedUser = signInSuccess))
+            if (authIntent == AuthIntent.REAUTHENTICATE) {
+                val reauthenticateSuccess = googleOneTapSignInInteractor.reAuthenticate(data)
 
-            if (signInSuccess) {
-                if (isBackup) {
-                    uploadDatabaseFile()
-                } else {
-                    downloadDatabaseFile()
+                if (reauthenticateSuccess) {
+                    val deleteAccountSuccess = googleOneTapSignInInteractor.deleteAccount()
+
+                    if (deleteAccountSuccess) {
+                        backupState.emit(BackupState(hasAuthorizedUser = false))
+                        emitShowSnackbarAction(BackupMessageType.DELETE_ACCOUNT)
+                    }
+                }
+            } else {
+                val signInSuccess = googleOneTapSignInInteractor.signIn(data)
+                backupState.emit(BackupState(hasAuthorizedUser = signInSuccess))
+
+                if (signInSuccess) {
+                    if (authIntent == AuthIntent.BACKUP) {
+                        uploadDatabaseFile()
+                    } else if (authIntent == AuthIntent.RESTORE) {
+                        downloadDatabaseFile()
+                    }
                 }
             }
         }
@@ -71,10 +95,18 @@ class BackupViewModel(
         }
     }
 
-    fun getIntentSenderForAuthContract(activity: Activity) {
+    fun checkInternetBeforeShowConfirmDialog(isBackup: Boolean) {
         launchWithCheckInternetErrorJob {
+            backupAction.emit(BackupAction.ShowConfirmDialog(isBackup))
+        }
+    }
+
+    fun getIntentSenderForAuthContract(activity: Activity, authIntent: AuthIntent) {
+        launchWithCheckInternetErrorJob {
+            this.authIntent = authIntent
+            if (authIntent == AuthIntent.REAUTHENTICATE) cloudStorageInteractor.deleteDatabaseFile()
             val intentSender = googleOneTapSignInInteractor.getIntentSender(activity)
-            backupAction.emit(AuthAction.LaunchAuthContract(intentSender))
+            backupAction.emit(BackupAction.LaunchAuthContract(intentSender))
         }
     }
 
@@ -87,6 +119,12 @@ class BackupViewModel(
     fun restoreDatabaseFile() {
         launchWithCheckInternetErrorJob {
             downloadDatabaseFile()
+        }
+    }
+
+    fun checkInternetBeforeShowAccountDialog() {
+        launchWithCheckInternetErrorJob {
+            backupAction.emit(BackupAction.ShowAccountDialog)
         }
     }
 
@@ -109,6 +147,6 @@ class BackupViewModel(
     }
 
     private suspend fun emitShowSnackbarAction(messageType: BackupMessageType) {
-        backupAction.emit(AuthAction.ShowSnackbar(messageType))
+        backupAction.emit(BackupAction.ShowSnackbar(messageType))
     }
 }

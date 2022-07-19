@@ -1,10 +1,13 @@
 package com.loskon.noteminimalism3.app.base.extension.fragment
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.annotation.ColorRes
 import androidx.annotation.FontRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.context.getColorControlHighlightKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getColorKtx
@@ -27,5 +30,26 @@ fun Fragment.setFragmentResultListener(requestKey: String, onResult: (Bundle) ->
     setFragmentResultListener(requestKey) { _, bundle ->
         onResult(bundle)
         bundle.clear()
+    }
+}
+
+fun Fragment.setFragmentClick(requestKey: String) {
+    setFragmentResult(requestKey, Bundle())
+}
+
+fun Fragment.setFragmentClickListener(requestKey: String, onResult: () -> Unit) {
+    setFragmentResultListener(requestKey) { _, bundle ->
+        onResult()
+        bundle.clear()
+    }
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun Fragment.setFragmentScreenOnTouchListener(onClick: () -> Unit) {
+    requireView().setOnTouchListener { _, event ->
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            onClick()
+        }
+        true
     }
 }

@@ -54,7 +54,7 @@ class GoogleOneTapSignInRepositoryImpl(context: Context) : GoogleOneTapSignInRep
         }
     }
 
-    override suspend fun signIn(activity: Activity, data: Intent?): Boolean {
+    override suspend fun signIn(data: Intent?): Boolean {
         val credential = signInClient.getSignInCredentialFromIntent(data)
         val firebaseCredential = GoogleAuthProvider.getCredential(credential.googleIdToken, null)
 
@@ -73,5 +73,52 @@ class GoogleOneTapSignInRepositoryImpl(context: Context) : GoogleOneTapSignInRep
 
     override suspend fun signOut() {
         auth.signOut()
+    }
+
+    override suspend fun deleteAccount(): Boolean {
+        return suspendCoroutine { cont ->
+            val user = auth.currentUser
+
+            if (user != null) {
+                auth.currentUser?.delete()
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Timber.d(it.toString())
+                            cont.resume(true)
+                        } else {
+                            Timber.d(it.toString())
+                            cont.resume(false)
+                        }
+                    }
+                    ?.addOnFailureListener {
+                        Timber.e(it)
+                        cont.resume(false)
+                    }
+            } else {
+                cont.resume(false)
+            }
+        }
+    }
+
+    override suspend fun reauthenticate(data: Intent?): Boolean {
+        val credential = signInClient.getSignInCredentialFromIntent(data)
+        val firebaseCredential = GoogleAuthProvider.getCredential(credential.googleIdToken, null)
+
+        return suspendCoroutine { cont ->
+            auth.currentUser?.reauthenticate(firebaseCredential)
+                ?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Timber.d(it.toString())
+                        cont.resume(true)
+                    } else {
+                        Timber.d(it.toString())
+                        cont.resume(false)
+                    }
+                }
+                ?.addOnFailureListener {
+                    Timber.e(it)
+                    cont.resume(false)
+                }
+        }
     }
 }

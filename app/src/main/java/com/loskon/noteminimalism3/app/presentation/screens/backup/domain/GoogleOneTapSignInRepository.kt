@@ -10,7 +10,11 @@ interface GoogleOneTapSignInRepository {
 
     suspend fun getBeginSignInResult(activity: Activity): BeginSignInResult
 
-    suspend fun signIn(activity: Activity, data: Intent?): Boolean
+    suspend fun signIn(data: Intent?): Boolean
+
+    suspend fun reauthenticate(data: Intent?): Boolean
 
     suspend fun signOut()
+
+    suspend fun deleteAccount(): Boolean
 }

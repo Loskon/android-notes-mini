@@ -7,4 +7,6 @@ interface CloudStorageRepository {
     suspend fun databaseFileExists(): Boolean
 
     suspend fun downloadDatabaseFile(): Boolean
+
+    suspend fun deleteDatabaseFile()
 }

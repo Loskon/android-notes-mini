@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ww"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -28,7 +29,6 @@
         android:id="@+id/container_base_dialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_base_dialog_title" />
@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginTop="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/dialog_margin_bottom"
         android:text="@android:string/cancel"

@@ -39,7 +39,7 @@ fun BottomAppBar.setDebounceMenuItemClickListener(debounceTime: Long = 600L, onC
             }
 
             lastClickTime = SystemClock.elapsedRealtime()
-            return true
+            return false
         }
     })
 }

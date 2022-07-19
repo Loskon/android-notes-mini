@@ -1,39 +1,35 @@
 package com.loskon.noteminimalism3.app.presentation.screens.backup.presentation
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.contracts.AuthContract
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
+import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentClickListener
 import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.view.setAllItemsColor
 import com.loskon.noteminimalism3.app.base.extension.view.setAllMenuItemsVisibility
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
-import com.loskon.noteminimalism3.app.base.widget.snackbar.BaseCustomSnackbar
 import com.loskon.noteminimalism3.app.base.widget.snackbar.CustomizedSnackbar
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupMessageType
 import com.loskon.noteminimalism3.databinding.FragmentBackupNewBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
 
     private val binding by viewBinding(FragmentBackupNewBinding::bind)
     private val viewModel: BackupViewModel by viewModel()
 
-    private val authContract = AuthContract(this) { viewModel.signInToGoogle(requireActivity(), it, isBackup) }
-    private var snackbar: BaseCustomSnackbar? = null
-    private var isBackup: Boolean = false
+    private val authContract = AuthContract(this) { viewModel.signInToGoogle(it) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,31 +40,34 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener(CLOUD_BACKUP_REQUEST_KEY) { bundle ->
             val isBackupResult = bundle.getBoolean(CLOUD_BACKUP_BUNDLE_KEY)
-            bundle.remove(CLOUD_BACKUP_BUNDLE_KEY)
 
             if (isBackupResult) {
-
+                checkingUserBeforeBackup()
             } else {
-
+                checkingUserBeforeRestore()
             }
+        }
+        setFragmentClickListener(SIGN_OUT_REQUEST_KEY) {
+            viewModel.signOut()
+        }
+        setFragmentClickListener(DELETE_ACCOUNT_REQUEST_KEY) {
+            viewModel.getIntentSenderForAuthContract(requireActivity(), AuthIntent.REAUTHENTICATE)
         }
     }
 
-    fun checkingBeforeBackup() {
+    private fun checkingUserBeforeBackup() {
         if (viewModel.getBackupState.value.hasAuthorizedUser) {
             viewModel.backupDatebaseFile()
         } else {
-            isBackup = true
-            viewModel.getIntentSenderForAuthContract(requireActivity())
+            viewModel.getIntentSenderForAuthContract(requireActivity(), AuthIntent.BACKUP)
         }
     }
 
-    fun checkingBeforeRetore() {
+    private fun checkingUserBeforeRestore() {
         if (viewModel.getBackupState.value.hasAuthorizedUser) {
             viewModel.restoreDatabaseFile()
         } else {
-            isBackup = false
-            viewModel.getIntentSenderForAuthContract(requireActivity())
+            viewModel.getIntentSenderForAuthContract(requireActivity(), AuthIntent.RESTORE)
         }
     }
 
@@ -104,37 +103,29 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun onBackupCloudBtnClick() {
-        val action = BackupNewFragmentDirections.actionOpenCloudConfirmSheetDialogFragment(true)
-        findNavController().navigate(action)
+        viewModel.checkInternetBeforeShowConfirmDialog(isBackup = true)
     }
 
     private fun onRestoreCloudBtnClick() {
-        val action = BackupNewFragmentDirections.actionOpenCloudConfirmSheetDialogFragment(false)
-        findNavController().navigate(action)
+        viewModel.checkInternetBeforeShowConfirmDialog(isBackup = false)
     }
 
-    private fun onMenuItemClick(item: MenuItem): Boolean {
+    private fun onMenuItemClick(item: MenuItem) {
         if (item.itemId == R.id.item_account) {
-            snackbar?.dismiss()
-            viewModel.signOut()
-            //showSnackbar("HI", true)
-            // if (hasInternetConnection()) {
-            //   GoogleAccountSheetDialog(this).show()
-            // }
-            return true
+            viewModel.checkInternetBeforeShowAccountDialog()
         }
-
-        return false
     }
 
     private fun installObservers() {
-        viewModel.getBackupState.observe(viewLifecycleOwner) { authState ->
-            binding.bottomBarBackup.setAllMenuItemsVisibility(authState.hasAuthorizedUser)
+        viewModel.getBackupState.observe(viewLifecycleOwner) { backupState ->
+            binding.bottomBarBackup.setAllMenuItemsVisibility(backupState.hasAuthorizedUser)
         }
-        viewModel.getBackupAction.observe(viewLifecycleOwner) { authAction ->
-            when (authAction) {
-                is AuthAction.LaunchAuthContract -> authContract.launch(authAction.intentSender)
-                is AuthAction.ShowSnackbar -> selectMessageToShowSnackbar(authAction.message)
+        viewModel.getBackupAction.observe(viewLifecycleOwner) { backupAction ->
+            when (backupAction) {
+                is BackupAction.LaunchAuthContract -> authContract.launch(backupAction.intentSender)
+                is BackupAction.ShowSnackbar -> selectMessageToShowSnackbar(backupAction.message)
+                is BackupAction.ShowConfirmDialog -> showConfirmDialog(backupAction.isBackup)
+                is BackupAction.ShowAccountDialog -> showAccountDialog()
             }
         }
     }
@@ -148,32 +139,28 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
             BackupMessageType.BACKUP_FAILURE -> showSnackbar(R.string.sb_bp_failure, false)
             BackupMessageType.RESTORE_FAILURE -> showSnackbar(R.string.sb_bp_restore_failure, false)
             BackupMessageType.SIGN_OUT -> showSnackbar(R.string.sb_bp_logged_account, true)
+            BackupMessageType.DELETE_ACCOUNT -> showSnackbar(R.string.sb_bp_delete_data_from_cloud, true)
         }
     }
 
     private fun showSnackbar(stringId: Int, success: Boolean) {
-        snackbar = CustomizedSnackbar.make(requireView(), getString(stringId), success, binding.bottomBarBackup)
-        snackbar?.show()
+        CustomizedSnackbar.make(requireView(), getString(stringId), success, binding.bottomBarBackup)?.show()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        view?.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                Timber.d("dismiss")
-                snackbar?.dismiss()
-            }
-            true
-        }
-        return view
+    private fun showConfirmDialog(isBackup: Boolean) {
+        val action = BackupNewFragmentDirections.actionOpenCloudConfirmSheetDialogFragment(isBackup)
+        findNavController().navigate(action)
+    }
+
+    private fun showAccountDialog() {
+        val action = BackupNewFragmentDirections.actionOpenAccountSheetDialogFragment()
+        findNavController().navigate(action)
     }
 
     companion object {
         const val CLOUD_BACKUP_REQUEST_KEY = "CLOUD_BACKUP_REQUEST_KEY"
+        const val SIGN_OUT_REQUEST_KEY = "SIGN_OUT_REQUEST_KEY"
+        const val DELETE_ACCOUNT_REQUEST_KEY = "DELETE_ACCOUNT_REQUEST_KEY"
         const val CLOUD_BACKUP_BUNDLE_KEY = "CLOUD_BACKUP_BUNDLE_KEY"
     }
 }

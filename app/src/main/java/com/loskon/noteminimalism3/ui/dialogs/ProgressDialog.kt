@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.dialogs
 import android.content.Context
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.setColorProgressIndicator
+import com.loskon.noteminimalism3.app.base.extension.view.setColor
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
 
 /**
@@ -29,6 +29,6 @@ class ProgressDialog(dialogContext: Context) :
     }
 
     private fun establishViewsColor() {
-        indicator.setColorProgressIndicator(color)
+        indicator.setColor(color)
     }
 }

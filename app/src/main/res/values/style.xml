@@ -149,6 +149,24 @@
         <item name="android:background">@drawable/sheet_bg_round_corner</item>
     </style>
 
+    <!-- RoundedDialogStyle -->
+    <style name="RoundedDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="cornerSize">@dimen/app_corner_radius</item>
+        <item name="android:background">?attr/colorDialogBackground</item>
+        <item name="android:backgroundTint">?attr/colorDialogBackground</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <!-- RoundedWrapContentDialogStyle -->
+    <style name="RoundedWrapContentDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="dialogCornerRadius">@dimen/app_corner_radius</item>
+        <item name="android:background">?attr/colorDialogBackground</item>
+        <item name="windowMinWidthMajor">0%</item>
+        <item name="windowMinWidthMinor">0%</item>
+    </style>
+
     <!-- Fonts -->
     <style name="RobotoLightFont">
         <item name="android:fontFamily">@font/roboto_light</item>

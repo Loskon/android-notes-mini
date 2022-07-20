@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true">
 
     <Button
-        android:id="@+id/btn_data_account_logout"
+        android:id="@+id/btn_account_sign_out"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_data_account_delete"
+        android:id="@+id/btn_account_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
@@ -32,5 +32,5 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_data_account_logout" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_account_sign_out" />
 </androidx.constraintlayout.widget.ConstraintLayout>

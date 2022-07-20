@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ww"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -44,7 +43,6 @@
         android:textColor="?attr/colorBottomBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_base_dialog_cancel"
         app:layout_constraintTop_toBottomOf="@+id/container_base_dialog" />
 
@@ -60,7 +58,6 @@
         android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_base_dialog_ok"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/container_base_dialog"
         app:rippleColor="?attr/colorControlHighlight" />

@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 enum class AuthIntent {
     BACKUP,
     RESTORE,
-    REAUTHENTICATE
+    DELETE_ACCOUNT
 }
 
 class BackupViewModel(
@@ -37,35 +37,33 @@ class BackupViewModel(
     fun hasAuthorizedUser() {
         launchErrorJob {
             val hasAuthorizedUser = googleOneTapSignInInteractor.hasAuthorizedUser()
-            backupState.emit(BackupState(hasAuthorizedUser = hasAuthorizedUser))
+            emitBackupState(hasAuthorizedUser)
         }
     }
 
-    fun signInToGoogle(data: Intent?) {
+    fun authenticationWithSelectWay(data: Intent?) {
         launchErrorJob {
-            if (authIntent == AuthIntent.REAUTHENTICATE) {
-                val reauthenticateSuccess = googleOneTapSignInInteractor.reAuthenticate(data)
-
-                if (reauthenticateSuccess) {
-                    val deleteAccountSuccess = googleOneTapSignInInteractor.deleteAccount()
-
-                    if (deleteAccountSuccess) {
-                        backupState.emit(BackupState(hasAuthorizedUser = false))
-                        emitShowSnackbarAction(BackupMessageType.DELETE_ACCOUNT)
-                    }
-                }
-            } else {
+            if (authIntent == AuthIntent.BACKUP) {
                 val signInSuccess = googleOneTapSignInInteractor.signIn(data)
-                backupState.emit(BackupState(hasAuthorizedUser = signInSuccess))
-
-                if (signInSuccess) {
-                    if (authIntent == AuthIntent.BACKUP) {
-                        uploadDatabaseFile()
-                    } else if (authIntent == AuthIntent.RESTORE) {
-                        downloadDatabaseFile()
-                    }
-                }
+                emitBackupState(hasAuthorizedUser = signInSuccess)
+                if (signInSuccess) uploadDatabaseFile()
+            } else if (authIntent == AuthIntent.RESTORE) {
+                val signInSuccess = googleOneTapSignInInteractor.signIn(data)
+                emitBackupState(hasAuthorizedUser = signInSuccess)
+                if (signInSuccess) checkExistsDatabaseFile()
+            } else if (authIntent == AuthIntent.DELETE_ACCOUNT) {
+                val reauthenticateSuccess = googleOneTapSignInInteractor.reAuthenticate(data)
+                if (reauthenticateSuccess) deleteAccount()
             }
+        }
+    }
+
+    private suspend fun deleteAccount() {
+        val deleteAccountSuccess = googleOneTapSignInInteractor.deleteAccount()
+
+        if (deleteAccountSuccess) {
+            emitBackupState(hasAuthorizedUser = false)
+            emitShowSnackbarAction(BackupMessageType.DELETED_ACCOUNT)
         }
     }
 
@@ -79,7 +77,7 @@ class BackupViewModel(
         }
     }
 
-    private suspend fun downloadDatabaseFile() {
+    private suspend fun checkExistsDatabaseFile() {
         val fileExists = cloudStorageInteractor.fileExists()
 
         if (fileExists) {
@@ -95,19 +93,21 @@ class BackupViewModel(
         }
     }
 
-    fun checkInternetBeforeShowConfirmDialog(isBackup: Boolean) {
+    fun checkInternetBeforeShowConfirmSheetDialog(isBackup: Boolean) {
         launchWithCheckInternetErrorJob {
-            backupAction.emit(BackupAction.ShowConfirmDialog(isBackup))
+            backupAction.emit(BackupAction.ShowConfirmSheetDialog(isBackup))
         }
     }
 
-    fun getIntentSenderForAuthContract(activity: Activity, authIntent: AuthIntent) {
+    fun getIntentSenderForAuthContract(activity: Activity) {
         launchWithCheckInternetErrorJob {
-            this.authIntent = authIntent
-            if (authIntent == AuthIntent.REAUTHENTICATE) cloudStorageInteractor.deleteDatabaseFile()
             val intentSender = googleOneTapSignInInteractor.getIntentSender(activity)
             backupAction.emit(BackupAction.LaunchAuthContract(intentSender))
         }
+    }
+
+    fun setAuthIntent(authIntent: AuthIntent) {
+        this.authIntent = authIntent
     }
 
     fun backupDatebaseFile() {
@@ -118,7 +118,13 @@ class BackupViewModel(
 
     fun restoreDatabaseFile() {
         launchWithCheckInternetErrorJob {
-            downloadDatabaseFile()
+            checkExistsDatabaseFile()
+        }
+    }
+
+    fun deleteDatabaseFile() {
+        launchWithCheckInternetErrorJob {
+            cloudStorageInteractor.deleteDatabaseFile()
         }
     }
 
@@ -131,7 +137,7 @@ class BackupViewModel(
     fun signOut() {
         launchWithCheckInternetErrorJob {
             googleOneTapSignInInteractor.signOut()
-            backupState.emit(BackupState(hasAuthorizedUser = false))
+            emitBackupState(hasAuthorizedUser = false)
             emitShowSnackbarAction(BackupMessageType.SIGN_OUT)
         }
     }
@@ -144,6 +150,10 @@ class BackupViewModel(
                 emitShowSnackbarAction(BackupMessageType.NO_INTERNET)
             }
         }
+    }
+
+    private suspend fun emitBackupState(hasAuthorizedUser: Boolean) {
+        backupState.emit(BackupState(hasAuthorizedUser))
     }
 
     private suspend fun emitShowSnackbarAction(messageType: BackupMessageType) {

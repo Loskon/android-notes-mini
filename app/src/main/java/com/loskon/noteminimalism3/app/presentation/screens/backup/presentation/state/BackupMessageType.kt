@@ -8,5 +8,5 @@ enum class BackupMessageType {
     BACKUP_FAILURE,
     RESTORE_FAILURE,
     SIGN_OUT,
-    DELETE_ACCOUNT
+    DELETED_ACCOUNT
 }

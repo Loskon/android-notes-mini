@@ -207,13 +207,6 @@ fun MaterialButton.setButtonIconColor(@ColorInt colorId: Int) {
     iconTint = ColorStateList.valueOf(colorId)
 }
 
-
-fun CircularProgressIndicator.setColorProgressIndicator(@ColorInt color: Int) {
-    setIndicatorColor(color)
-    trackColor = ColorUtils.setAlphaComponent(color, ALPHA_COLOR)
-}
-
-
 fun View.setBackgroundTintColor(context: Context, isSuccess: Boolean) {
     val colorId: Int = context.getSuccessColor(isSuccess)
     backgroundTintList = ColorStateList.valueOf(colorId)

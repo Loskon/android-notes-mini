@@ -5,18 +5,18 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.contracts.AuthContract
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
-import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentClickListener
-import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.view.setAllItemsColor
 import com.loskon.noteminimalism3.app.base.extension.view.setAllMenuItemsVisibility
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
+import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.WaitingDialogFragment
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialog.BaseCustomSheetDialog
 import com.loskon.noteminimalism3.app.base.widget.snackbar.CustomizedSnackbar
+import com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupMessageType
 import com.loskon.noteminimalism3.databinding.FragmentBackupNewBinding
@@ -29,45 +29,35 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     private val binding by viewBinding(FragmentBackupNewBinding::bind)
     private val viewModel: BackupViewModel by viewModel()
 
-    private val authContract = AuthContract(this) { viewModel.signInToGoogle(it) }
+    private val waitingDialog = WaitingDialogFragment.newInstance()
+
+    private val authContract = AuthContract(this) { intent ->
+        showWaitingDialog()
+        viewModel.authenticationWithSelectWay(intent)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel.hasAuthorizedUser()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setFragmentResultListener(CLOUD_BACKUP_REQUEST_KEY) { bundle ->
-            val isBackupResult = bundle.getBoolean(CLOUD_BACKUP_BUNDLE_KEY)
-
-            if (isBackupResult) {
-                checkingUserBeforeBackup()
-            } else {
-                checkingUserBeforeRestore()
-            }
-        }
-        setFragmentClickListener(SIGN_OUT_REQUEST_KEY) {
-            viewModel.signOut()
-        }
-        setFragmentClickListener(DELETE_ACCOUNT_REQUEST_KEY) {
-            viewModel.getIntentSenderForAuthContract(requireActivity(), AuthIntent.REAUTHENTICATE)
-        }
-    }
-
     private fun checkingUserBeforeBackup() {
         if (viewModel.getBackupState.value.hasAuthorizedUser) {
+            showWaitingDialog()
             viewModel.backupDatebaseFile()
         } else {
-            viewModel.getIntentSenderForAuthContract(requireActivity(), AuthIntent.BACKUP)
+            viewModel.setAuthIntent(AuthIntent.BACKUP)
+            viewModel.getIntentSenderForAuthContract(requireActivity())
         }
     }
 
     private fun checkingUserBeforeRestore() {
         if (viewModel.getBackupState.value.hasAuthorizedUser) {
+            showWaitingDialog()
             viewModel.restoreDatabaseFile()
         } else {
-            viewModel.getIntentSenderForAuthContract(requireActivity(), AuthIntent.RESTORE)
+            viewModel.setAuthIntent(AuthIntent.RESTORE)
+            viewModel.getIntentSenderForAuthContract(requireActivity())
         }
     }
 
@@ -93,7 +83,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
 
     private fun setupViewsListeners() {
         with(binding) {
-            btnBackupLocal.setDebounceClickListener { }
+            btnBackupLocal.setDebounceClickListener { showAccountDialog() }
             btnRestoreLocal.setDebounceClickListener { }
             btnBackupCloud.setDebounceClickListener { onBackupCloudBtnClick() }
             btnRestoreCloud.setDebounceClickListener { onRestoreCloudBtnClick() }
@@ -103,11 +93,11 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun onBackupCloudBtnClick() {
-        viewModel.checkInternetBeforeShowConfirmDialog(isBackup = true)
+        viewModel.checkInternetBeforeShowConfirmSheetDialog(isBackup = true)
     }
 
     private fun onRestoreCloudBtnClick() {
-        viewModel.checkInternetBeforeShowConfirmDialog(isBackup = false)
+        viewModel.checkInternetBeforeShowConfirmSheetDialog(isBackup = false)
     }
 
     private fun onMenuItemClick(item: MenuItem) {
@@ -123,11 +113,16 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
         viewModel.getBackupAction.observe(viewLifecycleOwner) { backupAction ->
             when (backupAction) {
                 is BackupAction.LaunchAuthContract -> authContract.launch(backupAction.intentSender)
-                is BackupAction.ShowSnackbar -> selectMessageToShowSnackbar(backupAction.message)
-                is BackupAction.ShowConfirmDialog -> showConfirmDialog(backupAction.isBackup)
+                is BackupAction.ShowSnackbar -> closeDialogAndShowMessage(backupAction.messageType)
+                is BackupAction.ShowConfirmSheetDialog -> showConfirmSheetDialog(backupAction.isBackup)
                 is BackupAction.ShowAccountDialog -> showAccountDialog()
             }
         }
+    }
+
+    private fun closeDialogAndShowMessage(messageType: BackupMessageType) {
+        waitingDialog.dismiss()
+        selectMessageToShowSnackbar(messageType)
     }
 
     private fun selectMessageToShowSnackbar(messageType: BackupMessageType) {
@@ -139,7 +134,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
             BackupMessageType.BACKUP_FAILURE -> showSnackbar(R.string.sb_bp_failure, false)
             BackupMessageType.RESTORE_FAILURE -> showSnackbar(R.string.sb_bp_restore_failure, false)
             BackupMessageType.SIGN_OUT -> showSnackbar(R.string.sb_bp_logged_account, true)
-            BackupMessageType.DELETE_ACCOUNT -> showSnackbar(R.string.sb_bp_delete_data_from_cloud, true)
+            BackupMessageType.DELETED_ACCOUNT -> showSnackbar(R.string.sb_bp_delete_data_from_cloud, true)
         }
     }
 
@@ -147,14 +142,32 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
         CustomizedSnackbar.make(requireView(), getString(stringId), success, binding.bottomBarBackup)?.show()
     }
 
-    private fun showConfirmDialog(isBackup: Boolean) {
-        val action = BackupNewFragmentDirections.actionOpenCloudConfirmSheetDialogFragment(isBackup)
-        findNavController().navigate(action)
+    private fun showConfirmSheetDialog(isBackup: Boolean) {
+        BaseCustomSheetDialog(requireContext()).create {
+            setTitleDialog(R.string.sheet_confirm_action)
+            setTextBtnOk(R.string.continue_action)
+            setTextBtnCancel(R.string.no)
+        }.setOnClickBtnOk {
+            if (isBackup) {
+                checkingUserBeforeBackup()
+            } else {
+                checkingUserBeforeRestore()
+            }
+        }.show()
     }
 
     private fun showAccountDialog() {
-        val action = BackupNewFragmentDirections.actionOpenAccountSheetDialogFragment()
-        findNavController().navigate(action)
+        AccountSheetDialogFragment.newInstance().show(childFragmentManager, AccountSheetDialogFragment.TAG)
+    }
+
+    private fun deleteAccount() {
+        viewModel.setAuthIntent(AuthIntent.DELETE_ACCOUNT)
+        viewModel.deleteDatabaseFile()
+        viewModel.getIntentSenderForAuthContract(requireActivity())
+    }
+
+    private fun showWaitingDialog() {
+        waitingDialog.show(childFragmentManager, WaitingDialogFragment.TAG)
     }
 
     companion object {

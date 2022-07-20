@@ -35,7 +35,6 @@
         <activity
             android:name=".app.presentation.main.MainActivity2"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

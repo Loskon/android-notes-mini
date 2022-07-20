@@ -6,11 +6,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.BaseCustomizedSheetDialogFragment
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CLOUD_BACKUP_BUNDLE_KEY
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CLOUD_BACKUP_REQUEST_KEY
 
-class CloudConfirmSheetDialogFragment : BaseCustomizedSheetDialogFragment() {
+class CloudConfirmSheetDialogFragment : BaseAppSheetDialogFragment() {
 
     private val args: CloudConfirmSheetDialogFragmentArgs by navArgs()
 

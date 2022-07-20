@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.base.presentation.dialogfragment
+package com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment
 
 import android.app.Dialog
 import android.os.Bundle

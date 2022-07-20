@@ -10,6 +10,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -38,6 +39,10 @@ fun <T : ViewBinding> Fragment.viewBinding(
 }
 
 inline fun <T : ViewBinding> DialogFragment.viewBinding(
+    crossinline factory: (LayoutInflater) -> T
+) = lazy(LazyThreadSafetyMode.NONE) { factory(layoutInflater) }
+
+inline fun <T : ViewBinding> BottomSheetDialog.viewBinding(
     crossinline factory: (LayoutInflater) -> T
 ) = lazy(LazyThreadSafetyMode.NONE) { factory(layoutInflater) }
 

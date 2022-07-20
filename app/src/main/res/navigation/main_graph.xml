@@ -47,6 +47,9 @@
         <action
             android:id="@+id/actionOpenAccountSheetDialogFragment"
             app:destination="@id/accountSheetDialogFragment" />
+        <action
+            android:id="@+id/action_backupNewFragment_to_localBackupSheetDialogFragment"
+            app:destination="@id/localBackupSheetDialogFragment" />
     </fragment>
 
     <dialog
@@ -62,5 +65,9 @@
         android:id="@+id/accountSheetDialogFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment"
         android:label="AccountSheetDialogFragment" />
+    <dialog
+        android:id="@+id/localBackupSheetDialogFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.LocalBackupSheetDialogFragment"
+        android:label="LocalBackupSheetDialogFragment" />
 
 </navigation>

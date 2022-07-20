@@ -13,8 +13,8 @@ import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 class GoogleAccountSheetDialog(private val fragment: BackupFragment
 ) : BaseSheetDialog(fragment.requireContext(), R.layout.sheet_account) {
 
-    private val btnLogout: MaterialButton = view.findViewById(R.id.btn_data_account_logout)
-    private val btnDelete: MaterialButton = view.findViewById(R.id.btn_data_account_delete)
+    private val btnLogout: MaterialButton = view.findViewById(R.id.btn_account_sign_out)
+    private val btnDelete: MaterialButton = view.findViewById(R.id.btn_account_delete)
 
     init {
         configureDialogParameters()

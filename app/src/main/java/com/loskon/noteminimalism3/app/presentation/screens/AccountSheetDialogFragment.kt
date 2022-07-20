@@ -3,15 +3,11 @@ package com.loskon.noteminimalism3.app.presentation.screens
 import android.os.Bundle
 import android.view.View
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentClick
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.BaseCustomizedSheetDialogFragment
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.DELETE_ACCOUNT_REQUEST_KEY
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.SIGN_OUT_REQUEST_KEY
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
 import com.loskon.noteminimalism3.databinding.SheetAccountBinding
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class AccountSheetDialogFragment : BaseCustomizedSheetDialogFragment(R.layout.sheet_account) {
+class AccountSheetDialogFragment : BaseAppSheetDialogFragment(R.layout.sheet_account) {
 
     private val binding by viewBinding(SheetAccountBinding::bind)
 
@@ -20,7 +16,6 @@ class AccountSheetDialogFragment : BaseCustomizedSheetDialogFragment(R.layout.sh
 
         setupViewsParameters()
         establishViewsColor()
-        setupViewListener()
     }
 
     private fun setupViewsParameters() {
@@ -30,18 +25,39 @@ class AccountSheetDialogFragment : BaseCustomizedSheetDialogFragment(R.layout.sh
     }
 
     private fun establishViewsColor() {
-        binding.btnDataAccountLogout.setBackgroundColor(color)
-        binding.btnDataAccountDelete.setBackgroundColor(color)
+        binding.btnAccountSignOut.setBackgroundColor(color)
+        binding.btnAccountDelete.setBackgroundColor(color)
     }
 
-    private fun setupViewListener() {
-        binding.btnDataAccountLogout.setDebounceClickListener {
-            setFragmentClick(SIGN_OUT_REQUEST_KEY)
+    /*    private fun setupViewsListeners() {
+            binding.btnAccountSignOut.setDebounceClickListener {
+                setFragmentClick(SIGN_OUT_REQUEST_KEY)
+                dismiss()
+            }
+            binding.btnAccountDelete.setDebounceClickListener {
+                setFragmentClick(DELETE_ACCOUNT_REQUEST_KEY)
+                dismiss()
+            }
+        }*/
+
+/*    fun setOnClickListeners(
+        btnSignOutOnClick: () -> Unit,
+        btnDeleteOnClick: () -> Unit
+    ): AccountSheetDialogFragment {
+        binding.btnAccountSignOut.setDebounceClickListener {
+            btnSignOutOnClick()
             dismiss()
         }
-        binding.btnDataAccountDelete.setDebounceClickListener {
-            setFragmentClick(DELETE_ACCOUNT_REQUEST_KEY)
+        binding.btnAccountDelete.setDebounceClickListener {
+            btnDeleteOnClick()
             dismiss()
         }
+
+        return this
+    }*/
+
+    companion object {
+        const val TAG = "AccountSheetDialogFragment"
+        fun newInstance() = AccountSheetDialogFragment()
     }
 }

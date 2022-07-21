@@ -39,8 +39,3 @@ fun DialogFragment.onlyShow(fragmentManager: FragmentManager, tag: String) {
         show(fragmentManager, tag)
     }
 }
-
-/*
-fun <T : View> Activity.bindView(@IdRes idRes: Int): Lazy<T> {
-    return lazy(LazyThreadSafetyMode.NONE)  { findViewById(idRes) }
-}*/

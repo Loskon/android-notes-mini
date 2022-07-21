@@ -42,29 +42,10 @@
         android:name="com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment"
         android:label="BackupNewFragment">
         <action
-            android:id="@+id/actionOpenCloudConfirmSheetDialogFragment"
-            app:destination="@id/cloudConfirmSheetDialogFragment" />
-        <action
-            android:id="@+id/actionOpenAccountSheetDialogFragment"
-            app:destination="@id/accountSheetDialogFragment" />
-        <action
-            android:id="@+id/action_backupNewFragment_to_localBackupSheetDialogFragment"
+            android:id="@+id/actionOpenLocalBackupSheetDialogFragment"
             app:destination="@id/localBackupSheetDialogFragment" />
     </fragment>
 
-    <dialog
-        android:id="@+id/cloudConfirmSheetDialogFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.CloudConfirmSheetDialogFragment"
-        android:label="CloudConfirmSheetDialogFragment">
-        <argument
-            android:name="isBackup"
-            app:argType="boolean" />
-    </dialog>
-
-    <dialog
-        android:id="@+id/accountSheetDialogFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment"
-        android:label="AccountSheetDialogFragment" />
     <dialog
         android:id="@+id/localBackupSheetDialogFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.LocalBackupSheetDialogFragment"

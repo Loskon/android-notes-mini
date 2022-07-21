@@ -4,19 +4,13 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
-/**
- * Управление состоянием клавиатуры
- */
-
-fun EditText.showKeyboard(context: Context) {
+fun EditText.showKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     requestFocus()
-    context.getInputManager().showSoftInput(this, 0)
+    imm.showSoftInput(this, 0)
 }
 
-fun EditText.hideKeyboard(context: Context) {
-    context.getInputManager().hideSoftInputFromWindow(windowToken, 0)
-}
-
-private fun Context.getInputManager(): InputMethodManager {
-    return getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+fun EditText.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

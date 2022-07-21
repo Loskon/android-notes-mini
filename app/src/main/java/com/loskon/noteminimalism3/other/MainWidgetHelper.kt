@@ -124,7 +124,7 @@ class MainWidgetHelper(
 
     private fun showKeyboardInSearchView() {
         val searchEditText: EditText = searchView.findViewById(R.id.search_src_text)
-        searchEditText.showKeyboard(context)
+        searchEditText.showKeyboard()
     }
 
     //--- Menu -------------------------------------------------------------------------------------

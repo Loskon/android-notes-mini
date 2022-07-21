@@ -138,14 +138,14 @@
     <!-- RoundedSheetDialogStyle -->
     <style name="RoundedSheetDialogStyle" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
         <item name="colorPrimary">@color/purple_500</item>
-        <item name="bottomSheetStyle">@style/RoundBackgroundStyle</item>
+        <item name="bottomSheetStyle">@style/RoundSheetStyle</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="RoundBackgroundStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="RoundSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/sheet_bg_round_corner</item>
     </style>
 

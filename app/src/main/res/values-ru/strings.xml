@@ -112,7 +112,7 @@
     <string name="sheet_reset_color_title">Сбросить цвет?</string>
     <string name="sheet_reset_font_size_title">Сбросить размер текста?</string>
     <!-- sheet_backup -->
-    <string name="sheet_backup_title">Введите название</string>
+    <string name="sheet_backup_title">Название бэкапа</string>
     <string name="sheet_backup_text_hint">Название</string>
     <string name="sheet_backup_incorrect_name">Введите корректное название!</string>
     <!-- sheet_restore_date_base -->
@@ -138,6 +138,9 @@
         и не сможете их восстановить. Продолжить?</string>
     <!-- sheet_confirm -->
     <string name="sheet_confirm_action">Подтвердить действие</string>
+    <string name="sheet_deleting_data">Удаление данных</string>
+    <string name="sheet_deleting_data_message">В целях безопасности для удаления данных необходимо
+        заново войти в учетную запись.</string>
     <!-- sheet_custom_note -->
     <string name="bs_last_modified">Последнее изменение: %1$s</string>
     <string name="bs_paste_text">Вставить текст</string>

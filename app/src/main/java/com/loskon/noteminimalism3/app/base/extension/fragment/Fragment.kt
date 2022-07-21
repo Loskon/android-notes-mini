@@ -53,3 +53,7 @@ fun Fragment.setFragmentScreenOnTouchListener(onClick: () -> Unit) {
         true
     }
 }
+
+inline fun <T : Fragment> T.putArgs(argsBuilder: Bundle.() -> Unit): T = apply {
+    arguments = Bundle().apply(argsBuilder)
+}

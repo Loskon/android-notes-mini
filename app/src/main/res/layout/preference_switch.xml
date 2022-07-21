@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toggle_group_preference"
-    android:layout_width="72dp"
+    android:layout_width="62dp"
     android:layout_height="20dp"
     app:singleSelection="true">
 
@@ -20,7 +20,7 @@
         android:insetBottom="0dp"
         android:padding="0dp"
         android:text="@string/off"
-        android:textSize="10sp"
+        android:textSize="9sp"
         app:cornerRadius="@dimen/margin_xsmall"
         app:rippleColor="@null"
         tools:ignore="SmallSp,TouchTargetSizeCheck" />
@@ -37,8 +37,8 @@
         android:insetBottom="0dp"
         android:padding="0dp"
         android:text="@string/on"
-        android:textSize="10sp"
+        android:textSize="9sp"
         app:cornerRadius="@dimen/margin_xsmall"
         app:rippleColor="@null"
-        tools:ignore="SmallSp,TouchTargetSizeCheck" />
+        tools:ignore="SmallSp,TouchTargetSizeCheck,TextContrastCheck" />
 </com.google.android.material.button.MaterialButtonToggleGroup>

@@ -11,7 +11,10 @@ import timber.log.Timber
 /**
  * Contract for authentication request
  */
-class AuthContract(fragment: Fragment, val handleData: (Intent?) -> Unit) {
+class AuthContract(
+    fragment: Fragment,
+    val handleData: (Intent?) -> Unit
+) {
 
     private val authLauncher = fragment.registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()

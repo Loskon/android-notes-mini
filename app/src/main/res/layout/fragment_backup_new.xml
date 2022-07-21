@@ -30,7 +30,7 @@
             android:layout_marginTop="@dimen/margin_xsmall"
             android:layout_marginEnd="@dimen/margin_medium"
             android:text="@string/local"
-            android:textSize="@dimen/txt_medium" />
+            android:textSize="@dimen/text_size_medium" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_local"
@@ -63,7 +63,7 @@
             android:layout_marginTop="@dimen/margin_xsmall"
             android:layout_marginEnd="@dimen/margin_medium"
             android:text="@string/cloud"
-            android:textSize="@dimen/txt_medium" />
+            android:textSize="@dimen/text_size_medium" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_backup_cloud"

@@ -218,7 +218,7 @@ open class NoteFragment : Fragment(),
         WarningSnackbar.dismiss()
         if (supportedLinks != 0) activatingTextEditingMode()
         editText.setSelection(editText.text.toString().length)
-        editText.showKeyboard(activity)
+        editText.showKeyboard()
     }
 
     private fun activatingTextEditingMode() {
@@ -231,7 +231,7 @@ open class NoteFragment : Fragment(),
 
     private fun configureShowKeyboard() {
         if (noteId == 0L && !hasReceivingText) {
-            editText.showKeyboard(activity)
+            editText.showKeyboard()
         } else if (noteId != 0L && hasReceivingText) {
             editText.scrollBottom(scrollView)
             removeFocusFromEditText()
@@ -265,7 +265,7 @@ open class NoteFragment : Fragment(),
 
     private fun completeWorkWithNote() {
         hasShowToast = true
-        editText.hideKeyboard(activity)
+        editText.hideKeyboard()
         activity.onBackPressed()
     }
 
@@ -286,7 +286,7 @@ open class NoteFragment : Fragment(),
 
     private fun beginDeletingNote() {
         isDeleteNote = true
-        editText.hideKeyboard(activity)
+        editText.hideKeyboard()
         choosingDeletionWay()
         activity.onBackPressed()
     }
@@ -319,7 +319,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun showNoteAssistantSheetDialog() {
-        editText.hideKeyboard(activity)
+        editText.hideKeyboard()
         viewLifecycleOwner.lifecycleScope.launch {
             delay(300L)
             val stringDate: String = DateUtil.getStringDate(note.dateModification)

@@ -113,7 +113,7 @@
     <string name="sheet_reset_color_title">Reset the color?</string>
     <string name="sheet_reset_font_size_title">Reset the font size?</string>
     <!-- sheet_backup -->
-    <string name="sheet_backup_title">Enter a title</string>
+    <string name="sheet_backup_title">Backup title</string>
     <string name="sheet_backup_text_hint">Title</string>
     <string name="sheet_backup_incorrect_name">Enter the correct title!</string>
     <!-- sheet_restore_date_base -->
@@ -139,6 +139,9 @@
         and will not be able to restore it. Continue?</string>
     <!-- sheet_confirm -->
     <string name="sheet_confirm_action">Confirm action</string>
+    <string name="sheet_deleting_data">Deleting data</string>
+    <string name="sheet_deleting_data_message">For security reasons, to delete data, you must log
+        in to your account again.</string>
     <!-- sheet_custom_note -->
     <string name="bs_last_modified">Last modified: %1$s</string>
     <string name="bs_paste_text">Paste text</string>

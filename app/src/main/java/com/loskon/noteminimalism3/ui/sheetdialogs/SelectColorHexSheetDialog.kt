@@ -7,10 +7,10 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.utils.showKeyboard
 
 /**
@@ -38,7 +38,7 @@ class SelectColorHexSheetDialog(private val fragment: AppearanceSettingsFragment
 
     private fun configureInsertedViews() {
         inputLayout.boxStrokeColor = appColor
-        inputEditText.showKeyboard(context)
+        inputEditText.showKeyboard()
         inputEditText.setFilterAllowedCharacters()
         changeHexString()
     }

@@ -6,7 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import kotlin.math.roundToInt
 
-fun View.setDebounceClickListener(debounceTime: Long = 600L, onClick: () -> Unit) {
+fun View.setDebounceClickListener(debounceTime: Long = 600L, onClick: (View) -> Unit) {
     setOnClickListener(object : View.OnClickListener {
 
         private var lastClickTime: Long = 0
@@ -15,7 +15,7 @@ fun View.setDebounceClickListener(debounceTime: Long = 600L, onClick: () -> Unit
             if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) {
                 return
             } else {
-                onClick()
+                onClick(view)
             }
 
             lastClickTime = SystemClock.elapsedRealtime()

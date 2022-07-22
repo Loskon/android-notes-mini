@@ -25,8 +25,9 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         configureRecyclerView()
-        setupViewsListener()
+        setupViewsListeners()
         updateQuicklyNoteList()
     }
 
@@ -38,7 +39,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
     }
 
-    private fun setupViewsListener() {
+    private fun setupViewsListeners() {
         binding.bottomBarNoteList.setDebounceNavigationClickListener {
             val action = NoteListFragmentDirections.actionOpenSettingsFragment()
             findNavController().navigate(action)

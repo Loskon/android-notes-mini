@@ -20,6 +20,7 @@ import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.WaitingDi
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragmentNew
 import com.loskon.noteminimalism3.app.base.widget.snackbar.CustomizedSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.AuthIntent
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupMessageType
 import com.loskon.noteminimalism3.databinding.FragmentBackupNewBinding
@@ -45,7 +46,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
             if (isBackup) {
                 showLocalBackupSheetDialog()
             } else {
-                //
+                showRestoreListSheetDialog()
             }
         } else {
             showSnackbar(R.string.no_permissions, false)
@@ -99,7 +100,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
             }
             btnRestoreLocal.setDebounceClickListener {
                 if (storageContract.accessStorage(requireContext())) {
-                    //
+                    showRestoreListSheetDialog()
                 } else {
                     isBackup = false
                     storageContract.launch()
@@ -224,6 +225,11 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
 
     private fun showLocalBackupSheetDialog() {
         val action = BackupNewFragmentDirections.actionOpenLocalBackupSheetDialogFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun showRestoreListSheetDialog() {
+        val action = BackupNewFragmentDirections.actionOpenRestoreListSheetDialogFragment()
         findNavController().navigate(action)
     }
 

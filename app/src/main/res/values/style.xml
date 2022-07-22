@@ -85,7 +85,7 @@
 
     <!-- ButtonIcon -->
     <style name="ButtonIconStyle" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
-        <item name="cornerRadius">4dp</item>
+        <item name="cornerRadius">@dimen/app_corner_radius</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">-6dp</item>
         <item name="strokeColor">@android:color/transparent</item>

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens.restorelist
+package com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.presentation
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,24 +7,24 @@ import com.loskon.noteminimalism3.databinding.ItemFileBinding
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import java.io.File
 
-class FileListAdapter : RecyclerView.Adapter<FileListAdapter.RestoreListViewHolder>() {
+class BackupFileListAdapter : RecyclerView.Adapter<BackupFileListAdapter.BackupFileListViewHolder>() {
 
     private var list: List<File> = emptyList()
 
     private var onItemClickListener: ((File) -> Unit)? = null
     private var onItemDeleteClickListener: ((File) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestoreListViewHolder {
-        return RestoreListViewHolder(parent.viewBinding(ItemFileBinding::inflate))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BackupFileListViewHolder {
+        return BackupFileListViewHolder(parent.viewBinding(ItemFileBinding::inflate))
     }
 
-    override fun onBindViewHolder(holder: RestoreListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BackupFileListViewHolder, position: Int) {
         val file = list[position]
 
         with(holder.binding) {
-            tvTitleFile.text = file.name.replace(".db", "")
-            btnDelFile.setDebounceClickListener { onItemClickListener?.invoke(file) }
-            root.setDebounceClickListener { onItemDeleteClickListener?.invoke(file) }
+            tvTitleFile.text = file.name.replace(BACKUP_FILE_EXTENSION, "")
+            btnDelFile.setDebounceClickListener { onItemDeleteClickListener?.invoke(file) }
+            root.setDebounceClickListener { onItemClickListener?.invoke(file) }
         }
     }
 
@@ -32,7 +32,7 @@ class FileListAdapter : RecyclerView.Adapter<FileListAdapter.RestoreListViewHold
 
     fun updateFileList(list: List<File>) {
         this.list = list
-        notifyItemRangeChanged(0, itemCount)
+        notifyDataSetChanged()
     }
 
     fun setOnItemClickListener(onItemClickListener: ((File) -> Unit)?) {
@@ -43,5 +43,9 @@ class FileListAdapter : RecyclerView.Adapter<FileListAdapter.RestoreListViewHold
         this.onItemDeleteClickListener = onItemDeleteClickListener
     }
 
-    class RestoreListViewHolder(val binding: ItemFileBinding) : RecyclerView.ViewHolder(binding.root)
+    class BackupFileListViewHolder(val binding: ItemFileBinding) : RecyclerView.ViewHolder(binding.root)
+
+    companion object {
+        private const val BACKUP_FILE_EXTENSION = ".db"
+    }
 }

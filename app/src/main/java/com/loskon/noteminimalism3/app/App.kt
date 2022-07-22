@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.app
 import android.app.Application
 import com.loskon.noteminimalism3.BuildConfig
 import com.loskon.noteminimalism3.app.presentation.screens.backup.backupModule
+import com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.backupFileListModule
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.sqlite.DataBaseAdapter
 import org.koin.android.ext.koin.androidContext
@@ -25,7 +26,7 @@ internal class App : Application() {
             androidContext(application)
             modules(
                 listOf(
-                    backupModule
+                    backupModule, backupFileListModule
                 )
             )
         }

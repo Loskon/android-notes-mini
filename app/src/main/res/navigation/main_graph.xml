@@ -44,11 +44,18 @@
         <action
             android:id="@+id/actionOpenLocalBackupSheetDialogFragment"
             app:destination="@id/localBackupSheetDialogFragment" />
+        <action
+            android:id="@+id/actionOpenRestoreListSheetDialogFragment"
+            app:destination="@id/restoreListSheetDialogFragment" />
     </fragment>
 
     <dialog
         android:id="@+id/localBackupSheetDialogFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.LocalBackupSheetDialogFragment"
         android:label="LocalBackupSheetDialogFragment" />
+    <dialog
+        android:id="@+id/restoreListSheetDialogFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.presentation.BackupFileListSheetDialogFragment"
+        android:label="RestoreListSheetDialogFragment" />
 
 </navigation>

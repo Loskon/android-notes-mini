@@ -39,10 +39,10 @@ class CustomSwitchPreference(
                 btnOff.setTextColor(Color.GRAY)
                 btnOff.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
                 btnOn.setTextColor(color)
-                btnOn.backgroundTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 60))
+                btnOn.backgroundTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 40))
             } else {
                 btnOff.setTextColor(color)
-                btnOff.backgroundTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 60))
+                btnOff.backgroundTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(color, 40))
                 btnOn.setTextColor(Color.GRAY)
                 btnOn.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
             }

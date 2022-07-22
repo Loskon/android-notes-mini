@@ -13,7 +13,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:backgroundTint="@android:color/transparent"
         android:orientation="horizontal">
 
@@ -36,10 +36,11 @@
             style="@style/ButtonIconStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
+            app:cornerRadius="36dp"
             app:icon="@drawable/baseline_close_black_24"
             app:iconTint="?attr/colorWarning"
-            app:rippleColor="@android:color/transparent"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Intent
 import com.loskon.noteminimalism3.app.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.CloudStorageInteractor
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.GoogleOneTapSignInInteractor
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.AuthIntent
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupMessageType
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupState
@@ -15,11 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-enum class AuthIntent {
-    BACKUP,
-    RESTORE,
-    DELETE_ACCOUNT
-}
 
 class BackupViewModel(
     private val googleOneTapSignInInteractor: GoogleOneTapSignInInteractor,

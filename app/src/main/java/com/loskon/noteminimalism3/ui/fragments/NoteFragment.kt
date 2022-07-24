@@ -42,6 +42,7 @@ import com.loskon.noteminimalism3.utils.scrollBottom
 import com.loskon.noteminimalism3.utils.showKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.util.Date
 
 /**
@@ -68,7 +69,7 @@ open class NoteFragment : Fragment(),
     private lateinit var btnMore: MaterialButton
 
     private lateinit var note: Note
-    private lateinit var backupDate: Date
+    private lateinit var backupDate: LocalDateTime
 
     private var isFavorite: Boolean = false
     private var isNewNote: Boolean = true
@@ -322,7 +323,7 @@ open class NoteFragment : Fragment(),
         editText.hideKeyboard()
         viewLifecycleOwner.lifecycleScope.launch {
             delay(300L)
-            val stringDate: String = DateUtil.getStringDate(note.dateModification)
+            val stringDate: String = DateUtil.getStringDate(note.modifiedDate)
             NoteAssistantSheetDialog(activity, assistant).show(stringDate, noteId)
         }
     }
@@ -351,7 +352,7 @@ open class NoteFragment : Fragment(),
     }
 
     private fun choosingSavingWayNote() {
-        val saveDate = Date()
+        val saveDate = LocalDateTime.now()
 
         if (noteId == 0L) {
             performInsert(saveDate)
@@ -362,9 +363,9 @@ open class NoteFragment : Fragment(),
         performAutoBackup()
     }
 
-    private fun performInsert(saveDate: Date) {
-        note.dateModification = saveDate
-        note.dateCreation = saveDate
+    private fun performInsert(saveDate: LocalDateTime) {
+        note.modifiedDate = saveDate
+        note.createdDate = saveDate
 
         note.id = commandCenter.insertWithIdReturn(note)
         noteId = note.id
@@ -373,9 +374,9 @@ open class NoteFragment : Fragment(),
         callback?.onAddNote()
     }
 
-    private fun performUpdate(saveDate: Date) {
+    private fun performUpdate(saveDate: LocalDateTime) {
         if (note.title.trim() != savedText.trim()) {
-            note.dateModification = saveDate
+            note.modifiedDate = saveDate
             commandCenter.update(note)
             callback?.onUpdateNote()
         } else if (note.isFavorite != isFavorite) {

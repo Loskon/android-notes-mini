@@ -5,17 +5,13 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
-import java.util.*
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema.NoteTable
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
-/**
- * Синглтон БД
- */
+class DatabaseAdapter(context: Context) {
 
-class DataBaseAdapter(context: Context) {
-
-    private val dbHelper: DataBaseHelper = DataBaseHelper(context.applicationContext)
+    private val dbHelper: DatabaseHelper = DatabaseHelper(context.applicationContext)
     private val database: SQLiteDatabase = dbHelper.writableDatabase
 
     //----------------------------------------------------------------------------------------------
@@ -111,7 +107,7 @@ class DataBaseAdapter(context: Context) {
 
     private fun getDelWhereClause(range: Long): String {
         return NoteTable.COLUMN_DEL_ITEMS + " = " + 1 + " and " +
-                Date().time + " > (" + NoteTable.COLUMN_DATE_DEL + "+" + range + ")"
+            Date().time + " > (" + NoteTable.COLUMN_DATE_DEL + "+" + range + ")"
     }
 
     fun update(note: Note) {
@@ -122,9 +118,9 @@ class DataBaseAdapter(context: Context) {
     private fun getContentValues(note: Note): ContentValues {
         return ContentValues().apply {
             put(NoteTable.COLUMN_TITLE, note.title)
-            put(NoteTable.COLUMN_DATE, note.dateCreation.time)
-            put(NoteTable.COLUMN_DATE_MOD, note.dateModification.time)
-            put(NoteTable.COLUMN_DATE_DEL, note.dateDelete.time)
+            put(NoteTable.COLUMN_DATE, note.createdDate.nano)
+            put(NoteTable.COLUMN_DATE_MOD, note.modifiedDate.nano)
+            put(NoteTable.COLUMN_DATE_DEL, note.deletedDate.nano)
             put(NoteTable.COLUMN_FAVORITES, note.isFavorite)
             put(NoteTable.COLUMN_DEL_ITEMS, note.isDeleted)
         }
@@ -136,15 +132,15 @@ class DataBaseAdapter(context: Context) {
         const val CATEGORY_FAVORITES = "category_favorites"
         const val CATEGORY_TRASH = "category_trash"
 
-        private var INSTANCE: DataBaseAdapter? = null
+        private var INSTANCE: DatabaseAdapter? = null
 
         fun initDataBase(context: Context, rangeInDays: Int = 2) {
             if (INSTANCE == null) {
-                INSTANCE = DataBaseAdapter(context).also { it.deleteByTime(rangeInDays) }
+                INSTANCE = DatabaseAdapter(context).also { it.deleteByTime(rangeInDays) }
             }
         }
 
-        fun getInstance(): DataBaseAdapter {
+        fun getInstance(): DatabaseAdapter {
             return INSTANCE ?: throw Exception("Database must be initialized")
         }
     }

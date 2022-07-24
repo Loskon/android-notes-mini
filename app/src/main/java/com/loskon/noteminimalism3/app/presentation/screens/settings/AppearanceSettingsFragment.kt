@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens
+package com.loskon.noteminimalism3.app.presentation.screens.settings
 
 import android.os.Bundle
 import androidx.preference.Preference
@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setShortPreferenceChan
 import com.loskon.noteminimalism3.app.base.presentation.fragment.BasePreferenceFragment
 import com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
 
-class AppearanceSettingsFragmentNew : BasePreferenceFragment() {
+class AppearanceSettingsFragment : BasePreferenceFragment() {
 
     private var resetFontSize: Preference? = null
     private var selectColor: Preference? = null

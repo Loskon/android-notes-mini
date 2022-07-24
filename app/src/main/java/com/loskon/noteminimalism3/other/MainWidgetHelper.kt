@@ -15,9 +15,9 @@ import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_FAVORITES
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.utils.getShortDrawable
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.utils.showKeyboard

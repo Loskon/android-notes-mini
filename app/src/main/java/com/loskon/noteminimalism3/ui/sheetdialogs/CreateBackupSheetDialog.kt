@@ -4,6 +4,7 @@ import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.datetime.toFormatString
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.files.BackupFileHelper
@@ -11,11 +12,10 @@ import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.showKeyboard
 import java.io.File
-import java.util.Date
+import java.time.LocalDateTime
 
 /**
  * Окно для создание бэкапа с определенным названием
@@ -44,7 +44,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
 
     private fun configInsertedViews() {
         inputEditText.showKeyboard()
-        inputEditText.setText(DateUtil.getStringDate(Date()))
+        inputEditText.setText(LocalDateTime.now().toFormatString())
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 

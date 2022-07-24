@@ -2,23 +2,23 @@ package com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import android.view.WindowManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.loskon.noteminimalism3.R
 
-open class BaseSheetDialogFragment(
-    @LayoutRes val layoutId: Int = 0
-) : BottomSheetDialogFragment() {
+open class BaseSheetDialogFragment : BottomSheetDialogFragment() {
 
-    open val isDraggableStatus = true
-    open val isHideableStatus = true
+    protected open val isDraggableStatus = true
+    protected open val isHideableStatus = true
 
     override fun getTheme(): Int = R.style.RoundedSheetDialogStyle
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -31,17 +31,5 @@ open class BaseSheetDialogFragment(
         }
 
         return bottomSheetDialog
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return if (layoutId != 0) {
-            inflater.inflate(layoutId, container, false)
-        } else {
-            null
-        }
     }
 }

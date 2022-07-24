@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.setButtonIconColor
 import com.loskon.noteminimalism3.managers.setFabColor
@@ -20,8 +21,7 @@ import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.NoteActivity
 import com.loskon.noteminimalism3.ui.snackbars.RestoreNoteSnackbar
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * Работа с заметкой, находящейся в корзине
@@ -100,7 +100,7 @@ class NoteTrashFragment : Fragment() {
 
     fun restoreNote() {
         note.isDeleted = false
-        if (hasUpdateDateTime) note.dateCreation = Date()
+        if (hasUpdateDateTime) note.createdDate = LocalDateTime.now()
         commandCenter.update(note)
         callback?.onRestoreNote(note)
         activity.onBackPressed()

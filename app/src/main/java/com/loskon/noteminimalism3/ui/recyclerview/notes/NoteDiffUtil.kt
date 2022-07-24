@@ -26,6 +26,6 @@ class NoteDiffUtil(
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].title == newList[newItemPosition].title &&
-                oldList[oldItemPosition].dateModification == newList[newItemPosition].dateModification
+                oldList[oldItemPosition].modifiedDate == newList[newItemPosition].modifiedDate
     }
 }

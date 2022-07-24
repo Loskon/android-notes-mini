@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.utils
 
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * Замена запрещенных символов в строках
@@ -20,7 +20,7 @@ object StringUtil {
         return newString
     }
 
-    fun replaceForbiddenCharacters(date: Date): String {
+    fun replaceForbiddenCharacters(date: LocalDateTime): String {
         var name: String = DateUtil.getStringDate(date)
         name = name.replace("[./:]".toRegex(), "_")
         return "$name (A)"

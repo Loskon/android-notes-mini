@@ -1,11 +1,11 @@
-package com.loskon.noteminimalism3.app.presentation.screens.font
+package com.loskon.noteminimalism3.app.presentation.screens.fontlist
 
 import com.loskon.noteminimalism3.app.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.model.FontType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class FontTypeViewModel : BaseViewModel() {
+class FontListViewModel : BaseViewModel() {
 
     private val fontTypeListState = MutableStateFlow<List<FontType>>(emptyList())
     val getFontTypeListState get() = fontTypeListState.asStateFlow()

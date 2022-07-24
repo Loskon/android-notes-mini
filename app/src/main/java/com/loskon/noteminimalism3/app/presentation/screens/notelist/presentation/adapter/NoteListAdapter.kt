@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens.notelist
+package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,15 +21,15 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
         with(holder.binding) {
             tvCardNoteTitle.text = note.title.trim()
-            tvCardNoteDate.text = DateUtil.getStringDate(note.dateCreation)
+            tvCardNoteDate.text = DateUtil.getStringDate(note.createdDate)
             root.setDebounceClickListener { }
         }
     }
 
     override fun getItemCount(): Int = list.size
 
-    fun updateNoteList(newList: List<Note>) {
-        list = newList
+    fun updateNoteList(list: List<Note>) {
+        this.list = list
         notifyItemRangeChanged(0, itemCount)
     }
 

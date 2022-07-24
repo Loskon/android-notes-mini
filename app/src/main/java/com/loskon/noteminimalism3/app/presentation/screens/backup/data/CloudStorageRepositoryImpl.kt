@@ -8,7 +8,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.CloudStorageRepository
-import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
 import timber.log.Timber
 import java.io.File
 import kotlin.coroutines.resume
@@ -24,7 +24,7 @@ class CloudStorageRepositoryImpl(
     private var storage: FirebaseStorage = FirebaseStorage.getInstance()
     private var storageRef: StorageReference = storage.reference
 
-    private val datebasePath = context.getDatabasePath(NoteDatebaseSchema.DATABASE_NAME).toString()
+    private val datebasePath = context.getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
 
     override suspend fun uploadDatabaseFile(): Boolean {
         val cloudPath = getCloudPath()
@@ -48,7 +48,7 @@ class CloudStorageRepositoryImpl(
 
         if (currentUser != null) {
             return context.getString(R.string.folder_backups_name) +
-                File.separator + currentUser.uid + File.separator + NoteDatebaseSchema.DATABASE_NAME
+                File.separator + currentUser.uid + File.separator + NoteDatabaseSchema.DATABASE_NAME
         } else {
             throw NullPointerException("Null user")
         }

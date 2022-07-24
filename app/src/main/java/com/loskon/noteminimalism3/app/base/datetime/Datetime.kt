@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.app.base.datetime
 
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -25,4 +26,8 @@ fun LocalDateTime.toDate(): Date {
 
 fun LocalDateTime.toFormatString(): String {
     return format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT))
+}
+
+fun Long.toLocalDateTime(): LocalDateTime {
+    return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
 }

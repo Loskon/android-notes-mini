@@ -15,7 +15,7 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.requests.google.ResultGoogle
-import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema.NoteTable
 import com.loskon.noteminimalism3.ui.dialogs.ProgressDialog
 import com.loskon.noteminimalism3.ui.fragments.BackupFragment
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar

@@ -8,6 +8,7 @@ import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.toast.WarningToast
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -18,7 +19,7 @@ object DataBaseAutoBackup {
 
     fun checkingStorageAccess(
         context: Context,
-        date: Date,
+        date: LocalDateTime,
         isShowToast: Boolean,
         storageAccess: ResultStorageAccess
     ) {
@@ -31,7 +32,7 @@ object DataBaseAutoBackup {
         }
     }
 
-    private fun creatingBackupFolder(context: Context, date: Date, isShowToast: Boolean) {
+    private fun creatingBackupFolder(context: Context, date: LocalDateTime, isShowToast: Boolean) {
         val folder: File = BackupPath.getBackupFolder(context)
         val hasCreatedFolder: Boolean = BackupFileHelper.hasCreated(folder)
 
@@ -42,7 +43,7 @@ object DataBaseAutoBackup {
         }
     }
 
-    private fun creatingBackupFile(context: Context, date: Date, isShowToast: Boolean) {
+    private fun creatingBackupFile(context: Context, date: LocalDateTime, isShowToast: Boolean) {
         val backupPath: String = BackupPath.getPathBackupFolder(context)
         val backupName: String = StringUtil.replaceForbiddenCharacters(date)
         val outFileName = "$backupPath$backupName.db"

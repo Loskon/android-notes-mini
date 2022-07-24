@@ -5,7 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
@@ -28,7 +28,7 @@ class SQLiteTest {
         @JvmStatic
         fun initDataBase() {
             val context: Context = ApplicationProvider.getApplicationContext()
-            DataBaseAdapter.initDataBase(context)
+            DatabaseAdapter.initDataBase(context)
             commandCenter = CommandCenter()
         }
     }
@@ -55,7 +55,7 @@ class SQLiteTest {
 
     private val notes: List<Note>
         get() {
-            return commandCenter.getNotes(null, DataBaseAdapter.CATEGORY_ALL_NOTES, 0)
+            return commandCenter.getNotes(null, DatabaseAdapter.CATEGORY_ALL_NOTES, 0)
         }
 
     @Test

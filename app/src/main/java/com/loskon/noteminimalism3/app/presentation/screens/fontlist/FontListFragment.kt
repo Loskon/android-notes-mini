@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens.font
+package com.loskon.noteminimalism3.app.presentation.screens.fontlist
 
 import android.content.Context
 import android.os.Bundle
@@ -22,12 +22,12 @@ import com.loskon.noteminimalism3.ui.dialogs.WarningFontDialog
 import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class FontTypeFragment : Fragment(R.layout.fragment_font_type) {
+class FontListFragment : Fragment(R.layout.fragment_font_type) {
 
     private val binding by viewBinding(FragmentFontTypeBinding::bind)
-    private val viewModel: FontTypeViewModel by viewModels()
+    private val viewModel: FontListViewModel by viewModels()
 
-    private var fontTypesAdapter: FontTypeListAdapter = FontTypeListAdapter()
+    private var fontTypesAdapter: FontListAdapter = FontListAdapter()
 
     private var color: Int = 0
     private var savedPosition: Int = 0

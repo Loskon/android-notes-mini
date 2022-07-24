@@ -6,8 +6,8 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_FAVORITES
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_FAVORITES
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
 

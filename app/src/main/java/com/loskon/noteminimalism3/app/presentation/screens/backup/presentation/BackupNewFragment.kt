@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListen
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
 import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.WaitingDialogFragment
-import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragmentNew
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.snackbar.CustomizedSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.AuthIntent
@@ -158,7 +158,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun showConfirmSheetDialog(isBackup: Boolean) {
-        BaseAppSheetDialogFragmentNew.newInstance(
+        BaseAppSheetDialogFragment.newInstance(
             titleId = R.string.sheet_confirm_action,
             btnOkTextId = R.string.continue_action,
             btnCancelTextId = R.string.no
@@ -170,7 +170,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
                     checkingUserBeforeRestore()
                 }
             }
-        }.show(childFragmentManager, BaseAppSheetDialogFragmentNew.TAG)
+        }.show(childFragmentManager, BaseAppSheetDialogFragment.TAG)
     }
 
     private fun checkingUserBeforeBackup() {
@@ -205,7 +205,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun showConfirmDeleteDialog() {
-        BaseAppSheetDialogFragmentNew.newInstance(
+        BaseAppSheetDialogFragment.newInstance(
             titleId = R.string.sheet_deleting_data,
             btnOkTextId = R.string.continue_action,
             btnCancelTextId = android.R.string.cancel,
@@ -216,7 +216,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
                 viewModel.deleteDatabaseFile()
                 viewModel.getIntentSenderForAuthContract(requireActivity())
             }
-        }.show(childFragmentManager, BaseAppSheetDialogFragmentNew.TAG)
+        }.show(childFragmentManager, BaseAppSheetDialogFragment.TAG)
     }
 
     private fun showWaitingDialog() {

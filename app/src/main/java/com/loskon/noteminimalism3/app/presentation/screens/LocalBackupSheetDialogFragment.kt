@@ -6,7 +6,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.datetime.toFormatString
-import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragmentNew
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_STRING_ID_KEY
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_SUCCESS_KEY
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_REQUEST_KEY
@@ -20,13 +20,13 @@ import com.loskon.noteminimalism3.viewbinding.viewBinding
 import java.io.File
 import java.time.LocalDateTime
 
-class LocalBackupSheetDialogFragment : BaseAppSheetDialogFragmentNew() {
+class LocalBackupSheetDialogFragment : BaseAppSheetDialogFragment() {
 
     private val binding by viewBinding(SheetCreateBackupBinding::inflate)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        insertView(binding.root)
+        addView(binding.root)
 
         setupDialogViewsParameters()
         establishViewsColor()

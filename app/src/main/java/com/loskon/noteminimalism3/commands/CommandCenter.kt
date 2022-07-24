@@ -1,8 +1,8 @@
 package com.loskon.noteminimalism3.commands
 
 import com.loskon.noteminimalism3.model.Note
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter
-import java.util.*
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter
+import java.time.LocalDateTime
 
 /**
  * Быстрый доступ к методам БД
@@ -10,7 +10,7 @@ import java.util.*
 
 class CommandCenter {
 
-    private val dateBase: DataBaseAdapter = DataBaseAdapter.getInstance()
+    private val dateBase: DatabaseAdapter = DatabaseAdapter.getInstance()
 
     fun getNotes(searchTerm: String?, notesCategory: String, sortingWay: Int): List<Note> {
         return dateBase.getNotes(searchTerm, notesCategory, sortingWay)
@@ -41,7 +41,7 @@ class CommandCenter {
     }
 
     fun selectDeleteOption(category: String, note: Note) {
-        if (category == DataBaseAdapter.CATEGORY_TRASH) {
+        if (category == DatabaseAdapter.CATEGORY_TRASH) {
             delete(note)
         } else {
             sendToTrash(note)
@@ -49,7 +49,7 @@ class CommandCenter {
     }
 
     fun sendToTrash(note: Note) {
-        note.dateDelete = Date()
+        note.deletedDate = LocalDateTime.now()
         note.isDeleted = true
         note.isFavorite = false
         dateBase.update(note)

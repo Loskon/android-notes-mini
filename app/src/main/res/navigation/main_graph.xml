@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/userListFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.notelist.NoteListFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListFragment"
         android:label="UsersFragment">
         <action
             android:id="@+id/actionOpenSettingsFragment"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/rootSettingsFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.RootSettingsFragmentNew"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.settings.RootSettingsFragment"
         android:label="rootSettingsFragment">
         <action
             android:id="@+id/actionOpenAppearanceSettingsFragment"
@@ -30,12 +30,12 @@
 
     <fragment
         android:id="@+id/appearanceSettingsFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.AppearanceSettingsFragmentNew"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.settings.AppearanceSettingsFragment"
         android:label="appearanceSettingsFragment" />
 
     <fragment
         android:id="@+id/fontFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.font.FontTypeFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.fontlist.FontListFragment"
         android:label="fontFragment" />
     <fragment
         android:id="@+id/backupNewFragment"

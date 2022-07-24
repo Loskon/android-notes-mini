@@ -1,17 +1,16 @@
-package com.loskon.noteminimalism3.app.presentation.screens
+package com.loskon.noteminimalism3.ui.fragments
 
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.view.setDebouncePreferenceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setShortPreferenceChangeListener
-import com.loskon.noteminimalism3.app.base.presentation.fragment.BasePreferenceFragment
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.ColorManager
 import com.loskon.noteminimalism3.managers.IntentManager
@@ -21,6 +20,7 @@ import com.loskon.noteminimalism3.requests.activity.ResultActivityInterface
 import com.loskon.noteminimalism3.requests.storage.ResultAccessStorageInterface
 import com.loskon.noteminimalism3.requests.storage.ResultStorageAccess
 import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.AboutAppSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.LinksSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.NoteFontSizeSheetDialog
@@ -29,16 +29,16 @@ import com.loskon.noteminimalism3.ui.sheetdialogs.RetentionTimeSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
-class RootSettingsFragmentNew : BasePreferenceFragment(),
+class SettingsFragment : PreferenceFragmentCompat(),
     NumberBackupsSheetDialog.NumberBackupsCallback,
     RetentionTimeSheetDialog.RetentionTimeCallback,
     ResultAccessStorageInterface,
     ResultActivityInterface {
 
+    private lateinit var activity: SettingsActivity
     private lateinit var storageAccess: ResultStorageAccess
     private lateinit var resultActivity: ResultActivity
 
-    // Appearance
     private var customization: Preference? = null
     private var typeFont: Preference? = null
     private var sorting: Preference? = null
@@ -65,16 +65,18 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        configureRequestPermissions(context)
+        activity = context as SettingsActivity
+        configureRequestPermissions()
     }
 
-    private fun configureRequestPermissions(context: Context) {
-        storageAccess = ResultStorageAccess(context, this, this).also { it.installingContracts() }
-        resultActivity = ResultActivity(context, this, this).also { it.installingContracts() }
+    private fun configureRequestPermissions() {
+        storageAccess = ResultStorageAccess(activity, this, this).also { it.installingContracts() }
+        resultActivity = ResultActivity(activity, this, this).also { it.installingContracts() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listView.isVerticalScrollBarEnabled = false
         installCallbacks()
     }
 
@@ -90,7 +92,7 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
     }
 
     private fun findPreferences() {
-        // Appearance
+        // Appearance settings
         customization = findPreference(getString(R.string.custom_app_title))
         typeFont = findPreference(getString(R.string.type_font_title))
         sorting = findPreference(getString(R.string.sort_title))
@@ -111,25 +113,22 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
     }
 
     private fun setupPreferencesListeners() {
-        // Appearance
+        // Appearance settings
         customization?.setDebouncePreferenceClickListener {
-            val action = RootSettingsFragmentNewDirections.actionOpenAppearanceSettingsFragment()
-            findNavController().navigate(action)
+            activity.replaceFragment(AppearanceSettingsFragment())
         }
         typeFont?.setDebouncePreferenceClickListener {
-            val action = RootSettingsFragmentNewDirections.actionOpenFontFragment()
-            findNavController().navigate(action)
+            activity.replaceFragment(FontsFragment())
         }
         sorting?.setDebouncePreferenceClickListener {
-            SortWaySheetDialog(requireContext()).show()
+            SortWaySheetDialog(activity).show()
         }
         darkModeSwitch?.setShortPreferenceChangeListener { newValue: Boolean ->
             ColorManager.setDarkTheme(newValue)
         }
         // Data
         backup?.setDebouncePreferenceClickListener {
-            val action = RootSettingsFragmentNewDirections.actionOpenBackupFragment()
-            findNavController().navigate(action)
+            activity.replaceFragment(BackupFragment())
         }
         folder?.setDebouncePreferenceClickListener {
             selectedPreference = "folderKey"
@@ -140,24 +139,24 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
             storageAccess.hasAccessStorageRequest()
         }
         numberBackups?.setDebouncePreferenceClickListener {
-            NumberBackupsSheetDialog(requireContext()).show()
+            NumberBackupsSheetDialog(activity).show()
         }
         // Notes
         hyperlinks?.setDebouncePreferenceClickListener {
-            LinksSheetDialog(requireContext()).show()
+            LinksSheetDialog(activity).show()
         }
         fontSize?.setDebouncePreferenceClickListener {
-            NoteFontSizeSheetDialog(requireContext()).show()
+            NoteFontSizeSheetDialog(activity).show()
         }
         // Other
         retention?.setDebouncePreferenceClickListener {
-            RetentionTimeSheetDialog(requireContext()).show()
+            RetentionTimeSheetDialog(activity).show()
         }
         communication?.setDebouncePreferenceClickListener {
-            IntentManager.launchEmailClient(requireContext())
+            IntentManager.launchEmailClient(activity)
         }
         aboutApp?.setDebouncePreferenceClickListener {
-            AboutAppSheetDialog(requireContext()).show()
+            AboutAppSheetDialog(activity).show()
         }
     }
 
@@ -169,14 +168,14 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
 
     private fun installSummaryPreferences() {
         // Data
-        folder?.summary = BackupPath.getSummary(requireContext())
+        folder?.summary = BackupPath.getSummary(activity)
 
-        val number: Int = AppPreference.getNumberBackups(requireContext())
+        val number: Int = AppPreference.getNumberBackups(activity)
         numberBackups?.summary = number.toString()
 
         // Other
-        val range: Int = AppPreference.getRetentionRange(requireContext())
-        retention?.summary = requireContext().getString(R.string.number_of_days_summary, range)
+        val range: Int = AppPreference.getRetentionRange(activity)
+        retention?.summary = activity.getString(R.string.number_of_days_summary, range)
     }
 
     private fun otherConfigurations() {
@@ -200,7 +199,7 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
                 autoBackup?.isChecked = false
             }
 
-            showSnackbar(getString(R.string.no_permissions), false)
+            activity.showSnackbar(WarningSnackbar.MSG_NO_PERMISSION)
         }
     }
 
@@ -212,7 +211,7 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
                 if (data != null && path != null) {
                     savingSelectedPath(path)
                 } else {
-                    showSnackbar(WarningSnackbar.MSG_UNABLE_SELECT_FOLDER, false)
+                    activity.showSnackbar(WarningSnackbar.MSG_UNABLE_SELECT_FOLDER)
                 }
             }
         }
@@ -232,12 +231,12 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
         if (path.contains("/tree/primary")) {
             try {
                 val backupPath: String = BackupPath.findFullPath(path)
-                AppPreference.setBackupPath(requireContext(), backupPath)
+                AppPreference.setBackupPath(activity, backupPath)
             } catch (exception: Exception) {
-                showSnackbar(WarningSnackbar.MSG_UNKNOWN_ERROR, false)
+                activity.showSnackbar(WarningSnackbar.MSG_UNKNOWN_ERROR)
             }
         } else {
-            showSnackbar(WarningSnackbar.MSG_LOCAL_STORAGE, false)
+            activity.showSnackbar(WarningSnackbar.MSG_LOCAL_STORAGE)
         }
     }
 
@@ -246,7 +245,7 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
     }
 
     override fun onChangeRetention(range: Int) {
-        retention?.summary = requireContext().getString(R.string.number_of_days_summary, range)
+        retention?.summary = activity.getString(R.string.number_of_days_summary, range)
     }
 
     override fun onDetach() {
@@ -260,6 +259,6 @@ class RootSettingsFragmentNew : BasePreferenceFragment(),
     }
 
     companion object {
-        fun newInstance(): RootSettingsFragmentNew = RootSettingsFragmentNew()
+        fun newInstance(): SettingsFragment = SettingsFragment()
     }
 }

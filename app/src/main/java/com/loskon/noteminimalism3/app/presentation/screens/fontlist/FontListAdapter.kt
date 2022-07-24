@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens.font
+package com.loskon.noteminimalism3.app.presentation.screens.fontlist
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.model.FontType
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class FontTypeListAdapter : RecyclerView.Adapter<FontTypeListAdapter.FontNewViewHolder>() {
+class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontListViewHolder>() {
 
     private var onClickListener: ((fontType: FontType, position: Int) -> Unit)? = null
 
@@ -18,13 +18,13 @@ class FontTypeListAdapter : RecyclerView.Adapter<FontTypeListAdapter.FontNewView
     private var color: Int = 0
     private var lastCheckedPosition: Int = -1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontNewViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontListViewHolder {
         color = AppPreference.getColor(parent.context)
         lastCheckedPosition = AppPreference.getFontType(parent.context)
-        return FontNewViewHolder(parent.viewBinding(ItemFontBinding::inflate))
+        return FontListViewHolder(parent.viewBinding(ItemFontBinding::inflate))
     }
 
-    override fun onBindViewHolder(holder: FontNewViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FontListViewHolder, position: Int) {
         val fontType = list[position]
 
         with(holder.binding) {
@@ -54,5 +54,5 @@ class FontTypeListAdapter : RecyclerView.Adapter<FontTypeListAdapter.FontNewView
         this.onClickListener = onClickListener
     }
 
-    class FontNewViewHolder(val binding: ItemFontBinding) : RecyclerView.ViewHolder(binding.root)
+    class FontListViewHolder(val binding: ItemFontBinding) : RecyclerView.ViewHolder(binding.root)
 }

@@ -62,7 +62,7 @@
                 android:layout_marginBottom="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{DateUtil.getStringDate(note.dateCreation)}"
+                android:text="@{DateUtil.getStringDate(note.createdDate)}"
                 android:textColor="?attr/colorSecondText"
                 tools:text="Date" />
 

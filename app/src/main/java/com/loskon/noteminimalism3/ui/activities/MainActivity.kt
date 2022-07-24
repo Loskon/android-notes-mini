@@ -27,8 +27,8 @@ import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.other.MainWidgetHelper
 import com.loskon.noteminimalism3.other.QueryTextListener
 import com.loskon.noteminimalism3.sharedpref.AppPreference
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_ALL_NOTES
-import com.loskon.noteminimalism3.sqlite.DataBaseAdapter.Companion.CATEGORY_TRASH
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_ALL_NOTES
+import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.dialogfragmntes.CategorySheetFragment
 import com.loskon.noteminimalism3.ui.dialogs.DeleteForeverWarningDialog
 import com.loskon.noteminimalism3.ui.dialogs.SendToTrashWarningDialog

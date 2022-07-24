@@ -3,14 +3,14 @@ package com.loskon.noteminimalism3.sqlite
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable
-import com.loskon.noteminimalism3.sqlite.NoteDatebaseSchema.NoteTable.DATABASE_NAME
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema.NoteTable
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema.NoteTable.DATABASE_NAME
 
 /**
  * Настройка БД
  */
 
-class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     override fun onCreate(database: SQLiteDatabase) {
         database.execSQL(

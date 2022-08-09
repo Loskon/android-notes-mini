@@ -21,10 +21,9 @@ class NoteListInteractor(
             searchFlow
         ) { notes, search ->
             notes
-                .filter { note -> note.title.lowercase() == search?.lowercase() }
+                .filter { note -> note.title.lowercase().contains(search?.lowercase() ?: "") }
                 .filter { note -> filterByCategory(note, category) }
                 .sortedByDescending { note -> sortedByDate(note, category, sort) }
-
         }
     }
 

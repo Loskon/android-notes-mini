@@ -11,7 +11,7 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.setBackgroundTintColor
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor

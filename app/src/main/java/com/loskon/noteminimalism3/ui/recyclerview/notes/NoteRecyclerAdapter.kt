@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.databinding.ItemNoteBinding
-import com.loskon.noteminimalism3.managers.setBackgroundTintColor
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 
 /**
  * Адаптер для работы со списком заметок

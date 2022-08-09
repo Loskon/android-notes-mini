@@ -11,8 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-@Suppress("unused")
-internal class App : Application() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()

@@ -1,14 +1,14 @@
 plugins {
     alias deps.plugins.androidApplication apply false
     alias deps.plugins.androidLibrary apply false
-    alias deps.plugins.googleServices apply false
     alias deps.plugins.kotlin apply false
     alias deps.plugins.kapt apply false
     alias deps.plugins.navigation apply false
+    alias deps.plugins.parcelize apply false
+    alias deps.plugins.googleServices apply false
     alias deps.plugins.ktlint apply false
     alias deps.plugins.detekt apply false
     alias deps.plugins.gradlevers apply false
-    alias deps.plugins.parcelize apply false
 }
 
 task clean(type: Delete) {

@@ -1,25 +1,15 @@
 plugins {
-    alias deps.plugins.androidApplication
+    alias deps.plugins.androidLibrary
     alias deps.plugins.kotlin
     alias deps.plugins.kapt
-    alias deps.plugins.navigation
-    alias deps.plugins.parcelize
-    alias deps.plugins.googleServices
 }
 
 android {
     compileSdk deps.versions.compileSdk.get() as Integer
 
     defaultConfig {
-        applicationId "com.loskon.noteminimalism3"
-
         minSdk deps.versions.minSdk.get() as Integer
         targetSdk deps.versions.targetSdk.get() as Integer
-
-        versionCode deps.versions.debugVersionCode.get() as Integer
-        versionName deps.versions.debugVersionName.get()
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -40,7 +30,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding true
         viewBinding true
     }
 }
@@ -48,12 +37,6 @@ android {
 dependencies {
     // Desugar
     coreLibraryDesugaring deps.desugar
-    // Services
-    implementation platform(deps.firebaseBom)
-    implementation deps.firebaseStorage
-    implementation deps.firebaseAuth
-    implementation deps.firebaseUiAuth
-    implementation deps.playServices
     // Android
     implementation deps.appcompat
     implementation deps.material
@@ -67,12 +50,9 @@ dependencies {
     implementation deps.bundles.navigation
     // Kotlin
     implementation deps.core
-    // DI
-    implementation deps.koin
     // Logs
     implementation deps.timber
     // Misc
-    implementation deps.holoColorPicker
     implementation deps.leakcanary
     // Test
     testImplementation deps.junit5

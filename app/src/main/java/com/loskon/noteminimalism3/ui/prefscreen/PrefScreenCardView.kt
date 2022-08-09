@@ -9,7 +9,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.setBackgroundTintColor
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
 import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment

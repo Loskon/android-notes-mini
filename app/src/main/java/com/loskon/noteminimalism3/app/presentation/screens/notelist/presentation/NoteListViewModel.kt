@@ -6,6 +6,7 @@ import com.loskon.noteminimalism3.model.Note
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
 
 class NoteListViewModel(
     private val noteListInteractor: NoteListInteractor
@@ -16,7 +17,10 @@ class NoteListViewModel(
 
     fun getNotes(category: String, sort: Int) {
         launchErrorJob {
-            noteListInteractor.getNotes(category, sort).collectLatest { noteListState.emit(it) }
+            noteListInteractor.getNotes(category, sort).collectLatest {
+                Timber.d(it.size.toString())
+                noteListState.emit(it)
+            }
         }
     }
 

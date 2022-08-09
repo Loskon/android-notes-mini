@@ -21,7 +21,6 @@ import androidx.core.graphics.ColorUtils
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -229,12 +228,6 @@ fun Context.getSuccessColor(isSuccess: Boolean): Int {
 
     return this.getShortColor(color)
 }
-
-
-fun View.setBackgroundTintColor(color: Int) {
-    backgroundTintList = ColorStateList.valueOf(color)
-}
-
 
 fun CheckBox.setStrokeCheckBoxColor(color: Int) {
     this.buttonTintList = ColorStateList.valueOf(color)

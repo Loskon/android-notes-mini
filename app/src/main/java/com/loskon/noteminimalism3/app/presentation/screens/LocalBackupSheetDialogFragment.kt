@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.datetime.toFormatString
+import com.loskon.noteminimalism3.app.base.datetime.formatString
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_STRING_ID_KEY
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_SUCCESS_KEY
@@ -45,7 +45,7 @@ class LocalBackupSheetDialogFragment : BaseAppSheetDialogFragment() {
     private fun setupViewsParameters() {
         with(binding.inputEditTextBackup) {
             showKeyboard()
-            setText(LocalDateTime.now().toFormatString())
+            setText(LocalDateTime.now().formatString())
             setSelection(editableText.length)
         }
     }

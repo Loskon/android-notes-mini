@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.app.base.extension.view.setVisibleKtx
+import com.loskon.noteminimalism3.app.base.extension.view.setSoftVisibleKtx
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_STRING_ID_KEY
@@ -93,9 +93,9 @@ class BackupFileListSheetDialogFragment : BaseAppSheetDialogFragment() {
 
     private fun displayConfirmDeleteBtns(display: Boolean) {
         with(binding) {
-            btnRestoreDelete.setVisibleKtx(display.not())
-            btnCancelDelete.setVisibleKtx(display)
-            btnConfirmDelete.setVisibleKtx(display)
+            btnRestoreDelete.setSoftVisibleKtx(display.not())
+            btnCancelDelete.setSoftVisibleKtx(display)
+            btnConfirmDelete.setSoftVisibleKtx(display)
         }
     }
 

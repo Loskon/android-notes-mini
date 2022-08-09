@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.app.base.extension.view
 
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.os.SystemClock
 import android.view.View
@@ -23,7 +24,18 @@ fun View.setDebounceClickListener(debounceTime: Long = 600L, onClick: (View) -> 
     })
 }
 
-fun View.setVisibleKtx(visible: Boolean) {
+fun View.setOnShortLongClickListener(onClick: (View) -> Unit) {
+    setOnLongClickListener { view ->
+        onClick(view)
+        return@setOnLongClickListener true
+    }
+}
+
+fun View.setBackgroundTintColor(color: Int) {
+    backgroundTintList = ColorStateList.valueOf(color)
+}
+
+fun View.setSoftVisibleKtx(visible: Boolean) {
     visibility = if (isVisible == visible) {
         return
     } else {

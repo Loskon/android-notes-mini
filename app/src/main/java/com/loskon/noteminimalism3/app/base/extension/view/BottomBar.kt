@@ -4,21 +4,22 @@ import android.os.SystemClock
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.get
 import com.google.android.material.bottomappbar.BottomAppBar
 
-fun BottomAppBar.setDebounceNavigationClickListener(debounceTime: Long = 600L, onClick: () -> Unit) {
+fun BottomAppBar.setDebounceNavigationClickListener(
+    debounceTime: Long = 600L,
+    navigationOnClick: () -> Unit
+) {
     setNavigationOnClickListener(object : View.OnClickListener {
-
         private var lastClickTime: Long = 0
 
         override fun onClick(view: View) {
             if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) {
                 return
             } else {
-                onClick()
+                navigationOnClick()
             }
 
             lastClickTime = SystemClock.elapsedRealtime()
@@ -26,22 +27,55 @@ fun BottomAppBar.setDebounceNavigationClickListener(debounceTime: Long = 600L, o
     })
 }
 
-fun BottomAppBar.setDebounceMenuItemClickListener(debounceTime: Long = 600L, onClick: (item: MenuItem) -> Unit) {
+fun BottomAppBar.setDebounceMenuItemClickListener(
+    debounceTime: Long = 600L,
+    onMenuItemClick: (item: MenuItem) -> Unit
+) {
     setOnMenuItemClickListener(object : Toolbar.OnMenuItemClickListener {
-
         private var lastClickTime: Long = 0
 
         override fun onMenuItemClick(item: MenuItem): Boolean {
             if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) {
                 return false
             } else {
-                onClick(item)
+                onMenuItemClick(item)
             }
 
             lastClickTime = SystemClock.elapsedRealtime()
-            return false
+            return true
         }
     })
+}
+
+fun BottomAppBar.setDebounceMenuItemClickListener(
+    menuItemId: Int,
+    debounceTime: Long = 600L,
+    onMenuItemClick: (item: MenuItem) -> Unit
+) {
+    menu.findItem(menuItemId).setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
+        private var lastClickTime: Long = 0
+
+        override fun onMenuItemClick(item: MenuItem): Boolean {
+            if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) {
+                return false
+            } else {
+                onMenuItemClick(item)
+            }
+
+            lastClickTime = SystemClock.elapsedRealtime()
+            return true
+        }
+    })
+}
+
+fun BottomAppBar.setShortMenuItemClickListener(
+    menuItemId: Int,
+    onMenuItemClick: () -> Unit
+) {
+    menu.findItem(menuItemId).setOnMenuItemClickListener {
+        onMenuItemClick()
+        true
+    }
 }
 
 fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) {
@@ -59,7 +93,7 @@ fun BottomAppBar.setAllItemsColor(@ColorInt color: Int) {
     setMenuItemsColor(color)
 }
 
-fun BottomAppBar.setMenuItemVisibility(@MenuRes menuItemId: Int, visible: Boolean) {
+fun BottomAppBar.setMenuItemVisibility(menuItemId: Int, visible: Boolean) {
     menu.findItem(menuItemId).isVisible = visible
 }
 

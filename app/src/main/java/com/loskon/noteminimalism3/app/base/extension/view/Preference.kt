@@ -4,23 +4,25 @@ import android.os.SystemClock
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 
-fun SwitchPreference.setShortPreferenceChangeListener(onChange: (Boolean) -> Unit) {
+fun SwitchPreference.setShortPreferenceChangeListener(onPreferenceChange: (Boolean) -> Unit) {
     setOnPreferenceChangeListener { _, newValue ->
-        onChange(newValue as Boolean)
-        return@setOnPreferenceChangeListener true
+        onPreferenceChange(newValue as Boolean)
+        true
     }
 }
 
-fun Preference.setDebouncePreferenceClickListener(debounceTime: Long = 600L, onClick: () -> Unit) {
+fun Preference.setDebouncePreferenceClickListener(
+    debounceTime: Long = 600L,
+    onPreferenceClick: () -> Unit
+) {
     onPreferenceClickListener = object : Preference.OnPreferenceClickListener {
-
         private var lastClickTime: Long = 0
 
         override fun onPreferenceClick(preference: Preference): Boolean {
             if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) {
                 return false
             } else {
-                onClick()
+                onPreferenceClick()
             }
 
             lastClickTime = SystemClock.elapsedRealtime()

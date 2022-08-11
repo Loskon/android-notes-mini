@@ -25,4 +25,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "noteminimalism3"
 include ':app'
-include ':base'

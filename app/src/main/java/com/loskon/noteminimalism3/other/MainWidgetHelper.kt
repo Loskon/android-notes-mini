@@ -148,7 +148,7 @@ class MainWidgetHelper(
 
     private fun visibilityHomeMenuItems(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_search, isVisible)
-        setVisibleMenuItem(R.id.action_toggle_view, isVisible)
+        setVisibleMenuItem(R.id.action_linear_list_type, isVisible)
     }
 
     private fun setVisibleMenuItem(menuId: Int, isVisible: Boolean) {
@@ -182,7 +182,7 @@ class MainWidgetHelper(
             R.drawable.outline_view_agenda_black_24
         }
 
-        replaceMenuIcon(R.id.action_toggle_view, menuId)
+        replaceMenuIcon(R.id.action_linear_list_type, menuId)
     }
 
     private fun replaceMenuIcon(menuItem: Int, icon: Int) {

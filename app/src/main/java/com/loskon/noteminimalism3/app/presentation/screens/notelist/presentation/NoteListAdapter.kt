@@ -1,11 +1,11 @@
-package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.adapter
+package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.app.base.datetime.formatString
 import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.app.base.extension.view.setOnShortLongClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setShortLongClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setSoftVisibleKtx
 import com.loskon.noteminimalism3.databinding.ItemNoteNewBinding
 import com.loskon.noteminimalism3.model.Note
@@ -19,6 +19,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
     private var onItemClickListener: ((Note) -> Unit)? = null
     private var onItemLongClickListener: ((Note) -> Unit)? = null
 
+    private var hasLinearList: Boolean = true
     private var color: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
@@ -35,7 +36,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
             viewFavorite.setBackgroundTintColor(color)
             viewFavorite.setSoftVisibleKtx(note.isFavorite)
             root.setDebounceClickListener { onItemClickListener?.invoke(note) }
-            root.setOnShortLongClickListener { onItemLongClickListener?.invoke(note) }
+            root.setShortLongClickListener { onItemLongClickListener?.invoke(note) }
         }
     }
 
@@ -52,6 +53,10 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
     fun setOnItemLongClickListener(onItemLongClickListener: ((Note) -> Unit)?) {
         this.onItemLongClickListener = onItemLongClickListener
+    }
+
+    fun setLinearList(hasLinearList: Boolean) {
+        this.hasLinearList = hasLinearList
     }
 
     class NoteListViewHolder(val binding: ItemNoteNewBinding) : RecyclerView.ViewHolder(binding.root)

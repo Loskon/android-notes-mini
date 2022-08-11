@@ -7,9 +7,11 @@ import android.view.View
 import androidx.core.view.isVisible
 import kotlin.math.roundToInt
 
-fun View.setDebounceClickListener(debounceTime: Long = 600L, onClick: (View) -> Unit) {
+fun View.setDebounceClickListener(
+    debounceTime: Long = 600L,
+    onClick: (View) -> Unit
+) {
     setOnClickListener(object : View.OnClickListener {
-
         private var lastClickTime: Long = 0
 
         override fun onClick(view: View) {
@@ -24,10 +26,10 @@ fun View.setDebounceClickListener(debounceTime: Long = 600L, onClick: (View) -> 
     })
 }
 
-fun View.setOnShortLongClickListener(onClick: (View) -> Unit) {
+fun View.setShortLongClickListener(onLongClick: (View) -> Unit) {
     setOnLongClickListener { view ->
-        onClick(view)
-        return@setOnLongClickListener true
+        onLongClick(view)
+        true
     }
 }
 

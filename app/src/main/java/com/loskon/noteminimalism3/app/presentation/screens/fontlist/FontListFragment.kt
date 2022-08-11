@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
-import com.loskon.noteminimalism3.app.base.extension.fragment.getFontType
+import com.loskon.noteminimalism3.app.base.extension.fragment.getFont
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
 import com.loskon.noteminimalism3.app.base.snaphelper.CenteredSnapHelper
 import com.loskon.noteminimalism3.app.base.widget.recyclerview.BoundsOffsetDecoration
@@ -61,7 +61,7 @@ class FontListFragment : Fragment(R.layout.fragment_font_type) {
     }
 
     private fun getFontType(id: Int, stringId: Int, fontId: Int): FontType {
-        return FontType(id, getString(stringId), getFontType(fontId))
+        return FontType(id, getString(stringId), getFont(fontId))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

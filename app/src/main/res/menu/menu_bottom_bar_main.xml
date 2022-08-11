@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_toggle_view"
+        android:id="@+id/action_linear_list_type"
         android:icon="@drawable/outline_dashboard_black_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_list_switch" />
+    <item
+        android:id="@+id/action_grid_list_type"
+        android:icon="@drawable/outline_view_agenda_black_24"
         app:showAsAction="ifRoom"
         android:title="@string/menu_list_switch" />
     <item

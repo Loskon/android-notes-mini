@@ -141,7 +141,7 @@ class MainActivity : BaseActivity(),
     private fun getSomeSharedPreferences() {
         color = AppPreference.getColor(this)
         sortingWay = AppPreference.getSortingWay(this)
-        hasLinearList = AppPreference.hasLinearList(this)
+        hasLinearList = AppPreference.getLinearListType(this)
     }
 
     private fun establishViewsColor() {
@@ -305,7 +305,7 @@ class MainActivity : BaseActivity(),
         dismissSnackbars()
 
         when (item.itemId) {
-            R.id.action_toggle_view -> menuItemSwitchClick()
+            R.id.action_linear_list_type -> menuItemSwitchClick()
             R.id.action_select_item -> adapter.selectAllNotes()
             R.id.action_search -> togglingSearchMode(true)
             R.id.action_unification -> UnificationDialog(this).show()
@@ -320,7 +320,7 @@ class MainActivity : BaseActivity(),
         adapter.setLinearList(hasLinearList)
         recyclerView.changeLayoutManager(hasLinearList)
         widgetHelper.changeIconToggleViewMenuItem(hasLinearList)
-        AppPreference.setStateLinearList(this, hasLinearList)
+        AppPreference.setLinearListType(this, hasLinearList)
     }
 
     //--- NoteRecyclerAdapter ----------------------------------------------------------------------

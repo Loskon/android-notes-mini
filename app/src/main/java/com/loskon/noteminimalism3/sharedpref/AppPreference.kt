@@ -56,7 +56,7 @@ object AppPreference {
 
     //--- Set shared preferences ---------------------------------------------------------------
     // boolean
-    fun setStateLinearList(context: Context, hasLinearList: Boolean) {
+    fun setLinearListType(context: Context, hasLinearList: Boolean) {
         set(context, PREF_KEY_STATE_LINEAR_LIST, hasLinearList)
     }
 
@@ -133,7 +133,7 @@ object AppPreference {
         return get(context, key, false)
     }
 
-    fun hasLinearList(context: Context): Boolean {
+    fun getLinearListType(context: Context): Boolean {
         return get(context, PREF_KEY_STATE_LINEAR_LIST, true)
     }
 

@@ -2,9 +2,12 @@ package com.loskon.noteminimalism3.app.base.extension.context
 
 import android.content.Context
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.color.MaterialColors
@@ -15,6 +18,10 @@ fun Context.getColorKtx(@ColorRes colorId: Int): Int {
 
 fun Context.getFontKtx(@FontRes fontId: Int): Typeface? {
     return ResourcesCompat.getFont(this, fontId)
+}
+
+fun Context.getDrawableKtx(@DrawableRes drawableId: Int): Drawable? {
+    return AppCompatResources.getDrawable(this, drawableId)
 }
 
 fun Context.getMaterialColorKtx(@AttrRes attrRes: Int): Int {

@@ -5,6 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
 import com.google.android.material.bottomappbar.BottomAppBar
 
@@ -101,4 +102,12 @@ fun BottomAppBar.setAllMenuItemsVisibility(visible: Boolean) {
     for (i in 0 until menu.size()) {
         menu[i].isVisible = visible
     }
+}
+
+fun BottomAppBar.show(animate: Boolean = true) {
+    doOnPreDraw { (it as BottomAppBar).performShow(animate) }
+}
+
+fun BottomAppBar.hide(animate: Boolean = true) {
+    doOnPreDraw { (it as BottomAppBar).performHide(animate) }
 }

@@ -3,25 +3,39 @@ package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentatio
 import com.loskon.noteminimalism3.app.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.domain.NoteListInteractor
 import com.loskon.noteminimalism3.model.Note
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 class NoteListViewModel(
     private val noteListInteractor: NoteListInteractor
 ) : BaseViewModel() {
 
     private val noteListState = MutableStateFlow<List<Note>>(emptyList())
+    private val noteListUiState = MutableStateFlow(NoteListUiState())
     val getNoteListState get() = noteListState.asStateFlow()
+    val getNoteListUiState get() = noteListUiState.asStateFlow()
+
+    private var job: Job? = null
 
     fun getNotes(category: String, sort: Int) {
         launchErrorJob {
-            noteListInteractor.getNotes(category, sort).collectLatest {
-                Timber.d(it.size.toString())
-                noteListState.emit(it)
-            }
+            noteListInteractor.getNotes(category, sort).collectLatest { notes -> noteListState.emit(notes) }
         }
+    }
+
+    fun searchNotes(query: String?) {
+        job?.cancel()
+        job = launchErrorJob { noteListInteractor.searchNotes(query) }
+    }
+
+    fun toggleSearchMode(activateSearchMode: Boolean) {
+        noteListUiState.tryEmit(noteListUiState.value.copy(searchMode = activateSearchMode))
+    }
+
+    fun toggleSelectionMode(activateSelectionMode: Boolean) {
+        noteListUiState.tryEmit(noteListUiState.value.copy(selectionMode = activateSelectionMode))
     }
 
     companion object {

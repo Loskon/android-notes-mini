@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.app.base.datetime.formatString
@@ -42,9 +43,10 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
     override fun getItemCount(): Int = list.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateNoteList(list: List<Note>) {
         this.list = list
-        notifyItemRangeChanged(0, itemCount)
+        notifyDataSetChanged()
     }
 
     fun setOnItemClickListener(onItemClickListener: ((Note) -> Unit)?) {

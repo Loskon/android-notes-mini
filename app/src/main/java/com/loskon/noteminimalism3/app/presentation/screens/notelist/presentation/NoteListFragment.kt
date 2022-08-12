@@ -8,14 +8,22 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
+import com.loskon.noteminimalism3.app.base.extension.fragment.getDrawable
 import com.loskon.noteminimalism3.app.base.extension.fragment.requireDrawable
+import com.loskon.noteminimalism3.app.base.extension.fragment.setOnBackClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.hide
 import com.loskon.noteminimalism3.app.base.extension.view.setAllItemsColor
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setChangeableLayoutManager
-import com.loskon.noteminimalism3.app.base.extension.view.setColorKtx
+import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setGoneVisibleKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setMenuItemVisibility
 import com.loskon.noteminimalism3.app.base.extension.view.setShortMenuItemClickListener
+import com.loskon.noteminimalism3.app.base.extension.view.setShortQueryTextListener
+import com.loskon.noteminimalism3.app.base.extension.view.show
+import com.loskon.noteminimalism3.app.base.extension.view.showKeyboard
 import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.databinding.FragmentNoteListBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -36,6 +44,15 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             val sort = AppPreference.getSortingWay(requireContext())
             viewModel.getNotes(NoteListViewModel.CATEGORY_ALL_NOTES1, sort)
         }
+        setOnBackClickListener {
+            if (viewModel.getNoteListUiState.value.selectionMode) {
+                viewModel.toggleSelectionMode(false)
+            } else if (viewModel.getNoteListUiState.value.searchMode) {
+                viewModel.toggleSearchMode(false)
+            } else {
+                requireActivity().finish()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,13 +60,13 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
         establishViewsColor()
         configureRecyclerView()
-        installObserver()
+        installObservers()
         setupViewsListeners()
     }
 
     private fun establishViewsColor() {
         val color = AppPreference.getColor(requireContext())
-        binding.fabNoteList.setColorKtx(color)
+        binding.fabNoteList.setBackgroundColorKtx(color)
         binding.bottomBarNoteList.setAllItemsColor(color)
     }
 
@@ -71,22 +88,66 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         if (save) AppPreference.setLinearListType(requireContext(), linearListType)
     }
 
-    private fun installObserver() {
+    private fun installObservers() {
         viewModel.getNoteListState.observe(viewLifecycleOwner) { notes ->
             binding.tvEmptyNoteList.isVisible = notes.isEmpty()
             notesAdapter.updateNoteList(notes)
         }
+        viewModel.getNoteListUiState.observe(viewLifecycleOwner) { noteListUiState ->
+            if (noteListUiState.selectionMode) {
+                binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_black_24))
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_search, false)
+                val linearListType = AppPreference.getLinearListType(requireContext())
+
+                if (linearListType) {
+                    binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_linear_list_type, false)
+                } else {
+                    binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_grid_list_type, false)
+                }
+            } else if (noteListUiState.selectionMode.not()) {
+                binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_add_black_24))
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_search, true)
+
+                val linearListType = AppPreference.getLinearListType(requireContext())
+
+                if (linearListType) {
+                    binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_linear_list_type, true)
+                } else {
+                    binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_grid_list_type, true)
+                }
+            }
+
+            if (noteListUiState.searchMode) {
+                binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_search_off_black_24))
+                binding.incNoteList.searchView.setGoneVisibleKtx(true)
+                binding.incNoteList.searchView.showKeyboard()
+                binding.bottomBarNoteList.hide(false)
+                swipeCallback.blockSwipe(true)
+            } else if (noteListUiState.searchMode.not()) {
+                binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_add_black_24))
+                binding.incNoteList.searchView.setQuery(null, false)
+                binding.incNoteList.searchView.setGoneVisibleKtx(false)
+                binding.bottomBarNoteList.show(false)
+                swipeCallback.blockSwipe(false)
+            }
+        }
     }
 
     private fun setupViewsListeners() {
+        binding.incNoteList.searchView.setShortQueryTextListener { queryText ->
+            viewModel.searchNotes(queryText)
+        }
         notesAdapter.setOnItemClickListener { note ->
 
         }
         notesAdapter.setOnItemLongClickListener { note ->
-
+            viewModel.toggleSelectionMode(true)
         }
         swipeCallback.setOnItemSwipeListener { viewHolder ->
 
+        }
+        binding.fabNoteList.setDebounceClickListener {
+            viewModel.toggleSearchMode(false)
         }
         with(binding.bottomBarNoteList) {
             setDebounceNavigationClickListener {
@@ -94,15 +155,15 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 findNavController().navigate(action)
             }
             setShortMenuItemClickListener(R.id.action_linear_list_type) {
-                val linearListType = AppPreference.getLinearListType(requireContext())
-                configureListTypeViewsParameters(linearListType.not(), true)
+                val linearListType = AppPreference.getLinearListType(requireContext()).not()
+                configureListTypeViewsParameters(linearListType, true)
             }
             setShortMenuItemClickListener(R.id.action_grid_list_type) {
-                val linearListType = AppPreference.getLinearListType(requireContext())
-                configureListTypeViewsParameters(linearListType.not(), true)
+                val linearListType = AppPreference.getLinearListType(requireContext()).not()
+                configureListTypeViewsParameters(linearListType, true)
             }
             setDebounceMenuItemClickListener(R.id.action_search) {
-
+                viewModel.toggleSearchMode(true)
             }
             setShortMenuItemClickListener(R.id.action_select_item) {
 

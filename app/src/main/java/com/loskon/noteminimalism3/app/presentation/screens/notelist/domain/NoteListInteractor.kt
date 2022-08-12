@@ -27,7 +27,7 @@ class NoteListInteractor(
         }
     }
 
-    suspend fun search(query: String?) {
+    suspend fun searchNotes(query: String?) {
         searchFlow.emit(query)
     }
 

@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.app.presentation.screens.fontlist
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.loskon.noteminimalism3.app.base.extension.view.setColorKtx
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.databinding.ItemFontBinding
 import com.loskon.noteminimalism3.model.FontType
@@ -28,7 +28,7 @@ class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontListViewHolder>
         val fontType = list[position]
 
         with(holder.binding) {
-            rbFontCard.setColorKtx(color)
+            rbFontCard.setBackgroundColorKtx(color)
             tvTitleFontCard.text = fontType.title
             tvTitleFontCard.typeface = fontType.typeFace
             tvFontExampleCard.typeface = fontType.typeFace

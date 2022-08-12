@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MotionEvent
+import androidx.activity.addCallback
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
@@ -61,6 +62,10 @@ fun Fragment.setFragmentScreenOnTouchListener(onClick: () -> Unit) {
         }
         true
     }
+}
+
+fun Fragment.setOnBackClickListener(onClick: () -> Unit) {
+    requireActivity().onBackPressedDispatcher.addCallback(this) { onClick() }
 }
 
 inline fun <T : Fragment> T.putArgs(argsBuilder: Bundle.() -> Unit): T = apply {

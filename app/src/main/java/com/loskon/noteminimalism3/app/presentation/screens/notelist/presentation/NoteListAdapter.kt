@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.app.base.datetime.formatString
@@ -17,8 +18,8 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
     private var list: List<Note> = emptyList()
 
-    private var onItemClickListener: ((Note) -> Unit)? = null
-    private var onItemLongClickListener: ((Note) -> Unit)? = null
+    private var onItemClickListener: ((Note, Int) -> Unit)? = null
+    private var onItemLongClickListener: ((Note, Int) -> Unit)? = null
 
     private var hasLinearList: Boolean = true
     private var color: Int = 0
@@ -36,12 +37,15 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
             tvCardNoteDate.text = note.createdDate.formatString()
             viewFavorite.setBackgroundTintColor(color)
             viewFavorite.setSoftVisibleKtx(note.isFavorite)
-            root.setDebounceClickListener { onItemClickListener?.invoke(note) }
-            root.setShortLongClickListener { onItemLongClickListener?.invoke(note) }
+            root.setDebounceClickListener { onItemClickListener?.invoke(note, position) }
+            root.setShortLongClickListener { onItemLongClickListener?.invoke(note, position) }
+            root.strokeColor = if (note.isChecked) color else Color.TRANSPARENT
         }
     }
 
     override fun getItemCount(): Int = list.size
+
+    fun getItems(): List<Note> = list
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateNoteList(list: List<Note>) {
@@ -49,11 +53,11 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListener(onItemClickListener: ((Note) -> Unit)?) {
+    fun setOnItemClickListener(onItemClickListener: ((Note, Int) -> Unit)?) {
         this.onItemClickListener = onItemClickListener
     }
 
-    fun setOnItemLongClickListener(onItemLongClickListener: ((Note) -> Unit)?) {
+    fun setOnItemLongClickListener(onItemLongClickListener: ((Note, Int) -> Unit)?) {
         this.onItemLongClickListener = onItemLongClickListener
     }
 

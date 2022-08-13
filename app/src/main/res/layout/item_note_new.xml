@@ -9,7 +9,8 @@
     app:cardBackgroundColor="?attr/colorPrimaryCardView"
     app:cardCornerRadius="6dp"
     app:cardUseCompatPadding="true"
-    app:rippleColor="?attr/colorControlHighlight">
+    app:rippleColor="?attr/colorControlHighlight"
+    app:strokeWidth="2dp">
 
     <LinearLayout
         android:id="@+id/linear_layout_row_note"

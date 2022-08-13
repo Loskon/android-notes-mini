@@ -13,9 +13,11 @@ class NoteListViewModel(
 ) : BaseViewModel() {
 
     private val noteListState = MutableStateFlow<List<Note>>(emptyList())
-    private val noteListUiState = MutableStateFlow(NoteListUiState())
+    private val noteListSearchState = MutableStateFlow(false)
+    private val noteListSelectionState = MutableStateFlow(false)
     val getNoteListState get() = noteListState.asStateFlow()
-    val getNoteListUiState get() = noteListUiState.asStateFlow()
+    val getNoteListSearchState get() = noteListSearchState.asStateFlow()
+    val getNoteListSelectionState get() = noteListSelectionState.asStateFlow()
 
     private var job: Job? = null
 
@@ -31,11 +33,17 @@ class NoteListViewModel(
     }
 
     fun toggleSearchMode(activateSearchMode: Boolean) {
-        noteListUiState.tryEmit(noteListUiState.value.copy(searchMode = activateSearchMode))
+        noteListSearchState.tryEmit(activateSearchMode)
     }
 
     fun toggleSelectionMode(activateSelectionMode: Boolean) {
-        noteListUiState.tryEmit(noteListUiState.value.copy(selectionMode = activateSelectionMode))
+        noteListSelectionState.tryEmit(activateSelectionMode)
+    }
+
+    fun deleteItem(note: Note) {
+        launchErrorJob {
+            noteListInteractor.deleteItem(note)
+        }
     }
 
     companion object {

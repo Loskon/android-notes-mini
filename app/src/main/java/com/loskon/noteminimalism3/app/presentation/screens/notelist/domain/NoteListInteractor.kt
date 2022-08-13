@@ -51,4 +51,8 @@ class NoteListInteractor(
             }
         }
     }
+
+    suspend fun deleteItem(note: Note) {
+        noteListRepository.deleteItem(note)
+    }
 }

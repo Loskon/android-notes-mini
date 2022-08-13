@@ -15,4 +15,8 @@ class NoteListRepositoryImpl(
             emit(databaseAdapter.getNotes())
         }
     }
+
+    override suspend fun deleteItem(note: Note) {
+        databaseAdapter.delete(note)
+    }
 }

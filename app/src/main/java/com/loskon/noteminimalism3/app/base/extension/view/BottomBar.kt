@@ -111,3 +111,7 @@ fun BottomAppBar.show(animate: Boolean = true) {
 fun BottomAppBar.hide(animate: Boolean = true) {
     doOnPreDraw { (it as BottomAppBar).performHide(animate) }
 }
+
+fun BottomAppBar.setNavigationIconColorKtx(@ColorInt color: Int) {
+    navigationIcon?.mutate()?.setTint(color)
+}

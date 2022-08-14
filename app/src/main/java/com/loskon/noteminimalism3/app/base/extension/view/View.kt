@@ -34,7 +34,7 @@ fun View.setShortLongClickListener(onLongClick: (View) -> Unit) {
     }
 }
 
-fun View.setBackgroundTintColor(color: Int) {
+fun View.setBackgroundTintColorKtx(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 

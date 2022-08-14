@@ -4,6 +4,10 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/userListFragment">
 
+    <action
+        android:id="@+id/actionOpenSettingsFragment"
+        app:destination="@id/rootSettingsFragment" />
+
     <fragment
         android:id="@+id/userListFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListFragment"

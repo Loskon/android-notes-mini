@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.model.Note
@@ -50,7 +50,7 @@ class ReceivingNoteRecyclerAdapter : RecyclerView.Adapter<NoteViewHolder>() {
 
             title.configureTitleText()
             date.changeTextSize(dateFontSize)
-            viewFavorite.setBackgroundTintColor(color)
+            viewFavorite.setBackgroundTintColorKtx(color)
 
             card.setDebounceClickListener { clickListener.onSharedNoteClick(note) }
         }

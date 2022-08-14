@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.databinding.ItemNoteBinding
@@ -53,7 +53,7 @@ class NoteRecyclerAdapter : NoteSelectableAdapter<NoteViewHolder>() {
         holder.apply {
             bind(note)
 
-            viewFavorite.setBackgroundTintColor(color)
+            viewFavorite.setBackgroundTintColorKtx(color)
             title.configureTitleText()
             date.changeTextSize(dateFontSize)
 

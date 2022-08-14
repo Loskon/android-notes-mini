@@ -11,7 +11,7 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColorKtx
 import com.loskon.noteminimalism3.managers.setFabColor
 import com.loskon.noteminimalism3.managers.setMenuIconsColor
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
@@ -53,7 +53,7 @@ class MainWidgetHelper(
 
     private fun establishViewsColor() {
         fab.setFabColor(color)
-        cardView.setBackgroundTintColor(color)
+        cardView.setBackgroundTintColorKtx(color)
         bottomBar.setNavigationIconColor(color)
     }
 
@@ -148,7 +148,7 @@ class MainWidgetHelper(
 
     private fun visibilityHomeMenuItems(isVisible: Boolean) {
         setVisibleMenuItem(R.id.action_search, isVisible)
-        setVisibleMenuItem(R.id.action_linear_list_type, isVisible)
+        setVisibleMenuItem(R.id.action_list_type, isVisible)
     }
 
     private fun setVisibleMenuItem(menuId: Int, isVisible: Boolean) {
@@ -182,7 +182,7 @@ class MainWidgetHelper(
             R.drawable.outline_view_agenda_black_24
         }
 
-        replaceMenuIcon(R.id.action_linear_list_type, menuId)
+        replaceMenuIcon(R.id.action_list_type, menuId)
     }
 
     private fun replaceMenuIcon(menuItem: Int, icon: Int) {

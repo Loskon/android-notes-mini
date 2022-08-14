@@ -2,39 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_linear_list_type"
+        android:id="@+id/action_list_type"
         android:icon="@drawable/outline_dashboard_black_24"
-        app:showAsAction="ifRoom"
-        android:title="@string/menu_list_switch" />
-    <item
-        android:id="@+id/action_grid_list_type"
-        android:icon="@drawable/outline_view_agenda_black_24"
-        app:showAsAction="ifRoom"
-        android:title="@string/menu_list_switch" />
+        android:title="@string/menu_list_switch"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_search"
-        android:title="@string/menu_list_search"
         android:icon="@drawable/baseline_search_black_24"
+        android:title="@string/menu_list_search"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_select_item"
-        android:title="@string/menu_list_select"
         android:icon="@drawable/baseline_done_black_24"
+        android:title="@string/menu_list_select"
         android:visible="false"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_unification"
-        android:title="@string/menu_list_combine"
         android:icon="@drawable/baseline_add_box_black_24"
+        android:title="@string/menu_list_combine"
         android:visible="false"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_favorite"
-        android:title="@string/menu_list_favorite"
         android:icon="@drawable/baseline_star_border_black_24"
+        android:title="@string/menu_list_favorite"
         android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>

@@ -12,10 +12,12 @@ class NoteListViewModel(
     private val noteListInteractor: NoteListInteractor
 ) : BaseViewModel() {
 
-    private val noteListState = MutableStateFlow<List<Note>>(emptyList())
+    private val noteListState = MutableStateFlow(emptyList<Note>())
+    private val noteListCategoryState = MutableStateFlow(CATEGORY_ALL_NOTES1)
     private val noteListSearchState = MutableStateFlow(false)
     private val noteListSelectionState = MutableStateFlow(false)
     val getNoteListState get() = noteListState.asStateFlow()
+    val getNoteListCategoryState get() = noteListCategoryState.asStateFlow()
     val getNoteListSearchState get() = noteListSearchState.asStateFlow()
     val getNoteListSelectionState get() = noteListSelectionState.asStateFlow()
 
@@ -38,6 +40,10 @@ class NoteListViewModel(
 
     fun toggleSelectionMode(activateSelectionMode: Boolean) {
         noteListSelectionState.tryEmit(activateSelectionMode)
+    }
+
+    fun setCategory(category: String) {
+        noteListCategoryState.tryEmit(category)
     }
 
     fun deleteItem(note: Note) {

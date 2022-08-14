@@ -305,7 +305,7 @@ class MainActivity : BaseActivity(),
         dismissSnackbars()
 
         when (item.itemId) {
-            R.id.action_linear_list_type -> menuItemSwitchClick()
+            R.id.action_list_type -> menuItemSwitchClick()
             R.id.action_select_item -> adapter.selectAllNotes()
             R.id.action_search -> togglingSearchMode(true)
             R.id.action_unification -> UnificationDialog(this).show()

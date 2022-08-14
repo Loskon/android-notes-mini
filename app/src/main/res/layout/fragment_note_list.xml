@@ -13,8 +13,7 @@
         android:id="@+id/inc_note_list"
         layout="@layout/inc_note_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/bottom_bar_height" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/tv_empty_note_list"

@@ -1,9 +1,11 @@
 package com.loskon.noteminimalism3.app.base.extension.view
 
+import android.graphics.drawable.Drawable
 import android.os.SystemClock
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
@@ -98,6 +100,14 @@ fun BottomAppBar.setMenuItemVisibility(menuItemId: Int, visible: Boolean) {
     menu.findItem(menuItemId).isVisible = visible
 }
 
+fun BottomAppBar.setMenuIcon(menuItemId: Int, icon: Drawable) {
+    menu.findItem(menuItemId).icon = icon
+}
+
+fun BottomAppBar.setMenuIconColor(menuItemId: Int, color: Int) {
+    menu.findItem(menuItemId).icon.setTint(color)
+}
+
 fun BottomAppBar.setAllMenuItemsVisibility(visible: Boolean) {
     for (i in 0 until menu.size()) {
         menu[i].isVisible = visible
@@ -113,5 +123,10 @@ fun BottomAppBar.hide(animate: Boolean = true) {
 }
 
 fun BottomAppBar.setNavigationIconColorKtx(@ColorInt color: Int) {
+    navigationIcon?.mutate()?.setTint(color)
+}
+
+fun BottomAppBar.setNavigationIconWithColor(@DrawableRes drawable: Int, @ColorInt color: Int) {
+    setNavigationIcon(drawable)
     navigationIcon?.mutate()?.setTint(color)
 }

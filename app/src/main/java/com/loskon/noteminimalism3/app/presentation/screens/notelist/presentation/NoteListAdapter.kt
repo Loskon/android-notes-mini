@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.app.base.datetime.formatString
-import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
+import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setShortLongClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setSoftVisibleKtx
@@ -35,7 +35,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
         with(holder.binding) {
             tvCardNoteTitle.text = note.title.trim()
             tvCardNoteDate.text = note.createdDate.formatString()
-            viewFavorite.setBackgroundTintColor(color)
+            viewFavorite.setBackgroundTintColorKtx(color)
             viewFavorite.setSoftVisibleKtx(note.isFavorite)
             root.setDebounceClickListener { onItemClickListener?.invoke(note, position) }
             root.setShortLongClickListener { onItemLongClickListener?.invoke(note, position) }

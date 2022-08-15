@@ -47,6 +47,8 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
     fun getItems(): List<Note> = list
 
+    fun getNote(position: Int): Note = list[position]
+
     @SuppressLint("NotifyDataSetChanged")
     fun updateNoteList(list: List<Note>) {
         this.list = list

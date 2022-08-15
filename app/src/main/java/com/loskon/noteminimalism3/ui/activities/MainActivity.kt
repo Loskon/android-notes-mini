@@ -306,7 +306,7 @@ class MainActivity : BaseActivity(),
 
         when (item.itemId) {
             R.id.action_list_type -> menuItemSwitchClick()
-            R.id.action_select_item -> adapter.selectAllNotes()
+            R.id.action_select -> adapter.selectAllNotes()
             R.id.action_search -> togglingSearchMode(true)
             R.id.action_unification -> UnificationDialog(this).show()
             R.id.action_favorite -> adapter.changeFavoriteStatus(commandCenter)

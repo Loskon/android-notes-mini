@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema.NoteTable
+import java.time.ZoneOffset
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -42,16 +43,22 @@ class DatabaseAdapterNew(context: Context) {
         database.insert(NoteTable.NAME_TABLE, null, getContentValues(note))
     }
 
-    fun delete(note: Note) {
-        database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + " = " + note.id, null)
-    }
-
     fun update(note: Note) {
         database.update(NoteTable.NAME_TABLE, getContentValues(note), NoteTable.COLUMN_ID + " = " + note.id, null)
     }
 
+    fun delete(note: Note) {
+        database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + " = " + note.id, null)
+    }
+
     fun insertWithIdReturn(note: Note): Long {
         return database.insert(NoteTable.NAME_TABLE, null, getContentValues(note))
+    }
+
+    fun updateAll(list: List<Note>) {
+        list.forEach { note ->
+            database.update(NoteTable.NAME_TABLE, getContentValues(note), NoteTable.COLUMN_ID + " = " + note.id, null)
+        }
     }
 
     fun cleanTrash() {
@@ -60,6 +67,12 @@ class DatabaseAdapterNew(context: Context) {
 
     fun deleteAll() {
         database.delete(NoteTable.NAME_TABLE, null, null)
+    }
+
+    fun deleteAll(list: List<Note>) {
+        val idArray = list.map { it.id }.toTypedArray()
+        val ids = idArray.joinToString (separator = ",")
+        database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + " IN (" + ids + ")", null)
     }
 
     fun deleteByTime(days: Int) {
@@ -75,9 +88,9 @@ class DatabaseAdapterNew(context: Context) {
     private fun getContentValues(note: Note): ContentValues {
         return ContentValues().apply {
             put(NoteTable.COLUMN_TITLE, note.title)
-            put(NoteTable.COLUMN_DATE, note.createdDate.nano)
-            put(NoteTable.COLUMN_DATE_MOD, note.modifiedDate.nano)
-            put(NoteTable.COLUMN_DATE_DEL, note.deletedDate.nano)
+            put(NoteTable.COLUMN_DATE, note.createdDate.toInstant(ZoneOffset.UTC).toEpochMilli())
+            put(NoteTable.COLUMN_DATE_MOD, note.modifiedDate.toInstant(ZoneOffset.UTC).toEpochMilli())
+            put(NoteTable.COLUMN_DATE_DEL, note.deletedDate.toInstant(ZoneOffset.UTC).toEpochMilli())
             put(NoteTable.COLUMN_FAVORITES, note.isFavorite)
             put(NoteTable.COLUMN_DEL_ITEMS, note.isDeleted)
         }

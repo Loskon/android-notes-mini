@@ -15,6 +15,6 @@ fun SearchView.hideKeyboard() {
     findViewById<EditText>(R.id.search_src_text).hideKeyboard()
 }
 
-fun SearchView.setShortQueryTextListener(onTextChange: (queryText: String?) -> Unit) {
-    setOnQueryTextListener(ShortQueryTextListener { queryText -> onTextChange(queryText) })
+fun SearchView.setShortQueryTextListener(onTextChange: (query: String?) -> Unit) {
+    setOnQueryTextListener(ShortQueryTextListener { query -> onTextChange(query) })
 }

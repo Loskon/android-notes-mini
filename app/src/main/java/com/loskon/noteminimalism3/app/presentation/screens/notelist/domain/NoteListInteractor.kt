@@ -17,18 +17,17 @@ class NoteListInteractor(
 
     suspend fun getNotes(category: String, sort: Int): Flow<List<Note>> {
         return combine(
-            noteListRepository.getNotes(),
+            noteListRepository.getNotesAsFlow(),
             searchFlow
-        ) { notes, search ->
+        ) { notes, query ->
             notes
-                .filter { note -> note.title.lowercase().contains(search?.lowercase() ?: "") }
-                .filter { note -> filterByCategory(note, category) }
+                .filter { note -> filterByQuery(note, query) && filterByCategory(note, category) }
                 .sortedByDescending { note -> sortedByDate(note, category, sort) }
         }
     }
 
-    suspend fun searchNotes(query: String?) {
-        searchFlow.emit(query)
+    private fun filterByQuery(note: Note, query: String?): Boolean {
+        return note.title.lowercase().contains(query?.lowercase() ?: "")
     }
 
     private fun filterByCategory(note: Note, category: String?): Boolean {
@@ -52,7 +51,27 @@ class NoteListInteractor(
         }
     }
 
-    suspend fun deleteItem(note: Note) {
-        noteListRepository.deleteItem(note)
+    suspend fun searchNotes(query: String?) {
+        searchFlow.emit(query)
+    }
+
+    fun deleteNote(note: Note) {
+        noteListRepository.deleteNote(note)
+    }
+
+    fun updateNote(note: Note) {
+        noteListRepository.updateNote(note)
+    }
+
+    fun deleteNotes(list: List<Note>) {
+        noteListRepository.deleteNotes(list)
+    }
+
+    fun cleanTrash() {
+        noteListRepository.cleanTrash()
+    }
+
+    fun updateNotes(list: List<Note>) {
+        noteListRepository.updateNotes(list)
     }
 }

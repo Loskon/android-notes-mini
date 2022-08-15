@@ -1,15 +1,18 @@
 package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.fragment.getDrawable
 import com.loskon.noteminimalism3.app.base.extension.fragment.requireDrawable
-import com.loskon.noteminimalism3.app.base.extension.fragment.setOnBackClickListener
+import com.loskon.noteminimalism3.app.base.extension.fragment.setOnBackPressedListener
 import com.loskon.noteminimalism3.app.base.extension.view.hide
 import com.loskon.noteminimalism3.app.base.extension.view.setAllItemsColor
 import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundColorKtx
@@ -20,8 +23,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemCli
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setEnabledNestedView
 import com.loskon.noteminimalism3.app.base.extension.view.setGoneVisibleKtx
-import com.loskon.noteminimalism3.app.base.extension.view.setMenuIcon
-import com.loskon.noteminimalism3.app.base.extension.view.setMenuIconColor
+import com.loskon.noteminimalism3.app.base.extension.view.setMenuIconWithColor
 import com.loskon.noteminimalism3.app.base.extension.view.setMenuItemVisibility
 import com.loskon.noteminimalism3.app.base.extension.view.setNavigationIconWithColor
 import com.loskon.noteminimalism3.app.base.extension.view.setShortMenuItemClickListener
@@ -36,6 +38,7 @@ import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@SuppressLint("NotifyDataSetChanged")
 class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private val binding by viewBinding(FragmentNoteListBinding::bind)
@@ -46,19 +49,17 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private var color: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            performRequestNotes()
-        }
-        setOnBackClickListener {
-            if (viewModel.getNoteListSelectionState.value) {
+    private val category: String get() = viewModel.getNoteListCategoryState.value
+    private val hasActiveSelectionMode: Boolean get() = viewModel.getNoteListSelectionState.value
+    private val hasActiveSearchMode: Boolean get() = viewModel.getNoteListSearchState.value
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setOnBackPressedListener {
+            if (hasActiveSelectionMode) {
                 viewModel.toggleSelectionMode(false)
-                /*                for (note in notesAdapter.getItems()) {
-                                    if (note.isChecked) note.isChecked = false
-                                }
-                                notesAdapter.notifyDataSetChanged()*/
-            } else if (viewModel.getNoteListSearchState.value) {
+                resetSelectedNotes()
+            } else if (hasActiveSearchMode) {
                 viewModel.toggleSearchMode(false)
             } else {
                 requireActivity().finish()
@@ -66,10 +67,25 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
     }
 
-    private fun performRequestNotes() {
-        val sort = AppPreference.getSortingWay(requireContext())
-        val category = viewModel.getNoteListCategoryState.value
-        viewModel.getNotes(category, sort)
+    private fun resetSelectedNotes() {
+        val selectedItemCount = notesAdapter.getItems().count { it.isChecked }
+
+        if (selectedItemCount != 0) {
+            for (note in notesAdapter.getItems()) note.isChecked = false
+            notesAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val sortWay = AppPreference.getSortingWay(requireContext())
+        viewModel.setSortWay(sortWay)
+
+        if (savedInstanceState == null) {
+            viewModel.cleanTrash()
+            viewModel.getNotes()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,8 +117,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun configureListTypeViewsParameters(linearListType: Boolean, save: Boolean) {
         val drawableId = getListTypeDrawableId(linearListType)
-        binding.bottomBarNoteList.setMenuIcon(R.id.action_list_type, requireDrawable(drawableId))
-        binding.bottomBarNoteList.setMenuIconColor(R.id.action_list_type, color)
+        binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_list_type, drawableId, color)
         binding.incNoteList.recyclerViewMain.setChangeableLayoutManager(linearListType)
         if (save) AppPreference.setLinearListType(requireContext(), linearListType)
     }
@@ -121,7 +136,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             notesAdapter.updateNoteList(notes)
         }
         viewModel.getNoteListCategoryState.observe(viewLifecycleOwner) { category ->
-            val drawableId: Int = when (category) {
+            val drawableId = when (category) {
                 NoteListViewModel.CATEGORY_ALL_NOTES1 -> R.drawable.baseline_add_black_24
                 NoteListViewModel.CATEGORY_FAVORITES1 -> R.drawable.baseline_star_black_24
                 NoteListViewModel.CATEGORY_TRASH1 -> R.drawable.baseline_delete_black_24
@@ -145,71 +160,118 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
         viewModel.getNoteListSelectionState.observe(viewLifecycleOwner) { selectionMode ->
             if (selectionMode) {
-                binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_black_24))
+
+                if (category == NoteListViewModel.CATEGORY_TRASH1) {
+                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_forever_black_24))
+                } else {
+                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_black_24))
+                }
+
                 binding.bottomBarNoteList.setNavigationIconWithColor(R.drawable.baseline_close_black_24, color)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_search, false)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_list_type, false)
-                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_select_item, true)
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_select, true)
                 binding.incNoteList.cardViewMain.setVisibilityKtx(true)
                 swipeCallback.blockSwipe(true)
 
-                if (viewModel.getNoteListSearchState.value) {
+                if (hasActiveSearchMode) {
                     binding.incNoteList.searchView.clearFocus()
                     binding.incNoteList.searchView.setEnabledNestedView(false)
                     binding.bottomBarNoteList.show(false)
                 }
+
             } else {
-                binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_add_black_24))
+
+                if (category == NoteListViewModel.CATEGORY_ALL_NOTES1) {
+                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_add_black_24))
+                } else if (category == NoteListViewModel.CATEGORY_FAVORITES1) {
+                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_star_black_24))
+                } else {
+                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_black_24))
+                }
+
                 binding.bottomBarNoteList.setNavigationIconWithColor(R.drawable.baseline_menu_black_24, color)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_search, true)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_list_type, true)
-                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_select_item, false)
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_select, false)
                 binding.incNoteList.cardViewMain.setVisibilityKtx(false)
                 swipeCallback.blockSwipe(false)
 
-                if (viewModel.getNoteListSearchState.value) {
+                if (hasActiveSearchMode) {
                     binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_search_off_black_24))
                     binding.incNoteList.searchView.setEnabledNestedView(true)
                     binding.bottomBarNoteList.hide(false)
                 }
+
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, false)
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, false)
             }
         }
     }
 
     private fun setupViewsListeners() {
-        binding.incNoteList.searchView.setShortQueryTextListener { queryText ->
-            viewModel.searchNotes(queryText)
+        binding.incNoteList.searchView.setShortQueryTextListener { query ->
+            viewModel.searchNotes(query)
         }
         notesAdapter.setOnItemClickListener { note, position ->
-            if (viewModel.getNoteListSelectionState.value.not()) {
-
+            if (hasActiveSelectionMode.not()) {
+                // TODO
             } else {
-
                 note.isChecked = note.isChecked.not()
                 notesAdapter.notifyItemChanged(position)
-                binding.incNoteList.tvCountItems.text = (notesAdapter.getItems().count { it.isChecked }).toString()
+
+                val selectedCount = (notesAdapter.getItems().count { it.isChecked })
+                binding.incNoteList.tvCountItems.text = selectedCount.toString()
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, selectedCount >= 2)
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, selectedCount == 1)
+                if (selectedCount == 1) binding.bottomBarNoteList.setMenuIconWithColor(
+                    R.id.action_favorite,
+                    requireDrawable(getFavoriteDrawableId(note.isFavorite)),
+                    color
+                )
+                binding.bottomBarNoteList.setMenuIconWithColor(
+                    R.id.action_select,
+                    requireDrawable(getSelectionDrawableId(selectedCount == notesAdapter.itemCount)),
+                    color
+                )
             }
         }
         notesAdapter.setOnItemLongClickListener { note, position ->
-            if (viewModel.getNoteListSelectionState.value.not()) viewModel.toggleSelectionMode(true)
+            if (hasActiveSelectionMode.not()) viewModel.toggleSelectionMode(true)
 
             note.isChecked = note.isChecked.not()
             notesAdapter.notifyItemChanged(position)
-            binding.incNoteList.tvCountItems.text = (notesAdapter.getItems().count { it.isChecked }).toString()
+
+            val selectedCount = (notesAdapter.getItems().count { it.isChecked })
+            binding.incNoteList.tvCountItems.text = selectedCount.toString()
+            binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, selectedCount >= 2)
+            binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, selectedCount == 1)
+            if (selectedCount == 1) binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_favorite, getFavoriteDrawableId(note.isFavorite), color)
+            binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_select, getSelectionDrawableId(selectedCount == notesAdapter.itemCount), color)
         }
         swipeCallback.setOnItemSwipeListener { viewHolder ->
+            val note = notesAdapter.getNote(viewHolder.absoluteAdapterPosition).also { it.isDeleted = true }
 
+            viewModel.updateNote(note)
+            viewModel.getNotes()
         }
         binding.fabNoteList.setDebounceClickListener {
-            if (viewModel.getNoteListSelectionState.value) {
-                for (note in notesAdapter.getItems()) {
-                    if (note.isChecked) {
-                        viewModel.deleteItem(note)
-                    }
+            if (hasActiveSelectionMode) {
+                if (category == NoteListViewModel.CATEGORY_TRASH1) {
+                    val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
+
+                    viewModel.deleteNotes(checkedNotes)
+                    viewModel.toggleSelectionMode(false)
+                    viewModel.getNotes()
+                } else {
+                    val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
+                    val deletedNotes = checkedNotes.map { it.copy(isDeleted = true) }
+
+                    viewModel.updateNotes(deletedNotes)
+                    viewModel.toggleSelectionMode(false)
+                    viewModel.getNotes()
                 }
-                viewModel.toggleSelectionMode(false)
-                performRequestNotes()
-            } else if (viewModel.getNoteListSearchState.value) {
+            } else if (hasActiveSearchMode) {
                 viewModel.toggleSearchMode(false)
             } else {
                 // TODO
@@ -217,10 +279,11 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
         with(binding.bottomBarNoteList) {
             setDebounceNavigationClickListener {
-                if (viewModel.getNoteListSelectionState.value.not()) {
+                if (hasActiveSelectionMode.not()) {
                     showCategorySheetDialogFragment()
                 } else {
                     viewModel.toggleSelectionMode(false)
+                    resetSelectedNotes()
                 }
             }
             setShortMenuItemClickListener(R.id.action_list_type) {
@@ -230,26 +293,47 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             setDebounceMenuItemClickListener(R.id.action_search) {
                 viewModel.toggleSearchMode(true)
             }
-            setShortMenuItemClickListener(R.id.action_select_item) {
+            setShortMenuItemClickListener(R.id.action_select) {
 
             }
             setDebounceMenuItemClickListener(R.id.action_unification) {
 
             }
             setShortMenuItemClickListener(R.id.action_favorite) {
-
+                val note = notesAdapter.getItems().first { it.isChecked }.also { it.isFavorite = it.isFavorite.not() }
+                val drawableId = getFavoriteDrawableId(note.isFavorite)
+                binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_favorite, drawableId, color)
+                viewModel.updateNote(note)
+                notesAdapter.notifyDataSetChanged()
             }
         }
     }
 
-    private fun showCategorySheetDialogFragment() {
-        val currentCategory = viewModel.getNoteListCategoryState.value
+    private fun getFavoriteDrawableId(b: Boolean): Int {
+        return if (b) {
+            R.drawable.baseline_star_black_24
+        } else {
+            R.drawable.baseline_star_border_black_24
+        }
+    }
 
-        CategorySheetDialogFragment.newInstance(currentCategory).apply {
-            setOnCategoryClickListener { category ->
+    private fun getSelectionDrawableId(b: Boolean): Int {
+        return if (b) {
+            R.drawable.baseline_done_black_24
+        } else {
+            R.drawable.baseline_done_all_black_24
+        }
+    }
+
+    private fun showCategorySheetDialogFragment() {
+        CategorySheetDialogFragment.newInstance(category).apply {
+            setOnCategorySelectListener { category ->
                 viewModel.setCategory(category)
-                performRequestNotes()
-                // binding.incNoteList.recyclerViewMain.scrollToTop()
+                viewModel.getNotes()
+            }
+            setOnSettingsClickListener {
+                val action = NoteListFragmentDirections.actionOpenSettingsFragment()
+                findNavController().navigate(action)
             }
         }.show(childFragmentManager, CategorySheetDialogFragment.TAG)
     }

@@ -10,13 +10,29 @@ class NoteListRepositoryImpl(
     private val databaseAdapter: DatabaseAdapterNew
 ) : NoteListRepository {
 
-    override suspend fun getNotes(): Flow<List<Note>> {
+    override suspend fun getNotesAsFlow(): Flow<List<Note>> {
         return flow {
             emit(databaseAdapter.getNotes())
         }
     }
 
-    override suspend fun deleteItem(note: Note) {
+    override fun deleteNote(note: Note) {
         databaseAdapter.delete(note)
+    }
+
+    override fun updateNote(note: Note) {
+        databaseAdapter.update(note)
+    }
+
+    override fun deleteNotes(list: List<Note>) {
+        databaseAdapter.deleteAll(list)
+    }
+
+    override fun cleanTrash() {
+        databaseAdapter.cleanTrash()
+    }
+
+    override fun updateNotes(list: List<Note>) {
+        databaseAdapter.updateAll(list)
     }
 }

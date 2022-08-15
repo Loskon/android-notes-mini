@@ -21,10 +21,14 @@ class NoteListViewModel(
     val getNoteListSearchState get() = noteListSearchState.asStateFlow()
     val getNoteListSelectionState get() = noteListSelectionState.asStateFlow()
 
+    private var sortWay: Int? = null
     private var job: Job? = null
 
-    fun getNotes(category: String, sort: Int) {
+    fun getNotes() {
         launchErrorJob {
+            val category = noteListCategoryState.value
+            val sort = sortWay ?: 0
+
             noteListInteractor.getNotes(category, sort).collectLatest { notes -> noteListState.emit(notes) }
         }
     }
@@ -32,6 +36,10 @@ class NoteListViewModel(
     fun searchNotes(query: String?) {
         job?.cancel()
         job = launchErrorJob { noteListInteractor.searchNotes(query) }
+    }
+
+    fun setSortWay(sortWay: Int) {
+        this.sortWay = sortWay
     }
 
     fun toggleSearchMode(activateSearchMode: Boolean) {
@@ -47,9 +55,23 @@ class NoteListViewModel(
     }
 
     fun deleteItem(note: Note) {
-        launchErrorJob {
-            noteListInteractor.deleteItem(note)
-        }
+        noteListInteractor.deleteNote(note)
+    }
+
+    fun updateNote(note: Note) {
+        noteListInteractor.updateNote(note)
+    }
+
+    fun deleteNotes(list: List<Note>) {
+        noteListInteractor.deleteNotes(list)
+    }
+
+    fun cleanTrash() {
+        noteListInteractor.cleanTrash()
+    }
+
+    fun updateNotes(list: List<Note>) {
+        noteListInteractor.updateNotes(list)
     }
 
     companion object {

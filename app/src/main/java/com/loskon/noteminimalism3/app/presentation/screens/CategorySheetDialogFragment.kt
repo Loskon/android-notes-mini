@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.loskon.noteminimalism3.MainGraphDirections
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.fragment.putArgs
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemClickListener
@@ -72,14 +70,13 @@ class CategorySheetDialogFragment : BaseSheetDialogFragment() {
                 dismiss()
             }
             setDebounceMenuItemClickListener(R.id.nav_item_settings) {
-                val action = MainGraphDirections.actionOpenSettingsFragment()
-                findNavController().navigate(action)
+                onSettingsClick?.invoke()
                 dismiss()
             }
         }
     }
 
-    fun setOnCategoryClickListener(onCategoryClick: ((category: String) -> Unit)?) {
+    fun setOnCategorySelectListener(onCategoryClick: ((category: String) -> Unit)?) {
         this.onCategoryClick = onCategoryClick
     }
 

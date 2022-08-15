@@ -13,7 +13,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_select_item"
+        android:id="@+id/action_select"
         android:icon="@drawable/baseline_done_black_24"
         android:title="@string/menu_list_select"
         android:visible="false"

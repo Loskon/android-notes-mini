@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.loskon.noteminimalism3.app.base.extension.context.getDrawableKtx
 
 fun BottomAppBar.setDebounceNavigationClickListener(
     debounceTime: Long = 600L,
@@ -108,6 +109,16 @@ fun BottomAppBar.setMenuIconColor(menuItemId: Int, color: Int) {
     menu.findItem(menuItemId).icon.setTint(color)
 }
 
+fun BottomAppBar.setMenuIconWithColor(menuItemId: Int, icon: Drawable, color: Int) {
+    menu.findItem(menuItemId).icon = icon
+    setMenuIconColor(menuItemId, color)
+}
+
+fun BottomAppBar.setMenuIconWithColor(menuItemId: Int, drawableId: Int, color: Int) {
+    menu.findItem(menuItemId).icon = context.getDrawableKtx(drawableId)
+    setMenuIconColor(menuItemId, color)
+}
+
 fun BottomAppBar.setAllMenuItemsVisibility(visible: Boolean) {
     for (i in 0 until menu.size()) {
         menu[i].isVisible = visible
@@ -128,5 +139,5 @@ fun BottomAppBar.setNavigationIconColorKtx(@ColorInt color: Int) {
 
 fun BottomAppBar.setNavigationIconWithColor(@DrawableRes drawable: Int, @ColorInt color: Int) {
     setNavigationIcon(drawable)
-    navigationIcon?.mutate()?.setTint(color)
+    setNavigationIconColorKtx(color)
 }

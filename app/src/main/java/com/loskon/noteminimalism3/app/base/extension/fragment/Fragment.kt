@@ -64,7 +64,7 @@ fun Fragment.setFragmentScreenOnTouchListener(onClick: () -> Unit) {
     }
 }
 
-fun Fragment.setOnBackClickListener(onClick: () -> Unit) {
+fun Fragment.setOnBackPressedListener(onClick: () -> Unit) {
     requireActivity().onBackPressedDispatcher.addCallback(this) { onClick() }
 }
 

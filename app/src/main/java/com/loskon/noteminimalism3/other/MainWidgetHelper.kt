@@ -138,7 +138,7 @@ class MainWidgetHelper(
     }
 
     private fun visibilitySelectMenuItem(isVisible: Boolean) {
-        setVisibleMenuItem(R.id.action_select_item, isVisible)
+        setVisibleMenuItem(R.id.action_select, isVisible)
     }
 
     private fun visibilityFavoriteMenuItem(category: String, isVisible: Boolean) {
@@ -162,7 +162,7 @@ class MainWidgetHelper(
             R.drawable.baseline_done_all_black_24
         }
 
-        replaceMenuIcon(R.id.action_select_item, menuId)
+        replaceMenuIcon(R.id.action_select, menuId)
     }
 
     fun changeIconFavoriteMenuItem(isFavorite: Boolean) {

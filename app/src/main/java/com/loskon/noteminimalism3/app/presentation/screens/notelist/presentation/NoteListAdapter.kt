@@ -9,6 +9,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColor
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setShortLongClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setSoftVisibleKtx
+import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.databinding.ItemNoteNewBinding
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -21,11 +22,19 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
     private var onItemClickListener: ((Note, Int) -> Unit)? = null
     private var onItemLongClickListener: ((Note, Int) -> Unit)? = null
 
-    private var hasLinearList: Boolean = true
+    private var linearListType: Boolean = true
+    private var hasOneSizeCards: Boolean = false
     private var color: Int = 0
+    private var titleFontSize: Int = 0
+    private var dateFontSize: Int = 0
+    private var numberLines: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
+        hasOneSizeCards = AppPreference.hasOneSizeCards(parent.context)
         color = AppPreference.getColor(parent.context)
+        titleFontSize = AppPreference.getTitleFontSize(parent.context)
+        dateFontSize = AppPreference.getDateFontSize(parent.context)
+        numberLines = AppPreference.getNumberLines(parent.context)
         return NoteListViewHolder(parent.viewBinding(ItemNoteNewBinding::inflate))
     }
 
@@ -35,15 +44,28 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
         with(holder.binding) {
             tvCardNoteTitle.text = note.title.trim()
             tvCardNoteDate.text = note.createdDate.formatString()
-            viewFavorite.setBackgroundTintColorKtx(color)
             viewFavorite.setSoftVisibleKtx(note.isFavorite)
             root.setDebounceClickListener { onItemClickListener?.invoke(note, position) }
             root.setShortLongClickListener { onItemLongClickListener?.invoke(note, position) }
+
+            tvCardNoteTitle.setTextSizeKtx(titleFontSize)
+            tvCardNoteTitle.maxLines = numberLines
+            tvCardNoteTitle.minLines = getMinLines()
+            tvCardNoteDate.setTextSizeKtx(dateFontSize)
+            viewFavorite.setBackgroundTintColorKtx(color)
             root.strokeColor = if (note.isChecked) color else Color.TRANSPARENT
         }
     }
 
     override fun getItemCount(): Int = list.size
+
+    private fun getMinLines(): Int {
+        return if (linearListType) {
+            1
+        } else {
+            if (hasOneSizeCards) numberLines else 1
+        }
+    }
 
     fun getItems(): List<Note> = list
 
@@ -64,7 +86,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
     }
 
     fun setLinearList(hasLinearList: Boolean) {
-        this.hasLinearList = hasLinearList
+        this.linearListType = hasLinearList
     }
 
     class NoteListViewHolder(val binding: ItemNoteNewBinding) : RecyclerView.ViewHolder(binding.root)

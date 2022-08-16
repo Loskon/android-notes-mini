@@ -4,10 +4,6 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/userListFragment">
 
-    <action
-        android:id="@+id/actionOpenSettingsFragment"
-        app:destination="@id/rootSettingsFragment" />
-
     <fragment
         android:id="@+id/userListFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListFragment"
@@ -15,6 +11,9 @@
         <action
             android:id="@+id/actionOpenSettingsFragment"
             app:destination="@id/rootSettingsFragment" />
+        <action
+            android:id="@+id/actionOpenNoteFragment"
+            app:destination="@id/noteFragmentNew" />
     </fragment>
 
     <fragment
@@ -61,5 +60,9 @@
         android:id="@+id/restoreListSheetDialogFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.presentation.BackupFileListSheetDialogFragment"
         android:label="RestoreListSheetDialogFragment" />
+    <fragment
+        android:id="@+id/noteFragmentNew"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.note.NoteFragmentNew"
+        android:label="NoteFragmentNew" />
 
 </navigation>

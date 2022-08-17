@@ -10,34 +10,35 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
 
+@Suppress("unused")
 class BaseCustomSnackbar {
 
     private var snackbar: Snackbar? = null
-    private var textView: TextView? = null
-    private var button: MaterialButton? = null
 
     fun make(view: View, message: String?, length: Int): BaseCustomSnackbar {
         snackbar = Snackbar.make(view, message ?: UNKNOWN_ERROR_MESSAGE, length)
-        initializationSnackbarViews()
         return this
     }
 
     fun make(context: Context, view: View, message: String?, length: Int): BaseCustomSnackbar {
         snackbar = Snackbar.make(context, view, message ?: UNKNOWN_ERROR_MESSAGE, length)
-        initializationSnackbarViews()
         return this
     }
 
-    private fun initializationSnackbarViews() {
-        val snackbarLayout = snackbar?.view as Snackbar.SnackbarLayout
-        val snackContentLayout = snackbarLayout.getChildAt(0) as SnackbarContentLayout
-
-        textView = snackContentLayout.getChildAt(0) as TextView
-        button = snackContentLayout.getChildAt(1) as MaterialButton
+    fun make(view: View, layout: View): BaseCustomSnackbar {
+        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+        addCustomSnackbarView(layout)
+        return this
     }
 
-    fun setAnchorView(anchorView: View) {
+    private fun addCustomSnackbarView(layout: View) {
+        val snackbarLayout = snackbar?.view as Snackbar.SnackbarLayout?
+        snackbarLayout?.addView(layout)
+    }
+
+    fun setAnchorView(anchorView: View): BaseCustomSnackbar {
         snackbar?.anchorView = anchorView
+        return this
     }
 
     fun setAction(text: String, action: () -> Unit) {
@@ -45,12 +46,12 @@ class BaseCustomSnackbar {
     }
 
     fun setActionRippleColor(color: Int) {
-        button?.rippleColor = ColorStateList.valueOf(color)
+        getSnackbarMaterialButton()?.rippleColor = ColorStateList.valueOf(color)
     }
 
     fun setActionStroke(width: Int, color: Int) {
-        button?.strokeWidth = width.toPx()
-        button?.strokeColor = ColorStateList.valueOf(color)
+        getSnackbarMaterialButton()?.strokeWidth = width.toPx()
+        getSnackbarMaterialButton()?.strokeColor = ColorStateList.valueOf(color)
     }
 
     fun setBackgroundTintList(color: Int) {
@@ -58,17 +59,31 @@ class BaseCustomSnackbar {
     }
 
     fun setFont(font: Typeface?) {
-        textView?.typeface = font
-        button?.typeface = font
+        getSnackbarTextView()?.typeface = font
+        getSnackbarMaterialButton()?.typeface = font
     }
 
     fun setTextColor(color: Int) {
-        textView?.setTextColor(color)
-        button?.setTextColor(color)
+        getSnackbarTextView()?.setTextColor(color)
+        getSnackbarMaterialButton()?.setTextColor(color)
     }
 
-    fun hideOnClick() {
+    fun enableHideByClickSnackbar() {
         snackbar?.view?.setOnClickListener { dismiss() }
+    }
+
+    private fun getSnackbarTextView(): TextView? {
+        val snackbarLayout = snackbar?.view as Snackbar.SnackbarLayout?
+        val snackContentLayout = snackbarLayout?.getChildAt(0) as SnackbarContentLayout?
+
+        return snackContentLayout?.getChildAt(0) as TextView?
+    }
+
+    private fun getSnackbarMaterialButton(): MaterialButton? {
+        val snackbarLayout = snackbar?.view as Snackbar.SnackbarLayout?
+        val snackContentLayout = snackbarLayout?.getChildAt(0) as SnackbarContentLayout?
+
+        return snackContentLayout?.getChildAt(1) as MaterialButton?
     }
 
     private fun Int.toPx(): Int = (this * getSystem().displayMetrics.density).toInt()

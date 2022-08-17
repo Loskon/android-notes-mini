@@ -15,6 +15,8 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="4dp"
         android:indeterminate="false"
+        android:max="10000"
+        android:progress="0"
         android:progressDrawable="@drawable/custom_progress_drawable"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

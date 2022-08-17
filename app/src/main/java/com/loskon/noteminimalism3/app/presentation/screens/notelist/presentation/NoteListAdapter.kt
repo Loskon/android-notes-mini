@@ -61,9 +61,9 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
     private fun getMinLines(): Int {
         return if (linearListType) {
-            1
+            MAX_LINES
         } else {
-            if (hasOneSizeCards) numberLines else 1
+            if (hasOneSizeCards) numberLines else MAX_LINES
         }
     }
 
@@ -90,4 +90,8 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
     }
 
     class NoteListViewHolder(val binding: ItemNoteNewBinding) : RecyclerView.ViewHolder(binding.root)
+
+    companion object {
+        private const val MAX_LINES = 1
+    }
 }

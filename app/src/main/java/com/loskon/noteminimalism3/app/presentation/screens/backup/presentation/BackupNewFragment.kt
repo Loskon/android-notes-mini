@@ -18,7 +18,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemCli
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
 import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.WaitingDialogFragment
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
-import com.loskon.noteminimalism3.app.base.widget.snackbar.CustomizedSnackbar
+import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.AuthIntent
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
@@ -154,7 +154,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun showSnackbar(stringId: Int, success: Boolean) {
-        CustomizedSnackbar.make(requireView(), getString(stringId), success, binding.bottomBarBackup)?.show()
+        AppSnackbar.make(requireView(), getString(stringId), success, binding.bottomBarBackup)?.show()
     }
 
     private fun showConfirmSheetDialog(isBackup: Boolean) {

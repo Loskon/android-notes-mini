@@ -117,8 +117,11 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun configureListTypeViewsParameters(linearListType: Boolean, save: Boolean) {
         val drawableId = getListTypeDrawableId(linearListType)
+
         binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_list_type, drawableId, color)
         binding.incNoteList.recyclerViewMain.setChangeableLayoutManager(linearListType)
+        notesAdapter.setLinearList(linearListType)
+
         if (save) AppPreference.setLinearListType(requireContext(), linearListType)
     }
 
@@ -158,13 +161,9 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
         viewModel.getNoteListSelectionState.observe(viewLifecycleOwner) { selectionMode ->
             if (selectionMode) {
+                val drawableId = getFabTrashDrawableId()
 
-                if (category == NoteListViewModel.CATEGORY_TRASH1) {
-                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_forever_black_24))
-                } else {
-                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_black_24))
-                }
-
+                binding.fabNoteList.setImageDrawable(getDrawable(drawableId))
                 binding.bottomBarNoteList.setNavigationIconWithColor(R.drawable.baseline_close_black_24, color)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_search, false)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_list_type, false)
@@ -177,17 +176,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                     binding.incNoteList.searchView.setEnabledNestedView(false)
                     binding.bottomBarNoteList.show(false)
                 }
-
             } else {
+                val drawableId = getFabDrawableId(category)
 
-                if (category == NoteListViewModel.CATEGORY_ALL_NOTES1) {
-                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_add_black_24))
-                } else if (category == NoteListViewModel.CATEGORY_FAVORITES1) {
-                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_star_black_24))
-                } else {
-                    binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_delete_black_24))
-                }
-
+                binding.fabNoteList.setImageDrawable(getDrawable(drawableId))
                 binding.bottomBarNoteList.setNavigationIconWithColor(R.drawable.baseline_menu_black_24, color)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_search, true)
                 binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_list_type, true)
@@ -195,14 +187,14 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 binding.incNoteList.cardViewMain.setVisibilityKtx(false)
                 swipeCallback.blockSwipe(false)
 
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, false)
+                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, false)
+
                 if (hasActiveSearchMode) {
                     binding.fabNoteList.setImageDrawable(getDrawable(R.drawable.baseline_search_off_black_24))
                     binding.incNoteList.searchView.setEnabledNestedView(true)
                     binding.bottomBarNoteList.hide(false)
                 }
-
-                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, false)
-                binding.bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, false)
             }
         }
     }
@@ -213,6 +205,14 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             NoteListViewModel.CATEGORY_FAVORITES1 -> R.drawable.baseline_star_black_24
             NoteListViewModel.CATEGORY_TRASH1 -> R.drawable.baseline_delete_black_24
             else -> R.drawable.baseline_add_black_24
+        }
+    }
+
+    private fun getFabTrashDrawableId(): Int {
+        return if (category == NoteListViewModel.CATEGORY_TRASH1) {
+            R.drawable.baseline_delete_forever_black_24
+        } else {
+            R.drawable.baseline_delete_black_24
         }
     }
 
@@ -238,10 +238,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             changeViewsForSelectedNote()
         }
         swipeCallback.setOnItemSwipeListener { viewHolder ->
-            val note = notesAdapter.getNote(viewHolder.absoluteAdapterPosition).also { it.isDeleted = true }
-
-            viewModel.updateNote(note)
-            viewModel.getNotes()
+            NoteListUndoSnackbar(requireContext()).show(binding.root, binding.fabNoteList)
         }
         binding.fabNoteList.setDebounceClickListener {
             if (hasActiveSelectionMode) {
@@ -316,16 +313,13 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun changeViewsForSelectedNote() {
         val selectedCount = (notesAdapter.getItems().count { it.isChecked })
+        val drawableId = getSelectionDrawableId(selectedCount == notesAdapter.itemCount)
 
         with(binding) {
             incNoteList.tvCountItems.text = selectedCount.toString()
             bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, selectedCount >= 2)
             bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, selectedCount == 1)
-            bottomBarNoteList.setMenuIconWithColor(
-                R.id.action_select,
-                getSelectionDrawableId(selectedCount == notesAdapter.itemCount),
-                color
-            )
+            bottomBarNoteList.setMenuIconWithColor(R.id.action_select, drawableId, color)
         }
     }
 
@@ -333,7 +327,8 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         val selectedCount = (notesAdapter.getItems().count { it.isChecked })
 
         if (selectedCount == 1) {
-            binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_favorite, getFavoriteDrawableId(note.isFavorite), color)
+            val drawableId = getFavoriteDrawableId(note.isFavorite)
+            binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_favorite, drawableId, color)
         }
     }
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.preference.PreferenceFragmentCompat
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
-import com.loskon.noteminimalism3.app.base.widget.snackbar.CustomizedSnackbar
+import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.databinding.FragmentSettingsBinding
 import com.loskon.noteminimalism3.managers.setNavigationIconColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -32,6 +32,6 @@ open class BasePreferenceFragment : PreferenceFragmentCompat() {
     }
 
     fun showSnackbar(message: String, success: Boolean) {
-        CustomizedSnackbar.make(requireView(), message, success, binding.bottomBarSettings)
+        AppSnackbar.make(requireView(), message, success, binding.bottomBarSettings)
     }
 }

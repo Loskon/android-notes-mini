@@ -45,8 +45,8 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
             tvCardNoteTitle.text = note.title.trim()
             tvCardNoteDate.text = note.createdDate.formatString()
             viewFavorite.setSoftVisibleKtx(note.isFavorite)
-            root.setDebounceClickListener { onItemClickListener?.invoke(note, position) }
-            root.setShortLongClickListener { onItemLongClickListener?.invoke(note, position) }
+            root.setDebounceClickListener { onItemClickListener?.invoke(note, holder.absoluteAdapterPosition) }
+            root.setShortLongClickListener { onItemLongClickListener?.invoke(note, holder.absoluteAdapterPosition) }
 
             tvCardNoteTitle.setTextSizeKtx(titleFontSize)
             tvCardNoteTitle.maxLines = numberLines

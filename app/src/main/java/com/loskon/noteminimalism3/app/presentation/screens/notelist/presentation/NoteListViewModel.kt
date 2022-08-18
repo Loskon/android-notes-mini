@@ -54,7 +54,7 @@ class NoteListViewModel(
         noteListCategoryState.tryEmit(category)
     }
 
-    fun deleteItem(note: Note) {
+    fun deleteNote(note: Note) {
         noteListInteractor.deleteNote(note)
     }
 
@@ -72,6 +72,10 @@ class NoteListViewModel(
 
     fun updateNotes(list: List<Note>) {
         noteListInteractor.updateNotes(list)
+    }
+
+    fun insertNote(note: Note) {
+        noteListInteractor.insertNote(note)
     }
 
     companion object {

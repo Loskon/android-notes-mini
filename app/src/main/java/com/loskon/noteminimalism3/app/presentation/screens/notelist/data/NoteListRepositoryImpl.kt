@@ -35,4 +35,8 @@ class NoteListRepositoryImpl(
     override fun updateNotes(list: List<Note>) {
         databaseAdapter.updateAll(list)
     }
+
+    override fun insertNote(note: Note) {
+        databaseAdapter.insert(note)
+    }
 }

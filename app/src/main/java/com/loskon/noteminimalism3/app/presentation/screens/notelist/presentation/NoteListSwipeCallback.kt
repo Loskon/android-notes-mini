@@ -8,7 +8,7 @@ class NoteListSwipeCallback : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
 ) {
 
-    private var onItemSwipeListener: ((viewHolder: RecyclerView.ViewHolder) -> Unit)? = null
+    private var onItemSwipeListener: ((Int) -> Unit)? = null
     private var deleteMode: Boolean = false
 
     override fun getSwipeDirs(
@@ -25,10 +25,10 @@ class NoteListSwipeCallback : ItemTouchHelper.SimpleCallback(
     ) = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        onItemSwipeListener?.invoke(viewHolder)
+        onItemSwipeListener?.invoke(viewHolder.absoluteAdapterPosition)
     }
 
-    fun setOnItemSwipeListener(onItemSwipeListener: ((viewHolder: RecyclerView.ViewHolder) -> Unit)?) {
+    fun setOnItemSwipeListener(onItemSwipeListener: ((Int) -> Unit)?) {
         this.onItemSwipeListener = onItemSwipeListener
     }
 

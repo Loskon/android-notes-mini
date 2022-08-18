@@ -53,6 +53,8 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     private val hasActiveSelectionMode: Boolean get() = viewModel.getNoteListSelectionState.value
     private val hasActiveSearchMode: Boolean get() = viewModel.getNoteListSearchState.value
 
+    private var undoSnackbar: NoteListUndoSnackbar? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         setOnBackPressedListener {
@@ -78,23 +80,25 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val sortWay = AppPreference.getSortingWay(requireContext())
-        viewModel.setSortWay(sortWay)
-
-        if (savedInstanceState == null) {
-            viewModel.cleanTrash()
-            viewModel.getNotes()
-        }
+        if (savedInstanceState == null) viewModel.cleanTrash()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getNotes()
         establishViewsColor()
+        initialObjects()
         configureRecyclerView()
         installObservers()
         setupViewsListeners()
+    }
+
+    private fun getNotes() {
+        val sortWay = AppPreference.getSortingWay(requireContext())
+
+        viewModel.setSortWay(sortWay)
+        viewModel.getNotes()
     }
 
     private fun establishViewsColor() {
@@ -102,6 +106,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         binding.fabNoteList.setBackgroundColorKtx(color)
         binding.bottomBarNoteList.setAllItemsColor(color)
         binding.incNoteList.cardViewMain.setBackgroundTintColorKtx(color)
+    }
+
+    private fun initialObjects() {
+        undoSnackbar = NoteListUndoSnackbar(requireContext(), binding.root, binding.fabNoteList)
     }
 
     private fun configureRecyclerView() {
@@ -237,8 +245,34 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             updateFavoriteMenuIcon(note)
             changeViewsForSelectedNote()
         }
-        swipeCallback.setOnItemSwipeListener { viewHolder ->
-            NoteListUndoSnackbar(requireContext()).show(binding.root, binding.fabNoteList)
+        swipeCallback.setOnItemSwipeListener { positon ->
+            val note = notesAdapter.getNote(positon)
+            val isFavorite = note.isFavorite
+
+            if (category == NoteListViewModel.CATEGORY_TRASH1) {
+                viewModel.deleteNote(note)
+                viewModel.getNotes()
+            } else {
+                note.isDeleted = true
+                note.isFavorite = false
+                viewModel.updateNote(note)
+                viewModel.getNotes()
+            }
+
+            undoSnackbar?.show(note, isFavorite, category)
+        }
+        undoSnackbar?.setOnCancelClickListener { note, isFavorite ->
+            if (category == NoteListViewModel.CATEGORY_TRASH1) {
+                note.isDeleted = false
+                note.isFavorite = isFavorite
+                viewModel.insertNote(note)
+                viewModel.getNotes()
+            } else {
+                note.isDeleted = false
+                note.isFavorite = isFavorite
+                viewModel.updateNote(note)
+                viewModel.getNotes()
+            }
         }
         binding.fabNoteList.setDebounceClickListener {
             if (hasActiveSelectionMode) {
@@ -265,6 +299,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
         with(binding.bottomBarNoteList) {
             setDebounceNavigationClickListener {
+                undoSnackbar?.dismiss()
                 if (hasActiveSelectionMode.not()) {
                     showCategorySheetDialogFragment()
                 } else {
@@ -273,10 +308,12 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 }
             }
             setShortMenuItemClickListener(R.id.action_list_type) {
+                undoSnackbar?.dismiss()
                 val linearListType = AppPreference.getLinearListType(requireContext()).not()
                 configureListTypeViewsParameters(linearListType, true)
             }
             setDebounceMenuItemClickListener(R.id.action_search) {
+                undoSnackbar?.dismiss()
                 viewModel.toggleSearchMode(true)
             }
             setShortMenuItemClickListener(R.id.action_select) {
@@ -351,6 +388,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     private fun showCategorySheetDialogFragment() {
         CategorySheetDialogFragment.newInstance(category).apply {
             setOnCategorySelectListener { category ->
+                undoSnackbar?.dismiss()
                 viewModel.setCategory(category)
                 viewModel.getNotes()
             }
@@ -359,5 +397,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 findNavController().navigate(action)
             }
         }.show(childFragmentManager, CategorySheetDialogFragment.TAG)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        undoSnackbar?.dismiss()
     }
 }

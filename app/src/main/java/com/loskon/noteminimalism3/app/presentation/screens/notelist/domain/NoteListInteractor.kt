@@ -74,4 +74,8 @@ class NoteListInteractor(
     fun updateNotes(list: List<Note>) {
         noteListRepository.updateNotes(list)
     }
+
+    fun insertNote(note: Note) {
+        noteListRepository.insertNote(note)
+    }
 }

@@ -11,4 +11,5 @@ interface NoteListRepository {
     fun deleteNotes(list: List<Note>)
     fun cleanTrash()
     fun updateNotes(list: List<Note>)
+    fun insertNote(note: Note)
 }

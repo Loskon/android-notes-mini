@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.databinding.BaseDialogBinding
@@ -13,18 +11,13 @@ import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-open class BaseAppDialogFragment(
-    @LayoutRes private val insertLayoutId: Int? = null
-) : BaseDialogFragment() {
+open class BaseAppDialogFragment : BaseDialogFragmentNew() {
 
     private val binding by viewBinding(BaseDialogBinding::inflate)
+    protected val color: Int get() = AppPreference.getColor(requireContext())
 
-    val color: Int get() = AppPreference.getColor(requireContext())
-
-    private val layoutParams = LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.MATCH_PARENT
-    )
+    private var onItemClickListener: (() -> Unit)? = null
+    private var onItemLongClickListener: (() -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +31,8 @@ open class BaseAppDialogFragment(
         super.onViewCreated(view, savedInstanceState)
 
         establishBaseViewsColor()
+        configureBaseViewsParameters()
         setupBaseViewListener()
-        addInsertedView()
     }
 
     private fun establishBaseViewsColor() {
@@ -47,18 +40,24 @@ open class BaseAppDialogFragment(
         binding.btnBaseDialogCancel.setTextColor(color)
     }
 
-    private fun setupBaseViewListener() {
-        binding.btnBaseDialogCancel.setDebounceClickListener { dismiss() }
+    private fun configureBaseViewsParameters() {
+        binding.containerBaseDialog.setVisibilityKtx(false)
     }
 
-    private fun addInsertedView() {
-        if (insertLayoutId != null) {
-            val insertView: View = View.inflate(context, insertLayoutId, null)
-            insertView.layoutParams = layoutParams
-            binding.containerBaseDialog.addView(insertView)
-        } else {
-            binding.containerBaseDialog.setVisibilityKtx(false)
+    private fun setupBaseViewListener() {
+        binding.btnBaseDialogOk.setDebounceClickListener {
+            onItemClickListener?.invoke()
+            dismiss()
         }
+        binding.btnBaseDialogCancel.setDebounceClickListener {
+            onItemLongClickListener?.invoke()
+            dismiss()
+        }
+    }
+
+    fun addView(view: View) {
+        binding.containerBaseDialog.setVisibilityKtx(true)
+        binding.containerBaseDialog.addView(view)
     }
 
     fun setTitleDialog(@StringRes stringId: Int) {
@@ -85,11 +84,11 @@ open class BaseAppDialogFragment(
         binding.btnBaseDialogCancel.setVisibilityKtx(isVisible)
     }
 
-    fun setOnClickBtnOk(onClick: () -> Unit?) {
-        binding.btnBaseDialogOk.setDebounceClickListener { onClick() }
+    fun setBtnOkClickListener(onItemClickListener: (() -> Unit)? = null) {
+        this.onItemClickListener = onItemClickListener
     }
 
-    fun setOnClickBtnCancel(onClick: () -> Unit?) {
-        binding.btnBaseDialogCancel.setDebounceClickListener { onClick() }
+    fun setBtnCancelClickListener(onItemLongClickListener: (() -> Unit)? = null) {
+        this.onItemLongClickListener = onItemLongClickListener
     }
 }

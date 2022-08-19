@@ -28,9 +28,11 @@
         android:id="@+id/container_base_dialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_base_dialog_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_base_dialog_title"
+        tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_base_dialog_ok"

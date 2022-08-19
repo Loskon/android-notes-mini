@@ -72,7 +72,7 @@ fun BottomAppBar.setDebounceMenuItemClickListener(
     })
 }
 
-fun BottomAppBar.setShortMenuItemClickListener(
+fun BottomAppBar.setOnMenuItemClickListener(
     menuItemId: Int,
     onMenuItemClick: () -> Unit
 ) {

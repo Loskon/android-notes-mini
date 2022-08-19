@@ -20,7 +20,7 @@ class WaitingDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext(), R.style.RoundedWrapContentDialogStyle).create().apply {
+        return AlertDialog.Builder(requireContext(), R.style.RoundedWrapDialogStyle).create().apply {
             val progressIndicator = CircularProgressIndicator(requireContext()).apply {
                 val color = AppPreference.getColor(requireContext())
                 val width = ViewGroup.LayoutParams.WRAP_CONTENT

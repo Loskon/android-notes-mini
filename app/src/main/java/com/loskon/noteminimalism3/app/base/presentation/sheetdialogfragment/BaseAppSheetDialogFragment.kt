@@ -1,17 +1,11 @@
 package com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.core.view.updatePadding
-import com.loskon.noteminimalism3.app.base.extension.fragment.putArgs
-import com.loskon.noteminimalism3.app.base.extension.view.dp
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.databinding.BaseDialogBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
@@ -21,11 +15,6 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
 
     private val binding by viewBinding(BaseDialogBinding::inflate)
     protected val color: Int get() = AppPreference.getColor(requireContext())
-
-    private val titleId: Int by lazy { arguments?.getInt(PUT_TITLE_KEY) ?: 0 }
-    private val btnOkTextId: Int by lazy { arguments?.getInt(PUT_BTN_OK_TEXT_KEY) ?: 0 }
-    private val btnCancelTextId: Int by lazy { arguments?.getInt(PUT_BTN_CANCEL_TEXT_KEY) ?: 0 }
-    private val textId: Int by lazy { arguments?.getInt(PUT_TEXT_KEY) ?: 0 }
 
     private var btnOkOnClick: (() -> Unit)? = null
 
@@ -44,7 +33,6 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
 
         establishBaseViewsColor()
         configureBaseViewsParameters()
-        configureTextViewMessage()
         setupBaseViewsListeners()
     }
 
@@ -54,29 +42,7 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
     }
 
     private fun configureBaseViewsParameters() {
-        if (titleId != 0) setTitleDialog(titleId)
-        if (btnOkTextId != 0) setTextBtnOk(btnOkTextId)
-        if (btnCancelTextId != 0) setTextBtnCancel(btnCancelTextId)
-        binding.containerBaseDialog.setVisibilityKtx(false)
         binding.containerBaseDialog.isNestedScrollingEnabled = isNestedScrollingEnabled
-    }
-
-    private fun configureTextViewMessage() {
-        if (textId != 0) {
-            val textView = TextView(requireContext()).apply {
-                val width = ViewGroup.LayoutParams.MATCH_PARENT
-                val height = ViewGroup.LayoutParams.WRAP_CONTENT
-
-                gravity = Gravity.CENTER
-                setTextSizeKtx(16)
-                updatePadding(16.dp, 16.dp, 16.dp, 16.dp)
-                layoutParams = ViewGroup.LayoutParams(width, height)
-                text = getString(textId)
-            }
-
-            binding.containerBaseDialog.setVisibilityKtx(true)
-            binding.containerBaseDialog.addView(textView)
-        }
     }
 
     private fun setupBaseViewsListeners() {
@@ -115,37 +81,7 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
 
     companion object {
         const val TAG = "BaseAppSheetDialogFragmentNew"
-        private const val PUT_TITLE_KEY = "PUT_TITLE_KEY"
-        private const val PUT_BTN_OK_TEXT_KEY = "PUT_BTN_OK_TEXT_KEY"
-        private const val PUT_BTN_CANCEL_TEXT_KEY = "PUT_BTN_CANCEL_TEXT_KEY"
-        private const val PUT_TEXT_KEY = "PUT_TEXT_KEY"
 
         fun newInstance() = BaseAppSheetDialogFragment()
-
-        fun newInstance(
-            titleId: Int,
-            btnOkTextId: Int,
-            btnCancelTextId: Int
-        ): BaseAppSheetDialogFragment {
-            return BaseAppSheetDialogFragment().putArgs {
-                putInt(PUT_TITLE_KEY, titleId)
-                putInt(PUT_BTN_OK_TEXT_KEY, btnOkTextId)
-                putInt(PUT_BTN_CANCEL_TEXT_KEY, btnCancelTextId)
-            }
-        }
-
-        fun newInstance(
-            titleId: Int,
-            btnOkTextId: Int,
-            btnCancelTextId: Int,
-            textId: Int
-        ): BaseAppSheetDialogFragment {
-            return BaseAppSheetDialogFragment().putArgs {
-                putInt(PUT_TITLE_KEY, titleId)
-                putInt(PUT_BTN_OK_TEXT_KEY, btnOkTextId)
-                putInt(PUT_BTN_CANCEL_TEXT_KEY, btnCancelTextId)
-                putInt(PUT_TEXT_KEY, textId)
-            }
-        }
     }
 }

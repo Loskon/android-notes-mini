@@ -77,16 +77,16 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
         notifyDataSetChanged()
     }
 
+    fun setLinearList(hasLinearList: Boolean) {
+        this.linearListType = hasLinearList
+    }
+
     fun setOnItemClickListener(onItemClickListener: ((Note, Int) -> Unit)?) {
         this.onItemClickListener = onItemClickListener
     }
 
     fun setOnItemLongClickListener(onItemLongClickListener: ((Note, Int) -> Unit)?) {
         this.onItemLongClickListener = onItemLongClickListener
-    }
-
-    fun setLinearList(hasLinearList: Boolean) {
-        this.linearListType = hasLinearList
     }
 
     class NoteListViewHolder(val binding: ItemNoteNewBinding) : RecyclerView.ViewHolder(binding.root)

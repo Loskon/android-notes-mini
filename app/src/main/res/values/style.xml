@@ -157,12 +157,22 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
-    <!-- RoundedWrapContentDialogStyle -->
-    <style name="RoundedWrapContentDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog">
+    <!-- RoundedMatchDialogStyle -->
+    <style name="RoundedMatchDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="dialogCornerRadius">@dimen/app_corner_radius</item>
         <item name="android:background">?attr/colorDialogBackground</item>
+        <item name="dialogCornerRadius">@dimen/app_corner_radius</item>
+        <item name="windowMinWidthMajor">100%</item>
+        <item name="windowMinWidthMinor">100%</item>
+    </style>
+
+    <!-- RoundedWrapDialogStyle -->
+    <style name="RoundedWrapDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:background">?attr/colorDialogBackground</item>
+        <item name="dialogCornerRadius">@dimen/app_corner_radius</item>
         <item name="windowMinWidthMajor">0%</item>
         <item name="windowMinWidthMinor">0%</item>
     </style>

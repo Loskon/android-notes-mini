@@ -160,7 +160,7 @@
 
     <!-- Dialog -->
     <!-- dialog_trash -->
-    <string name="dg_trash_title">Empty trash?</string>
+    <string name="dg_trash_title">Clear trash?</string>
     <!-- dialog_delete_forever -->
     <string name="dg_delete_forever_title">Delete selected notes\n definitively?</string>
     <!-- dialog_unification -->

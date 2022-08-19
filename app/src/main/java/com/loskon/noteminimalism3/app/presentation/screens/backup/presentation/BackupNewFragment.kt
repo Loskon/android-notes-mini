@@ -17,7 +17,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListen
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
 import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.WaitingDialogFragment
-import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.ConfirmSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.AuthIntent
@@ -158,19 +158,19 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun showConfirmSheetDialog(isBackup: Boolean) {
-        BaseAppSheetDialogFragment.newInstance(
-            titleId = R.string.sheet_confirm_action,
-            btnOkTextId = R.string.continue_action,
-            btnCancelTextId = R.string.no
+        ConfirmSheetDialogFragment.newInstance(
+            titleStringId = R.string.sheet_confirm_action,
+            btnOkStringId = R.string.continue_action,
+            btnCancelStringId = R.string.no
         ).apply {
-            setOnClickBtnOk {
+            setBtnOkClickListener {
                 if (isBackup) {
                     checkingUserBeforeBackup()
                 } else {
                     checkingUserBeforeRestore()
                 }
             }
-        }.show(childFragmentManager, BaseAppSheetDialogFragment.TAG)
+        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
     }
 
     private fun checkingUserBeforeBackup() {
@@ -205,18 +205,18 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun showConfirmDeleteDialog() {
-        BaseAppSheetDialogFragment.newInstance(
-            titleId = R.string.sheet_deleting_data,
-            btnOkTextId = R.string.continue_action,
-            btnCancelTextId = android.R.string.cancel,
-            textId = R.string.sheet_deleting_data_message
+        ConfirmSheetDialogFragment.newInstance(
+            titleStringId = R.string.sheet_deleting_data,
+            btnOkStringId = R.string.continue_action,
+            btnCancelStringId = android.R.string.cancel,
+            messageStringId = R.string.sheet_deleting_data_message
         ).apply {
-            setOnClickBtnOk {
+            setBtnOkClickListener {
                 viewModel.setAuthIntent(AuthIntent.DELETE_ACCOUNT)
                 viewModel.deleteDatabaseFile()
                 viewModel.getIntentSenderForAuthContract(requireActivity())
             }
-        }.show(childFragmentManager, BaseAppSheetDialogFragment.TAG)
+        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
     }
 
     private fun showWaitingDialog() {

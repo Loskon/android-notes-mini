@@ -71,6 +71,10 @@ class NoteListInteractor(
         noteListRepository.cleanTrash()
     }
 
+    fun cleanTrash(day: Int) {
+        noteListRepository.cleanTrash(day)
+    }
+
     fun updateNotes(list: List<Note>) {
         noteListRepository.updateNotes(list)
     }

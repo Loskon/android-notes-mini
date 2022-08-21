@@ -2,90 +2,52 @@ package com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment
 
 import android.os.Bundle
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updatePadding
+import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.fragment.getDimen
 import com.loskon.noteminimalism3.app.base.extension.fragment.putArgs
-import com.loskon.noteminimalism3.app.base.extension.view.dp
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
-import com.loskon.noteminimalism3.databinding.BaseDialogBinding
-import com.loskon.noteminimalism3.sharedpref.AppPreference
-import com.loskon.noteminimalism3.utils.setVisibilityKtx
-import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-open class ConfirmSheetDialogFragment : BaseSheetDialogFragment() {
-
-    private val binding by viewBinding(BaseDialogBinding::inflate)
-    protected val color: Int get() = AppPreference.getColor(requireContext())
+open class ConfirmSheetDialogFragment : BaseAppSheetDialogFragment() {
 
     private val titleStringId: Int by lazy { arguments?.getInt(PUT_TITLE_STRING_ID_KEY) ?: 0 }
     private val btnOkStringId: Int by lazy { arguments?.getInt(PUT_BTN_OK_STRING_ID_KEY) ?: 0 }
     private val btnCancelStringId: Int by lazy { arguments?.getInt(PUT_BTN_CANCEL_STRING_ID_KEY) ?: 0 }
     private val messageStringId: Int by lazy { arguments?.getInt(PUT_MESSAGE_STRING_ID_KEY) ?: 0 }
 
-    private var btnOkClick: (() -> Unit)? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        establishBaseViewsColor()
         configureBaseViewsParameters()
         configureTextViewMessage()
-        setupBaseViewsListeners()
-    }
-
-    private fun establishBaseViewsColor() {
-        binding.btnBaseDialogOk.setBackgroundColor(color)
-        binding.btnBaseDialogCancel.setTextColor(color)
     }
 
     private fun configureBaseViewsParameters() {
-        if (titleStringId != 0) binding.tvBaseDialogTitle.text = getString(titleStringId)
-        if (btnOkStringId != 0) binding.btnBaseDialogOk.text = getString(btnOkStringId)
-        if (btnCancelStringId != 0) binding.btnBaseDialogCancel.text = getString(btnCancelStringId)
+        if (titleStringId != 0) setTitleDialog(titleStringId)
+        if (btnOkStringId != 0) setTextBtnOk(btnOkStringId)
+        if (btnCancelStringId != 0) setTextBtnCancel(btnCancelStringId)
     }
 
     private fun configureTextViewMessage() {
         if (messageStringId != 0) {
-            val textView = TextView(requireContext()).apply {
-                val width = ViewGroup.LayoutParams.MATCH_PARENT
-                val height = ViewGroup.LayoutParams.WRAP_CONTENT
+            addView(
+                TextView(requireContext()).apply {
+                    val width = ViewGroup.LayoutParams.MATCH_PARENT
+                    val height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    val dimen = getDimen(R.dimen.margin_medium)
+                    val textDimen = getDimen(R.dimen.text_size_medium)
 
-                gravity = Gravity.CENTER
-                setTextSizeKtx(16)
-                updatePadding(16.dp, 16.dp, 16.dp, 16.dp)
-                layoutParams = ViewGroup.LayoutParams(width, height)
-                text = getString(messageStringId)
-            }
-
-            binding.containerBaseDialog.addView(textView)
-            binding.containerBaseDialog.setVisibilityKtx(true)
+                    layoutParams = ViewGroup.LayoutParams(width, height)
+                    updatePadding(dimen, dimen, dimen, dimen)
+                    text = getString(messageStringId)
+                    setTextSizeKtx(textDimen)
+                    gravity = Gravity.CENTER
+                }
+            )
         }
-    }
-
-    private fun setupBaseViewsListeners() {
-        binding.btnBaseDialogOk.setDebounceClickListener {
-            btnOkClick?.invoke()
-            dismiss()
-        }
-        binding.btnBaseDialogCancel.setDebounceClickListener {
-            dismiss()
-        }
-    }
-
-    fun setBtnOkClickListener(btnOkClick: (() -> Unit)?) {
-        this.btnOkClick = btnOkClick
     }
 
     companion object {

@@ -10,6 +10,7 @@ interface NoteListRepository {
     fun updateNote(note: Note)
     fun deleteNotes(list: List<Note>)
     fun cleanTrash()
+    fun cleanTrash(day: Int)
     fun updateNotes(list: List<Note>)
     fun insertNote(note: Note)
 }

@@ -70,6 +70,10 @@ class NoteListViewModel(
         noteListInteractor.cleanTrash()
     }
 
+    fun cleanTrash(day: Int) {
+        noteListInteractor.cleanTrash(day)
+    }
+
     fun updateNotes(list: List<Note>) {
         noteListInteractor.updateNotes(list)
     }

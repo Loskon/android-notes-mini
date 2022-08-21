@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import androidx.appcompat.content.res.AppCompatResources
@@ -22,6 +23,10 @@ fun Context.getFontKtx(@FontRes fontId: Int): Typeface? {
 
 fun Context.getDrawableKtx(@DrawableRes drawableId: Int): Drawable? {
     return AppCompatResources.getDrawable(this, drawableId)
+}
+
+fun Context.getDimensKtx(@DimenRes dimenId: Int): Int {
+   return resources.getDimension(dimenId).toInt()
 }
 
 fun Context.getMaterialColorKtx(@AttrRes attrRes: Int): Int {

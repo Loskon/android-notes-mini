@@ -32,6 +32,10 @@ class NoteListRepositoryImpl(
         databaseAdapter.cleanTrash()
     }
 
+    override fun cleanTrash(day: Int) {
+        databaseAdapter.deleteByTime(day)
+    }
+
     override fun updateNotes(list: List<Note>) {
         databaseAdapter.updateAll(list)
     }

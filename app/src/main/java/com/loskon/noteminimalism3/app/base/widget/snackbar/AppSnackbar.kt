@@ -19,6 +19,7 @@ object AppSnackbar {
             setFont(view.context.getFontKtx(R.font.roboto_light))
             setTextColor(Color.WHITE)
             enableHideByClickSnackbar()
+            setOnDismissedListener { snackbar = null }
         }
 
         return snackbar

@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
 
@@ -15,25 +16,38 @@ class BaseCustomSnackbar {
 
     private var snackbar: Snackbar? = null
 
+    private var onDismissedListener: (() -> Unit)? = null
+    private var onShowListener: (() -> Unit)? = null
+
     fun make(view: View, message: String?, length: Int): BaseCustomSnackbar {
         snackbar = Snackbar.make(view, message ?: UNKNOWN_ERROR_MESSAGE, length)
+        setupSnackbarTransientListener()
         return this
     }
 
     fun make(context: Context, view: View, message: String?, length: Int): BaseCustomSnackbar {
         snackbar = Snackbar.make(context, view, message ?: UNKNOWN_ERROR_MESSAGE, length)
+        setupSnackbarTransientListener()
         return this
     }
 
     fun make(view: View, layout: View): BaseCustomSnackbar {
         snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
-        addCustomSnackbarView(layout)
+        (snackbar?.view as Snackbar.SnackbarLayout?)?.addView(layout)
+        setupSnackbarTransientListener()
         return this
     }
 
-    private fun addCustomSnackbarView(layout: View) {
-        val snackbarLayout = snackbar?.view as Snackbar.SnackbarLayout?
-        snackbarLayout?.addView(layout)
+    private fun setupSnackbarTransientListener() {
+        snackbar?.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            override fun onShown(transientBottomBar: Snackbar?) {
+                onShowListener?.invoke()
+            }
+
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                onDismissedListener?.invoke()
+            }
+        })
     }
 
     fun setAnchorView(anchorView: View): BaseCustomSnackbar {
@@ -70,6 +84,14 @@ class BaseCustomSnackbar {
 
     fun enableHideByClickSnackbar() {
         snackbar?.view?.setOnClickListener { dismiss() }
+    }
+
+    fun setOnShowListener(onShowListener: (() -> Unit)? = null) {
+        this.onShowListener = onShowListener
+    }
+
+    fun setOnDismissedListener(onDismissedListener: (() -> Unit)? = null) {
+        this.onDismissedListener = onDismissedListener
     }
 
     private fun getSnackbarTextView(): TextView? {

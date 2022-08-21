@@ -4,8 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema.NoteTable
+import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class DatabaseAdapterNew(context: Context) {
@@ -71,7 +71,7 @@ class DatabaseAdapterNew(context: Context) {
 
     fun deleteAll(list: List<Note>) {
         val idArray = list.map { it.id }.toTypedArray()
-        val ids = idArray.joinToString (separator = ",")
+        val ids = idArray.joinToString(separator = ",")
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + " IN (" + ids + ")", null)
     }
 
@@ -81,8 +81,8 @@ class DatabaseAdapterNew(context: Context) {
     }
 
     private fun getDelWhereClause(dayRange: Long): String {
-        return NoteTable.COLUMN_DEL_ITEMS + "=" + 1 + "and" +
-            Date().time + ">(" + NoteTable.COLUMN_DATE_DEL + "+" + dayRange + ")"
+        return NoteTable.COLUMN_DEL_ITEMS + " = " + 1 + " and " + LocalDateTime.now().toInstant(ZoneOffset.UTC)
+            .toEpochMilli() + " > (" + NoteTable.COLUMN_DATE_DEL + "+" + dayRange + ")"
     }
 
     private fun getContentValues(note: Note): ContentValues {

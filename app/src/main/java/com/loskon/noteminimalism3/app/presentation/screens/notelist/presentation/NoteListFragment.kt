@@ -39,6 +39,7 @@ import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDateTime
 
 @SuppressLint("NotifyDataSetChanged")
 class NoteListFragment : Fragment(R.layout.fragment_note_list) {
@@ -82,7 +83,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) viewModel.cleanTrash()
+        if (savedInstanceState == null) {
+            val range = AppPreference.getRetentionRange(requireContext())
+            viewModel.cleanTrash(range)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -258,11 +262,13 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun updateFavoriteMenuIcon(note: Note) {
-        val selectedCount = (notesAdapter.getItems().count { it.isChecked })
+        if (category != NoteListViewModel.CATEGORY_TRASH1) {
+            val selectedCount = (notesAdapter.getItems().count { it.isChecked })
 
-        if (selectedCount == 1) {
-            val drawableId = getFavoriteDrawableId(note.isFavorite)
-            binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_favorite, drawableId, color)
+            if (selectedCount == 1) {
+                val drawableId = getFavoriteDrawableId(note.isFavorite)
+                binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_favorite, drawableId, color)
+            }
         }
     }
 
@@ -272,9 +278,12 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
         with(binding) {
             incNoteList.tvCountItems.text = selectedCount.toString()
-            bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, selectedCount >= 2)
-            bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, selectedCount == 1)
             bottomBarNoteList.setMenuIconWithColor(R.id.action_select, drawableId, color)
+
+            if (category != NoteListViewModel.CATEGORY_TRASH1) {
+                bottomBarNoteList.setMenuItemVisibility(R.id.action_unification, selectedCount >= 2)
+                bottomBarNoteList.setMenuItemVisibility(R.id.action_favorite, selectedCount == 1)
+            }
         }
     }
 
@@ -295,6 +304,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         } else {
             note.isDeleted = true
             note.isFavorite = false
+            note.deletedDate = LocalDateTime.now()
             viewModel.updateNote(note)
         }
 

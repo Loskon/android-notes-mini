@@ -16,7 +16,8 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
     private val binding by viewBinding(BaseDialogBinding::inflate)
     protected val color: Int get() = AppPreference.getColor(requireContext())
 
-    private var btnOkOnClick: (() -> Unit)? = null
+    private var onOkClickListener: (() -> Unit)? = null
+    private var onCancelListener: (() -> Unit)? = null
 
     open val isNestedScrollingEnabled: Boolean = false
 
@@ -47,7 +48,7 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
 
     private fun setupBaseViewsListeners() {
         binding.btnBaseDialogOk.setDebounceClickListener {
-            btnOkOnClick?.invoke()
+            onOkClickListener?.invoke()
         }
         binding.btnBaseDialogCancel.setDebounceClickListener {
             dismiss()
@@ -75,13 +76,11 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
         binding.btnBaseDialogOk.setVisibilityKtx(isVisible)
     }
 
-    fun setOnClickBtnOk(btnOkOnClick: (() -> Unit)?) {
-        this.btnOkOnClick = btnOkOnClick
+    fun setBtnOkClickListener(btnOkOnClick: (() -> Unit)?) {
+        this.onOkClickListener = btnOkOnClick
     }
 
-    companion object {
-        const val TAG = "BaseAppSheetDialogFragmentNew"
-
-        fun newInstance() = BaseAppSheetDialogFragment()
+    fun setBtnCancelClickListener(onCancelListener: (() -> Unit)? = null) {
+        this.onCancelListener = onCancelListener
     }
 }

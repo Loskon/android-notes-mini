@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updatePadding
+import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.fragment.getDimen
 import com.loskon.noteminimalism3.app.base.extension.fragment.putArgs
-import com.loskon.noteminimalism3.app.base.extension.view.dp
 import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 
 open class ConfirmDialogFragment : BaseAppDialogFragment() {
@@ -32,18 +33,20 @@ open class ConfirmDialogFragment : BaseAppDialogFragment() {
 
     private fun configureTextViewMessage() {
         if (messageStringId != 0) {
-            val textView = TextView(requireContext()).apply {
-                val width = ViewGroup.LayoutParams.MATCH_PARENT
-                val height = ViewGroup.LayoutParams.WRAP_CONTENT
+            addView(
+                TextView(requireContext()).apply {
+                    val width = ViewGroup.LayoutParams.MATCH_PARENT
+                    val height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    val dimen = getDimen(R.dimen.margin_medium)
+                    val textDimen = getDimen(R.dimen.text_size_medium)
 
-                setTextSizeKtx(16)
-                updatePadding(16.dp, 16.dp, 16.dp, 16.dp)
-                layoutParams = ViewGroup.LayoutParams(width, height)
-                text = getString(messageStringId)
-                gravity = Gravity.CENTER
-            }
-
-            addView(textView)
+                    layoutParams = ViewGroup.LayoutParams(width, height)
+                    updatePadding(dimen, dimen, dimen, dimen)
+                    text = getString(messageStringId)
+                    setTextSizeKtx(textDimen)
+                    gravity = Gravity.CENTER
+                }
+            )
         }
     }
 

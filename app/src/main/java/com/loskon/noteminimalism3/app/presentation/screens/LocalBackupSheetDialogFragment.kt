@@ -52,7 +52,7 @@ class LocalBackupSheetDialogFragment : BaseAppSheetDialogFragment() {
 
     private fun setupViewsListeners() {
         binding.inputEditTextBackup.doOnTextChanged { _, _, _, _ -> run { disableErrorNotification() } }
-        setOnClickBtnOk { onOkBtnClick() }
+        setBtnOkClickListener { onOkBtnClick() }
     }
 
     private fun disableErrorNotification() {

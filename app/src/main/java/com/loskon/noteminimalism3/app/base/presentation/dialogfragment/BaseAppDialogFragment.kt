@@ -16,8 +16,8 @@ open class BaseAppDialogFragment : BaseDialogFragmentNew() {
     private val binding by viewBinding(BaseDialogBinding::inflate)
     protected val color: Int get() = AppPreference.getColor(requireContext())
 
-    private var onItemClickListener: (() -> Unit)? = null
-    private var onItemLongClickListener: (() -> Unit)? = null
+    private var onOkClickListener: (() -> Unit)? = null
+    private var onCancelListener: (() -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,11 +46,11 @@ open class BaseAppDialogFragment : BaseDialogFragmentNew() {
 
     private fun setupBaseViewListener() {
         binding.btnBaseDialogOk.setDebounceClickListener {
-            onItemClickListener?.invoke()
+            onOkClickListener?.invoke()
             dismiss()
         }
         binding.btnBaseDialogCancel.setDebounceClickListener {
-            onItemLongClickListener?.invoke()
+            onCancelListener?.invoke()
             dismiss()
         }
     }
@@ -84,11 +84,11 @@ open class BaseAppDialogFragment : BaseDialogFragmentNew() {
         binding.btnBaseDialogCancel.setVisibilityKtx(isVisible)
     }
 
-    fun setBtnOkClickListener(onItemClickListener: (() -> Unit)? = null) {
-        this.onItemClickListener = onItemClickListener
+    fun setBtnOkClickListener(onOkClickListener: (() -> Unit)? = null) {
+        this.onOkClickListener = onOkClickListener
     }
 
-    fun setBtnCancelClickListener(onItemLongClickListener: (() -> Unit)? = null) {
-        this.onItemLongClickListener = onItemLongClickListener
+    fun setBtnCancelClickListener(onCancelListener: (() -> Unit)? = null) {
+        this.onCancelListener = onCancelListener
     }
 }

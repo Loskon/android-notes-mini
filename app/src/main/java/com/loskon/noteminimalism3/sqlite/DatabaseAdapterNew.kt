@@ -95,23 +95,4 @@ class DatabaseAdapterNew(context: Context) {
             put(NoteTable.COLUMN_DEL_ITEMS, note.isDeleted)
         }
     }
-
-    //----------------------------------------------------------------------------------------------
-    companion object {
-        const val CATEGORY_ALL_NOTES = "category_all_notes"
-        const val CATEGORY_FAVORITES = "category_favorites"
-        const val CATEGORY_TRASH = "category_trash"
-
-        private var INSTANCE: DatabaseAdapterNew? = null
-
-        fun initDataBase(context: Context, rangeInDays: Int = 2) {
-            if (INSTANCE == null) {
-                INSTANCE = DatabaseAdapterNew(context).also { it.deleteByTime(rangeInDays) }
-            }
-        }
-
-        fun getInstance(): DatabaseAdapterNew {
-            return INSTANCE ?: throw Exception("Database must be initialized")
-        }
-    }
 }

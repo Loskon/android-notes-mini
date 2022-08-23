@@ -9,10 +9,10 @@ import com.loskon.noteminimalism3.app.base.extension.context.getFontKtx
 
 object AppSnackbar {
 
-    private var snackbar: BaseCustomSnackbar? = null
+    private var snackbar: BaseSnackbar? = null
 
-    fun make(view: View, message: String, success: Boolean, anchorView: View? = null): BaseCustomSnackbar? {
-        snackbar = BaseCustomSnackbar().create {
+    fun make(view: View, message: String, success: Boolean, anchorView: View? = null): BaseSnackbar? {
+        snackbar = BaseSnackbar().create {
             make(view, message, Snackbar.LENGTH_LONG)
             if (anchorView != null) setAnchorView(anchorView)
             setBackgroundTintList(view.context.getColorKtx(getSuccessColor(success)))
@@ -32,6 +32,4 @@ object AppSnackbar {
             R.color.error_color
         }
     }
-
-    fun dismiss() = snackbar?.dismiss()
 }

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.app.base.widget.snackbar.BaseCustomSnackbar
+import com.loskon.noteminimalism3.app.base.widget.snackbar.BaseSnackbar
 import com.loskon.noteminimalism3.databinding.SnackbarUndoBinding
 import com.loskon.noteminimalism3.model.Note
 
@@ -19,7 +19,7 @@ class NoteListUndoSnackbar(
 ) {
 
     private val binding = SnackbarUndoBinding.inflate(LayoutInflater.from(context))
-    private val snackbar = BaseCustomSnackbar().make(view, binding.root).setAnchorView(anchorView)
+    private val snackbar = BaseSnackbar().make(view, binding.root).setAnchorView(anchorView)
 
     private var countDownTimer: CountDownTimer? = null
     private var anim: ObjectAnimator? = null

@@ -12,26 +12,26 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
 
 @Suppress("unused")
-class BaseCustomSnackbar {
+class BaseSnackbar {
 
     private var snackbar: Snackbar? = null
 
     private var onDismissedListener: (() -> Unit)? = null
     private var onShowListener: (() -> Unit)? = null
 
-    fun make(view: View, message: String?, length: Int): BaseCustomSnackbar {
+    fun make(view: View, message: String?, length: Int): BaseSnackbar {
         snackbar = Snackbar.make(view, message ?: UNKNOWN_ERROR_MESSAGE, length)
         setupSnackbarTransientListener()
         return this
     }
 
-    fun make(context: Context, view: View, message: String?, length: Int): BaseCustomSnackbar {
+    fun make(context: Context, view: View, message: String?, length: Int): BaseSnackbar {
         snackbar = Snackbar.make(context, view, message ?: UNKNOWN_ERROR_MESSAGE, length)
         setupSnackbarTransientListener()
         return this
     }
 
-    fun make(view: View, layout: View): BaseCustomSnackbar {
+    fun make(view: View, layout: View): BaseSnackbar {
         snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
         (snackbar?.view as Snackbar.SnackbarLayout?)?.addView(layout)
         setupSnackbarTransientListener()
@@ -50,7 +50,7 @@ class BaseCustomSnackbar {
         })
     }
 
-    fun setAnchorView(anchorView: View): BaseCustomSnackbar {
+    fun setAnchorView(anchorView: View): BaseSnackbar {
         snackbar?.anchorView = anchorView
         return this
     }
@@ -110,12 +110,15 @@ class BaseCustomSnackbar {
 
     private fun Int.toPx(): Int = (this * getSystem().displayMetrics.density).toInt()
 
-    inline fun create(functions: BaseCustomSnackbar.() -> Unit): BaseCustomSnackbar {
+    inline fun create(functions: BaseSnackbar.() -> Unit): BaseSnackbar {
         this.functions()
         return this
     }
 
-    fun show() = snackbar?.show()
+    fun show(): BaseSnackbar {
+        snackbar?.show()
+        return this
+    }
 
     fun dismiss() = snackbar?.dismiss()
 

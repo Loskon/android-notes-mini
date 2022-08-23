@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentatio
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.app.base.datetime.formatString
 import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColorKtx
@@ -13,8 +14,10 @@ import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.databinding.ItemNoteNewBinding
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.ui.recyclerview.notes.NoteDiffUtil
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
+@SuppressLint("NotifyDataSetChanged")
 class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>() {
 
     private var list: List<Note> = emptyList()
@@ -71,10 +74,16 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
     fun getNote(position: Int): Note = list[position]
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateNoteList(list: List<Note>) {
+    fun setQuicklyNoteList(list: List<Note>) {
         this.list = list
         notifyDataSetChanged()
+    }
+
+    fun setNoteList(list: List<Note>) {
+        val diffUtil = NoteDiffUtil(this.list, list)
+        val diffResult = DiffUtil.calculateDiff(diffUtil, false)
+        this.list = list
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun setLinearList(hasLinearList: Boolean) {

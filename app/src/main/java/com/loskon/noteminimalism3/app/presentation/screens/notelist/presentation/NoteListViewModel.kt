@@ -12,11 +12,11 @@ class NoteListViewModel(
     private val noteListInteractor: NoteListInteractor
 ) : BaseViewModel() {
 
-    private val noteListState = MutableStateFlow(emptyList<Note>())
+    private val noteListUiState = MutableStateFlow(NoteListUiState())
     private val noteListCategoryState = MutableStateFlow(CATEGORY_ALL_NOTES1)
     private val noteListSearchState = MutableStateFlow(false)
     private val noteListSelectionState = MutableStateFlow(false)
-    val getNoteListState get() = noteListState.asStateFlow()
+    val getNoteListUiState get() = noteListUiState.asStateFlow()
     val getNoteListCategoryState get() = noteListCategoryState.asStateFlow()
     val getNoteListSearchState get() = noteListSearchState.asStateFlow()
     val getNoteListSelectionState get() = noteListSelectionState.asStateFlow()
@@ -24,12 +24,20 @@ class NoteListViewModel(
     private var sortWay: Int? = null
     private var job: Job? = null
 
-    fun getNotes() {
+    fun getNotes(scrollTop: Boolean, quicklyListUpdate: Boolean) {
         launchErrorJob {
             val category = noteListCategoryState.value
             val sort = sortWay ?: 0
 
-            noteListInteractor.getNotes(category, sort).collectLatest { notes -> noteListState.emit(notes) }
+            noteListInteractor.getNotes(category, sort).collectLatest { notes ->
+                noteListUiState.emit(
+                    NoteListUiState(
+                        notes = notes,
+                        scrollTop = scrollTop,
+                        quicklyListUpdate = quicklyListUpdate
+                    )
+                )
+            }
         }
     }
 

@@ -154,7 +154,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun showSnackbar(stringId: Int, success: Boolean) {
-        AppSnackbar.make(requireView(), getString(stringId), success, binding.bottomBarBackup)?.show()
+        AppSnackbar.make(binding.root, getString(stringId), success, binding.bottomBarBackup)?.show()
     }
 
     private fun showConfirmSheetDialog(isBackup: Boolean) {

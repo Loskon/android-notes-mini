@@ -13,6 +13,7 @@ import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.fragment.getDrawable
 import com.loskon.noteminimalism3.app.base.extension.fragment.setOnBackPressedListener
 import com.loskon.noteminimalism3.app.base.extension.view.hide
+import com.loskon.noteminimalism3.app.base.extension.view.scrollToTop
 import com.loskon.noteminimalism3.app.base.extension.view.setAllItemsColor
 import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColorKtx
@@ -31,11 +32,13 @@ import com.loskon.noteminimalism3.app.base.extension.view.show
 import com.loskon.noteminimalism3.app.base.extension.view.showKeyboard
 import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.ConfirmDialogFragment
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.ConfirmSheetDialogFragment
-import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
+import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
+import com.loskon.noteminimalism3.app.base.widget.snackbar.BaseSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.CategorySheetDialogFragment
 import com.loskon.noteminimalism3.databinding.FragmentNoteListBinding
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,13 +53,14 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     private val notesAdapter = NoteListAdapter()
     private val swipeCallback = NoteListSwipeCallback()
 
+    private var undoSnackbar: NoteListUndoSnackbar? = null
+    private var snackbar: BaseSnackbar? = null
+
     private var color: Int = 0
 
     private val category: String get() = viewModel.getNoteListCategoryState.value
     private val hasActiveSelectionMode: Boolean get() = viewModel.getNoteListSelectionState.value
     private val hasActiveSearchMode: Boolean get() = viewModel.getNoteListSearchState.value
-
-    private var undoSnackbar: NoteListUndoSnackbar? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -104,7 +108,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         val sortWay = AppPreference.getSortingWay(requireContext())
 
         viewModel.setSortWay(sortWay)
-        viewModel.getNotes()
+        viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
     }
 
     private fun establishViewsColor() {
@@ -124,7 +128,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         with(binding.incNoteList.recyclerViewMain) {
             ItemTouchHelper(swipeCallback).attachToRecyclerView(this)
             configureListTypeViewsParameters(linearListType, false)
-            itemAnimator = AddAnimationItemAnimator()
+            itemAnimator = AppItemAnimator()
             adapter = notesAdapter
         }
     }
@@ -148,9 +152,16 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun installObservers() {
-        viewModel.getNoteListState.observe(viewLifecycleOwner) { notes ->
-            binding.tvEmptyNoteList.isVisible = notes.isEmpty()
-            notesAdapter.updateNoteList(notes)
+        viewModel.getNoteListUiState.observe(viewLifecycleOwner) { uiState ->
+            binding.tvEmptyNoteList.isVisible = uiState.notes.isEmpty()
+
+            if (uiState.quicklyListUpdate || hasActiveSearchMode) {
+                notesAdapter.setQuicklyNoteList(uiState.notes)
+            } else {
+                notesAdapter.setNoteList(uiState.notes)
+            }
+
+            if (uiState.scrollTop) binding.incNoteList.recyclerViewMain.scrollToTop()
         }
         viewModel.getNoteListCategoryState.observe(viewLifecycleOwner) { category ->
             val drawableId = getFabDrawableId(category)
@@ -308,7 +319,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             viewModel.updateNote(note)
         }
 
-        viewModel.getNotes()
+        viewModel.getNotes(scrollTop = false, quicklyListUpdate = false)
         undoSnackbar?.show(note, isFavorite, category)
     }
 
@@ -322,7 +333,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             viewModel.updateNote(note)
         }
 
-        viewModel.getNotes()
+        viewModel.getNotes(scrollTop = false, quicklyListUpdate = false)
     }
 
     private fun handleFabClick() {
@@ -335,7 +346,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
                 viewModel.updateNotes(deletedNotes)
                 viewModel.toggleSelectionMode(false)
-                viewModel.getNotes()
+                viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
             }
         } else if (hasActiveSearchMode) {
             viewModel.toggleSearchMode(false)
@@ -350,7 +361,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun handleNavigationClick() {
-        undoSnackbar?.dismiss()
+        dismissSnackbars()
         if (hasActiveSelectionMode.not()) {
             showCategorySheetDialogFragment()
         } else {
@@ -360,13 +371,13 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun handleListTypeClick() {
-        undoSnackbar?.dismiss()
+        dismissSnackbars()
         val linearListType = AppPreference.getLinearListType(requireContext()).not()
         configureListTypeViewsParameters(linearListType, true)
     }
 
     private fun handleSearchClick() {
-        undoSnackbar?.dismiss()
+        dismissSnackbars()
         viewModel.toggleSearchMode(true)
     }
 
@@ -412,9 +423,9 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     private fun showCategorySheetDialogFragment() {
         CategorySheetDialogFragment.newInstance(category).apply {
             setOnCategorySelectListener { category ->
-                undoSnackbar?.dismiss()
+                dismissSnackbars()
                 viewModel.setCategory(category)
-                viewModel.getNotes()
+                viewModel.getNotes(scrollTop = true, quicklyListUpdate = true)
             }
             setOnSettingsClickListener {
                 val action = NoteListFragmentDirections.actionOpenSettingsFragment()
@@ -428,12 +439,14 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             setOnDeleteClickListener {
                 unification(deleteCombinedNotes = true)
                 viewModel.toggleSelectionMode(false)
-                viewModel.getNotes()
+                viewModel.getNotes(scrollTop = true, quicklyListUpdate = true)
+                showSnackbar(getString(R.string.sb_combined_note_added), true)
             }
             setOnLeaveClickListener {
                 unification(deleteCombinedNotes = false)
                 viewModel.toggleSelectionMode(false)
-                viewModel.getNotes()
+                viewModel.getNotes(scrollTop = true, quicklyListUpdate = true)
+                showSnackbar(getString(R.string.sb_combined_note_added), true)
             }
         }.show(childFragmentManager, NoteListUnificationSheetDialog.TAG)
     }
@@ -477,7 +490,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
                 viewModel.deleteNotes(checkedNotes)
                 viewModel.toggleSelectionMode(false)
-                viewModel.getNotes()
+                viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
             }
         }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
     }
@@ -489,14 +502,27 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             btnCancelStringId = R.string.no
         ).apply {
             setBtnOkClickListener {
-                viewModel.cleanTrash()
-                viewModel.getNotes()
+                if (notesAdapter.itemCount != 0) {
+                    viewModel.cleanTrash()
+                    viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
+                } else {
+                    showSnackbar(getString(R.string.sb_but_empty_trash), false)
+                }
             }
         }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
     }
 
+    fun showSnackbar(message: String, success: Boolean) {
+        snackbar = AppSnackbar.make(binding.root, message, success, binding.fabNoteList)?.show()
+    }
+
+    private fun dismissSnackbars() {
+        undoSnackbar?.dismiss()
+        snackbar?.dismiss()
+    }
+
     override fun onPause() {
         super.onPause()
-        undoSnackbar?.dismiss()
+        dismissSnackbars()
     }
 }

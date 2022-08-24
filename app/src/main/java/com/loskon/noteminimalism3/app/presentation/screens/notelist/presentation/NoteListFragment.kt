@@ -258,7 +258,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun handleClickNote(note: Note, position: Int) {
         if (hasActiveSelectionMode.not()) {
-            val action = NoteListFragmentDirections.actionOpenNoteFragment()
+            val action = NoteListFragmentDirections.actionOpenNoteFragment(note.id)
             findNavController().navigate(action)
         } else {
             selectNote(note, position)
@@ -354,7 +354,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             if (category == NoteListViewModel.CATEGORY_TRASH1) {
                 showConfirmCleanTrash()
             } else {
-                val action = NoteListFragmentDirections.actionOpenNoteFragment()
+                val action = NoteListFragmentDirections.actionOpenNoteFragment(0)
                 findNavController().navigate(action)
             }
         }

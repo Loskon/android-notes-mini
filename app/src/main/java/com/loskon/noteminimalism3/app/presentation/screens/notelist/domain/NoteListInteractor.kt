@@ -1,8 +1,6 @@
 package com.loskon.noteminimalism3.app.presentation.screens.notelist.domain
 
-import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListViewModel.Companion.CATEGORY_ALL_NOTES1
-import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListViewModel.Companion.CATEGORY_FAVORITES1
-import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListViewModel.Companion.CATEGORY_TRASH1
+import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListViewModel
 import com.loskon.noteminimalism3.model.Note
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +13,7 @@ class NoteListInteractor(
 
     private val searchFlow = MutableStateFlow<String?>(null)
 
-    suspend fun getNotes(category: String, sort: Int): Flow<List<Note>> {
+    suspend fun getNotes(category: String, sort: Int?): Flow<List<Note>> {
         return combine(
             noteListRepository.getNotesAsFlow(),
             searchFlow
@@ -32,18 +30,18 @@ class NoteListInteractor(
 
     private fun filterByCategory(note: Note, category: String?): Boolean {
         return when (category) {
-            CATEGORY_ALL_NOTES1 -> note.isDeleted.not()
-            CATEGORY_FAVORITES1 -> note.isFavorite
-            CATEGORY_TRASH1 -> note.isDeleted
+            NoteListViewModel.CATEGORY_ALL_NOTES1 -> note.isDeleted.not()
+            NoteListViewModel.CATEGORY_FAVORITES1 -> note.isFavorite
+            NoteListViewModel.CATEGORY_TRASH1 -> note.isDeleted
             else -> note.isDeleted.not()
         }
     }
 
-    private fun sortedByDate(note: Note, category: String?, sort: Int): LocalDateTime {
-        return if (category == CATEGORY_TRASH1) {
+    private fun sortedByDate(note: Note, category: String?, sort: Int?): LocalDateTime {
+        return if (category == NoteListViewModel.CATEGORY_TRASH1) {
             note.deletedDate
         } else {
-            if (sort == 1) {
+            if (sort == SORT_BY_MODIFIED_DATE) {
                 note.modifiedDate
             } else {
                 note.createdDate
@@ -51,8 +49,8 @@ class NoteListInteractor(
         }
     }
 
-    suspend fun searchNotes(query: String?) {
-        searchFlow.emit(query)
+    fun searchNotes(query: String?) {
+        searchFlow.tryEmit(query)
     }
 
     fun deleteNote(note: Note) {
@@ -81,5 +79,10 @@ class NoteListInteractor(
 
     fun insertNote(note: Note) {
         noteListRepository.insertNote(note)
+    }
+
+    companion object {
+        // TODO
+        private const val SORT_BY_MODIFIED_DATE = 1
     }
 }

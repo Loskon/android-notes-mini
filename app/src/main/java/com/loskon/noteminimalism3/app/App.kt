@@ -4,6 +4,7 @@ import android.app.Application
 import com.loskon.noteminimalism3.BuildConfig
 import com.loskon.noteminimalism3.app.presentation.screens.backup.backupModule
 import com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.backupFileListModule
+import com.loskon.noteminimalism3.app.presentation.screens.note.noteModule
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.noteListModule
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.ColorUtil
@@ -25,7 +26,7 @@ class App : Application() {
             androidContext(application)
             modules(
                 listOf(
-                    noteListModule, backupModule, backupFileListModule
+                    noteListModule, noteModule, backupModule, backupFileListModule
                 )
             )
         }

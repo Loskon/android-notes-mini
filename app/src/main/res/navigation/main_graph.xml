@@ -60,9 +60,14 @@
         android:id="@+id/restoreListSheetDialogFragment"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.presentation.BackupFileListSheetDialogFragment"
         android:label="RestoreListSheetDialogFragment" />
+
     <fragment
         android:id="@+id/noteFragmentNew"
         android:name="com.loskon.noteminimalism3.app.presentation.screens.note.NoteFragmentNew"
-        android:label="NoteFragmentNew" />
+        android:label="NoteFragmentNew">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

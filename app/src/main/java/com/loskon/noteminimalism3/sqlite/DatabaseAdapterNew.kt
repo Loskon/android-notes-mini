@@ -39,6 +39,27 @@ class DatabaseAdapterNew(context: Context) {
         )
     }
 
+    fun getNote(id: Long): Note {
+        getNoteCursorWrapper2(NoteTable.COLUMN_ID + "=?", arrayOf(id.toString())).use { cursor ->
+            cursor.moveToFirst()
+            return cursor.getNotes()
+        }
+    }
+
+    private fun getNoteCursorWrapper2(s: String, arrayOf: Array<String>): NoteCursorWrapper {
+        return NoteCursorWrapper(
+            database.query(
+                NoteTable.NAME_TABLE,
+                null,
+                s,
+                arrayOf,
+                null,
+                null,
+                null
+            )
+        )
+    }
+
     fun insert(note: Note) {
         database.insert(NoteTable.NAME_TABLE, null, getContentValues(note))
     }

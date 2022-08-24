@@ -3,7 +3,6 @@ package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentatio
 import com.loskon.noteminimalism3.app.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.domain.NoteListInteractor
 import com.loskon.noteminimalism3.model.Note
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -22,14 +21,14 @@ class NoteListViewModel(
     val getNoteListSelectionState get() = noteListSelectionState.asStateFlow()
 
     private var sortWay: Int? = null
-    private var job: Job? = null
+
+    fun setSortWay(sortWay: Int) {
+        this.sortWay = sortWay
+    }
 
     fun getNotes(scrollTop: Boolean, quicklyListUpdate: Boolean) {
         launchErrorJob {
-            val category = noteListCategoryState.value
-            val sort = sortWay ?: 0
-
-            noteListInteractor.getNotes(category, sort).collectLatest { notes ->
+            noteListInteractor.getNotes(noteListCategoryState.value, sortWay).collectLatest { notes ->
                 noteListUiState.emit(
                     NoteListUiState(
                         notes = notes,
@@ -42,12 +41,7 @@ class NoteListViewModel(
     }
 
     fun searchNotes(query: String?) {
-        job?.cancel()
-        job = launchErrorJob { noteListInteractor.searchNotes(query) }
-    }
-
-    fun setSortWay(sortWay: Int) {
-        this.sortWay = sortWay
+        noteListInteractor.searchNotes(query)
     }
 
     fun toggleSearchMode(activateSearchMode: Boolean) {

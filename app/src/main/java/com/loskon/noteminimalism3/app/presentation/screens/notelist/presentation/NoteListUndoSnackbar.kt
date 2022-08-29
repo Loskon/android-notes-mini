@@ -41,7 +41,7 @@ class NoteListUndoSnackbar(
         countDownTimer = object : CountDownTimer(5300, 100) {
             override fun onTick(leftTimeInMilliseconds: Long) {
                 val seconds = leftTimeInMilliseconds / 1000
-                binding.tvSnackbarUndoProgress.text = seconds.toString()
+                binding.tvProgressSnackbarUndo.text = seconds.toString()
             }
 
             override fun onFinish() {
@@ -52,12 +52,9 @@ class NoteListUndoSnackbar(
 
     fun show(note: Note, isFavorite: Boolean, category: String) {
         val stringId = getMessageStringId(category)
-        binding.tvSnackbarUndoText.text = context.getString(stringId)
 
-        binding.btnSnackbarUndo.setDebounceClickListener {
-            onCancelClickListener?.invoke(note, isFavorite)
-            dismiss()
-        }
+        binding.tvProgressSnackbarUndo.text = context.getString(stringId)
+        binding.btnUndo.setDebounceClickListener { handleUndoClick(note, isFavorite) }
 
         anim?.cancel()
         countDownTimer?.cancel()
@@ -68,15 +65,20 @@ class NoteListUndoSnackbar(
         snackbar.show()
     }
 
+    private fun handleUndoClick(note: Note, isFavorite: Boolean) {
+        onCancelClickListener?.invoke(note, isFavorite)
+        dismiss()
+    }
+
     private fun getMessageStringId(category: String): Int {
-       return if (category == NoteListViewModel.CATEGORY_TRASH1) {
+        return if (category == NoteListViewModel.CATEGORY_TRASH1) {
             R.string.sb_undo_note_deleted
         } else {
             R.string.sb_undo_note_added_trash
         }
     }
 
-    fun setOnCancelClickListener(onCancelClickListener: ((Note, Boolean) -> Unit)?) {
+    fun setOnUndoClickListener(onCancelClickListener: ((Note, Boolean) -> Unit)?) {
         this.onCancelClickListener = onCancelClickListener
     }
 

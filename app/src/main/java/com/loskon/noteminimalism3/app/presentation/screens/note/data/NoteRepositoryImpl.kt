@@ -1,5 +1,6 @@
-package com.loskon.noteminimalism3.app.presentation.screens.note
+package com.loskon.noteminimalism3.app.presentation.screens.note.data
 
+import com.loskon.noteminimalism3.app.presentation.screens.note.domain.NoteRepository
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.DatabaseAdapterNew
 import kotlinx.coroutines.flow.Flow
@@ -16,15 +17,18 @@ class NoteRepositoryImpl(
     }
 
     override fun insertNote(note: Note) {
-        TODO("Not yet implemented")
+        databaseAdapter.insert(note)
     }
 
     override fun updateNote(note: Note) {
-        TODO("Not yet implemented")
+        databaseAdapter.update(note)
     }
 
     override fun deleteNote(note: Note) {
-        TODO("Not yet implemented")
+        databaseAdapter.delete(note)
     }
 
+    override fun insertGetId(note: Note): Long {
+        return databaseAdapter.insertGetId(note)
+    }
 }

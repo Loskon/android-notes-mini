@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_snackbar_undo_progress"
+        android:id="@+id/tv_progress_snackbar_undo"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
@@ -41,19 +41,19 @@
         tools:ignore="HardcodedText,RtlSymmetry" />
 
     <TextView
-        android:id="@+id/tv_snackbar_undo_text"
+        android:id="@+id/tv_text_snackbar_undo"
         style="@style/TextViewSnackStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/sb_undo_note_added_trash"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_snackbar_undo"
+        app:layout_constraintEnd_toStartOf="@+id/btn_undo"
         app:layout_constraintStart_toEndOf="@+id/progress_bar_snackbar_undo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_snackbar_undo"
+        android:id="@+id/btn_undo"
         style="@style/ButtonSnackStyle"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -61,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_snackbar_undo_text"
+        app:layout_constraintStart_toEndOf="@+id/tv_text_snackbar_undo"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 

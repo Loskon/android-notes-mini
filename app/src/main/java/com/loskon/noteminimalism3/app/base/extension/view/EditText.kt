@@ -18,3 +18,7 @@ fun EditText.setFilterKtx(
         arrayOf(characterFilter, lengthFilter)
     }
 }
+
+fun EditText.setEndSelection() {
+    setSelection(text.toString().length)
+}

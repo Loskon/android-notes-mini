@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens.note
+package com.loskon.noteminimalism3.app.presentation.screens.note.domain
 
 import com.loskon.noteminimalism3.model.Note
 import kotlinx.coroutines.flow.Flow
@@ -10,4 +10,5 @@ interface NoteRepository {
     fun insertNote(note: Note)
     fun updateNote(note: Note)
     fun deleteNote(note: Note)
+    fun insertGetId(note: Note): Long
 }

@@ -72,7 +72,7 @@ class DatabaseAdapterNew(context: Context) {
         database.delete(NoteTable.NAME_TABLE, NoteTable.COLUMN_ID + " = " + note.id, null)
     }
 
-    fun insertWithIdReturn(note: Note): Long {
+    fun insertGetId(note: Note): Long {
         return database.insert(NoteTable.NAME_TABLE, null, getContentValues(note))
     }
 

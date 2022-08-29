@@ -65,6 +65,12 @@ fun View.setEnabledNestedView(enabled: Boolean) {
     }
 }
 
+fun View.setFocus() {
+    isFocusable = true
+    isFocusableInTouchMode = true
+    requestFocus()
+}
+
 val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).roundToInt()
 
 val Float.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).roundToInt()

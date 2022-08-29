@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.app
 
 import android.app.Application
 import com.loskon.noteminimalism3.BuildConfig
+import com.loskon.noteminimalism3.app.presentation.appModule
 import com.loskon.noteminimalism3.app.presentation.screens.backup.backupModule
 import com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.backupFileListModule
 import com.loskon.noteminimalism3.app.presentation.screens.note.noteModule
@@ -26,7 +27,9 @@ class App : Application() {
             androidContext(application)
             modules(
                 listOf(
-                    noteListModule, noteModule, backupModule, backupFileListModule
+                    appModule, noteListModule,
+                    noteModule, backupModule,
+                    backupFileListModule
                 )
             )
         }

@@ -34,7 +34,6 @@ import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.ConfirmDi
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.ConfirmSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.base.widget.snackbar.BaseSnackbar
-import com.loskon.noteminimalism3.app.presentation.screens.CategorySheetDialogFragment
 import com.loskon.noteminimalism3.databinding.FragmentNoteListBinding
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -243,10 +242,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun setupViewsListeners() {
         binding.incNoteList.searchView.setShortQueryTextListener { query -> viewModel.searchNotes(query) }
-        notesAdapter.setOnItemClickListener { note, position -> handleClickNote(note, position) }
-        notesAdapter.setOnItemLongClickListener { note, position -> handleLongClickNote(note, position) }
-        swipeCallback.setOnItemSwipeListener { position -> handleSwipeNote(position) }
-        undoSnackbar?.setOnCancelClickListener { note, isFavorite -> handleUndoNote(note, isFavorite) }
+        notesAdapter.setOnItemClickListener { note, position -> handleNoteClick(note, position) }
+        notesAdapter.setOnItemLongClickListener { note, position -> handleNoteLongClick(note, position) }
+        swipeCallback.setOnItemSwipeListener { position -> handleNoteSwipe(position) }
+        undoSnackbar?.setOnUndoClickListener { note, isFavorite -> handleNoteUndoClick(note, isFavorite) }
         binding.fabNoteList.setDebounceClickListener { handleFabClick() }
         binding.bottomBarNoteList.setDebounceNavigationClickListener { handleNavigationClick() }
         binding.bottomBarNoteList.setOnMenuItemClickListener(R.id.action_list_type) { handleListTypeClick() }
@@ -256,7 +255,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         binding.bottomBarNoteList.setOnMenuItemClickListener(R.id.action_favorite) { handleFavoriteClick() }
     }
 
-    private fun handleClickNote(note: Note, position: Int) {
+    private fun handleNoteClick(note: Note, position: Int) {
         if (hasActiveSelectionMode.not()) {
             val action = NoteListFragmentDirections.actionOpenNoteFragment(note.id)
             findNavController().navigate(action)
@@ -298,7 +297,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
     }
 
-    private fun handleLongClickNote(note: Note, position: Int) {
+    private fun handleNoteLongClick(note: Note, position: Int) {
         if (hasActiveSelectionMode.not()) viewModel.toggleSelectionMode(true)
 
         selectNote(note, position)
@@ -306,7 +305,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         changeViewsForSelectedNote()
     }
 
-    private fun handleSwipeNote(position: Int) {
+    private fun handleNoteSwipe(position: Int) {
         val note = notesAdapter.getNote(position)
         val isFavorite = note.isFavorite
 
@@ -323,7 +322,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         undoSnackbar?.show(note, isFavorite, category)
     }
 
-    private fun handleUndoNote(note: Note, isFavorite: Boolean) {
+    private fun handleNoteUndoClick(note: Note, isFavorite: Boolean) {
         note.isDeleted = false
         note.isFavorite = isFavorite
 
@@ -421,7 +420,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun showCategorySheetDialogFragment() {
-        CategorySheetDialogFragment.newInstance(category).apply {
+        NoteListCategorySheetDialogFragment.newInstance(category).apply {
             setOnCategorySelectListener { category ->
                 dismissSnackbars()
                 viewModel.setCategory(category)
@@ -431,11 +430,11 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 val action = NoteListFragmentDirections.actionOpenSettingsFragment()
                 findNavController().navigate(action)
             }
-        }.show(childFragmentManager, CategorySheetDialogFragment.TAG)
+        }.show(childFragmentManager, NoteListCategorySheetDialogFragment.TAG)
     }
 
     private fun showUnificationDialogFragment() {
-        NoteListUnificationSheetDialog.newInstance().apply {
+        NoteListUnificationSheetDialogFragment.newInstance().apply {
             setOnDeleteClickListener {
                 unification(deleteCombinedNotes = true)
                 viewModel.toggleSelectionMode(false)
@@ -448,7 +447,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 viewModel.getNotes(scrollTop = true, quicklyListUpdate = true)
                 showSnackbar(getString(R.string.sb_combined_note_added), true)
             }
-        }.show(childFragmentManager, NoteListUnificationSheetDialog.TAG)
+        }.show(childFragmentManager, NoteListUnificationSheetDialogFragment.TAG)
     }
 
     private fun unification(deleteCombinedNotes: Boolean) {

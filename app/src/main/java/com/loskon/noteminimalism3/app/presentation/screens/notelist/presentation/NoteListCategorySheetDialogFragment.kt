@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens
+package com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,11 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.fragment.putArgs
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceMenuItemClickListener
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseSheetDialogFragment
-import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListViewModel
 import com.loskon.noteminimalism3.databinding.FragmentDialogCategoryBinding
 import com.loskon.noteminimalism3.managers.setColorStateMenuItem
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class CategorySheetDialogFragment : BaseSheetDialogFragment() {
+class NoteListCategorySheetDialogFragment : BaseSheetDialogFragment() {
 
     private val binding by viewBinding(FragmentDialogCategoryBinding::inflate)
     private val category by lazy { arguments?.getString(PUT_CATEGORY_KEY) ?: "" }
@@ -88,8 +87,8 @@ class CategorySheetDialogFragment : BaseSheetDialogFragment() {
         const val TAG = "CategorySheetDialogFragment"
         private const val PUT_CATEGORY_KEY = "PUT_CATEGORY_KEY"
 
-        fun newInstance(category: String): CategorySheetDialogFragment {
-            return CategorySheetDialogFragment().putArgs {
+        fun newInstance(category: String): NoteListCategorySheetDialogFragment {
+            return NoteListCategorySheetDialogFragment().putArgs {
                 putString(PUT_CATEGORY_KEY, category)
             }
         }

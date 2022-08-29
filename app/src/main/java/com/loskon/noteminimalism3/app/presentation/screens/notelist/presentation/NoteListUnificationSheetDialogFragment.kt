@@ -8,7 +8,7 @@ import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.Base
 import com.loskon.noteminimalism3.databinding.DialogUnificationBinding
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class NoteListUnificationSheetDialog : BaseAppSheetDialogFragment() {
+class NoteListUnificationSheetDialogFragment : BaseAppSheetDialogFragment() {
 
     private val binding by viewBinding(DialogUnificationBinding::inflate)
 
@@ -56,6 +56,6 @@ class NoteListUnificationSheetDialog : BaseAppSheetDialogFragment() {
     companion object {
         const val TAG = "NoteListUnificationSheetDialog"
 
-        fun newInstance() = NoteListUnificationSheetDialog()
+        fun newInstance() = NoteListUnificationSheetDialogFragment()
     }
 }

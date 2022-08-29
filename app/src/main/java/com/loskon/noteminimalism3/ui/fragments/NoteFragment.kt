@@ -43,7 +43,6 @@ import com.loskon.noteminimalism3.utils.showKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.util.Date
 
 /**
  * Экран для работы с заметкой
@@ -177,7 +176,6 @@ open class NoteFragment : Fragment(),
     private fun checkingForIncludedLinks() {
         if (noteId != 0L) supportedLinks = LinksManager.getActiveLinks(activity)
     }
-
 
     private fun configureEditText() {
         if (supportedLinks != 0) preparingToWorkWithLinks()

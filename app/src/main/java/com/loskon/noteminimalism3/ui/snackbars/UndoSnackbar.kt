@@ -49,10 +49,10 @@ class UndoSnackbar(
     ) {
         val view: View? = this?.view
 
-        val btnSnackbar: Button? = view?.findViewById(R.id.btn_snackbar_undo)
+        val btnSnackbar: Button? = view?.findViewById(R.id.btn_undo)
         val progressBar: ProgressBar? = view?.findViewById(R.id.progress_bar_snackbar_undo)
-        val tvProgress: TextView? = view?.findViewById(R.id.tv_snackbar_undo_progress)
-        val tvTitle: TextView? = view?.findViewById(R.id.tv_snackbar_undo_text)
+        val tvProgress: TextView? = view?.findViewById(R.id.tv_progress_snackbar_undo)
+        val tvTitle: TextView? = view?.findViewById(R.id.tv_text_snackbar_undo)
 
         btnSnackbar?.setDebounceClickListener { performRestoreNote(note, hasFavStatus, category) }
         progressBar?.setupAnimation()

@@ -63,7 +63,7 @@
 
     <fragment
         android:id="@+id/noteFragmentNew"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.note.NoteFragmentNew"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.note.presentation.NoteFragmentNew"
         android:label="NoteFragmentNew">
         <argument
             android:name="id"

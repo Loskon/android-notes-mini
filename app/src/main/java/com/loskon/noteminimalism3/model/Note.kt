@@ -4,10 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 
-/**
- * Модель Note
- */
-
 @Parcelize
 data class Note(
     var id: Long = 0L,

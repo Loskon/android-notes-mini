@@ -50,6 +50,8 @@
     <color name="primary_text_dark">#CDD9E5</color>
     <color name="secondary_text_dark">#707D89</color>
     <!-- Color -->
+    <color name="primary_text_color">@android:color/black</color>
+
     <color name="bottom_bar_background_color">@android:color/white</color>
     <color name="task_description_color">@android:color/white</color>
     <color name="secondary_text_color">@color/secondary_text_light</color>

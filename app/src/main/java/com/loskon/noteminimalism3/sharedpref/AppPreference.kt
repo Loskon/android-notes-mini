@@ -146,15 +146,15 @@ object AppPreference {
         return get(context, PREF_KEY_DIALOG_WARNING_SHOW, true)
     }
 
-    fun isWeb(context: Context): Boolean {
+    fun isWebLink(context: Context): Boolean {
         return get(context, PREF_KEY_WEB, true)
     }
 
-    fun isMail(context: Context): Boolean {
+    fun isMailLink(context: Context): Boolean {
         return get(context, PREF_KEY_MAIL, true)
     }
 
-    fun isPhone(context: Context): Boolean {
+    fun isPhoneLink(context: Context): Boolean {
         return get(context, PREF_KEY_PHONE, true)
     }
 

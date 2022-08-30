@@ -40,9 +40,9 @@ class LinksSheetDialog(sheetContext: Context) :
     }
 
     private fun configureStateChecked() {
-        checkBoxWeb.isChecked = AppPreference.isWeb(context)
-        checkBoxMail.isChecked = AppPreference.isMail(context)
-        checkBoxPhone.isChecked = AppPreference.isPhone(context)
+        checkBoxWeb.isChecked = AppPreference.isWebLink(context)
+        checkBoxMail.isChecked = AppPreference.isMailLink(context)
+        checkBoxPhone.isChecked = AppPreference.isPhoneLink(context)
     }
 
     private fun setupViewsListeners() {

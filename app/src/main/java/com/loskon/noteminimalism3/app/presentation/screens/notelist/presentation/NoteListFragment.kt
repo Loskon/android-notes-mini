@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.fragment.getDrawable
+import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.fragment.setOnBackPressedListener
 import com.loskon.noteminimalism3.app.base.extension.view.hide
 import com.loskon.noteminimalism3.app.base.extension.view.scrollToTop
@@ -89,6 +90,11 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         if (savedInstanceState == null) {
             val range = AppPreference.getRetentionRange(requireContext())
             viewModel.cleanTrash(range)
+        }
+        setFragmentResultListener(NOTE_TRASH_REQUEST_KEY) { bundle ->
+            val note = bundle.getParcelable<Note>(NOTE_TRASH_BUNDLE_KEY)
+
+            if (note != null) undoSnackbar?.show(note, note.isFavorite, category)
         }
     }
 
@@ -523,5 +529,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     override fun onPause() {
         super.onPause()
         dismissSnackbars()
+    }
+
+    companion object {
+        const val NOTE_TRASH_REQUEST_KEY = "NOTE_TRASH_REQUEST_KEY"
+        const val NOTE_TRASH_BUNDLE_KEY = "NOTE_TRASH_BUNDLE_KEY"
     }
 }

@@ -4,37 +4,35 @@ import android.content.Context
 import android.text.util.Linkify
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 
-/**
- * Получение активных гиперссылок
- */
-
 object LinksManager {
 
+    private const val NOT_SUPPORTED = 0
+
     fun getActiveLinks(context: Context): Int {
-        return getWebLinks(context) or getMailLinks(context) or getPhoneLinks(context)
+        return webLinks(context) or mailLinks(context) or phoneLinks(context)
     }
 
-    private fun getWebLinks(context: Context): Int {
-        return if (AppPreference.isWeb(context)) {
+    private fun webLinks(context: Context): Int {
+        return if (AppPreference.isWebLink(context)) {
             Linkify.WEB_URLS
         } else {
-            0
+            NOT_SUPPORTED
         }
     }
 
-    private fun getMailLinks(context: Context): Int {
-        return if (AppPreference.isMail(context)) {
+    private fun mailLinks(context: Context): Int {
+        return if (AppPreference.isMailLink(context)) {
             Linkify.EMAIL_ADDRESSES
         } else {
-            0
+            NOT_SUPPORTED
         }
     }
 
-    private fun getPhoneLinks(context: Context): Int {
-        return if (AppPreference.isPhone(context)) {
+    private fun phoneLinks(context: Context): Int {
+        return if (AppPreference.isPhoneLink(context)) {
             Linkify.PHONE_NUMBERS
         } else {
-            0
+            NOT_SUPPORTED
         }
     }
 }

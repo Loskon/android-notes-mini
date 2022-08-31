@@ -31,7 +31,6 @@ import com.loskon.noteminimalism3.app.base.extension.view.setOnMenuItemClickList
 import com.loskon.noteminimalism3.app.base.extension.view.setShortQueryTextListener
 import com.loskon.noteminimalism3.app.base.extension.view.show
 import com.loskon.noteminimalism3.app.base.extension.view.showKeyboard
-import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.ConfirmDialogFragment
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.ConfirmSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.base.widget.snackbar.BaseSnackbar
@@ -485,7 +484,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun showConfirmDeleteForever() {
-        ConfirmDialogFragment.newInstance(
+        ConfirmSheetDialogFragment.newInstance(
             titleStringId = R.string.dg_delete_forever_title,
             btnOkStringId = R.string.yes,
             btnCancelStringId = R.string.no
@@ -501,7 +500,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun showConfirmCleanTrash() {
-        ConfirmDialogFragment.newInstance(
+        ConfirmSheetDialogFragment.newInstance(
             titleStringId = R.string.dg_trash_title,
             btnOkStringId = R.string.yes,
             btnCancelStringId = R.string.no

@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.databinding.DialogUnificationBinding
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class NoteListUnificationSheetDialogFragment : BaseAppSheetDialogFragment() {
+class NoteListUnificationSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private val binding by viewBinding(DialogUnificationBinding::inflate)
 
@@ -18,7 +18,7 @@ class NoteListUnificationSheetDialogFragment : BaseAppSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addView(binding.root)
+        setContentView(binding.root)
         setupDialogViewsParameters()
         establishViewsColor()
         setupViewsListeners()

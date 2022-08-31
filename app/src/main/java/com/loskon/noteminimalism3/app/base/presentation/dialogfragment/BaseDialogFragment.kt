@@ -2,20 +2,23 @@ package com.loskon.noteminimalism3.app.base.presentation.dialogfragment
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.loskon.noteminimalism3.R
 
 open class BaseDialogFragment : DialogFragment() {
 
-    open val isCancel = true
+    open val isDialogCancelable = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = isDialogCancelable
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialAlertDialogBuilder(requireContext(), R.style.RoundedDialogStyle).apply {
-            val dialogView = onCreateView(LayoutInflater.from(requireContext()), null, savedInstanceState)
+        return AlertDialog.Builder(requireContext(), R.style.RoundedMatchDialogStyle).apply {
+            val dialogView = onCreateView(requireActivity().layoutInflater, null, savedInstanceState)
             dialogView?.let { setView(dialogView) }
-            isCancelable = isCancel
         }.create()
     }
 }

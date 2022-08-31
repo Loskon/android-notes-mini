@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment
+package com.loskon.noteminimalism3.app.base.presentation.dialogfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
+open class AppBaseDialogFragment : BaseDialogFragment() {
 
     private val binding by viewBinding(BaseDialogBinding::inflate)
     protected val color: Int get() = AppPreference.getColor(requireContext())
@@ -19,13 +19,11 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
     private var onOkClickListener: (() -> Unit)? = null
     private var onCancelListener: (() -> Unit)? = null
 
-    open val isNestedScrollingEnabled: Boolean = false
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding.root
     }
 
@@ -34,7 +32,7 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
 
         establishBaseViewsColor()
         configureBaseViewsParameters()
-        setupBaseViewsListeners()
+        setupBaseViewListener()
     }
 
     private fun establishBaseViewsColor() {
@@ -43,25 +41,31 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
     }
 
     private fun configureBaseViewsParameters() {
-        binding.containerBaseDialog.isNestedScrollingEnabled = isNestedScrollingEnabled
+        binding.containerBaseDialog.setVisibilityKtx(false)
     }
 
-    private fun setupBaseViewsListeners() {
+    private fun setupBaseViewListener() {
         binding.btnBaseDialogOk.setDebounceClickListener {
             onOkClickListener?.invoke()
+            dismiss()
         }
         binding.btnBaseDialogCancel.setDebounceClickListener {
+            onCancelListener?.invoke()
             dismiss()
         }
     }
 
-    fun addView(view: View) {
+    fun setContentView(view: View) {
         binding.containerBaseDialog.setVisibilityKtx(true)
         binding.containerBaseDialog.addView(view)
     }
 
     fun setTitleDialog(@StringRes stringId: Int) {
         binding.tvBaseDialogTitle.text = getString(stringId)
+    }
+
+    fun setTitleDialog(title: String) {
+        binding.tvBaseDialogTitle.text = title
     }
 
     fun setTextBtnOk(stringId: Int) {
@@ -72,12 +76,20 @@ open class BaseAppSheetDialogFragment : BaseSheetDialogFragment() {
         binding.btnBaseDialogCancel.text = getString(stringId)
     }
 
-    fun setBtnOkVisibility(isVisible: Boolean) {
-        binding.btnBaseDialogOk.setVisibilityKtx(isVisible)
+    fun setTitleVisibility(visible: Boolean) {
+        binding.tvBaseDialogTitle.setVisibilityKtx(visible)
     }
 
-    fun setBtnOkClickListener(btnOkOnClick: (() -> Unit)?) {
-        this.onOkClickListener = btnOkOnClick
+    fun setBtnOkVisibility(visible: Boolean) {
+        binding.btnBaseDialogOk.setVisibilityKtx(visible)
+    }
+
+    fun setBtnCancelVisibility(visible: Boolean) {
+        binding.btnBaseDialogCancel.setVisibilityKtx(visible)
+    }
+
+    fun setBtnOkClickListener(onOkClickListener: (() -> Unit)? = null) {
+        this.onOkClickListener = onOkClickListener
     }
 
     fun setBtnCancelClickListener(onCancelListener: (() -> Unit)? = null) {

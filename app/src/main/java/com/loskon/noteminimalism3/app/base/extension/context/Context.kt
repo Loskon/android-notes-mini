@@ -3,6 +3,7 @@ package com.loskon.noteminimalism3.app.base.extension.context
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -26,7 +27,7 @@ fun Context.getDrawableKtx(@DrawableRes drawableId: Int): Drawable? {
 }
 
 fun Context.getDimensKtx(@DimenRes dimenId: Int): Int {
-   return resources.getDimension(dimenId).toInt()
+    return resources.getDimension(dimenId).toInt()
 }
 
 fun Context.getMaterialColorKtx(@AttrRes attrRes: Int): Int {
@@ -39,4 +40,8 @@ fun Context.getColorControlHighlightKtx(): Int {
 
 fun Context.getColorPrimaryKtx(): Int {
     return getMaterialColorKtx(android.R.attr.colorPrimary)
+}
+
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }

@@ -79,7 +79,7 @@
     <string name="sb_note_need_copy_text">Необходимо скопировать текст!</string>
     <string name="sb_note_invalid_format">Неверный формат!</string>
     <string name="sb_note_text_copied">Текст скопирован!</string>
-    <string name="sb_note_hyperlinks_copied">Гипперсылка скопирована!</string>
+    <string name="sb_note_link_copied">Ссылка скопирована!</string>
     <!-- snackbar_undo -->
     <string name="sb_undo_note_deleted">Заметка удалена!</string>
     <string name="sb_undo_note_added_trash">Заметка отправлена в корзину!</string>

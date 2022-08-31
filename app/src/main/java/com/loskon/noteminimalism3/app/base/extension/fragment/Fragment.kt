@@ -19,6 +19,7 @@ import com.loskon.noteminimalism3.app.base.extension.context.getColorPrimaryKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getDimensKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getDrawableKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getFontKtx
+import com.loskon.noteminimalism3.app.base.extension.context.showToast
 
 val Fragment.colorPrimary: Int get() = requireContext().getColorPrimaryKtx()
 
@@ -74,4 +75,8 @@ fun Fragment.setOnBackPressedListener(onClick: () -> Unit) {
 
 inline fun <T : Fragment> T.putArgs(argsBuilder: Bundle.() -> Unit): T = apply {
     arguments = Bundle().apply(argsBuilder)
+}
+
+fun Fragment.showToast(message: String) {
+    requireContext().showToast(message)
 }

@@ -68,7 +68,7 @@
     </style>
 
     <style name="Style.DefaultBackground" parent="@style/Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/sheet_background_color</item>
     </style>
 
     <!-- TextInputLayout -->

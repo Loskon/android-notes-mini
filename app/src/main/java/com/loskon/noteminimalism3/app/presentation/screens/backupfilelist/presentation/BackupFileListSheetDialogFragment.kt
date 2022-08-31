@@ -10,7 +10,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setSoftVisibleKtx
-import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.BaseAppSheetDialogFragment
+import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_STRING_ID_KEY
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_SUCCESS_KEY
@@ -20,7 +20,7 @@ import com.loskon.noteminimalism3.databinding.SheetRestoreListBinding
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BackupFileListSheetDialogFragment : BaseAppSheetDialogFragment() {
+class BackupFileListSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private val binding by viewBinding(SheetRestoreListBinding::inflate)
     private val viewModel: BackupFileListViewModel by viewModel()
@@ -37,7 +37,7 @@ class BackupFileListSheetDialogFragment : BaseAppSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addView(binding.root)
+        setContentView(binding.root)
         setupDialogViewsParameters()
         establishViewsColor()
         configureRecyclerView()

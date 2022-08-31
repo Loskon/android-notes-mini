@@ -11,7 +11,7 @@ import com.loskon.noteminimalism3.app.base.extension.fragment.getDimen
 import com.loskon.noteminimalism3.app.base.extension.fragment.putArgs
 import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 
-open class ConfirmDialogFragment : BaseAppDialogFragment() {
+open class ConfirmDialogFragment : AppBaseDialogFragment() {
 
     private val titleStringId: Int by lazy { arguments?.getInt(PUT_TITLE_STRING_ID_KEY) ?: 0 }
     private val btnOkStringId: Int by lazy { arguments?.getInt(PUT_BTN_OK_STRING_ID_KEY) ?: 0 }
@@ -33,7 +33,7 @@ open class ConfirmDialogFragment : BaseAppDialogFragment() {
 
     private fun configureTextViewMessage() {
         if (messageStringId != 0) {
-            addView(
+            setContentView(
                 TextView(requireContext()).apply {
                     val width = ViewGroup.LayoutParams.MATCH_PARENT
                     val height = ViewGroup.LayoutParams.WRAP_CONTENT

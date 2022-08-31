@@ -80,7 +80,7 @@
     <string name="sb_note_need_copy_text">You need to copy text!</string>
     <string name="sb_note_invalid_format">Invalid format!</string>
     <string name="sb_note_text_copied">Text copied!</string>
-    <string name="sb_note_hyperlinks_copied">Hyperlinks copied</string>
+    <string name="sb_note_link_copied">Link copied!</string>
     <!-- snackbar_undo -->
     <string name="sb_undo_note_deleted">Note deleted!</string>
     <string name="sb_undo_note_added_trash">Note added to trash!</string>

@@ -8,9 +8,13 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.clipboardmanager.ClipboardHelper
+import com.loskon.noteminimalism3.app.base.contracts.StorageContract
+import com.loskon.noteminimalism3.app.base.datetime.formatedString
 import com.loskon.noteminimalism3.app.base.extension.corutine.launchDelay
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.fragment.getColor
+import com.loskon.noteminimalism3.app.base.extension.view.scrollBottom
 import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setEndSelection
@@ -19,8 +23,10 @@ import com.loskon.noteminimalism3.app.base.extension.view.setIconColor
 import com.loskon.noteminimalism3.app.base.extension.view.setOnDownClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.app.base.linkmovementmethod.AppLinkMovementMethod
+import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListFragment
 import com.loskon.noteminimalism3.databinding.FragmentNoteNewBinding
+import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.LinksManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -42,6 +48,14 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     private var isFavorite: Boolean = false
 
     private val savedNote: Note get() = viewModel.getNoteState.value
+
+    private val storageContract = StorageContract(this) { granted ->
+        if (granted) {
+
+        } else {
+            showSnackbar(getString(R.string.no_permissions), false)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +85,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun configureEditText() {
-        binding.editTextNote2.isFocusableInTouchMode = false
+        if (savedNote.id != NEW_NOTE_ID) binding.editTextNote2.isFocusableInTouchMode = false
     }
 
     private fun configureKeyboardFocus() {
@@ -106,13 +120,15 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun configureWorkWithLinks() {
-        val activeLinks = LinksManager.getActiveLinks(requireContext())
+        if (savedNote.id != NEW_NOTE_ID) {
+            val activeLinks = LinksManager.getActiveLinks(requireContext())
 
-        if (activeLinks == 0) {
-            binding.editTextNote2.autoLinkMask = 0
-        } else {
-            binding.editTextNote2.autoLinkMask = activeLinks
-            binding.editTextNote2.movementMethod = movementMethod
+            if (activeLinks == 0) {
+                binding.editTextNote2.autoLinkMask = 0
+            } else {
+                binding.editTextNote2.autoLinkMask = activeLinks
+                binding.editTextNote2.movementMethod = movementMethod
+            }
         }
     }
 
@@ -125,14 +141,25 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun setupViewsListeners() {
-        movementMethod.setOnLinkClickListener { url -> Timber.d("OnLinkClick: " + url) }
-        movementMethod.setOnNoLinkClickListener { positon -> handleEmptyAreaClick(positon) }
+        movementMethod.setOnLinkClickListener { url -> showNoteLinkDialogFragment(url) }
+        movementMethod.setOnNoLinkClickListener { position -> handleEmptyAreaClick(position) }
         binding.linLayoutNote2.setOnDownClickListener { handleEmptyAreaClick() }
         binding.fabNote2.setDebounceClickListener { handleFabClick() }
         binding.btnFavNote2.setOnClickListener { handleFavoriteClick() }
         binding.btnDelNote2.setDebounceClickListener { handleDeleteClick() }
         binding.btnMoreNote2.setDebounceClickListener { handleMoreClick() }
         binding.editTextNote2.setOnFocusChangeListener { _, focus -> handleEditTextFocused(focus) }
+    }
+
+    private fun showNoteLinkDialogFragment(url: String) {
+        NoteLinkDialogFragment.newInstance(url).apply {
+            setOnInvalidLinkOpenListener {
+                showSnackbar(getString(R.string.dg_open_link_invalid), success = false)
+            }
+            setOnLinkCopyListener {
+                showSnackbar(getString(R.string.sb_note_link_copied), success = true)
+            }
+        }.show(childFragmentManager, NoteLinkDialogFragment.TAG)
     }
 
     private fun handleEmptyAreaClick(selectionPosition: Int? = null) {
@@ -190,13 +217,81 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
     private fun handleMoreClick() {
         binding.editTextNote2.hideKeyboard()
-        lifecycleScope.launchDelay(HIDE_KEYBOARD_DELAY) { }
+        lifecycleScope.launchDelay(HIDE_KEYBOARD_DELAY) { showNoteMoreSheetDialogFragment() }
+    }
+
+    private fun showNoteMoreSheetDialogFragment() {
+        NoteMoreSheetDialogFragment.newInstance(savedNote.modifiedDate.formatedString()).apply {
+            setOnPasteTextListener { pasteText() }
+            setOnCopyTextListener { copyText() }
+            setOnShareTextListener { shareText() }
+            setOnDownloadTextListener { downloadText() }
+        }.show(childFragmentManager, NoteMoreSheetDialogFragment.TAG)
+    }
+
+    private fun pasteText() {
+        var pastedText = ClipboardHelper.getPastedText(requireContext())
+
+        if (pastedText != null) {
+            val text = binding.editTextNote2.text.toString()
+            pastedText = getCombinedText(pastedText, text)
+            binding.editTextNote2.setText(pastedText)
+            binding.editTextNote2.setEndSelection()
+            binding.scrollViewNote2.scrollBottom(binding.editTextNote2)
+        } else {
+            showSnackbar(getString(R.string.sb_note_need_copy_text), success = false)
+        }
+    }
+
+    private fun getCombinedText(pastedText: String, text: String): String {
+        return if (text.trim().isEmpty()) {
+            pastedText
+        } else {
+            text + "\n\n" + pastedText
+        }
+    }
+
+    private fun copyText() {
+        val text = binding.editTextNote2.text.toString()
+
+        if (text.trim().isNotEmpty()) {
+            ClipboardHelper.copyText(requireContext(), text)
+            showSnackbar(getString(R.string.sb_note_text_copied), success = true)
+        } else {
+            showSnackbar(getString(R.string.sb_note_is_empty), success = false)
+        }
+    }
+
+    private fun shareText() {
+        val text = binding.editTextNote2.text.toString().trim()
+
+        if (text.isNotEmpty()) {
+            IntentManager.launchShareText(requireContext(), text)
+        } else {
+            showSnackbar(getString(R.string.sb_note_is_empty), success = false)
+        }
+    }
+
+    private fun downloadText() {
+        val text = binding.editTextNote2.text.toString()
+
+        if (text.trim().isNotEmpty()) {
+            val accessStorage = storageContract.accessStorage(requireContext())
+
+            if (accessStorage) {
+
+            } else {
+                storageContract.launch()
+            }
+        } else {
+            showSnackbar(getString(R.string.sb_note_is_empty), success = false)
+        }
     }
 
     private fun handleEditTextFocused(focus: Boolean) {
         Timber.d("OnFocusChange: " + focus)
         if (focus) {
-            movementMethod.block(true)
+            movementMethod.blockWorkLinks(true)
             binding.editTextNote2.setLinkTextColor(getColor(R.color.primary_text_color))
         }
     }
@@ -229,6 +324,10 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         } else {
             if (note.id != NEW_NOTE_ID) viewModel.delete(note)
         }
+    }
+
+    fun showSnackbar(message: String, success: Boolean) {
+        AppSnackbar.make(binding.root, message, success, binding.fabNote2)?.show()
     }
 
     companion object {

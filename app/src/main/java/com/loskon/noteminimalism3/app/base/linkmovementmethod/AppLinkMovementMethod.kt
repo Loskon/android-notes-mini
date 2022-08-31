@@ -11,13 +11,13 @@ import android.widget.TextView
 open class AppLinkMovementMethod : LinkMovementMethod() {
 
     private val rect = RectF()
-    private var block = false
+    private var blockWorkLinks = false
 
     private var onLinkClick: ((String) -> Unit)? = null
     private var onNoLinkClick: ((Int) -> Unit)? = null
 
     override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
-        if (block) {
+        if (blockWorkLinks) {
             return false
         } else if (event.action == MotionEvent.ACTION_UP) {
             var x = event.x.toInt()
@@ -46,9 +46,9 @@ open class AppLinkMovementMethod : LinkMovementMethod() {
             }
 
             return true
+        } else {
+            return false
         }
-
-        return false
     }
 
     private fun RectF.getCoordinatesInTouchArea(layout: Layout, line: Int): RectF {
@@ -59,8 +59,8 @@ open class AppLinkMovementMethod : LinkMovementMethod() {
         return this
     }
 
-    fun block(block: Boolean) {
-        this.block = block
+    fun blockWorkLinks(blockWorkLinks: Boolean) {
+        this.blockWorkLinks = blockWorkLinks
     }
 
     fun setOnLinkClickListener(onLinkClick: ((String) -> Unit)?) {

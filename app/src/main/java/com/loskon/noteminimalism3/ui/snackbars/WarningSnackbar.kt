@@ -76,7 +76,7 @@ object WarningSnackbar {
                 MSG_NEED_COPY_TEXT -> R.string.sb_note_need_copy_text
                 MSG_INVALID_FORMAT -> R.string.sb_note_invalid_format
                 MSG_NOTE_TEXT_COPIED -> R.string.sb_note_text_copied
-                MSG_NOTE_HYPERLINKS_COPIED -> R.string.sb_note_hyperlinks_copied
+                MSG_NOTE_HYPERLINKS_COPIED -> R.string.sb_note_link_copied
                 // fragment_settings
                 MSG_UNABLE_SELECT_FOLDER -> R.string.sb_settings_unable_select_folder
                 MSG_LOCAL_STORAGE -> R.string.sb_settings_you_can_local_storage

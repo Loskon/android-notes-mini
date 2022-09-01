@@ -2,7 +2,6 @@ package com.loskon.noteminimalism3.app.base.widget.snackbar
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.Resources.getSystem
 import android.graphics.Typeface
 import android.view.View
 import android.widget.TextView
@@ -12,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
 
 @Suppress("unused")
-class BaseSnackbar {
+open class BaseSnackbar {
 
     private var snackbar: Snackbar? = null
 
@@ -31,9 +30,9 @@ class BaseSnackbar {
         return this
     }
 
-    fun make(view: View, layout: View): BaseSnackbar {
+    fun make(view: View, addedView: View): BaseSnackbar {
         snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
-        (snackbar?.view as Snackbar.SnackbarLayout?)?.addView(layout)
+        (snackbar?.view as Snackbar.SnackbarLayout?)?.addView(addedView)
         setupSnackbarTransientListener()
         return this
     }
@@ -64,7 +63,7 @@ class BaseSnackbar {
     }
 
     fun setActionStroke(width: Int, color: Int) {
-        getSnackbarMaterialButton()?.strokeWidth = width.toPx()
+        getSnackbarMaterialButton()?.strokeWidth = width
         getSnackbarMaterialButton()?.strokeColor = ColorStateList.valueOf(color)
     }
 
@@ -85,6 +84,10 @@ class BaseSnackbar {
     fun enableHideByClickSnackbar() {
         snackbar?.view?.setOnClickListener { dismiss() }
     }
+
+    fun show() = snackbar?.show()
+
+    fun dismiss() = snackbar?.dismiss()
 
     fun setOnShowListener(onShowListener: (() -> Unit)? = null) {
         this.onShowListener = onShowListener
@@ -108,19 +111,10 @@ class BaseSnackbar {
         return snackContentLayout?.getChildAt(1) as MaterialButton?
     }
 
-    private fun Int.toPx(): Int = (this * getSystem().displayMetrics.density).toInt()
-
     inline fun create(functions: BaseSnackbar.() -> Unit): BaseSnackbar {
         this.functions()
         return this
     }
-
-    fun show(): BaseSnackbar {
-        snackbar?.show()
-        return this
-    }
-
-    fun dismiss() = snackbar?.dismiss()
 
     companion object {
         private const val UNKNOWN_ERROR_MESSAGE = "Unknown error"

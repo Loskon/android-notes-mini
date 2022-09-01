@@ -10,13 +10,14 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.context.getColorControlHighlightKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getColorKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getColorPrimaryKtx
-import com.loskon.noteminimalism3.app.base.extension.context.getDimensKtx
+import com.loskon.noteminimalism3.app.base.extension.context.getDimenKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getDrawableKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getFontKtx
 import com.loskon.noteminimalism3.app.base.extension.context.showToast
@@ -31,7 +32,7 @@ fun Fragment.getFont(@FontRes fontId: Int) = requireContext().getFontKtx(fontId)
 
 fun Fragment.getDrawable(@DrawableRes drawableId: Int) = requireContext().getDrawableKtx(drawableId)
 
-fun Fragment.getDimen(@DimenRes dimenId: Int): Int = requireContext().getDimensKtx(dimenId)
+fun Fragment.getDimen(@DimenRes dimenId: Int): Int = requireContext().getDimenKtx(dimenId)
 
 fun Fragment.requireFont(@FontRes fontId: Int): Typeface {
     return getFont(fontId) ?: throw NullPointerException("Fragment $this could not find the font.")
@@ -70,7 +71,9 @@ fun Fragment.setFragmentScreenOnTouchListener(onClick: () -> Unit) {
 }
 
 fun Fragment.setOnBackPressedListener(onClick: () -> Unit) {
-    requireActivity().onBackPressedDispatcher.addCallback(this) { onClick() }
+    requireActivity().onBackPressedDispatcher.addCallback(this) {
+        onClick()
+    }
 }
 
 inline fun <T : Fragment> T.putArgs(argsBuilder: Bundle.() -> Unit): T = apply {
@@ -79,4 +82,8 @@ inline fun <T : Fragment> T.putArgs(argsBuilder: Bundle.() -> Unit): T = apply {
 
 fun Fragment.showToast(message: String) {
     requireContext().showToast(message)
+}
+
+fun Fragment.showToast(@StringRes stringId: Int) {
+    requireContext().showToast(getString(stringId))
 }

@@ -35,7 +35,7 @@ class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun setupDialogViewsParameters() {
-        setTitleDialog(R.string.sheet_backup_title)
+        setDialogTitle(R.string.sheet_backup_title)
     }
 
     private fun establishViewsColor() {
@@ -52,7 +52,7 @@ class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun setupViewsListeners() {
         binding.inputEditTextBackup.doOnTextChanged { _, _, _, _ -> run { disableErrorNotification() } }
-        setBtnOkClickListener { onOkBtnClick() }
+        setOkClickListener { onOkBtnClick() }
     }
 
     private fun disableErrorNotification() {
@@ -78,7 +78,7 @@ class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun createBackupFile(title: String) {
         val backupFolder: File = BackupPath.getBackupFolder(requireContext())
-        val hasCreatedFolder: Boolean = BackupFileHelper.hasCreated(backupFolder)
+        val hasCreatedFolder: Boolean = BackupFileHelper.folderCreated(backupFolder)
 
         if (hasCreatedFolder) {
             creatingBackup(title)

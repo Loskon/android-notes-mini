@@ -25,7 +25,7 @@ class AccountSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun setupViewsParameters() {
-        setTitleDialog(R.string.sheet_account_title)
+        setDialogTitle(R.string.sheet_account_title)
         setTextBtnCancel(R.string.to_close)
         setBtnOkVisibility(false)
     }

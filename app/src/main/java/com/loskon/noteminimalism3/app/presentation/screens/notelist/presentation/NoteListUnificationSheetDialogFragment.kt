@@ -25,7 +25,7 @@ class NoteListUnificationSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun setupDialogViewsParameters() {
-        setTitleDialog(R.string.dg_unification_title)
+        setDialogTitle(R.string.dg_unification_title)
         setBtnOkVisibility(false)
     }
 

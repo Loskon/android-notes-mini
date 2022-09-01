@@ -76,7 +76,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
 
     private fun createBackupFile(title: String) {
         val backupFolder: File = BackupPath.getBackupFolder(context)
-        val hasCreatedFolder: Boolean = BackupFileHelper.hasCreated(backupFolder)
+        val hasCreatedFolder: Boolean = BackupFileHelper.folderCreated(backupFolder)
 
         if (hasCreatedFolder) {
             creatingBackup(title)

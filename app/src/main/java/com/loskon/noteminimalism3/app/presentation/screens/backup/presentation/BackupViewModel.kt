@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-
 class BackupViewModel(
     private val googleOneTapSignInInteractor: GoogleOneTapSignInInteractor,
     private val cloudStorageInteractor: CloudStorageInteractor,

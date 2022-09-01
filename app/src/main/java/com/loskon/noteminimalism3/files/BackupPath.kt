@@ -64,8 +64,7 @@ object BackupPath {
     @Suppress("DEPRECATION")
     fun getPathSelectedDirectory(context: Context): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val documents: String = Environment.DIRECTORY_DOCUMENTS
-            Environment.getExternalStoragePublicDirectory(documents).toString()
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString()
         } else {
             AppPreference.getSelectedDirectory(context)
         }

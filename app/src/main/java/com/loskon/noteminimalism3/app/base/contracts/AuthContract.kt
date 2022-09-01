@@ -11,16 +11,15 @@ import timber.log.Timber
 /**
  * Contract for authentication request
  */
-class AuthContract(
-    fragment: Fragment,
-    val handleData: (Intent?) -> Unit
-) {
+class AuthContract(fragment: Fragment) {
+
+    private var handleResultData2: ((Intent?) -> Unit)? = null
 
     private val authLauncher = fragment.registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         val granted: Boolean = (result.resultCode == Activity.RESULT_OK)
-        if (granted) handleData(result.data)
+        if (granted) handleResultData2?.invoke(result.data)
     }
 
     fun launch(intentSender: IntentSender) {
@@ -30,5 +29,9 @@ class AuthContract(
         } catch (e: IntentSender.SendIntentException) {
             Timber.e("Couldn't start One Tap UI: " + e.localizedMessage)
         }
+    }
+
+    fun setHandleResultDataListener(handleData2: ((Intent?) -> Unit)?) {
+        this.handleResultData2 = handleData2
     }
 }

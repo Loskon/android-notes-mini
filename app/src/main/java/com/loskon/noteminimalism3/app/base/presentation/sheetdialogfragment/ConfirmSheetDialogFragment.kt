@@ -13,10 +13,10 @@ import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 
 open class ConfirmSheetDialogFragment : AppBaseSheetDialogFragment() {
 
-    private val titleStringId: Int by lazy { arguments?.getInt(PUT_TITLE_STRING_ID_KEY) ?: 0 }
-    private val btnOkStringId: Int by lazy { arguments?.getInt(PUT_BTN_OK_STRING_ID_KEY) ?: 0 }
-    private val btnCancelStringId: Int by lazy { arguments?.getInt(PUT_BTN_CANCEL_STRING_ID_KEY) ?: 0 }
-    private val messageStringId: Int by lazy { arguments?.getInt(PUT_MESSAGE_STRING_ID_KEY) ?: 0 }
+    private val title: String? by lazy { arguments?.getString(PUT_TITLE_STRING_KEY) }
+    private val btnOkText: String? by lazy { arguments?.getString(PUT_BTN_OK_STRING_KEY) }
+    private val btnCancelText: String? by lazy { arguments?.getString(PUT_BTN_CANCEL_STRING_KEY) }
+    private val message: String? by lazy { arguments?.getString(PUT_MESSAGE_STRING_KEY) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,13 +26,13 @@ open class ConfirmSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun configureBaseViewsParameters() {
-        if (titleStringId != 0) setTitleDialog(titleStringId)
-        if (btnOkStringId != 0) setTextBtnOk(btnOkStringId)
-        if (btnCancelStringId != 0) setTextBtnCancel(btnCancelStringId)
+        if (title != null) setDialogTitle(requireNotNull(title))
+        if (btnOkText != null) setBtnOkText(requireNotNull(btnOkText))
+        if (btnCancelText != null) setTextBtnCancel(requireNotNull(btnCancelText))
     }
 
     private fun configureTextViewMessage() {
-        if (messageStringId != 0) {
+        if (message != null) {
             setContentView(
                 TextView(requireContext()).apply {
                     val width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -42,7 +42,7 @@ open class ConfirmSheetDialogFragment : AppBaseSheetDialogFragment() {
 
                     layoutParams = ViewGroup.LayoutParams(width, height)
                     updatePadding(dimen, dimen, dimen, dimen)
-                    text = getString(messageStringId)
+                    text = requireNotNull(message)
                     setTextSizeKtx(textDimen)
                     gravity = Gravity.CENTER
                 }
@@ -52,34 +52,34 @@ open class ConfirmSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     companion object {
         const val TAG = "ConfirmSheetDialogFragment"
-        private const val PUT_TITLE_STRING_ID_KEY = "PUT_TITLE_STRING_ID_KEY"
-        private const val PUT_BTN_OK_STRING_ID_KEY = "PUT_BTN_OK_STRING_ID_KEY"
-        private const val PUT_BTN_CANCEL_STRING_ID_KEY = "PUT_BTN_CANCEL_STRING_ID_KEY"
-        private const val PUT_MESSAGE_STRING_ID_KEY = "PUT_MESSAGE_STRING_ID_KEY"
+        private const val PUT_TITLE_STRING_KEY = "PUT_TITLE_STRING_KEY"
+        private const val PUT_BTN_OK_STRING_KEY = "PUT_BTN_OK_STRING_KEY"
+        private const val PUT_BTN_CANCEL_STRING_KEY = "PUT_BTN_CANCEL_STRING_KEY"
+        private const val PUT_MESSAGE_STRING_KEY = "PUT_MESSAGE_STRING_KEY"
 
         fun newInstance(
-            titleStringId: Int,
-            btnOkStringId: Int,
-            btnCancelStringId: Int
+            title: String,
+            btnOkText: String,
+            btnCancelText: String
         ): ConfirmSheetDialogFragment {
             return ConfirmSheetDialogFragment().putArgs {
-                putInt(PUT_TITLE_STRING_ID_KEY, titleStringId)
-                putInt(PUT_BTN_OK_STRING_ID_KEY, btnOkStringId)
-                putInt(PUT_BTN_CANCEL_STRING_ID_KEY, btnCancelStringId)
+                putString(PUT_TITLE_STRING_KEY, title)
+                putString(PUT_BTN_OK_STRING_KEY, btnOkText)
+                putString(PUT_BTN_CANCEL_STRING_KEY, btnCancelText)
             }
         }
 
         fun newInstance(
-            titleStringId: Int,
-            btnOkStringId: Int,
-            btnCancelStringId: Int,
-            messageStringId: Int
+            title: String,
+            btnOkText: String,
+            btnCancelText: String,
+            message: String
         ): ConfirmSheetDialogFragment {
             return ConfirmSheetDialogFragment().putArgs {
-                putInt(PUT_TITLE_STRING_ID_KEY, titleStringId)
-                putInt(PUT_BTN_OK_STRING_ID_KEY, btnOkStringId)
-                putInt(PUT_BTN_CANCEL_STRING_ID_KEY, btnCancelStringId)
-                putInt(PUT_MESSAGE_STRING_ID_KEY, messageStringId)
+                putString(PUT_TITLE_STRING_KEY, title)
+                putString(PUT_BTN_OK_STRING_KEY, btnOkText)
+                putString(PUT_BTN_CANCEL_STRING_KEY, btnCancelText)
+                putString(PUT_MESSAGE_STRING_KEY, message)
             }
         }
     }

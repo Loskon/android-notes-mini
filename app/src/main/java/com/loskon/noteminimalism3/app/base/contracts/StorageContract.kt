@@ -8,13 +8,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
-class StorageContract(
-    fragment: Fragment,
-    val handleGranted: (Boolean) -> Unit
-) {
+class StorageContract(fragment: Fragment) {
 
     private val read = Manifest.permission.READ_EXTERNAL_STORAGE
     private val write = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+    private var handleGranted: ((Boolean) -> Unit)? = null
 
     private val resultLauncher = fragment.registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -23,29 +22,10 @@ class StorageContract(
         val write = permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE]
 
         val granted = (read == true && write == true)
-        handleGranted(granted)
+        handleGranted?.invoke(granted)
     }
 
-    /*    fun hasAccessStorageRequest(): Boolean {
-            var isGrantedPermissions = false
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                isGrantedPermissions = true
-            } else {
-                val read = ContextCompat.checkSelfPermission(context, READ)
-                val write = ContextCompat.checkSelfPermission(context, WRITE)
-
-                if (read == GRANTED && write == GRANTED) {
-                    isGrantedPermissions = true
-                } else {
-                    launch()
-                }
-            }
-
-            return isGrantedPermissions
-        }*/
-
-    fun accessStorage(context: Context): Boolean {
+    fun storageAccess(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             true
         } else {
@@ -60,5 +40,9 @@ class StorageContract(
     fun launch() {
         val permissions = arrayOf(read, write)
         resultLauncher.launch(permissions)
+    }
+
+    fun setHandleGrantedListener(handleGranted2: ((Boolean) -> Unit)?) {
+        this.handleGranted = handleGranted2
     }
 }

@@ -26,7 +26,6 @@ import java.time.LocalDateTime
 /**
  * Работа с заметкой, находящейся в корзине
  */
-
 class NoteTrashFragment : Fragment() {
 
     private val commandCenter: CommandCenter = CommandCenter()

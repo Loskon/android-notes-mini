@@ -485,11 +485,11 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun showConfirmDeleteForever() {
         ConfirmSheetDialogFragment.newInstance(
-            titleStringId = R.string.dg_delete_forever_title,
-            btnOkStringId = R.string.yes,
-            btnCancelStringId = R.string.no
+            title = getString(R.string.dg_delete_forever_title),
+            btnOkText = getString(R.string.yes),
+            btnCancelText = getString(R.string.no)
         ).apply {
-            setBtnOkClickListener {
+            setOkClickListener {
                 val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
 
                 viewModel.deleteNotes(checkedNotes)
@@ -501,11 +501,11 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun showConfirmCleanTrash() {
         ConfirmSheetDialogFragment.newInstance(
-            titleStringId = R.string.dg_trash_title,
-            btnOkStringId = R.string.yes,
-            btnCancelStringId = R.string.no
+            title = getString(R.string.dg_trash_title),
+            btnOkText = getString(R.string.yes),
+            btnCancelText = getString(R.string.no)
         ).apply {
-            setBtnOkClickListener {
+            setOkClickListener {
                 if (notesAdapter.itemCount != 0) {
                     viewModel.cleanTrash()
                     viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
@@ -517,7 +517,8 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     fun showSnackbar(message: String, success: Boolean) {
-        snackbar = AppSnackbar.make(binding.root, message, success, binding.fabNoteList)?.show()
+        snackbar = AppSnackbar().make(binding.root, message, success, binding.fabNoteList)
+        snackbar?.show()
     }
 
     private fun dismissSnackbars() {

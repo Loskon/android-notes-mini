@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.app.base.presentation.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceFragmentCompat
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationClickListener
 import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
@@ -19,19 +20,13 @@ open class BasePreferenceFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView.isVerticalScrollBarEnabled = false
-        configureBottomBar()
-    }
 
-    private fun configureBottomBar() {
         val color = AppPreference.getColor(requireContext())
-
-        with(binding.bottomBarSettings) {
-            setNavigationIconColor(color)
-            setDebounceNavigationClickListener { requireActivity().onBackPressed() }
-        }
+        binding.bottomBarSettings.setNavigationIconColor(color)
+        binding.bottomBarSettings.setDebounceNavigationClickListener { findNavController().popBackStack() }
     }
 
     fun showSnackbar(message: String, success: Boolean) {
-        AppSnackbar.make(binding.root, message, success, binding.bottomBarSettings)
+        AppSnackbar().make(binding.root, message, success, binding.bottomBarSettings)
     }
 }

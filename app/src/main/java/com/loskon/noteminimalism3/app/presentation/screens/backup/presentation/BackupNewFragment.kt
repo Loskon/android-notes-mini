@@ -36,22 +36,8 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     private var waitingDialog = WaitingDialogFragment.newInstance()
     private var isBackup: Boolean = false
 
-    private val authContract = AuthContract(this) { intent ->
-        showWaitingDialog()
-        viewModel.authenticationWithSelectWay(intent)
-    }
-
-    private val storageContract = StorageContract(this) { granted ->
-        if (granted) {
-            if (isBackup) {
-                showLocalBackupSheetDialog()
-            } else {
-                showRestoreListSheetDialog()
-            }
-        } else {
-            showSnackbar(R.string.no_permissions, false)
-        }
-    }
+    private val authContract = AuthContract(this)
+    private val storageContract = StorageContract(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +58,9 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
         super.onViewCreated(view, savedInstanceState)
 
         establishViewsColor()
-        setupViewsListeners()
         installObservers()
+        setupContractsListeners()
+        setupViewsListeners()
     }
 
     private fun establishViewsColor() {
@@ -88,10 +75,47 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
         }
     }
 
+    private fun installObservers() {
+        viewModel.getBackupState.observe(viewLifecycleOwner) { backupState ->
+            binding.bottomBarBackup.setAllMenuItemsVisibility(backupState.hasAuthorizedUser)
+        }
+        viewModel.getBackupAction.observe(viewLifecycleOwner) { backupAction ->
+            when (backupAction) {
+                is BackupAction.LaunchAuthContract -> authContract.launch(backupAction.intentSender)
+                is BackupAction.ShowSnackbar -> closeWaitingDialogAndShowMessage(backupAction.messageType)
+                is BackupAction.ShowConfirmSheetDialog -> showConfirmSheetDialog(backupAction.isBackup)
+                is BackupAction.ShowAccountDialog -> showAccountDialog()
+                else -> {}
+            }
+        }
+    }
+
+    private fun setupContractsListeners() {
+        authContract.setHandleResultDataListener { intent ->
+            showWaitingDialog()
+            viewModel.authenticationWithSelectWay(intent)
+        }
+        storageContract.setHandleGrantedListener { granted ->
+            if (granted) {
+                if (isBackup) {
+                    showLocalBackupSheetDialog()
+                } else {
+                    showRestoreListSheetDialog()
+                }
+            } else {
+                showSnackbar(R.string.no_permissions, success = false)
+            }
+        }
+    }
+
+    private fun showWaitingDialog() {
+        waitingDialog.show(childFragmentManager, WaitingDialogFragment.TAG)
+    }
+
     private fun setupViewsListeners() {
         with(binding) {
             btnBackupLocal.setDebounceClickListener {
-                if (storageContract.accessStorage(requireContext())) {
+                if (storageContract.storageAccess(requireContext())) {
                     showLocalBackupSheetDialog()
                 } else {
                     isBackup = true
@@ -99,7 +123,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
                 }
             }
             btnRestoreLocal.setDebounceClickListener {
-                if (storageContract.accessStorage(requireContext())) {
+                if (storageContract.storageAccess(requireContext())) {
                     showRestoreListSheetDialog()
                 } else {
                     isBackup = false
@@ -116,21 +140,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
                 if (item.itemId == R.id.item_account) viewModel.checkInternetBeforeShowAccountDialog()
             }
             bottomBarBackup.setDebounceNavigationClickListener {
-                requireActivity().onBackPressed()
-            }
-        }
-    }
-
-    private fun installObservers() {
-        viewModel.getBackupState.observe(viewLifecycleOwner) { backupState ->
-            binding.bottomBarBackup.setAllMenuItemsVisibility(backupState.hasAuthorizedUser)
-        }
-        viewModel.getBackupAction.observe(viewLifecycleOwner) { backupAction ->
-            when (backupAction) {
-                is BackupAction.LaunchAuthContract -> authContract.launch(backupAction.intentSender)
-                is BackupAction.ShowSnackbar -> closeWaitingDialogAndShowMessage(backupAction.messageType)
-                is BackupAction.ShowConfirmSheetDialog -> showConfirmSheetDialog(backupAction.isBackup)
-                is BackupAction.ShowAccountDialog -> showAccountDialog()
+                findNavController().popBackStack()
             }
         }
     }
@@ -154,16 +164,16 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun showSnackbar(stringId: Int, success: Boolean) {
-        AppSnackbar.make(binding.root, getString(stringId), success, binding.bottomBarBackup)?.show()
+        AppSnackbar().make(binding.root, getString(stringId), success, binding.bottomBarBackup).show()
     }
 
     private fun showConfirmSheetDialog(isBackup: Boolean) {
         ConfirmSheetDialogFragment.newInstance(
-            titleStringId = R.string.sheet_confirm_action,
-            btnOkStringId = R.string.continue_action,
-            btnCancelStringId = R.string.no
+            title = getString(R.string.sheet_confirm_action),
+            btnOkText = getString(R.string.continue_action),
+            btnCancelText = getString(R.string.no)
         ).apply {
-            setBtnOkClickListener {
+            setOkClickListener {
                 if (isBackup) {
                     checkingUserBeforeBackup()
                 } else {
@@ -206,21 +216,17 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
 
     private fun showConfirmDeleteDialog() {
         ConfirmSheetDialogFragment.newInstance(
-            titleStringId = R.string.sheet_deleting_data,
-            btnOkStringId = R.string.continue_action,
-            btnCancelStringId = android.R.string.cancel,
-            messageStringId = R.string.sheet_deleting_data_message
+            title = getString(R.string.sheet_deleting_data),
+            btnOkText = getString(R.string.continue_action),
+            btnCancelText = getString(android.R.string.cancel),
+            message = getString(R.string.sheet_deleting_data_message)
         ).apply {
-            setBtnOkClickListener {
+            setOkClickListener {
                 viewModel.setAuthIntent(AuthIntent.DELETE_ACCOUNT)
                 viewModel.deleteDatabaseFile()
                 viewModel.getIntentSenderForAuthContract(requireActivity())
             }
         }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
-    }
-
-    private fun showWaitingDialog() {
-        waitingDialog.show(childFragmentManager, WaitingDialogFragment.TAG)
     }
 
     private fun showLocalBackupSheetDialog() {

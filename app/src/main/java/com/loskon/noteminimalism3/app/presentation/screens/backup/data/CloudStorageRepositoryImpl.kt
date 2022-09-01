@@ -9,7 +9,6 @@ import com.google.firebase.storage.StorageReference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.CloudStorageRepository
 import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
-import timber.log.Timber
 import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -32,14 +31,8 @@ class CloudStorageRepositoryImpl(
 
         return suspendCoroutine { cont ->
             storageRef.child(cloudPath).putFile(dateBaseUri)
-                .addOnSuccessListener {
-                    Timber.d(it.toString())
-                    cont.resume(true)
-                }
-                .addOnFailureListener {
-                    Timber.e(it)
-                    cont.resume(false)
-                }
+                .addOnSuccessListener { cont.resume(true) }
+                .addOnFailureListener { cont.resume(false) }
         }
     }
 
@@ -59,14 +52,8 @@ class CloudStorageRepositoryImpl(
 
         return suspendCoroutine { cont ->
             storageRef.child(cloudPath).metadata
-                .addOnSuccessListener {
-                    Timber.d(it.toString())
-                    cont.resume(true)
-                }
-                .addOnFailureListener {
-                    Timber.e(it)
-                    cont.resume(false)
-                }
+                .addOnSuccessListener { cont.resume(true) }
+                .addOnFailureListener { cont.resume(false) }
         }
     }
 
@@ -76,14 +63,8 @@ class CloudStorageRepositoryImpl(
 
         return suspendCoroutine { cont ->
             downloadTask
-                .addOnSuccessListener {
-                    Timber.d(it.toString())
-                    cont.resume(true)
-                }
-                .addOnFailureListener {
-                    Timber.e(it)
-                    cont.resume(false)
-                }
+                .addOnSuccessListener { cont.resume(true) }
+                .addOnFailureListener { cont.resume(false) }
         }
     }
 

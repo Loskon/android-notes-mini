@@ -7,25 +7,19 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.context.getColorKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getFontKtx
 
-object AppSnackbar {
+class AppSnackbar : BaseSnackbar() {
 
-    private var snackbar: BaseSnackbar? = null
-
-    fun make(view: View, message: String, success: Boolean, anchorView: View? = null): BaseSnackbar? {
-        snackbar = BaseSnackbar().create {
-            make(view, message, Snackbar.LENGTH_LONG)
-            if (anchorView != null) setAnchorView(anchorView)
-            setBackgroundTintList(view.context.getColorKtx(getSuccessColor(success)))
-            setFont(view.context.getFontKtx(R.font.roboto_light))
-            setTextColor(Color.WHITE)
-            enableHideByClickSnackbar()
-            setOnDismissedListener { snackbar = null }
-        }
-
-        return snackbar
+    fun make(view: View, message: String, success: Boolean, anchorView: View? = null): AppSnackbar {
+        make(view, message, Snackbar.LENGTH_LONG)
+        setBackgroundTintList(view.context.getColorKtx(getSuccessColorId(success)))
+        setFont(view.context.getFontKtx(R.font.roboto_light))
+        setTextColor(Color.WHITE)
+        enableHideByClickSnackbar()
+        if (anchorView != null) setAnchorView(anchorView)
+        return this
     }
 
-    private fun getSuccessColor(success: Boolean): Int {
+    private fun getSuccessColorId(success: Boolean): Int {
         return if (success) {
             R.color.success_color
         } else {

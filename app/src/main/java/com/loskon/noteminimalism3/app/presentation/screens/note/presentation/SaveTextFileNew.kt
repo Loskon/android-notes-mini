@@ -18,7 +18,7 @@ class SaveTextFileNew(
     fun creationFolderTextFiles(text: String) {
         val folderBackup = BackupPath.getBackupFolder(context)
         val folderTextFiles = File(folderBackup, context.getString(R.string.folder_text_files_name))
-        val hasCreatedFolder = BackupFileHelper.hasCreated(folderTextFiles)
+        val hasCreatedFolder = BackupFileHelper.folderCreated(folderTextFiles)
 
         if (hasCreatedFolder) {
             performCreationTextFile(folderTextFiles, text)

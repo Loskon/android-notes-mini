@@ -46,7 +46,7 @@ class BackupFileListSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun setupDialogViewsParameters() {
-        setTitleDialog(R.string.sheet_restore_db_title)
+        setDialogTitle(R.string.sheet_restore_db_title)
         setTextBtnCancel(R.string.to_close)
         setBtnOkVisibility(false)
     }

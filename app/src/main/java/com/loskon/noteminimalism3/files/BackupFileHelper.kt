@@ -57,14 +57,9 @@ object BackupFileHelper {
         }
     }
 
-    //--- Проверить существование папки ------------------------------------------------------------
-    fun hasCreated(folder: File): Boolean {
+    fun folderCreated(folder: File): Boolean {
         var hasFileCreated = true
-
-        if (!folder.exists()) {
-            hasFileCreated = folder.mkdirs()
-        }
-
+        if (folder.exists().not()) hasFileCreated = folder.mkdirs()
         return hasFileCreated
     }
 }

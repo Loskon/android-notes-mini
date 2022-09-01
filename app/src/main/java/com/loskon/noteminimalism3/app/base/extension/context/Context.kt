@@ -26,7 +26,7 @@ fun Context.getDrawableKtx(@DrawableRes drawableId: Int): Drawable? {
     return AppCompatResources.getDrawable(this, drawableId)
 }
 
-fun Context.getDimensKtx(@DimenRes dimenId: Int): Int {
+fun Context.getDimenKtx(@DimenRes dimenId: Int): Int {
     return resources.getDimension(dimenId).toInt()
 }
 

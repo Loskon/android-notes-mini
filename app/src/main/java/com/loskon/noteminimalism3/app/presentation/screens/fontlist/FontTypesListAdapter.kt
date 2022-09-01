@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.model.FontType
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class FontListAdapter : RecyclerView.Adapter<FontListAdapter.FontListViewHolder>() {
+class FontTypesListAdapter : RecyclerView.Adapter<FontTypesListAdapter.FontListViewHolder>() {
 
     private var onClickListener: ((fontType: FontType, position: Int) -> Unit)? = null
 

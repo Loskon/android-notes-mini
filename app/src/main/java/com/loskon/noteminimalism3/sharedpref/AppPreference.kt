@@ -118,7 +118,7 @@ object AppPreference {
         return get(context, key, false)
     }
 
-    fun hasNotificationAutoBackup(context: Context): Boolean {
+    fun autoBackupNotification(context: Context): Boolean {
         val key: String = context.getString(R.string.notification_key)
         return get(context, key, false)
     }

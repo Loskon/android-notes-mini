@@ -9,7 +9,6 @@ import com.loskon.noteminimalism3.ui.toast.WarningToast
 import com.loskon.noteminimalism3.utils.StringUtil
 import java.io.File
 import java.time.LocalDateTime
-import java.util.*
 
 /**
  * Автоматическое создание файла бэкапа
@@ -34,7 +33,7 @@ object DataBaseAutoBackup {
 
     private fun creatingBackupFolder(context: Context, date: LocalDateTime, isShowToast: Boolean) {
         val folder: File = BackupPath.getBackupFolder(context)
-        val hasCreatedFolder: Boolean = BackupFileHelper.hasCreated(folder)
+        val hasCreatedFolder: Boolean = BackupFileHelper.folderCreated(folder)
 
         if (hasCreatedFolder) {
             creatingBackupFile(context, date, isShowToast)
@@ -61,7 +60,7 @@ object DataBaseAutoBackup {
     }
 
     private fun showSuccessNotification(context: Context) {
-        val hasNotification: Boolean = AppPreference.hasNotificationAutoBackup(context)
+        val hasNotification: Boolean = AppPreference.autoBackupNotification(context)
 
         if (hasNotification) {
             showToast(context, WarningToast.MSG_TOAST_AUTO_BACKUP_COMPLETED, true)

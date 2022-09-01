@@ -6,6 +6,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.clipboardmanager.ClipboardHelper
@@ -14,6 +15,8 @@ import com.loskon.noteminimalism3.app.base.datetime.formatedString
 import com.loskon.noteminimalism3.app.base.extension.corutine.launchDelay
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.fragment.getColor
+import com.loskon.noteminimalism3.app.base.extension.fragment.setOnBackPressedListener
+import com.loskon.noteminimalism3.app.base.extension.fragment.showToast
 import com.loskon.noteminimalism3.app.base.extension.view.scrollBottom
 import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
@@ -25,11 +28,15 @@ import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.app.base.linkmovementmethod.AppLinkMovementMethod
 import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListFragment
+import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.databinding.FragmentNoteNewBinding
+import com.loskon.noteminimalism3.files.BackupFileHelper
+import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.LinksManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.hideKeyboard
 import com.loskon.noteminimalism3.utils.showKeyboard
 import com.loskon.noteminimalism3.viewbinding.viewBinding
@@ -43,23 +50,23 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     private val viewModel: NoteViewModel by viewModel()
     private val args: NoteFragmentNewArgs by navArgs()
 
+    private val storageContract = StorageContract(this)
     private val movementMethod = AppLinkMovementMethod()
 
+    private lateinit var backupDate: LocalDateTime
     private var isFavorite: Boolean = false
+    private var isNewNote: Boolean = false
+    private var autoBackupToastShow: Boolean = false
 
     private val savedNote: Note get() = viewModel.getNoteState.value
-
-    private val storageContract = StorageContract(this) { granted ->
-        if (granted) {
-
-        } else {
-            showSnackbar(getString(R.string.no_permissions), false)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (args.id != 0L) viewModel.getNote(args.id)
+        setOnBackPressedListener {
+            autoBackupToastShow = true
+            findNavController().popBackStack()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,11 +79,13 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         configureFavoriteStatus()
         configureWorkWithLinks()
         installObserver()
+        setupContractListener()
         setupViewsListeners()
     }
 
     private fun establishViewsColor() {
         val color = AppPreference.getColor(requireContext())
+
         binding.editTextNote2.setLinkTextColor(color)
         binding.fabNote2.setBackgroundColorKtx(color)
         binding.btnFavNote2.setIconColor(color)
@@ -140,6 +149,23 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         }
     }
 
+    private fun setupContractListener() {
+        storageContract.setHandleGrantedListener { granted ->
+            if (granted) {
+                SaveTextFileNew(requireContext(),
+                                saveSuccess = {
+                                    showSnackbar(getString(it), success = true)
+                                },
+                                saveFailure = {
+                                    showSnackbar(getString(it), success = false)
+                                }
+                ).creationFolderTextFiles(binding.editTextNote2.text.toString())
+            } else {
+                showSnackbar(getString(R.string.no_permissions), false)
+            }
+        }
+    }
+
     private fun setupViewsListeners() {
         movementMethod.setOnLinkClickListener { url -> showNoteLinkDialogFragment(url) }
         movementMethod.setOnNoLinkClickListener { position -> handleEmptyAreaClick(position) }
@@ -176,8 +202,9 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun handleFabClick() {
+        autoBackupToastShow = true
         binding.editTextNote2.hideKeyboard()
-        lifecycleScope.launchDelay(HIDE_KEYBOARD_DELAY) { requireActivity().onBackPressed() }
+        lifecycleScope.launchDelay(HIDE_KEYBOARD_DELAY) { findNavController().popBackStack() }
     }
 
     private fun handleFavoriteClick() {
@@ -204,7 +231,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
             viewModel.update(note)
         }
 
-        requireActivity().onBackPressed()
+        findNavController().popBackStack()
     }
 
     private fun checkShowUndoSnackbar(note: Note) {
@@ -276,10 +303,17 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         val text = binding.editTextNote2.text.toString()
 
         if (text.trim().isNotEmpty()) {
-            val accessStorage = storageContract.accessStorage(requireContext())
+            val accessStorage = storageContract.storageAccess(requireContext())
 
             if (accessStorage) {
-
+                SaveTextFileNew(requireContext(),
+                                saveSuccess = {
+                                    showSnackbar(getString(it), success = true)
+                                },
+                                saveFailure = {
+                                    showSnackbar(getString(it), success = false)
+                                }
+                ).creationFolderTextFiles(binding.editTextNote2.text.toString())
             } else {
                 storageContract.launch()
             }
@@ -304,6 +338,9 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
         if (title.trim().isNotEmpty()) {
             if (note.id == NEW_NOTE_ID) {
+                backupDate = LocalDateTime.now()
+                isNewNote = true
+
                 note.title = title
                 note.modifiedDate = LocalDateTime.now()
                 note.createdDate = LocalDateTime.now()
@@ -311,7 +348,6 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
                 viewModel.setNote(note)
             } else {
-
                 if (note.title.trim() != title.trim()) {
                     note.title = title
                     note.modifiedDate = LocalDateTime.now()
@@ -321,17 +357,48 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
                     viewModel.update(note)
                 }
             }
+
+            val autoBackup = AppPreference.hasAutoBackup(requireContext())
+            if (autoBackup && isNewNote && note.id % DIVISIBLE == NEW_NOTE_ID) createAutoBackup()
         } else {
             if (note.id != NEW_NOTE_ID) viewModel.delete(note)
         }
     }
 
+    private fun createAutoBackup() {
+        val storageAccess = storageContract.storageAccess(requireContext())
+
+        if (storageAccess) {
+            val folder = BackupPath.getBackupFolder(requireContext())
+            val folderCreated = BackupFileHelper.folderCreated(folder)
+
+            if (folderCreated) {
+                val backupPath = BackupPath.getPathBackupFolder(requireContext())
+                val backupName = StringUtil.replaceForbiddenCharacters(backupDate)
+                val outFileName = "$backupPath$backupName.db"
+
+                try {
+                    DataBaseBackup.performBackup(requireContext(), outFileName)
+                    val hasNotification = AppPreference.autoBackupNotification(requireContext())
+                    if (autoBackupToastShow && hasNotification) showToast(R.string.toast_auto_bp_completed)
+                } catch (exception: Exception) {
+                    if (autoBackupToastShow) showToast(R.string.toast_auto_bp_failed)
+                }
+            } else {
+                if (autoBackupToastShow) showToast(R.string.sb_bp_unable_created_folder)
+            }
+        } else {
+            if (autoBackupToastShow) showToast(R.string.toast_auto_bp_no_permissions)
+        }
+    }
+
     fun showSnackbar(message: String, success: Boolean) {
-        AppSnackbar.make(binding.root, message, success, binding.fabNote2)?.show()
+        AppSnackbar().make(binding.root, message, success, binding.fabNote2).show()
     }
 
     companion object {
         private const val NEW_NOTE_ID = 0L
+        private const val DIVISIBLE = 3
         private const val HIDE_KEYBOARD_DELAY = 300
     }
 }

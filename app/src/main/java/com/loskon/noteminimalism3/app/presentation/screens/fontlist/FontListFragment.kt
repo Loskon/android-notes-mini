@@ -1,10 +1,10 @@
 package com.loskon.noteminimalism3.app.presentation.screens.fontlist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
@@ -27,16 +27,12 @@ class FontListFragment : Fragment(R.layout.fragment_font_type) {
     private val binding by viewBinding(FragmentFontTypeBinding::bind)
     private val viewModel: FontListViewModel by viewModels()
 
-    private var fontTypesAdapter: FontListAdapter = FontListAdapter()
+    private val fontTypesAdapter = FontTypesListAdapter()
+    private val snapHelper = CenteredSnapHelper()
 
-    private var color: Int = 0
-    private var savedPosition: Int = 0
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        color = AppPreference.getColor(context)
-        savedPosition = AppPreference.getFontType(context)
-        viewModel.setFontList(createFontList())
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) viewModel.setFontList(createFontList())
     }
 
     private fun createFontList(): List<FontType> {
@@ -67,12 +63,17 @@ class FontListFragment : Fragment(R.layout.fragment_font_type) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        establishViewsColor()
         configureRecyclerView()
         configureSnapHelper()
-        configureBottomBar()
-        setupViewListener()
+        setupViewsListener()
         installObserver()
         showWarningFontDialog()
+    }
+
+    private fun establishViewsColor() {
+        val color = AppPreference.getColor(requireContext())
+        binding.bottomBarFont.setNavigationIconColor(color)
     }
 
     private fun configureRecyclerView() {
@@ -86,31 +87,27 @@ class FontListFragment : Fragment(R.layout.fragment_font_type) {
     }
 
     private fun configureSnapHelper() {
-        val snapHelper = CenteredSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvFont)
-        snapHelper.setCenterPosition(savedPosition)
     }
 
-    private fun configureBottomBar() {
-        with(binding.bottomBarFont) {
-            setNavigationIconColor(color)
-            setDebounceNavigationClickListener { requireActivity().onBackPressed() }
-        }
-    }
-
-    private fun setupViewListener() {
+    private fun setupViewsListener() {
         fontTypesAdapter.setItemOnClickListener { fontType, position ->
             binding.rvFont.smoothScrollToPosition(position)
             binding.tvFontExample.typeface = fontType.typeFace
             AppPreference.setFontType(requireContext(), fontType.id)
             AppFont.set(requireContext())
         }
+        binding.bottomBarFont.setDebounceNavigationClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun installObserver() {
         viewModel.getFontTypeListState.observe(viewLifecycleOwner) { fontTypes ->
             if (fontTypes.isNotEmpty()) {
+                val savedPosition = AppPreference.getFontType(requireContext())
                 binding.tvFontExample.typeface = fontTypes[savedPosition].typeFace
+                snapHelper.setCenterPosition(savedPosition)
                 fontTypesAdapter.updateFontList(fontTypes)
             }
         }

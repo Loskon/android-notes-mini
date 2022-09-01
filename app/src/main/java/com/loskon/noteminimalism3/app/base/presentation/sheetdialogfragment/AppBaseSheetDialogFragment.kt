@@ -16,8 +16,8 @@ open class AppBaseSheetDialogFragment : BaseSheetDialogFragment() {
     private val binding by viewBinding(BaseDialogBinding::inflate)
     protected val color: Int get() = AppPreference.getColor(requireContext())
 
-    private var onOkClickListener: (() -> Unit)? = null
-    private var onCancelListener: (() -> Unit)? = null
+    private var onOkClick: (() -> Unit)? = null
+    private var onCancelClick: (() -> Unit)? = null
 
     open val isNestedScrollingEnabled: Boolean = false
 
@@ -48,7 +48,7 @@ open class AppBaseSheetDialogFragment : BaseSheetDialogFragment() {
 
     private fun setupBaseViewsListeners() {
         binding.btnBaseDialogOk.setDebounceClickListener {
-            onOkClickListener?.invoke()
+            onOkClick?.invoke()
         }
         binding.btnBaseDialogCancel.setDebounceClickListener {
             dismiss()
@@ -60,27 +60,39 @@ open class AppBaseSheetDialogFragment : BaseSheetDialogFragment() {
         binding.containerBaseDialog.addView(view)
     }
 
-    fun setTitleDialog(@StringRes stringId: Int) {
+    fun setDialogTitle(@StringRes stringId: Int) {
         binding.tvBaseDialogTitle.text = getString(stringId)
     }
 
-    fun setTextBtnOk(stringId: Int) {
+    fun setDialogTitle(string: String) {
+        binding.tvBaseDialogTitle.text = string
+    }
+
+    fun setBtnOkText(@StringRes stringId: Int) {
         binding.btnBaseDialogOk.text = getString(stringId)
     }
 
-    fun setTextBtnCancel(stringId: Int) {
+    fun setBtnOkText(string: String) {
+        binding.btnBaseDialogOk.text = string
+    }
+
+    fun setTextBtnCancel(@StringRes stringId: Int) {
         binding.btnBaseDialogCancel.text = getString(stringId)
     }
 
-    fun setBtnOkVisibility(isVisible: Boolean) {
-        binding.btnBaseDialogOk.setVisibilityKtx(isVisible)
+    fun setTextBtnCancel(string: String) {
+        binding.btnBaseDialogCancel.text = string
     }
 
-    fun setBtnOkClickListener(btnOkOnClick: (() -> Unit)?) {
-        this.onOkClickListener = btnOkOnClick
+    fun setBtnOkVisibility(visible: Boolean) {
+        binding.btnBaseDialogOk.setVisibilityKtx(visible)
     }
 
-    fun setBtnCancelClickListener(onCancelListener: (() -> Unit)? = null) {
-        this.onCancelListener = onCancelListener
+    fun setOkClickListener(onOkClick: (() -> Unit)?) {
+        this.onOkClick = onOkClick
+    }
+
+    fun setCancelClickListener(onCancelListener: (() -> Unit)? = null) {
+        this.onCancelClick = onCancelListener
     }
 }

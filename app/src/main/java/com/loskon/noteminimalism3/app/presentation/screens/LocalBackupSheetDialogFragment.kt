@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.datetime.formatedString
+import com.loskon.noteminimalism3.app.base.datetime.formattedString
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_STRING_ID_KEY
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_SUCCESS_KEY
@@ -45,7 +45,7 @@ class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
     private fun setupViewsParameters() {
         with(binding.inputEditTextBackup) {
             showKeyboard()
-            setText(LocalDateTime.now().formatedString())
+            setText(LocalDateTime.now().formattedString())
             setSelection(editableText.length)
         }
     }
@@ -88,7 +88,7 @@ class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun creatingBackup(title: String) {
-        val backupPath: String = BackupPath.getPathBackupFolder(requireContext())
+        val backupPath: String = BackupPath.getBackupFolderPath(requireContext())
         val backupTitle: String = StringUtil.replaceForbiddenCharacters(title)
         val outFileName = "$backupPath$backupTitle.db"
 

@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.clipboardmanager.ClipboardHelper
 import com.loskon.noteminimalism3.app.base.contracts.StorageContract
-import com.loskon.noteminimalism3.app.base.datetime.formatedString
+import com.loskon.noteminimalism3.app.base.datetime.formattedString
 import com.loskon.noteminimalism3.app.base.extension.corutine.launchDelay
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.fragment.getColor
@@ -28,7 +28,6 @@ import com.loskon.noteminimalism3.app.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.app.base.linkmovementmethod.AppLinkMovementMethod
 import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListFragment
-import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.databinding.FragmentNoteNewBinding
 import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.files.BackupPath
@@ -36,12 +35,15 @@ import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.LinksManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
+import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.hideKeyboard
 import com.loskon.noteminimalism3.utils.showKeyboard
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.io.File
 import java.time.LocalDateTime
 
 class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
@@ -248,7 +250,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun showNoteMoreSheetDialogFragment() {
-        NoteMoreSheetDialogFragment.newInstance(savedNote.modifiedDate.formatedString()).apply {
+        NoteMoreSheetDialogFragment.newInstance(savedNote.modifiedDate.formattedString()).apply {
             setOnPasteTextListener { pasteText() }
             setOnCopyTextListener { copyText() }
             setOnShareTextListener { shareText() }
@@ -369,27 +371,56 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         val storageAccess = storageContract.storageAccess(requireContext())
 
         if (storageAccess) {
-            val folder = BackupPath.getBackupFolder(requireContext())
-            val folderCreated = BackupFileHelper.folderCreated(folder)
+            val backupPath = AppPreference.getBackupPath(requireContext())
+            val folderCreated = BackupFileHelper.folderCreated(File(backupPath))
 
             if (folderCreated) {
-                val backupPath = BackupPath.getPathBackupFolder(requireContext())
                 val backupName = StringUtil.replaceForbiddenCharacters(backupDate)
-                val outFileName = "$backupPath$backupName.db"
+                val backupFilePath = "$backupPath$backupName.db"
 
-                try {
-                    DataBaseBackup.performBackup(requireContext(), outFileName)
-                    val hasNotification = AppPreference.autoBackupNotification(requireContext())
-                    if (autoBackupToastShow && hasNotification) showToast(R.string.toast_auto_bp_completed)
-                } catch (exception: Exception) {
-                    if (autoBackupToastShow) showToast(R.string.toast_auto_bp_failed)
-                }
-            } else {
-                if (autoBackupToastShow) showToast(R.string.sb_bp_unable_created_folder)
+                val databasePath = requireContext().getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
+                viewModel.performBackup(databasePath, backupFilePath)
+
+                val backupFolderPath = BackupPath.getBackupFolderPath(requireContext())
+                val maxFilesCount = AppPreference.getNumberBackups(requireContext())
+                viewModel.deleteExtraFiles(backupFolderPath, maxFilesCount)
+
+                val hasNotification = AppPreference.autoBackupNotification(requireContext())
+                if (autoBackupToastShow && hasNotification) showToast(R.string.toast_auto_bp_completed)
             }
         } else {
             if (autoBackupToastShow) showToast(R.string.toast_auto_bp_no_permissions)
         }
+    }
+
+    private fun downloadTextFile() {
+        val text = binding.editTextNote2.text.toString()
+
+        if (text.trim().isNotEmpty()) {
+            val accessStorage = storageContract.storageAccess(requireContext())
+
+            if (accessStorage) {
+                val backupPath = AppPreference.getBackupPath(requireContext())
+                val textFilesFolder = File(backupPath, getString(R.string.folder_text_files_name))
+                val hasCreatedFolder = BackupFileHelper.folderCreated(textFilesFolder)
+
+                if (hasCreatedFolder) {
+                  // viewModel.createTextFile(textFilesFolder, )
+                }
+            } else {
+                storageContract.launch()
+            }
+        } else {
+            showSnackbar(getString(R.string.sb_note_is_empty), success = false)
+        }
+    }
+
+    private fun getTextFileTitle(text: String): String {
+        val textTitle = text.substring(0, 14.coerceAtMost(text.length))
+        val timeTitle = DateUtil.getTimeNowWithBrackets()
+        val textFileTitle = "$textTitle$timeTitle".trim()
+
+        return "${StringUtil.replaceForbiddenCharacters(textFileTitle)}.txt"
     }
 
     fun showSnackbar(message: String, success: Boolean) {
@@ -399,6 +430,6 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     companion object {
         private const val NEW_NOTE_ID = 0L
         private const val DIVISIBLE = 3
-        private const val HIDE_KEYBOARD_DELAY = 300
+        private const val HIDE_KEYBOARD_DELAY = 200
     }
 }

@@ -4,7 +4,7 @@ import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.datetime.formatedString
+import com.loskon.noteminimalism3.app.base.datetime.formattedString
 import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.files.BackupFileHelper
@@ -44,7 +44,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
 
     private fun configInsertedViews() {
         inputEditText.showKeyboard()
-        inputEditText.setText(LocalDateTime.now().formatedString())
+        inputEditText.setText(LocalDateTime.now().formattedString())
         inputEditText.setSelection(inputEditText.editableText.length)
     }
 
@@ -86,7 +86,7 @@ class CreateBackupSheetDialog(private val activity: SettingsActivity) :
     }
 
     private fun creatingBackup(title: String) {
-        val backupPath: String = BackupPath.getPathBackupFolder(context)
+        val backupPath: String = BackupPath.getBackupFolderPath(context)
         val backupTitle: String = StringUtil.replaceForbiddenCharacters(title)
         val outFileName = "$backupPath$backupTitle.db"
 

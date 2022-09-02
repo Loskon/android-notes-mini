@@ -43,7 +43,7 @@ object DataBaseAutoBackup {
     }
 
     private fun creatingBackupFile(context: Context, date: LocalDateTime, isShowToast: Boolean) {
-        val backupPath: String = BackupPath.getPathBackupFolder(context)
+        val backupPath: String = BackupPath.getBackupFolderPath(context)
         val backupName: String = StringUtil.replaceForbiddenCharacters(date)
         val outFileName = "$backupPath$backupName.db"
 

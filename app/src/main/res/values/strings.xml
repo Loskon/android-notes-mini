@@ -241,7 +241,7 @@
     <!-- Other -->
     <!-- App -->
     <string name="app_name" translatable="false">Notes Mini</string>
-    <string name="folder_backups_name" translatable="false">Notes Mini Backup</string>
+    <string name="backup_folder_title" translatable="false">Notes Mini Backup</string>
     <string name="folder_text_files_name" translatable="false">Text Files</string>
 
     <!-- Other (translatable) -->

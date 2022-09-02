@@ -24,7 +24,7 @@ fun LocalDateTime.toDate(): Date {
     return Date(atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
 }
 
-fun LocalDateTime.formatedString(): String {
+fun LocalDateTime.formattedString(): String {
     return format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT))
 }
 

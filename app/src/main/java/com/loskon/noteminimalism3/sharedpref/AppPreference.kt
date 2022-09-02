@@ -1,11 +1,13 @@
 package com.loskon.noteminimalism3.sharedpref
 
 import android.content.Context
+import android.os.Build
 import android.os.Environment
 import androidx.preference.PreferenceManager
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.utils.getShortColor
 import com.loskon.noteminimalism3.utils.getShortInt
+import java.io.File
 
 /**
  * Помощник для работы с SharedPreferences
@@ -207,9 +209,25 @@ object AppPreference {
     }
 
     // string
+    fun getBackupPath(context: Context): String {
+        val backupPath = getSelectedBackupPath(context)
+        val backupFolderTitle = context.getString(R.string.backup_folder_title)
+
+        return backupPath + File.separator + backupFolderTitle + File.separator
+    }
+
+    @Suppress("DEPRECATION")
+    fun getSelectedBackupPath(context: Context): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString()
+        } else {
+            getSelectedDirectory(context)
+        }
+    }
+
     @Suppress("DEPRECATION")
     fun getSelectedDirectory(context: Context): String {
-        val defValue: String = Environment.getExternalStorageDirectory().toString()
+        val defValue = Environment.getExternalStorageDirectory().toString()
         return get(context, PREF_KEY_SEL_DIRECTORY, defValue)
     }
 }

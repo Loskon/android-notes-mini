@@ -7,6 +7,7 @@ import java.io.FileDescriptor
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FileReader
+import java.io.FileWriter
 
 class LocaleFileSource {
 
@@ -45,9 +46,9 @@ class LocaleFileSource {
         }
     }
 
-    fun deleteExtraFiles(homeFolder: File, maxFilesCount: Int): Boolean {
+    fun deleteExtraFiles(backupFolder: File, maxFilesCount: Int): Boolean {
         return try {
-            val files = getBackupFiles(homeFolder)
+            val files = getBackupFiles(backupFolder)
 
             if (files != null && files.size > maxFilesCount) {
                 val deletedFiles = files.sortedBy { it.lastModified() }.take(files.size - maxFilesCount)
@@ -65,6 +66,14 @@ class LocaleFileSource {
         return folder.listFiles { _, name: String -> name.lowercase().endsWith(BACKUP_FILE_SUFFIX) }
     }
 
+    fun deleteDatabaseFile(dbFile: File) {
+        SQLiteDatabase.deleteDatabase(dbFile)
+    }
+
+    fun folderCreated(folder: File): Boolean {
+        return if (folder.exists().not()) folder.mkdirs() else false
+    }
+
     fun validSQLiteFile(path: String): Boolean {
         return try {
             val fileReader = FileReader(File(path))
@@ -73,6 +82,21 @@ class LocaleFileSource {
             val string = String(buffer)
             fileReader.close()
             string == "SQLite format 3\u0000"
+        } catch (exception: Exception) {
+            Timber.e(exception)
+            false
+        }
+    }
+
+    fun createTextFile(file: File, text: String): Boolean {
+        return try {
+            val writer = FileWriter(file)
+
+            writer.append(text)
+            writer.flush()
+            writer.close()
+
+            true
         } catch (exception: Exception) {
             Timber.e(exception)
             false

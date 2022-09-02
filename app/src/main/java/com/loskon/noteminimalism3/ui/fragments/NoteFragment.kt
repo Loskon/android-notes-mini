@@ -387,10 +387,7 @@ open class NoteFragment : Fragment(),
         val hasAutoBackup: Boolean = AppPreference.hasAutoBackup(activity)
 
         if (hasAutoBackup && isNewNote && noteId % 3 == 0L) {
-            DataBaseAutoBackup.checkingStorageAccess(
-                activity, backupDate,
-                hasShowToast, storageAccess
-            )
+            DataBaseAutoBackup.checkingStorageAccess(activity, backupDate, hasShowToast, storageAccess)
         }
     }
 

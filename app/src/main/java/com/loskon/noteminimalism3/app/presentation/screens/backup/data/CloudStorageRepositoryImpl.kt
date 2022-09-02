@@ -40,7 +40,7 @@ class CloudStorageRepositoryImpl(
         val currentUser = Firebase.auth.currentUser
 
         if (currentUser != null) {
-            return context.getString(R.string.folder_backups_name) +
+            return context.getString(R.string.backup_folder_title) +
                 File.separator + currentUser.uid + File.separator + NoteDatabaseSchema.DATABASE_NAME
         } else {
             throw NullPointerException("Null user")

@@ -22,13 +22,13 @@ class NoteCursorWrapper(cursor: Cursor) : CursorWrapper(cursor) {
         val isDelete = getInt(getColumnIndex(NoteTable.COLUMN_DEL_ITEMS)) == 1
 
         return Note(
-            id,
-            title,
-            dateCreation.toLocalDateTime(),
-            dateModification.toLocalDateTime(),
-            dateDelete.toLocalDateTime(),
-            isFavorite,
-            isDelete
+            id = id,
+            title = title,
+            createdDate = dateCreation.toLocalDateTime(),
+            modifiedDate = dateModification.toLocalDateTime(),
+            deletedDate = dateDelete.toLocalDateTime(),
+            isFavorite = isFavorite,
+            isDeleted = isDelete
         )
     }
 }

@@ -54,11 +54,15 @@ object BackupPath {
         return actualPAth
     }
 
-    fun getPathBackupFolder(context: Context): String {
-        var fullPath: String = getPathSelectedDirectory(context)
-        val titleBackupFolder: String = context.getString(R.string.folder_backups_name)
-        fullPath = fullPath + File.separator + titleBackupFolder + File.separator
-        return fullPath
+    fun getBackupFolder(context: Context): File {
+        return File(getBackupFolderPath(context))
+    }
+
+    fun getBackupFolderPath(context: Context): String {
+        val fullPath = getPathSelectedDirectory(context)
+        val backupFolderName = context.getString(R.string.backup_folder_title)
+
+        return fullPath + File.separator + backupFolderName + File.separator
     }
 
     @Suppress("DEPRECATION")
@@ -70,12 +74,8 @@ object BackupPath {
         }
     }
 
-    fun getBackupFolder(context: Context): File {
-        return File(getPathBackupFolder(context))
-    }
-
     fun getSummary(context: Context): String {
-        var summary = getPathBackupFolder(context)
+        var summary = getBackupFolderPath(context)
         summary = summary.replace("//", "/")
         summary = summary.replace("storage/", "")
         return summary

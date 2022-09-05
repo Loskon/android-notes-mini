@@ -10,8 +10,8 @@ class AutoBackupInteractor(
         return repository.folderCreated(folderPath)
     }
 
-    fun performBackup(databasePath: String, backupFilePath: String) {
-        repository.performBackup(databasePath, backupFilePath)
+    fun performBackup(databasePath: String, backupFilePath: String): Boolean {
+       return repository.performBackup(databasePath, backupFilePath)
     }
 
     fun deleteExtraFiles(backupFolderPath: String, maxFilesCount: Int) {

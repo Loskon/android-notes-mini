@@ -71,7 +71,11 @@ class LocaleFileSource {
     }
 
     fun folderCreated(folder: File): Boolean {
-        return if (folder.exists().not()) folder.mkdirs() else false
+        return if (folder.exists().not()) {
+            folder.mkdirs()
+        } else {
+            true
+        }
     }
 
     fun validSQLiteFile(path: String): Boolean {

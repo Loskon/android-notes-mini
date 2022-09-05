@@ -30,12 +30,10 @@ import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.presentation.NoteListFragment
 import com.loskon.noteminimalism3.databinding.FragmentNoteNewBinding
 import com.loskon.noteminimalism3.files.BackupFileHelper
-import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.managers.LinksManager
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
-import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
 import com.loskon.noteminimalism3.utils.DateUtil
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.hideKeyboard
@@ -64,7 +62,9 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (args.id != 0L) viewModel.getNote(args.id)
+        if (args.id != 0L) {
+            viewModel.getNote(args.id)
+        }
         setOnBackPressedListener {
             autoBackupToastShow = true
             findNavController().popBackStack()
@@ -144,6 +144,43 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun installObserver() {
+        viewModel.getEvents.observe(viewLifecycleOwner) { showToast(it) }
+
+
+        viewModel.getEvents2.observe(viewLifecycleOwner) {
+            Timber.d("LOLOKA")
+        }
+
+/*        viewModel.getEvents2.onEach {
+                when (it) {
+                    is NoteAction.Action2 -> TODO()
+                    is NoteAction.Action4 -> TODO()
+                    is NoteAction.CreateBackupAction -> TODO()
+                    is NoteAction.ShowErrorMessage -> TODO()
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)*/
+        /*        viewModel.noteAction.observe(viewLifecycleOwner) { action ->
+                    Timber.d("LOLOKA" + action.toString())
+                    when (action) {
+                        is NoteAction.CreateBackupAction -> {
+                            val maxFilesCount = AppPreference.getNumberBackups(requireContext())
+                            val backupTitle = StringUtil.replaceForbiddenCharacters(backupDate)
+                            val backupFilePath = "${action.folderPath}$backupTitle.db"
+
+                            val databasePath = requireContext().getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
+                            viewModel.performBackup(databasePath, backupFilePath, action.folderPath, maxFilesCount)
+                        }
+                        is NoteAction.Action2 -> {
+                            val hasNotification = AppPreference.autoBackupNotification(requireContext())
+                            if (autoBackupToastShow && hasNotification) showToast(R.string.toast_auto_bp_completed)
+                        }
+                        is NoteAction.ShowErrorMessage -> {
+                            showToast(action.message)
+                        }
+                        is NoteAction.Action4 -> TODO()
+                        null -> TODO()
+                    }
+                }*/
         viewModel.getNoteState.observe(viewLifecycleOwner) { note ->
             Timber.d("HI")
             binding.editTextNote2.setText(note.title)
@@ -204,6 +241,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun handleFabClick() {
+        //viewModel.show()
         autoBackupToastShow = true
         binding.editTextNote2.hideKeyboard()
         lifecycleScope.launchDelay(HIDE_KEYBOARD_DELAY) { findNavController().popBackStack() }
@@ -372,22 +410,24 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
         if (storageAccess) {
             val backupPath = AppPreference.getBackupPath(requireContext())
-            val folderCreated = BackupFileHelper.folderCreated(File(backupPath))
+            viewModel.backupFolderCreated(backupPath)
+            /*            val backupPath = AppPreference.getBackupPath(requireContext())
+                        val folderCreated = BackupFileHelper.folderCreated(File(backupPath))
 
-            if (folderCreated) {
-                val backupName = StringUtil.replaceForbiddenCharacters(backupDate)
-                val backupFilePath = "$backupPath$backupName.db"
+                        if (folderCreated) {
+                            val backupName = StringUtil.replaceForbiddenCharacters(backupDate)
+                            val backupFilePath = "$backupPath$backupName.db"
 
-                val databasePath = requireContext().getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
-                viewModel.performBackup(databasePath, backupFilePath)
+                            val databasePath = requireContext().getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
+                            viewModel.performBackup(databasePath, backupFilePath)
 
-                val backupFolderPath = BackupPath.getBackupFolderPath(requireContext())
-                val maxFilesCount = AppPreference.getNumberBackups(requireContext())
-                viewModel.deleteExtraFiles(backupFolderPath, maxFilesCount)
+                            val backupFolderPath = BackupPath.getBackupFolderPath(requireContext())
+                            val maxFilesCount = AppPreference.getNumberBackups(requireContext())
+                            viewModel.deleteExtraFiles(backupFolderPath, maxFilesCount)
 
-                val hasNotification = AppPreference.autoBackupNotification(requireContext())
-                if (autoBackupToastShow && hasNotification) showToast(R.string.toast_auto_bp_completed)
-            }
+                            val hasNotification = AppPreference.autoBackupNotification(requireContext())
+                            if (autoBackupToastShow && hasNotification) showToast(R.string.toast_auto_bp_completed)
+                        }*/
         } else {
             if (autoBackupToastShow) showToast(R.string.toast_auto_bp_no_permissions)
         }
@@ -405,7 +445,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
                 val hasCreatedFolder = BackupFileHelper.folderCreated(textFilesFolder)
 
                 if (hasCreatedFolder) {
-                  // viewModel.createTextFile(textFilesFolder, )
+                    // viewModel.createTextFile(textFilesFolder, )
                 }
             } else {
                 storageContract.launch()

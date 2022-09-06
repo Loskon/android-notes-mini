@@ -14,7 +14,7 @@ open class AppLinkMovementMethod : LinkMovementMethod() {
     private var blockWorkLinks = false
 
     private var onLinkClick: ((String) -> Unit)? = null
-    private var onNoLinkClick: ((Int) -> Unit)? = null
+    private var onNoLinkClick: (() -> Unit)? = null
 
     override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
         if (blockWorkLinks) {
@@ -39,10 +39,10 @@ open class AppLinkMovementMethod : LinkMovementMethod() {
                 if (linkArray.isNotEmpty()) {
                     onLinkClick?.invoke(linkArray[0].url)
                 } else {
-                    onNoLinkClick?.invoke(offset)
+                    onNoLinkClick?.invoke()
                 }
             } else {
-                onNoLinkClick?.invoke(offset)
+                onNoLinkClick?.invoke()
             }
 
             return true
@@ -67,7 +67,7 @@ open class AppLinkMovementMethod : LinkMovementMethod() {
         this.onLinkClick = onLinkClick
     }
 
-    fun setOnNoLinkClickListener(onNoLinkClick: ((Int) -> Unit)?) {
+    fun setOnNoLinkClickListener(onNoLinkClick: (() -> Unit)?) {
         this.onNoLinkClick = onNoLinkClick
     }
 }

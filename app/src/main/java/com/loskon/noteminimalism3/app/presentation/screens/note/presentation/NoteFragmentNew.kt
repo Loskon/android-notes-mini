@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.app.presentation.screens.note.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -76,7 +77,6 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         super.onViewCreated(view, savedInstanceState)
 
         establishViewsColor()
-        configureEditText()
         configureKeyboardFocus()
         configureNoteFontSize()
         configureFavoriteStatus()
@@ -96,15 +96,13 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         binding.btnMoreNote2.setIconColor(color)
     }
 
-    private fun configureEditText() {
-        if (savedNote.id != NEW_NOTE_ID) binding.editTextNote2.isFocusableInTouchMode = false
-    }
-
     private fun configureKeyboardFocus() {
         if (savedNote.id == NEW_NOTE_ID) {
             binding.editTextNote2.showKeyboard()
         } else {
             binding.linLayoutNote2.setFocus()
+            binding.editTextNote2.isCursorVisible = false
+            binding.editTextNote2.showSoftInputOnFocus = false
         }
     }
 
@@ -135,9 +133,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         if (savedNote.id != NEW_NOTE_ID) {
             val activeLinks = LinksManager.getActiveLinks(requireContext())
 
-            if (activeLinks == 0) {
-                binding.editTextNote2.autoLinkMask = 0
-            } else {
+            if (activeLinks != 0) {
                 binding.editTextNote2.autoLinkMask = activeLinks
                 binding.editTextNote2.movementMethod = movementMethod
             }
@@ -171,13 +167,12 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
     private fun setupViewsListeners() {
         movementMethod.setOnLinkClickListener { url -> showNoteLinkDialogFragment(url) }
-        movementMethod.setOnNoLinkClickListener { position -> handleEmptyAreaClick(position) }
+        movementMethod.setOnNoLinkClickListener { handleEmptyAreaClick() }
         binding.linLayoutNote2.setOnDownClickListener { handleEmptyAreaClick() }
         binding.fabNote2.setDebounceClickListener { handleFabClick() }
         binding.btnFavNote2.setOnClickListener { handleFavoriteClick() }
         binding.btnDelNote2.setDebounceClickListener { handleDeleteClick() }
         binding.btnMoreNote2.setDebounceClickListener { handleMoreClick() }
-        binding.editTextNote2.setOnFocusChangeListener { _, focus -> handleEditTextFocused(focus) }
     }
 
     private fun showNoteLinkDialogFragment(url: String) {
@@ -191,16 +186,15 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         }.show(childFragmentManager, NoteLinkDialogFragment.TAG)
     }
 
-    private fun handleEmptyAreaClick(selectionPosition: Int? = null) {
+    private fun handleEmptyAreaClick() {
         Timber.d("handleEmptyAreaClick")
-        if (binding.editTextNote2.isFocusableInTouchMode.not()) {
-            binding.editTextNote2.isFocusableInTouchMode = true
+        if (binding.editTextNote2.isCursorVisible.not()) {
+            movementMethod.blockWorkLinks(true)
+            binding.editTextNote2.isCursorVisible = true
+            binding.editTextNote2.showSoftInputOnFocus = true
+            binding.editTextNote2.setLinkTextColor(getColor(R.color.primary_text_color))
         }
-        if (selectionPosition != null) {
-            binding.editTextNote2.setSelection(selectionPosition)
-        } else {
-            binding.editTextNote2.setEndSelection()
-        }
+        binding.editTextNote2.setEndSelection()
         binding.editTextNote2.showKeyboard()
     }
 
@@ -438,4 +432,9 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         private const val DIVISIBLE = 3
         private const val HIDE_KEYBOARD_DELAY = 200
     }
+}
+
+private fun EditText.setCursorVisibleKtx(visible: Boolean) {
+    isCursorVisible = visible
+    showSoftInputOnFocus = visible
 }

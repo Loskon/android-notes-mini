@@ -51,9 +51,7 @@ class NoteViewModel(
         return autoBackupInteractor.folderCreated(folderPath)
     }
 
-    fun createTextFile(file: File, fileTitle: String, text: String) {
-        launchErrorJob {
-            autoBackupInteractor.createTextFile(file, fileTitle, text)
-        }
+    fun createTextFile(file: File, fileTitle: String, text: String): Boolean {
+        return autoBackupInteractor.createTextFile(file, fileTitle, text)
     }
 }

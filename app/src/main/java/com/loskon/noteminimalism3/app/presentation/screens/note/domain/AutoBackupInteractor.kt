@@ -18,7 +18,7 @@ class AutoBackupInteractor(
         repository.deleteExtraFiles(backupFolderPath, maxFilesCount)
     }
 
-    fun createTextFile(file: File, fileTitle: String, text: String) {
-        repository.createTextFile(file, fileTitle, text)
+    fun createTextFile(file: File, fileTitle: String, text: String): Boolean {
+        return repository.createTextFile(file, fileTitle, text)
     }
 }

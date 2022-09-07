@@ -2,7 +2,6 @@ package com.loskon.noteminimalism3.app.presentation.screens.note.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -42,7 +41,6 @@ import com.loskon.noteminimalism3.utils.hideKeyboard
 import com.loskon.noteminimalism3.utils.showKeyboard
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import java.io.File
 import java.time.LocalDateTime
 
@@ -55,12 +53,12 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     private val storageContract = StorageContract(this)
     private val movementMethod = AppLinkMovementMethod()
 
-    private lateinit var backupDate: LocalDateTime
-    private var isFavorite: Boolean = false
-    private var isNewNote: Boolean = false
-    private var autoBackupToastShow: Boolean = false
+    private var backupDate = LocalDateTime.now()
+    private var isFavorite = false
+    private var isNewNote = false
+    private var autoBackupToastShow = false
 
-    private val savedNote: Note get() = viewModel.getNoteState.value
+    private val getNote: Note get() = viewModel.getNoteState.value
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +74,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getSavedArguments(savedInstanceState)
         establishViewsColor()
         configureKeyboardFocus()
         configureNoteFontSize()
@@ -84,6 +83,10 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         installObserver()
         setupContractListener()
         setupViewsListeners()
+    }
+
+    private fun getSavedArguments(savedInstanceState: Bundle?) {
+        backupDate = savedInstanceState?.getSerializable(KEY_OUTPUT_RESULT) as LocalDateTime? ?: LocalDateTime.now()
     }
 
     private fun establishViewsColor() {
@@ -97,7 +100,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun configureKeyboardFocus() {
-        if (savedNote.id == NEW_NOTE_ID) {
+        if (getNote.id == NEW_NOTE_ID) {
             binding.editTextNote2.showKeyboard()
         } else {
             binding.linLayoutNote2.setFocus()
@@ -112,7 +115,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun configureFavoriteStatus() {
-        isFavorite = savedNote.isFavorite
+        isFavorite = getNote.isFavorite
         changeIconFavBtn(isFavorite)
     }
 
@@ -130,7 +133,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun configureWorkWithLinks() {
-        if (savedNote.id != NEW_NOTE_ID) {
+        if (getNote.id != NEW_NOTE_ID) {
             val activeLinks = LinksManager.getActiveLinks(requireContext())
 
             if (activeLinks != 0) {
@@ -142,7 +145,6 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
     private fun installObserver() {
         viewModel.getNoteState.observe(viewLifecycleOwner) { note ->
-            Timber.d("HI")
             binding.editTextNote2.setText(note.title)
             binding.editTextNote2.setEndSelection()
         }
@@ -151,14 +153,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     private fun setupContractListener() {
         storageContract.setHandleGrantedListener { granted ->
             if (granted) {
-                SaveTextFileNew(requireContext(),
-                                saveSuccess = {
-                                    showSnackbar(getString(it), success = true)
-                                },
-                                saveFailure = {
-                                    showSnackbar(getString(it), success = false)
-                                }
-                ).creationFolderTextFiles(binding.editTextNote2.text.toString())
+                downloadTextFile()
             } else {
                 showSnackbar(getString(R.string.no_permissions), false)
             }
@@ -187,15 +182,16 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun handleEmptyAreaClick() {
-        Timber.d("handleEmptyAreaClick")
-        if (binding.editTextNote2.isCursorVisible.not()) {
-            movementMethod.blockWorkLinks(true)
-            binding.editTextNote2.isCursorVisible = true
-            binding.editTextNote2.showSoftInputOnFocus = true
-            binding.editTextNote2.setLinkTextColor(getColor(R.color.primary_text_color))
-        }
+        if (binding.editTextNote2.isCursorVisible.not()) turnTextEditingMode()
         binding.editTextNote2.setEndSelection()
         binding.editTextNote2.showKeyboard()
+    }
+
+    private fun turnTextEditingMode() {
+        movementMethod.blockWorkLinks(true)
+        binding.editTextNote2.isCursorVisible = true
+        binding.editTextNote2.showSoftInputOnFocus = true
+        binding.editTextNote2.setLinkTextColor(getColor(R.color.primary_text_color))
     }
 
     private fun handleFabClick() {
@@ -205,7 +201,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun handleFavoriteClick() {
-        val note = savedNote
+        val note = getNote
 
         changeIconFavBtn(note.isFavorite.not())
         changeNoteFavoriteStatus(note)
@@ -217,7 +213,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun handleDeleteClick() {
-        val note = savedNote
+        val note = getNote
 
         if (note.id == NEW_NOTE_ID) {
             viewModel.delete(note)
@@ -232,9 +228,9 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun checkShowUndoSnackbar(note: Note) {
-        val hasShow = AppPreference.isBottomWidgetShow(requireContext())
+        val show = AppPreference.isBottomWidgetShow(requireContext())
 
-        if (hasShow) {
+        if (show) {
             setFragmentResult(NoteListFragment.NOTE_TRASH_REQUEST_KEY, bundleOf(NoteListFragment.NOTE_TRASH_BUNDLE_KEY to note))
         }
     }
@@ -245,11 +241,11 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun showNoteMoreSheetDialogFragment() {
-        NoteMoreSheetDialogFragment.newInstance(savedNote.modifiedDate.formattedString()).apply {
+        NoteMoreSheetDialogFragment.newInstance(getNote.modifiedDate.formattedString()).apply {
             setOnPasteTextListener { pasteText() }
             setOnCopyTextListener { copyText() }
             setOnShareTextListener { shareText() }
-            setOnDownloadTextListener { downloadText() }
+            setOnDownloadTextListener { downloadTextFile() }
         }.show(childFragmentManager, NoteMoreSheetDialogFragment.TAG)
     }
 
@@ -296,41 +292,10 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         }
     }
 
-    private fun downloadText() {
-        val text = binding.editTextNote2.text.toString()
-
-        if (text.trim().isNotEmpty()) {
-            val accessStorage = storageContract.storageAccess(requireContext())
-
-            if (accessStorage) {
-                SaveTextFileNew(requireContext(),
-                                saveSuccess = {
-                                    showSnackbar(getString(it), success = true)
-                                },
-                                saveFailure = {
-                                    showSnackbar(getString(it), success = false)
-                                }
-                ).creationFolderTextFiles(binding.editTextNote2.text.toString())
-            } else {
-                storageContract.launch()
-            }
-        } else {
-            showSnackbar(getString(R.string.sb_note_is_empty), success = false)
-        }
-    }
-
-    private fun handleEditTextFocused(focus: Boolean) {
-        Timber.d("OnFocusChange: " + focus)
-        if (focus) {
-            movementMethod.blockWorkLinks(true)
-            binding.editTextNote2.setLinkTextColor(getColor(R.color.primary_text_color))
-        }
-    }
-
     override fun onPause() {
         super.onPause()
 
-        val note = savedNote
+        val note = getNote
         val title = binding.editTextNote2.text.toString()
 
         if (title.trim().isNotEmpty()) {
@@ -355,8 +320,10 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
                 }
             }
 
-            val autoBackup = AppPreference.hasAutoBackup(requireContext())
-            if (autoBackup && isNewNote && note.id % DIVISIBLE == NEW_NOTE_ID) createAutoBackup()
+            if (isNewNote) {
+                val autoBackup = AppPreference.hasAutoBackup(requireContext())
+                if (autoBackup && note.id % DIVISIBLE == NEW_NOTE_ID) createAutoBackup()
+            }
         } else {
             if (note.id != NEW_NOTE_ID) viewModel.delete(note)
         }
@@ -405,7 +372,13 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
                 val createdFolder = BackupFileHelper.folderCreated(textFilesFolder)
 
                 if (createdFolder) {
-                    viewModel.createTextFile(textFilesFolder, getTextFileTitle(text), text)
+                    val createSuccess = viewModel.createTextFile(textFilesFolder, getTextFileTitle(text), text)
+
+                    if (createSuccess) {
+                        showSnackbar(getString(R.string.sb_note_create_text_files_completed), success = true)
+                    } else {
+                        showSnackbar(getString(R.string.sb_note_create_text_file_failed), success = false)
+                    }
                 }
             } else {
                 storageContract.launch()
@@ -427,14 +400,15 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         AppSnackbar().make(binding.root, message, success, binding.fabNote2).show()
     }
 
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putSerializable(KEY_OUTPUT_RESULT, backupDate)
+    }
+
     companion object {
         private const val NEW_NOTE_ID = 0L
         private const val DIVISIBLE = 3
         private const val HIDE_KEYBOARD_DELAY = 200
+        private const val KEY_OUTPUT_RESULT = "key_output_result"
     }
-}
-
-private fun EditText.setCursorVisibleKtx(visible: Boolean) {
-    isCursorVisible = visible
-    showSoftInputOnFocus = visible
 }

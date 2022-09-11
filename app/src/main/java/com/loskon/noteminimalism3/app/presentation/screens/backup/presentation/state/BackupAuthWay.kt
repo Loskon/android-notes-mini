@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state
 
-enum class AuthIntent {
+enum class BackupAuthWay {
     BACKUP,
     RESTORE,
     DELETE_ACCOUNT

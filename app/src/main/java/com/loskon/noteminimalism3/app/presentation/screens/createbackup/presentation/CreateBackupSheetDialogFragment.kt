@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.presentation.screens
+package com.loskon.noteminimalism3.app.presentation.screens.createbackup.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -7,22 +7,22 @@ import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.datetime.formattedString
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_STRING_ID_KEY
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_SUCCESS_KEY
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_REQUEST_KEY
-import com.loskon.noteminimalism3.backup.DataBaseBackup
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_STRING_ID_KEY
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_SUCCESS_KEY
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_REQUEST_KEY
 import com.loskon.noteminimalism3.databinding.SheetCreateBackupBinding
-import com.loskon.noteminimalism3.files.BackupFileHelper
-import com.loskon.noteminimalism3.files.BackupPath
+import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.showKeyboard
 import com.loskon.noteminimalism3.viewbinding.viewBinding
-import java.io.File
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 
-class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
+class CreateBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private val binding by viewBinding(SheetCreateBackupBinding::inflate)
+    private val viewModel: CreateBackupViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,14 +52,14 @@ class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun setupViewsListeners() {
         binding.inputEditTextBackup.doOnTextChanged { _, _, _, _ -> run { disableErrorNotification() } }
-        setOkClickListener { onOkBtnClick() }
+        setOkClickListener { handleBtnOkClick() }
     }
 
     private fun disableErrorNotification() {
         if (binding.inputLayoutBackup.error != null) binding.inputLayoutBackup.isErrorEnabled = false
     }
 
-    private fun onOkBtnClick() {
+    private fun handleBtnOkClick() {
         val title = binding.inputEditTextBackup.text.toString().trim()
 
         if (title.isEmpty()) {
@@ -77,34 +77,38 @@ class LocalBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun createBackupFile(title: String) {
-        val backupFolder: File = BackupPath.getBackupFolder(requireContext())
-        val hasCreatedFolder: Boolean = BackupFileHelper.folderCreated(backupFolder)
+        val backupPath = AppPreference.getBackupPath(requireContext())
+        val folderCreated = viewModel.backupFolderCreated(backupPath)
 
-        if (hasCreatedFolder) {
-            creatingBackup(title)
+        if (folderCreated) {
+            creatingBackup(backupPath, title)
         } else {
-            showSnackbar(R.string.sb_bp_unable_created_folder, false)
+            showSnackbar(R.string.sb_bp_failure, success = false)
         }
     }
 
-    private fun creatingBackup(title: String) {
-        val backupPath: String = BackupPath.getBackupFolderPath(requireContext())
-        val backupTitle: String = StringUtil.replaceForbiddenCharacters(title)
-        val outFileName = "$backupPath$backupTitle.db"
+    private fun creatingBackup(backupPath: String, title: String) {
+        val backupTitle = StringUtil.replaceForbiddenCharacters(title)
+        val backupFilePath = "$backupPath$backupTitle.db"
 
-        try {
-            DataBaseBackup.performBackup(requireContext(), outFileName)
-            showSnackbar(R.string.sb_bp_succes, true)
-        } catch (exception: Exception) {
-            showSnackbar(R.string.sb_bp_failure, false)
+        val databasePath = requireContext().getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
+        val backupSuccess = viewModel.performBackup(databasePath, backupFilePath)
+
+        if (backupSuccess) {
+            val maxFilesCount = AppPreference.getNumberBackups(requireContext())
+            viewModel.deleteExtraFiles(backupPath, maxFilesCount)
+            showSnackbar(R.string.sb_bp_succes, success = true)
+        } else {
+            showSnackbar(R.string.sb_bp_failure, success = false)
         }
     }
 
     private fun showSnackbar(stringId: Int, success: Boolean) {
         val bundle = Bundle().apply {
-            putInt(LOCAL_BACKUP_BUNDLE_STRING_ID_KEY, stringId)
-            putBoolean(LOCAL_BACKUP_BUNDLE_SUCCESS_KEY, success)
+            putInt(CREATE_BACKUP_BUNDLE_STRING_ID_KEY, stringId)
+            putBoolean(CREATE_BACKUP_BUNDLE_SUCCESS_KEY, success)
         }
-        setFragmentResult(LOCAL_BACKUP_REQUEST_KEY, bundle)
+
+        setFragmentResult(CREATE_BACKUP_REQUEST_KEY, bundle)
     }
 }

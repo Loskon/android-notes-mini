@@ -19,9 +19,8 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceNavigationC
 import com.loskon.noteminimalism3.app.base.presentation.dialogfragment.WaitingDialogFragment
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.ConfirmSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.snackbar.AppSnackbar
-import com.loskon.noteminimalism3.app.presentation.screens.AccountSheetDialogFragment
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.AuthIntent
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAuthWay
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupMessageType
 import com.loskon.noteminimalism3.databinding.FragmentBackupNewBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -42,9 +41,9 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setFragmentResultListener(LOCAL_BACKUP_REQUEST_KEY) { bundle ->
-            val stringId = bundle.getInt(LOCAL_BACKUP_BUNDLE_STRING_ID_KEY)
-            val success = bundle.getBoolean(LOCAL_BACKUP_BUNDLE_SUCCESS_KEY)
+        setFragmentResultListener(CREATE_BACKUP_REQUEST_KEY) { bundle ->
+            val stringId = bundle.getInt(CREATE_BACKUP_BUNDLE_STRING_ID_KEY)
+            val success = bundle.getBoolean(CREATE_BACKUP_BUNDLE_SUCCESS_KEY)
             showSnackbar(stringId, success)
         }
     }
@@ -76,7 +75,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun installObservers() {
-        viewModel.getBackupState.observe(viewLifecycleOwner) { backupState ->
+        viewModel.getBackupUiState.observe(viewLifecycleOwner) { backupState ->
             binding.bottomBarBackup.setAllMenuItemsVisibility(backupState.hasAuthorizedUser)
         }
         viewModel.getBackupAction.observe(viewLifecycleOwner) { backupAction ->
@@ -184,21 +183,21 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     private fun checkingUserBeforeBackup() {
-        if (viewModel.getBackupState.value.hasAuthorizedUser) {
+        if (viewModel.getBackupUiState.value.hasAuthorizedUser) {
             showWaitingDialog()
             viewModel.backupDatebaseFile()
         } else {
-            viewModel.setAuthIntent(AuthIntent.BACKUP)
+            viewModel.setBackupAuthWay(BackupAuthWay.BACKUP)
             viewModel.getIntentSenderForAuthContract(requireActivity())
         }
     }
 
     private fun checkingUserBeforeRestore() {
-        if (viewModel.getBackupState.value.hasAuthorizedUser) {
+        if (viewModel.getBackupUiState.value.hasAuthorizedUser) {
             showWaitingDialog()
             viewModel.restoreDatabaseFile()
         } else {
-            viewModel.setAuthIntent(AuthIntent.RESTORE)
+            viewModel.setBackupAuthWay(BackupAuthWay.RESTORE)
             viewModel.getIntentSenderForAuthContract(requireActivity())
         }
     }
@@ -222,7 +221,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
             message = getString(R.string.sheet_deleting_data_message)
         ).apply {
             setOkClickListener {
-                viewModel.setAuthIntent(AuthIntent.DELETE_ACCOUNT)
+                viewModel.setBackupAuthWay(BackupAuthWay.DELETE_ACCOUNT)
                 viewModel.deleteDatabaseFile()
                 viewModel.getIntentSenderForAuthContract(requireActivity())
             }
@@ -240,8 +239,8 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
     }
 
     companion object {
-        const val LOCAL_BACKUP_REQUEST_KEY = "LOCAL_BACKUP_REQUEST_KEY"
-        const val LOCAL_BACKUP_BUNDLE_STRING_ID_KEY = "LOCAL_BACKUP_BUNDLE_STRING_ID_KEY"
-        const val LOCAL_BACKUP_BUNDLE_SUCCESS_KEY = "LOCAL_BACKUP_BUNDLE_SUCCESS_KEY"
+        const val CREATE_BACKUP_REQUEST_KEY = "CREATE_BACKUP_REQUEST_KEY"
+        const val CREATE_BACKUP_BUNDLE_STRING_ID_KEY = "CREATE_BACKUP_BUNDLE_STRING_ID_KEY"
+        const val CREATE_BACKUP_BUNDLE_SUCCESS_KEY = "CREATE_BACKUP_BUNDLE_SUCCESS_KEY"
     }
 }

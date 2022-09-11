@@ -1,5 +1,5 @@
 package com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state
 
-data class BackupState(
+data class BackupUiState(
     val hasAuthorizedUser: Boolean = false
 )

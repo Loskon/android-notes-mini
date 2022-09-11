@@ -12,9 +12,9 @@ import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListen
 import com.loskon.noteminimalism3.app.base.extension.view.setSoftVisibleKtx
 import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_STRING_ID_KEY
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_BUNDLE_SUCCESS_KEY
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.LOCAL_BACKUP_REQUEST_KEY
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_STRING_ID_KEY
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_SUCCESS_KEY
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_REQUEST_KEY
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.databinding.SheetRestoreListBinding
 import com.loskon.noteminimalism3.viewbinding.viewBinding
@@ -116,9 +116,9 @@ class BackupFileListSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun showSnackbar(stringId: Int, success: Boolean) {
         val bundle = Bundle().apply {
-            putInt(LOCAL_BACKUP_BUNDLE_STRING_ID_KEY, stringId)
-            putBoolean(LOCAL_BACKUP_BUNDLE_SUCCESS_KEY, success)
+            putInt(CREATE_BACKUP_BUNDLE_STRING_ID_KEY, stringId)
+            putBoolean(CREATE_BACKUP_BUNDLE_SUCCESS_KEY, success)
         }
-        setFragmentResult(LOCAL_BACKUP_REQUEST_KEY, bundle)
+        setFragmentResult(CREATE_BACKUP_REQUEST_KEY, bundle)
     }
 }

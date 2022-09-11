@@ -5,10 +5,10 @@ import android.content.Intent
 import com.loskon.noteminimalism3.app.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.CloudStorageInteractor
 import com.loskon.noteminimalism3.app.presentation.screens.backup.domain.GoogleOneTapSignInInteractor
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.AuthIntent
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAction
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupAuthWay
 import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupMessageType
-import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupState
+import com.loskon.noteminimalism3.app.presentation.screens.backup.presentation.state.BackupUiState
 import com.loskon.noteminimalism3.utils.NetworkUtil
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,12 +22,12 @@ class BackupViewModel(
     private val networkUtil: NetworkUtil
 ) : BaseViewModel() {
 
-    private val backupState = MutableStateFlow(BackupState())
+    private val backupUiState = MutableStateFlow(BackupUiState())
     private val backupAction = MutableSharedFlow<BackupAction>()
-    val getBackupState get() = backupState.asStateFlow()
+    val getBackupUiState get() = backupUiState.asStateFlow()
     val getBackupAction get() = backupAction.asSharedFlow()
 
-    private var authIntent: AuthIntent? = null
+    private var backupAuthWay: BackupAuthWay? = null
 
     fun hasAuthorizedUser() {
         launchErrorJob {
@@ -38,15 +38,15 @@ class BackupViewModel(
 
     fun authenticationWithSelectWay(data: Intent?) {
         launchErrorJob {
-            if (authIntent == AuthIntent.BACKUP) {
+            if (backupAuthWay == BackupAuthWay.BACKUP) {
                 val signInSuccess = googleOneTapSignInInteractor.signIn(data)
                 emitBackupState(hasAuthorizedUser = signInSuccess)
                 if (signInSuccess) uploadDatabaseFile()
-            } else if (authIntent == AuthIntent.RESTORE) {
+            } else if (backupAuthWay == BackupAuthWay.RESTORE) {
                 val signInSuccess = googleOneTapSignInInteractor.signIn(data)
                 emitBackupState(hasAuthorizedUser = signInSuccess)
                 if (signInSuccess) checkExistsDatabaseFile()
-            } else if (authIntent == AuthIntent.DELETE_ACCOUNT) {
+            } else if (backupAuthWay == BackupAuthWay.DELETE_ACCOUNT) {
                 val reauthenticateSuccess = googleOneTapSignInInteractor.reAuthenticate(data)
                 if (reauthenticateSuccess) deleteAccount()
             }
@@ -101,8 +101,8 @@ class BackupViewModel(
         }
     }
 
-    fun setAuthIntent(authIntent: AuthIntent) {
-        this.authIntent = authIntent
+    fun setBackupAuthWay(backupAuthWay: BackupAuthWay) {
+        this.backupAuthWay = backupAuthWay
     }
 
     fun backupDatebaseFile() {
@@ -148,7 +148,7 @@ class BackupViewModel(
     }
 
     private suspend fun emitBackupState(hasAuthorizedUser: Boolean) {
-        backupState.emit(BackupState(hasAuthorizedUser))
+        backupUiState.emit(BackupUiState(hasAuthorizedUser))
     }
 
     private suspend fun emitShowSnackbarAction(messageType: BackupMessageType) {

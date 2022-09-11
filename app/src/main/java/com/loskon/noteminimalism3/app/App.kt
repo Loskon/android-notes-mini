@@ -5,6 +5,7 @@ import com.loskon.noteminimalism3.BuildConfig
 import com.loskon.noteminimalism3.app.presentation.appModule
 import com.loskon.noteminimalism3.app.presentation.screens.backup.backupModule
 import com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.backupFileListModule
+import com.loskon.noteminimalism3.app.presentation.screens.createbackup.createBackupModule
 import com.loskon.noteminimalism3.app.presentation.screens.note.noteModule
 import com.loskon.noteminimalism3.app.presentation.screens.notelist.noteListModule
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -29,7 +30,7 @@ class App : Application() {
                 listOf(
                     appModule, noteListModule,
                     noteModule, backupModule,
-                    backupFileListModule
+                    backupFileListModule, createBackupModule
                 )
             )
         }

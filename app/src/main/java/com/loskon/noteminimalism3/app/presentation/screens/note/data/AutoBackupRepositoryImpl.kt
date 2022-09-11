@@ -9,20 +9,17 @@ class AutoBackupRepositoryImpl(
 
     override fun folderCreated(folderPath: String): Boolean {
         val folder = File(folderPath)
-
         return localeFileSource.folderCreated(folder)
     }
 
     override fun performBackup(databasePath: String, backupFilePath: String): Boolean {
         val dbFile = File(databasePath)
         val backupFile = File(backupFilePath)
-
         return localeFileSource.copyFile(dbFile, backupFile)
     }
 
     override fun deleteExtraFiles(backupFolderPath: String, maxFilesCount: Int) {
         val backupFolder = File(backupFolderPath)
-
         localeFileSource.deleteExtraFiles(backupFolder, maxFilesCount)
     }
 

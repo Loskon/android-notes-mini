@@ -54,7 +54,7 @@
 
     <dialog
         android:id="@+id/localBackupSheetDialogFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.LocalBackupSheetDialogFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.createbackup.presentation.CreateBackupSheetDialogFragment"
         android:label="LocalBackupSheetDialogFragment" />
     <dialog
         android:id="@+id/restoreListSheetDialogFragment"

@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.app.base.widget.preference
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
@@ -10,13 +11,8 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 
-/**
- * Preference with slider
- */
-class SliderPreference constructor(
-    context: Context,
-    attrs: AttributeSet
-) : Preference(context, attrs) {
+@SuppressLint("PrivateResource")
+class SliderPreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
 
     private var onChangeListener: ((Int) -> Unit)? = null
     private var defaultValue: Int = 0
@@ -38,7 +34,7 @@ class SliderPreference constructor(
         super.onBindViewHolder(holder)
         holder.itemView.isClickable = false
 
-        val color: Int = AppPreference.getColor(context)
+        val color = AppPreference.getColor(context)
         val savedValue = sharedPreferences?.getInt(key, defaultValue) ?: 0
 
         val slider = holder.findViewById(R.id.slider_preference) as Slider

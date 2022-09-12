@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/appearanceSettingsFragment"
-        android:name="com.loskon.noteminimalism3.app.presentation.screens.settings.AppearanceSettingsFragment"
+        android:name="com.loskon.noteminimalism3.app.presentation.screens.settings.appearance.AppearanceSettingsFragment"
         android:label="appearanceSettingsFragment" />
 
     <fragment

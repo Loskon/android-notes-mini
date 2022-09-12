@@ -4,7 +4,23 @@
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/note_app_header">
-        <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCardView app:allowDividerAbove="false" />
+
+        <com.loskon.noteminimalism3.app.base.widget.preference.NoteCardViewPreference
+            app:allowDividerBelow="false"
+            app:key="one" />
+
+    </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
+
+    <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/font_size_card_header">
+
+        <com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
+            android:key="zero"
+            app:allowDividerAbove="false"
+            app:defaultValue="@integer/title_font_size_int"
+            app:sliderMaxValue="40"
+            app:sliderMinValue="14" />
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
     <Preference

@@ -86,7 +86,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun getSavedArguments(savedInstanceState: Bundle?) {
-        backupDate = savedInstanceState?.getSerializable(KEY_OUTPUT_RESULT) as LocalDateTime? ?: LocalDateTime.now()
+        backupDate = savedInstanceState?.getSerializable(PUT_KEY_SAVE_DATE) as LocalDateTime? ?: LocalDateTime.now()
     }
 
     private fun establishViewsColor() {
@@ -402,13 +402,13 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putSerializable(KEY_OUTPUT_RESULT, backupDate)
+        savedInstanceState.putSerializable(PUT_KEY_SAVE_DATE, backupDate)
     }
 
     companion object {
         private const val NEW_NOTE_ID = 0L
         private const val DIVISIBLE = 3
         private const val HIDE_KEYBOARD_DELAY = 200
-        private const val KEY_OUTPUT_RESULT = "key_output_result"
+        private const val PUT_KEY_SAVE_DATE = "PUT_KEY_SAVE_DATE"
     }
 }

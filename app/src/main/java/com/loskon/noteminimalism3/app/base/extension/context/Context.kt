@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
+import androidx.annotation.IntegerRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -28,6 +29,10 @@ fun Context.getDrawableKtx(@DrawableRes drawableId: Int): Drawable? {
 
 fun Context.getDimenKtx(@DimenRes dimenId: Int): Int {
     return resources.getDimension(dimenId).toInt()
+}
+
+fun Context.getIntegerKtx(@IntegerRes intId: Int): Int {
+    return resources.getInteger(intId)
 }
 
 fun Context.getMaterialColorKtx(@AttrRes attrRes: Int): Int {

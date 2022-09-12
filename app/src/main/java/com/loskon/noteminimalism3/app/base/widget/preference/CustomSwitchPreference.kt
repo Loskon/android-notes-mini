@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.app.base.widget.preference
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -12,6 +13,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 
+@SuppressLint("WrongViewCast")
 class CustomSwitchPreference(
     context: Context,
     attrs: AttributeSet

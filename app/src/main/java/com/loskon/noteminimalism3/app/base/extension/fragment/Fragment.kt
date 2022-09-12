@@ -10,6 +10,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
+import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -20,6 +21,7 @@ import com.loskon.noteminimalism3.app.base.extension.context.getColorPrimaryKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getDimenKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getDrawableKtx
 import com.loskon.noteminimalism3.app.base.extension.context.getFontKtx
+import com.loskon.noteminimalism3.app.base.extension.context.getIntegerKtx
 import com.loskon.noteminimalism3.app.base.extension.context.showToast
 
 val Fragment.colorPrimary: Int get() = requireContext().getColorPrimaryKtx()
@@ -33,6 +35,8 @@ fun Fragment.getFont(@FontRes fontId: Int) = requireContext().getFontKtx(fontId)
 fun Fragment.getDrawable(@DrawableRes drawableId: Int) = requireContext().getDrawableKtx(drawableId)
 
 fun Fragment.getDimen(@DimenRes dimenId: Int): Int = requireContext().getDimenKtx(dimenId)
+
+fun Fragment.getInteger(@IntegerRes intId: Int): Int = requireContext().getIntegerKtx(intId)
 
 fun Fragment.requireFont(@FontRes fontId: Int): Typeface {
     return getFont(fontId) ?: throw NullPointerException("Fragment $this could not find the font.")

@@ -32,21 +32,22 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
     }
 
     private fun findPreferences() {
-        noteCardView = findPreference("one")
-        resetFontSize = findPreference(getString(com.loskon.noteminimalism3.R.string.reset_font_size_title))
-        selectColor = findPreference(getString(com.loskon.noteminimalism3.R.string.select_color_app_title))
-        selectColorHex = findPreference(getString(com.loskon.noteminimalism3.R.string.select_color_app_hex_title))
-        resetColor = findPreference(getString(com.loskon.noteminimalism3.R.string.reset_app_color))
-        fontSizeSlider = findPreference("zero")
-        numberLinesSlider = findPreference(getString(com.loskon.noteminimalism3.R.string.number_of_lines_key))
-        oneSizeCardsSwitch = findPreference(getString(com.loskon.noteminimalism3.R.string.one_size_cards_key))
+        noteCardView = findPreference(getString(R.string.note_card_view_key))
+        resetFontSize = findPreference(getString(R.string.reset_font_size_title))
+        selectColor = findPreference(getString(R.string.select_color_app_title))
+        selectColorHex = findPreference(getString(R.string.select_color_app_hex_title))
+        resetColor = findPreference(getString(R.string.reset_app_color))
+        fontSizeSlider = findPreference(getString(R.string.font_size_key))
+        numberLinesSlider = findPreference(getString(R.string.number_of_lines_key))
+        oneSizeCardsSwitch = findPreference(getString(R.string.one_size_cards_key))
     }
 
     private fun setupPreferencesListeners() {
         resetFontSize?.setDebouncePreferenceClickListener {
-            AppPreference.setTitleFontSize(requireContext(), getInteger(R.integer.title_font_size_int))
-            AppPreference.setDateFontSize(requireContext(), getInteger(R.integer.date_font_size_int))
-            listView.adapter?.notifyItemChanged(1)
+            val titleFontSize = getInteger(R.integer.title_font_size_int)
+            val dateFontSize = getInteger(R.integer.date_font_size_int)
+            saveFontSizes(titleFontSize, dateFontSize)
+            listView.adapter?.notifyDataSetChanged()
         }
         selectColor?.setDebouncePreferenceClickListener {
             ColorPickerSheetDialogFragment.newInstance().apply {
@@ -62,10 +63,10 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
         resetColor?.setDebouncePreferenceClickListener {
             // ResetColorWarningSheetDialog(this).show()
         }
-        fontSizeSlider?.setOnChangeListener { newValue ->
-            noteCardView?.setTextSizes(newValue, getDateFontSize(newValue))
-            AppPreference.setTitleFontSize(requireContext(), newValue)
-            AppPreference.setDateFontSize(requireContext(), getDateFontSize(newValue))
+        fontSizeSlider?.setOnChangeListener { titleFontSize ->
+            val dateFontSize = getDateFontSize(titleFontSize)
+            noteCardView?.setTextSizes(titleFontSize, dateFontSize)
+            saveFontSizes(titleFontSize, dateFontSize)
         }
         oneSizeCardsSwitch?.setShortPreferenceChangeListener { newValue ->
 
@@ -73,6 +74,11 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
         numberLinesSlider?.setOnChangeListener { newValue ->
 
         }
+    }
+
+    private fun saveFontSizes(titleFontSize: Int, dateFontSize: Int) {
+        AppPreference.setTitleFontSize(requireContext(), titleFontSize)
+        AppPreference.setDateFontSize(requireContext(), dateFontSize)
     }
 
     private fun getDateFontSize(titleFontSize: Int): Int {

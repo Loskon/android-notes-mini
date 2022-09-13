@@ -7,7 +7,7 @@
 
         <com.loskon.noteminimalism3.app.base.widget.preference.NoteCardViewPreference
             app:allowDividerBelow="false"
-            app:key="one" />
+            app:key="@string/note_card_view_key" />
 
     </com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory>
 
@@ -16,7 +16,7 @@
         app:title="@string/font_size_card_header">
 
         <com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
-            android:key="zero"
+            android:key="@string/font_size_key"
             app:allowDividerAbove="false"
             app:defaultValue="@integer/title_font_size_int"
             app:sliderMaxValue="40"

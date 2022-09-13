@@ -237,6 +237,8 @@
     <!-- Preference key -->
     <string name="one_size_cards_key">Same cards size</string>
     <string name="number_of_lines_key">Number of lines</string>
+    <string name="note_card_view_key" translatable="false">note_card_view_key</string>
+    <string name="font_size_key" translatable="false">key_font_size</string>
 
     <!-- Other -->
     <!-- App -->

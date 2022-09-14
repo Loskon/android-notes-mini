@@ -77,7 +77,7 @@ class AppearanceSettingsFragment : PreferenceFragmentCompat() {
 
     //--- Внешние методы ---------------------------------------------------------------------------
     fun callingCallbacks(appColor: Int) {
-        AppPreference.setAppColor(activity, appColor)
+        AppPreference.setColor(activity, appColor)
         activity.onChangeColor(appColor)
         callbackColor?.onChangeColor(appColor)
         forceUpdatePreferenceList()

@@ -12,3 +12,5 @@ fun DialogFragment.onlyShow(fragmentManager: FragmentManager, tag: String) {
 fun DialogFragment.dismissShowing() {
     if (requireDialog().isShowing) dismiss()
 }
+
+fun DialogFragment.show(manager: FragmentManager) = show(manager, null)

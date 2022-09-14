@@ -38,7 +38,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/reset_hex_color"
+        android:id="@+id/btn_reset_hex_color"
         style="@style/ButtonStrokeStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

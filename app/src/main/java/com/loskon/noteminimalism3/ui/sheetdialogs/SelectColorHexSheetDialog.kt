@@ -22,7 +22,7 @@ class SelectColorHexSheetDialog(private val fragment: AppearanceSettingsFragment
 
     private val inputLayout: TextInputLayout = view.findViewById(R.id.input_layout_hex)
     private val inputEditText: TextInputEditText = view.findViewById(R.id.input_edit_text_hex)
-    private val btnReset: MaterialButton = view.findViewById(R.id.reset_hex_color)
+    private val btnReset: MaterialButton = view.findViewById(R.id.btn_reset_hex_color)
 
     private var appColor: Int = color
 

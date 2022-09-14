@@ -53,6 +53,20 @@ fun Fragment.setFragmentResultListener(requestKey: String, onResult: (Bundle) ->
     }
 }
 
+fun Fragment.setChildFragmentResultListener(requestKey: String, onResult: (Bundle) -> Unit) {
+    setChildFragmentResultListener(requestKey) { _, bundle ->
+        onResult(bundle)
+        bundle.clear()
+    }
+}
+
+fun Fragment.setChildFragmentResultListener(
+    requestKey: String,
+    listener: ((requestKey: String, bundle: Bundle) -> Unit)
+) {
+    childFragmentManager.setFragmentResultListener(requestKey, this, listener)
+}
+
 fun Fragment.setFragmentClick(requestKey: String) {
     setFragmentResult(requestKey, Bundle())
 }

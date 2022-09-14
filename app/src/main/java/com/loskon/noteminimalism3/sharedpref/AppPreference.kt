@@ -99,7 +99,7 @@ object AppPreference {
         set(context, PREF_KEY_TEXT_NOTE_FONT_SIZE, fontSizeNote)
     }
 
-    fun setAppColor(context: Context, color: Int) {
+    fun setColor(context: Context, color: Int) {
         set(context, PREF_KEY_COLOR, color)
     }
 

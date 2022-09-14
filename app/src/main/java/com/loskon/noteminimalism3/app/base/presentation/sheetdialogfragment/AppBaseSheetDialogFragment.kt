@@ -49,6 +49,7 @@ open class AppBaseSheetDialogFragment : BaseSheetDialogFragment() {
     private fun setupBaseViewsListeners() {
         binding.btnBaseDialogOk.setDebounceClickListener {
             onOkClick?.invoke()
+            dismiss()
         }
         binding.btnBaseDialogCancel.setDebounceClickListener {
             dismiss()

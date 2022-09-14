@@ -1,5 +1,6 @@
 package com.loskon.noteminimalism3.app.base.widget.preference
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
@@ -9,6 +10,7 @@ import com.loskon.noteminimalism3.app.base.extension.view.setFilterKtx
 /**
  * EditTextPreference to enter and save only integers
  */
+@SuppressLint("PrivateResource")
 class NumberEditTextPreference(
     context: Context,
     attrs: AttributeSet

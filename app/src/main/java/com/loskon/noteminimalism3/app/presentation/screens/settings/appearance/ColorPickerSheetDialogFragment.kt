@@ -29,7 +29,7 @@ class ColorPickerSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun getSavedArguments(savedInstanceState: Bundle?) {
-        selectedColor = savedInstanceState?.getInt(PUT_KEY_SAVE_COLOR) ?: Color.TRANSPARENT
+        selectedColor = savedInstanceState?.getInt(PUT_KEY_SAVE_COLOR) ?: color
     }
 
     private fun setupViewsParameters() {
@@ -37,7 +37,7 @@ class ColorPickerSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun establishViewsColor() {
-        binding.colorPicker.color = color
+        binding.colorPicker.color = selectedColor
     }
 
     private fun configureInsertedViews() {
@@ -46,8 +46,12 @@ class ColorPickerSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun setupViewsListeners() {
-        binding.colorPicker.setOnColorChangedListener { selectedColor = it }
-        binding.btnColorPickerReset.setDebounceClickListener { binding.colorPicker.color = color }
+        binding.colorPicker.setOnColorChangedListener { color ->
+            selectedColor = color
+        }
+        binding.btnColorPickerReset.setDebounceClickListener {
+            binding.colorPicker.color = color
+        }
         setOkClickListener {
             handleSelectedColor?.invoke(selectedColor)
             dismiss()

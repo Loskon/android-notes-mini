@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.base.extension.dialogfragment.show
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
 import com.loskon.noteminimalism3.app.base.extension.fragment.getDrawable
+import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentClickListener
 import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.fragment.setOnBackPressedListener
 import com.loskon.noteminimalism3.app.base.extension.view.hide
@@ -94,6 +96,21 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             val note = bundle.getParcelable<Note>(NOTE_TRASH_BUNDLE_KEY)
 
             if (note != null) undoSnackbar?.show(note, note.isFavorite, category)
+        }
+        setFragmentClickListener(ConfirmSheetDialogFragment.DELETE_FOREVER_KEY) {
+            val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
+
+            viewModel.deleteNotes(checkedNotes)
+            viewModel.toggleSelectionMode(false)
+            viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
+        }
+        setFragmentClickListener(ConfirmSheetDialogFragment.CLEAN_TRASH_KEY) {
+            if (notesAdapter.itemCount != 0) {
+                viewModel.cleanTrash()
+                viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
+            } else {
+                showSnackbar(getString(R.string.sb_but_empty_trash), false)
+            }
         }
     }
 
@@ -485,35 +502,20 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun showConfirmDeleteForever() {
         ConfirmSheetDialogFragment.newInstance(
+            requestKey = ConfirmSheetDialogFragment.DELETE_FOREVER_KEY,
             title = getString(R.string.dg_delete_forever_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
-        ).apply {
-            setOkClickListener {
-                val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
-
-                viewModel.deleteNotes(checkedNotes)
-                viewModel.toggleSelectionMode(false)
-                viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
-            }
-        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
+        ).show(childFragmentManager)
     }
 
     private fun showConfirmCleanTrash() {
         ConfirmSheetDialogFragment.newInstance(
+            requestKey = ConfirmSheetDialogFragment.CLEAN_TRASH_KEY,
             title = getString(R.string.dg_trash_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
-        ).apply {
-            setOkClickListener {
-                if (notesAdapter.itemCount != 0) {
-                    viewModel.cleanTrash()
-                    viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
-                } else {
-                    showSnackbar(getString(R.string.sb_but_empty_trash), false)
-                }
-            }
-        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
+        ).show(childFragmentManager)
     }
 
     fun showSnackbar(message: String, success: Boolean) {

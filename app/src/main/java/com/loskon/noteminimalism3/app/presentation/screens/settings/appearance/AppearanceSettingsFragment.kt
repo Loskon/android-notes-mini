@@ -8,6 +8,7 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.extension.dialogfragment.show
 import com.loskon.noteminimalism3.app.base.extension.fragment.getColor
 import com.loskon.noteminimalism3.app.base.extension.fragment.getInteger
+import com.loskon.noteminimalism3.app.base.extension.fragment.setChildFragmentClickListener
 import com.loskon.noteminimalism3.app.base.extension.fragment.setChildFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.view.setDebouncePreferenceClickListener
 import com.loskon.noteminimalism3.app.base.extension.view.setShortPreferenceChangeListener
@@ -32,11 +33,28 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setChildFragmentResultListener(ColorHexSheetDialogFragment.TAG) { bundle -> changeAppColor(bundle) }
+        setChildFragmentResultListener(ColorHexSheetDialogFragment.REQUEST_KEY) { bundle -> changeAppColor(bundle) }
+        setChildFragmentClickListener(ConfirmSheetDialogFragment.RESET_COLOR_KEY) { setDefaultColor() }
+        setChildFragmentClickListener(ConfirmSheetDialogFragment.RESET_FONT_SIZE_KEY) { resetFontSize() }
+    }
+
+    private fun resetFontSize() {
+        val titleFontSize = getInteger(R.integer.title_font_size_int)
+        val dateFontSize = getInteger(R.integer.date_font_size_int)
+        saveFontSizes(titleFontSize, dateFontSize)
+        listView.adapter?.notifyDataSetChanged()
+    }
+
+    private fun setDefaultColor() {
+        val color = getColor(R.color.material_blue)
+        setBottomBarNavigationIconColor(color)
+        AppPreference.setColor(requireContext(), color)
+        listView.adapter?.notifyDataSetChanged()
     }
 
     private fun changeAppColor(bundle: Bundle) {
-        val color = bundle.getInt(ColorHexSheetDialogFragment.TAG)
+        val color = bundle.getInt(ColorHexSheetDialogFragment.REQUEST_KEY)
+        setBottomBarNavigationIconColor(color)
         AppPreference.setColor(requireContext(), color)
         listView.adapter?.notifyDataSetChanged()
     }
@@ -71,17 +89,11 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
 
     private fun showConfirmResetFontSizeSheetDialog() {
         ConfirmSheetDialogFragment.newInstance(
+            requestKey = ConfirmSheetDialogFragment.RESET_FONT_SIZE_KEY,
             title = getString(R.string.sheet_reset_font_size_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
-        ).apply {
-            setOkClickListener {
-                val titleFontSize = getInteger(R.integer.title_font_size_int)
-                val dateFontSize = getInteger(R.integer.date_font_size_int)
-                saveFontSizes(titleFontSize, dateFontSize)
-                listView.adapter?.notifyDataSetChanged()
-            }
-        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
+        ).show(childFragmentManager)
     }
 
     private fun saveFontSizes(titleFontSize: Int, dateFontSize: Int) {
@@ -95,7 +107,7 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
                 AppPreference.setColor(requireContext(), color)
                 listView.adapter?.notifyDataSetChanged()
             }
-        }.show(childFragmentManager, ColorPickerSheetDialogFragment.TAG)
+        }.show(parentFragmentManager, ColorPickerSheetDialogFragment.TAG)
     }
 
     private fun showColorHexSheetDialog() {
@@ -104,16 +116,11 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
 
     private fun showConfirmResetColorSheetDialog() {
         ConfirmSheetDialogFragment.newInstance(
+            requestKey = ConfirmSheetDialogFragment.RESET_COLOR_KEY,
             title = getString(R.string.sheet_reset_color_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
-        ).apply {
-            setOkClickListener {
-                val color = getColor(R.color.material_blue)
-                AppPreference.setColor(requireContext(), color)
-                listView.adapter?.notifyDataSetChanged()
-            }
-        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
+        ).show(childFragmentManager)
     }
 
     private fun handleChangedFontSizeSlider(titleFontSize: Int) {

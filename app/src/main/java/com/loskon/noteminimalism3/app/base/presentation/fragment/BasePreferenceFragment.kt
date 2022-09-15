@@ -26,6 +26,10 @@ open class BasePreferenceFragment : PreferenceFragmentCompat() {
         binding.bottomBarSettings.setDebounceNavigationClickListener { findNavController().popBackStack() }
     }
 
+    fun setBottomBarNavigationIconColor(color: Int) {
+        binding.bottomBarSettings.setNavigationIconColor(color)
+    }
+
     fun showSnackbar(message: String, success: Boolean) {
         AppSnackbar().make(binding.root, message, success, binding.bottomBarSettings)
     }

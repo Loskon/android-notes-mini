@@ -9,7 +9,9 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.base.contracts.AuthContract
 import com.loskon.noteminimalism3.app.base.contracts.StorageContract
 import com.loskon.noteminimalism3.app.base.extension.dialogfragment.dismissShowing
+import com.loskon.noteminimalism3.app.base.extension.dialogfragment.show
 import com.loskon.noteminimalism3.app.base.extension.flow.observe
+import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentClickListener
 import com.loskon.noteminimalism3.app.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.app.base.extension.view.setAllItemsColor
 import com.loskon.noteminimalism3.app.base.extension.view.setAllMenuItemsVisibility
@@ -45,6 +47,18 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
             val stringId = bundle.getInt(CREATE_BACKUP_BUNDLE_STRING_ID_KEY)
             val success = bundle.getBoolean(CREATE_BACKUP_BUNDLE_SUCCESS_KEY)
             showSnackbar(stringId, success)
+        }
+        setFragmentClickListener(ConfirmSheetDialogFragment.BACKUP_KEY) {
+            if (isBackup) {
+                checkingUserBeforeBackup()
+            } else {
+                checkingUserBeforeRestore()
+            }
+        }
+        setFragmentClickListener(ConfirmSheetDialogFragment.DATA_DELETE_KEY) {
+            viewModel.setBackupAuthWay(BackupAuthWay.DELETE_ACCOUNT)
+            viewModel.deleteDatabaseFile()
+            viewModel.getIntentSenderForAuthContract(requireActivity())
         }
     }
 
@@ -82,7 +96,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
             when (backupAction) {
                 is BackupAction.LaunchAuthContract -> authContract.launch(backupAction.intentSender)
                 is BackupAction.ShowSnackbar -> closeWaitingDialogAndShowMessage(backupAction.messageType)
-                is BackupAction.ShowConfirmSheetDialog -> showConfirmSheetDialog(backupAction.isBackup)
+                is BackupAction.ShowConfirmSheetDialog -> showConfirmBackupSheetDialog(backupAction.isBackup)
                 is BackupAction.ShowAccountDialog -> showAccountDialog()
                 else -> {}
             }
@@ -166,20 +180,13 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
         AppSnackbar().make(binding.root, getString(stringId), success, binding.bottomBarBackup).show()
     }
 
-    private fun showConfirmSheetDialog(isBackup: Boolean) {
+    private fun showConfirmBackupSheetDialog(isBackup: Boolean) {
         ConfirmSheetDialogFragment.newInstance(
+            requestKey = ConfirmSheetDialogFragment.BACKUP_KEY,
             title = getString(R.string.sheet_confirm_action),
             btnOkText = getString(R.string.continue_action),
             btnCancelText = getString(R.string.no)
-        ).apply {
-            setOkClickListener {
-                if (isBackup) {
-                    checkingUserBeforeBackup()
-                } else {
-                    checkingUserBeforeRestore()
-                }
-            }
-        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
+        ).show(childFragmentManager)
     }
 
     private fun checkingUserBeforeBackup() {
@@ -215,17 +222,12 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
 
     private fun showConfirmDeleteDialog() {
         ConfirmSheetDialogFragment.newInstance(
+            requestKey = ConfirmSheetDialogFragment.DATA_DELETE_KEY,
             title = getString(R.string.sheet_deleting_data),
             btnOkText = getString(R.string.continue_action),
             btnCancelText = getString(android.R.string.cancel),
             message = getString(R.string.sheet_deleting_data_message)
-        ).apply {
-            setOkClickListener {
-                viewModel.setBackupAuthWay(BackupAuthWay.DELETE_ACCOUNT)
-                viewModel.deleteDatabaseFile()
-                viewModel.getIntentSenderForAuthContract(requireActivity())
-            }
-        }.show(childFragmentManager, ConfirmSheetDialogFragment.TAG)
+        ).show(childFragmentManager)
     }
 
     private fun showLocalBackupSheetDialog() {

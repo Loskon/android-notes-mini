@@ -14,15 +14,12 @@ import com.loskon.noteminimalism3.app.base.presentation.sheetdialogfragment.AppB
 import com.loskon.noteminimalism3.databinding.SheetColorHexBinding
 import com.loskon.noteminimalism3.utils.showKeyboard
 import com.loskon.noteminimalism3.viewbinding.viewBinding
-import timber.log.Timber
 
 class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private val binding by viewBinding(SheetColorHexBinding::inflate)
 
     private var selectedColor: Int = Color.TRANSPARENT
-
-    private var handleSelectedColor: ((Int) -> Unit)? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +34,6 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun getSavedArguments(savedInstanceState: Bundle?) {
         selectedColor = savedInstanceState?.getInt(PUT_KEY_SAVE_HEX_COLOR) ?: color
-        Timber.d(selectedColor.toString())
     }
 
     private fun setupViewsParameters() {
@@ -79,9 +75,7 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
             binding.inputEditTextHex.setEndSelection()
         }
         setOkClickListener {
-            Timber.d(selectedColor.toString())
-            //handleSelectedColor?.invoke(selectedColor)
-            setFragmentResult(TAG, bundleOf(TAG to selectedColor))
+            setFragmentResult(REQUEST_KEY, bundleOf(REQUEST_KEY to selectedColor))
             dismiss()
         }
     }
@@ -103,13 +97,8 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
         savedInstanceState.putInt(PUT_KEY_SAVE_HEX_COLOR, selectedColor)
     }
 
-    fun setHandleSelectedColorListener(handleSelectedColor: ((Int) -> Unit)?) {
-        this.handleSelectedColor = handleSelectedColor
-    }
-
     companion object {
-        const val TAG = "ColorHexSheetDialogFragment"
+        const val REQUEST_KEY = "ColorHexSheetDialogFragment"
         private const val PUT_KEY_SAVE_HEX_COLOR = "PUT_KEY_SAVE_HEX_COLOR"
-        //fun newInstance() = ColorHexSheetDialogFragment()
     }
 }

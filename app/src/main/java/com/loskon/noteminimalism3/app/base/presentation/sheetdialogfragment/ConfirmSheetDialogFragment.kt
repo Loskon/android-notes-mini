@@ -60,12 +60,6 @@ open class ConfirmSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     companion object {
-        const val DATA_DELETE_KEY = "DATA_DELETE_KEY"
-        const val BACKUP_KEY = "BACKUP_KEY"
-        const val CLEAN_TRASH_KEY = "CLEAN_TRASH_KEY"
-        const val DELETE_FOREVER_KEY = "DELETE_FOREVER_KEY"
-        const val RESET_COLOR_KEY = "RESET_COLOR_KEY"
-        const val RESET_FONT_SIZE_KEY = "RESET_FONT_SIZE_KEY"
         private const val PUT_REQUEST_KEY = "PUT_REQUEST_KEY"
         private const val PUT_TITLE_STRING_KEY = "PUT_TITLE_STRING_KEY"
         private const val PUT_BTN_OK_STRING_KEY = "PUT_BTN_OK_STRING_KEY"

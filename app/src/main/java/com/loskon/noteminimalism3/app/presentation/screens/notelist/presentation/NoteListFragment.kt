@@ -97,14 +97,14 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
             if (note != null) undoSnackbar?.show(note, note.isFavorite, category)
         }
-        setFragmentClickListener(ConfirmSheetDialogFragment.DELETE_FOREVER_KEY) {
+        setFragmentClickListener(DELETE_FOREVER_REQUEST_KEY) {
             val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
 
             viewModel.deleteNotes(checkedNotes)
             viewModel.toggleSelectionMode(false)
             viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
         }
-        setFragmentClickListener(ConfirmSheetDialogFragment.CLEAN_TRASH_KEY) {
+        setFragmentClickListener(CLEAN_TRASH_REQUEST_KEY) {
             if (notesAdapter.itemCount != 0) {
                 viewModel.cleanTrash()
                 viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
@@ -502,7 +502,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun showConfirmDeleteForever() {
         ConfirmSheetDialogFragment.newInstance(
-            requestKey = ConfirmSheetDialogFragment.DELETE_FOREVER_KEY,
+            requestKey = DELETE_FOREVER_REQUEST_KEY,
             title = getString(R.string.dg_delete_forever_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
@@ -511,7 +511,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun showConfirmCleanTrash() {
         ConfirmSheetDialogFragment.newInstance(
-            requestKey = ConfirmSheetDialogFragment.CLEAN_TRASH_KEY,
+            requestKey = CLEAN_TRASH_REQUEST_KEY,
             title = getString(R.string.dg_trash_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
@@ -536,5 +536,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     companion object {
         const val NOTE_TRASH_REQUEST_KEY = "NOTE_TRASH_REQUEST_KEY"
         const val NOTE_TRASH_BUNDLE_KEY = "NOTE_TRASH_BUNDLE_KEY"
+        const val CLEAN_TRASH_REQUEST_KEY = "CLEAN_TRASH_REQUEST_KEY"
+        const val DELETE_FOREVER_REQUEST_KEY = "DELETE_FOREVER_REQUEST_KEY"
     }
 }

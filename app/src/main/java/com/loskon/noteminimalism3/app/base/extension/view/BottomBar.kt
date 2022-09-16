@@ -88,7 +88,7 @@ fun BottomAppBar.setNavigationIconColor(@ColorInt color: Int) {
 
 fun BottomAppBar.setMenuItemsColor(@ColorInt color: Int) {
     for (i in 0 until menu.size()) {
-        menu[i].icon.setTint(color)
+        menu[i].icon?.setTint(color)
     }
 }
 
@@ -106,7 +106,7 @@ fun BottomAppBar.setMenuIcon(menuItemId: Int, icon: Drawable) {
 }
 
 fun BottomAppBar.setMenuIconColor(menuItemId: Int, color: Int) {
-    menu.findItem(menuItemId).icon.setTint(color)
+    menu?.findItem(menuItemId)?.icon?.setTint(color)
 }
 
 fun BottomAppBar.setMenuIconWithColor(menuItemId: Int, icon: Drawable, color: Int) {

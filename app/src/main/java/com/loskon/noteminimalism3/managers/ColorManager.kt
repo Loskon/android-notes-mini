@@ -174,9 +174,9 @@ fun NavigationView.setColorStateMenuItem(context: Context) {
 fun Menu.setMenuIconsColor(@ColorInt color: Int) {
     if (this.size() != 0) {
         for (i in 0 until size()) {
-            val drawable: Drawable = getItem(i).icon
-            drawable.mutate()
-            drawable.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            val drawable: Drawable? = getItem(i).icon
+            drawable?.mutate()
+            drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
                 color,
                 BlendModeCompat.SRC_ATOP
             )

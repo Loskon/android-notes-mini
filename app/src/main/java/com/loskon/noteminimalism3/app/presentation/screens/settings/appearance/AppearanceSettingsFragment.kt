@@ -34,8 +34,8 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
         super.onCreate(savedInstanceState)
 
         setChildFragmentResultListener(ColorHexSheetDialogFragment.REQUEST_KEY) { bundle -> changeAppColor(bundle) }
-        setChildFragmentClickListener(ConfirmSheetDialogFragment.RESET_COLOR_KEY) { setDefaultColor() }
-        setChildFragmentClickListener(ConfirmSheetDialogFragment.RESET_FONT_SIZE_KEY) { resetFontSize() }
+        setChildFragmentClickListener(RESET_COLOR_REQUEST_KEY) { setDefaultColor() }
+        setChildFragmentClickListener(RESET_FONT_SIZE_KEY) { resetFontSize() }
     }
 
     private fun resetFontSize() {
@@ -89,7 +89,7 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
 
     private fun showConfirmResetFontSizeSheetDialog() {
         ConfirmSheetDialogFragment.newInstance(
-            requestKey = ConfirmSheetDialogFragment.RESET_FONT_SIZE_KEY,
+            requestKey = RESET_FONT_SIZE_KEY,
             title = getString(R.string.sheet_reset_font_size_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
@@ -116,7 +116,7 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
 
     private fun showConfirmResetColorSheetDialog() {
         ConfirmSheetDialogFragment.newInstance(
-            requestKey = ConfirmSheetDialogFragment.RESET_COLOR_KEY,
+            requestKey = RESET_COLOR_REQUEST_KEY,
             title = getString(R.string.sheet_reset_color_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
@@ -140,5 +140,10 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
             titleFontSize <= 42 -> 24
             else -> 14
         }
+    }
+
+    companion object {
+        private const val RESET_COLOR_REQUEST_KEY = "RESET_COLOR_REQUEST_KEY"
+        private const val RESET_FONT_SIZE_KEY = "RESET_FONT_SIZE_KEY"
     }
 }

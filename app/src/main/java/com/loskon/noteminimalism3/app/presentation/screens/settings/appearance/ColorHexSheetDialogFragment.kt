@@ -25,14 +25,14 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        getSavedArguments(savedInstanceState)
+        setSavedArguments(savedInstanceState)
         setupViewsParameters()
         establishViewsColor()
         configureInsertedViews()
         setupViewsListeners()
     }
 
-    private fun getSavedArguments(savedInstanceState: Bundle?) {
+    private fun setSavedArguments(savedInstanceState: Bundle?) {
         selectedColor = savedInstanceState?.getInt(PUT_KEY_SAVE_HEX_COLOR) ?: color
     }
 
@@ -98,7 +98,7 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     companion object {
-        const val REQUEST_KEY = "ColorHexSheetDialogFragment"
+        const val REQUEST_KEY = "COLOR_HEX_REQUEST_KEY"
         private const val PUT_KEY_SAVE_HEX_COLOR = "PUT_KEY_SAVE_HEX_COLOR"
     }
 }

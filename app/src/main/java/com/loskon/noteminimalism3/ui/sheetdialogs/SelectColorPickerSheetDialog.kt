@@ -6,7 +6,7 @@ import com.larswerkman.holocolorpicker.SVBar
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.fragments.AppearanceSettingsFragment
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для выбора цвета темы приложения с помощью ColorPicker

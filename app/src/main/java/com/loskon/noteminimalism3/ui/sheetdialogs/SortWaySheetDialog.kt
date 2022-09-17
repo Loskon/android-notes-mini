@@ -4,10 +4,10 @@ import android.content.Context
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundColorKtx
+import com.loskon.noteminimalism3.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для выбора способа сортировки заметок

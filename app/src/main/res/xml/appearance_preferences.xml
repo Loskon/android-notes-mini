@@ -5,7 +5,7 @@
         app:iconSpaceReserved="false"
         app:title="@string/note_app_header">
 
-        <com.loskon.noteminimalism3.app.base.widget.preference.NoteCardViewPreference
+        <com.loskon.noteminimalism3.base.widget.preference.NoteCardViewPreference
             app:allowDividerBelow="false"
             app:key="@string/note_card_view_key" />
 
@@ -15,7 +15,7 @@
         app:iconSpaceReserved="false"
         app:title="@string/font_size_card_header">
 
-        <com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
+        <com.loskon.noteminimalism3.base.widget.preference.SliderPreference
             android:key="@string/font_size_key"
             app:allowDividerAbove="false"
             app:defaultValue="@integer/title_font_size_int"
@@ -51,7 +51,7 @@
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         app:iconSpaceReserved="false"
         app:title="@string/num_of_lines_header">
-        <com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
+        <com.loskon.noteminimalism3.base.widget.preference.SliderPreference
             android:key="@string/number_of_lines_key"
             app:allowDividerAbove="false"
             app:defaultValue="@integer/number_lines"
@@ -62,7 +62,7 @@
     <com.loskon.noteminimalism3.ui.prefscreen.PrefScreenCategory
         android:title="@string/other_app_header"
         app:iconSpaceReserved="false">
-        <com.loskon.noteminimalism3.app.base.widget.preference.CustomSwitchPreference
+        <com.loskon.noteminimalism3.base.widget.preference.CustomSwitchPreference
             android:key="@string/one_size_cards_key"
             android:layout="@layout/preference_layout"
             android:title="@string/one_size_cards_title"

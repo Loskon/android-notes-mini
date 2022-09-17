@@ -12,7 +12,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.other.InternetCheck

@@ -5,7 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Button
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
 import com.loskon.noteminimalism3.ui.fragments.NoteFragment

@@ -9,8 +9,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setDebouncePreferenceClickListener
-import com.loskon.noteminimalism3.app.base.extension.view.setShortPreferenceChangeListener
+import com.loskon.noteminimalism3.base.extension.view.setDebouncePreferenceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setShortPreferenceChangeListener
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.ColorManager
 import com.loskon.noteminimalism3.managers.IntentManager

@@ -20,7 +20,7 @@
             android:title="@string/sort_title"
             app:iconSpaceReserved="false" />
 
-        <com.loskon.noteminimalism3.app.base.widget.preference.CustomSwitchPreference
+        <com.loskon.noteminimalism3.base.widget.preference.CustomSwitchPreference
             android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
@@ -42,7 +42,7 @@
             app:iconSpaceReserved="false"
             app:key="@string/folder_title" />
 
-        <com.loskon.noteminimalism3.app.base.widget.preference.CustomSwitchPreference
+        <com.loskon.noteminimalism3.base.widget.preference.CustomSwitchPreference
             android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:iconSpaceReserved="false"
@@ -50,7 +50,7 @@
             app:summary="@string/auto_backup_summary"
             app:title="@string/auto_backup_title" />
 
-        <com.loskon.noteminimalism3.app.base.widget.preference.CustomSwitchPreference
+        <com.loskon.noteminimalism3.base.widget.preference.CustomSwitchPreference
             android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:defaultValue="false"
@@ -81,7 +81,7 @@
             android:title="@string/font_size_notes_title"
             app:iconSpaceReserved="false" />
 
-        <com.loskon.noteminimalism3.app.base.widget.preference.CustomSwitchPreference
+        <com.loskon.noteminimalism3.base.widget.preference.CustomSwitchPreference
             android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:defaultValue="true"
@@ -90,7 +90,7 @@
             app:summary="@string/update_date_summary"
             app:title="@string/update_date_title" />
 
-        <com.loskon.noteminimalism3.app.base.widget.preference.CustomSwitchPreference
+        <com.loskon.noteminimalism3.base.widget.preference.CustomSwitchPreference
             android:layout="@layout/preference_layout"
             app:allowDividerAbove="false"
             app:defaultValue="true"

@@ -1,6 +1,6 @@
 package com.loskon.noteminimalism3.utils
 
-import com.loskon.noteminimalism3.app.base.datetime.formattedString
+import com.loskon.noteminimalism3.base.datetime.formattedString
 import java.time.LocalDateTime
 
 object StringUtil {

@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setBackgroundTintColorKtx
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setBackgroundTintColorKtx
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.databinding.ItemNoteBinding
 import com.loskon.noteminimalism3.model.Note

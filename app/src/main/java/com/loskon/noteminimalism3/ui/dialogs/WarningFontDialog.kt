@@ -4,7 +4,7 @@ import android.content.Context
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 
 /**
  * Окно для предупреждения о том, что выбранный шрифт

@@ -9,7 +9,7 @@ import com.loskon.noteminimalism3.managers.setSliderColor
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.utils.changeTextSize
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 
 /**
  * Изменение размер текста заметок

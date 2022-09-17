@@ -2,12 +2,11 @@ package com.loskon.noteminimalism3.app
 
 import android.app.Application
 import com.loskon.noteminimalism3.BuildConfig
-import com.loskon.noteminimalism3.app.presentation.appModule
-import com.loskon.noteminimalism3.app.presentation.screens.backup.backupModule
-import com.loskon.noteminimalism3.app.presentation.screens.backupfilelist.backupFileListModule
-import com.loskon.noteminimalism3.app.presentation.screens.createbackup.createBackupModule
-import com.loskon.noteminimalism3.app.presentation.screens.note.noteModule
-import com.loskon.noteminimalism3.app.presentation.screens.notelist.noteListModule
+import com.loskon.noteminimalism3.app.screens.backup.backupModule
+import com.loskon.noteminimalism3.app.screens.backupfilelist.backupFileListModule
+import com.loskon.noteminimalism3.app.screens.createbackup.createBackupModule
+import com.loskon.noteminimalism3.app.screens.note.noteModule
+import com.loskon.noteminimalism3.app.screens.notelist.noteListModule
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.ColorUtil
 import org.koin.android.ext.koin.androidContext

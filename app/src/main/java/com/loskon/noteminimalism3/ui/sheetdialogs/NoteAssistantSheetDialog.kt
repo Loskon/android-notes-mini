@@ -8,7 +8,7 @@ import com.google.android.material.button.MaterialButton
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.R.style.SheetDialogStatusBar
 import com.loskon.noteminimalism3.other.NoteAssistant
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
 
 /**

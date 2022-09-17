@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.app.base.widget.recyclerview.AddAnimationItemAnimator
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.backup.DataBaseCloudBackup
 import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.managers.AppFont

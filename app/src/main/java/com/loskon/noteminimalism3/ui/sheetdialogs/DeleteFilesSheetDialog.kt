@@ -5,7 +5,7 @@ import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import java.io.File
 
 /**

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.ui.fragments.NoteTrashFragment
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 
 /**
  * Snackbar с текстом и кнопкой

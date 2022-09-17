@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.dialogs
 import android.content.Context
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setColor
+import com.loskon.noteminimalism3.base.extension.view.setColor
 import com.loskon.noteminimalism3.ui.basedialogs.BaseMaterialDialog
 
 /**

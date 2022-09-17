@@ -2,7 +2,7 @@ package com.loskon.noteminimalism3.sqlite
 
 import android.database.Cursor
 import android.database.CursorWrapper
-import com.loskon.noteminimalism3.app.base.datetime.toLocalDateTime
+import com.loskon.noteminimalism3.base.datetime.toLocalDateTime
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema.NoteTable
 

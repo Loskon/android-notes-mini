@@ -8,9 +8,9 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setDebouncePreferenceClickListener
-import com.loskon.noteminimalism3.app.base.extension.view.setShortPreferenceChangeListener
-import com.loskon.noteminimalism3.app.base.widget.preference.SliderPreference
+import com.loskon.noteminimalism3.base.extension.view.setDebouncePreferenceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setShortPreferenceChangeListener
+import com.loskon.noteminimalism3.base.widget.preference.SliderPreference
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.activities.SettingsActivity
 import com.loskon.noteminimalism3.ui.sheetdialogs.ResetColorWarningSheetDialog

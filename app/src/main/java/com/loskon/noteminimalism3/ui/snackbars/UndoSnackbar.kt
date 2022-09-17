@@ -13,7 +13,7 @@ import com.loskon.noteminimalism3.commands.CommandCenter
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sqlite.DatabaseAdapter.Companion.CATEGORY_TRASH
 import com.loskon.noteminimalism3.ui.activities.MainActivity
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 
 /**
  * Snackbar с таймером для восстановления удаленной заметки

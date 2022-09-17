@@ -3,7 +3,7 @@ package com.loskon.noteminimalism3.ui.basedialogs
 import android.content.Context
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.base.extension.view.setDebounceClickListener
+import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.managers.setSliderColor
 
 /**

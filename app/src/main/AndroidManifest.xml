@@ -33,7 +33,7 @@
             android:name=".ui.activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".app.presentation.main.MainActivity2"
+            android:name="com.loskon.noteminimalism3.app.main.MainActivity2"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

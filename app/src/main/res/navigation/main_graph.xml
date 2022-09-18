@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/rootSettingsFragment"
-        android:name="com.loskon.noteminimalism3.app.screens.settings.RootSettingsFragment"
+        android:name="com.loskon.noteminimalism3.app.screens.rootsettings.RootSettingsFragment"
         android:label="rootSettingsFragment">
         <action
             android:id="@+id/actionOpenAppearanceSettingsFragment"
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/appearanceSettingsFragment"
-        android:name="com.loskon.noteminimalism3.app.screens.settings.appearance.AppearanceSettingsFragment"
+        android:name="com.loskon.noteminimalism3.app.screens.appearancesettings.AppearanceSettingsFragment"
         android:label="appearanceSettingsFragment" />
 
     <fragment

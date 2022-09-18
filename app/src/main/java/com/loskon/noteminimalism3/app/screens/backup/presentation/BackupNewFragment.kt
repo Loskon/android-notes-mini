@@ -1,6 +1,7 @@
 package com.loskon.noteminimalism3.app.screens.backup.presentation
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,7 +11,9 @@ import com.loskon.noteminimalism3.app.screens.backup.presentation.state.BackupAc
 import com.loskon.noteminimalism3.app.screens.backup.presentation.state.BackupAuthWay
 import com.loskon.noteminimalism3.app.screens.backup.presentation.state.BackupMessageType
 import com.loskon.noteminimalism3.base.contracts.AuthContract
+import com.loskon.noteminimalism3.base.contracts.FileSelectContract
 import com.loskon.noteminimalism3.base.contracts.StorageContract
+import com.loskon.noteminimalism3.base.extension.contentresolver.getFileName
 import com.loskon.noteminimalism3.base.extension.dialogfragment.dismissShowing
 import com.loskon.noteminimalism3.base.extension.dialogfragment.show
 import com.loskon.noteminimalism3.base.extension.flow.observe
@@ -26,8 +29,10 @@ import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.ConfirmS
 import com.loskon.noteminimalism3.base.widget.snackbar.AppSnackbar
 import com.loskon.noteminimalism3.databinding.FragmentBackupNewBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 
 class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
 
@@ -39,6 +44,7 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
 
     private val authContract = AuthContract(this)
     private val storageContract = StorageContract(this)
+    private val fileSelectContract = FileSelectContract(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,6 +124,46 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
                 showSnackbar(R.string.no_permissions, success = false)
             }
         }
+        fileSelectContract.setHandleResultListener { granted, uri ->
+            if (granted) {
+                if (uri != null) {
+                    val resolver = requireContext().contentResolver
+                    val descriptor = resolver.openFileDescriptor(uri, "r", null)
+
+                    if (descriptor != null) {
+                        val fileName = resolver.getFileName(uri)
+
+                        if (fileName != null) {
+                            viewModel.copyFileInCacheDir(descriptor.fileDescriptor, fileName, requireContext().cacheDir)
+
+                            val backupFile = requireContext().cacheDir.path + File.separator + fileName
+
+                            if (viewModel.validSQLiteFile(backupFile)) {
+                                val databasePath = requireContext().getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
+                                val restoreSuccess = viewModel.performRestore(backupFile, databasePath)
+
+                                if (restoreSuccess) {
+                                    showSnackbar(R.string.sb_bp_restore_succes, success = true)
+                                } else {
+                                    showSnackbar(R.string.sb_bp_restore_failure, success = false)
+                                }
+
+                                viewModel.deleteFile(backupFile)
+                            } else {
+                                viewModel.deleteFile(backupFile)
+                            }
+                        }
+                    }
+
+                    descriptor?.close()
+                }
+            } else {
+                showSnackbar(R.string.sb_bp_backup_not_selected, success = false)
+            }
+        }
+        fileSelectContract.setHandleErrorResultListener {
+            // TODO
+        }
     }
 
     private fun showWaitingDialog() {
@@ -131,15 +177,20 @@ class BackupNewFragment : Fragment(R.layout.fragment_backup_new) {
                     showLocalBackupSheetDialog()
                 } else {
                     isBackup = true
-                    storageContract.launch()
+                    storageContract.launchAccessRequest()
                 }
             }
             btnRestoreLocal.setDebounceClickListener {
-                if (storageContract.storageAccess(requireContext())) {
-                    showRestoreListSheetDialog()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    val backupPath = AppPreference.getBackupPath(requireContext())
+                    fileSelectContract.launchFileSelect(backupPath)
                 } else {
-                    isBackup = false
-                    storageContract.launch()
+                    if (storageContract.storageAccess(requireContext())) {
+                        showRestoreListSheetDialog()
+                    } else {
+                        isBackup = false
+                        storageContract.launchAccessRequest()
+                    }
                 }
             }
             btnBackupCloud.setDebounceClickListener {

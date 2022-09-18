@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.screens.settings.appearance
+package com.loskon.noteminimalism3.app.screens.appearancesettings
 
 import android.graphics.Color
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.screens.settings.appearance.AppearanceSettingsFragment.Companion.SET_COLOR_REQUEST_KEY
+import com.loskon.noteminimalism3.app.screens.appearancesettings.AppearanceSettingsFragment.Companion.SET_COLOR_REQUEST_KEY
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setEndSelection
 import com.loskon.noteminimalism3.base.extension.view.setFilterKtx

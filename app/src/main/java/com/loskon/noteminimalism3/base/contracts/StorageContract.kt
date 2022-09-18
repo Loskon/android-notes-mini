@@ -37,7 +37,7 @@ class StorageContract(fragment: Fragment) {
         }
     }
 
-    fun launch() {
+    fun launchAccessRequest() {
         val permissions = arrayOf(read, write)
         resultLauncher.launch(permissions)
     }

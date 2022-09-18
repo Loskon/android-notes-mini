@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.screens.notelist.presentation.NoteListFragment
 import com.loskon.noteminimalism3.base.datetime.formattedString
 import com.loskon.noteminimalism3.base.extension.corutine.launchDelay
 import com.loskon.noteminimalism3.base.extension.flow.observe
@@ -25,7 +26,6 @@ import com.loskon.noteminimalism3.base.extension.view.setOnDownClickListener
 import com.loskon.noteminimalism3.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.base.linkmovementmethod.AppLinkMovementMethod
 import com.loskon.noteminimalism3.base.widget.snackbar.AppSnackbar
-import com.loskon.noteminimalism3.app.screens.notelist.presentation.NoteListFragment
 import com.loskon.noteminimalism3.databinding.FragmentNoteNewBinding
 import com.loskon.noteminimalism3.files.BackupFileHelper
 import com.loskon.noteminimalism3.managers.IntentManager
@@ -379,7 +379,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
                     }
                 }
             } else {
-                storageContract.launch()
+                storageContract.launchAccessRequest()
             }
         } else {
             showSnackbar(getString(R.string.sb_note_is_empty), success = false)

@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.screens.settings.appearance
+package com.loskon.noteminimalism3.app.screens.appearancesettings
 
 import android.annotation.SuppressLint
 import android.os.Bundle

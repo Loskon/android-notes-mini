@@ -13,13 +13,13 @@ import timber.log.Timber
  */
 class AuthContract(fragment: Fragment) {
 
-    private var handleResultData2: ((Intent?) -> Unit)? = null
+    private var handleResultData: ((Intent?) -> Unit)? = null
 
     private val authLauncher = fragment.registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
-        val granted: Boolean = (result.resultCode == Activity.RESULT_OK)
-        if (granted) handleResultData2?.invoke(result.data)
+        val granted = (result.resultCode == Activity.RESULT_OK)
+        if (granted) handleResultData?.invoke(result.data)
     }
 
     fun launch(intentSender: IntentSender) {
@@ -31,7 +31,7 @@ class AuthContract(fragment: Fragment) {
         }
     }
 
-    fun setHandleResultDataListener(handleData2: ((Intent?) -> Unit)?) {
-        this.handleResultData2 = handleData2
+    fun setHandleResultDataListener(handleResultData: ((Intent?) -> Unit)?) {
+        this.handleResultData = handleResultData
     }
 }

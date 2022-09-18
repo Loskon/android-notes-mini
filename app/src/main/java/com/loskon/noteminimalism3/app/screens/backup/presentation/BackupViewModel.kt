@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.loskon.noteminimalism3.app.screens.backup.domain.CloudStorageInteractor
 import com.loskon.noteminimalism3.app.screens.backup.domain.GoogleOneTapSignInInteractor
+import com.loskon.noteminimalism3.app.screens.backup.domain.LocalFileInteractor
 import com.loskon.noteminimalism3.app.screens.backup.presentation.state.BackupAction
 import com.loskon.noteminimalism3.app.screens.backup.presentation.state.BackupAuthWay
 import com.loskon.noteminimalism3.app.screens.backup.presentation.state.BackupMessageType
@@ -15,10 +16,13 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.io.File
+import java.io.FileDescriptor
 
 class BackupViewModel(
     private val googleOneTapSignInInteractor: GoogleOneTapSignInInteractor,
     private val cloudStorageInteractor: CloudStorageInteractor,
+    private val localFileInteractor: LocalFileInteractor,
     private val networkUtil: NetworkUtil
 ) : BaseViewModel() {
 
@@ -135,6 +139,22 @@ class BackupViewModel(
             emitBackupState(hasAuthorizedUser = false)
             emitShowSnackbarAction(BackupMessageType.SIGN_OUT)
         }
+    }
+
+    fun copyFileInCacheDir(fileDescriptor: FileDescriptor, fileName: String, cacheDir: File): Boolean {
+        return localFileInteractor.copyFileInCacheDir(fileDescriptor, fileName, cacheDir)
+    }
+
+    fun validSQLiteFile(backupFile: String): Boolean {
+        return localFileInteractor.validSQLiteFile(backupFile)
+    }
+
+    fun performRestore(backupFile: String, databasePath: String): Boolean {
+        return localFileInteractor.restore(backupFile, databasePath)
+    }
+
+    fun deleteFile(file: String) {
+        localFileInteractor.deleteFile(file)
     }
 
     private fun launchWithCheckInternetErrorJob(block: suspend () -> Unit): Job {

@@ -10,8 +10,9 @@ import com.loskon.noteminimalism3.base.extension.fragment.getColor
 import com.loskon.noteminimalism3.base.extension.fragment.getInteger
 import com.loskon.noteminimalism3.base.extension.fragment.setChildFragmentClickListener
 import com.loskon.noteminimalism3.base.extension.fragment.setChildFragmentResultListener
+import com.loskon.noteminimalism3.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.base.extension.view.setDebouncePreferenceClickListener
-import com.loskon.noteminimalism3.base.extension.view.setShortPreferenceChangeListener
+import com.loskon.noteminimalism3.base.extension.view.setPreferenceChangeListener
 import com.loskon.noteminimalism3.base.presentation.fragment.BasePreferenceFragment
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.ConfirmSheetDialogFragment
 import com.loskon.noteminimalism3.base.widget.preference.NoteCardViewPreference
@@ -27,15 +28,15 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
     private var selectColorHex: Preference? = null
     private var resetColor: Preference? = null
     private var fontSizeSlider: SliderPreference? = null
-    private var numberLinesSlider: SliderPreference? = null
     private var oneSizeCardsSwitch: SwitchPreference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setChildFragmentResultListener(ColorHexSheetDialogFragment.REQUEST_KEY) { bundle -> changeAppColor(bundle) }
-        setChildFragmentClickListener(RESET_COLOR_REQUEST_KEY) { setDefaultColor() }
         setChildFragmentClickListener(RESET_FONT_SIZE_KEY) { resetFontSize() }
+        setFragmentResultListener(SET_COLOR_REQUEST_KEY) { bundle -> setAppColor(bundle) }
+        setChildFragmentResultListener(SET_COLOR_REQUEST_KEY) { bundle -> setAppColor(bundle) }
+        setChildFragmentClickListener(RESET_COLOR_REQUEST_KEY) { setDefaultColor() }
     }
 
     private fun resetFontSize() {
@@ -45,15 +46,20 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
         listView.adapter?.notifyDataSetChanged()
     }
 
-    private fun setDefaultColor() {
-        val color = getColor(R.color.material_blue)
+    private fun saveFontSizes(titleFontSize: Int, dateFontSize: Int) {
+        AppPreference.setTitleFontSize(requireContext(), titleFontSize)
+        AppPreference.setDateFontSize(requireContext(), dateFontSize)
+    }
+
+    private fun setAppColor(bundle: Bundle) {
+        val color = bundle.getInt(SET_COLOR_REQUEST_KEY)
         setBottomBarNavigationIconColor(color)
         AppPreference.setColor(requireContext(), color)
         listView.adapter?.notifyDataSetChanged()
     }
 
-    private fun changeAppColor(bundle: Bundle) {
-        val color = bundle.getInt(ColorHexSheetDialogFragment.REQUEST_KEY)
+    private fun setDefaultColor() {
+        val color = getColor(R.color.material_blue)
         setBottomBarNavigationIconColor(color)
         AppPreference.setColor(requireContext(), color)
         listView.adapter?.notifyDataSetChanged()
@@ -73,18 +79,16 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
         selectColorHex = findPreference(getString(R.string.select_color_app_hex_title))
         resetColor = findPreference(getString(R.string.reset_app_color))
         fontSizeSlider = findPreference(getString(R.string.font_size_key))
-        numberLinesSlider = findPreference(getString(R.string.number_of_lines_key))
         oneSizeCardsSwitch = findPreference(getString(R.string.one_size_cards_key))
     }
 
     private fun setupPreferencesListeners() {
         resetFontSize?.setDebouncePreferenceClickListener { showConfirmResetFontSizeSheetDialog() }
-        selectColor?.setDebouncePreferenceClickListener { showColorPickerSheetDialog() }
-        selectColorHex?.setDebouncePreferenceClickListener { showColorHexSheetDialog() }
+        selectColor?.setDebouncePreferenceClickListener { ColorPickerSheetDialogFragment().show(parentFragmentManager) }
+        selectColorHex?.setDebouncePreferenceClickListener { ColorHexSheetDialogFragment().show(childFragmentManager) }
         resetColor?.setDebouncePreferenceClickListener { showConfirmResetColorSheetDialog() }
         fontSizeSlider?.setOnChangeListener { titleFontSize -> handleChangedFontSizeSlider(titleFontSize) }
-        oneSizeCardsSwitch?.setShortPreferenceChangeListener { newValue -> }
-        numberLinesSlider?.setOnChangeListener { newValue -> }
+        oneSizeCardsSwitch?.setPreferenceChangeListener { value -> AppPreference.setLinearListType(requireContext(), value) }
     }
 
     private fun showConfirmResetFontSizeSheetDialog() {
@@ -94,24 +98,6 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
         ).show(childFragmentManager)
-    }
-
-    private fun saveFontSizes(titleFontSize: Int, dateFontSize: Int) {
-        AppPreference.setTitleFontSize(requireContext(), titleFontSize)
-        AppPreference.setDateFontSize(requireContext(), dateFontSize)
-    }
-
-    private fun showColorPickerSheetDialog() {
-        ColorPickerSheetDialogFragment.newInstance().apply {
-            setHandleSelectedColorListener { color ->
-                AppPreference.setColor(requireContext(), color)
-                listView.adapter?.notifyDataSetChanged()
-            }
-        }.show(parentFragmentManager, ColorPickerSheetDialogFragment.TAG)
-    }
-
-    private fun showColorHexSheetDialog() {
-        ColorHexSheetDialogFragment().show(childFragmentManager)
     }
 
     private fun showConfirmResetColorSheetDialog() {
@@ -143,6 +129,7 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
     }
 
     companion object {
+        const val SET_COLOR_REQUEST_KEY = "SET_COLOR_REQUEST_KEY"
         private const val RESET_COLOR_REQUEST_KEY = "RESET_COLOR_REQUEST_KEY"
         private const val RESET_FONT_SIZE_KEY = "RESET_FONT_SIZE_KEY"
     }

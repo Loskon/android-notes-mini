@@ -4,7 +4,7 @@ import android.os.SystemClock
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 
-fun SwitchPreference.setShortPreferenceChangeListener(onPreferenceChange: (Boolean) -> Unit) {
+fun SwitchPreference.setPreferenceChangeListener(onPreferenceChange: (Boolean) -> Unit) {
     setOnPreferenceChangeListener { _, newValue ->
         onPreferenceChange(newValue as Boolean)
         true

@@ -10,7 +10,7 @@ import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.base.extension.view.setDebouncePreferenceClickListener
-import com.loskon.noteminimalism3.base.extension.view.setShortPreferenceChangeListener
+import com.loskon.noteminimalism3.base.extension.view.setPreferenceChangeListener
 import com.loskon.noteminimalism3.base.presentation.fragment.BasePreferenceFragment
 import com.loskon.noteminimalism3.files.BackupPath
 import com.loskon.noteminimalism3.managers.ColorManager
@@ -123,7 +123,7 @@ class RootSettingsFragment : BasePreferenceFragment(),
         sorting?.setDebouncePreferenceClickListener {
             SortWaySheetDialog(requireContext()).show()
         }
-        darkModeSwitch?.setShortPreferenceChangeListener { newValue: Boolean ->
+        darkModeSwitch?.setPreferenceChangeListener { newValue: Boolean ->
             ColorManager.setDarkTheme(newValue)
         }
         // Data
@@ -135,7 +135,7 @@ class RootSettingsFragment : BasePreferenceFragment(),
             selectedPreference = "folderKey"
             if (storageAccess.hasAccessStorageRequest()) resultActivity.launchFolderSelect()
         }
-        autoBackup?.setShortPreferenceChangeListener {
+        autoBackup?.setPreferenceChangeListener {
             selectedPreference = "autoBackupKey"
             storageAccess.hasAccessStorageRequest()
         }

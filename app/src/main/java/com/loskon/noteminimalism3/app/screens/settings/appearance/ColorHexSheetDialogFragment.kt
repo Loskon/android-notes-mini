@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.screens.settings.appearance.AppearanceSettingsFragment.Companion.SET_COLOR_REQUEST_KEY
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setEndSelection
 import com.loskon.noteminimalism3.base.extension.view.setFilterKtx
@@ -75,7 +76,7 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
             binding.inputEditTextHex.setEndSelection()
         }
         setOkClickListener {
-            setFragmentResult(REQUEST_KEY, bundleOf(REQUEST_KEY to selectedColor))
+            setFragmentResult(SET_COLOR_REQUEST_KEY, bundleOf(SET_COLOR_REQUEST_KEY to selectedColor))
             dismiss()
         }
     }
@@ -98,7 +99,6 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     companion object {
-        const val REQUEST_KEY = "COLOR_HEX_REQUEST_KEY"
         private const val PUT_KEY_SAVE_HEX_COLOR = "PUT_KEY_SAVE_HEX_COLOR"
     }
 }

@@ -10,13 +10,14 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_STRING_ID_KEY
 import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_SUCCESS_KEY
 import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_REQUEST_KEY
-import com.loskon.noteminimalism3.backup.DataBaseBackup
 import com.loskon.noteminimalism3.base.extension.flow.observe
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setSoftVisibleKtx
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.databinding.SheetRestoreListBinding
+import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -31,7 +32,12 @@ class BackupFileListSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel.getBackupFileList()
+        getBackupFileList()
+    }
+
+    private fun getBackupFileList() {
+        val folderPath = AppPreference.getBackupPath(requireContext())
+        viewModel.getBackupFileList(folderPath)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,20 +80,23 @@ class BackupFileListSheetDialogFragment : AppBaseSheetDialogFragment() {
         binding.btnConfirmDelete.setDebounceClickListener {
             displayConfirmDeleteBtns(false)
             deleteAllFiles()
-            viewModel.getBackupFileList()
+            getBackupFileList()
         }
         filesAdapter.setOnItemClickListener { file ->
-            try {
-                DataBaseBackup.performRestore(requireContext(), file.path)
-                showSnackbar(R.string.sb_bp_restore_succes, true)
-            } catch (exception: Exception) {
-                showSnackbar(R.string.sb_bp_restore_failure, false)
+            val databasePath = requireContext().getDatabasePath(NoteDatabaseSchema.DATABASE_NAME).toString()
+            val restoreSuccess = viewModel.performRestore(file.path, databasePath)
+
+            if (restoreSuccess) {
+                showSnackbar(R.string.sb_bp_restore_succes, success = true)
+            } else {
+                showSnackbar(R.string.sb_bp_restore_failure, success = false)
             }
+
             dismiss()
         }
         filesAdapter.setOnItemDeleteClickListener { file ->
             viewModel.deleteFile(file)
-            viewModel.getBackupFileList()
+            getBackupFileList()
         }
     }
 

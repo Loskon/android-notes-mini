@@ -8,6 +8,7 @@ import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.base.contracts.FolderSelectContract
 import com.loskon.noteminimalism3.base.contracts.StorageContract
+import com.loskon.noteminimalism3.base.extension.dialogfragment.show
 import com.loskon.noteminimalism3.base.extension.view.setDebouncePreferenceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setPreferenceChangeListener
 import com.loskon.noteminimalism3.base.presentation.fragment.BasePreferenceFragment
@@ -20,7 +21,6 @@ import com.loskon.noteminimalism3.ui.sheetdialogs.LinksSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.NoteFontSizeSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.NumberBackupsSheetDialog
 import com.loskon.noteminimalism3.ui.sheetdialogs.RetentionTimeSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.SortWaySheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
 
 class RootSettingsFragment : BasePreferenceFragment() {
@@ -59,6 +59,15 @@ class RootSettingsFragment : BasePreferenceFragment() {
         findPreferences()
         setupContractsListeners()
         setupPreferencesListeners()
+
+
+        folder?.summary = BackupPath.getSummary(requireContext())
+
+        val number = AppPreference.getNumberBackups(requireContext())
+        numberBackups?.summary = number.toString()
+
+        val range = AppPreference.getRetentionRange(requireContext())
+        retention?.summary = requireContext().getString(R.string.number_of_days_summary, range)
 
         if (storageContract.storageAccess(requireContext()).not()) {
             autoBackup?.isChecked = false
@@ -134,7 +143,8 @@ class RootSettingsFragment : BasePreferenceFragment() {
         }
     }
 
-    private fun setupPreferencesListeners() { // Appearance
+    private fun setupPreferencesListeners() {
+        // Appearance
         customization?.setDebouncePreferenceClickListener {
             val action = RootSettingsFragmentDirections.actionOpenAppearanceSettingsFragment()
             findNavController().navigate(action)
@@ -144,7 +154,7 @@ class RootSettingsFragment : BasePreferenceFragment() {
             findNavController().navigate(action)
         }
         sorting?.setDebouncePreferenceClickListener {
-            SortWaySheetDialog(requireContext()).show()
+            SortWaySheetDialogFragment().show(childFragmentManager)
         }
         darkModeSwitch?.setPreferenceChangeListener { value ->
             ColorManager.setDarkTheme(value)
@@ -167,13 +177,15 @@ class RootSettingsFragment : BasePreferenceFragment() {
         }
         numberBackups?.setDebouncePreferenceClickListener {
             NumberBackupsSheetDialog(requireContext()).show()
-        } // Notes
+        }
+        // Notes
         hyperlinks?.setDebouncePreferenceClickListener {
             LinksSheetDialog(requireContext()).show()
         }
         fontSize?.setDebouncePreferenceClickListener {
             NoteFontSizeSheetDialog(requireContext()).show()
-        } // Other
+        }
+        // Other
         retention?.setDebouncePreferenceClickListener {
             RetentionTimeSheetDialog(requireContext()).show()
         }
@@ -183,23 +195,6 @@ class RootSettingsFragment : BasePreferenceFragment() {
         aboutApp?.setDebouncePreferenceClickListener {
             AboutAppSheetDialog(requireContext()).show()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        installSummaryPreferences()
-    }
-
-    private fun installSummaryPreferences() { // Data
-        folder?.summary = BackupPath.getSummary(requireContext())
-
-        val number = AppPreference.getNumberBackups(requireContext())
-        numberBackups?.summary = number.toString()
-
-        // Other
-        val range = AppPreference.getRetentionRange(requireContext())
-        retention?.summary = requireContext().getString(R.string.number_of_days_summary, range)
     }
 
     /*    override fun onChangeNumberBackups(number: Int) {

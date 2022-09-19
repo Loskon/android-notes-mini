@@ -8,13 +8,17 @@ class BackupFileListInteractor(
     private val backupFileListRepository: BackupFileListRepository
 ) {
 
-    suspend fun getBackupListFilesAsFlow(): Flow<List<File>?> {
-        return backupFileListRepository.getFiles().map { files ->
+    suspend fun getBackupListFilesAsFlow(folderPath: String): Flow<List<File>?> {
+        return backupFileListRepository.getFiles(folderPath).map { files ->
             files?.sortedByDescending { it.lastModified() }
         }
     }
 
-    suspend fun deleteFile(file: File) {
+    fun deleteFile(file: File) {
         backupFileListRepository.deleteFile(file)
+    }
+
+    fun performRestore(path: String, databasePath: String): Boolean {
+        return backupFileListRepository.performRestore(path, databasePath)
     }
 }

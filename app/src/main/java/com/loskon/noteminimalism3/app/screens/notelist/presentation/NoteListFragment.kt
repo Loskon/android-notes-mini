@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.base.extension.bundle.getParcelableKtx
 import com.loskon.noteminimalism3.base.extension.dialogfragment.show
 import com.loskon.noteminimalism3.base.extension.flow.observe
 import com.loskon.noteminimalism3.base.extension.fragment.getDrawable
-import com.loskon.noteminimalism3.base.extension.fragment.setFragmentClickListener
-import com.loskon.noteminimalism3.base.extension.fragment.setFragmentResultListener
+import com.loskon.noteminimalism3.base.extension.fragment.setChildFragmentClickListener
+import com.loskon.noteminimalism3.base.extension.fragment.setChildFragmentResultListener
 import com.loskon.noteminimalism3.base.extension.fragment.setOnBackPressedListener
 import com.loskon.noteminimalism3.base.extension.view.hide
 import com.loskon.noteminimalism3.base.extension.view.scrollToTop
@@ -43,6 +44,7 @@ import com.loskon.noteminimalism3.ui.recyclerview.AppItemAnimator
 import com.loskon.noteminimalism3.utils.setVisibilityKtx
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import java.time.LocalDateTime
 
 @SuppressLint("NotifyDataSetChanged")
@@ -92,19 +94,19 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             val range = AppPreference.getRetentionRange(requireContext())
             viewModel.cleanTrash(range)
         }
-        setFragmentResultListener(NOTE_TRASH_REQUEST_KEY) { bundle ->
-            val note = bundle.getParcelable<Note>(NOTE_TRASH_BUNDLE_KEY)
+        setChildFragmentResultListener(NOTE_TRASH_REQUEST_KEY) { bundle ->
+            val note = bundle.getParcelableKtx<Note>(NOTE_TRASH_BUNDLE_KEY)
 
             if (note != null) undoSnackbar?.show(note, note.isFavorite, category)
         }
-        setFragmentClickListener(DELETE_FOREVER_REQUEST_KEY) {
+        setChildFragmentClickListener(DELETE_FOREVER_REQUEST_KEY) {
             val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
 
             viewModel.deleteNotes(checkedNotes)
             viewModel.toggleSelectionMode(false)
             viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
         }
-        setFragmentClickListener(CLEAN_TRASH_REQUEST_KEY) {
+        setChildFragmentClickListener(CLEAN_TRASH_REQUEST_KEY) {
             if (notesAdapter.itemCount != 0) {
                 viewModel.cleanTrash()
                 viewModel.getNotes(scrollTop = false, quicklyListUpdate = true)
@@ -177,8 +179,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             binding.tvEmptyNoteList.isVisible = uiState.notes.isEmpty()
 
             if (uiState.quicklyListUpdate || hasActiveSearchMode) {
+                Timber.d("setQuicklyNoteList")
                 notesAdapter.setQuicklyNoteList(uiState.notes)
             } else {
+                Timber.d("setNoteList")
                 notesAdapter.setNoteList(uiState.notes)
             }
 

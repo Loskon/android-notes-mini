@@ -4,12 +4,11 @@ import com.loskon.noteminimalism3.app.screens.backupfilelist.data.BackupFileList
 import com.loskon.noteminimalism3.app.screens.backupfilelist.domain.BackupFileListInteractor
 import com.loskon.noteminimalism3.app.screens.backupfilelist.domain.BackupFileListRepository
 import com.loskon.noteminimalism3.app.screens.backupfilelist.presentation.BackupFileListViewModel
-import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val backupFileListModule = module {
-    single<BackupFileListRepository> { BackupFileListRepositoryImpl(androidApplication()) }
+    single<BackupFileListRepository> { BackupFileListRepositoryImpl(get()) }
     factory { BackupFileListInteractor(get()) }
     viewModel { BackupFileListViewModel(get()) }
 }

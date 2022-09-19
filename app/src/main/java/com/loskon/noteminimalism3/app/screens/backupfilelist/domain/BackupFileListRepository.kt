@@ -4,8 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface BackupFileListRepository {
-
-    suspend fun getFiles(): Flow<List<File>?>
-
-    suspend fun deleteFile(file: File)
+    suspend fun getFiles(folderPath: String): Flow<List<File>?>
+    fun deleteFile(file: File)
+    fun performRestore(path: String, databasePath: String): Boolean
 }

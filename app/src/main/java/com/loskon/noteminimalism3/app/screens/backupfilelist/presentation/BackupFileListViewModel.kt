@@ -14,19 +14,17 @@ class BackupFileListViewModel(
     private val backupFileList = MutableStateFlow<List<File>?>(null)
     val getBackupFileList get() = backupFileList.asStateFlow()
 
-    fun getBackupFileList() {
+    fun getBackupFileList(folderPath: String) {
         launchErrorJob {
-            backupFileListInteractor.getBackupListFilesAsFlow().collectLatest { backupFileList.emit(it) }
+            backupFileListInteractor.getBackupListFilesAsFlow(folderPath).collectLatest { backupFileList.emit(it) }
         }
     }
 
     fun deleteFile(file: File) {
-        launchErrorJob {
-            backupFileListInteractor.deleteFile(file)
-        }
+        backupFileListInteractor.deleteFile(file)
     }
 
-    fun deleteAllFiles(files: List<File>) {
-
+    fun performRestore(path: String, databasePath: String): Boolean {
+       return backupFileListInteractor.performRestore(path, databasePath)
     }
 }

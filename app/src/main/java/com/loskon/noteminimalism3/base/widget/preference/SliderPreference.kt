@@ -8,7 +8,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.slider.Slider
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.managers.setSliderColor
+import com.loskon.noteminimalism3.base.extension.view.setColorKtx
+import com.loskon.noteminimalism3.base.extension.view.setOnChangeListener
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 
 @SuppressLint("PrivateResource")
@@ -40,20 +41,17 @@ class SliderPreference(context: Context, attrs: AttributeSet) : Preference(conte
         val slider = holder.findViewById(R.id.slider_preference) as Slider
         val tvSliderValue = holder.findViewById(R.id.tv_value_slider_preference) as TextView
 
-        slider.setSliderColor(color)
+        slider.setColorKtx(color)
         slider.value = savedValue.toFloat()
         slider.valueFrom = min.toFloat()
         slider.valueTo = max.toFloat()
         tvSliderValue.text = savedValue.toString()
 
-        slider.addOnChangeListener(
-            Slider.OnChangeListener { _, value: Float, _ ->
-                val newValue = value.toInt()
-                sharedPreferences?.edit()?.putInt(key, newValue)?.apply()
-                tvSliderValue.text = newValue.toString()
-                onChangeListener?.invoke(newValue)
-            }
-        )
+        slider.setOnChangeListener { _, value, _ ->
+            sharedPreferences?.edit()?.putInt(key, value)?.apply()
+            tvSliderValue.text = value.toString()
+            onChangeListener?.invoke(value)
+        }
     }
 
     fun setOnChangeListener(onChangeListener: ((Int) -> Unit)?) {

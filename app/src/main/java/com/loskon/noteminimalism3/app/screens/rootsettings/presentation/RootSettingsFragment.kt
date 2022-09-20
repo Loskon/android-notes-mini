@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.screens.rootsettings
+package com.loskon.noteminimalism3.app.screens.rootsettings.presentation
 
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +9,8 @@ import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.base.contracts.FolderSelectContract
 import com.loskon.noteminimalism3.base.contracts.StorageContract
 import com.loskon.noteminimalism3.base.extension.dialogfragment.show
+import com.loskon.noteminimalism3.base.extension.fragment.setChildFragmentResultListener
+import com.loskon.noteminimalism3.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.base.extension.view.setDebouncePreferenceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setPreferenceChangeListener
 import com.loskon.noteminimalism3.base.presentation.fragment.BasePreferenceFragment
@@ -17,13 +19,12 @@ import com.loskon.noteminimalism3.managers.ColorManager
 import com.loskon.noteminimalism3.managers.IntentManager
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.sheetdialogs.AboutAppSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.LinksSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.NoteFontSizeSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.NumberBackupsSheetDialog
-import com.loskon.noteminimalism3.ui.sheetdialogs.RetentionTimeSheetDialog
 import com.loskon.noteminimalism3.ui.snackbars.WarningSnackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RootSettingsFragment : BasePreferenceFragment() {
+
+    private val viewModel: RootSettingsViewModel by viewModel()
 
     private val storageContract = StorageContract(this)
     private val folderSelectContract = FolderSelectContract(this)
@@ -53,6 +54,30 @@ class RootSettingsFragment : BasePreferenceFragment() {
     //
     private var selectedPreference: String = ""
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setChildFragmentResultListener(BACKUPS_COUNT_REQUEST_KEY) { bundle ->
+            val count = bundle.getInt(BACKUPS_COUNT_REQUEST_KEY)
+            val backupPath = AppPreference.getBackupPath(requireContext())
+
+            viewModel.deleteExtraFiles(backupPath, count)
+            numberBackups?.summary = count.toString()
+            AppPreference.setBackupCount(requireContext(), count)
+        }
+        setFragmentResultListener(RETENTION_TIME_REQUEST_KEY) { bundle ->
+            val days = bundle.getInt(RETENTION_TIME_REQUEST_KEY)
+
+            retention?.summary = requireContext().getString(R.string.number_of_days_summary, days)
+            AppPreference.setRetentionTime(requireContext(), days)
+        }
+        setFragmentResultListener(NOTE_FONT_SIZE_REQUEST_KEY) { bundle ->
+            val fontSize = bundle.getInt(NOTE_FONT_SIZE_REQUEST_KEY)
+
+            AppPreference.setNoteFontSize(requireContext(), fontSize)
+        }
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
@@ -60,10 +85,9 @@ class RootSettingsFragment : BasePreferenceFragment() {
         setupContractsListeners()
         setupPreferencesListeners()
 
-
         folder?.summary = BackupPath.getSummary(requireContext())
 
-        val number = AppPreference.getNumberBackups(requireContext())
+        val number = AppPreference.getBackupsCount(requireContext())
         numberBackups?.summary = number.toString()
 
         val range = AppPreference.getRetentionRange(requireContext())
@@ -106,12 +130,14 @@ class RootSettingsFragment : BasePreferenceFragment() {
             }
         }
         folderSelectContract.setHandleResultListener { granted, uri ->
-            val path = uri?.path
+            if (granted) {
+                val path = uri?.path
 
-            if (path != null) {
-                saveSelectedPath(path)
-            } else {
-                showSnackbar(getString(R.string.sb_settings_unable_select_folder), success = false)
+                if (path != null) {
+                    saveSelectedPath(path)
+                } else {
+                    showSnackbar(getString(R.string.sb_settings_unable_select_folder), success = false)
+                }
             }
         }
         folderSelectContract.setHandleErrorResultListener {
@@ -158,7 +184,8 @@ class RootSettingsFragment : BasePreferenceFragment() {
         }
         darkModeSwitch?.setPreferenceChangeListener { value ->
             ColorManager.setDarkTheme(value)
-        } // Data
+        }
+        // Data
         backup?.setDebouncePreferenceClickListener {
             val action = RootSettingsFragmentDirections.actionOpenBackupFragment()
             findNavController().navigate(action)
@@ -173,21 +200,24 @@ class RootSettingsFragment : BasePreferenceFragment() {
         }
         autoBackup?.setPreferenceChangeListener {
             selectedPreference = "autoBackupKey"
-            if (storageContract.storageAccess(requireContext()).not()) storageContract.launchAccessRequest()
+            if (storageContract.storageAccess(requireContext()).not()) {
+                storageContract.launchAccessRequest()
+            }
         }
         numberBackups?.setDebouncePreferenceClickListener {
-            NumberBackupsSheetDialog(requireContext()).show()
+            BackupsCountSheetDialogFragment().show(childFragmentManager)
         }
         // Notes
         hyperlinks?.setDebouncePreferenceClickListener {
-            LinksSheetDialog(requireContext()).show()
+            ActiveLinksSheetDialogFragment().show(parentFragmentManager)
+            //LinksSheetDialog(requireContext()).show()
         }
         fontSize?.setDebouncePreferenceClickListener {
-            NoteFontSizeSheetDialog(requireContext()).show()
+            NoteFontSizeSheetDialogFragment().show(parentFragmentManager)
         }
         // Other
         retention?.setDebouncePreferenceClickListener {
-            RetentionTimeSheetDialog(requireContext()).show()
+            RetentionTimeSheetDialogFragment().show(parentFragmentManager)
         }
         communication?.setDebouncePreferenceClickListener {
             IntentManager.launchEmailClient(requireContext())
@@ -197,11 +227,9 @@ class RootSettingsFragment : BasePreferenceFragment() {
         }
     }
 
-    /*    override fun onChangeNumberBackups(number: Int) {
-            numberBackups?.summary = number.toString()
-        }
-
-        override fun onChangeRetention(range: Int) {
-            retention?.summary = requireContext().getString(R.string.number_of_days_summary, range)
-        }*/
+    companion object {
+        const val BACKUPS_COUNT_REQUEST_KEY = "BACKUPS_COUNT_REQUEST_KEY"
+        const val RETENTION_TIME_REQUEST_KEY = "RETENTION_TIME_REQUEST_KEY"
+        const val NOTE_FONT_SIZE_REQUEST_KEY = "NOTE_FONT_SIZE_REQUEST_KEY"
+    }
 }

@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/rootSettingsFragment"
-        android:name="com.loskon.noteminimalism3.app.screens.rootsettings.RootSettingsFragment"
+        android:name="com.loskon.noteminimalism3.app.screens.rootsettings.presentation.RootSettingsFragment"
         android:label="rootSettingsFragment">
         <action
             android:id="@+id/actionOpenAppearanceSettingsFragment"

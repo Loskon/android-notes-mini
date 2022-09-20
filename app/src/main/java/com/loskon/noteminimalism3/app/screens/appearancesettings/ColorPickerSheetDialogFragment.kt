@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.screens.appearancesettings.AppearanceSettingsFragment.Companion.SET_COLOR_REQUEST_KEY
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.databinding.SheetColorPickerBinding
@@ -54,8 +53,8 @@ class ColorPickerSheetDialogFragment : AppBaseSheetDialogFragment() {
             binding.colorPicker.color = color
         }
         setOkClickListener {
-            setFragmentResult(SET_COLOR_REQUEST_KEY, bundleOf(SET_COLOR_REQUEST_KEY to selectedColor))
-            dismiss()
+            val bundle = bundleOf(AppearanceSettingsFragment.SET_COLOR_REQUEST_KEY to selectedColor)
+            setFragmentResult(AppearanceSettingsFragment.SET_COLOR_REQUEST_KEY, bundle)
         }
     }
 

@@ -103,6 +103,16 @@ object AppPreference {
         set(context, PREF_KEY_COLOR, color)
     }
 
+    fun setBackupCount(context: Context, count: Int) {
+        val key = context.getString(R.string.number_of_backup_key)
+        set(context, key, count)
+    }
+
+    fun setRetentionTime(context: Context, count: Int) {
+        val key = context.getString(R.string.retention_trash_key)
+        set(context, key, count)
+    }
+
     // string
     fun setBackupPath(context: Context, path: String) {
         set(context, PREF_KEY_SEL_DIRECTORY, path)
@@ -116,7 +126,7 @@ object AppPreference {
     }
 
     fun hasDarkMode(context: Context): Boolean {
-        val key: String = context.getString(R.string.dark_mode_key)
+        val key = context.getString(R.string.dark_mode_key)
         return get(context, key, false)
     }
 
@@ -162,40 +172,40 @@ object AppPreference {
 
     // int
     fun getColor(context: Context): Int {
-        val defValue: Int = context.getShortColor(R.color.material_blue)
+        val defValue = context.getShortColor(R.color.material_blue)
         return get(context, PREF_KEY_COLOR, defValue)
     }
 
-    fun getNumberBackups(context: Context): Int {
-        val key: String = context.getString(R.string.number_of_backup_key)
-        val defValue: Int = context.getShortInt(R.integer.number_of_backups_int)
+    fun getBackupsCount(context: Context): Int {
+        val key = context.getString(R.string.number_of_backup_key)
+        val defValue = context.getShortInt(R.integer.number_of_backups_int)
         return get(context, key, defValue)
     }
 
     fun getRetentionRange(context: Context): Int {
-        val key: String = context.getString(R.string.retention_trash_key)
-        val defValue: Int = context.getShortInt(R.integer.retention_trash_int)
+        val key = context.getString(R.string.retention_trash_key)
+        val defValue = context.getShortInt(R.integer.retention_trash_int)
         return get(context, key, defValue)
     }
 
     fun getNumberLines(context: Context): Int {
-        val key: String = context.getString(R.string.number_of_lines_key)
-        val defValue: Int = context.getShortInt(R.integer.number_lines)
+        val key = context.getString(R.string.number_of_lines_key)
+        val defValue = context.getShortInt(R.integer.number_lines)
         return get(context, key, defValue)
     }
 
     fun getTitleFontSize(context: Context): Int {
-        val defValue: Int = context.getShortInt(R.integer.title_font_size_int)
+        val defValue = context.getShortInt(R.integer.title_font_size_int)
         return get(context, PREF_KEY_TITLE_FONT_SIZE, defValue)
     }
 
     fun getDateFontSize(context: Context): Int {
-        val defValue: Int = context.getShortInt(R.integer.date_font_size_int)
+        val defValue = context.getShortInt(R.integer.date_font_size_int)
         return get(context, PREF_KEY_DATE_FONT_SIZE, defValue)
     }
 
     fun getNoteFontSize(context: Context): Int {
-        val defValue: Int = context.getShortInt(R.integer.note_font_size_int)
+        val defValue = context.getShortInt(R.integer.note_font_size_int)
         return get(context, PREF_KEY_TEXT_NOTE_FONT_SIZE, defValue)
     }
 

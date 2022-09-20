@@ -5,11 +5,11 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.base.datetime.formattedString
-import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_STRING_ID_KEY
 import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_BUNDLE_SUCCESS_KEY
 import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_REQUEST_KEY
+import com.loskon.noteminimalism3.base.datetime.formattedString
+import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.databinding.SheetCreateBackupBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
@@ -66,7 +66,6 @@ class CreateBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
             triggerErrorMessage()
         } else {
             createBackupFile(title)
-            dismiss()
         }
     }
 
@@ -95,7 +94,7 @@ class CreateBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
         val backupSuccess = viewModel.performBackup(databasePath, backupFilePath)
 
         if (backupSuccess) {
-            val maxFilesCount = AppPreference.getNumberBackups(requireContext())
+            val maxFilesCount = AppPreference.getBackupsCount(requireContext())
             viewModel.deleteExtraFiles(backupPath, maxFilesCount)
             showSnackbar(R.string.sb_bp_succes, success = true)
         } else {

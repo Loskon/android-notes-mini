@@ -90,10 +90,14 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (savedInstanceState == null) {
             val range = AppPreference.getRetentionRange(requireContext())
             viewModel.cleanTrash(range)
         }
+
+        getNotes()
+
         setChildFragmentResultListener(NOTE_TRASH_REQUEST_KEY) { bundle ->
             val note = bundle.getParcelableKtx<Note>(NOTE_TRASH_BUNDLE_KEY)
 

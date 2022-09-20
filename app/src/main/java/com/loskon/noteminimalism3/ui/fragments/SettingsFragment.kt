@@ -170,7 +170,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         // Data
         folder?.summary = BackupPath.getSummary(activity)
 
-        val number: Int = AppPreference.getNumberBackups(activity)
+        val number: Int = AppPreference.getBackupsCount(activity)
         numberBackups?.summary = number.toString()
 
         // Other

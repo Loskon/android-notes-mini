@@ -342,7 +342,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
                 val backupSuccess = viewModel.performBackup(databasePath, backupFilePath)
 
                 if (backupSuccess) {
-                    val maxFilesCount = AppPreference.getNumberBackups(requireContext())
+                    val maxFilesCount = AppPreference.getBackupsCount(requireContext())
                     viewModel.deleteExtraFiles(backupPath, maxFilesCount)
 
                     val hasNotification = AppPreference.autoBackupNotification(requireContext())

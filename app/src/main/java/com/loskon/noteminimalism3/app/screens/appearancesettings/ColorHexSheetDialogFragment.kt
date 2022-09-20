@@ -77,7 +77,6 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
         }
         setOkClickListener {
             setFragmentResult(SET_COLOR_REQUEST_KEY, bundleOf(SET_COLOR_REQUEST_KEY to selectedColor))
-            dismiss()
         }
     }
 

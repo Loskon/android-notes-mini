@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.base.extension.view.setBackgroundColorKtx
+import com.loskon.noteminimalism3.base.extension.view.setButtonTintColorKtx
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.model.FontType
 
@@ -52,7 +52,7 @@ class FontAdapter : RecyclerView.Adapter<FontViewHolder>() {
 
     private fun RadioButton.configureRadioButton(position: Int) {
         isChecked = (position == lastCheckedPosition)
-        setBackgroundColorKtx(color)
+        setButtonTintColorKtx(color)
     }
 
     private fun onItemClick(fontType: FontType, absoluteAdapterPosition: Int) {

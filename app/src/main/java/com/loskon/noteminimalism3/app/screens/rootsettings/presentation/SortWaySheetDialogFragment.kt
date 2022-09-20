@@ -1,9 +1,9 @@
-package com.loskon.noteminimalism3.app.screens.rootsettings
+package com.loskon.noteminimalism3.app.screens.rootsettings.presentation
 
 import android.os.Bundle
 import android.view.View
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.base.extension.view.setBackgroundColorKtx
+import com.loskon.noteminimalism3.base.extension.view.setButtonTintColorKtx
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.databinding.SheetSortWayBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -28,8 +28,8 @@ class SortWaySheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun establishViewsColor() {
-        binding.rbSortCreation.setBackgroundColorKtx(color)
-        binding.rbSortModification.setBackgroundColorKtx(color)
+        binding.rbSortCreation.setButtonTintColorKtx(color)
+        binding.rbSortModification.setButtonTintColorKtx(color)
     }
 
     private fun configureInsertedViews() {
@@ -44,14 +44,9 @@ class SortWaySheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun setupViewsListeners() {
         setOkClickListener {
-            saveSortingWay()
-            dismiss()
+            val sortWay = getSortWayNumber()
+            AppPreference.setSortingWay(requireContext(), sortWay)
         }
-    }
-
-    private fun saveSortingWay() {
-        val sortWay = getSortWayNumber()
-        AppPreference.setSortingWay(requireContext(), sortWay)
     }
 
     private fun getSortWayNumber(): Int {

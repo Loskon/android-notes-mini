@@ -6,7 +6,6 @@ import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import java.util.*
 
 /**
  * ItemAnimator с избавлением от бага с ripple эффектом для CardView

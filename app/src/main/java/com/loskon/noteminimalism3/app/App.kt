@@ -7,6 +7,7 @@ import com.loskon.noteminimalism3.app.screens.backupfilelist.backupFileListModul
 import com.loskon.noteminimalism3.app.screens.createbackup.createBackupModule
 import com.loskon.noteminimalism3.app.screens.note.noteModule
 import com.loskon.noteminimalism3.app.screens.notelist.noteListModule
+import com.loskon.noteminimalism3.app.screens.rootsettings.rootSettingsModule
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.ColorUtil
 import org.koin.android.ext.koin.androidContext
@@ -29,7 +30,8 @@ class App : Application() {
                 listOf(
                     appModule, noteListModule,
                     noteModule, backupModule,
-                    backupFileListModule, createBackupModule
+                    backupFileListModule, createBackupModule,
+                    rootSettingsModule
                 )
             )
         }

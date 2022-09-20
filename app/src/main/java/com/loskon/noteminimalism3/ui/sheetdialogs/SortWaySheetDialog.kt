@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.base.extension.view.setBackgroundColorKtx
+import com.loskon.noteminimalism3.base.extension.view.setButtonTintColorKtx
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.ui.basedialogs.BaseSheetDialog
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
@@ -34,8 +34,8 @@ class SortWaySheetDialog(sheetContext: Context) :
     }
 
     private fun establishViewsColor() {
-        radioButtonCreate.setBackgroundColorKtx(color)
-        radioButtonMod.setBackgroundColorKtx(color)
+        radioButtonCreate.setButtonTintColorKtx(color)
+        radioButtonMod.setButtonTintColorKtx(color)
     }
 
     private fun configureInsertedViews() {

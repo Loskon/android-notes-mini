@@ -31,7 +31,7 @@ object BackupFileHelper {
     //--- Удаление экстра файлов бэкапа ------------------------------------------------------------
     fun deleteExtraFiles(context: Context) {
         val homeFolder: File = BackupPath.getBackupFolder(context)
-        val maxNumberFiles: Int = AppPreference.getNumberBackups(context)
+        val maxNumberFiles: Int = AppPreference.getBackupsCount(context)
         var logFiles: Array<File>? = getListDateBaseFiles(homeFolder)
 
         if (logFiles != null && logFiles.size > maxNumberFiles) {

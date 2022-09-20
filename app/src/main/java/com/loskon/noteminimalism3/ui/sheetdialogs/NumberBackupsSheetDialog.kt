@@ -14,7 +14,7 @@ class NumberBackupsSheetDialog(sheetContext: Context) :
     BaseSliderSheetDialog(
         sheetContext,
         R.string.number_of_backup_key,
-        AppPreference.getNumberBackups(sheetContext)
+        AppPreference.getBackupsCount(sheetContext)
     ) {
 
     override fun onOkBtnClick() {

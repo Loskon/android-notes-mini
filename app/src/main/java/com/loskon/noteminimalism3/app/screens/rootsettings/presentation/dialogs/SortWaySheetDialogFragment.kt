@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.screens.rootsettings.presentation
+package com.loskon.noteminimalism3.app.screens.rootsettings.presentation.dialogs
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,7 @@ import com.loskon.noteminimalism3.base.extension.view.setButtonTintColorKtx
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.databinding.SheetSortWayBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
+import com.loskon.noteminimalism3.utils.IntConst
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
 class SortWaySheetDialogFragment : AppBaseSheetDialogFragment() {
@@ -17,25 +18,26 @@ class SortWaySheetDialogFragment : AppBaseSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        setupViewsParameters()
+        setDialogViewsParameters()
         establishViewsColor()
-        configureInsertedViews()
+        configureViewsParameters()
         setupViewsListeners()
     }
 
-    private fun setupViewsParameters() {
+    private fun setDialogViewsParameters() {
         setDialogTitle(R.string.sort_title)
     }
 
     private fun establishViewsColor() {
+        val color = getAppColor()
         binding.rbSortCreation.setButtonTintColorKtx(color)
         binding.rbSortModification.setButtonTintColorKtx(color)
     }
 
-    private fun configureInsertedViews() {
+    private fun configureViewsParameters() {
         val sortWay = AppPreference.getSortingWay(requireContext())
 
-        if (sortWay == 1) {
+        if (sortWay == IntConst.ZERO) {
             binding.rgSort.check(binding.rbSortModification.id)
         } else {
             binding.rgSort.check(binding.rbSortCreation.id)
@@ -51,9 +53,9 @@ class SortWaySheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun getSortWayNumber(): Int {
         return if (binding.rgSort.checkedRadioButtonId == binding.rbSortModification.id) {
-            1
+            IntConst.ONE
         } else {
-            0
+            IntConst.ZERO
         }
     }
 }

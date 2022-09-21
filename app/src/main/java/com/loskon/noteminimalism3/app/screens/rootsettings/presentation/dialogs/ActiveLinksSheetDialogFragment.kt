@@ -1,4 +1,4 @@
-package com.loskon.noteminimalism3.app.screens.rootsettings.presentation
+package com.loskon.noteminimalism3.app.screens.rootsettings.presentation.dialogs
 
 import android.os.Bundle
 import android.view.View
@@ -17,25 +17,26 @@ class ActiveLinksSheetDialogFragment : AppBaseSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        setupViewsParameters()
+        setDialogViewsParameters()
         establishViewsColor()
-        configureInsertedViews()
+        configureViewsParameters()
         setupViewsListeners()
     }
 
-    private fun setupViewsParameters() {
+    private fun setDialogViewsParameters() {
         setDialogTitle(R.string.sheet_pref_links_title)
         setTextBtnCancel(R.string.to_close)
         setBtnOkVisibility(false)
     }
 
     private fun establishViewsColor() {
+        val color = getAppColor()
         binding.checkBoxWeb.setButtonTintColorKtx(color)
         binding.checkBoxMail.setButtonTintColorKtx(color)
         binding.checkBoxPhone.setButtonTintColorKtx(color)
     }
 
-    private fun configureInsertedViews() {
+    private fun configureViewsParameters() {
         binding.checkBoxWeb.isChecked = AppPreference.isWebLink(requireContext())
         binding.checkBoxMail.isChecked = AppPreference.isMailLink(requireContext())
         binding.checkBoxPhone.isChecked = AppPreference.isPhoneLink(requireContext())

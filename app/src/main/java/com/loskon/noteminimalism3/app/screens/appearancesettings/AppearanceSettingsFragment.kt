@@ -5,11 +5,12 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.SwitchPreference
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.screens.appearancesettings.dialogs.ColorHexSheetDialogFragment
+import com.loskon.noteminimalism3.app.screens.appearancesettings.dialogs.ColorPickerSheetDialogFragment
 import com.loskon.noteminimalism3.base.extension.dialogfragment.show
 import com.loskon.noteminimalism3.base.extension.fragment.getColor
 import com.loskon.noteminimalism3.base.extension.fragment.getInteger
-import com.loskon.noteminimalism3.base.extension.fragment.setChildFragmentClickListener
-import com.loskon.noteminimalism3.base.extension.fragment.setChildFragmentResultListener
+import com.loskon.noteminimalism3.base.extension.fragment.setFragmentClickListener
 import com.loskon.noteminimalism3.base.extension.fragment.setFragmentResultListener
 import com.loskon.noteminimalism3.base.extension.view.setDebouncePreferenceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setPreferenceChangeListener
@@ -33,10 +34,10 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setChildFragmentClickListener(RESET_FONT_SIZE_KEY) { resetFontSize() }
+        setFragmentClickListener(RESET_FONT_SIZE_KEY) { resetFontSize() }
         setFragmentResultListener(SET_COLOR_REQUEST_KEY) { bundle -> setAppColor(bundle) }
-        setChildFragmentResultListener(SET_COLOR_REQUEST_KEY) { bundle -> setAppColor(bundle) }
-        setChildFragmentClickListener(RESET_COLOR_REQUEST_KEY) { setDefaultColor() }
+        setFragmentResultListener(SET_COLOR_REQUEST_KEY) { bundle -> setAppColor(bundle) }
+        setFragmentClickListener(RESET_COLOR_REQUEST_KEY) { setDefaultColor() }
     }
 
     private fun resetFontSize() {
@@ -85,7 +86,7 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
     private fun setupPreferencesListeners() {
         resetFontSize?.setDebouncePreferenceClickListener { showConfirmResetFontSizeSheetDialog() }
         selectColor?.setDebouncePreferenceClickListener { ColorPickerSheetDialogFragment().show(parentFragmentManager) }
-        selectColorHex?.setDebouncePreferenceClickListener { ColorHexSheetDialogFragment().show(childFragmentManager) }
+        selectColorHex?.setDebouncePreferenceClickListener { ColorHexSheetDialogFragment().show(parentFragmentManager) }
         resetColor?.setDebouncePreferenceClickListener { showConfirmResetColorSheetDialog() }
         fontSizeSlider?.setOnChangeListener { titleFontSize -> handleChangedFontSizeSlider(titleFontSize) }
         oneSizeCardsSwitch?.setPreferenceChangeListener { value -> AppPreference.setLinearListType(requireContext(), value) }
@@ -97,7 +98,7 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
             title = getString(R.string.sheet_reset_font_size_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
-        ).show(childFragmentManager)
+        ).show(parentFragmentManager)
     }
 
     private fun showConfirmResetColorSheetDialog() {
@@ -106,7 +107,7 @@ class AppearanceSettingsFragment : BasePreferenceFragment() {
             title = getString(R.string.sheet_reset_color_title),
             btnOkText = getString(R.string.yes),
             btnCancelText = getString(R.string.no)
-        ).show(childFragmentManager)
+        ).show(parentFragmentManager)
     }
 
     private fun handleChangedFontSizeSlider(titleFontSize: Int) {

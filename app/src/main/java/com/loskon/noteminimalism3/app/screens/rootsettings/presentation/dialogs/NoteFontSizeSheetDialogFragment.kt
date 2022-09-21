@@ -1,9 +1,7 @@
-package com.loskon.noteminimalism3.app.screens.rootsettings.presentation
+package com.loskon.noteminimalism3.app.screens.rootsettings.presentation.dialogs
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.base.extension.fragment.getInteger
 import com.loskon.noteminimalism3.base.extension.view.setColorKtx
@@ -14,7 +12,7 @@ import com.loskon.noteminimalism3.databinding.SheetNoteFontSizeNewBinding
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 
-class NoteFontSizeSheetDialogFragment: AppBaseSheetDialogFragment() {
+class NoteFontSizeSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private val binding by viewBinding(SheetNoteFontSizeNewBinding::inflate)
 
@@ -22,26 +20,26 @@ class NoteFontSizeSheetDialogFragment: AppBaseSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        setupViewsParameters()
+        setDialogViewsParameters()
         establishViewsColor()
-        configureInsertedViews()
+        configureViewsParameters()
         setupViewsListeners()
     }
 
-    private fun setupViewsParameters() {
+    private fun setDialogViewsParameters() {
         setDialogTitle(R.string.sheet_font_size_title)
     }
 
     private fun establishViewsColor() {
-        binding.incSliderFontSize.sliderPreference.setColorKtx(color)
+        binding.incSliderFontSize.sliderPreference.setColorKtx(getAppColor())
     }
 
-    private fun configureInsertedViews() {
-        val value = AppPreference.getNoteFontSize(requireContext())
+    private fun configureViewsParameters() {
+        val fontSize = AppPreference.getNoteFontSize(requireContext())
         binding.incSliderFontSize.sliderPreference.valueFrom = MIN
         binding.incSliderFontSize.sliderPreference.valueTo = MAX
-        binding.incSliderFontSize.sliderPreference.value = value.toFloat()
-        binding.incSliderFontSize.tvValueSliderPreference.text = value.toString()
+        binding.incSliderFontSize.sliderPreference.value = fontSize.toFloat()
+        binding.incSliderFontSize.tvValueSliderPreference.text = fontSize.toString()
     }
 
     private fun setupViewsListeners() {
@@ -50,16 +48,14 @@ class NoteFontSizeSheetDialogFragment: AppBaseSheetDialogFragment() {
             binding.tvSheetFontSize.setTextSizeKtx(value)
         }
         binding.btnSheetFontSizeReset.setOnClickListener {
-            val default = getInteger(R.integer.note_font_size_int)
-            binding.incSliderFontSize.sliderPreference.value = default.toFloat()
-            binding.incSliderFontSize.tvValueSliderPreference.text = default.toString()
-            binding.tvSheetFontSize.setTextSizeKtx(default)
+            val defaultFontSize = getInteger(R.integer.note_font_size_int)
+            binding.incSliderFontSize.sliderPreference.value = defaultFontSize.toFloat()
+            binding.incSliderFontSize.tvValueSliderPreference.text = defaultFontSize.toString()
+            binding.tvSheetFontSize.setTextSizeKtx(defaultFontSize)
         }
         setOkClickListener {
-            val value = binding.incSliderFontSize.sliderPreference.value.toInt()
-            val bundle = bundleOf(RootSettingsFragment.NOTE_FONT_SIZE_REQUEST_KEY to value)
-
-            setFragmentResult(RootSettingsFragment.NOTE_FONT_SIZE_REQUEST_KEY, bundle)
+            val fontSize = binding.incSliderFontSize.sliderPreference.value.toInt()
+            AppPreference.setNoteFontSize(requireContext(), fontSize)
         }
     }
 

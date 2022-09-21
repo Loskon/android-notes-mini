@@ -92,7 +92,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            val range = AppPreference.getRetentionRange(requireContext())
+            val range = AppPreference.getRetentionDays(requireContext())
             viewModel.cleanTrash(range)
         }
 

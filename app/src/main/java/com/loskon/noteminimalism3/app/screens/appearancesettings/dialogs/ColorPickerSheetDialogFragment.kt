@@ -1,11 +1,11 @@
-package com.loskon.noteminimalism3.app.screens.appearancesettings
+package com.loskon.noteminimalism3.app.screens.appearancesettings.dialogs
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.screens.appearancesettings.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.databinding.SheetColorPickerBinding
@@ -15,52 +15,42 @@ class ColorPickerSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private val binding by viewBinding(SheetColorPickerBinding::inflate)
 
-    private var selectedColor: Int = Color.TRANSPARENT
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        getSavedArguments(savedInstanceState)
-        setupViewsParameters()
-        establishViewsColor()
-        configureInsertedViews()
+        setDialogViewsParameters()
+        establishViewsColor(savedInstanceState)
+        configureViewsParameters()
         setupViewsListeners()
     }
 
-    private fun getSavedArguments(savedInstanceState: Bundle?) {
-        selectedColor = savedInstanceState?.getInt(PUT_KEY_SAVE_COLOR) ?: color
-    }
-
-    private fun setupViewsParameters() {
+    private fun setDialogViewsParameters() {
         setDialogTitle(R.string.select_color_app_title)
     }
 
-    private fun establishViewsColor() {
-        binding.colorPicker.color = selectedColor
+    private fun establishViewsColor(savedInstanceState: Bundle?) {
+        binding.colorPicker.color = savedInstanceState?.getInt(PUT_KEY_SAVE_COLOR) ?: getAppColor()
     }
 
-    private fun configureInsertedViews() {
+    private fun configureViewsParameters() {
         binding.colorPicker.addSVBar(binding.svColorBar)
         binding.colorPicker.showOldCenterColor = false
     }
 
     private fun setupViewsListeners() {
-        binding.colorPicker.setOnColorChangedListener { color ->
-            selectedColor = color
-        }
         binding.btnColorPickerReset.setDebounceClickListener {
-            binding.colorPicker.color = color
+            binding.colorPicker.color = getAppColor()
         }
         setOkClickListener {
-            val bundle = bundleOf(AppearanceSettingsFragment.SET_COLOR_REQUEST_KEY to selectedColor)
+            val bundle = bundleOf(AppearanceSettingsFragment.SET_COLOR_REQUEST_KEY to binding.colorPicker.color)
             setFragmentResult(AppearanceSettingsFragment.SET_COLOR_REQUEST_KEY, bundle)
         }
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putInt(PUT_KEY_SAVE_COLOR, selectedColor)
+        savedInstanceState.putInt(PUT_KEY_SAVE_COLOR, binding.colorPicker.color)
     }
 
     companion object {

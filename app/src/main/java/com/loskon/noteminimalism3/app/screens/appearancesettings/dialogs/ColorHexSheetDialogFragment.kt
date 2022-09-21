@@ -1,13 +1,12 @@
-package com.loskon.noteminimalism3.app.screens.appearancesettings
+package com.loskon.noteminimalism3.app.screens.appearancesettings.dialogs
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
-import com.loskon.noteminimalism3.app.screens.appearancesettings.AppearanceSettingsFragment.Companion.SET_COLOR_REQUEST_KEY
+import com.loskon.noteminimalism3.app.screens.appearancesettings.AppearanceSettingsFragment
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setEndSelection
 import com.loskon.noteminimalism3.base.extension.view.setFilterKtx
@@ -20,35 +19,30 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private val binding by viewBinding(SheetColorHexBinding::inflate)
 
-    private var selectedColor: Int = Color.TRANSPARENT
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        setSavedArguments(savedInstanceState)
-        setupViewsParameters()
-        establishViewsColor()
-        configureInsertedViews()
+        val color = savedInstanceState?.getInt(PUT_KEY_SAVE_HEX_COLOR) ?: getAppColor()
+
+        setDialogViewsParameters()
+        establishViewsColor(color)
+        configureViewsParameters(color)
         setupViewsListeners()
     }
 
-    private fun setSavedArguments(savedInstanceState: Bundle?) {
-        selectedColor = savedInstanceState?.getInt(PUT_KEY_SAVE_HEX_COLOR) ?: color
-    }
-
-    private fun setupViewsParameters() {
+    private fun setDialogViewsParameters() {
         setDialogTitle(R.string.sheet_pref_color_hex_title)
     }
 
-    private fun establishViewsColor() {
-        binding.inputLayoutHex.boxStrokeColor = selectedColor
+    private fun establishViewsColor(color: Int) {
+        binding.inputLayoutHex.boxStrokeColor = color
     }
 
-    private fun configureInsertedViews() {
+    private fun configureViewsParameters(color: Int) {
         binding.inputEditTextHex.showKeyboard()
         binding.inputEditTextHex.setFilterKtx(pattern = "[^A-Fa-f0-9 ]", maxLength = 6)
-        binding.inputEditTextHex.setText(convertIntInHex(selectedColor))
+        binding.inputEditTextHex.setText(convertIntInHex(color))
         binding.inputEditTextHex.setEndSelection()
     }
 
@@ -63,8 +57,8 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
     private fun setupViewsListeners() {
         binding.inputEditTextHex.doOnTextChanged { text, _, _, _ ->
             run {
-                changeSelectedColor(text.toString().trim())
-                binding.inputLayoutHex.boxStrokeColor = selectedColor
+                val color = getSelectedColor(text.toString().trim())
+                binding.inputLayoutHex.boxStrokeColor = color
             }
         }
         binding.inputLayoutHex.setEndIconOnClickListener {
@@ -72,16 +66,19 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
             binding.inputLayoutHex.boxStrokeColor = convertHexInInt("000000")
         }
         binding.btnResetHexColor.setDebounceClickListener {
-            binding.inputEditTextHex.setText(convertIntInHex(color))
+            binding.inputEditTextHex.setText(convertIntInHex(getAppColor()))
             binding.inputEditTextHex.setEndSelection()
         }
         setOkClickListener {
-            setFragmentResult(SET_COLOR_REQUEST_KEY, bundleOf(SET_COLOR_REQUEST_KEY to selectedColor))
+            val color = convertHexInInt(binding.inputEditTextHex.editableText.toString())
+            val bundle = bundleOf(AppearanceSettingsFragment.SET_COLOR_REQUEST_KEY to color)
+
+            setFragmentResult(AppearanceSettingsFragment.SET_COLOR_REQUEST_KEY, bundle)
         }
     }
 
-    private fun changeSelectedColor(hexText: String) {
-        selectedColor = if (hexText.isEmpty()) {
+    private fun getSelectedColor(hexText: String): Int {
+        return if (hexText.isEmpty()) {
             convertHexInInt("000000")
         } else {
             convertHexInInt(hexText)
@@ -94,7 +91,8 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putInt(PUT_KEY_SAVE_HEX_COLOR, selectedColor)
+        val color = convertHexInInt(binding.inputEditTextHex.editableText.toString())
+        savedInstanceState.putInt(PUT_KEY_SAVE_HEX_COLOR, color)
     }
 
     companion object {

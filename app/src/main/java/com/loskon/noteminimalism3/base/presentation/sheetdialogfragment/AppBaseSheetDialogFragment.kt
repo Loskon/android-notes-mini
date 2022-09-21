@@ -14,7 +14,6 @@ import com.loskon.noteminimalism3.viewbinding.viewBinding
 open class AppBaseSheetDialogFragment : BaseSheetDialogFragment() {
 
     private val binding by viewBinding(BaseDialogBinding::inflate)
-    protected val color: Int get() = AppPreference.getColor(requireContext())
 
     private var onOkClick: (() -> Unit)? = null
     private var onCancelClick: (() -> Unit)? = null
@@ -38,6 +37,7 @@ open class AppBaseSheetDialogFragment : BaseSheetDialogFragment() {
     }
 
     private fun establishBaseViewsColor() {
+        val color = getAppColor()
         binding.btnBaseDialogOk.setBackgroundColor(color)
         binding.btnBaseDialogCancel.setTextColor(color)
     }
@@ -87,6 +87,10 @@ open class AppBaseSheetDialogFragment : BaseSheetDialogFragment() {
 
     fun setBtnOkVisibility(visible: Boolean) {
         binding.btnBaseDialogOk.setVisibilityKtx(visible)
+    }
+
+    fun getAppColor(): Int {
+        return AppPreference.getColor(requireContext())
     }
 
     fun setOkClickListener(onOkClick: (() -> Unit)?) {

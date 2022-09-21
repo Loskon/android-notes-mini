@@ -39,7 +39,7 @@ class CreateBackupSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun establishViewsColor() {
-        binding.inputLayoutBackup.boxStrokeColor = color
+        binding.inputLayoutBackup.boxStrokeColor = getAppColor()
     }
 
     private fun setupViewsParameters() {

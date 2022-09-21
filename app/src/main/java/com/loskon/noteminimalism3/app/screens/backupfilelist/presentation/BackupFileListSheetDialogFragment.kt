@@ -58,6 +58,7 @@ class BackupFileListSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun establishViewsColor() {
+        val color = getAppColor()
         binding.btnCancelDelete.setTextColor(color)
         binding.btnConfirmDelete.setBackgroundColor(color)
     }

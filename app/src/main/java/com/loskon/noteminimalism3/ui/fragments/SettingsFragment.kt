@@ -174,7 +174,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         numberBackups?.summary = number.toString()
 
         // Other
-        val range: Int = AppPreference.getRetentionRange(activity)
+        val range: Int = AppPreference.getRetentionDays(activity)
         retention?.summary = activity.getString(R.string.number_of_days_summary, range)
     }
 

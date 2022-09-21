@@ -30,6 +30,7 @@ class NoteListUnificationSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun establishViewsColor() {
+        val color = getAppColor()
         binding.btnDeleteNotes.setBackgroundColor(color)
         binding.btnLeaveNotes.setBackgroundColor(color)
     }

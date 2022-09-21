@@ -182,7 +182,7 @@ object AppPreference {
         return get(context, key, defValue)
     }
 
-    fun getRetentionRange(context: Context): Int {
+    fun getRetentionDays(context: Context): Int {
         val key = context.getString(R.string.retention_trash_key)
         val defValue = context.getShortInt(R.integer.retention_trash_int)
         return get(context, key, defValue)

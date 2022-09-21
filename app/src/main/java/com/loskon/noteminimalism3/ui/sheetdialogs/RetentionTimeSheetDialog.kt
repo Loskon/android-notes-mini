@@ -13,7 +13,7 @@ class RetentionTimeSheetDialog(sheetContext: Context) :
     BaseSliderSheetDialog(
         sheetContext,
         R.string.retention_trash_key,
-        AppPreference.getRetentionRange(sheetContext)
+        AppPreference.getRetentionDays(sheetContext)
     ) {
 
     override fun onOkBtnClick() {

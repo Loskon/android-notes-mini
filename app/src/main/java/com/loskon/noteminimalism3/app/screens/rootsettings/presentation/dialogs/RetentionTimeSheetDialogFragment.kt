@@ -1,10 +1,11 @@
-package com.loskon.noteminimalism3.app.screens.rootsettings.presentation
+package com.loskon.noteminimalism3.app.screens.rootsettings.presentation.dialogs
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.screens.rootsettings.presentation.RootSettingsFragment
 import com.loskon.noteminimalism3.base.extension.view.setColorKtx
 import com.loskon.noteminimalism3.base.extension.view.setOnChangeListener
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
@@ -20,26 +21,26 @@ class RetentionTimeSheetDialogFragment : AppBaseSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        setupViewsParameters()
+        setDialogViewsParameters()
         establishViewsColor()
-        configureInsertedViews()
+        configureViewsParameters()
         setupViewsListeners()
     }
 
-    private fun setupViewsParameters() {
+    private fun setDialogViewsParameters() {
         setDialogTitle(R.string.retention_trash_key)
     }
 
     private fun establishViewsColor() {
-        binding.sliderPreference.setColorKtx(color)
+        binding.sliderPreference.setColorKtx(getAppColor())
     }
 
-    private fun configureInsertedViews() {
-        val value = AppPreference.getRetentionRange(requireContext())
+    private fun configureViewsParameters() {
+        val days = AppPreference.getRetentionDays(requireContext())
         binding.sliderPreference.valueFrom = MIN
         binding.sliderPreference.valueTo = MAX
-        binding.sliderPreference.value = value.toFloat()
-        binding.tvValueSliderPreference.text = value.toString()
+        binding.sliderPreference.value = days.toFloat()
+        binding.tvValueSliderPreference.text = days.toString()
     }
 
     private fun setupViewsListeners() {
@@ -47,9 +48,10 @@ class RetentionTimeSheetDialogFragment : AppBaseSheetDialogFragment() {
             binding.tvValueSliderPreference.text = value.toString()
         }
         setOkClickListener {
-            val value = binding.sliderPreference.value.toInt()
-            val bundle = bundleOf(RootSettingsFragment.RETENTION_TIME_REQUEST_KEY to value)
+            val days = binding.sliderPreference.value.toInt()
+            val bundle = bundleOf(RootSettingsFragment.RETENTION_TIME_REQUEST_KEY to days)
 
+            AppPreference.setRetentionTime(requireContext(), days)
             setFragmentResult(RootSettingsFragment.RETENTION_TIME_REQUEST_KEY, bundle)
         }
     }

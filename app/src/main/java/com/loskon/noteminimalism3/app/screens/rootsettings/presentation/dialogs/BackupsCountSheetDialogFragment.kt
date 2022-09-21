@@ -1,10 +1,11 @@
-package com.loskon.noteminimalism3.app.screens.rootsettings.presentation
+package com.loskon.noteminimalism3.app.screens.rootsettings.presentation.dialogs
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.loskon.noteminimalism3.R
+import com.loskon.noteminimalism3.app.screens.rootsettings.presentation.RootSettingsFragment
 import com.loskon.noteminimalism3.base.extension.view.setColorKtx
 import com.loskon.noteminimalism3.base.extension.view.setOnChangeListener
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
@@ -20,26 +21,26 @@ class BackupsCountSheetDialogFragment : AppBaseSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        setupViewsParameters()
+        setDialogViewsParameters()
         establishViewsColor()
-        configureInsertedViews()
+        configureViewsParameters()
         setupViewsListeners()
     }
 
-    private fun setupViewsParameters() {
+    private fun setDialogViewsParameters() {
         setDialogTitle(R.string.number_of_backup_key)
     }
 
     private fun establishViewsColor() {
-        binding.sliderPreference.setColorKtx(color)
+        binding.sliderPreference.setColorKtx(getAppColor())
     }
 
-    private fun configureInsertedViews() {
-        val value = AppPreference.getBackupsCount(requireContext())
+    private fun configureViewsParameters() {
+        val count = AppPreference.getBackupsCount(requireContext())
         binding.sliderPreference.valueFrom = MIN
         binding.sliderPreference.valueTo = MAX
-        binding.sliderPreference.value = value.toFloat()
-        binding.tvValueSliderPreference.text = value.toString()
+        binding.sliderPreference.value = count.toFloat()
+        binding.tvValueSliderPreference.text = count.toString()
     }
 
     private fun setupViewsListeners() {
@@ -47,9 +48,10 @@ class BackupsCountSheetDialogFragment : AppBaseSheetDialogFragment() {
             binding.tvValueSliderPreference.text = value.toString()
         }
         setOkClickListener {
-            val value = binding.sliderPreference.value.toInt()
-            val bundle = bundleOf(RootSettingsFragment.BACKUPS_COUNT_REQUEST_KEY to value)
+            val count = binding.sliderPreference.value.toInt()
+            val bundle = bundleOf(RootSettingsFragment.BACKUPS_COUNT_REQUEST_KEY to count)
 
+            AppPreference.setBackupCount(requireContext(), count)
             setFragmentResult(RootSettingsFragment.BACKUPS_COUNT_REQUEST_KEY, bundle)
         }
     }

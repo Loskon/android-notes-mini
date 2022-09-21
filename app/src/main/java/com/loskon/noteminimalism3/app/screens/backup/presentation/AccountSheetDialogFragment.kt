@@ -31,6 +31,7 @@ class AccountSheetDialogFragment : AppBaseSheetDialogFragment() {
     }
 
     private fun establishViewsColor() {
+        val color = getAppColor()
         binding.btnAccountSignOut.setBackgroundColor(color)
         binding.btnAccountDelete.setBackgroundColor(color)
     }

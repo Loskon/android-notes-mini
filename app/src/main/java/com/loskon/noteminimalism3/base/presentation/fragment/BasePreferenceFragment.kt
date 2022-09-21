@@ -30,7 +30,7 @@ open class BasePreferenceFragment : PreferenceFragmentCompat() {
         binding.bottomBarSettings.setNavigationIconColor(color)
     }
 
-    fun showSnackbar(message: String, success: Boolean) {
-        AppSnackbar().make(binding.root, message, success, binding.bottomBarSettings)
+    fun showSnackbar(stringId: Int, success: Boolean) {
+        AppSnackbar().make(binding.root, getString(stringId), success, binding.bottomBarSettings)
     }
 }

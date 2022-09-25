@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.loskon.noteminimalism3.R
 import com.loskon.noteminimalism3.app.screens.notelist.presentation.NoteListFragment
 import com.loskon.noteminimalism3.base.datetime.formattedString
+import com.loskon.noteminimalism3.base.extension.bundle.getSerializableKtx
 import com.loskon.noteminimalism3.base.extension.corutine.launchDelay
 import com.loskon.noteminimalism3.base.extension.flow.observe
 import com.loskon.noteminimalism3.base.extension.fragment.getColor
@@ -21,7 +22,7 @@ import com.loskon.noteminimalism3.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setEndSelection
 import com.loskon.noteminimalism3.base.extension.view.setFocus
-import com.loskon.noteminimalism3.base.extension.view.setIconColor
+import com.loskon.noteminimalism3.base.extension.view.setIconColorKtx
 import com.loskon.noteminimalism3.base.extension.view.setOnDownClickListener
 import com.loskon.noteminimalism3.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.base.linkmovementmethod.AppLinkMovementMethod
@@ -34,6 +35,7 @@ import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.sqlite.NoteDatabaseSchema
 import com.loskon.noteminimalism3.utils.DateUtil
+import com.loskon.noteminimalism3.utils.LongConst
 import com.loskon.noteminimalism3.utils.StringUtil
 import com.loskon.noteminimalism3.utils.hideKeyboard
 import com.loskon.noteminimalism3.utils.showKeyboard
@@ -54,17 +56,17 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     private var backupDate = LocalDateTime.now()
     private var isFavorite = false
     private var isNewNote = false
-    private var autoBackupToastShow = false
+    private var toastShow = false
 
     private val getNote: Note get() = viewModel.getNoteState.value
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (args.id != 0L) {
+        if (savedInstanceState == null && args.id != LongConst.ZERO) {
             viewModel.getNote(args.id)
         }
         setOnBackPressedListener {
-            autoBackupToastShow = true
+            toastShow = true
             findNavController().popBackStack()
         }
     }
@@ -72,10 +74,10 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getSavedArguments(savedInstanceState)
+        setSavedArguments(savedInstanceState)
         establishViewsColor()
         configureKeyboardFocus()
-        configureNoteFontSize()
+        setNoteFontSize()
         configureFavoriteStatus()
         configureWorkWithLinks()
         installObserver()
@@ -83,22 +85,21 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         setupViewsListeners()
     }
 
-    private fun getSavedArguments(savedInstanceState: Bundle?) {
-        backupDate = savedInstanceState?.getSerializable(PUT_KEY_SAVE_DATE) as LocalDateTime? ?: LocalDateTime.now()
+    private fun setSavedArguments(savedInstanceState: Bundle?) {
+        backupDate = savedInstanceState?.getSerializableKtx(PUT_KEY_SAVE_DATE) ?: LocalDateTime.now()
     }
 
     private fun establishViewsColor() {
         val color = AppPreference.getColor(requireContext())
-
         binding.editTextNote2.setLinkTextColor(color)
         binding.fabNote2.setBackgroundColorKtx(color)
-        binding.btnFavNote2.setIconColor(color)
-        binding.btnDelNote2.setIconColor(color)
-        binding.btnMoreNote2.setIconColor(color)
+        binding.btnFavNote2.setIconColorKtx(color)
+        binding.btnDelNote2.setIconColorKtx(color)
+        binding.btnMoreNote2.setIconColorKtx(color)
     }
 
     private fun configureKeyboardFocus() {
-        if (getNote.id == NEW_NOTE_ID) {
+        if (getNote.id == LongConst.ZERO) {
             binding.editTextNote2.showKeyboard()
         } else {
             binding.linLayoutNote2.setFocus()
@@ -107,7 +108,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         }
     }
 
-    private fun configureNoteFontSize() {
+    private fun setNoteFontSize() {
         val fontSize = AppPreference.getNoteFontSize(requireContext())
         binding.editTextNote2.setTextSizeKtx(fontSize)
     }
@@ -131,7 +132,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun configureWorkWithLinks() {
-        if (getNote.id != NEW_NOTE_ID) {
+        if (getNote.id != LongConst.ZERO) {
             val activeLinks = LinksManager.getActiveLinks(requireContext())
 
             if (activeLinks != 0) {
@@ -193,7 +194,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     private fun handleFabClick() {
-        autoBackupToastShow = true
+        toastShow = true
         binding.editTextNote2.hideKeyboard()
         lifecycleScope.launchDelay(HIDE_KEYBOARD_DELAY) { findNavController().popBackStack() }
     }
@@ -213,7 +214,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     private fun handleDeleteClick() {
         val note = getNote
 
-        if (note.id == NEW_NOTE_ID) {
+        if (note.id == LongConst.ZERO) {
             viewModel.delete(note)
         } else {
             checkShowUndoSnackbar(note)
@@ -297,7 +298,7 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         val title = binding.editTextNote2.text.toString()
 
         if (title.trim().isNotEmpty()) {
-            if (note.id == NEW_NOTE_ID) {
+            if (note.id == LongConst.ZERO) {
                 backupDate = LocalDateTime.now()
                 isNewNote = true
 
@@ -320,10 +321,10 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
             if (isNewNote) {
                 val autoBackup = AppPreference.hasAutoBackup(requireContext())
-                if (autoBackup && note.id % DIVISIBLE == NEW_NOTE_ID) createAutoBackup()
+                if (autoBackup && note.id % DIVISIBLE == LongConst.ZERO) createAutoBackup()
             }
         } else {
-            if (note.id != NEW_NOTE_ID) viewModel.delete(note)
+            if (note.id != LongConst.ZERO) viewModel.delete(note)
         }
     }
 
@@ -346,15 +347,15 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
                     viewModel.deleteExtraFiles(backupPath, maxFilesCount)
 
                     val hasNotification = AppPreference.autoBackupNotification(requireContext())
-                    if (hasNotification && autoBackupToastShow) showToast(R.string.toast_auto_bp_completed)
+                    if (hasNotification && toastShow) showToast(R.string.toast_auto_bp_completed)
                 } else {
-                    if (autoBackupToastShow) showToast(R.string.toast_auto_bp_failed)
+                    if (toastShow) showToast(R.string.toast_auto_bp_failed)
                 }
             } else {
-                if (autoBackupToastShow) showToast(R.string.toast_auto_bp_failed)
+                if (toastShow) showToast(R.string.toast_auto_bp_failed)
             }
         } else {
-            if (autoBackupToastShow) showToast(R.string.toast_auto_bp_no_permissions)
+            if (toastShow) showToast(R.string.toast_auto_bp_no_permissions)
         }
     }
 
@@ -404,7 +405,6 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
     }
 
     companion object {
-        private const val NEW_NOTE_ID = 0L
         private const val DIVISIBLE = 3
         private const val HIDE_KEYBOARD_DELAY = 200
         private const val PUT_KEY_SAVE_DATE = "PUT_KEY_SAVE_DATE"

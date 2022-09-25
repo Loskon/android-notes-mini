@@ -7,6 +7,7 @@ import com.loskon.noteminimalism3.app.screens.backupfilelist.backupFileListModul
 import com.loskon.noteminimalism3.app.screens.createbackup.createBackupModule
 import com.loskon.noteminimalism3.app.screens.note.noteModule
 import com.loskon.noteminimalism3.app.screens.notelist.noteListModule
+import com.loskon.noteminimalism3.app.screens.notetrash.noteTrashModule
 import com.loskon.noteminimalism3.app.screens.rootsettings.rootSettingsModule
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.utils.ColorUtil
@@ -31,7 +32,7 @@ class App : Application() {
                     appModule, noteListModule,
                     noteModule, backupModule,
                     backupFileListModule, createBackupModule,
-                    rootSettingsModule
+                    rootSettingsModule, noteTrashModule
                 )
             )
         }

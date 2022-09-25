@@ -287,8 +287,13 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private fun handleNoteClick(note: Note, position: Int) {
         if (hasActiveSelectionMode.not()) {
-            val action = NoteListFragmentDirections.actionOpenNoteFragment(note.id)
-            findNavController().navigate(action)
+            if (category == NoteListViewModel.CATEGORY_TRASH1) {
+                val action = NoteListFragmentDirections.actionOpenNoteTrashFragment(note.id)
+                findNavController().navigate(action)
+            } else {
+                val action = NoteListFragmentDirections.actionOpenNoteFragment(note.id)
+                findNavController().navigate(action)
+            }
         } else {
             selectNote(note, position)
             updateFavoriteMenuIcon(note)

@@ -19,4 +19,12 @@ class NoteTrashViewModel(
             noteTrashInteractor.getNote(id).collectLatest { note -> noteState.emit(note) }
         }
     }
+
+    fun update(note: Note) {
+        TODO("Not yet implemented")
+    }
+
+    fun delete(note: Note) {
+        TODO("Not yet implemented")
+    }
 }

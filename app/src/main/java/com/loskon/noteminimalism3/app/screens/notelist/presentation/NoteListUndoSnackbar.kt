@@ -14,60 +14,51 @@ import com.loskon.noteminimalism3.model.Note
 
 class NoteListUndoSnackbar(
     private val context: Context,
-    view: View,
-    anchorView: View
-) {
+    private val view: View,
+    private val anchorView: View
+) : BaseSnackbar() {
 
-    private val binding = SnackbarUndoBinding.inflate(LayoutInflater.from(context))
-    private val snackbar = BaseSnackbar().make(view, binding.root).setAnchorView(anchorView)
-
-    private var countDownTimer: CountDownTimer? = null
-    private var anim: ObjectAnimator? = null
-
+    private var binding: SnackbarUndoBinding? = null
     private var onCancelClickListener: ((Note, Boolean) -> Unit)? = null
 
-    init {
-        setupAnimation()
-        installTimer()
+    fun make(note: Note, isFavorite: Boolean, category: String): NoteListUndoSnackbar {
+        binding = SnackbarUndoBinding.inflate(LayoutInflater.from(context))
+
+        val countDownTimer = getConfiguredTimer()
+        val animator = getConfiguredAnimator()
+
+        make(view, binding?.root)
+        setAnchorView(anchorView)
+
+        binding?.tvProgressSnackbarUndo?.text = context.getString(getMessageStringId(category))
+        binding?.btnUndo?.setDebounceClickListener { handleUndoClick(note, isFavorite) }
+        setOnDismissedListener { handleOnDismissedListener(countDownTimer, animator) }
+
+        countDownTimer.start()
+        animator.start()
+
+        return this
     }
 
-    private fun setupAnimation() {
-        anim = ObjectAnimator.ofInt(binding.progressBarSnackbarUndo, "progress", binding.progressBarSnackbarUndo.max)
-        anim?.duration = 5000
-        anim?.interpolator = DecelerateInterpolator()
-    }
-
-    private fun installTimer() {
-        countDownTimer = object : CountDownTimer(5300, 100) {
+    private fun getConfiguredTimer(): CountDownTimer {
+        return object : CountDownTimer(5300, 100) {
             override fun onTick(leftTimeInMilliseconds: Long) {
                 val seconds = leftTimeInMilliseconds / 1000
-                binding.tvProgressSnackbarUndo.text = seconds.toString()
+                binding?.tvProgressSnackbarUndo?.text = seconds.toString()
             }
 
             override fun onFinish() {
-                snackbar.dismiss()
+                dismiss()
             }
         }
     }
 
-    fun show(note: Note, isFavorite: Boolean, category: String) {
-        val stringId = getMessageStringId(category)
-
-        binding.tvProgressSnackbarUndo.text = context.getString(stringId)
-        binding.btnUndo.setDebounceClickListener { handleUndoClick(note, isFavorite) }
-
-        anim?.cancel()
-        countDownTimer?.cancel()
-
-        anim?.start()
-        countDownTimer?.start()
-
-        snackbar.show()
-    }
-
-    private fun handleUndoClick(note: Note, isFavorite: Boolean) {
-        onCancelClickListener?.invoke(note, isFavorite)
-        dismiss()
+    private fun getConfiguredAnimator(): ObjectAnimator {
+        return ObjectAnimator.ofInt(binding?.progressBarSnackbarUndo, "progress", binding?.progressBarSnackbarUndo?.max ?: 0)
+            .apply {
+                duration = 5000
+                interpolator = DecelerateInterpolator()
+            }
     }
 
     private fun getMessageStringId(category: String): Int {
@@ -78,13 +69,18 @@ class NoteListUndoSnackbar(
         }
     }
 
-    fun setOnUndoClickListener(onCancelClickListener: ((Note, Boolean) -> Unit)?) {
-        this.onCancelClickListener = onCancelClickListener
+    private fun handleUndoClick(note: Note, isFavorite: Boolean) {
+        onCancelClickListener?.invoke(note, isFavorite)
+        dismiss()
     }
 
-    fun dismiss() {
-        anim?.cancel()
-        countDownTimer?.cancel()
-        snackbar.dismiss()
+    private fun handleOnDismissedListener(countDownTimer: CountDownTimer, animator: ObjectAnimator) {
+        animator.cancel()
+        countDownTimer.cancel()
+        binding = null
+    }
+
+    fun setOnUndoClickListener(onCancelClickListener: ((Note, Boolean) -> Unit)?) {
+        this.onCancelClickListener = onCancelClickListener
     }
 }

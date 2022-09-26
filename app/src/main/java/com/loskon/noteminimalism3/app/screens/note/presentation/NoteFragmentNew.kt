@@ -62,9 +62,9 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null && args.id != LongConst.ZERO) {
-            viewModel.getNote(args.id)
-        }
+
+        if (savedInstanceState == null && args.id != LongConst.ZERO) viewModel.getNote(args.id)
+
         setOnBackPressedListener {
             toastShow = true
             findNavController().popBackStack()
@@ -230,7 +230,8 @@ class NoteFragmentNew : Fragment(R.layout.fragment_note_new) {
         val show = AppPreference.isBottomWidgetShow(requireContext())
 
         if (show) {
-            setFragmentResult(NoteListFragment.NOTE_TRASH_REQUEST_KEY, bundleOf(NoteListFragment.NOTE_TRASH_BUNDLE_KEY to note))
+            val bundle = bundleOf(NoteListFragment.NOTE_TRASH_BUNDLE_KEY to note)
+            setFragmentResult(NoteListFragment.NOTE_TRASH_REQUEST_KEY, bundle)
         }
     }
 

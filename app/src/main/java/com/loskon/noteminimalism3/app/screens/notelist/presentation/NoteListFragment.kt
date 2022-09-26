@@ -96,12 +96,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             viewModel.cleanTrash(range)
         }
 
-        getNotes()
-
         setChildFragmentResultListener(NOTE_TRASH_REQUEST_KEY) { bundle ->
             val note = bundle.getParcelableKtx<Note>(NOTE_TRASH_BUNDLE_KEY)
 
-            if (note != null) undoSnackbar?.show(note, note.isFavorite, category)
+            if (note != null) undoSnackbar?.make(note, note.isFavorite, category)?.show()
         }
         setChildFragmentClickListener(DELETE_FOREVER_REQUEST_KEY) {
             val checkedNotes = notesAdapter.getItems().filter { it.isChecked }
@@ -118,6 +116,8 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 showSnackbar(getString(R.string.sb_but_empty_trash), false)
             }
         }
+
+        getNotes()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -146,6 +146,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun initialObjects() {
+        //undoSnackbar = NoteListUndoSnackbar(requireContext(), binding.root, binding.fabNoteList)
         undoSnackbar = NoteListUndoSnackbar(requireContext(), binding.root, binding.fabNoteList)
     }
 
@@ -354,16 +355,17 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         }
 
         viewModel.getNotes(scrollTop = false, quicklyListUpdate = false)
-        undoSnackbar?.show(note, isFavorite, category)
+        undoSnackbar?.make(note, isFavorite, category)?.show()
     }
 
     private fun handleNoteUndoClick(note: Note, isFavorite: Boolean) {
-        note.isDeleted = false
-        note.isFavorite = isFavorite
-
         if (category == NoteListViewModel.CATEGORY_TRASH1) {
+            note.isDeleted = true
+            note.isFavorite = false
             viewModel.insertNote(note)
         } else {
+            note.isDeleted = false
+            note.isFavorite = isFavorite
             viewModel.updateNote(note)
         }
 

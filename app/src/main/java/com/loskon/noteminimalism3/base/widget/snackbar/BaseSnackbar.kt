@@ -30,7 +30,7 @@ open class BaseSnackbar {
         return this
     }
 
-    fun make(view: View, addedView: View): BaseSnackbar {
+    fun make(view: View, addedView: View?): BaseSnackbar {
         snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
         (snackbar?.view as Snackbar.SnackbarLayout?)?.addView(addedView)
         setupSnackbarTransientListener()

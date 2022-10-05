@@ -10,4 +10,12 @@ class NoteTrashInteractor(
     fun getNote(id: Long): Flow<Note> {
         return noteTrashRepository.getNote(id)
     }
+
+    fun update(note: Note) {
+        noteTrashRepository.update(note)
+    }
+
+    fun delete(note: Note) {
+        noteTrashRepository.delete(note)
+    }
 }

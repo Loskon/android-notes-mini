@@ -23,7 +23,7 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setContentView(binding.root)
 
-        val color = savedInstanceState?.getInt(PUT_KEY_SAVE_HEX_COLOR) ?: getAppColor()
+        val color = savedInstanceState?.getInt(PUT_SAVE_HEX_COLOR_KEY) ?: getAppColor()
 
         setDialogViewsParameters()
         establishViewsColor(color)
@@ -92,10 +92,10 @@ class ColorHexSheetDialogFragment : AppBaseSheetDialogFragment() {
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         val color = convertHexInInt(binding.inputEditTextHex.editableText.toString())
-        savedInstanceState.putInt(PUT_KEY_SAVE_HEX_COLOR, color)
+        savedInstanceState.putInt(PUT_SAVE_HEX_COLOR_KEY, color)
     }
 
     companion object {
-        private const val PUT_KEY_SAVE_HEX_COLOR = "PUT_KEY_SAVE_HEX_COLOR"
+        private const val PUT_SAVE_HEX_COLOR_KEY = "PUT_SAVE_HEX_COLOR_KEY"
     }
 }

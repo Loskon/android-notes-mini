@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteTrashRepository {
     fun getNote(id: Long): Flow<Note>
+    fun update(note: Note)
+    fun delete(note: Note)
 }

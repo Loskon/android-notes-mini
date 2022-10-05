@@ -19,7 +19,7 @@ class NoteListUndoSnackbar(
 ) : BaseSnackbar() {
 
     private var binding: SnackbarUndoBinding? = null
-    private var onCancelClickListener: ((Note, Boolean) -> Unit)? = null
+    private var undoClickListener: ((Note, Boolean) -> Unit)? = null
 
     fun make(note: Note, isFavorite: Boolean, category: String): NoteListUndoSnackbar {
         binding = SnackbarUndoBinding.inflate(LayoutInflater.from(context))
@@ -70,7 +70,7 @@ class NoteListUndoSnackbar(
     }
 
     private fun handleUndoClick(note: Note, isFavorite: Boolean) {
-        onCancelClickListener?.invoke(note, isFavorite)
+        undoClickListener?.invoke(note, isFavorite)
         dismiss()
     }
 
@@ -80,7 +80,7 @@ class NoteListUndoSnackbar(
         binding = null
     }
 
-    fun setOnUndoClickListener(onCancelClickListener: ((Note, Boolean) -> Unit)?) {
-        this.onCancelClickListener = onCancelClickListener
+    fun setUndoClickListener(undoClickListener: ((Note, Boolean) -> Unit)?) {
+        this.undoClickListener = undoClickListener
     }
 }

@@ -15,4 +15,12 @@ class NoteTrashRepositoryImpl(
             emit(databaseAdapter.getNote(id))
         }
     }
+
+    override fun update(note: Note) {
+        databaseAdapter.update(note)
+    }
+
+    override fun delete(note: Note) {
+        databaseAdapter.delete(note)
+    }
 }

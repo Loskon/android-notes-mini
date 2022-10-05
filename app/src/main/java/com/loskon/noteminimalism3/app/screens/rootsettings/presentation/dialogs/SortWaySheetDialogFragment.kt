@@ -37,7 +37,7 @@ class SortWaySheetDialogFragment : AppBaseSheetDialogFragment() {
     private fun configureViewsParameters() {
         val sortWay = AppPreference.getSortingWay(requireContext())
 
-        if (sortWay == IntConst.ZERO) {
+        if (sortWay == IntConst.ONE) {
             binding.rgSort.check(binding.rbSortModification.id)
         } else {
             binding.rgSort.check(binding.rbSortCreation.id)

@@ -2,6 +2,7 @@ package com.loskon.noteminimalism3.app.screens.notelist.domain
 
 import com.loskon.noteminimalism3.app.screens.notelist.presentation.NoteListViewModel
 import com.loskon.noteminimalism3.model.Note
+import com.loskon.noteminimalism3.utils.IntConst
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -41,7 +42,7 @@ class NoteListInteractor(
         return if (category == NoteListViewModel.CATEGORY_TRASH1) {
             note.deletedDate
         } else {
-            if (sort == SORT_BY_MODIFIED_DATE) {
+            if (sort == IntConst.ONE) {
                 note.modifiedDate
             } else {
                 note.createdDate

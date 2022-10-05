@@ -276,7 +276,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         notesAdapter.setOnItemClickListener { note, position -> handleNoteClick(note, position) }
         notesAdapter.setOnItemLongClickListener { note, position -> handleNoteLongClick(note, position) }
         swipeCallback.setOnItemSwipeListener { position -> handleNoteSwipe(position) }
-        undoSnackbar?.setOnUndoClickListener { note, isFavorite -> handleNoteUndoClick(note, isFavorite) }
+        undoSnackbar?.setUndoClickListener { note, isFavorite -> handleNoteUndoClick(note, isFavorite) }
         binding.fabNoteList.setDebounceClickListener { handleFabClick() }
         binding.bottomBarNoteList.setDebounceNavigationClickListener { handleNavigationClick() }
         binding.bottomBarNoteList.setOnMenuItemClickListener(R.id.action_list_type) { handleListTypeClick() }

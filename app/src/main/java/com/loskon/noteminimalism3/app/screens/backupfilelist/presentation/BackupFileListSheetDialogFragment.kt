@@ -12,7 +12,7 @@ import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragm
 import com.loskon.noteminimalism3.app.screens.backup.presentation.BackupNewFragment.Companion.CREATE_BACKUP_REQUEST_KEY
 import com.loskon.noteminimalism3.base.extension.flow.observe
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
-import com.loskon.noteminimalism3.base.extension.view.setSoftVisibleKtx
+import com.loskon.noteminimalism3.base.extension.view.setVisibleKtx
 import com.loskon.noteminimalism3.base.presentation.sheetdialogfragment.AppBaseSheetDialogFragment
 import com.loskon.noteminimalism3.base.widget.recyclerview.AddAnimationItemAnimator
 import com.loskon.noteminimalism3.databinding.SheetRestoreListBinding
@@ -103,9 +103,9 @@ class BackupFileListSheetDialogFragment : AppBaseSheetDialogFragment() {
 
     private fun displayConfirmDeleteBtns(display: Boolean) {
         with(binding) {
-            btnRestoreDelete.setSoftVisibleKtx(display.not())
-            btnCancelDelete.setSoftVisibleKtx(display)
-            btnConfirmDelete.setSoftVisibleKtx(display)
+            btnRestoreDelete.setVisibleKtx(display.not())
+            btnCancelDelete.setVisibleKtx(display)
+            btnConfirmDelete.setVisibleKtx(display)
         }
     }
 

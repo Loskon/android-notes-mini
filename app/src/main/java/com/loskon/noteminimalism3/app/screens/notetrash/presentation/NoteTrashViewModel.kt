@@ -10,12 +10,12 @@ class NoteTrashViewModel(
     private val noteTrashInteractor: NoteTrashInteractor
 ) : BaseViewModel() {
 
-    private val noteState: MutableStateFlow<Note> = MutableStateFlow(Note())
-    val getNoteState get() = noteState.asStateFlow()
+    private val noteMutableStateFlow: MutableStateFlow<Note> = MutableStateFlow(Note())
+    val noteStateFlow get() = noteMutableStateFlow.asStateFlow()
 
     fun getNote(id: Long) {
         launchErrorJob {
-            noteTrashInteractor.getNote(id).collect { note -> noteState.emit(note) }
+            noteTrashInteractor.getNote(id).collect { note -> noteMutableStateFlow.emit(note) }
         }
     }
 

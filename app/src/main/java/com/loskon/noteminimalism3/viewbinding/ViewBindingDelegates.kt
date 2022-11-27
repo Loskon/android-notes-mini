@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.loskon.noteminimalism3.base.widget.snackbar.BaseSnackbar
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -49,3 +50,9 @@ inline fun <T : ViewBinding> BottomSheetDialog.viewBinding(
 inline fun <T : ViewBinding> ViewGroup.viewBinding(
     factory: (LayoutInflater, ViewGroup, Boolean) -> T
 ) = factory(LayoutInflater.from(context), this, false)
+
+inline fun <T : ViewBinding> BaseSnackbar.viewBinding() {
+    setOnDismissedListener {
+
+    }
+}

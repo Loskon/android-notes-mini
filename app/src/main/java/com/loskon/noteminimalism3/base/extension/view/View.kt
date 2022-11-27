@@ -38,7 +38,7 @@ fun View.setBackgroundTintColorKtx(color: Int) {
     backgroundTintList = ColorStateList.valueOf(color)
 }
 
-fun View.setSoftVisibleKtx(visible: Boolean) {
+fun View.setVisibleKtx(visible: Boolean) {
     visibility = if (isVisible == visible) {
         return
     } else {

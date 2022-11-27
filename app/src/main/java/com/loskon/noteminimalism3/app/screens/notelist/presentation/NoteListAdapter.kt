@@ -9,8 +9,8 @@ import com.loskon.noteminimalism3.base.datetime.formattedString
 import com.loskon.noteminimalism3.base.extension.view.setBackgroundTintColorKtx
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setShortLongClickListener
-import com.loskon.noteminimalism3.base.extension.view.setSoftVisibleKtx
 import com.loskon.noteminimalism3.base.extension.view.setTextSizeKtx
+import com.loskon.noteminimalism3.base.extension.view.setVisibleKtx
 import com.loskon.noteminimalism3.databinding.ItemNoteNewBinding
 import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
@@ -56,7 +56,7 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder>
 
             tvCardNoteTitle.text = note.title.trim()
             tvCardNoteDate.text = note.createdDate.formattedString()
-            viewFavorite.setSoftVisibleKtx(note.isFavorite)
+            viewFavorite.setVisibleKtx(note.isFavorite)
             root.setDebounceClickListener { onItemClick?.invoke(note, position) }
             root.setShortLongClickListener { onItemLongClick?.invoke(note, position) }
         }

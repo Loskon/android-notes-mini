@@ -51,7 +51,7 @@ import java.time.LocalDateTime
 class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     private val binding by viewBinding(FragmentNoteListBinding::bind)
-    private val viewModel: NoteListViewModel by viewModel()
+    private val viewModel by viewModel<NoteListViewModel>()
 
     private val notesAdapter = NoteListAdapter()
     private val swipeCallback = NoteListSwipeCallback()
@@ -98,7 +98,6 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
         setChildFragmentResultListener(NOTE_TRASH_REQUEST_KEY) { bundle ->
             val note = bundle.getParcelableKtx<Note>(NOTE_TRASH_BUNDLE_KEY)
-
             if (note != null) undoSnackbar?.make(note, note.isFavorite, category)?.show()
         }
         setChildFragmentClickListener(DELETE_FOREVER_REQUEST_KEY) {
@@ -346,12 +345,12 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         val isFavorite = note.isFavorite
 
         if (category == NoteListViewModel.CATEGORY_TRASH1) {
-            viewModel.deleteNote(note)
+            viewModel.delete(note)
         } else {
             note.isDeleted = true
             note.isFavorite = false
             note.deletedDate = LocalDateTime.now()
-            viewModel.updateNote(note)
+            viewModel.update(note)
         }
 
         viewModel.getNotes(scrollTop = false, quicklyListUpdate = false)
@@ -366,7 +365,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         } else {
             note.isDeleted = false
             note.isFavorite = isFavorite
-            viewModel.updateNote(note)
+            viewModel.update(note)
         }
 
         viewModel.getNotes(scrollTop = false, quicklyListUpdate = false)
@@ -436,7 +435,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
             val drawableId = getFavoriteDrawableId(note.isFavorite)
             binding.bottomBarNoteList.setMenuIconWithColor(R.id.action_favorite, drawableId, color)
 
-            viewModel.updateNote(note)
+            viewModel.update(note)
         }
     }
 

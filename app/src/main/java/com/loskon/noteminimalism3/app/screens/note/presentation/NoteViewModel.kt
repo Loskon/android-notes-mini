@@ -1,8 +1,10 @@
 package com.loskon.noteminimalism3.app.screens.note.presentation
 
-import com.loskon.noteminimalism3.base.presentation.viewmodel.BaseViewModel
+import androidx.lifecycle.MutableLiveData
+import com.firebase.ui.auth.data.model.User
 import com.loskon.noteminimalism3.app.screens.note.domain.AutoBackupInteractor
 import com.loskon.noteminimalism3.app.screens.note.domain.NoteInteractor
+import com.loskon.noteminimalism3.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.model.Note
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

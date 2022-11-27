@@ -14,7 +14,6 @@ import com.loskon.noteminimalism3.base.extension.view.setBackgroundColorKtx
 import com.loskon.noteminimalism3.base.extension.view.setDebounceClickListener
 import com.loskon.noteminimalism3.base.extension.view.setTextSizeKtx
 import com.loskon.noteminimalism3.databinding.FragmentNoteTrashNewBinding
-import com.loskon.noteminimalism3.model.Note
 import com.loskon.noteminimalism3.sharedpref.AppPreference
 import com.loskon.noteminimalism3.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,12 +22,10 @@ import java.time.LocalDateTime
 class NoteTrashFragmentNew : Fragment(R.layout.fragment_note_trash_new) {
 
     private val binding by viewBinding(FragmentNoteTrashNewBinding::bind)
-    private val viewModel: NoteTrashViewModel by viewModel()
-    private val args: NoteTrashFragmentNewArgs by navArgs()
+    private val viewModel by viewModel<NoteTrashViewModel>()
+    private val args by navArgs<NoteTrashFragmentNewArgs>()
 
-    private var restoreSnackbar: NoteTrashRestoreSnackbar? = null
-
-    private val getNote: Note get() = viewModel.getNoteState.value
+    private val restoreSnackbar = NoteTrashRestoreSnackbarNew()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +35,6 @@ class NoteTrashFragmentNew : Fragment(R.layout.fragment_note_trash_new) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        restoreSnackbar = NoteTrashRestoreSnackbar(requireContext(), binding.root, binding.fabNoteTrash)
 
         establishViewsColor()
         setNoteFontSize()
@@ -58,52 +53,58 @@ class NoteTrashFragmentNew : Fragment(R.layout.fragment_note_trash_new) {
     }
 
     private fun installObserver() {
-        viewModel.getNoteState.observe(viewLifecycleOwner) { note ->
+        viewModel.noteStateFlow.observe(viewLifecycleOwner) { note ->
             binding.editTextNote2.setText(note.title)
         }
     }
 
     private fun setupViewsListeners() {
         binding.fabNoteTrash.setDebounceClickListener {
-            val note = getNote
-            val updateDateTime = AppPreference.hasUpdateDateTime(requireContext())
-
-            note.isDeleted = false
-            if (updateDateTime) note.createdDate = LocalDateTime.now()
-            viewModel.update(note)
-
+            restoreNote()
             findNavController().popBackStack()
         }
         binding.btnDelNoteTrash.setDebounceClickListener {
-            val note = getNote
-
-            checkShowUndoSnackbar(note)
-            viewModel.delete(note)
+            deleteNote()
+            findNavController().popBackStack()
         }
         binding.linLayoutNote2.setOnClickListener {
-            restoreSnackbar?.make(getNote)?.show()
+            showRestoreSnackbar()
         }
         binding.editTextNote2.setOnClickListener {
-            restoreSnackbar?.make(getNote)?.show()
+            showRestoreSnackbar()
         }
-        restoreSnackbar?.setRestoreClickListener {
-            val note = getNote
-            val updateDateTime = AppPreference.hasUpdateDateTime(requireContext())
-
-            note.isDeleted = false
-            if (updateDateTime) note.createdDate = LocalDateTime.now()
-            viewModel.update(note)
-
+        restoreSnackbar.setRestoreClickListener {
+            restoreNote()
             findNavController().popBackStack()
         }
     }
 
-    private fun checkShowUndoSnackbar(note: Note) {
+    private fun restoreNote() {
+        val note = viewModel.noteStateFlow.value
+        val updateDateTime = AppPreference.hasUpdateDateTime(requireContext())
+
+        if (updateDateTime) {
+            note.createdDate = LocalDateTime.now()
+            note.modifiedDate = LocalDateTime.now()
+        }
+        note.isDeleted = false
+        viewModel.update(note)
+    }
+
+    private fun deleteNote() {
+        val note = viewModel.noteStateFlow.value
         val undoSnackbarShow = AppPreference.isBottomWidgetShow(requireContext())
 
         if (undoSnackbarShow) {
             val bundle = bundleOf(NoteListFragment.NOTE_TRASH_BUNDLE_KEY to note)
             setFragmentResult(NoteListFragment.NOTE_TRASH_REQUEST_KEY, bundle)
         }
+
+        viewModel.delete(note)
+    }
+
+    private fun showRestoreSnackbar() {
+        val note = viewModel.noteStateFlow.value
+        restoreSnackbar.make(binding.root, binding.fabNoteTrash, note).show()
     }
 }

@@ -1,7 +1,8 @@
 package com.loskon.noteminimalism3.app.screens.notelist.presentation
 
-import com.loskon.noteminimalism3.base.presentation.viewmodel.BaseViewModel
+import androidx.lifecycle.MutableLiveData
 import com.loskon.noteminimalism3.app.screens.notelist.domain.NoteListInteractor
+import com.loskon.noteminimalism3.base.presentation.viewmodel.BaseViewModel
 import com.loskon.noteminimalism3.model.Note
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,6 +12,7 @@ class NoteListViewModel(
     private val noteListInteractor: NoteListInteractor
 ) : BaseViewModel() {
 
+    private val noteListUiState2 = MutableLiveData<NoteListUiState>()
     private val noteListUiState = MutableStateFlow(NoteListUiState())
     private val noteListCategoryState = MutableStateFlow(CATEGORY_ALL_NOTES1)
     private val noteListSearchState = MutableStateFlow(false)
@@ -56,11 +58,11 @@ class NoteListViewModel(
         noteListCategoryState.tryEmit(category)
     }
 
-    fun deleteNote(note: Note) {
+    fun delete(note: Note) {
         noteListInteractor.deleteNote(note)
     }
 
-    fun updateNote(note: Note) {
+    fun update(note: Note) {
         noteListInteractor.updateNote(note)
     }
 
